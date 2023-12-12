@@ -1,0 +1,33 @@
+name: CI/CD workflow
+
+on:
+  pull_request:
+    branches: ['main']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run Tests
+        run: npm run test:ci
+
+      - name: Run Linting
+        run: npm run lint:ci
+
+      - name: Run commitlint
+        run: |
+          BASE_BRANCH=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq -r .base.ref)
+          git diff --name-only "$BASE_BRANCH..HEAD" | xargs -I {} npx commitlint --edit "{}"
+
+      - name: Run e2e
+        run: npm run test:e2e:ci

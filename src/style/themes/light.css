@@ -1,0 +1,126 @@
+body {
+  background: var(--white);
+}
+
+body :is(h1, h2, h3, h4, h5, h6, p, li) {
+  color: var(--black);
+}
+
+code,
+pre {
+  color: var(--black);
+  background: var(--white);
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  line-height: 1.5;
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+p code, td code {
+  background: #e0e0e0;
+}
+
+pre {
+  overflow: auto;
+}
+
+:not(pre) > code {
+  white-space: normal;
+}
+
+.comment,
+.prolog,
+.doctype,
+.cdata {
+  color: #6a9955;
+}
+
+.punctuation {
+  color: #333;
+}
+
+.namespace {
+  opacity: 0.7;
+}
+
+.property,
+.tag,
+.constant,
+.symbol,
+.deleted {
+  color: #88310f;
+}
+
+.boolean,
+.number {
+  color: #357e70;
+}
+
+.selector,
+.attr-name,
+.string,
+.char,
+.builtin,
+.inserted {
+  color: #88310f;
+}
+
+.operator,
+.entity,
+.url,
+.variable {
+  color: #333;
+}
+
+.atrule,
+.attr-value,
+.function {
+  color: #1c72a0;
+}
+
+.keyword {
+  color: #1c72a0;
+}
+
+.regex,
+.important {
+  color: #ce9178;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.entity {
+  cursor: help;
+}
+
+.markdown table tr {
+  border-bottom: 1px solid #989898;
+}
+
+.markdown table tr th, .markdown table tr td {
+  border: 1px solid #989898;
+  color: var(--black);
+}
+
+.markdown table tr:nth-child(2n) {
+  background: #dcdcdc;
+}
+
+.markdown blockquote {
+  background: #e7e7e7;
+  border-left-color: #989898;
+}

@@ -1,0 +1,51 @@
+:root {
+  --white: #fff;
+  --black: #000;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+ol {
+  counter-reset: numbers;
+}
+
+ol li {
+  counter-increment: numbers;
+}
+
+ol li::before {
+  content: counter(numbers) '. ';
+}
+
+ul li:before {
+  content: '- ';
+  display: contents;
+}
+
+p code,
+td code {
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+p picture {
+  display: inline-block;
+}
+
+.markdown > div > * {
+  margin-bottom: 12px;
+}
