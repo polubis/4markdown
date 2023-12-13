@@ -35,7 +35,7 @@ const MoreNav = () => {
               <BiX className="text-2xl" />
             </Button>
           </div>
-          <div className="p-4 flex flex-col h-[calc(100svh-72px)]">
+          <div className="p-4 pb-0 flex flex-col h-[calc(100svh-72px)]">
             <a
               href="https://greenonsoftware.com/authors/"
               target="_blank"
@@ -105,6 +105,7 @@ const MoreNav = () => {
             <a
               href="https://github.com/polubis/4markdown"
               target="_blank"
+              className="mb-8"
               title="4Markdown repository"
               rel="noopener noreferrer"
             >
@@ -116,7 +117,7 @@ const MoreNav = () => {
               href="https://greenonsoftware.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center mt-auto cursor-pointer justify-end"
+              className="flex items-center mt-auto cursor-pointer justify-end pb-4"
             >
               <p className="text-md font-medium font-mono">
                 by <strong>GreenOn Software</strong>
