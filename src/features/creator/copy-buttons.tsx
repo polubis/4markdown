@@ -1,5 +1,5 @@
 import React from 'react';
-import { BiCode, BiHeading, BiImage, BiTable } from 'react-icons/bi';
+import { BiCode, BiHeading, BiImage, BiLink, BiTable } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 
@@ -132,9 +132,31 @@ Markdown | Less | Pretty
   );
 };
 
+const Link = () => {
+  const [state, copy] = useCopy();
+
+  return (
+    <>
+      <Button
+        className="ml-2"
+        i={2}
+        rfull
+        title="Copy link markdown"
+        overlay={state.is === `copied` ? `Copied!` : undefined}
+        onClick={() => {
+          copy(`[Label](URL)`);
+        }}
+      >
+        <BiLink className="text-2xl" />
+      </Button>
+    </>
+  );
+};
+
 export default {
   Table,
   Code,
   Image,
   Headings,
+  Link,
 };

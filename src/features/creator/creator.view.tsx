@@ -49,6 +49,7 @@ const CreatorView: React.FC = () => {
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 lg:block hidden shrink-0" />
           <CopyButtons.Headings />
+          <CopyButtons.Link />
           <CopyButtons.Image />
           <CopyButtons.Code />
           <CopyButtons.Table />
