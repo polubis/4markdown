@@ -42,27 +42,27 @@ const Headings = () => {
           copy(`
 # 1
 
-This is the paragraph
+1
 
 ## 2
 
-This is the paragraph
+2
 
 ### 3
 
-This is the paragraph
+3
 
 #### 4
 
-This is the paragraph
+4
 
 ##### 5
 
-This is the paragraph
+5
 
 ###### 6
 
-This is the paragraph
+6
 `);
         }}
       >
