@@ -4,6 +4,7 @@ export type SiteMetadata = {
   description: string;
   title: string;
   lang: string;
+  company: string;
   companyUrl: string;
   discordUrl: string;
   linkedInUrl: string;
@@ -11,4 +12,5 @@ export type SiteMetadata = {
   fbGroupUrl: string;
   ytChannelUrl: string;
   grammarlyUrl: string;
+  ytVideoTutorialUrl: string;
 };
