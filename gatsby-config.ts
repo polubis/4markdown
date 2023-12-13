@@ -19,7 +19,7 @@ const siteMetadata: SiteMetadata = {
   ytChannelUrl: `https://www.youtube.com/channel/UCg3avsGct9zd_zK9AVpTOmQ`,
   fbGroupUrl: `https://www.facebook.com/groups/1472987149805006`,
   grammarlyUrl: `https://chromewebstore.google.com/detail/grammarly-grammar-checker/kbfnbcaeplbcioakkpcpgfkobkghlhen?pli=1`,
-  ytVideoTutorialUrl: `@TODO`,
+  ytVideoTutorialUrl: `https://www.youtube.com/watch?v=t3Ve0em65rY`,
 };
 
 const config: GatsbyConfig = {
