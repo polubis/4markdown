@@ -96,12 +96,34 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
         <a
           href="https://github.com/polubis/4markdown"
           target="_blank"
-          className="mb-8"
+          className="mb-2"
           title="4Markdown repository"
           rel="noopener noreferrer"
         >
           <Button i={2} wfull>
             Source Code
+          </Button>
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCg3avsGct9zd_zK9AVpTOmQ"
+          target="_blank"
+          className="mb-2"
+          title="YouTube tutorial video"
+          rel="noopener noreferrer"
+        >
+          <Button i={2} wfull>
+            Tutorial
+          </Button>
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UCg3avsGct9zd_zK9AVpTOmQ"
+          target="_blank"
+          className="mb-8"
+          title="GreenOn Software YouTube channel"
+          rel="noopener noreferrer"
+        >
+          <Button i={2} wfull>
+            YouTube Channel
           </Button>
         </a>
         <a
