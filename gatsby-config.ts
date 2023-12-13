@@ -47,6 +47,14 @@ const config: GatsbyConfig = {
         display: `standalone`,
       },
     },
+    {
+      resolve: `gatsby-plugin-robots-txt`,
+      options: {
+        host: siteMetadata.siteUrl,
+        sitemap: `${siteMetadata.siteUrl}/sitemap-index.xml`,
+        policy: [{ userAgent: `*`, allow: [`/`] }],
+      },
+    },
     `gatsby-plugin-image`,
     `gatsby-plugin-mdx`,
     `gatsby-plugin-sharp`,
