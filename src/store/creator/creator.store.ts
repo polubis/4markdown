@@ -2,9 +2,11 @@ import { create } from 'zustand';
 
 const initialCode = `# Markdown Cheatsheet
 
-Separate every paragraph of text with \`enter\`. Suppose you want to create bolding use **bolding**. The _italic_ text requires a "_" symbol. 
+Separate every paragraph/section of text with \`enter\`. Suppose you want to create bolding use **bolding**. The _italic_ text requires a "_" symbol. 
 
 It works great with the [Grammarly Chrome Extension](https://chromewebstore.google.com/detail/grammarly-grammar-checker/kbfnbcaeplbcioakkpcpgfkobkghlhen?pli=1) - this is for people who don't know **English** language well as me 🤝. 
+
+To dive deeper through editor features watch the following [Video](@TODO) on our [YouTube channel](https://www.youtube.com/channel/UCg3avsGct9zd_zK9AVpTOmQ).
 
 ## How to add inline code?
 

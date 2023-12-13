@@ -105,7 +105,7 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
           </Button>
         </a>
         <a
-          href="https://www.youtube.com/channel/UCg3avsGct9zd_zK9AVpTOmQ"
+          href="@TODO"
           target="_blank"
           className="mb-2"
           title="YouTube tutorial video"
