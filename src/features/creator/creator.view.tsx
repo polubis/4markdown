@@ -18,6 +18,7 @@ import {
 import CopyButtons from './copy-buttons';
 import c from 'classnames';
 import { isClient } from 'development-kit/ssr-csr';
+import More from 'components/more';
 
 const CreatorView: React.FC = () => {
   const updated = React.useRef(false);
@@ -112,16 +113,6 @@ const CreatorView: React.FC = () => {
             </Button>
           </a>
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
-          <a
-            href="https://greenonsoftware.com/articles/"
-            target="_blanl"
-            title="GreenOn Software learning platform"
-            rel="noopener"
-          >
-            <Button i={2} rfull>
-              <BiBook className="text-2xl" />
-            </Button>
-          </a>
           <ThemeToggler>
             {({ theme, toggleTheme }) => (
               <Button
@@ -139,6 +130,7 @@ const CreatorView: React.FC = () => {
               </Button>
             )}
           </ThemeToggler>
+          <More />
           <div className="h-1 w-4 shrink-0 block sm:hidden" />
         </nav>
       </header>
