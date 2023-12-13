@@ -16,21 +16,9 @@ import {
 } from 'store/creator/creator.store';
 import CopyButtons from './copy-buttons';
 import c from 'classnames';
-import { isClient } from 'development-kit/ssr-csr';
 import More from 'components/more';
 
 const CreatorView: React.FC = () => {
-  const updated = React.useRef(false);
-
-  if (isClient() && !updated.current) {
-    const md = window.innerWidth > 768;
-
-    if (!md) {
-      creatorStoreActions.divide();
-      updated.current = true;
-    }
-  }
-
   const { code, initialCode, divideMode } = useCreatorStore();
 
   useEffect(() => creatorStoreActions.sync(), []);
@@ -92,7 +80,9 @@ const CreatorView: React.FC = () => {
             title="Change view display"
             onClick={creatorStoreActions.divide}
           >
-            {divideMode === `both` && <BiBookContent className="text-2xl" />}
+            {divideMode === `both` && (
+              <BiBookContent className="text-2xl rotate-90 md:rotate-0" />
+            )}
             {divideMode === `code` && (
               <BiSolidBookContent className="text-2xl rotate-180" />
             )}
@@ -135,12 +125,12 @@ const CreatorView: React.FC = () => {
       </header>
       <section
         className={c(`grid h-[calc(100svh-72px)]`, {
-          'grid-cols-2': divideMode === `both`,
+          'md:grid-cols-2 grid-cols-1': divideMode === `both`,
         })}
       >
         <textarea
           className={c(
-            `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
+            `w-full md:h-full h-[calc(50svh-36px)] p-4 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
             { hidden: divideMode === `preview` },
           )}
           value={code}
@@ -150,7 +140,7 @@ const CreatorView: React.FC = () => {
           className={c(
             `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
             { hidden: divideMode === `code` },
-            { 'border-l-2': divideMode === `both` },
+            { 'md:border-l-2': divideMode === `both` },
           )}
         >
           <Markdown>{code}</Markdown>
