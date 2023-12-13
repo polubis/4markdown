@@ -19,30 +19,30 @@
   background: #555;
 }
 
-ol {
+.markdown ol {
   counter-reset: numbers;
 }
 
-ol li {
+.markdown ol li {
   counter-increment: numbers;
 }
 
-ol li::before {
+.markdown ol li::before {
   content: counter(numbers) '. ';
 }
 
-ul li:before {
+.markdown ul li:before {
   content: '- ';
   display: contents;
 }
 
-p code,
-td code {
+.markdown p code,
+.markdown td code {
   padding: 2px 6px;
   cursor: pointer;
 }
 
-p picture {
+.markdown p picture {
   display: inline-block;
 }
 
