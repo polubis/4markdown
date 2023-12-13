@@ -12,14 +12,16 @@ import { Button } from 'design-system/button';
 import {
   CREATOR_STORE_LS_KEY,
   creatorStoreActions,
-  useCreatorStore,
+  creatorStoreSelectors,
 } from 'store/creator/creator.store';
 import CopyButtons from './copy-buttons';
 import c from 'classnames';
 import MoreNav from 'components/more-nav';
+import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
 
 const CreatorView: React.FC = () => {
-  const { code, initialCode, divideMode } = useCreatorStore();
+  const meta = siteMetadatStoreSelectors.useReady();
+  const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
 
   useEffect(() => creatorStoreActions.sync(), []);
 
@@ -43,8 +45,8 @@ const CreatorView: React.FC = () => {
         <img
           className="shrink-0 lg:flex hidden"
           src="/favicon-32x32.png"
-          alt="4Markdown"
-          title="4Markdown - Online Markdown Editor"
+          alt={meta.appName}
+          title={meta.title}
         />
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 lg:block hidden shrink-0" />

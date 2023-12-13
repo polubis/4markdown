@@ -1,12 +1,15 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
+import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
 
 interface MenuNavSidebarProps {
   onClose(): void;
 }
 
 const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
+  const meta = siteMetadatStoreSelectors.useReady();
+
   return (
     <>
       <div
@@ -15,12 +18,8 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
       />
       <aside className="bg-zinc-200 z-20 dark:bg-gray-950 border-l-2 border-zinc-300 dark:border-zinc-800 fixed top-0 right-0 h-full w-[280px] overflow-y-auto">
         <div className="p-4 flex items-center h-[72px]">
-          <img
-            src="/favicon-32x32.png"
-            alt="4Markdown"
-            title="4Markdown - Online Markdown Editor"
-          />
-          <p className="text-xl ml-3 font-bold">4Markdown</p>
+          <img src="/favicon-32x32.png" alt={meta.appName} title={meta.title} />
+          <p className="text-xl ml-3 font-bold">{meta.appName}</p>
           <Button
             className="ml-auto"
             i={2}
@@ -33,10 +32,10 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
         </div>
         <div className="p-4 pb-0 flex flex-col h-[calc(100svh-72px)]">
           <a
-            href="https://greenonsoftware.com/authors/"
+            href={`${meta.companyUrl}authors`}
             target="_blank"
             className="mb-2"
-            title="4Markdown authors"
+            title={`${meta.appName} authors`}
             rel="noopener noreferrer"
           >
             <Button i={2} wfull>
@@ -44,10 +43,10 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </Button>
           </a>
           <a
-            href="https://greenonsoftware.com/articles/"
+            href={`${meta.companyUrl}articles`}
             target="_blank"
             className="mb-2"
-            title="GreenOn Software learning platform"
+            title={`${meta.company} learning platform`}
             rel="noopener noreferrer"
           >
             <Button i={2} wfull>
@@ -55,10 +54,10 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </Button>
           </a>
           <a
-            href="https://discord.com/invite/PxXQayT3x3"
+            href={meta.discordUrl}
             target="_blank"
             className="mb-2"
-            title="GreenOn Software Discord Channel"
+            title={`${meta.company} Discord Channel`}
             rel="noopener noreferrer"
           >
             <Button i={2} wfull>
@@ -66,10 +65,10 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </Button>
           </a>
           <a
-            href="https://www.linkedin.com/company/greenon-software/"
+            href={meta.linkedInUrl}
             target="_blank"
             className="mb-2"
-            title="GreenOn Software LinkedIn Profile"
+            title={`${meta.company} LinkedIn Profile`}
             rel="noopener noreferrer"
           >
             <Button i={2} wfull>
@@ -77,14 +76,25 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </Button>
           </a>
           <a
-            href="https://www.facebook.com/groups/1472987149805006"
+            href={meta.fbGroupUrl}
             target="_blank"
             className="mb-2"
-            title="GreenOn Software Facebook Group"
+            title={`${meta.company} Facebook Group`}
             rel="noopener noreferrer"
           >
             <Button i={2} wfull>
               Facebook Group
+            </Button>
+          </a>
+          <a
+            href={meta.grammarlyUrl}
+            target="_blank"
+            className="mb-2"
+            title="Grammarly"
+            rel="noopener noreferrer"
+          >
+            <Button i={2} wfull>
+              Grammarly Extension
             </Button>
           </a>
           <a
@@ -99,10 +109,10 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </Button>
           </a>
           <a
-            href="https://github.com/polubis/4markdown"
+            href={meta.sourceCodeUrl}
             target="_blank"
             className="mb-2"
-            title="4Markdown repository"
+            title={`${meta.appName} Repository`}
             rel="noopener noreferrer"
           >
             <Button i={2} wfull>
@@ -110,7 +120,7 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </Button>
           </a>
           <a
-            href="@TODO"
+            href={meta.ytVideoTutorialUrl}
             target="_blank"
             className="mb-2"
             title="YouTube tutorial video"
@@ -121,10 +131,10 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </Button>
           </a>
           <a
-            href="https://www.youtube.com/channel/UCg3avsGct9zd_zK9AVpTOmQ"
+            href={meta.ytChannelUrl}
             target="_blank"
             className="mb-8"
-            title="GreenOn Software YouTube channel"
+            title={`${meta.appName} YouTube channel`}
             rel="noopener noreferrer"
           >
             <Button i={2} wfull>
@@ -132,13 +142,13 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </Button>
           </a>
           <a
-            href="https://greenonsoftware.com/"
+            href={meta.companyUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center mt-auto cursor-pointer justify-end pb-4"
           >
             <p className="text-md font-medium font-mono">
-              by <strong>GreenOn Software</strong>
+              by <strong>{meta.company}</strong>
             </p>
             <svg
               className="ml-3"

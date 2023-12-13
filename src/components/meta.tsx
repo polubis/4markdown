@@ -6,25 +6,27 @@ interface MetaProps {
   description: string;
   url: string;
   lang: string;
+  image: string;
 }
 
-const Meta = ({ title, appName, description, url, lang }: MetaProps) => {
+const Meta = ({ title, appName, description, url, lang, image }: MetaProps) => {
   return (
     <>
       {/* General */}
+      <html lang={lang} />
       <title lang={lang}>{title}</title>
       <meta name="description" content={description} />
       <meta charSet="utf-8" />
       <meta
         name="viewport"
-        content="width=device-width,minimum-scale=1,initial-scale=1,maximum-scale=1"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
       />
       <meta name="theme-color" content="#000000" />
-      <meta name="twitter:app:name:iphone" content={appName} />
       <meta property="al:ios:app_name" content={appName} />
       <meta property="al:android:app_name" content={appName} />
       <meta name="robots" content="index,follow,max-image-preview:large" />
       {/* Twitter */}
+      <meta name="twitter:app:name:iphone" content={appName} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:title" content={title} />
@@ -38,6 +40,11 @@ const Meta = ({ title, appName, description, url, lang }: MetaProps) => {
       <meta name="parsely-link" content={url} />
       <meta name="parsely-title" content={title} />
       <link rel="canonical" href={url} />
+      {/* Images */}
+      <meta property="og:image" content={image} />
+      <meta property="og:image:secure_url" content={image} />
+      <meta name="msapplication-TileImage" content={image} />
+      <meta name="twitter:image" content={image} />
     </>
   );
 };
