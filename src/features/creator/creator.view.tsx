@@ -125,7 +125,8 @@ const CreatorView: React.FC = () => {
       </header>
       <section
         className={c(`grid h-[calc(100svh-72px)]`, {
-          'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-0': divideMode === `both`,
+          'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
+            divideMode === `both`,
         })}
       >
         <textarea
@@ -140,7 +141,10 @@ const CreatorView: React.FC = () => {
           className={c(
             `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
             { hidden: divideMode === `code` },
-            { 'md:border-l-2': divideMode === `both` },
+            {
+              'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
+                divideMode === `both`,
+            },
           )}
         >
           <Markdown>{code}</Markdown>
