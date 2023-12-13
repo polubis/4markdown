@@ -55,17 +55,61 @@ const MoreNav = () => {
               rel="noopener noreferrer"
             >
               <Button i={2} wfull>
-                Articles
+                Blog
+              </Button>
+            </a>
+            <a
+              href="https://discord.com/invite/PxXQayT3x3"
+              target="_blank"
+              className="mb-2"
+              title="GreenOn Software Discord Channel"
+              rel="noopener noreferrer"
+            >
+              <Button i={2} wfull>
+                Discord Channel
+              </Button>
+            </a>
+            <a
+              href="https://www.linkedin.com/company/greenon-software/"
+              target="_blank"
+              className="mb-2"
+              title="GreenOn Software LinkedIn Profile"
+              rel="noopener noreferrer"
+            >
+              <Button i={2} wfull>
+                LinkedIn Profile
+              </Button>
+            </a>
+            <a
+              href="https://www.facebook.com/groups/1472987149805006"
+              target="_blank"
+              className="mb-2"
+              title="GreenOn Software Facebook Group"
+              rel="noopener noreferrer"
+            >
+              <Button i={2} wfull>
+                Facebook Group
               </Button>
             </a>
             <a
               href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
               target="_blank"
+              className="mb-2"
               title="Markdown Cheatsheet"
               rel="noopener noreferrer"
             >
               <Button i={2} wfull>
-                Cheatsheet
+                Markdown Cheatsheet
+              </Button>
+            </a>
+            <a
+              href="https://github.com/polubis/4markdown"
+              target="_blank"
+              title="4Markdown repository"
+              rel="noopener noreferrer"
+            >
+              <Button i={2} wfull>
+                Source Code
               </Button>
             </a>
             <a
