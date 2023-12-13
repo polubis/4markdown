@@ -1,9 +1,10 @@
 import { Button } from 'design-system/button';
+import { useToggle } from 'development-kit/use-toggle';
 import React, { useState } from 'react';
 import { BiMenu, BiX } from 'react-icons/bi';
 
 const MoreNav = () => {
-  const [opened, setOpened] = useState(false);
+  const menu = useToggle();
 
   return (
     <>
@@ -12,11 +13,11 @@ const MoreNav = () => {
         i={2}
         rfull
         title="Navigation"
-        onClick={() => setOpened(!opened)}
+        onClick={menu.toggle}
       >
         <BiMenu className="text-2xl" />
       </Button>
-      {opened && (
+      {menu.opened && (
         <aside className="bg-zinc-200 dark:bg-gray-950 border-l-2 border-zinc-300 dark:border-zinc-800 fixed top-0 right-0 h-full w-[280px] overflow-y-auto">
           <div className="p-4 flex items-center h-[72px]">
             <img
@@ -30,7 +31,7 @@ const MoreNav = () => {
               i={2}
               rfull
               title="Close navigation"
-              onClick={() => setOpened(false)}
+              onClick={menu.close}
             >
               <BiX className="text-2xl" />
             </Button>
