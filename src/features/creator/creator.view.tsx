@@ -16,7 +16,7 @@ import {
 } from 'store/creator/creator.store';
 import CopyButtons from './copy-buttons';
 import c from 'classnames';
-import More from 'components/more';
+import MoreNav from 'components/more-nav';
 
 const CreatorView: React.FC = () => {
   const { code, initialCode, divideMode } = useCreatorStore();
@@ -119,7 +119,7 @@ const CreatorView: React.FC = () => {
               </Button>
             )}
           </ThemeToggler>
-          <More />
+          <MoreNav />
           <div className="h-1 w-4 shrink-0 block sm:hidden" />
         </nav>
       </header>

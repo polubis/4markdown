@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import React, { useState } from 'react';
 import { BiMenu, BiX } from 'react-icons/bi';
 
-const More = () => {
+const MoreNav = () => {
   const [opened, setOpened] = useState(false);
 
   return (
@@ -144,4 +144,4 @@ const More = () => {
   );
 };
 
-export default More;
+export default MoreNav;
