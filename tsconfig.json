@@ -110,7 +110,8 @@
       "views/*": ["./src/views/*"],
       "features/*": ["./src/features/*"],
       "models/*": ["./src/models/*"],
-      "components/*": ["./src/components/*"]
+      "components/*": ["./src/components/*"],
+      "__mocks__/*": ["./src/__mocks__/*"]
     },
     "types": ["jest", "node", "cypress"]
   },

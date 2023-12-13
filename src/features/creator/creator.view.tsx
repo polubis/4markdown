@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import Markdown from 'components/markdown';
 import {
-  BiBook,
   BiBookContent,
   BiMoon,
   BiSolidBookContent,
