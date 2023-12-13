@@ -44,7 +44,7 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     h4: ({ children }) => <h4 className="text-3xl">{children}</h4>,
     h5: ({ children }) => <h5 className="text-2xl">{children}</h5>,
     h6: ({ children }) => <h6 className="text-xl">{children}</h6>,
-    p: ({ children }) => <p className="text-xl text-justify">{children}</p>,
+    p: ({ children }) => <p className="text-md text-justify">{children}</p>,
     em: ({ children }) => <em className="font-thin">{children}</em>,
     strong: ({ children }) => <strong className="font-bold">{children}</strong>,
     ul: ({ children }) => <ul>{children}</ul>,
@@ -53,8 +53,10 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     del: ({ children }) => <del>{children}</del>,
     a: ({ children, href }) => (
       <a
-        className="text-xl underline underline-offset-3 cursor-pointer"
+        className="text-md underline underline-offset-3 cursor-pointer"
         href={href}
+        target="_blank"
+        rel="noopener noreferrer"
       >
         {children}
       </a>

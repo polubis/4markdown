@@ -1,37 +1,24 @@
 import { create } from 'zustand';
 
-const initialCode = `# 1
+const initialCode = `# Markdown Cheatsheet
 
-This is the paragraph
+Separate every paragraph/section of text with \`enter\`. Suppose you want to create bolding use **bolding**. The _italic_ text requires a "_" symbol. 
 
-\`\`\`javascript
-const a = 'Thanks for using our editor!'
-\`\`\`
+It works great with the [Grammarly Chrome Extension](https://chromewebstore.google.com/detail/grammarly-grammar-checker/kbfnbcaeplbcioakkpcpgfkobkghlhen?pli=1) - this is for people who don't know **English** language well as me 🤝. 
 
-## 2
+To dive deeper through editor features watch the following [Video](@TODO) on our [YouTube channel](https://www.youtube.com/channel/UCg3avsGct9zd_zK9AVpTOmQ).
 
-This is the paragraph
+## How to add inline code?
 
-### 3
+To add inline code use the"\`" symbol to wrap concrete text. For example:
 
-This is the paragraph
+\`const a = 5\`. Remember to use escape characters like *"/"* to type symbols that are used for markdown creation. 
 
-#### 4
+### Additional information
 
-This is the paragraph
+We're supporting most of the **Markdown** tags, however, some of them may not work correctly. In this case, remember to inform us on our [LinkedIn](https://www.linkedin.com/company/greenon-software/) profile or [Discord](https://discord.com/invite/PxXQayT3x3) channel. 
 
-##### 5
-
-This is the paragraph
-
-###### 6
-
-This is the paragraph
-
-![Alt of image](https://img.freepik.com/premium-wektory/dobry-widok-na-gory-grafika-ilustracja-projekt-koszulki-wektor-sztuki_24519-2593.jpg?w=2000)
-*Description of image!*
-
-Colons can be used to align columns.
+#### How to create a table?
 
 | Tables        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
@@ -39,15 +26,35 @@ Colons can be used to align columns.
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
 
-There must be at least 3 dashes separating each header cell.
-The outer pipes (|) are optional, and you don't need to make the 
-raw Markdown line up prettily. You can also use inline Markdown.
+#### How to add a block quote?
 
-Markdown | Less | Pretty
---- | --- | ---
-*Still* | \`renders\` | **nicely**
-1 | 2 | 3
-`;
+> That's the additional information to display in the block quote.
+
+#### How to create a code snippet?
+
+The code snippet in \`JavaScript\`.
+
+\`\`\`javascript
+const a = 5;
+const b = 10;
+
+const add = () => {
+   return a + b;
+}
+\`\`\`
+
+#### How to add an image or links?
+
+![Alt of image](https://img.freepik.com/premium-wektory/dobry-widok-na-gory-grafika-ilustracja-projekt-koszulki-wektor-sztuki_24519-2593.jpg?w=2000)
+*This is my image description!*
+
+##### If you enjoyed this editor
+
+Like our [LinkedIn](https://www.linkedin.com/company/greenon-software/) profile or join [Discord](https://discord.com/invite/PxXQayT3x3) channel. In addition, we're working on other applications and we have an education platform that creates content for free - [GreenOn Software](https://greenonsoftware.com/)! 
+
+###### Thanks for using our editor!
+
+Any suggestions, comments, or ideas for improvement? Feel free to join our [Discord](https://discord.com/invite/PxXQayT3x3) or add info on [LinkedIn](https://www.linkedin.com/company/greenon-software/) profile. If you want to contribute, here you have a repository:  [4Markdown repository](https://github.com/polubis/4markdown).`;
 
 interface CreatorStoreActions {
   change(code: string): void;

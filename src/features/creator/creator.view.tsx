@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import Markdown from 'components/markdown';
 import {
-  BiBook,
   BiBookContent,
   BiMoon,
   BiSolidBookContent,
@@ -17,20 +16,9 @@ import {
 } from 'store/creator/creator.store';
 import CopyButtons from './copy-buttons';
 import c from 'classnames';
-import { isClient } from 'development-kit/ssr-csr';
+import MoreNav from 'components/more-nav';
 
 const CreatorView: React.FC = () => {
-  const updated = React.useRef(false);
-
-  if (isClient() && !updated.current) {
-    const md = window.innerWidth > 768;
-
-    if (!md) {
-      creatorStoreActions.divide();
-      updated.current = true;
-    }
-  }
-
   const { code, initialCode, divideMode } = useCreatorStore();
 
   useEffect(() => creatorStoreActions.sync(), []);
@@ -61,6 +49,7 @@ const CreatorView: React.FC = () => {
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 lg:block hidden shrink-0" />
           <CopyButtons.Headings />
+          <CopyButtons.Link />
           <CopyButtons.Image />
           <CopyButtons.Code />
           <CopyButtons.Table />
@@ -92,7 +81,9 @@ const CreatorView: React.FC = () => {
             title="Change view display"
             onClick={creatorStoreActions.divide}
           >
-            {divideMode === `both` && <BiBookContent className="text-2xl" />}
+            {divideMode === `both` && (
+              <BiBookContent className="text-2xl rotate-90 md:rotate-0" />
+            )}
             {divideMode === `code` && (
               <BiSolidBookContent className="text-2xl rotate-180" />
             )}
@@ -112,16 +103,6 @@ const CreatorView: React.FC = () => {
             </Button>
           </a>
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
-          <a
-            href="https://greenonsoftware.com/articles/"
-            target="_blanl"
-            title="GreenOn Software learning platform"
-            rel="noopener"
-          >
-            <Button i={2} rfull>
-              <BiBook className="text-2xl" />
-            </Button>
-          </a>
           <ThemeToggler>
             {({ theme, toggleTheme }) => (
               <Button
@@ -139,12 +120,14 @@ const CreatorView: React.FC = () => {
               </Button>
             )}
           </ThemeToggler>
+          <MoreNav />
           <div className="h-1 w-4 shrink-0 block sm:hidden" />
         </nav>
       </header>
       <section
         className={c(`grid h-[calc(100svh-72px)]`, {
-          'grid-cols-2': divideMode === `both`,
+          'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
+            divideMode === `both`,
         })}
       >
         <textarea
@@ -159,7 +142,10 @@ const CreatorView: React.FC = () => {
           className={c(
             `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
             { hidden: divideMode === `code` },
-            { 'border-l-2': divideMode === `both` },
+            {
+              'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
+                divideMode === `both`,
+            },
           )}
         >
           <Markdown>{code}</Markdown>
