@@ -55,6 +55,8 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
       <a
         className="text-xl underline underline-offset-3 cursor-pointer"
         href={href}
+        target="_blank"
+        rel="noopener noreferrer"
       >
         {children}
       </a>
