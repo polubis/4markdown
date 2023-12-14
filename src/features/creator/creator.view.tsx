@@ -19,7 +19,7 @@ import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
 import AddPopover from 'components/add-popover';
-import SaveOnCloudButton from 'components/save-on-cloud-btn';
+import UserPopover from 'components/user-popover';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
@@ -62,31 +62,9 @@ const CreatorView: React.FC = () => {
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 lg:block hidden shrink-0" />
           <AddPopover />
-          <SaveOnCloudButton />
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
           <Button
             i={2}
-            className="md:flex hidden"
-            rfull
-            disabled={code === ``}
-            title="Clear Content"
-            onClick={clearConfirm.confirm}
-          >
-            {clearConfirm.opened ? `Sure?` : `Clear`}
-          </Button>
-          <Button
-            i={2}
-            className="ml-2 mr-2 md:flex hidden"
-            rfull
-            disabled={code === initialCode}
-            title="Reset Content"
-            onClick={resetConfirm.confirm}
-          >
-            {resetConfirm.opened ? `Sure?` : `Reset`}
-          </Button>
-          <Button
-            i={2}
-            className="ml-auto"
+            className="ml-2"
             rfull
             title="Change view display"
             onClick={creatorStoreActions.divide}
@@ -112,11 +90,33 @@ const CreatorView: React.FC = () => {
               <BiWindows className="text-2xl" />
             </Button>
           </a>
+          {/* <SaveOnCloudButton /> */}
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
+          <Button
+            i={2}
+            className="md:flex hidden"
+            rfull
+            disabled={code === ``}
+            title="Clear Content"
+            onClick={clearConfirm.confirm}
+          >
+            {clearConfirm.opened ? `Sure?` : `Clear`}
+          </Button>
+          <Button
+            i={2}
+            className="ml-2 mr-2 md:flex hidden"
+            rfull
+            disabled={code === initialCode}
+            title="Reset Content"
+            onClick={resetConfirm.confirm}
+          >
+            {resetConfirm.opened ? `Sure?` : `Reset`}
+          </Button>
           <ThemeToggler>
             {({ theme, toggleTheme }) => (
               <Button
                 i={2}
+                className='ml-auto'
                 title="Change theme"
                 rfull
                 onClick={() => toggleTheme(theme === `dark` ? `light` : `dark`)}
@@ -129,6 +129,8 @@ const CreatorView: React.FC = () => {
               </Button>
             )}
           </ThemeToggler>
+          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
+          <UserPopover />
           <MoreNav />
         </nav>
       </header>
