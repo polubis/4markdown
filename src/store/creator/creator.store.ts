@@ -1,5 +1,6 @@
 import type { SiteMetadata } from 'models/queries';
 import { create } from 'zustand';
+import LogoThumbnail from 'images/logo-thumbnail.png';
 
 const createInitialCode = (meta: SiteMetadata): string => `# Markdown Cheatsheet
 
@@ -46,7 +47,7 @@ const add = () => {
 
 #### How to add an image or links?
 
-![Alt of image](https://img.freepik.com/premium-wektory/dobry-widok-na-gory-grafika-ilustracja-projekt-koszulki-wektor-sztuki_24519-2593.jpg?w=2000)
+![Alt of image](${LogoThumbnail})
 *This is my image description!*
 
 ##### If you enjoyed this editor

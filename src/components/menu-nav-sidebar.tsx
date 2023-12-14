@@ -16,7 +16,13 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
       <Backdrop onClick={onClose} />
       <aside className="bg-zinc-200 z-20 dark:bg-gray-950 border-l-2 border-zinc-300 dark:border-zinc-800 fixed top-0 right-0 h-full w-[280px] overflow-y-auto">
         <div className="p-4 flex items-center h-[72px]">
-          <img src="/favicon-32x32.png" alt={meta.appName} title={meta.title} />
+          <picture className="w-[32px] h-[32px]">
+            <img
+              src="/favicon-32x32.png"
+              alt={meta.appName}
+              title={meta.title}
+            />
+          </picture>
           <p className="text-xl ml-3 font-bold">{meta.appName}</p>
           <Button
             className="ml-auto"
