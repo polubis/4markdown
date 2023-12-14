@@ -57,3 +57,7 @@
 .markdown h1:not(:first-of-type) {
   margin-top: 24px;
 }
+
+.markdown picture + em {
+  margin-top: 12px;
+}
