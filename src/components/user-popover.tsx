@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { BiLogInCircle, BiUser } from 'react-icons/bi';
+import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { signInOutActions } from 'store/sign-in-out/sign-in-out.actions';
 import { useToggle } from 'development-kit/use-toggle';
@@ -40,8 +40,9 @@ const UserPopover = () => {
             {authStore.user.name ? authStore.user.name.charAt(0) : `?`}
           </span>
         )}
-        {authStore.is === `idle` && <BiLogInCircle className="text-2xl" />}
-        {authStore.is === `unauthorized` && <BiUser className="text-2xl" />}
+        {(authStore.is === `idle` || authStore.is === `unauthorized`) && (
+          <BiLogInCircle className="text-2xl" />
+        )}
       </Button>
       {menu.opened && (
         <React.Suspense>

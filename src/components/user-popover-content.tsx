@@ -13,7 +13,10 @@ interface UserPopoverContentProps {
 }
 
 const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
-  const signOutConfirmation = useConfirm(signInOutActions.out);
+  const signOutConfirmation = useConfirm(() => {
+    signInOutActions.out();
+    onClose();
+  });
 
   const Content = (
     <div className="max-w-[280px] flex flex-col p-4">

@@ -44,7 +44,7 @@ const signInOutActions: SignInOutActions = {
   out: async () => {
     const state = useAuthStore.getState();
 
-    if (state.is === `idle` || state.is === `authorized`) {
+    if (state.is === `idle` || state.is === `unauthorized`) {
       return;
     }
 
