@@ -20,6 +20,7 @@ import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.sto
 import { useConfirm } from 'development-kit/use-confirm';
 import AddPopover from 'components/add-popover';
 import UserPopover from 'components/user-popover';
+import SaveOnCloudButton from 'components/save-on-cloud-btn';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
@@ -62,6 +63,7 @@ const CreatorView: React.FC = () => {
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 lg:block hidden shrink-0" />
           <AddPopover />
+          <SaveOnCloudButton />
           <Button
             i={2}
             className="ml-2"
@@ -90,7 +92,6 @@ const CreatorView: React.FC = () => {
               <BiWindows className="text-2xl" />
             </Button>
           </a>
-          {/* <SaveOnCloudButton /> */}
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
           <Button
             i={2}
@@ -116,7 +117,7 @@ const CreatorView: React.FC = () => {
             {({ theme, toggleTheme }) => (
               <Button
                 i={2}
-                className='ml-auto'
+                className="ml-auto"
                 title="Change theme"
                 rfull
                 onClick={() => toggleTheme(theme === `dark` ? `light` : `dark`)}
