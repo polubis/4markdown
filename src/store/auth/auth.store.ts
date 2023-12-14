@@ -1,3 +1,4 @@
+import type { Auth } from 'firebase/auth';
 import { create } from 'zustand';
 
 interface AuthorizedUser {
@@ -7,13 +8,18 @@ interface AuthorizedUser {
 
 interface AuthStoreActions {
   reset(): void;
-  authorize(user: AuthorizedUser): void;
-  unauthorize(): void;
+  authorize(user: AuthorizedUser, auth: Auth): void;
+  unauthorize(auth: Auth): void;
 }
 
 type AuthStoreStateIdle = { is: 'idle' };
-type AuthStoreStateAuthorized = { is: 'authorized'; user: AuthorizedUser };
-type AuthStoreStateUnauthorized = { is: 'unauthorized' };
+type AuthStoreStateAuthorized = {
+  is: 'authorized';
+  user: AuthorizedUser;
+  auth: Auth;
+};
+
+type AuthStoreStateUnauthorized = { is: 'unauthorized'; auth: Auth };
 
 type AuthStoreState =
   | AuthStoreStateIdle
@@ -32,8 +38,8 @@ const set = (state: AuthStoreState): void => {
 
 const authStoreActions: AuthStoreActions = {
   reset: () => set({ is: `idle` }),
-  authorize: (user) => set({ is: `authorized`, user }),
-  unauthorize: () => set({ is: `unauthorized` }),
+  authorize: (user, auth) => set({ is: `authorized`, user, auth }),
+  unauthorize: (auth) => set({ is: `unauthorized`, auth }),
 };
 
 export { useAuthStore, authStoreActions };

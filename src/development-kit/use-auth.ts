@@ -20,14 +20,17 @@ const useAuth = () => {
   React.useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        authStoreActions.authorize({
-          name: user.displayName,
-          avatar: user.photoURL,
-        });
+        authStoreActions.authorize(
+          {
+            name: user.displayName,
+            avatar: user.photoURL,
+          },
+          auth,
+        );
         return;
       }
 
-      authStoreActions.unauthorize();
+      authStoreActions.unauthorize(auth);
     });
   }, []);
 };
