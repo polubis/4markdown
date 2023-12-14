@@ -62,8 +62,6 @@ const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
 
-  React.useEffect(() => creatorStoreActions.sync(), []);
-
   React.useEffect(() => {
     const listener = (event: StorageEvent) => {
       if (event.key === CREATOR_STORE_LS_KEY && event.newValue !== null) {
