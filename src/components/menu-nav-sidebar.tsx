@@ -18,6 +18,7 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
         <div className="p-4 flex items-center h-[72px]">
           <picture className="w-[32px] h-[32px]">
             <img
+              loading="lazy"
               src="/favicon-32x32.png"
               alt={meta.appName}
               title={meta.title}

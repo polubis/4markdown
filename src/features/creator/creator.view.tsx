@@ -84,7 +84,12 @@ const CreatorView: React.FC = () => {
     <main className="flex h-full md:flex-col flex-col-reverse">
       <header className="flex overflow-x-auto overflow-y-hidden items-center py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
         <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
-          <img src="/favicon-32x32.png" alt={meta.appName} title={meta.title} />
+          <img
+            loading="lazy"
+            src="/favicon-32x32.png"
+            alt={meta.appName}
+            title={meta.title}
+          />
         </picture>
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 lg:block hidden shrink-0" />
