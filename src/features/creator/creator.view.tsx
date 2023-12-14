@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import Markdown from 'components/markdown';
 import {
@@ -46,7 +46,7 @@ const useSimpleConfirm = (action: () => void) => {
     }, 4000);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     return () => {
       cleanTimeouts();
     };
@@ -64,9 +64,9 @@ const CreatorView: React.FC = () => {
   const clearConfirm = useSimpleConfirm(creatorStoreActions.clear);
   const resetConfirm = useSimpleConfirm(creatorStoreActions.reset);
 
-  useEffect(() => creatorStoreActions.sync(), []);
+  React.useEffect(() => creatorStoreActions.sync(), []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const listener = (event: StorageEvent) => {
       if (event.key === CREATOR_STORE_LS_KEY && event.newValue !== null) {
         creatorStoreActions.sync();
@@ -79,6 +79,11 @@ const CreatorView: React.FC = () => {
       window.removeEventListener(`storage`, listener);
     };
   }, []);
+
+  const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    const { value } = e.target;
+    creatorStoreActions.change(value);
+  };
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
@@ -186,7 +191,7 @@ const CreatorView: React.FC = () => {
             { hidden: divideMode === `preview` },
           )}
           value={code}
-          onChange={(e) => creatorStoreActions.change(e.target.value)}
+          onChange={handleChange}
         />
         <div
           className={c(
