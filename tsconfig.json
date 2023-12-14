@@ -124,6 +124,7 @@
   "exclude": [
     "cypress/**/*.ts",
     "cypress.config.ts",
-    "node_modules/cypress*/*.ts"
+    "node_modules/cypress*/*.ts",
+    "functions/**"
   ]
 }
