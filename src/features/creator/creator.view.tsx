@@ -14,13 +14,13 @@ import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
-import CopyButtons from './copy-buttons';
 import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import SaveOnCloudButton from 'components/save-on-cloud-button';
 import { authStoreActions } from 'store/auth/auth.store';
 import { useConfirm } from 'development-kit/use-confirm';
+import AddPopover from 'components/add-popover';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
@@ -66,11 +66,7 @@ const CreatorView: React.FC = () => {
         </picture>
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 lg:block hidden shrink-0" />
-          <CopyButtons.Headings />
-          <CopyButtons.Link />
-          <CopyButtons.Image />
-          <CopyButtons.Code />
-          <CopyButtons.Table />
+          <AddPopover />
           <SaveOnCloudButton />
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
           <Button
@@ -125,7 +121,6 @@ const CreatorView: React.FC = () => {
           <ThemeToggler>
             {({ theme, toggleTheme }) => (
               <Button
-                className="ml-2"
                 i={2}
                 title="Change theme"
                 rfull

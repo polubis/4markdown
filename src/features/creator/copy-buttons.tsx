@@ -9,7 +9,6 @@ const Code = () => {
   return (
     <>
       <Button
-        className="ml-2"
         i={2}
         rfull
         title="Copy code markdown"
@@ -78,7 +77,6 @@ const Image = () => {
   return (
     <>
       <Button
-        className="ml-2"
         i={2}
         rfull
         title="Copy image markdown"
@@ -102,7 +100,6 @@ const Table = () => {
   return (
     <>
       <Button
-        className="ml-2"
         i={2}
         rfull
         title="Copy table markdown"
@@ -138,7 +135,6 @@ const Link = () => {
   return (
     <>
       <Button
-        className="ml-2"
         i={2}
         rfull
         title="Copy link markdown"
