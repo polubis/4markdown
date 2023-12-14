@@ -13,7 +13,7 @@ const Code = () => {
         i={2}
         rfull
         title="Copy code markdown"
-        overlay={state.is === `copied` ? `Copied!` : undefined}
+        overlay={state.is === `copied` ? `Copied` : undefined}
         onClick={() => {
           copy(
             `\`\`\`javascript
@@ -37,7 +37,7 @@ const Headings = () => {
         i={2}
         rfull
         title="Copy headings markdown"
-        overlay={state.is === `copied` ? `Copied!` : undefined}
+        overlay={state.is === `copied` ? `Copied` : undefined}
         onClick={() => {
           copy(`
 # 1
@@ -82,7 +82,7 @@ const Image = () => {
         i={2}
         rfull
         title="Copy image markdown"
-        overlay={state.is === `copied` ? `Copied!` : undefined}
+        overlay={state.is === `copied` ? `Copied` : undefined}
         onClick={() => {
           copy(
             `![Alt of image](https://img.freepik.com/premium-wektory/dobry-widok-na-gory-grafika-ilustracja-projekt-koszulki-wektor-sztuki_24519-2593.jpg?w=2000)
@@ -106,7 +106,7 @@ const Table = () => {
         i={2}
         rfull
         title="Copy table markdown"
-        overlay={state.is === `copied` ? `Copied!` : undefined}
+        overlay={state.is === `copied` ? `Copied` : undefined}
         onClick={() => {
           copy(`Colons can be used to align columns.
 
@@ -142,7 +142,7 @@ const Link = () => {
         i={2}
         rfull
         title="Copy link markdown"
-        overlay={state.is === `copied` ? `Copied!` : undefined}
+        overlay={state.is === `copied` ? `Copied` : undefined}
         onClick={() => {
           copy(`[Label](URL)`);
         }}

@@ -8,25 +8,29 @@ import {
   signInWithPopup,
   signInWithRedirect,
   signOut,
+  browserLocalPersistence,
+  setPersistence,
 } from 'firebase/auth';
 
 interface AuthStoreActions {
-  signIn(mode: 'popup' | 'standalone'): void;
-  signOut(): void;
+  // init(): void;
+  // signIn(mode: 'popup' | 'standalone'): void;
+  // signOut(): void;
+  init(): void;
 }
 
 interface AuthStoreSelectors {}
 
+type AuthorizedUser = Pick<User, 'displayName' | 'photoURL'>;
+
 type AuthStoreStateIdle = { is: 'idle' };
-type AuthStoreStateAuthorized = { is: 'authorized'; user: User };
+type AuthStoreStateAuthorized = { is: 'authorized'; user: AuthorizedUser };
 type AuthStoreStateUnauthorized = { is: 'unauthorized' };
-type AuthStoreStateFail = { is: 'fail' };
 
 type AuthStoreState =
   | AuthStoreStateIdle
   | AuthStoreStateAuthorized
-  | AuthStoreStateUnauthorized
-  | AuthStoreStateFail;
+  | AuthStoreStateUnauthorized;
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,
@@ -54,37 +58,65 @@ const set = (state: AuthStoreState): void => {
 
 const authStoreSelectors: AuthStoreSelectors = {};
 
-const authStoreActions: AuthStoreActions = {
-  signIn: async (mode) => {
-    const provider = new GoogleAuthProvider();
+let isListenerAdded = false;
 
-    try {
-      if (mode === `popup`) {
-        await signInWithPopup(auth, provider);
+const authStoreActions: AuthStoreActions = {
+  init: () => {
+    if (isListenerAdded) return;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        set({
+          is: `authorized`,
+          user: {
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+          },
+        });
         return;
       }
 
-      await signInWithRedirect(auth, provider);
-    } catch (error: unknown) {
-      set({ is: `fail` });
-    }
+      set({ is: `unauthorized` });
+    });
+
+    isListenerAdded = true;
   },
-  signOut: async () => {
-    try {
-      await signOut(auth);
-    } catch (error: unknown) {
-      set({ is: `fail` });
-    }
-  },
+  // signIn: async (mode) => {
+  //   const state = get();
+
+  //   if (state.is === `idle` || state.is === `authorized`) {
+  //     return;
+  //   }
+
+  //   const provider = new GoogleAuthProvider();
+
+  //   try {
+  //     await setPersistence(auth, browserLocalPersistence);
+
+  //     if (mode === `popup`) {
+  //       await signInWithPopup(auth, provider);
+  //       return;
+  //     }
+
+  //     await signInWithRedirect(auth, provider);
+  //   } catch (error: unknown) {
+  //     console.log(error.message);
+  //     set({ is: `fail` });
+  //   }
+  // },
+  // signOut: async () => {
+  //   const state = get();
+
+  //   if (state.is === `authorized`) {
+  //     return;
+  //   }
+
+  //   try {
+  //     await signOut(auth);
+  //   } catch (error: unknown) {
+  //     set({ is: `fail` });
+  //   }
+  // },
 };
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    set({ is: `authorized`, user });
-    return;
-  }
-
-  set({ is: `unauthorized` });
-});
 
 export { useAuthStore, authStoreActions, authStoreSelectors };

@@ -18,55 +18,13 @@ import CopyButtons from './copy-buttons';
 import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
-import { useToggle } from 'development-kit/use-toggle';
 import SaveOnCloudButton from 'components/save-on-cloud-button';
-
-const SignInTrigger = React.lazy(
-  () => import(`../../components/sign-in-trigger`),
-);
-
-const useSimpleConfirm = (action: () => void) => {
-  const toggler = useToggle();
-  const timeout = React.useRef<null | any>(null);
-
-  const cleanTimeouts = (): void => {
-    const t = timeout.current;
-
-    t && clearTimeout(t);
-  };
-
-  const confirm = (): void => {
-    cleanTimeouts();
-
-    if (toggler.opened) {
-      action();
-      toggler.close();
-      return;
-    }
-
-    toggler.open();
-
-    timeout.current = setTimeout(() => {
-      toggler.close();
-    }, 4000);
-  };
-
-  React.useEffect(() => {
-    return () => {
-      cleanTimeouts();
-    };
-  }, []);
-
-  return {
-    ...toggler,
-    confirm,
-  };
-};
+import { authStoreActions } from 'store/auth/auth.store';
+import { useConfirm } from 'development-kit/use-confirm';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
-  const signInConfirm = useToggle();
 
   React.useEffect(() => creatorStoreActions.sync(), []);
 
@@ -84,12 +42,16 @@ const CreatorView: React.FC = () => {
     };
   }, []);
 
+  React.useEffect(() => {
+    authStoreActions.init();
+  }, []);
+
   const handleChange = (value: string): void => {
     creatorStoreActions.change(value);
   };
 
-  const clearConfirm = useSimpleConfirm(() => handleChange(``));
-  const resetConfirm = useSimpleConfirm(() => handleChange(initialCode));
+  const clearConfirm = useConfirm(() => handleChange(``));
+  const resetConfirm = useConfirm(() => handleChange(initialCode));
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
@@ -109,13 +71,7 @@ const CreatorView: React.FC = () => {
           <CopyButtons.Image />
           <CopyButtons.Code />
           <CopyButtons.Table />
-          <React.Suspense fallback={<SaveOnCloudButton disabled />}>
-            {signInConfirm.opened ? (
-              <SignInTrigger />
-            ) : (
-              <SaveOnCloudButton onClick={signInConfirm.open} />
-            )}
-          </React.Suspense>
+          <SaveOnCloudButton />
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
           <Button
             i={2}
