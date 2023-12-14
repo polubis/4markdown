@@ -3,7 +3,7 @@ import CopyButtons from 'features/creator/copy-buttons';
 import React from 'react';
 import c from 'classnames';
 
-const baseClasses = `gap-2 fixed z-10 rounded-md p-2 bg-zinc-200 dark:bg-gray-950 shadow-lg z-30`;
+const baseClasses = `gap-2 fixed rounded-md p-2 bg-zinc-200 dark:bg-gray-950 shadow-lg z-30`;
 
 interface AddPopoverContentProps {
   onCopy(content: string): void;
