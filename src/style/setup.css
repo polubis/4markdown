@@ -49,3 +49,11 @@
 .markdown > div > * {
   margin-bottom: 10px;
 }
+
+.markdown :is(h2, h3, h4, h5, h6) {
+  margin-top: 24px;
+}
+
+.markdown h1:not(:first-of-type) {
+  margin-top: 24px;
+}
