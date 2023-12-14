@@ -5,8 +5,9 @@ import React from 'react';
 import { BiPlusCircle, BiX } from 'react-icons/bi';
 import c from 'classnames';
 import { useCopy } from 'development-kit/use-copy';
+import Backdrop from 'design-system/backdrop';
 
-const baseClasses = `gap-2 fixed z-10 rounded-md p-2 bg-zinc-200 dark:bg-gray-950 border-2 border-zinc-300 dark:border-zinc-800`;
+const baseClasses = `gap-2 fixed z-10 rounded-md p-2 bg-zinc-200 dark:bg-gray-950 shadow-lg z-30`;
 
 const AddPopover: React.FC = () => {
   const menu = useToggle();
@@ -61,6 +62,7 @@ const AddPopover: React.FC = () => {
           >
             {Content}
           </div>
+          <Backdrop onClick={menu.close} />
         </>
       )}
     </>
