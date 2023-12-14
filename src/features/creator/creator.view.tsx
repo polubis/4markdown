@@ -71,7 +71,7 @@ const CreatorView: React.FC = () => {
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
           <Button
             i={2}
-            className="lg:flex hidden"
+            className="md:flex hidden"
             rfull
             disabled={code === ``}
             title="Clear Content"
@@ -81,7 +81,7 @@ const CreatorView: React.FC = () => {
           </Button>
           <Button
             i={2}
-            className="ml-2 mr-2 lg:flex hidden"
+            className="ml-2 mr-2 md:flex hidden"
             rfull
             disabled={code === initialCode}
             title="Reset Content"
