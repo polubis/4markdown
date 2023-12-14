@@ -18,10 +18,51 @@ import CopyButtons from './copy-buttons';
 import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { useToggle } from 'development-kit/use-toggle';
+
+const useSimpleConfirm = (action: () => void) => {
+  const toggler = useToggle();
+  const timeout = React.useRef<null | any>(null);
+
+  const cleanTimeouts = (): void => {
+    const t = timeout.current;
+
+    t && clearTimeout(t);
+  };
+
+  const confirm = (): void => {
+    cleanTimeouts();
+
+    if (toggler.opened) {
+      action();
+      toggler.close();
+      return;
+    }
+
+    toggler.open();
+
+    timeout.current = setTimeout(() => {
+      toggler.close();
+    }, 4000);
+  };
+
+  useEffect(() => {
+    return () => {
+      cleanTimeouts();
+    };
+  }, []);
+
+  return {
+    ...toggler,
+    confirm,
+  };
+};
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
+  const clearConfirm = useSimpleConfirm(creatorStoreActions.clear);
+  const resetConfirm = useSimpleConfirm(creatorStoreActions.reset);
 
   useEffect(() => creatorStoreActions.sync(), []);
 
@@ -62,9 +103,9 @@ const CreatorView: React.FC = () => {
             rfull
             disabled={code === ``}
             title="Clear Content"
-            onClick={creatorStoreActions.clear}
+            onClick={clearConfirm.confirm}
           >
-            Clear
+            {clearConfirm.opened ? `Sure?` : `Clear`}
           </Button>
           <Button
             i={2}
@@ -72,9 +113,9 @@ const CreatorView: React.FC = () => {
             rfull
             disabled={code === initialCode}
             title="Reset Content"
-            onClick={creatorStoreActions.reset}
+            onClick={resetConfirm.confirm}
           >
-            Reset
+            {resetConfirm.opened ? `Sure?` : `Reset`}
           </Button>
           <Button
             i={2}
