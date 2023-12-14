@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import Markdown from 'components/markdown';
 import {
@@ -18,14 +18,51 @@ import CopyButtons from './copy-buttons';
 import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { useToggle } from 'development-kit/use-toggle';
+
+const useSimpleConfirm = (action: () => void) => {
+  const toggler = useToggle();
+  const timeout = React.useRef<null | any>(null);
+
+  const cleanTimeouts = (): void => {
+    const t = timeout.current;
+
+    t && clearTimeout(t);
+  };
+
+  const confirm = (): void => {
+    cleanTimeouts();
+
+    if (toggler.opened) {
+      action();
+      toggler.close();
+      return;
+    }
+
+    toggler.open();
+
+    timeout.current = setTimeout(() => {
+      toggler.close();
+    }, 4000);
+  };
+
+  React.useEffect(() => {
+    return () => {
+      cleanTimeouts();
+    };
+  }, []);
+
+  return {
+    ...toggler,
+    confirm,
+  };
+};
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
 
-  useEffect(() => creatorStoreActions.sync(), []);
-
-  useEffect(() => {
+  React.useEffect(() => {
     const listener = (event: StorageEvent) => {
       if (event.key === CREATOR_STORE_LS_KEY && event.newValue !== null) {
         creatorStoreActions.sync();
@@ -39,15 +76,24 @@ const CreatorView: React.FC = () => {
     };
   }, []);
 
+  const handleChange = (value: string): void => {
+    creatorStoreActions.change(value);
+  };
+
+  const clearConfirm = useSimpleConfirm(() => handleChange(``));
+  const resetConfirm = useSimpleConfirm(() => handleChange(initialCode));
+
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
       <header className="flex overflow-x-auto overflow-y-hidden items-center py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
-        <img
-          className="shrink-0 lg:flex hidden"
-          src="/favicon-32x32.png"
-          alt={meta.appName}
-          title={meta.title}
-        />
+        <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
+          <img
+            rel="preload"
+            src="/favicon-32x32.png"
+            alt={meta.appName}
+            title={meta.title}
+          />
+        </picture>
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 lg:block hidden shrink-0" />
           <CopyButtons.Headings />
@@ -62,9 +108,9 @@ const CreatorView: React.FC = () => {
             rfull
             disabled={code === ``}
             title="Clear Content"
-            onClick={creatorStoreActions.clear}
+            onClick={clearConfirm.confirm}
           >
-            Clear
+            {clearConfirm.opened ? `Sure?` : `Clear`}
           </Button>
           <Button
             i={2}
@@ -72,9 +118,9 @@ const CreatorView: React.FC = () => {
             rfull
             disabled={code === initialCode}
             title="Reset Content"
-            onClick={creatorStoreActions.reset}
+            onClick={resetConfirm.confirm}
           >
-            Reset
+            {resetConfirm.opened ? `Sure?` : `Reset`}
           </Button>
           <Button
             i={2}
@@ -143,7 +189,7 @@ const CreatorView: React.FC = () => {
             { hidden: divideMode === `preview` },
           )}
           value={code}
-          onChange={(e) => creatorStoreActions.change(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
         />
         <div
           className={c(

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import Backdrop from 'design-system/backdrop';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -12,13 +13,17 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
 
   return (
     <>
-      <div
-        className="fixed top-0 left-0 right-0 bottom-0 bg-black/40 dark:bg-white/20"
-        onClick={onClose}
-      />
+      <Backdrop onClick={onClose} />
       <aside className="bg-zinc-200 z-20 dark:bg-gray-950 border-l-2 border-zinc-300 dark:border-zinc-800 fixed top-0 right-0 h-full w-[280px] overflow-y-auto">
         <div className="p-4 flex items-center h-[72px]">
-          <img src="/favicon-32x32.png" alt={meta.appName} title={meta.title} />
+          <picture className="w-[32px] h-[32px]">
+            <img
+              loading="lazy"
+              src="/favicon-32x32.png"
+              alt={meta.appName}
+              title={meta.title}
+            />
+          </picture>
           <p className="text-xl ml-3 font-bold">{meta.appName}</p>
           <Button
             className="ml-auto"

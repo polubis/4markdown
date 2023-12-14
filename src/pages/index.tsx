@@ -8,10 +8,12 @@ import {
   useSiteMetadataStore,
 } from 'store/site-metadata/site-metadata.store';
 import {
+  CREATOR_STORE_LS_KEY,
   createInitialCode,
   useCreatorStore,
 } from 'store/creator/creator.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
+import { isClient } from 'development-kit/ssr-csr';
 
 interface HomePageQuery {
   site: {
@@ -57,13 +59,24 @@ const HomePage: React.FC = () => {
       is: `ready`,
       ...siteMetadata,
     });
-    const code = createInitialCode(siteMetadata);
+
+    let code = createInitialCode(siteMetadata);
+
+    if (isClient()) {
+      const codeFromLS = localStorage.getItem(CREATOR_STORE_LS_KEY);
+
+      if (codeFromLS !== null) {
+        code = codeFromLS;
+      }
+    }
+
     useCreatorStore.setState({
       is: `ready`,
       initialCode: code,
       code,
       divideMode: `both`,
     });
+
     synced.current = true;
   }
 

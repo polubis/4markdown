@@ -2,6 +2,7 @@ import React from 'react';
 import Md, { MarkdownToJSX } from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import { Components } from '@mdx-js/react/lib';
+import c from 'classnames';
 
 const Code = ({
   className = `language-javascript`,
@@ -27,6 +28,28 @@ const Code = ({
   );
 };
 
+const isReactElement = (
+  node: unknown,
+): node is React.ReactElement<unknown, () => React.ReactNode> =>
+  typeof node === `object` &&
+  node !== null &&
+  !!(node as React.ReactElement).type;
+
+const isDescribedImage = (nodes: React.ReactNode): boolean => {
+  if (!Array.isArray(nodes)) {
+    return false;
+  }
+
+  const img = nodes[0];
+  const em = nodes[2];
+
+  if (!isReactElement(img) || !isReactElement(em)) {
+    return false;
+  }
+
+  return img.type.name === `img` && em.type.name === `em`;
+};
+
 const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
   disableParsingRawHTML: true,
   overrides: {
@@ -44,7 +67,15 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     h4: ({ children }) => <h4 className="text-3xl">{children}</h4>,
     h5: ({ children }) => <h5 className="text-2xl">{children}</h5>,
     h6: ({ children }) => <h6 className="text-xl">{children}</h6>,
-    p: ({ children }) => <p className="text-md text-justify">{children}</p>,
+    p: ({ children }) => (
+      <p
+        className={c(`text-md text-justify`, {
+          'flex flex-col': isDescribedImage(children),
+        })}
+      >
+        {children}
+      </p>
+    ),
     em: ({ children }) => <em className="font-thin">{children}</em>,
     strong: ({ children }) => <strong className="font-bold">{children}</strong>,
     ul: ({ children }) => <ul>{children}</ul>,

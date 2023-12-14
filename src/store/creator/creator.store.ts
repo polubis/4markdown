@@ -1,5 +1,6 @@
 import type { SiteMetadata } from 'models/queries';
 import { create } from 'zustand';
+import LogoThumbnail from 'images/logo-thumbnail.png';
 
 const createInitialCode = (meta: SiteMetadata): string => `# Markdown Cheatsheet
 
@@ -46,8 +47,8 @@ const add = () => {
 
 #### How to add an image or links?
 
-![Alt of image](https://img.freepik.com/premium-wektory/dobry-widok-na-gory-grafika-ilustracja-projekt-koszulki-wektor-sztuki_24519-2593.jpg?w=2000)
-*This is my image description!*
+![Alt of image](${LogoThumbnail})
+*${meta.title}*
 
 ##### If you enjoyed this editor
 
@@ -59,8 +60,6 @@ Any suggestions, comments, or ideas for improvement? Feel free to join our [Disc
 
 interface CreatorStoreActions {
   change(code: string): void;
-  clear(): void;
-  reset(): void;
   sync(): void;
   divide(): void;
 }
@@ -104,15 +103,6 @@ const creatorStoreActions: CreatorStoreActions = {
   change: (code) => {
     set({ code });
     localStorage.setItem(CREATOR_STORE_LS_KEY, code);
-  },
-  clear: () => {
-    set({ code: `` });
-    localStorage.setItem(CREATOR_STORE_LS_KEY, ``);
-  },
-  reset: () => {
-    const { initialCode } = creatorStoreSelectors.ready();
-    set({ code: initialCode });
-    localStorage.setItem(CREATOR_STORE_LS_KEY, initialCode);
   },
   sync: () => {
     const code = localStorage.getItem(CREATOR_STORE_LS_KEY);
