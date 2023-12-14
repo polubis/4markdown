@@ -12,7 +12,7 @@ interface ButtonProps
   overlay?: string;
 }
 
-const classes = `px-4 py-2 relative rounded enabled:focus:outline outline-4 outline-black font-medium font-sans text-medium disabled:cursor-not-allowed outline-black dark:outline-white`;
+const classes = `px-4 py-2 relative shrink-0 rounded enabled:focus:outline outline-4 outline-black font-medium font-sans text-medium disabled:cursor-not-allowed outline-black dark:outline-white`;
 
 const Button: React.FC<ButtonProps> = ({
   className,
