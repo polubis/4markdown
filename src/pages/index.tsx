@@ -12,6 +12,9 @@ import {
   useCreatorStore,
 } from 'store/creator/creator.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
+import { useOnInteraction } from 'development-kit/use-on-interaction';
+
+const WithAuth = React.lazy(() => import(`../development-kit/with-auth`));
 
 interface HomePageQuery {
   site: {
@@ -51,6 +54,7 @@ const useHomePageQuery = () => {
 const HomePage: React.FC = () => {
   const synced = React.useRef(false);
   const siteMetadata = useHomePageQuery();
+  const interacted = useOnInteraction();
 
   if (!synced.current) {
     useSiteMetadataStore.setState({
@@ -70,7 +74,16 @@ const HomePage: React.FC = () => {
     synced.current = true;
   }
 
-  return <CreatorView />;
+  return (
+    <>
+      {interacted && (
+        <React.Suspense>
+          <WithAuth />
+        </React.Suspense>
+      )}
+      <CreatorView />
+    </>
+  );
 };
 
 export default HomePage;
