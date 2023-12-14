@@ -61,8 +61,6 @@ const useSimpleConfirm = (action: () => void) => {
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
-  const clearConfirm = useSimpleConfirm(creatorStoreActions.clear);
-  const resetConfirm = useSimpleConfirm(creatorStoreActions.reset);
 
   React.useEffect(() => creatorStoreActions.sync(), []);
 
@@ -80,10 +78,12 @@ const CreatorView: React.FC = () => {
     };
   }, []);
 
-  const handleChange: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    const { value } = e.target;
+  const handleChange = (value: string): void => {
     creatorStoreActions.change(value);
   };
+
+  const clearConfirm = useSimpleConfirm(() => handleChange(``));
+  const resetConfirm = useSimpleConfirm(() => handleChange(initialCode));
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
@@ -191,7 +191,7 @@ const CreatorView: React.FC = () => {
             { hidden: divideMode === `preview` },
           )}
           value={code}
-          onChange={handleChange}
+          onChange={(e) => handleChange(e.target.value)}
         />
         <div
           className={c(

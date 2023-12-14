@@ -60,8 +60,6 @@ Any suggestions, comments, or ideas for improvement? Feel free to join our [Disc
 
 interface CreatorStoreActions {
   change(code: string): void;
-  clear(): void;
-  reset(): void;
   sync(): void;
   divide(): void;
 }
@@ -105,15 +103,6 @@ const creatorStoreActions: CreatorStoreActions = {
   change: (code) => {
     set({ code });
     localStorage.setItem(CREATOR_STORE_LS_KEY, code);
-  },
-  clear: () => {
-    set({ code: `` });
-    localStorage.setItem(CREATOR_STORE_LS_KEY, ``);
-  },
-  reset: () => {
-    const { initialCode } = creatorStoreSelectors.ready();
-    set({ code: initialCode });
-    localStorage.setItem(CREATOR_STORE_LS_KEY, initialCode);
   },
   sync: () => {
     const code = localStorage.getItem(CREATOR_STORE_LS_KEY);
