@@ -19,6 +19,11 @@ import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useToggle } from 'development-kit/use-toggle';
+import SaveOnCloudButton from 'components/save-on-cloud-button';
+
+const SignInTrigger = React.lazy(
+  () => import(`../../components/sign-in-trigger`),
+);
 
 const useSimpleConfirm = (action: () => void) => {
   const toggler = useToggle();
@@ -61,6 +66,7 @@ const useSimpleConfirm = (action: () => void) => {
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
+  const signInConfirm = useToggle();
 
   React.useEffect(() => creatorStoreActions.sync(), []);
 
@@ -103,6 +109,13 @@ const CreatorView: React.FC = () => {
           <CopyButtons.Image />
           <CopyButtons.Code />
           <CopyButtons.Table />
+          <React.Suspense fallback={<SaveOnCloudButton disabled />}>
+            {signInConfirm.opened ? (
+              <SignInTrigger />
+            ) : (
+              <SaveOnCloudButton onClick={signInConfirm.open} />
+            )}
+          </React.Suspense>
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
           <Button
             i={2}
