@@ -48,7 +48,7 @@ const add = () => {
 #### How to add an image or links?
 
 ![Alt of image](${LogoThumbnail})
-*This is my image description!*
+*${meta.title}*
 
 ##### If you enjoyed this editor
 
