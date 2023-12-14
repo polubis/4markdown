@@ -14,49 +14,11 @@ import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
-import CopyButtons from './copy-buttons';
 import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
-import { useToggle } from 'development-kit/use-toggle';
-
-const useSimpleConfirm = (action: () => void) => {
-  const toggler = useToggle();
-  const timeout = React.useRef<null | any>(null);
-
-  const cleanTimeouts = (): void => {
-    const t = timeout.current;
-
-    t && clearTimeout(t);
-  };
-
-  const confirm = (): void => {
-    cleanTimeouts();
-
-    if (toggler.opened) {
-      action();
-      toggler.close();
-      return;
-    }
-
-    toggler.open();
-
-    timeout.current = setTimeout(() => {
-      toggler.close();
-    }, 4000);
-  };
-
-  React.useEffect(() => {
-    return () => {
-      cleanTimeouts();
-    };
-  }, []);
-
-  return {
-    ...toggler,
-    confirm,
-  };
-};
+import { useConfirm } from 'development-kit/use-confirm';
+import AddPopover from 'components/add-popover';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
@@ -82,12 +44,12 @@ const CreatorView: React.FC = () => {
     creatorStoreActions.change(value);
   };
 
-  const clearConfirm = useSimpleConfirm(() => handleChange(``));
-  const resetConfirm = useSimpleConfirm(() => handleChange(initialCode));
+  const clearConfirm = useConfirm(() => handleChange(``));
+  const resetConfirm = useConfirm(() => handleChange(initialCode));
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
-      <header className="flex overflow-x-auto overflow-y-hidden items-center py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
+      <header className="flex items-center py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
         <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
           <img
             rel="preload"
@@ -97,16 +59,12 @@ const CreatorView: React.FC = () => {
           />
         </picture>
         <nav className="flex w-full items-center">
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 lg:block hidden shrink-0" />
-          <CopyButtons.Headings />
-          <CopyButtons.Link />
-          <CopyButtons.Image />
-          <CopyButtons.Code />
-          <CopyButtons.Table />
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
+          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 lg:block hidden shrink-0" />
+          <AddPopover />
+          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
           <Button
             i={2}
-            className="lg:flex hidden"
+            className="md:flex hidden"
             rfull
             disabled={code === ``}
             title="Clear Content"
@@ -116,7 +74,7 @@ const CreatorView: React.FC = () => {
           </Button>
           <Button
             i={2}
-            className="ml-2 mr-2 lg:flex hidden"
+            className="ml-2 mr-2 md:flex hidden"
             rfull
             disabled={code === initialCode}
             title="Reset Content"
@@ -152,11 +110,10 @@ const CreatorView: React.FC = () => {
               <BiWindows className="text-2xl" />
             </Button>
           </a>
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
+          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
           <ThemeToggler>
             {({ theme, toggleTheme }) => (
               <Button
-                className="ml-2"
                 i={2}
                 title="Change theme"
                 rfull
@@ -171,7 +128,6 @@ const CreatorView: React.FC = () => {
             )}
           </ThemeToggler>
           <MoreNav />
-          <div className="h-1 w-4 shrink-0 block sm:hidden" />
         </nav>
       </header>
       <section
