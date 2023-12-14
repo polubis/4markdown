@@ -15,8 +15,11 @@ import { useAuthStore } from 'store/auth/auth.store';
 const UserPopover = () => {
   const authStore = useAuthStore();
 
+  const title =
+    authStore.is === `authorized` ? `User details and options` : `Sign In`;
+
   return (
-    <Button i={2} rfull title="Save file on the cloud">
+    <Button i={2} rfull title={title}>
       {authStore.is === `authorized` &&
         authStore.user.name &&
         authStore.user.avatar && (
