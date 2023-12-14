@@ -4,31 +4,45 @@ import CopyButtons from 'features/creator/copy-buttons';
 import React from 'react';
 import { BiPlusCircle, BiX } from 'react-icons/bi';
 import c from 'classnames';
-
-const Content = (
-  <>
-    <CopyButtons.Headings />
-    <CopyButtons.Link />
-    <CopyButtons.Image />
-    <CopyButtons.Code />
-    <CopyButtons.Table />
-  </>
-);
+import { useCopy } from 'development-kit/use-copy';
 
 const baseClasses = `gap-2 fixed z-10 rounded-md p-2 bg-zinc-200 dark:bg-gray-950 border-2 border-zinc-300 dark:border-zinc-800`;
 
 const AddPopover: React.FC = () => {
   const menu = useToggle();
+  const [copyState, copy] = useCopy();
+
+  const handleClose = (content: string): void => {
+    copy(content);
+    menu.close();
+  };
+
+  const Content = (
+    <>
+      <CopyButtons.Headings onClick={handleClose} />
+      <CopyButtons.Link onClick={handleClose} />
+      <CopyButtons.Image onClick={handleClose} />
+      <CopyButtons.Code onClick={handleClose} />
+      <CopyButtons.Table onClick={handleClose} />
+    </>
+  );
 
   return (
     <>
-      <Button i={2} rfull title="Add markdown content" onClick={menu.toggle}>
+      <Button
+        i={2}
+        rfull
+        title="Add markdown template"
+        overlay={copyState.is === `copied` ? `Copied` : undefined}
+        onClick={menu.toggle}
+      >
         {menu.opened ? (
           <BiX className="text-2xl" />
         ) : (
           <BiPlusCircle className="text-2xl" />
         )}
       </Button>
+
       {menu.opened && (
         <>
           <div

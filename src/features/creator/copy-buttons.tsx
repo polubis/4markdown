@@ -1,44 +1,49 @@
 import React from 'react';
 import { BiCode, BiHeading, BiImage, BiLink, BiTable } from 'react-icons/bi';
 import { Button } from 'design-system/button';
-import { useCopy } from 'development-kit/use-copy';
+import type { IconType } from 'react-icons';
 
-const Code = () => {
-  const [state, copy] = useCopy();
+interface BaseButtonProps {
+  icon: IconType;
+  title: string;
+  onClick(): void;
+}
 
+interface CopyButtonProps {
+  onClick(content: string): void;
+}
+
+const CopyButton = ({ onClick, title, icon: Icon }: BaseButtonProps) => {
   return (
-    <>
-      <Button
-        i={2}
-        rfull
-        title="Copy code markdown"
-        overlay={state.is === `copied` ? `Copied` : undefined}
-        onClick={() => {
-          copy(
-            `\`\`\`javascript
-const a = 'Thanks for using our editor!'
-\`\`\``,
-          );
-        }}
-      >
-        <BiCode className="text-2xl" />
-      </Button>
-    </>
+    <Button i={2} rfull title={title} onClick={onClick}>
+      <Icon className="text-2xl" />
+    </Button>
   );
 };
 
-const Headings = () => {
-  const [state, copy] = useCopy();
-
+const Code = ({ onClick }: CopyButtonProps) => {
   return (
-    <>
-      <Button
-        i={2}
-        rfull
-        title="Copy headings markdown"
-        overlay={state.is === `copied` ? `Copied` : undefined}
-        onClick={() => {
-          copy(`
+    <CopyButton
+      title="Copy code markdown"
+      icon={BiCode}
+      onClick={() => {
+        onClick(
+          `\`\`\`javascript
+const a = 'Thanks for using our editor!'
+\`\`\``,
+        );
+      }}
+    />
+  );
+};
+
+const Headings = ({ onClick }: CopyButtonProps) => {
+  return (
+    <CopyButton
+      title="Copy headings markdown"
+      icon={BiHeading}
+      onClick={() => {
+        onClick(`
 # 1
 
 1
@@ -63,49 +68,33 @@ const Headings = () => {
 
 6
 `);
-        }}
-      >
-        <BiHeading className="text-2xl" />
-      </Button>
-    </>
+      }}
+    />
   );
 };
 
-const Image = () => {
-  const [state, copy] = useCopy();
-
+const Image = ({ onClick }: CopyButtonProps) => {
   return (
-    <>
-      <Button
-        i={2}
-        rfull
-        title="Copy image markdown"
-        overlay={state.is === `copied` ? `Copied` : undefined}
-        onClick={() => {
-          copy(
-            `![Alt of image](https://img.freepik.com/premium-wektory/dobry-widok-na-gory-grafika-ilustracja-projekt-koszulki-wektor-sztuki_24519-2593.jpg?w=2000)
+    <CopyButton
+      title="Copy image markdown"
+      icon={BiImage}
+      onClick={() => {
+        onClick(
+          `![Alt of image](https://img.freepik.com/premium-wektory/dobry-widok-na-gory-grafika-ilustracja-projekt-koszulki-wektor-sztuki_24519-2593.jpg?w=2000)
 *Description of image!*`,
-          );
-        }}
-      >
-        <BiImage className="text-2xl" />
-      </Button>
-    </>
+        );
+      }}
+    />
   );
 };
 
-const Table = () => {
-  const [state, copy] = useCopy();
-
+const Table = ({ onClick }: CopyButtonProps) => {
   return (
-    <>
-      <Button
-        i={2}
-        rfull
-        title="Copy table markdown"
-        overlay={state.is === `copied` ? `Copied` : undefined}
-        onClick={() => {
-          copy(`Colons can be used to align columns.
+    <CopyButton
+      title="Copy table markdown"
+      icon={BiTable}
+      onClick={() => {
+        onClick(`Colons can be used to align columns.
 
 | Tables        | Are           | Cool  |
 | ------------- |:-------------:| -----:|
@@ -121,31 +110,20 @@ Markdown | Less | Pretty
 --- | --- | ---
 *Still* | \`renders\` | **nicely**
 1 | 2 | 3`);
-        }}
-      >
-        <BiTable className="text-2xl" />
-      </Button>
-    </>
+      }}
+    />
   );
 };
 
-const Link = () => {
-  const [state, copy] = useCopy();
-
+const Link = ({ onClick }: CopyButtonProps) => {
   return (
-    <>
-      <Button
-        i={2}
-        rfull
-        title="Copy link markdown"
-        overlay={state.is === `copied` ? `Copied` : undefined}
-        onClick={() => {
-          copy(`[Label](URL)`);
-        }}
-      >
-        <BiLink className="text-2xl" />
-      </Button>
-    </>
+    <CopyButton
+      icon={BiLink}
+      title="Copy link markdown"
+      onClick={() => {
+        onClick(`[Label](URL)`);
+      }}
+    />
   );
 };
 
