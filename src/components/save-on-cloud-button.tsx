@@ -5,7 +5,7 @@ import { BiSave } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 
 const baseProps: ButtonProps = {
-  className: 'ml-2 flex w-[88px]',
+  className: `ml-2 flex w-[88px]`,
   i: 2,
   rfull: true,
   title: `Save file on the cloud`,

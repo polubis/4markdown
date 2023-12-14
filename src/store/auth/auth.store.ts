@@ -13,9 +13,8 @@ import {
 } from 'firebase/auth';
 
 interface AuthStoreActions {
-  // init(): void;
-  // signIn(mode: 'popup' | 'standalone'): void;
-  // signOut(): void;
+  signIn(mode: 'popup' | 'standalone'): void;
+  signOut(): void;
   init(): void;
 }
 
@@ -50,7 +49,7 @@ const useAuthStore = create<AuthStoreState>(() => ({
   is: `idle`,
 }));
 
-const { setState } = useAuthStore;
+const { setState, getState: get } = useAuthStore;
 
 const set = (state: AuthStoreState): void => {
   setState(state, true);
@@ -81,42 +80,37 @@ const authStoreActions: AuthStoreActions = {
 
     isListenerAdded = true;
   },
-  // signIn: async (mode) => {
-  //   const state = get();
+  signIn: async (mode) => {
+    const state = get();
 
-  //   if (state.is === `idle` || state.is === `authorized`) {
-  //     return;
-  //   }
+    if (state.is === `idle` || state.is === `authorized`) {
+      return;
+    }
 
-  //   const provider = new GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
 
-  //   try {
-  //     await setPersistence(auth, browserLocalPersistence);
+    try {
+      await setPersistence(auth, browserLocalPersistence);
 
-  //     if (mode === `popup`) {
-  //       await signInWithPopup(auth, provider);
-  //       return;
-  //     }
+      if (mode === `popup`) {
+        await signInWithPopup(auth, provider);
+        return;
+      }
 
-  //     await signInWithRedirect(auth, provider);
-  //   } catch (error: unknown) {
-  //     console.log(error.message);
-  //     set({ is: `fail` });
-  //   }
-  // },
-  // signOut: async () => {
-  //   const state = get();
+      await signInWithRedirect(auth, provider);
+    } catch (error: unknown) {}
+  },
+  signOut: async () => {
+    const state = get();
 
-  //   if (state.is === `authorized`) {
-  //     return;
-  //   }
+    if (state.is === `idle` || state.is === `authorized`) {
+      return;
+    }
 
-  //   try {
-  //     await signOut(auth);
-  //   } catch (error: unknown) {
-  //     set({ is: `fail` });
-  //   }
-  // },
+    try {
+      await signOut(auth);
+    } catch (error: unknown) {}
+  },
 };
 
 export { useAuthStore, authStoreActions, authStoreSelectors };
