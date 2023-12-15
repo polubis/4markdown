@@ -19,6 +19,7 @@ import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from 'components/templates-popover';
+import UserPopover from 'components/user-popover';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
@@ -127,6 +128,7 @@ const CreatorView: React.FC = () => {
               </Button>
             )}
           </ThemeToggler>
+          <UserPopover />
           <MoreNav />
         </nav>
       </header>
