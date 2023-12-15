@@ -50,7 +50,7 @@ const CreatorView: React.FC = () => {
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
-      <header className="flex items-center py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
+      <header className="flex items-center overflow-x-auto py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
         <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
           <img
             rel="preload"

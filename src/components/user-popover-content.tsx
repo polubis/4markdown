@@ -46,7 +46,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
       <div
         className={c(
           baseClasses,
-          `flex md:hidden left-4 right-4 bottom-16 max-w-max overflow-y-auto`,
+          `flex md:hidden right-4 bottom-16 max-w-max overflow-y-auto`,
         )}
       >
         {Content}
