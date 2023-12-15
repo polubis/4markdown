@@ -18,7 +18,7 @@ import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
-import AddPopover from 'components/add-popover';
+import TemplatesPopover from 'components/templates-popover';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
@@ -60,7 +60,7 @@ const CreatorView: React.FC = () => {
         </picture>
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 lg:block hidden shrink-0" />
-          <AddPopover />
+          <TemplatesPopover />
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
           <Button
             i={2}
