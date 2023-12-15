@@ -32,7 +32,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
           </Button>
         </div>
         <fieldset className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium">Document Name*</label>
+          <label className="text-sm font-medium">Document name*</label>
           <input
             placeholder="Type document name..."
             onChange={(e) => setName(e.target.value)}

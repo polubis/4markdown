@@ -36,7 +36,7 @@ const DocBar = () => {
           <input
             className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 dark:border-gray-500 border-2 border-gray-600 outline-none"
             autoFocus
-            placeholder="Type Document Name*"
+            placeholder="Type document name*"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
