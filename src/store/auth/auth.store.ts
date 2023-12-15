@@ -1,10 +1,10 @@
-import { FirebaseOptions, initializeApp } from 'firebase/app';
-import { onAuthStateChanged, type Auth, getAuth } from 'firebase/auth';
-import type { User } from 'models/user';
+import type { User as FirebaseUser, Auth } from 'firebase/auth';
+import { User } from 'models/user';
 import { create } from 'zustand';
 
 interface AuthStoreActions {
-  init(): () => void;
+  authorize(auth: Auth, user: FirebaseUser): void;
+  unauthorize(auth: Auth): void;
 }
 
 type AuthStoreStateIdle = { is: 'idle' };
@@ -21,9 +21,6 @@ type AuthStoreState =
   | AuthStoreStateAuthorized
   | AuthStoreStateUnauthorized;
 
-const initialized = false;
-let auth: Auth;
-
 const useAuthStore = create<AuthStoreState>(() => ({
   is: `idle`,
 }));
@@ -35,36 +32,18 @@ const set = (state: AuthStoreState): void => {
 };
 
 const authStoreActions: AuthStoreActions = {
-  init: () => {
-    if (initialized) {
-      throw Error(`Stop trying to initalize Firebase multiple times`);
-    }
-
-    const config: FirebaseOptions = {
-      apiKey: process.env.GATSBY_API_KEY,
-      authDomain: process.env.GATSBY_AUTH_DOMAIN,
-      projectId: process.env.GATSBY_PROJECT_ID,
-      storageBucket: process.env.GATSBY_STORAGE_BUCKET,
-      messagingSenderId: process.env.GATSBY_MESSAGING_SENDER_ID,
-      appId: process.env.GATSBY_APP_ID,
-      measurementId: process.env.GATSBY_MEASURMENT_ID,
-    };
-
-    const app = initializeApp(config);
-    auth = getAuth(app);
-
-    return onAuthStateChanged(auth, (user) => {
-      user
-        ? set({
-            is: `authorized`,
-            user: {
-              name: user.displayName,
-              avatar: user.photoURL,
-            },
-            auth,
-          })
-        : set({ is: `unauthorized`, auth });
+  authorize: (auth, user) => {
+    set({
+      is: `authorized`,
+      user: {
+        name: user.displayName,
+        avatar: user.photoURL,
+      },
+      auth,
     });
+  },
+  unauthorize: (auth) => {
+    set({ is: `unauthorized`, auth });
   },
 };
 

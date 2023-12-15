@@ -6,17 +6,12 @@ import {
   signInWithRedirect,
   signOut,
 } from 'firebase/auth';
-import { useAuthStore } from '../auth/auth.store';
-
-interface SignInOutActions {
-  in(): void;
-  out(): void;
-}
+import { useAuthStore } from 'store/auth/auth.store';
 
 const MAX_MOBILE_WIDTH = 768;
 
-const signInOutActions: SignInOutActions = {
-  in: async () => {
+const useSignIn = () => {
+  const logIn = async () => {
     const state = useAuthStore.getState();
 
     if (state.is === `idle` || state.is === `authorized`) {
@@ -40,8 +35,9 @@ const signInOutActions: SignInOutActions = {
 
       await signInWithPopup(state.auth, provider);
     } catch (error: unknown) {}
-  },
-  out: async () => {
+  };
+
+  const logOut = async () => {
     const state = useAuthStore.getState();
 
     if (state.is === `idle` || state.is === `unauthorized`) {
@@ -51,7 +47,9 @@ const signInOutActions: SignInOutActions = {
     try {
       await signOut(state.auth);
     } catch (error: unknown) {}
-  },
+  };
+
+  return [logIn, logOut] as const;
 };
 
-export { signInOutActions };
+export { useSignIn };

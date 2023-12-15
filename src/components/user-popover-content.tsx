@@ -3,17 +3,16 @@ import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import Popover from 'design-system/popover';
+import { useSignIn } from 'development-kit/use-sign-in';
 
 interface UserPopoverContentProps {
   onClose(): void;
 }
 
 const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
+  const [, logOut] = useSignIn();
   const signOutConfirmation = useConfirm(async () => {
-    const { signInOutActions } = await import(
-      `../store/sign-in-out/sign-in-out.actions`
-    );
-    signInOutActions.out();
+    logOut();
     onClose();
   });
 

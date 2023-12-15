@@ -3,27 +3,25 @@ import React from 'react';
 import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useToggle } from 'development-kit/use-toggle';
+import { useSignIn } from 'development-kit/use-sign-in';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
 const UserPopover = () => {
   const menu = useToggle();
   const authStore = useAuthStore();
+  const [logIn] = useSignIn();
 
   const title =
     authStore.is === `authorized` ? `User details and options` : `Sign In`;
 
-  const handleClick = async () => {
+  const handleClick = () => {
     if (authStore.is === `authorized`) {
       menu.open();
       return;
     }
 
-    const { signInOutActions } = await import(
-      `../store/sign-in-out/sign-in-out.actions`
-    );
-
-    signInOutActions.in();
+    logIn();
   };
 
   return (
