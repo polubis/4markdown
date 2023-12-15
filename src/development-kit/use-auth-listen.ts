@@ -22,7 +22,7 @@ const auth = getAuth(app);
 
 const useAuthListen = (
   onAuthorized: (auth: Auth, user: User) => void,
-  onUnauthorized: (auth: Auth) => void,
+  onUnauthorized: (auth: Auth) => void = () => {},
 ) => {
   const onAuthRef = useRef(onAuthorized);
   const onUnauthRef = useRef(onUnauthorized);
