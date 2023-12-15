@@ -21,17 +21,25 @@ import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from 'components/templates-popover';
 import UserPopover from 'components/user-popover';
 import AddDocPopover from 'components/add-doc-popover';
+import { DOC_STORE_LS_KEY, docStoreActions } from 'store/doc/doc.store';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
 
-  React.useEffect(() => creatorStoreActions.sync(), []);
+  React.useEffect(() => {
+    creatorStoreActions.sync();
+    docStoreActions.sync();
+  }, []);
 
   React.useEffect(() => {
     const listener = (event: StorageEvent) => {
       if (event.key === CREATOR_STORE_LS_KEY && event.newValue !== null) {
         creatorStoreActions.sync();
+      }
+
+      if (event.key === DOC_STORE_LS_KEY && event.newValue !== null) {
+        docStoreActions.sync();
       }
     };
 
@@ -62,8 +70,8 @@ const CreatorView: React.FC = () => {
         </picture>
         <nav className="flex gap-2 w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
-          <TemplatesPopover />
           <AddDocPopover />
+          <TemplatesPopover />
           <Button
             i={2}
             rfull

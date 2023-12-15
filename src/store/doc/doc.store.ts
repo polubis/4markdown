@@ -16,6 +16,7 @@ type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 interface DocStoreActions {
   changeName(name: string): void;
   create(): void;
+  sync(): void;
 }
 
 const useDocStore = create<DocStoreState>(() => ({
@@ -46,6 +47,15 @@ const docStoreActions: DocStoreActions = {
     set(newState);
     localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
   },
+  sync: () => {
+    const state = localStorage.getItem(DOC_STORE_LS_KEY) as string | null;
+
+    if (state === null) {
+      return;
+    }
+
+    set(JSON.parse(state) as DocStoreState);
+  },
 };
 
-export { useDocStore, docStoreActions };
+export { useDocStore, docStoreActions, DOC_STORE_LS_KEY };
