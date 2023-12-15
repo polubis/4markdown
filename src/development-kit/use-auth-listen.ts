@@ -20,10 +20,13 @@ const config: FirebaseOptions = {
 const app = initializeApp(config);
 const auth = getAuth(app);
 
-const useAuthListen = (
-  onAuthorized: (auth: Auth, user: User) => void,
-  onUnauthorized: (auth: Auth) => void = () => {},
-) => {
+const useAuthListen = ({
+  onAuthorized,
+  onUnauthorized,
+}: {
+  onAuthorized?: (auth: Auth, user: User) => void;
+  onUnauthorized?: (auth: Auth) => void;
+}) => {
   const onAuthRef = useRef(onAuthorized);
   const onUnauthRef = useRef(onUnauthorized);
 
@@ -32,7 +35,7 @@ const useAuthListen = (
 
   React.useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      user ? onAuthRef.current(auth, user) : onUnauthRef.current(auth);
+      user ? onAuthRef.current?.(auth, user) : onUnauthRef.current?.(auth);
     });
   }, []);
 };

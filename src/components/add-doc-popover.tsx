@@ -26,15 +26,17 @@ const AddDocPopover: React.FC = () => {
     signInOutActions.in();
   };
 
-  useAuthListen(() => {
-    const openRequested = !Number.isNaN(
-      Number.parseInt(localStorage.getItem(SS_ADD_REQUESTED_KEY) ?? ``),
-    );
+  useAuthListen({
+    onAuthorized: () => {
+      const openRequested = !Number.isNaN(
+        Number.parseInt(localStorage.getItem(SS_ADD_REQUESTED_KEY) ?? ``),
+      );
 
-    if (menu.closed && openRequested) {
-      localStorage.removeItem(SS_ADD_REQUESTED_KEY);
-      menu.open();
-    }
+      if (menu.closed && openRequested) {
+        localStorage.removeItem(SS_ADD_REQUESTED_KEY);
+        menu.open();
+      }
+    },
   });
 
   return (
