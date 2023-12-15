@@ -22,7 +22,6 @@ const UserPopover = () => {
         i={2}
         disabled={authStore.is === `idle`}
         rfull
-        className="ml-2"
         title={title}
         onClick={handleClick}
       >

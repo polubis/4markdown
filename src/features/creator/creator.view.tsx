@@ -59,12 +59,11 @@ const CreatorView: React.FC = () => {
             title={meta.title}
           />
         </picture>
-        <nav className="flex w-full items-center">
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 lg:block hidden shrink-0" />
+        <nav className="flex gap-2 w-full items-center">
+          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
           <TemplatesPopover />
           <Button
             i={2}
-            className="ml-2"
             rfull
             title="Change view display"
             onClick={creatorStoreActions.divide}
@@ -82,7 +81,7 @@ const CreatorView: React.FC = () => {
           <a
             href=""
             target="_blank"
-            className="ml-2 md:block hidden"
+            className="md:block hidden"
             rel="noopener"
             title="Open in separate window"
           >
@@ -90,7 +89,6 @@ const CreatorView: React.FC = () => {
               <BiWindows className="text-2xl" />
             </Button>
           </a>
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
           <Button
             i={2}
             className="md:flex hidden"
@@ -103,7 +101,7 @@ const CreatorView: React.FC = () => {
           </Button>
           <Button
             i={2}
-            className="ml-2 mr-2 md:flex hidden"
+            className="md:flex hidden"
             rfull
             disabled={code === initialCode}
             title="Reset Content"
@@ -130,6 +128,7 @@ const CreatorView: React.FC = () => {
           </ThemeToggler>
           <UserPopover />
           <MoreNav />
+          <div className="h-1 w-2 shrink-0 block sm:hidden" />
         </nav>
       </header>
       <section
