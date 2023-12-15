@@ -24,14 +24,27 @@ const useDocStore = create<DocStoreState>(() => ({
   invalid: true,
 }));
 
-const { setState: set } = useDocStore;
+const { setState: set, getState: get } = useDocStore;
+const DOC_STORE_LS_KEY = `doc`;
 
 const docStoreActions: DocStoreActions = {
   changeName: (name) => {
-    set({ name, invalid: name.trim().length < 3 });
+    const { is } = get();
+    const newState: DocStoreState = {
+      is,
+      name,
+      invalid: name.trim().length < 3,
+    };
+    set(newState);
+    localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
   },
   create: () => {
-    set({ is: `active` });
+    const newState: DocStoreState = {
+      ...get(),
+      is: `active`,
+    };
+    set(newState);
+    localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
   },
 };
 
