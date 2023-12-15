@@ -3,6 +3,7 @@ import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
+import { docStoreActions, useDocStore } from 'store/doc/doc.store';
 
 const baseClasses = `gap-2 fixed rounded-md p-4 bg-zinc-200 dark:bg-gray-950 shadow-lg z-30`;
 
@@ -13,7 +14,13 @@ interface AddDocPopoverContentProps {
 const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
   onClose,
 }) => {
-  const handleSubmit = (): void => {};
+  const docStore = useDocStore();
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    docStoreActions.create();
+    onClose();
+  };
 
   const Content = (
     <>
@@ -27,6 +34,8 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
         <label className="text-sm font-medium">Document name*</label>
         <input
           placeholder="Type document name..."
+          onChange={(e) => docStoreActions.changeName(e.target.value)}
+          value={docStore.name}
           className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 dark:border-gray-500 border-2 border-gray-600 outline-none"
         />
       </fieldset>
@@ -37,6 +46,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
         className="mt-4"
         rfull
         title="Confirm document creation"
+        disabled={docStore.invalid}
       >
         Create
       </Button>
