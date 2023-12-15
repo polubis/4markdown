@@ -1,9 +1,6 @@
-import Backdrop from 'design-system/backdrop';
+import Popover from 'design-system/popover';
 import CopyButtons from 'features/creator/copy-buttons';
 import React from 'react';
-import c from 'classnames';
-
-const baseClasses = `gap-2 fixed rounded-md p-2 bg-zinc-200 dark:bg-gray-950 shadow-lg z-30`;
 
 interface TemplatesPopoverContentProps {
   onCopy(content: string): void;
@@ -14,33 +11,17 @@ const TemplatesPopoverContent: React.FC<TemplatesPopoverContentProps> = ({
   onCopy,
   onClose,
 }) => {
-  const Content = (
-    <>
+  return (
+    <Popover
+      className="flex gap-2 w-[94%] tn:max-w-max tn:w-auto overflow-y-auto bottom-20 left-2 md:bottom-auto md:top-16"
+      onBackdropClick={onClose}
+    >
       <CopyButtons.Headings onClick={onCopy} />
       <CopyButtons.Link onClick={onCopy} />
       <CopyButtons.Image onClick={onCopy} />
       <CopyButtons.Code onClick={onCopy} />
       <CopyButtons.Table onClick={onCopy} />
-    </>
-  );
-
-  return (
-    <>
-      <div
-        className={c(baseClasses, `hidden md:grid grid-cols-5 left-4 top-16`)}
-      >
-        {Content}
-      </div>
-      <div
-        className={c(
-          baseClasses,
-          `flex md:hidden left-4 right-4 bottom-16 max-w-max overflow-y-auto`,
-        )}
-      >
-        {Content}
-      </div>
-      <Backdrop onClick={onClose} />
-    </>
+    </Popover>
   );
 };
 

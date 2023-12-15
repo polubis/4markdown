@@ -20,7 +20,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
       className="bottom-20 right-2 md:bottom-auto md:top-16"
       onBackdropClick={onClose}
     >
-      <div className="max-w-[280px] flex flex-col p-4">
+      <div className="max-w-[280px] flex flex-col">
         <div className="flex items-center">
           <h6 className="text-xl">Your Account</h6>
           <Button i={2} rfull className="ml-8" onClick={onClose}>
