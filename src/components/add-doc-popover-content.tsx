@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { docStoreActions, useDocStore } from 'store/doc/doc.store';
+import { docStoreActions, docStoreValidators } from 'store/doc/doc.store';
 import Popover from 'design-system/popover';
 
 interface AddDocPopoverContentProps {
@@ -11,11 +11,11 @@ interface AddDocPopoverContentProps {
 const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
   onClose,
 }) => {
-  const docStore = useDocStore();
+  const [name, setName] = React.useState(``);
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    docStoreActions.create();
+    docStoreActions.changeName(name);
     onClose();
   };
 
@@ -35,8 +35,8 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
           <label className="text-sm font-medium">Document name*</label>
           <input
             placeholder="Type document name..."
-            onChange={(e) => docStoreActions.changeName(e.target.value)}
-            value={docStore.name}
+            onChange={(e) => setName(e.target.value)}
+            value={name}
             className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 dark:border-gray-500 border-2 border-gray-600 outline-none"
           />
         </fieldset>
@@ -47,7 +47,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
           className="mt-6"
           rfull
           title="Confirm document creation"
-          disabled={docStore.invalid}
+          disabled={docStoreValidators.name(name)}
         >
           Create
         </Button>

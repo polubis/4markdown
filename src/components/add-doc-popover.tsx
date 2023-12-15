@@ -22,17 +22,17 @@ const AddDocPopover: React.FC = () => {
       return;
     }
 
-    sessionStorage.setItem(SS_ADD_REQUESTED_KEY, `1`);
+    localStorage.setItem(SS_ADD_REQUESTED_KEY, `1`);
     signInOutActions.in();
   };
 
   useAuthListen(() => {
     const openRequested = !Number.isNaN(
-      Number.parseInt(sessionStorage.getItem(SS_ADD_REQUESTED_KEY) ?? ``),
+      Number.parseInt(localStorage.getItem(SS_ADD_REQUESTED_KEY) ?? ``),
     );
 
     if (menu.closed && openRequested) {
-      sessionStorage.removeItem(SS_ADD_REQUESTED_KEY);
+      localStorage.removeItem(SS_ADD_REQUESTED_KEY);
       menu.open();
     }
   });

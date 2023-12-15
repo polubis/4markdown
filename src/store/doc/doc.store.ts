@@ -15,7 +15,6 @@ type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
 interface DocStoreActions {
   changeName(name: string): void;
-  create(): void;
   sync(): void;
 }
 
@@ -25,24 +24,19 @@ const useDocStore = create<DocStoreState>(() => ({
   invalid: true,
 }));
 
-const { setState: set, getState: get } = useDocStore;
+const { setState: set } = useDocStore;
 const DOC_STORE_LS_KEY = `doc`;
+
+const docStoreValidators = {
+  name: (name: string): boolean => name.trim().length < 2,
+};
 
 const docStoreActions: DocStoreActions = {
   changeName: (name) => {
-    const { is } = get();
     const newState: DocStoreState = {
-      is,
       name,
-      invalid: name.trim().length < 3,
-    };
-    set(newState);
-    localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
-  },
-  create: () => {
-    const newState: DocStoreState = {
-      ...get(),
       is: `active`,
+      invalid: docStoreValidators.name(name),
     };
     set(newState);
     localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
@@ -58,4 +52,4 @@ const docStoreActions: DocStoreActions = {
   },
 };
 
-export { useDocStore, docStoreActions, DOC_STORE_LS_KEY };
+export { useDocStore, docStoreActions, DOC_STORE_LS_KEY, docStoreValidators };
