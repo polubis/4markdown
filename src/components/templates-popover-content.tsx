@@ -5,12 +5,12 @@ import c from 'classnames';
 
 const baseClasses = `gap-2 fixed rounded-md p-2 bg-zinc-200 dark:bg-gray-950 shadow-lg z-30`;
 
-interface AddPopoverContentProps {
+interface TemplatesPopoverContentProps {
   onCopy(content: string): void;
   onClose(): void;
 }
 
-const AddPopoverContent: React.FC<AddPopoverContentProps> = ({
+const TemplatesPopoverContent: React.FC<TemplatesPopoverContentProps> = ({
   onCopy,
   onClose,
 }) => {
@@ -44,4 +44,4 @@ const AddPopoverContent: React.FC<AddPopoverContentProps> = ({
   );
 };
 
-export default AddPopoverContent;
+export default TemplatesPopoverContent;

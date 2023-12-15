@@ -4,9 +4,11 @@ import React from 'react';
 import { BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 
-const AddPopoverContent = React.lazy(() => import(`./add-popover-content`));
+const TemplatesPopoverContent = React.lazy(
+  () => import(`./templates-popover-content`),
+);
 
-const AddPopover: React.FC = () => {
+const TemplatesPopover: React.FC = () => {
   const menu = useToggle();
   const [copyState, copy] = useCopy();
 
@@ -28,11 +30,11 @@ const AddPopover: React.FC = () => {
       </Button>
       {menu.opened && (
         <React.Suspense>
-          <AddPopoverContent onCopy={handleCopy} onClose={menu.close} />
+          <TemplatesPopoverContent onCopy={handleCopy} onClose={menu.close} />
         </React.Suspense>
       )}
     </>
   );
 };
 
-export default AddPopover;
+export default TemplatesPopover;
