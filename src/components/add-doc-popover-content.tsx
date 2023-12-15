@@ -25,14 +25,14 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
       onBackdropClick={onClose}
     >
       <form className="max-w-[280px] flex flex-col" onSubmit={handleSubmit}>
-        <div className="flex items-center">
+        <div className="flex items-center mb-2">
           <h6 className="text-xl">Create Document</h6>
           <Button type="button" i={2} rfull className="ml-8" onClick={onClose}>
             <BiX className="text-2xl" />
           </Button>
         </div>
         <fieldset className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium">Document name*</label>
+          <label className="text-sm font-medium">Document Name*</label>
           <input
             placeholder="Type document name..."
             onChange={(e) => setName(e.target.value)}
