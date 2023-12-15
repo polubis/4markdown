@@ -1,29 +1,28 @@
-import type {
-  User as FirebaseUser,
-  Auth,
-  GoogleAuthProvider,
-} from 'firebase/auth';
 import type { User } from 'models/user';
 import { create } from 'zustand';
 
+interface AuthorizedData {
+  user: User;
+  logOut(): void;
+}
+
+interface UnauthrorizedData {
+  logIn(): void;
+}
+
 interface AuthStoreActions {
-  authorize(auth: Auth, provider: GoogleAuthProvider, user: FirebaseUser): void;
-  unauthorize(auth: Auth, provider: GoogleAuthProvider): void;
+  authorize(data: AuthorizedData): void;
+  unauthorize(data: UnauthrorizedData): void;
 }
 
 type AuthStoreStateIdle = { is: 'idle' };
 type AuthStoreStateAuthorized = {
   is: 'authorized';
-  user: User;
-  auth: Auth;
-  provider: GoogleAuthProvider;
-};
+} & AuthorizedData;
 
 type AuthStoreStateUnauthorized = {
   is: 'unauthorized';
-  auth: Auth;
-  provider: GoogleAuthProvider;
-};
+} & UnauthrorizedData;
 
 type AuthStoreState =
   | AuthStoreStateIdle
@@ -41,19 +40,14 @@ const set = (state: AuthStoreState): void => {
 };
 
 const authStoreActions: AuthStoreActions = {
-  authorize: (auth, provider, user) => {
+  authorize: (data) => {
     set({
       is: `authorized`,
-      user: {
-        name: user.displayName,
-        avatar: user.photoURL,
-      },
-      auth,
-      provider,
+      ...data,
     });
   },
-  unauthorize: (auth, provider) => {
-    set({ is: `unauthorized`, auth, provider });
+  unauthorize: (data) => {
+    set({ is: `unauthorized`, ...data });
   },
 };
 

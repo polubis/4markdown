@@ -3,30 +3,29 @@ import React from 'react';
 import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useToggle } from 'development-kit/use-toggle';
-import WithLogIn from 'development-kit/with-log-in';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
 const UserPopover = () => {
   const menu = useToggle();
   const authStore = useAuthStore();
-  const logIn = useToggle();
 
   const title =
     authStore.is === `authorized` ? `User details and options` : `Sign In`;
 
   const handleClick = () => {
+    if (authStore.is === `idle`) return;
+
     if (authStore.is === `authorized`) {
       menu.open();
       return;
     }
 
-    logIn.open();
+    authStore.logIn();
   };
 
   return (
     <>
-      {logIn.opened && <WithLogIn />}
       <Button
         i={2}
         disabled={authStore.is === `idle`}

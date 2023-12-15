@@ -3,23 +3,24 @@ import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import Popover from 'design-system/popover';
-import { useToggle } from 'development-kit/use-toggle';
-import WithLogOut from 'development-kit/with-log-out';
+import { useAuthStore } from 'store/auth/auth.store';
 
 interface UserPopoverContentProps {
   onClose(): void;
 }
 
 const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
-  const logOut = useToggle();
+  const authStore = useAuthStore();
+
   const signOutConfirmation = useConfirm(async () => {
-    logOut.open();
+    if (authStore.is === `authorized`) {
+      authStore.logOut();
+    }
     onClose();
   });
 
   return (
     <>
-      {logOut.opened && <WithLogOut />}
       <Popover
         className="bottom-20 right-2 md:bottom-auto md:top-16"
         onBackdropClick={onClose}

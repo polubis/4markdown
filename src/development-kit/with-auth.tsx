@@ -1,5 +1,14 @@
 import { FirebaseOptions, initializeApp } from 'firebase/app';
-import { GoogleAuthProvider, getAuth, onAuthStateChanged } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  browserLocalPersistence,
+  getAuth,
+  onAuthStateChanged,
+  setPersistence,
+  signInWithPopup,
+  signInWithRedirect,
+  signOut,
+} from 'firebase/auth';
 import React from 'react';
 import { authStoreActions } from 'store/auth/auth.store';
 
@@ -17,12 +26,42 @@ const WithAuth = () => {
 
     const app = initializeApp(config);
     const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       user
-        ? authStoreActions.authorize(auth, provider, user)
-        : authStoreActions.unauthorize(auth, provider);
+        ? authStoreActions.authorize({
+            user: {
+              avatar: user.photoURL,
+              name: user.displayName,
+            },
+            logOut: async () => {
+              try {
+                await signOut(auth);
+              } catch {}
+            },
+          })
+        : authStoreActions.unauthorize({
+            logIn: async () => {
+              const MAX_MOBILE_WIDTH = 768;
+              const provider = new GoogleAuthProvider();
+
+              try {
+                await setPersistence(auth, browserLocalPersistence);
+
+                const isMobileDevice =
+                  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+                    navigator.userAgent,
+                  ) || window.innerWidth <= MAX_MOBILE_WIDTH;
+
+                if (isMobileDevice) {
+                  await signInWithRedirect(auth, provider);
+                  return;
+                }
+
+                await signInWithPopup(auth, provider);
+              } catch (error: unknown) {}
+            },
+          });
     });
 
     return () => {
