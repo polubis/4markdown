@@ -1,4 +1,5 @@
 import { Button } from 'design-system/button';
+import { useAuthListen } from 'development-kit/use-auth-listen';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiEdit, BiSave, BiX } from 'react-icons/bi';
@@ -28,6 +29,10 @@ const DocBar = () => {
     edition.close();
     setName(``);
   };
+
+  useAuthListen({
+    onUnauthorized: docStoreActions.reset,
+  });
 
   return (
     <div className="flex h-[50px] px-4 py-2 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800">

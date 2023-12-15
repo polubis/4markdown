@@ -16,6 +16,7 @@ type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 interface DocStoreActions {
   changeName(name: string): void;
   sync(): void;
+  reset(): void;
 }
 
 const useDocStore = create<DocStoreState>(() => ({
@@ -49,6 +50,14 @@ const docStoreActions: DocStoreActions = {
     }
 
     set(JSON.parse(state) as DocStoreState);
+  },
+  reset: () => {
+    set({
+      is: `idle`,
+      name: ``,
+      invalid: true,
+    });
+    localStorage.removeItem(DOC_STORE_LS_KEY);
   },
 };
 
