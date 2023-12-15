@@ -1,5 +1,5 @@
 import { FirebaseOptions, initializeApp } from '@firebase/app';
-import { getAuth, onAuthStateChanged } from '@firebase/auth';
+import { GoogleAuthProvider, getAuth, onAuthStateChanged } from 'firebase/auth';
 import React from 'react';
 import { authStoreActions } from 'store/auth/auth.store';
 
@@ -17,11 +17,12 @@ const WithAuth = () => {
 
     const app = initializeApp(config);
     const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       user
-        ? authStoreActions.authorize(auth, user)
-        : authStoreActions.unauthorize(auth);
+        ? authStoreActions.authorize(auth, provider, user)
+        : authStoreActions.unauthorize(auth, provider);
     });
 
     return () => {
