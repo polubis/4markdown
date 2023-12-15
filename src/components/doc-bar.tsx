@@ -32,9 +32,9 @@ const DocBar = () => {
   return (
     <div className="flex h-[50px] px-4 py-2 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800">
       {edition.opened ? (
-        <form onSubmit={handleConfirm}>
+        <form className="flex items-center" onSubmit={handleConfirm}>
           <input
-            className="px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 dark:border-gray-500 border-2 border-gray-600 outline-none"
+            className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 dark:border-gray-500 border-2 border-gray-600 outline-none"
             autoFocus
             placeholder="Type Document Name*"
             value={name}
