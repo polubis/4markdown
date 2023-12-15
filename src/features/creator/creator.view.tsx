@@ -50,7 +50,7 @@ const CreatorView: React.FC = () => {
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
-      <header className="flex items-center overflow-x-auto py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
+      <header className="flex items-center overflow-x-auto overflow-y-hidden py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
         <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
           <img
             rel="preload"
@@ -62,30 +62,9 @@ const CreatorView: React.FC = () => {
         <nav className="flex w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 lg:block hidden shrink-0" />
           <TemplatesPopover />
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
           <Button
             i={2}
-            className="md:flex hidden"
-            rfull
-            disabled={code === ``}
-            title="Clear Content"
-            onClick={clearConfirm.confirm}
-          >
-            {clearConfirm.opened ? `Sure?` : `Clear`}
-          </Button>
-          <Button
-            i={2}
-            className="ml-2 mr-2 md:flex hidden"
-            rfull
-            disabled={code === initialCode}
-            title="Reset Content"
-            onClick={resetConfirm.confirm}
-          >
-            {resetConfirm.opened ? `Sure?` : `Reset`}
-          </Button>
-          <Button
-            i={2}
-            className="ml-auto"
+            className="ml-2"
             rfull
             title="Change view display"
             onClick={creatorStoreActions.divide}
@@ -112,12 +91,33 @@ const CreatorView: React.FC = () => {
             </Button>
           </a>
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
+          <Button
+            i={2}
+            className="md:flex hidden"
+            rfull
+            disabled={code === ``}
+            title="Clear Content"
+            onClick={clearConfirm.confirm}
+          >
+            {clearConfirm.opened ? `Sure?` : `Clear`}
+          </Button>
+          <Button
+            i={2}
+            className="ml-2 mr-2 md:flex hidden"
+            rfull
+            disabled={code === initialCode}
+            title="Reset Content"
+            onClick={resetConfirm.confirm}
+          >
+            {resetConfirm.opened ? `Sure?` : `Reset`}
+          </Button>
           <ThemeToggler>
             {({ theme, toggleTheme }) => (
               <Button
                 i={2}
                 title="Change theme"
                 rfull
+                className="ml-auto"
                 onClick={() => toggleTheme(theme === `dark` ? `light` : `dark`)}
               >
                 {theme === `light` ? (
