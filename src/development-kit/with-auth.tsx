@@ -1,4 +1,4 @@
-import { FirebaseOptions, initializeApp } from '@firebase/app';
+import { FirebaseOptions, initializeApp } from 'firebase/app';
 import { GoogleAuthProvider, getAuth, onAuthStateChanged } from 'firebase/auth';
 import React from 'react';
 import { authStoreActions } from 'store/auth/auth.store';
