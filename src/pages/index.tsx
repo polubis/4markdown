@@ -12,6 +12,7 @@ import {
   useCreatorStore,
 } from 'store/creator/creator.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
+import WithAuth from 'development-kit/with-auth';
 
 interface HomePageQuery {
   site: {
@@ -70,7 +71,12 @@ const HomePage: React.FC = () => {
     synced.current = true;
   }
 
-  return <CreatorView />;
+  return (
+    <>
+      <CreatorView />;
+      <WithAuth />
+    </>
+  );
 };
 
 export default HomePage;
