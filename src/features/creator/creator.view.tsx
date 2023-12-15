@@ -3,7 +3,6 @@ import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import Markdown from 'components/markdown';
 import {
   BiBookContent,
-  BiEdit,
   BiMoon,
   BiSolidBookContent,
   BiSun,
@@ -22,10 +21,11 @@ import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from 'components/templates-popover';
 import UserPopover from 'components/user-popover';
 import SaveOnCloudButton from 'components/save-on-cloud-btn';
-import { useAuthStore } from 'store/auth/auth.store';
+import EditionBar from 'components/edition-bar';
+import { useDocsStore } from 'store/docs/docs.store';
 
 const CreatorView: React.FC = () => {
-  const authStore = useAuthStore();
+  const docsStore = useDocsStore();
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
 
@@ -138,14 +138,7 @@ const CreatorView: React.FC = () => {
           <MoreNav />
         </nav>
       </header>
-      {authStore.is === `authorized` && (
-        <div className="flex px-4 py-2 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800">
-          <h6 className="text-xl font-bold">Unknown</h6>
-          <Button i={2} className="ml-2" rfull title="Change name">
-            <BiEdit />
-          </Button>
-        </div>
-      )}
+      {docsStore.is !== `idle` && <EditionBar />}
       <section
         className={c(`grid h-[calc(100svh-72px)]`, {
           'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':

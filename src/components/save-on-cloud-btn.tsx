@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'design-system/button';
 import { BiSave } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { signInOutActions } from 'store/sign-in-out/sign-in-out.actions';
+import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
 
 const SaveOnCloudButton = () => {
+  const docsStore = useDocsStore();
   const authStore = useAuthStore();
 
-  const handleClick =
-    authStore.is === `authorized` ? () => {} : signInOutActions.in;
+  const handleClick = (): void => {
+    if (authStore.is === `authorized`) {
+      return;
+    }
+
+    docsStoreActions.init();
+    signInOutActions.in();
+  };
+
+  if (
+    authStore.is === `authorized` &&
+    docsStore.is === `create-after-sign-in`
+  ) {
+    docsStoreActions.init();
+  }
 
   return (
     <Button
