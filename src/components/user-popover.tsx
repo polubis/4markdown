@@ -3,14 +3,14 @@ import React from 'react';
 import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useToggle } from 'development-kit/use-toggle';
-import { useSignIn } from 'development-kit/use-sign-in';
+import WithLogIn from 'development-kit/with-log-in';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
 const UserPopover = () => {
   const menu = useToggle();
   const authStore = useAuthStore();
-  const [logIn] = useSignIn();
+  const logIn = useToggle();
 
   const title =
     authStore.is === `authorized` ? `User details and options` : `Sign In`;
@@ -21,11 +21,12 @@ const UserPopover = () => {
       return;
     }
 
-    logIn();
+    logIn.open();
   };
 
   return (
     <>
+      {logIn.opened && <WithLogIn />}
       <Button
         i={2}
         disabled={authStore.is === `idle`}
