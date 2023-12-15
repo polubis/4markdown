@@ -154,10 +154,16 @@ const CreatorView: React.FC = () => {
         </React.Suspense>
       )}
       <section
-        className={c(`grid h-[calc(100svh-72px)]`, {
-          'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
-            divideMode === `both`,
-        })}
+        className={c(
+          `grid`,
+          docStore.is === `active`
+            ? `h-[calc(100svh-72px-50px)]`
+            : `h-[calc(100svh-72px)]`,
+          {
+            'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
+              divideMode === `both`,
+          },
+        )}
       >
         <label className="hidden" htmlFor="creator" id="creator">
           Creator
