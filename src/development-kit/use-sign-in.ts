@@ -1,14 +1,15 @@
-// import { useAuthStore } from 'store/auth/auth.store';
+import { useAuthStore } from 'store/auth/auth.store';
 
 const MAX_MOBILE_WIDTH = 768;
 
 const useSignIn = () => {
   const logIn = async () => {
-    // const state = useAuthStore.getState();
-    // if (state.is === `idle` || state.is === `authorized`) {
-    //   return;
-    // }
-    // const { auth, provider } = state;
+    const state = useAuthStore.getState();
+
+    if (state.is === `idle` || state.is === `authorized`) {
+      return;
+    }
+    const { auth, provider } = state;
     // const {
     // browserLocalPersistence,
     // setPersistence,
@@ -30,10 +31,11 @@ const useSignIn = () => {
   };
 
   const logOut = async () => {
-    // const state = useAuthStore.getState();
-    // if (state.is === `idle` || state.is === `unauthorized`) {
-    //   return;
-    // }
+    const state = useAuthStore.getState();
+
+    if (state.is === `idle` || state.is === `unauthorized`) {
+      return;
+    }
     // try {
     //   await signOut(state.auth);
     // } catch (error: unknown) {}
