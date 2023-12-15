@@ -21,11 +21,18 @@ import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from 'components/templates-popover';
 import UserPopover from 'components/user-popover';
 import AddDocPopover from 'components/add-doc-popover';
-import { DOC_STORE_LS_KEY, docStoreActions } from 'store/doc/doc.store';
+import {
+  DOC_STORE_LS_KEY,
+  docStoreActions,
+  useDocStore,
+} from 'store/doc/doc.store';
+
+const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
+  const docStore = useDocStore();
 
   React.useEffect(() => {
     creatorStoreActions.sync();
@@ -59,7 +66,7 @@ const CreatorView: React.FC = () => {
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
-      <header className="flex items-center overflow-x-auto overflow-y-hidden py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
+      <header className="flex items-center overflow-x-auto overflow-y-hidden py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800 h-[72px]">
         <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
           <img
             rel="preload"
@@ -141,6 +148,11 @@ const CreatorView: React.FC = () => {
           <div className="h-1 w-2 shrink-0 block sm:hidden" />
         </nav>
       </header>
+      {docStore.is === `active` && (
+        <React.Suspense>
+          <DocBar />
+        </React.Suspense>
+      )}
       <section
         className={c(`grid h-[calc(100svh-72px)]`, {
           'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
