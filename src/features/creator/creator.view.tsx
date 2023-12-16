@@ -20,6 +20,7 @@ import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.sto
 import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from 'components/templates-popover';
 import UserPopover from 'components/user-popover';
+import AddDocPopover from 'components/add-doc-popover';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
@@ -63,6 +64,7 @@ const CreatorView: React.FC = () => {
         </picture>
         <nav className="flex gap-2 w-full items-center">
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
+          <AddDocPopover />
           <TemplatesPopover />
           <Button
             i={2}
