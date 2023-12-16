@@ -7,7 +7,7 @@ const baseClasses = `fixed rounded-md bg-zinc-200 dark:bg-gray-950 shadow-lg z-3
 interface PopoverProps {
   className: string;
   children: React.ReactNode;
-  onBackdropClick(): void;
+  onBackdropClick?(): void;
 }
 
 const Popover = ({ className, children, onBackdropClick }: PopoverProps) => {

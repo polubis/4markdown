@@ -25,11 +25,15 @@ import { useDocStore } from 'store/doc/doc.store';
 
 const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 
+type DivideMode = 'both' | 'preview' | 'code';
+
 const CreatorView: React.FC = () => {
   useLsSync();
+
   const meta = siteMetadatStoreSelectors.useReady();
   const docStore = useDocStore();
-  const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
+  const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
+  const { code, initialCode } = creatorStoreSelectors.useReady();
 
   const handleChange = (value: string): void => {
     creatorStoreActions.change(value);
@@ -37,6 +41,20 @@ const CreatorView: React.FC = () => {
 
   const clearConfirm = useConfirm(() => handleChange(``));
   const resetConfirm = useConfirm(() => handleChange(initialCode));
+
+  const divide = (): void => {
+    if (divideMode === `both`) {
+      setDivideMode(`code`);
+      return;
+    }
+
+    if (divideMode === `code`) {
+      setDivideMode(`preview`);
+      return;
+    }
+
+    setDivideMode(`both`);
+  };
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
@@ -53,12 +71,7 @@ const CreatorView: React.FC = () => {
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
           <AddDocPopover />
           <TemplatesPopover />
-          <Button
-            i={2}
-            rfull
-            title="Change view display"
-            onClick={creatorStoreActions.divide}
-          >
+          <Button i={2} rfull title="Change view display" onClick={divide}>
             {divideMode === `both` && (
               <BiBookContent className="text-2xl rotate-90 md:rotate-0" />
             )}
@@ -128,10 +141,16 @@ const CreatorView: React.FC = () => {
         </React.Suspense>
       )}
       <section
-        className={c(`grid h-[calc(100svh-72px)]`, {
-          'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
-            divideMode === `both`,
-        })}
+        className={c(
+          `grid`,
+          docStore.is === `active`
+            ? `h-[calc(100svh-72px-50px)]`
+            : `h-[calc(100svh-72px)]`,
+          {
+            'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
+              divideMode === `both`,
+          },
+        )}
       >
         <label className="hidden" htmlFor="creator" id="creator">
           Creator

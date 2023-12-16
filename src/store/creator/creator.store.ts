@@ -61,14 +61,12 @@ Any suggestions, comments, or ideas for improvement? Feel free to join our [Disc
 interface CreatorStoreActions {
   change(code: string): void;
   sync(): void;
-  divide(): void;
 }
 
 type CreatorStoreStateIdle = { is: 'idle' };
 type CreatorStoreStateReady = { is: 'ready' } & {
   initialCode: string;
   code: string;
-  divideMode: 'both' | 'preview' | 'code';
 };
 
 interface CreatorStoreSelectors {
@@ -110,21 +108,6 @@ const creatorStoreActions: CreatorStoreActions = {
     if (code !== null) {
       set({ code });
     }
-  },
-  divide: () => {
-    const { divideMode } = creatorStoreSelectors.ready();
-
-    if (divideMode === `both`) {
-      set({ divideMode: `code` });
-      return;
-    }
-
-    if (divideMode === `code`) {
-      set({ divideMode: `preview` });
-      return;
-    }
-
-    set({ divideMode: `both` });
   },
 };
 

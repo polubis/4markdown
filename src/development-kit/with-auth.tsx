@@ -1,3 +1,4 @@
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { FirebaseOptions, initializeApp } from 'firebase/app';
 import {
   GoogleAuthProvider,
@@ -11,9 +12,16 @@ import {
 } from 'firebase/auth';
 import React from 'react';
 import { authStoreActions } from 'store/auth/auth.store';
+import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
+import { docStoreActions } from 'store/doc/doc.store';
+import type { Doc } from 'models/doc';
+import { creatorStoreSelectors } from 'store/creator/creator.store';
+
+const ENDPOINTS = {
+  createDoc: `createDoc`,
+} as const;
 
 const WithAuth = () => {
-
   React.useEffect(() => {
     const config: FirebaseOptions = {
       apiKey: process.env.GATSBY_API_KEY,
@@ -27,6 +35,8 @@ const WithAuth = () => {
 
     const app = initializeApp(config);
     const auth = getAuth(app);
+    const functions = getFunctions(app);
+    const provider = new GoogleAuthProvider();
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       user
@@ -38,13 +48,27 @@ const WithAuth = () => {
             logOut: async () => {
               try {
                 await signOut(auth);
+                docStoreActions.reset();
               } catch {}
+            },
+            createDoc: async (name) => {
+              const { code } = creatorStoreSelectors.ready();
+
+              const doc: Doc = { name, code };
+
+              try {
+                docManagementStoreActions.busy();
+                await httpsCallable<Doc>(functions, ENDPOINTS.createDoc)(doc);
+                docManagementStoreActions.ok();
+                docStoreActions.changeName(doc.name);
+              } catch (error: unknown) {
+                docManagementStoreActions.fail(error);
+              }
             },
           })
         : authStoreActions.unauthorize({
             logIn: async () => {
               const MAX_MOBILE_WIDTH = 768;
-              const provider = new GoogleAuthProvider();
 
               try {
                 await setPersistence(auth, browserLocalPersistence);

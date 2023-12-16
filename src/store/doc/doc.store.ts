@@ -1,11 +1,11 @@
 import type { Doc } from 'models/doc';
 import { create } from 'zustand';
 
-interface DocStoreIdleState extends Doc {
+interface DocStoreIdleState extends Pick<Doc, 'name'> {
   is: 'idle';
 }
 
-interface DocStoreActiveState extends Doc {
+interface DocStoreActiveState extends Pick<Doc, 'name'> {
   is: 'active';
 }
 
@@ -14,6 +14,7 @@ type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 interface DocStoreActions {
   changeName(name: string): void;
   sync(): void;
+  reset(): void;
 }
 
 const useDocStore = create<DocStoreState>(() => ({
@@ -45,6 +46,13 @@ const docStoreActions: DocStoreActions = {
     }
 
     set(JSON.parse(state) as DocStoreState);
+  },
+  reset: () => {
+    set({
+      is: `idle`,
+      name: ``,
+    });
+    localStorage.removeItem(DOC_STORE_LS_KEY);
   },
 };
 
