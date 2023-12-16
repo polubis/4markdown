@@ -8,7 +8,11 @@ module.exports = {
   ],
   darkMode: `class`,
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        tn: `400px`,
+      },
+    },
   },
   plugins: [],
 };
