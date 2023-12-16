@@ -33,13 +33,12 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
             </Button>
           </div>
           <Button
-            overlay={signOutConfirmation.opened ? `Sure?` : undefined}
             className="mt-20 ml-auto"
             i={2}
             rfull
             onClick={signOutConfirmation.confirm}
           >
-            Sign Out
+            {signOutConfirmation.opened ? `Are You Sure?` : `Sign Out`}
           </Button>
         </div>
       </Popover>
