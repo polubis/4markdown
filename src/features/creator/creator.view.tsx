@@ -18,13 +18,16 @@ import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
-import AddPopover from 'components/add-popover';
+import TemplatesPopover from 'components/templates-popover';
+import UserPopover from 'components/user-popover';
 
 const CreatorView: React.FC = () => {
   const meta = siteMetadatStoreSelectors.useReady();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
 
-  React.useEffect(() => creatorStoreActions.sync(), []);
+  React.useEffect(() => {
+    creatorStoreActions.sync();
+  }, []);
 
   React.useEffect(() => {
     const listener = (event: StorageEvent) => {
@@ -49,7 +52,7 @@ const CreatorView: React.FC = () => {
 
   return (
     <main className="flex h-full md:flex-col flex-col-reverse">
-      <header className="flex items-center py-2 px-4 bg-zinc-200 dark:bg-gray-950 border-b-2 border-zinc-300 dark:border-zinc-800 h-[72px]">
+      <header className="flex items-center overflow-x-auto overflow-y-hidden py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800 h-[72px]">
         <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
           <img
             rel="preload"
@@ -58,33 +61,11 @@ const CreatorView: React.FC = () => {
             title={meta.title}
           />
         </picture>
-        <nav className="flex w-full items-center">
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 lg:block hidden shrink-0" />
-          <AddPopover />
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
+        <nav className="flex gap-2 w-full items-center">
+          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
+          <TemplatesPopover />
           <Button
             i={2}
-            className="md:flex hidden"
-            rfull
-            disabled={code === ``}
-            title="Clear Content"
-            onClick={clearConfirm.confirm}
-          >
-            {clearConfirm.opened ? `Sure?` : `Clear`}
-          </Button>
-          <Button
-            i={2}
-            className="ml-2 mr-2 md:flex hidden"
-            rfull
-            disabled={code === initialCode}
-            title="Reset Content"
-            onClick={resetConfirm.confirm}
-          >
-            {resetConfirm.opened ? `Sure?` : `Reset`}
-          </Button>
-          <Button
-            i={2}
-            className="ml-auto"
             rfull
             title="Change view display"
             onClick={creatorStoreActions.divide}
@@ -102,7 +83,7 @@ const CreatorView: React.FC = () => {
           <a
             href=""
             target="_blank"
-            className="ml-2 md:block hidden"
+            className="md:block hidden"
             rel="noopener"
             title="Open in separate window"
           >
@@ -110,13 +91,33 @@ const CreatorView: React.FC = () => {
               <BiWindows className="text-2xl" />
             </Button>
           </a>
-          <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-3 shrink-0" />
+          <Button
+            i={2}
+            className="md:flex hidden"
+            rfull
+            disabled={code === ``}
+            title="Clear Content"
+            onClick={clearConfirm.confirm}
+          >
+            {clearConfirm.opened ? `Sure?` : `Clear`}
+          </Button>
+          <Button
+            i={2}
+            className="md:flex hidden"
+            rfull
+            disabled={code === initialCode}
+            title="Reset Content"
+            onClick={resetConfirm.confirm}
+          >
+            {resetConfirm.opened ? `Sure?` : `Reset`}
+          </Button>
           <ThemeToggler>
             {({ theme, toggleTheme }) => (
               <Button
                 i={2}
                 title="Change theme"
                 rfull
+                className="ml-auto"
                 onClick={() => toggleTheme(theme === `dark` ? `light` : `dark`)}
               >
                 {theme === `light` ? (
@@ -127,7 +128,9 @@ const CreatorView: React.FC = () => {
               </Button>
             )}
           </ThemeToggler>
+          <UserPopover />
           <MoreNav />
+          <div className="h-1 w-2 shrink-0 block sm:hidden" />
         </nav>
       </header>
       <section

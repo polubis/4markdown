@@ -8,21 +8,18 @@ const Code = ({
   className = `language-javascript`,
   children,
 }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
-  const id = React.useId();
+  const ref = React.useRef<HTMLElement | null>(null);
 
   React.useLayoutEffect(() => {
-    const wrapper = document.getElementById(id);
-
-    if (!wrapper) {
-      console.error(`Cannot highlight because there is a missing wrapper.`);
-      return;
+    if (!ref.current) {
+      throw Error(`Cannot highlight because there is a missing wrapper.`);
     }
 
-    highlightElement(wrapper);
-  }, [children, id, className]);
+    highlightElement(ref.current);
+  }, [children, className]);
 
   return (
-    <code id={id} className={className}>
+    <code ref={ref} className={className}>
       {children}
     </code>
   );

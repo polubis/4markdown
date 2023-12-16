@@ -3,7 +3,7 @@ body.dark {
   background: var(--black);
 }
 
-body.dark :is(h1, h2, h3, h4, h5, h6, p, li, a) {
+body.dark :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input) {
   color: var(--white);
 }
 

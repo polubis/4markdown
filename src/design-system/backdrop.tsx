@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface BackdropProps {
-  onClick(): void;
+  onClick?(): void;
 }
 
 const Backdrop = ({ onClick }: BackdropProps) => {
