@@ -10,7 +10,6 @@ import {
 } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import {
-  CREATOR_STORE_LS_KEY,
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
@@ -21,28 +20,16 @@ import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from 'components/templates-popover';
 import UserPopover from 'components/user-popover';
 import AddDocPopover from 'components/add-doc-popover';
+import { useLsSync } from 'development-kit/use-ls-sync';
+import { useDocStore } from 'store/doc/doc.store';
+
+const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 
 const CreatorView: React.FC = () => {
+  useLsSync();
   const meta = siteMetadatStoreSelectors.useReady();
+  const docStore = useDocStore();
   const { code, initialCode, divideMode } = creatorStoreSelectors.useReady();
-
-  React.useEffect(() => {
-    creatorStoreActions.sync();
-  }, []);
-
-  React.useEffect(() => {
-    const listener = (event: StorageEvent) => {
-      if (event.key === CREATOR_STORE_LS_KEY && event.newValue !== null) {
-        creatorStoreActions.sync();
-      }
-    };
-
-    window.addEventListener(`storage`, listener);
-
-    return () => {
-      window.removeEventListener(`storage`, listener);
-    };
-  }, []);
 
   const handleChange = (value: string): void => {
     creatorStoreActions.change(value);
@@ -135,6 +122,11 @@ const CreatorView: React.FC = () => {
           <div className="h-1 w-2 shrink-0 block sm:hidden" />
         </nav>
       </header>
+      {docStore.is === `active` && (
+        <React.Suspense>
+          <DocBar />
+        </React.Suspense>
+      )}
       <section
         className={c(`grid h-[calc(100svh-72px)]`, {
           'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import Popover from 'design-system/popover';
+import { docStoreActions, docStoreValidators } from 'store/doc/doc.store';
 
 interface AddDocPopoverContentProps {
   onClose(): void;
@@ -14,6 +15,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    docStoreActions.changeName(name);
     onClose();
   };
 
@@ -45,6 +47,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
           className="mt-6"
           rfull
           title="Confirm document creation"
+          disabled={docStoreValidators.name(name)}
         >
           Create
         </Button>

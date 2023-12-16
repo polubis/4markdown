@@ -13,6 +13,7 @@ import React from 'react';
 import { authStoreActions } from 'store/auth/auth.store';
 
 const WithAuth = () => {
+
   React.useEffect(() => {
     const config: FirebaseOptions = {
       apiKey: process.env.GATSBY_API_KEY,
