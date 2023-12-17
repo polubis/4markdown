@@ -26,8 +26,12 @@ const useDocStore = create<DocStoreState>(() => ({
   is: `idle`,
 }));
 
-const { setState: set } = useDocStore;
+const { setState } = useDocStore;
 const DOC_STORE_LS_KEY = `doc`;
+
+const set = (state: DocStoreState): void => {
+  setState(state, true);
+};
 
 const docStoreValidators = {
   name: (name: string): boolean => name.trim().length < 2,
