@@ -27,8 +27,6 @@ const AddDocPopover: React.FC = () => {
   };
 
   React.useEffect(() => {
-    if (menu.opened || authStore.is !== `authorized`) return;
-
     const openRequested = !Number.isNaN(
       Number.parseInt(localStorage.getItem(SS_ADD_REQUESTED_KEY) ?? ``),
     );
@@ -37,7 +35,8 @@ const AddDocPopover: React.FC = () => {
       localStorage.removeItem(SS_ADD_REQUESTED_KEY);
       menu.open();
     }
-  }, [authStore, menu]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

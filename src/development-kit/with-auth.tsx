@@ -6,7 +6,6 @@ import {
   getAuth,
   onAuthStateChanged,
   setPersistence,
-  signInWithPopup,
   signInWithRedirect,
   signOut,
 } from 'firebase/auth';
@@ -89,22 +88,9 @@ const WithAuth = () => {
           })
         : authStoreActions.unauthorize({
             logIn: async () => {
-              const MAX_MOBILE_WIDTH = 768;
-
               try {
                 await setPersistence(auth, browserLocalPersistence);
-
-                const isMobileDevice =
-                  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-                    navigator.userAgent,
-                  ) || window.innerWidth <= MAX_MOBILE_WIDTH;
-
-                if (isMobileDevice) {
-                  await signInWithRedirect(auth, provider);
-                  return;
-                }
-
-                await signInWithPopup(auth, provider);
+                await signInWithRedirect(auth, provider);
               } catch (error: unknown) {}
             },
           });
