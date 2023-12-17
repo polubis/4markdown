@@ -39,61 +39,64 @@ const WithAuth = () => {
     const provider = new GoogleAuthProvider();
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      user
-        ? authStoreActions.authorize({
-            user: {
-              avatar: user.photoURL,
-              name: user.displayName,
-            },
-            logOut: async () => {
-              try {
-                await signOut(auth);
-                docStoreActions.reset();
-              } catch {}
-            },
-            createDoc: async (name) => {
-              const { code } = creatorStoreSelectors.ready();
+      if (user) {
+        authStoreActions.authorize({
+          user: {
+            avatar: user.photoURL,
+            name: user.displayName,
+          },
+          logOut: async () => {
+            try {
+              await signOut(auth);
+            } catch {}
+          },
+          createDoc: async (name) => {
+            const { code } = creatorStoreSelectors.ready();
 
-              const doc: Omit<Doc, 'id'> = { name, code };
+            const doc: Omit<Doc, 'id'> = { name, code };
 
-              try {
-                docManagementStoreActions.busy();
-                const { data: id } = await httpsCallable<
-                  Omit<Doc, 'id'>,
-                  Doc['id']
-                >(
-                  functions,
-                  ENDPOINTS.createDoc,
-                )(doc);
-                docManagementStoreActions.ok();
-                docStoreActions.changeName(id, doc.name);
-              } catch (error: unknown) {
-                docManagementStoreActions.fail(error);
-              }
-            },
-            updateDoc: async (name) => {
-              const { id } = docStoreSelectors.active();
-              const { code } = creatorStoreSelectors.ready();
-              const doc: Doc = { id, name, code };
+            try {
+              docManagementStoreActions.busy();
+              const { data: id } = await httpsCallable<
+                Omit<Doc, 'id'>,
+                Doc['id']
+              >(
+                functions,
+                ENDPOINTS.createDoc,
+              )(doc);
+              docManagementStoreActions.ok();
+              docStoreActions.changeName(id, doc.name);
+            } catch (error: unknown) {
+              docManagementStoreActions.fail(error);
+            }
+          },
+          updateDoc: async (name) => {
+            const { id } = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+            const doc: Doc = { id, name, code };
 
-              try {
-                docManagementStoreActions.busy();
-                await httpsCallable<Doc>(functions, ENDPOINTS.updateDoc)(doc);
-                docManagementStoreActions.ok();
-                docStoreActions.changeName(id, doc.name);
-              } catch (error: unknown) {
-                docManagementStoreActions.fail(error);
-              }
-            },
-          })
-        : authStoreActions.unauthorize({
-            logIn: async () => {
-              try {
-                await setPersistence(auth, browserLocalPersistence);
-                await signInWithRedirect(auth, provider);
-              } catch (error: unknown) {}
-            },
-          });
+            try {
+              docManagementStoreActions.busy();
+              await httpsCallable<Doc>(functions, ENDPOINTS.updateDoc)(doc);
+              docManagementStoreActions.ok();
+              docStoreActions.changeName(id, doc.name);
+            } catch (error: unknown) {
+              docManagementStoreActions.fail(error);
+            }
+          },
+        });
+        return;
+      }
+
+      docStoreActions.reset();
+      authStoreActions.unauthorize({
+        logIn: async () => {
+          try {
+            await setPersistence(auth, browserLocalPersistence);
+            await signInWithRedirect(auth, provider);
+          } catch (error: unknown) {}
+        },
+      });
     });
 
     return () => {
