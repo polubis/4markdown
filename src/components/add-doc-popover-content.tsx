@@ -52,6 +52,11 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
             className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black dark:border-white outline-none"
           />
         </fieldset>
+        {docManagementStore.is === `fail` && (
+          <p className="text-red-600 dark:text-red-400 text-sm mt-2">
+            {docManagementStore.error}
+          </p>
+        )}
 
         <Button
           type="submit"

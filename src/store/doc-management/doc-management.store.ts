@@ -1,3 +1,4 @@
+import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'models/transaction';
 import { create } from 'zustand';
 
@@ -17,7 +18,7 @@ const docManagementStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
   ok: () => set({ is: `ok` }),
-  fail: (error: unknown) => set({ is: `fail`, error }),
+  fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 } as const;
 
 export { useDocManagementStore, docManagementStoreActions };

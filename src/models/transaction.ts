@@ -4,6 +4,6 @@ type Transaction<
   | { is: 'idle' }
   | { is: 'busy' }
   | (T extends undefined ? { is: 'ok' } : { is: 'ok' } & T)
-  | { is: 'fail'; error: unknown };
+  | { is: 'fail'; error: string };
 
 export type { Transaction };

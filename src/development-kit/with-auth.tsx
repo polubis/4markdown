@@ -68,6 +68,7 @@ const WithAuth = () => {
               docStoreActions.changeName(id, doc.name);
             } catch (error: unknown) {
               docManagementStoreActions.fail(error);
+              throw error;
             }
           },
           updateDoc: async (name) => {
