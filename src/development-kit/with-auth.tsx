@@ -13,12 +13,13 @@ import {
 import React from 'react';
 import { authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
-import { docStoreActions } from 'store/doc/doc.store';
+import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import type { Doc } from 'models/doc';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 
 const ENDPOINTS = {
   createDoc: `createDoc`,
+  updateDoc: `updateDoc`,
 } as const;
 
 const WithAuth = () => {
@@ -54,13 +55,33 @@ const WithAuth = () => {
             createDoc: async (name) => {
               const { code } = creatorStoreSelectors.ready();
 
-              const doc: Doc = { name, code };
+              const doc: Omit<Doc, 'id'> = { name, code };
 
               try {
                 docManagementStoreActions.busy();
-                await httpsCallable<Doc>(functions, ENDPOINTS.createDoc)(doc);
+                const { data: id } = await httpsCallable<
+                  Omit<Doc, 'id'>,
+                  Doc['id']
+                >(
+                  functions,
+                  ENDPOINTS.createDoc,
+                )(doc);
                 docManagementStoreActions.ok();
-                docStoreActions.changeName(doc.name);
+                docStoreActions.changeName(id, doc.name);
+              } catch (error: unknown) {
+                docManagementStoreActions.fail(error);
+              }
+            },
+            updateDoc: async (name) => {
+              const { id } = docStoreSelectors.active();
+              const { code } = creatorStoreSelectors.ready();
+              const doc: Doc = { id, name, code };
+
+              try {
+                docManagementStoreActions.busy();
+                await httpsCallable<Doc>(functions, ENDPOINTS.updateDoc)(doc);
+                docManagementStoreActions.ok();
+                docStoreActions.changeName(id, doc.name);
               } catch (error: unknown) {
                 docManagementStoreActions.fail(error);
               }

@@ -2,20 +2,17 @@ import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiEdit, BiSave, BiX } from 'react-icons/bi';
-import {
-  docStoreActions,
-  docStoreValidators,
-  useDocStore,
-} from 'store/doc/doc.store';
+import { authStoreSelectors } from 'store/auth/auth.store';
+import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 
 const DocBar = () => {
-  const docStore = useDocStore();
+  const docStore = docStoreSelectors.useActive();
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
 
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    docStoreActions.changeName(name);
+    authStoreSelectors.authorized().updateDoc(name);
     edition.close();
   };
 

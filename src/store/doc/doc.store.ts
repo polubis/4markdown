@@ -1,25 +1,29 @@
 import type { Doc } from 'models/doc';
 import { create } from 'zustand';
 
-interface DocStoreIdleState extends Pick<Doc, 'name'> {
+interface DocStoreIdleState {
   is: 'idle';
 }
 
-interface DocStoreActiveState extends Pick<Doc, 'name'> {
+interface DocStoreActiveState extends Pick<Doc, 'name' | 'id'> {
   is: 'active';
 }
 
 type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
 interface DocStoreActions {
-  changeName(name: string): void;
-  sync(): void;
+  changeName(id: Doc['id'], name: Doc['name']): void;
   reset(): void;
+  sync(): void;
+}
+
+interface DocStoreSelectors {
+  active(): DocStoreActiveState;
+  useActive(): DocStoreActiveState;
 }
 
 const useDocStore = create<DocStoreState>(() => ({
   is: `idle`,
-  name: ``,
 }));
 
 const { setState: set } = useDocStore;
@@ -29,9 +33,23 @@ const docStoreValidators = {
   name: (name: string): boolean => name.trim().length < 2,
 };
 
+const getActiveState = (state: DocStoreState): DocStoreActiveState => {
+  if (state.is === `idle`) {
+    throw Error(`Tried to read in not allowed state`);
+  }
+
+  return state;
+};
+
+const docStoreSelectors: DocStoreSelectors = {
+  active: () => getActiveState(useDocStore.getState()),
+  useActive: () => useDocStore(getActiveState),
+};
+
 const docStoreActions: DocStoreActions = {
-  changeName: (name) => {
+  changeName: (id, name) => {
     const newState: DocStoreState = {
+      id,
       name,
       is: `active`,
     };
@@ -50,10 +68,15 @@ const docStoreActions: DocStoreActions = {
   reset: () => {
     set({
       is: `idle`,
-      name: ``,
     });
     localStorage.removeItem(DOC_STORE_LS_KEY);
   },
 };
 
-export { useDocStore, docStoreActions, DOC_STORE_LS_KEY, docStoreValidators };
+export {
+  useDocStore,
+  docStoreActions,
+  DOC_STORE_LS_KEY,
+  docStoreValidators,
+  docStoreSelectors,
+};
