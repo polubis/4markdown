@@ -91,6 +91,7 @@ const WithAuth = () => {
       }
 
       docStoreActions.reset();
+      docManagementStoreActions.idle();
       authStoreActions.unauthorize({
         logIn: async () => {
           try {
