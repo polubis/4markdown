@@ -18,7 +18,7 @@ import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
-import { docsStoreActions } from 'store/docs/docs.store';
+import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
 
 const ENDPOINTS = {
   createDoc: `createDoc`,
@@ -43,7 +43,28 @@ const WithAuth = () => {
     const functions = getFunctions(app);
     const provider = new GoogleAuthProvider();
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const getDocs = async (): Promise<void> => {
+      const state = useDocsStore.getState();
+
+      if (state.is === `ok` || state.is === `busy`) {
+        throw Error(`Trying to load docs in invalid state`);
+      }
+
+      try {
+        docsStoreActions.busy();
+
+        const { data } = await httpsCallable<undefined, Doc[]>(
+          functions,
+          ENDPOINTS.getDocs,
+        )();
+
+        docsStoreActions.ok(data);
+      } catch (error: unknown) {
+        docsStoreActions.fail(error);
+      }
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         authStoreActions.authorize({
           user: {
@@ -54,20 +75,6 @@ const WithAuth = () => {
             try {
               await signOut(auth);
             } catch {}
-          },
-          getDocs: async () => {
-            try {
-              docsStoreActions.busy();
-
-              const { data } = await httpsCallable<undefined, Doc[]>(
-                functions,
-                ENDPOINTS.getDocs,
-              )();
-
-              docsStoreActions.ok(data);
-            } catch (error: unknown) {
-              docsStoreActions.fail(error);
-            }
           },
           createDoc: async (name) => {
             const { code } = creatorStoreSelectors.ready();
@@ -107,6 +114,8 @@ const WithAuth = () => {
             }
           },
         });
+        getDocs();
+
         return;
       }
 

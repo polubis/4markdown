@@ -7,7 +7,6 @@ interface AuthorizedData {
   logOut(): void;
   createDoc(name: Doc['name']): Promise<void>;
   updateDoc(name: Doc['name']): Promise<void>;
-  getDocs(): Promise<void>;
 }
 
 interface UnauthrorizedData {
