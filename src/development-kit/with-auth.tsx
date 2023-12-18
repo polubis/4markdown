@@ -19,6 +19,7 @@ import { creatorStoreSelectors } from 'store/creator/creator.store';
 const ENDPOINTS = {
   createDoc: `createDoc`,
   updateDoc: `updateDoc`,
+  getDocs: `getDocs`,
 } as const;
 
 const WithAuth = () => {
@@ -57,15 +58,15 @@ const WithAuth = () => {
 
             try {
               docManagementStoreActions.busy();
-              const { data: id } = await httpsCallable<
+              const { data } = await httpsCallable<
                 Omit<Doc, 'id'>,
-                Doc['id']
+                { id: Doc['id'] }
               >(
                 functions,
                 ENDPOINTS.createDoc,
               )(doc);
               docManagementStoreActions.ok();
-              docStoreActions.changeName(id, doc.name);
+              docStoreActions.changeName(data.id, doc.name);
             } catch (error: unknown) {
               docManagementStoreActions.fail(error);
               throw error;
