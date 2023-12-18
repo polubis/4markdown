@@ -53,12 +53,19 @@ const WithAuth = () => {
       try {
         docsStoreActions.busy();
 
-        const { data } = await httpsCallable<undefined, Doc[]>(
+        const { data: docs } = await httpsCallable<undefined, Doc[]>(
           functions,
           ENDPOINTS.getDocs,
         )();
 
-        docsStoreActions.ok(data);
+        docsStoreActions.ok(docs);
+
+        if (docs.length > 0) {
+          const [{ id, name, code }] = docs;
+          docStoreActions.changeName(id, name);
+          creatorStoreActions.change(code);
+          creatorStoreActions.setPrevCode(code);
+        }
       } catch (error: unknown) {
         docsStoreActions.fail(error);
       }
@@ -79,12 +86,12 @@ const WithAuth = () => {
           createDoc: async (name) => {
             const { code } = creatorStoreSelectors.ready();
 
-            const doc: Omit<Doc, 'id'> = { name, code };
+            const doc: Pick<Doc, 'name' | 'code'> = { name, code };
 
             try {
               docManagementStoreActions.busy();
               const { data } = await httpsCallable<
-                Omit<Doc, 'id'>,
+                Pick<Doc, 'name' | 'code'>,
                 { id: Doc['id'] }
               >(
                 functions,
@@ -100,11 +107,14 @@ const WithAuth = () => {
           updateDoc: async (name) => {
             const { id } = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
-            const doc: Doc = { id, name, code };
+            const doc: Pick<Doc, 'name' | 'code' | 'id'> = { id, name, code };
 
             try {
               docManagementStoreActions.busy();
-              await httpsCallable<Doc>(functions, ENDPOINTS.updateDoc)(doc);
+              await httpsCallable<Pick<Doc, 'name' | 'code' | 'id'>>(
+                functions,
+                ENDPOINTS.updateDoc,
+              )(doc);
               docManagementStoreActions.ok();
               docStoreActions.changeName(id, doc.name);
               creatorStoreActions.setPrevCode(code);
