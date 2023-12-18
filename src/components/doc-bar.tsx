@@ -3,17 +3,22 @@ import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
+import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 
 const DocBar = () => {
+  const docManagementStore = useDocManagementStore();
   const docStore = docStoreSelectors.useActive();
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
 
-  const handleConfirm: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    authStoreSelectors.authorized().updateDoc(name);
-    edition.close();
+
+    try {
+      await authStoreSelectors.authorized().updateDoc(name);
+      edition.close();
+    } catch {}
   };
 
   const handleOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -41,7 +46,9 @@ const DocBar = () => {
             i={2}
             rfull
             className="mr-2 ml-2"
-            disabled={docStoreValidators.name(name)}
+            disabled={
+              docStoreValidators.name(name) || docManagementStore.is === `busy`
+            }
             title="Confirm name change"
             type="submit"
           >
@@ -51,6 +58,7 @@ const DocBar = () => {
             i={2}
             rfull
             title="Close edition"
+            disabled={docManagementStore.is === `busy`}
             type="button"
             onClick={handleClose}
           >
@@ -69,7 +77,13 @@ const DocBar = () => {
           <Button i={2} rfull title="Change name" onClick={handleOpen}>
             <BiEdit />
           </Button>
-          <Button i={2} className="ml-2" rfull title="Save changes">
+          <Button
+            i={2}
+            disabled={docManagementStore.is === `busy`}
+            className="ml-2"
+            rfull
+            title="Save changes"
+          >
             <BiSave />
           </Button>
         </>

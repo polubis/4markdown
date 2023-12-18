@@ -3,6 +3,7 @@ import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
+import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 
 const AddDocPopoverContent = React.lazy(
   () => import(`./add-doc-popover-content`),
@@ -11,6 +12,7 @@ const AddDocPopoverContent = React.lazy(
 const SS_ADD_REQUESTED_KEY = `addRequested`;
 
 const AddDocPopover: React.FC = () => {
+  const docManagementStore = useDocManagementStore();
   const authStore = useAuthStore();
   const menu = useToggle();
 
@@ -37,6 +39,13 @@ const AddDocPopover: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    if (docManagementStore.is === `fail`) {
+      menu.close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [docManagementStore]);
 
   return (
     <>
