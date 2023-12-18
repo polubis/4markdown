@@ -12,13 +12,16 @@ const DocBar = () => {
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
 
-  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-
+  const handleSave = async (): Promise<void> => {
     try {
       await authStoreSelectors.authorized().updateDoc(name);
-      edition.close();
     } catch {}
+  };
+
+  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    await handleSave();
+    edition.close();
   };
 
   const handleOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -83,6 +86,7 @@ const DocBar = () => {
             className="ml-2"
             rfull
             title="Save changes"
+            onClick={handleSave}
           >
             <BiSave />
           </Button>
