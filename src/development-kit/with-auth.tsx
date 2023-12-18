@@ -18,6 +18,7 @@ import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
+import { docsStoreActions } from 'store/docs/docs.store';
 
 const ENDPOINTS = {
   createDoc: `createDoc`,
@@ -53,6 +54,20 @@ const WithAuth = () => {
             try {
               await signOut(auth);
             } catch {}
+          },
+          getDocs: async () => {
+            try {
+              docsStoreActions.busy();
+
+              const { data } = await httpsCallable<undefined, Doc[]>(
+                functions,
+                ENDPOINTS.getDocs,
+              )();
+
+              docsStoreActions.ok(data);
+            } catch (error: unknown) {
+              docsStoreActions.fail(error);
+            }
           },
           createDoc: async (name) => {
             const { code } = creatorStoreSelectors.ready();
@@ -97,6 +112,7 @@ const WithAuth = () => {
 
       docStoreActions.reset();
       docManagementStoreActions.idle();
+      docsStoreActions.idle();
       authStoreActions.unauthorize({
         logIn: async () => {
           try {
