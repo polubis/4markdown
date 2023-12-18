@@ -14,7 +14,10 @@ import { authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import type { Doc } from 'models/doc';
-import { creatorStoreSelectors } from 'store/creator/creator.store';
+import {
+  creatorStoreActions,
+  creatorStoreSelectors,
+} from 'store/creator/creator.store';
 
 const ENDPOINTS = {
   createDoc: `createDoc`,
@@ -82,6 +85,7 @@ const WithAuth = () => {
               await httpsCallable<Doc>(functions, ENDPOINTS.updateDoc)(doc);
               docManagementStoreActions.ok();
               docStoreActions.changeName(id, doc.name);
+              creatorStoreActions.setPrevCode(code);
             } catch (error: unknown) {
               docManagementStoreActions.fail(error);
               throw error;

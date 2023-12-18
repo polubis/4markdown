@@ -63,8 +63,8 @@ const HomePage: React.FC = () => {
     useCreatorStore.setState({
       is: `ready`,
       initialCode: code,
+      prevCode: code,
       code,
-      divideMode: `both`,
     });
 
     synced.current = true;

@@ -2,13 +2,16 @@ import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiEdit, BiSave, BiX } from 'react-icons/bi';
-import { authStoreSelectors } from 'store/auth/auth.store';
+import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
+import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 
 const DocBar = () => {
   const docManagementStore = useDocManagementStore();
   const docStore = docStoreSelectors.useActive();
+  const authStore = useAuthStore();
+  const creatorStore = creatorStoreSelectors.useReady();
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
 
@@ -18,10 +21,16 @@ const DocBar = () => {
     } catch {}
   };
 
-  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  const handleNameChangeConfirm: React.FormEventHandler<
+    HTMLFormElement
+  > = async (e) => {
     e.preventDefault();
     await handleSave();
     edition.close();
+  };
+
+  const handleCodeConfirm = async (): Promise<void> => {
+    await handleSave();
   };
 
   const handleOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -34,10 +43,12 @@ const DocBar = () => {
     setName(``);
   };
 
+  const unchanged = creatorStore.prevCode === creatorStore.code;
+
   return (
     <div className="flex h-[50px] px-4 py-2 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800">
       {edition.opened ? (
-        <form className="flex items-center" onSubmit={handleConfirm}>
+        <form className="flex items-center" onSubmit={handleNameChangeConfirm}>
           <input
             className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black dark:border-white outline-none"
             autoFocus
@@ -77,16 +88,26 @@ const DocBar = () => {
             {docStore.name}
           </h6>
           <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
-          <Button i={2} rfull title="Change name" onClick={handleOpen}>
+          <Button
+            i={2}
+            rfull
+            title="Change name"
+            disabled={authStore.is !== `authorized`}
+            onClick={handleOpen}
+          >
             <BiEdit />
           </Button>
           <Button
             i={2}
-            disabled={docManagementStore.is === `busy`}
+            disabled={
+              docManagementStore.is === `busy` ||
+              unchanged ||
+              authStore.is !== `authorized`
+            }
             className="ml-2"
             rfull
             title="Save changes"
-            onClick={handleSave}
+            onClick={handleCodeConfirm}
           >
             <BiSave />
           </Button>
