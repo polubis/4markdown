@@ -17,7 +17,7 @@ const BASE_COMMANDS = {
     cy.get(`button[title="${title}"]`).click();
   },
   'I see the same UI as before': (folder: string, name: string) => {
-    cy.screenshot(`/new/${folder}/${name}/` + name, {
+    cy.screenshot(`/current/${folder}/${name}`, {
       overwrite: true,
     });
   },
