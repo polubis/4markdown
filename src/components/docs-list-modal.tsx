@@ -18,7 +18,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
 
   return (
     <Modal onClose={onClose}>
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Your Documents</h6>
         <Button type="button" i={2} rfull title="Close" onClick={onClose}>
           <BiX />
@@ -29,9 +29,16 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
       )}
       {docsStore.is === `fail` && <div>Error</div>}
       {docsStore.is === `ok` && (
-        <ul>
+        <ul className="grid grid-cols-3 gap-2 justify-center">
           {docsStore.docs.map((doc) => (
-            <li key={doc.id}>{doc.name}</li>
+            <li
+              className="bg-zinc-200 dark:hover:bg-gray-900 hover:bg-zinc-300 cursor-pointer dark:bg-gray-950 border-2 border-zinc-300 dark:border-zinc-800 shrink-0 h-[100px] w-[100%] rounded-md p-4 flex justify-center items-center"
+              key={doc.id}
+            >
+              <span className="font-bold line-clamp-3 text-center text-sm">
+                {doc.name}
+              </span>
+            </li>
           ))}
         </ul>
       )}
