@@ -5,10 +5,12 @@ describe(`Creator works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
   it(`user may use editor controls`, () => {
+    const folder = `creator`;
+
     Given(`Im on page`, `home`)
       .Then(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
       .And(`I see disabled button`, [`Reset content`])
-      .And(`I see the same UI as before`, `1`)
+      .And(`I see the same UI as before`, folder, `1`)
       .When(`I click button`, [`Clear content`])
       .Then(`I see text`, [`Sure?`])
       .When(`I click button`, [`Clear content`])
@@ -25,15 +27,15 @@ describe(`Creator works when`, () => {
       .When(`I click button`, [`Reset content`])
       .Then(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
       .And(`I see disabled button`, [`Reset content`])
-      .And(`I see the same UI as before`, `2`)
+      .And(`I see the same UI as before`, folder, `2`)
       .When(`I click button`, [`Change view display`])
-      .Then(`I see the same UI as before`, `3`)
+      .Then(`I see the same UI as before`, folder, `3`)
       .When(`I click button`, [`Change view display`])
-      .Then(`I see the same UI as before`, `4`)
+      .Then(`I see the same UI as before`, folder, `4`)
       .When(`I click button`, [`Change view display`])
-      .Then(`I see the same UI as before`, `5`)
+      .Then(`I see the same UI as before`, folder, `5`)
       .When(`I click button`, [`Use markdown templates`])
-      .Then(`I see the same UI as before`, `6`)
+      .Then(`I see the same UI as before`, folder, `6`)
       .When(`I click button`, [`Copy headings markdown`])
       .Then(`I see text`, [`Copied`])
       .And(`I not see button`, [`Copy headings markdown`])

@@ -16,8 +16,8 @@ const BASE_COMMANDS = {
   'I click button': (title: ClickableControls[]) => {
     cy.get(`button[title="${title}"]`).click();
   },
-  'I see the same UI as before': (name: string) => {
-    cy.screenshot(`/new/` + name, {
+  'I see the same UI as before': (folder: string, name: string) => {
+    cy.screenshot(`/new/${folder}/${name}/` + name, {
       overwrite: true,
     });
   },
