@@ -3,6 +3,7 @@ import Modal from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
+import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 
 interface DeleteDocModalProps {
@@ -11,21 +12,37 @@ interface DeleteDocModalProps {
 
 const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
   const docStore = docStoreSelectors.useActive();
+  const docManagementStore = useDocManagementStore();
   const [name, setName] = React.useState(``);
+
+  const disabled = docManagementStore.is === `busy`;
+
+  const close = (): void => {
+    if (disabled) return;
+
+    onClose?.();
+  };
 
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
       await authStoreSelectors.authorized().deleteDoc();
-      onClose?.();
+      close();
     } catch {}
   };
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={close}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Document Removal</h6>
-        <Button type="button" i={2} rfull title="Close" onClick={onClose}>
+        <Button
+          type="button"
+          disabled={disabled}
+          i={2}
+          rfull
+          title="Close"
+          onClick={close}
+        >
           <BiX />
         </Button>
       </div>
@@ -48,8 +65,9 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
             type="button"
             i={2}
             rfull
+            disabled={disabled}
             title="Close"
-            onClick={onClose}
+            onClick={close}
           >
             Cancel
           </Button>
@@ -59,7 +77,7 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
             i={2}
             rfull
             title="Confirm document removal"
-            disabled={name !== docStore.name}
+            disabled={name !== docStore.name || disabled}
           >
             Remove
           </Button>
