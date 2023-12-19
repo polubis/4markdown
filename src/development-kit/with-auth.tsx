@@ -140,11 +140,10 @@ const WithAuth = () => {
         )({ id });
 
         docManagementStoreActions.ok();
+        docsStoreActions.deleteDoc(id);
 
         const { docs } = docsStoreSelectors.ok();
         const lastDoc = docs[docs.length - 1];
-
-        docsStoreActions.deleteDoc(id);
 
         if (lastDoc) {
           docStoreActions.setActive(lastDoc);

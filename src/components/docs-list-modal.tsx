@@ -35,7 +35,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
         <p className="text-2xl">Just a second (～￣▽￣)U+007e</p>
       )}
       {docsStore.is === `fail` && <div>Error</div>}
-      {docsStore.is === `ok` && (
+      {docsStore.is === `ok` && docsStore.docs.length > 0 ? (
         <ul className="grid tn:grid-cols-3 grid-cols-2 gap-2 justify-center max-h-[80svh] pr-2 overflow-y-auto">
           {docsStore.docs.map((doc) => (
             <li
@@ -49,6 +49,10 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             </li>
           ))}
         </ul>
+      ) : (
+        <div className="flex flex-col">
+          <h6>No documents added yet</h6>
+        </div>
       )}
     </Modal>
   );
