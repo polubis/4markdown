@@ -16,6 +16,8 @@ import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import type {
   CreateDocDto,
   CreateDocPayload,
+  DeleteDocDto,
+  DeleteDocPayload,
   Doc,
   UpdateDocDto,
   UpdateDocPayload,
@@ -24,12 +26,17 @@ import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
-import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
+import {
+  docsStoreActions,
+  docsStoreSelectors,
+  useDocsStore,
+} from 'store/docs/docs.store';
 
 const ENDPOINTS = {
   createDoc: `createDoc`,
   updateDoc: `updateDoc`,
   getDocs: `getDocs`,
+  deleteDoc: `deleteDoc`,
 } as const;
 
 const WithAuth = () => {
@@ -124,6 +131,34 @@ const WithAuth = () => {
       }
     };
 
+    const deleteDoc = async (id: Doc['id']): Promise<void> => {
+      try {
+        docManagementStoreActions.busy();
+        await httpsCallable<DeleteDocPayload, DeleteDocDto>(
+          functions,
+          ENDPOINTS.updateDoc,
+        )({ id });
+
+        docManagementStoreActions.ok();
+
+        const { docs } = docsStoreSelectors.ok();
+        const lastDoc = docs[docs.length - 1];
+
+        docsStoreActions.deleteDoc(id);
+
+        if (lastDoc) {
+          docStoreActions.setActive(lastDoc);
+          creatorStoreActions.setPrevCode(lastDoc.code);
+          return;
+        }
+
+        docStoreActions.reset();
+      } catch (error: unknown) {
+        docManagementStoreActions.fail(error);
+        throw error;
+      }
+    };
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         authStoreActions.authorize({
@@ -135,6 +170,9 @@ const WithAuth = () => {
             try {
               await signOut(auth);
             } catch {}
+          },
+          deleteDoc: async () => {
+            await deleteDoc(docStoreSelectors.active().id);
           },
           getDocs,
           createDoc,

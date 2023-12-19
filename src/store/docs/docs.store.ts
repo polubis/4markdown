@@ -71,6 +71,15 @@ const docsStoreActions = {
     set(newState);
     localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
   },
+  deleteDoc: (id: Doc['id']) => {
+    const state = docsStoreSelectors.ok();
+    const newState: DocStoreOkState = {
+      ...state,
+      docs: state.docs.filter((doc) => doc.id !== id),
+    };
+    set(newState);
+    localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
+  },
 } as const;
 
 export {

@@ -9,6 +9,7 @@ interface AuthorizedData {
   saveDoc(): Promise<void>;
   updateDoc(name: Doc['name']): Promise<void>;
   getDocs(): Promise<void>;
+  deleteDoc(): Promise<void>;
 }
 
 interface UnauthrorizedData {

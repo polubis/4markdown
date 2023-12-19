@@ -1,7 +1,14 @@
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
-import { BiCheck, BiEdit, BiGridAlt, BiSave, BiX } from 'react-icons/bi';
+import {
+  BiCheck,
+  BiEdit,
+  BiGridAlt,
+  BiSave,
+  BiTrash,
+  BiX,
+} from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
@@ -9,6 +16,7 @@ import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 
 const DocsListModal = React.lazy(() => import(`./docs-list-modal`));
+const DeleteDocModal = React.lazy(() => import(`./delete-doc-modal`));
 
 const DocBar = () => {
   const docManagementStore = useDocManagementStore();
@@ -19,6 +27,7 @@ const DocBar = () => {
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
   const docsModal = useToggle();
+  const deleteModal = useToggle();
 
   const handleNameChangeConfirm: React.FormEventHandler<
     HTMLFormElement
@@ -126,12 +135,26 @@ const DocBar = () => {
                 authStore.is !== `authorized` ||
                 docsStore.is === `busy`
               }
-              className="ml-2"
+              className="mx-2"
               rfull
               title="Your documents"
               onClick={docsModal.open}
             >
               <BiGridAlt />
+            </Button>
+            <Button
+              i={2}
+              disabled={
+                docManagementStore.is === `busy` ||
+                authStore.is !== `authorized` ||
+                docsStore.is === `busy`
+              }
+              className="ml-auto"
+              rfull
+              title="Delete this document"
+              onClick={deleteModal.open}
+            >
+              <BiTrash />
             </Button>
           </>
         )}
@@ -140,6 +163,12 @@ const DocBar = () => {
       {docsModal.opened && (
         <React.Suspense>
           <DocsListModal onClose={docsModal.close} />
+        </React.Suspense>
+      )}
+
+      {deleteModal.opened && (
+        <React.Suspense>
+          <DeleteDocModal onClose={deleteModal.close} />
         </React.Suspense>
       )}
     </>
