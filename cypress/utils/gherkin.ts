@@ -1,5 +1,5 @@
-type Commands = Record<string, (...args: unknown[]) => void>;
-type Data = Record<string, unknown>;
+type Commands = Record<string, (...args: any[]) => void>;
+type Data = Record<string, any>;
 
 function Gherkin<C extends Commands, D extends Data>(commands: C) {
   let data: D;

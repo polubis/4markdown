@@ -114,7 +114,7 @@ const CreatorView: React.FC = () => {
               className="md:flex hidden"
               rfull
               disabled={code === ``}
-              title="Clear Content"
+              title="Clear content"
               onClick={clearConfirm.confirm}
             >
               {clearConfirm.opened ? `Sure?` : `Clear`}
@@ -124,7 +124,7 @@ const CreatorView: React.FC = () => {
               className="md:flex hidden"
               rfull
               disabled={code === initialCode}
-              title="Reset Content"
+              title="Reset content"
               onClick={resetConfirm.confirm}
             >
               {resetConfirm.opened ? `Sure?` : `Reset`}
