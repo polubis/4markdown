@@ -16,8 +16,8 @@ const BASE_COMMANDS = {
   'I click button': (title: ClickableControls[]) => {
     cy.get(`button[title="${title}"]`).click();
   },
-  'I see the same UI as before': () => {
-    // @TODO
+  'I see the same UI as before': (name: string) => {
+    cy.screenshot(name, { overwrite: true });
   },
   'I paste in creator': async () => {
     // @TODO
