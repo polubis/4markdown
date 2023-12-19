@@ -33,6 +33,8 @@ describe(`Creator works when`, () => {
       .When(`I click button`, [`Change view display`])
       .Then(`I see the same UI as before`)
       .When(`I click button`, [`Use markdown templates`])
-      .Then(`I see the same UI as before`);
+      .Then(`I see the same UI as before`)
+      .When(`I click button`, [`Copy heading markdown`])
+      .Then(`I not see button`, [`Copy heading markdown`]);
   });
 });

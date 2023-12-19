@@ -24,6 +24,9 @@ const BASE_COMMANDS = {
       cy.get(`button[title="${title}"]`).should(`be.disabled`);
     });
   },
+  'I not see button': (title: ClickableControls[]) => {
+    cy.get(`button[title="${title}"]`).should(`not.exist`);
+  },
   'I type in input': (placeholder: TypeableControls, value: string) => {
     cy.get(
       `input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`,
