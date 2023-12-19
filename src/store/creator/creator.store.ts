@@ -124,6 +124,7 @@ const creatorStoreActions: CreatorStoreActions = {
     const state = localStorage.getItem(CREATOR_STORE_LS_KEY) as string | null;
 
     if (state === null) {
+      set(creatorStoreSelectors.ready());
       return;
     }
 

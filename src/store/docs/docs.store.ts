@@ -48,6 +48,7 @@ const docsStoreActions = {
     const state = localStorage.getItem(DOCS_STORE_LS_KEY) as string | null;
 
     if (state === null) {
+      docsStoreActions.idle();
       return;
     }
 

@@ -13,8 +13,6 @@ const useLsSync = () => {
     docsStoreActions.sync();
 
     const listener = (event: StorageEvent) => {
-      if (event.newValue === null) return;
-
       if (event.key === CREATOR_STORE_LS_KEY) {
         creatorStoreActions.sync();
       }

@@ -63,6 +63,7 @@ const docStoreActions: DocStoreActions = {
     const state = localStorage.getItem(DOC_STORE_LS_KEY) as string | null;
 
     if (state === null) {
+      docStoreActions.reset();
       return;
     }
 
