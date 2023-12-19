@@ -147,11 +147,15 @@ const WithAuth = () => {
 
         if (lastDoc) {
           docStoreActions.setActive(lastDoc);
+          creatorStoreActions.change(lastDoc.code);
           creatorStoreActions.setPrevCode(lastDoc.code);
           return;
         }
 
+        const code = `# Start from scratch`;
         docStoreActions.reset();
+        creatorStoreActions.change(code);
+        creatorStoreActions.setPrevCode(code);
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;
