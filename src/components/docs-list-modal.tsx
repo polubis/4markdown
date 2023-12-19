@@ -2,6 +2,7 @@ import { Button } from 'design-system/button';
 import Modal from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
+import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
 
 interface DocsListModalProps {
@@ -11,6 +12,10 @@ interface DocsListModalProps {
 const DocsListModal = ({ onClose }: DocsListModalProps) => {
   const docsStore = useDocsStore();
 
+  React.useEffect(() => {
+    authStoreSelectors.authorized().getDocs();
+  }, []);
+
   return (
     <Modal onClose={onClose}>
       <div className="flex items-center justify-between gap-4">
@@ -19,6 +24,10 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
           <BiX />
         </Button>
       </div>
+      {(docsStore.is === `idle` || docsStore.is === `busy`) && (
+        <p className="text-2xl">Just a second (～￣▽￣)U+007e</p>
+      )}
+      {docsStore.is === `fail` && <div>Error</div>}
       {docsStore.is === `ok` && (
         <ul>
           {docsStore.docs.map((doc) => (

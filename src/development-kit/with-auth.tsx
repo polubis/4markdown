@@ -65,7 +65,7 @@ const WithAuth = () => {
         )();
 
         docsStoreActions.ok(docs);
-        console.log(docs);
+
         if (docs.length > 0) {
           const [{ id, name, code }] = docs;
           docStoreActions.changeName(id, name);
@@ -89,6 +89,7 @@ const WithAuth = () => {
               await signOut(auth);
             } catch {}
           },
+          getDocs,
           createDoc: async (name) => {
             const { code } = creatorStoreSelectors.ready();
 
