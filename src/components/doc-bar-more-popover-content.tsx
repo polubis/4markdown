@@ -21,7 +21,7 @@ const DocBarMorePopoverContent = ({
 
   return (
     <Popover
-      className="bottom-20 left-32 md:bottom-auto md:top-32"
+      className="bottom-32 left-2 md:left-32 md:bottom-auto md:top-32"
       onBackdropClick={onClose}
     >
       <div className="flex items-center">
