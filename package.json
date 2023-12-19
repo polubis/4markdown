@@ -53,7 +53,6 @@
     "@babel/preset-typescript": "^7.23.2",
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
-    "@frsource/cypress-plugin-visual-regression-diff": "^3.3.10",
     "@testing-library/cypress": "^10.0.1",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.4",
