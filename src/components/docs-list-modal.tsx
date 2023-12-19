@@ -36,7 +36,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
       )}
       {docsStore.is === `fail` && <div>Error</div>}
       {docsStore.is === `ok` && (
-        <ul className="grid grid-cols-3 gap-2 justify-center">
+        <ul className="grid tn:grid-cols-3 grid-cols-2 gap-2 justify-center max-h-[80svh] pr-2 overflow-y-auto">
           {docsStore.docs.map((doc) => (
             <li
               className="bg-zinc-200 dark:hover:bg-gray-900 hover:bg-zinc-300 cursor-pointer dark:bg-gray-950 border-2 border-zinc-300 dark:border-zinc-800 shrink-0 h-[100px] w-[100%] rounded-md p-4 flex justify-center items-center"
