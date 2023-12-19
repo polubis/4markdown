@@ -40,7 +40,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
             disabled={docManagementStore.is === `busy`}
             onClick={onClose}
           >
-            <BiX className="text-2xl" />
+            <BiX />
           </Button>
         </div>
         <fieldset className="flex flex-col gap-1.5">
