@@ -20,22 +20,20 @@ const DocBar = () => {
   const edition = useToggle();
   const docsModal = useToggle();
 
-  const handleSave = async (): Promise<void> => {
-    try {
-      await authStoreSelectors.authorized().updateDoc(name);
-    } catch {}
-  };
-
   const handleNameChangeConfirm: React.FormEventHandler<
     HTMLFormElement
   > = async (e) => {
     e.preventDefault();
-    await handleSave();
-    edition.close();
+    try {
+      await authStoreSelectors.authorized().updateDoc(name);
+      edition.close();
+    } catch {}
   };
 
   const handleSaveCodeConfirm = async (): Promise<void> => {
-    await handleSave();
+    try {
+      await authStoreSelectors.authorized().saveDoc();
+    } catch {}
   };
 
   const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {

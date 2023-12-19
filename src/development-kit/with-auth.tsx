@@ -49,6 +49,53 @@ const WithAuth = () => {
     const functions = getFunctions(app);
     const provider = new GoogleAuthProvider();
 
+    const createDoc = async (name: Doc['name']) => {
+      const { code } = creatorStoreSelectors.ready();
+
+      const doc: CreateDocPayload = { name, code };
+
+      try {
+        docManagementStoreActions.busy();
+        const { data: createdDoc } = await httpsCallable<
+          CreateDocPayload,
+          CreateDocDto
+        >(
+          functions,
+          ENDPOINTS.createDoc,
+        )(doc);
+        docManagementStoreActions.ok();
+        docStoreActions.setActive(createdDoc);
+        docsStoreActions.addDoc(createdDoc);
+      } catch (error: unknown) {
+        docManagementStoreActions.fail(error);
+        throw error;
+      }
+    };
+
+    const updateDoc = async (name: Doc['name']) => {
+      const { id } = docStoreSelectors.active();
+      const { code } = creatorStoreSelectors.ready();
+      const doc: UpdateDocPayload = { id, name, code };
+
+      try {
+        docManagementStoreActions.busy();
+        const { data: updatedDoc } = await httpsCallable<
+          UpdateDocPayload,
+          UpdateDocDto
+        >(
+          functions,
+          ENDPOINTS.updateDoc,
+        )(doc);
+        docManagementStoreActions.ok();
+        docStoreActions.setActive(updatedDoc);
+        creatorStoreActions.setPrevCode(updatedDoc.code);
+        docsStoreActions.updateDoc(updatedDoc);
+      } catch (error: unknown) {
+        docManagementStoreActions.fail(error);
+        throw error;
+      }
+    };
+
     const getDocs = async (): Promise<void> => {
       const state = useDocsStore.getState();
 
@@ -90,51 +137,11 @@ const WithAuth = () => {
             } catch {}
           },
           getDocs,
-          createDoc: async (name) => {
-            const { code } = creatorStoreSelectors.ready();
-
-            const doc: CreateDocPayload = { name, code };
-
-            try {
-              docManagementStoreActions.busy();
-              const { data: createdDoc } = await httpsCallable<
-                CreateDocPayload,
-                CreateDocDto
-              >(
-                functions,
-                ENDPOINTS.createDoc,
-              )(doc);
-              docManagementStoreActions.ok();
-              docStoreActions.setActive(createdDoc);
-              docsStoreActions.addDoc(createdDoc);
-            } catch (error: unknown) {
-              docManagementStoreActions.fail(error);
-              throw error;
-            }
+          createDoc,
+          saveDoc: async () => {
+            await updateDoc(docStoreSelectors.active().name);
           },
-          updateDoc: async (name) => {
-            const { id } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
-            const doc: UpdateDocPayload = { id, name, code };
-
-            try {
-              docManagementStoreActions.busy();
-              const { data: updatedDoc } = await httpsCallable<
-                UpdateDocPayload,
-                UpdateDocDto
-              >(
-                functions,
-                ENDPOINTS.updateDoc,
-              )(doc);
-              docManagementStoreActions.ok();
-              docStoreActions.setActive(updatedDoc);
-              creatorStoreActions.setPrevCode(updatedDoc.code);
-              docsStoreActions.updateDoc(updatedDoc);
-            } catch (error: unknown) {
-              docManagementStoreActions.fail(error);
-              throw error;
-            }
-          },
+          updateDoc,
         });
         getDocs();
 
