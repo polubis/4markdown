@@ -17,7 +17,12 @@ const BASE_COMMANDS = {
     cy.get(`button[title="${title}"]`).click();
   },
   'I see the same UI as before': (name: string) => {
-    cy.screenshot(name, { overwrite: true });
+    cy.screenshot(`/current/` + name, {
+      overwrite: true,
+      onAfterScreenshot: (el, props) => {
+        console.warn(props);
+      },
+    });
   },
   'I paste in creator': async () => {
     // @TODO
