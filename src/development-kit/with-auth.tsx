@@ -13,7 +13,13 @@ import React from 'react';
 import { authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import type { Doc } from 'models/doc';
+import type {
+  CreateDocDto,
+  CreateDocPayload,
+  Doc,
+  UpdateDocDto,
+  UpdateDocPayload,
+} from 'models/doc';
 import {
   creatorStoreActions,
   creatorStoreSelectors,
@@ -47,7 +53,7 @@ const WithAuth = () => {
       const state = useDocsStore.getState();
 
       if (state.is === `ok` || state.is === `busy`) {
-        throw Error(`Trying to load docs in invalid state`);
+        return;
       }
 
       try {
@@ -86,19 +92,20 @@ const WithAuth = () => {
           createDoc: async (name) => {
             const { code } = creatorStoreSelectors.ready();
 
-            const doc: Pick<Doc, 'name' | 'code'> = { name, code };
+            const doc: CreateDocPayload = { name, code };
 
             try {
               docManagementStoreActions.busy();
-              const { data } = await httpsCallable<
-                Pick<Doc, 'name' | 'code'>,
-                { id: Doc['id'] }
+              const { data: createdDoc } = await httpsCallable<
+                CreateDocPayload,
+                CreateDocDto
               >(
                 functions,
                 ENDPOINTS.createDoc,
               )(doc);
               docManagementStoreActions.ok();
-              docStoreActions.changeName(data.id, doc.name);
+              docStoreActions.changeName(createdDoc.id, createdDoc.name);
+              docsStoreActions.addDoc(createdDoc);
             } catch (error: unknown) {
               docManagementStoreActions.fail(error);
               throw error;
@@ -107,17 +114,21 @@ const WithAuth = () => {
           updateDoc: async (name) => {
             const { id } = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
-            const doc: Pick<Doc, 'name' | 'code' | 'id'> = { id, name, code };
+            const doc: UpdateDocPayload = { id, name, code };
 
             try {
               docManagementStoreActions.busy();
-              await httpsCallable<Pick<Doc, 'name' | 'code' | 'id'>>(
+              const { data: updatedDoc } = await httpsCallable<
+                UpdateDocPayload,
+                UpdateDocDto
+              >(
                 functions,
                 ENDPOINTS.updateDoc,
               )(doc);
               docManagementStoreActions.ok();
-              docStoreActions.changeName(id, doc.name);
-              creatorStoreActions.setPrevCode(code);
+              docStoreActions.changeName(updatedDoc.id, updatedDoc.name);
+              creatorStoreActions.setPrevCode(updatedDoc.code);
+              docsStoreActions.updateDoc(updatedDoc);
             } catch (error: unknown) {
               docManagementStoreActions.fail(error);
               throw error;

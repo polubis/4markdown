@@ -16,7 +16,19 @@ const set = (state: DocsStoreState): void => {
   setState(state, true);
 };
 
+const getOkState = (state: DocsStoreState): DocStoreOkState => {
+  if (state.is !== `ok`) {
+    throw Error(`Tried to read state when not allowed`);
+  }
+
+  return state;
+};
+
 const DOCS_STORE_LS_KEY = `docs`;
+
+const docsStoreSelectors = {
+  ok: () => getOkState(useDocsStore.getState()),
+};
 
 const docsStoreActions = {
   idle: () => {
@@ -40,6 +52,29 @@ const docsStoreActions = {
 
     set(JSON.parse(state) as DocStoreOkState);
   },
+  updateDoc: (doc: Doc) => {
+    const state = docsStoreSelectors.ok();
+    const newState: DocStoreOkState = {
+      ...state,
+      docs: state.docs.map((d) => (d.id === doc.id ? doc : d)),
+    };
+    set(newState);
+    localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
+  },
+  addDoc: (doc: Doc) => {
+    const state = docsStoreSelectors.ok();
+    const newState: DocStoreOkState = {
+      ...state,
+      docs: [...state.docs, doc],
+    };
+    set(newState);
+    localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
+  },
 } as const;
 
-export { useDocsStore, docsStoreActions, DOCS_STORE_LS_KEY };
+export {
+  useDocsStore,
+  docsStoreActions,
+  DOCS_STORE_LS_KEY,
+  docsStoreSelectors,
+};
