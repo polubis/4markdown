@@ -3,10 +3,10 @@ import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import {
   BiCheck,
+  BiDotsHorizontal,
   BiEdit,
   BiGridAlt,
   BiSave,
-  BiTrash,
   BiX,
 } from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
@@ -16,6 +16,9 @@ import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 
 const DocsListModal = React.lazy(() => import(`./docs-list-modal`));
+const DocBarMorePopoverContent = React.lazy(
+  () => import(`./doc-bar-more-popover-content`),
+);
 const DeleteDocModal = React.lazy(() => import(`./delete-doc-modal`));
 
 const DocBar = () => {
@@ -27,6 +30,7 @@ const DocBar = () => {
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
   const docsModal = useToggle();
+  const morePopover = useToggle();
   const deleteModal = useToggle();
 
   const handleNameChangeConfirm: React.FormEventHandler<
@@ -149,12 +153,11 @@ const DocBar = () => {
                 authStore.is !== `authorized` ||
                 docsStore.is === `busy`
               }
-              className="ml-auto"
               rfull
-              title="Delete this document"
-              onClick={deleteModal.open}
+              title="More document options"
+              onClick={morePopover.open}
             >
-              <BiTrash />
+              <BiDotsHorizontal />
             </Button>
           </>
         )}
@@ -163,6 +166,18 @@ const DocBar = () => {
       {docsModal.opened && (
         <React.Suspense>
           <DocsListModal onClose={docsModal.close} />
+        </React.Suspense>
+      )}
+
+      {morePopover.opened && (
+        <React.Suspense>
+          <DocBarMorePopoverContent
+            onOpen={() => {
+              deleteModal.open();
+              morePopover.close();
+            }}
+            onClose={morePopover.close}
+          />
         </React.Suspense>
       )}
 
