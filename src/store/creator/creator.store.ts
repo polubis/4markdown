@@ -61,14 +61,14 @@ Any suggestions, comments, or ideas for improvement? Feel free to join our [Disc
 interface CreatorStoreActions {
   change(code: string): void;
   sync(): void;
-  divide(): void;
+  setPrevCode(prevCode: string): void;
 }
 
 type CreatorStoreStateIdle = { is: 'idle' };
 type CreatorStoreStateReady = { is: 'ready' } & {
   initialCode: string;
   code: string;
-  divideMode: 'both' | 'preview' | 'code';
+  prevCode: string;
 };
 
 interface CreatorStoreSelectors {
@@ -84,7 +84,7 @@ const useCreatorStore = create<CreatorStoreState>(() => ({
   is: `idle`,
 }));
 
-const { setState: set, getState: get } = useCreatorStore;
+const { setState, getState: get } = useCreatorStore;
 
 const isReadyState = (state: CreatorStoreState): CreatorStoreStateReady => {
   if (state.is === `idle`) {
@@ -99,32 +99,36 @@ const creatorStoreSelectors: CreatorStoreSelectors = {
   ready: () => isReadyState(get()),
 };
 
+const set = (state: CreatorStoreState): void => {
+  setState(state, true);
+};
+
 const creatorStoreActions: CreatorStoreActions = {
   change: (code) => {
-    set({ code });
-    localStorage.setItem(CREATOR_STORE_LS_KEY, code);
+    const { is, initialCode, prevCode } = creatorStoreSelectors.ready();
+    const newState: CreatorStoreStateReady = {
+      is,
+      code,
+      prevCode,
+      initialCode,
+    };
+
+    set(newState);
+    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
+  },
+  setPrevCode: (prevCode) => {
+    const state = creatorStoreSelectors.ready();
+    set({ ...state, prevCode });
   },
   sync: () => {
-    const code = localStorage.getItem(CREATOR_STORE_LS_KEY);
+    const state = localStorage.getItem(CREATOR_STORE_LS_KEY) as string | null;
 
-    if (code !== null) {
-      set({ code });
-    }
-  },
-  divide: () => {
-    const { divideMode } = creatorStoreSelectors.ready();
-
-    if (divideMode === `both`) {
-      set({ divideMode: `code` });
+    if (state === null) {
+      set(creatorStoreSelectors.ready());
       return;
     }
 
-    if (divideMode === `code`) {
-      set({ divideMode: `preview` });
-      return;
-    }
-
-    set({ divideMode: `both` });
+    set(JSON.parse(state) as CreatorStoreStateReady);
   },
 };
 
