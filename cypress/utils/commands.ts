@@ -1,11 +1,22 @@
-type ClickableControls = 'Clear content' | 'Reset content';
+type ClickableControls =
+  | 'Clear content'
+  | 'Reset content'
+  | `Change view display`
+  | `Use markdown templates`
+  | `Create new document`
+  | `Open in separate window`
+  | `Copy heading markdown`
+  | `Copy link markdown`
+  | `Copy image markdown`
+  | `Copy code markdown`
+  | `Copy table markdown`;
 type TypeableControls = '';
 
 const BASE_COMMANDS = {
   'I click button': (title: ClickableControls[]) => {
     cy.get(`button[title="${title}"]`).click();
   },
-  'I see the same page as before': () => {
+  'I see the same UI as before': () => {
     cy.screenshot();
   },
   'I see disabled button': (titles: ClickableControls[]) => {

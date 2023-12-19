@@ -8,7 +8,7 @@ describe(`Creator works when`, () => {
     Given(`Im on page`, `home`)
       .Then(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
       .And(`I see disabled button`, [`Reset content`])
-      .And(`I see the same page as before`)
+      .And(`I see the same UI as before`)
       .When(`I click button`, [`Clear content`])
       .Then(`I see text`, [`Sure?`])
       .When(`I click button`, [`Clear content`])
@@ -25,10 +25,14 @@ describe(`Creator works when`, () => {
       .When(`I click button`, [`Reset content`])
       .Then(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
       .And(`I see disabled button`, [`Reset content`])
-      .And(`I see the same page as before`);
+      .And(`I see the same UI as before`)
+      .When(`I click button`, [`Change view display`])
+      .Then(`I see the same UI as before`)
+      .When(`I click button`, [`Change view display`])
+      .Then(`I see the same UI as before`)
+      .When(`I click button`, [`Change view display`])
+      .Then(`I see the same UI as before`)
+      .When(`I click button`, [`Use markdown templates`])
+      .Then(`I see the same UI as before`);
   });
-
-  // it(`user signs in, creates a document, edits document and removes it, then he sign out`, () => {
-  //   Given('Im on page', 'home').Then('I click button');
-  // });
 });
