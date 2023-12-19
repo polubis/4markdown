@@ -1,3 +1,5 @@
+import { compare } from './img-comparator';
+
 type ClickableControls =
   | 'Clear content'
   | 'Reset content'
@@ -19,8 +21,12 @@ const BASE_COMMANDS = {
   'I see the same UI as before': (name: string) => {
     cy.screenshot(`/current/` + name, {
       overwrite: true,
+      onBeforeScreenshot: () => {
+        // compare(name);
+      },
       onAfterScreenshot: (el, props) => {
         console.warn(props);
+        // compare(name);
       },
     });
   },
