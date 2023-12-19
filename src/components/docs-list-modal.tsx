@@ -4,8 +4,9 @@ import type { Doc } from 'models/doc';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
-import { docStoreActions } from 'store/doc/doc.store';
+import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
+import c from 'classnames';
 
 interface DocsListModalProps {
   onClose?(): void;
@@ -13,6 +14,7 @@ interface DocsListModalProps {
 
 const DocsListModal = ({ onClose }: DocsListModalProps) => {
   const docsStore = useDocsStore();
+  const docStore = docStoreSelectors.useActive();
 
   React.useEffect(() => {
     authStoreSelectors.authorized().getDocs();
@@ -39,7 +41,17 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
         <ul className="grid tn:grid-cols-3 grid-cols-2 gap-2 justify-center max-h-[80svh] pr-2 overflow-y-auto">
           {docsStore.docs.map((doc) => (
             <li
-              className="bg-zinc-200 dark:hover:bg-gray-900 hover:bg-zinc-300 cursor-pointer dark:bg-gray-950 border-2 border-zinc-300 dark:border-zinc-800 shrink-0 h-[100px] w-[100%] rounded-md p-4 flex justify-center items-center"
+              className={c(
+                `cursor-pointer border-2 shrink-0 h-[100px] w-[100%] rounded-md p-4 flex justify-center items-center`,
+                {
+                  'bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800':
+                    docStore.id !== doc.id,
+                },
+                {
+                  'bg-green-700 text-white border-green-700':
+                    docStore.id === doc.id,
+                },
+              )}
               key={doc.id}
               onClick={() => selectDoc(doc)}
             >
