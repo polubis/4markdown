@@ -17,7 +17,7 @@ const BASE_COMMANDS = {
     cy.get(`button[title="${title}"]`).click();
   },
   'I see the same UI as before': () => {
-    cy.screenshot();
+    // cy.screenshot();
   },
   'I see disabled button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
