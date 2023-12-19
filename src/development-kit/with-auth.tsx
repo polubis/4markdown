@@ -67,10 +67,10 @@ const WithAuth = () => {
         docsStoreActions.ok(docs);
 
         if (docs.length > 0) {
-          const [{ id, name, code }] = docs;
-          docStoreActions.changeName(id, name);
-          creatorStoreActions.change(code);
-          creatorStoreActions.setPrevCode(code);
+          const [firstDoc] = docs;
+          docStoreActions.setActive(firstDoc);
+          creatorStoreActions.change(firstDoc.code);
+          creatorStoreActions.setPrevCode(firstDoc.code);
         }
       } catch (error: unknown) {
         docsStoreActions.fail(error);
@@ -105,7 +105,7 @@ const WithAuth = () => {
                 ENDPOINTS.createDoc,
               )(doc);
               docManagementStoreActions.ok();
-              docStoreActions.changeName(createdDoc.id, createdDoc.name);
+              docStoreActions.setActive(createdDoc);
               docsStoreActions.addDoc(createdDoc);
             } catch (error: unknown) {
               docManagementStoreActions.fail(error);
@@ -127,7 +127,7 @@ const WithAuth = () => {
                 ENDPOINTS.updateDoc,
               )(doc);
               docManagementStoreActions.ok();
-              docStoreActions.changeName(updatedDoc.id, updatedDoc.name);
+              docStoreActions.setActive(updatedDoc);
               creatorStoreActions.setPrevCode(updatedDoc.code);
               docsStoreActions.updateDoc(updatedDoc);
             } catch (error: unknown) {

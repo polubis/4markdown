@@ -5,16 +5,16 @@ interface DocStoreIdleState {
   is: 'idle';
 }
 
-interface DocStoreActiveState extends Pick<Doc, 'name' | 'id'> {
+interface DocStoreActiveState extends Doc {
   is: 'active';
 }
 
 type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
 interface DocStoreActions {
-  changeName(id: Doc['id'], name: Doc['name']): void;
   reset(): void;
   sync(): void;
+  setActive(doc: Doc): void;
 }
 
 interface DocStoreSelectors {
@@ -51,11 +51,10 @@ const docStoreSelectors: DocStoreSelectors = {
 };
 
 const docStoreActions: DocStoreActions = {
-  changeName: (id, name) => {
-    const newState: DocStoreState = {
-      id,
-      name,
+  setActive: (doc) => {
+    const newState: DocStoreActiveState = {
       is: `active`,
+      ...doc,
     };
     set(newState);
     localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
