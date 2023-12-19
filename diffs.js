@@ -79,7 +79,14 @@ const createDiffs = () => {
         } catch {}
 
         fs.writeFileSync(
-          path.join(__dirname, `cypress`, `screenshots`, `diffs`, suiteName),
+          path.join(
+            __dirname,
+            `cypress`,
+            `screenshots`,
+            `diffs`,
+            suiteName,
+            file,
+          ),
           PNG.sync.write(diff),
         );
       }
