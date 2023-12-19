@@ -136,7 +136,7 @@ const WithAuth = () => {
         docManagementStoreActions.busy();
         await httpsCallable<DeleteDocPayload, DeleteDocDto>(
           functions,
-          ENDPOINTS.updateDoc,
+          ENDPOINTS.deleteDoc,
         )({ id });
 
         docManagementStoreActions.ok();
