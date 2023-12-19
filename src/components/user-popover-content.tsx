@@ -4,6 +4,7 @@ import { BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import Popover from 'design-system/popover';
 import { useAuthStore } from 'store/auth/auth.store';
+import { docsStoreSelectors } from 'store/docs/docs.store';
 
 interface UserPopoverContentProps {
   onClose(): void;
@@ -11,6 +12,7 @@ interface UserPopoverContentProps {
 
 const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
   const authStore = useAuthStore();
+  const docsStore = docsStoreSelectors.useOk();
 
   const signOutConfirmation = useConfirm(async () => {
     if (authStore.is === `authorized`) {
@@ -32,6 +34,11 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
               <BiX className="text-2xl" />
             </Button>
           </div>
+          {docsStore.docs.length > 0 && (
+            <p className="mt-4 text-md font-bold">
+              Documents: {docsStore.docs.length}
+            </p>
+          )}
           <Button
             className="mt-20 ml-auto"
             i={2}
