@@ -34,7 +34,12 @@ describe(`Creator works when`, () => {
       .Then(`I see the same UI as before`)
       .When(`I click button`, [`Use markdown templates`])
       .Then(`I see the same UI as before`)
-      .When(`I click button`, [`Copy heading markdown`])
-      .Then(`I not see button`, [`Copy heading markdown`]);
+      .When(`I click button`, [`Copy headings markdown`])
+      .Then(`I see text`, [`Copied`])
+      .And(`I not see button`, [`Copy headings markdown`])
+      .When(`I click button`, [`Clear content`])
+      .And(`I click button`, [`Clear content`])
+      .Then(`I see empty creator`)
+      .And(`I not see text`, [`Copied`]);
   });
 });

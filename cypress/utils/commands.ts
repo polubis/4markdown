@@ -5,7 +5,7 @@ type ClickableControls =
   | `Use markdown templates`
   | `Create new document`
   | `Open in separate window`
-  | `Copy heading markdown`
+  | `Copy headings markdown`
   | `Copy link markdown`
   | `Copy image markdown`
   | `Copy code markdown`
@@ -17,7 +17,12 @@ const BASE_COMMANDS = {
     cy.get(`button[title="${title}"]`).click();
   },
   'I see the same UI as before': () => {
-    // cy.screenshot();
+    cy.matchImage();
+  },
+  'I paste in creator': async () => {
+    // @TODO
+    // const text = await navigator.clipboard.readText();
+    // cy.get(`textarea[aria-label="creator"]`).invoke(`val`, text);
   },
   'I see disabled button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
@@ -34,6 +39,9 @@ const BASE_COMMANDS = {
   },
   'I type in creator': (value: string) => {
     cy.get(`textarea[aria-label="creator"]`).type(value);
+  },
+  'I see empty creator': () => {
+    cy.get(`textarea[aria-label="creator"]`).should(`be.empty`);
   },
   'I see empty input': (placeholders: TypeableControls[]) => {
     placeholders.forEach((placeholder) => {
