@@ -2,12 +2,12 @@ import React from 'react';
 import c from 'classnames';
 import Backdrop from './backdrop';
 
-const baseClasses = `fixed rounded-md bg-zinc-200 dark:bg-gray-950 shadow-lg z-30 p-4`;
+const baseClasses = `fixed rounded-xl bg-zinc-200 dark:bg-gray-950 shadow-lg z-30 p-4`;
 
 interface PopoverProps {
   className: string;
   children: React.ReactNode;
-  onBackdropClick(): void;
+  onBackdropClick?(): void;
 }
 
 const Popover = ({ className, children, onBackdropClick }: PopoverProps) => {
