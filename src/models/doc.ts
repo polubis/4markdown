@@ -1,11 +1,11 @@
-import type { Id } from './general';
+import type { Id, Name, Code, Date } from './general';
 
 interface Doc {
   id: Id;
-  name: string;
-  code: string;
-  mdate: string;
-  cdate: string;
+  name: Name;
+  code: Code;
+  mdate: Date;
+  cdate: Date;
 }
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
