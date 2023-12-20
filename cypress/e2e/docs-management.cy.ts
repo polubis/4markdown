@@ -16,7 +16,7 @@ describe(`Docs management works when`, () => {
   });
 
   it(`user may log in and log out`, () => {
-    LOG_IN_OUT_SCENARIOS[`I log in`]();
-    LOG_IN_OUT_SCENARIOS[`I log out`]();
+    LOG_IN_OUT_SCENARIOS[`I log in`]().Then(`System takes picture`);
+    LOG_IN_OUT_SCENARIOS[`I log out`]().Then(`System takes picture`);
   });
 });
