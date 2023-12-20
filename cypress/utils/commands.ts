@@ -14,7 +14,6 @@ type ClickableControls =
   | `Change theme`
   | `Close navigation`
   | `Sign in`;
-type TypeableControls = '';
 
 let acc = 1;
 let folder: string | undefined;
@@ -63,7 +62,7 @@ const BASE_COMMANDS = {
   'I not see button': (title: ClickableControls[]) => {
     cy.get(`button[title="${title}"]`).should(`not.exist`);
   },
-  'I type in input': (placeholder: TypeableControls, value: string) => {
+  'I type in input': (placeholder: string, value: string) => {
     cy.get(
       `input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`,
     ).type(value);
@@ -74,7 +73,7 @@ const BASE_COMMANDS = {
   'I see empty creator': () => {
     cy.get(`textarea[aria-label="creator"]`).should(`be.empty`);
   },
-  'I see empty input': (placeholders: TypeableControls[]) => {
+  'I see empty input': (placeholders: string[]) => {
     placeholders.forEach((placeholder) => {
       cy.get(
         `input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`,
