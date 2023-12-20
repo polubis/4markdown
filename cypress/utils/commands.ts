@@ -16,7 +16,21 @@ type ClickableControls =
   | `Sign in`
   | `User details and options`
   | `Sign out`
-  | `Close your account panel`;
+  | `Close your account panel`
+  | `Confirm document creation`
+  | `Close document adding`
+  | `Change document name`
+  | `Save changes`
+  | `Close document name edition`
+  | `Confirm name change`
+  | `More document options`
+  | `Confirm document removal`
+  | `Cancel document removal`
+  | `Close document removal`
+  | `Delete current document`
+  | `Close additional options`
+  | `Your documents`
+  | `Close your documents`;
 
 let acc = 1;
 let folder: string | undefined;
@@ -35,8 +49,19 @@ const BASE_COMMANDS = {
       cy.get(`button[title="${title}"]`);
     });
   },
+  'I clear input': (placeholders: string[]) => {
+    placeholders.forEach((placeholder) => {
+      cy.get(
+        `input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`,
+      ).type(`{selectall}{backspace}`);
+    });
+  },
   'I reload page': () => {
     cy.reload();
+    BASE_COMMANDS[`I move mouse`]();
+  },
+  'I move mouse': () => {
+    cy.get(`body`).trigger(`mousemove`, { clientX: 100, clientY: 200 });
   },
   'System sets pictures folder': (name: string) => {
     folder = name;
@@ -45,8 +70,20 @@ const BASE_COMMANDS = {
     acc = 1;
     folder = undefined;
   },
-  'System cleans local storage': () => {
+  'System cleans local storage': async () => {
     cy.clearAllLocalStorage();
+    cy.window().then((win) => {
+      const indexedDB = win.indexedDB;
+      if (indexedDB) {
+        indexedDB.databases().then((databases) => {
+          databases.forEach((database) => {
+            if (database.name) {
+              indexedDB.deleteDatabase(database.name);
+            }
+          });
+        });
+      }
+    });
   },
   'System takes picture': () => {
     if (!folder) {

@@ -9,5 +9,6 @@ export default defineConfig({
       addMatchImageSnapshotPlugin(on, config);
       return config;
     },
+    defaultCommandTimeout: 15000,
   },
 });

@@ -1,14 +1,18 @@
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
-const { When } = Gherkin(BASE_COMMANDS);
+const { When, Given } = Gherkin(BASE_COMMANDS);
 
 const LOG_IN_OUT_SCENARIOS = {
   'I log in': () => {
-    return When(`I click button`, [`Clear content`, `Sign in`])
+    return Given(`I see disabled button`, [`Sign in`])
+      .When(`I move mouse`)
+      .Then(`I see not disabled button`, [`Sign in`])
+      .When(`I click button`, [`Sign in`])
       .Then(`I not see button`, [`Sign in`])
       .When(`I click button`, [`User details and options`])
-      .And(`I see text`, [`Your Account`]);
+      .Then(`I see text`, [`Your Account`])
+      .And(`I see button`, [`Sign out`]);
   },
   'I log out': () => {
     return When(`I click button`, [`User details and options`])

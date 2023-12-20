@@ -36,6 +36,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
             type="button"
             i={2}
             rfull
+            title="Close document adding"
             className="ml-8"
             disabled={docManagementStore.is === `busy`}
             onClick={onClose}
