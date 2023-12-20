@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { BiLogInCircle } from 'react-icons/bi';
+import { BiLogInCircle, BiQuestionMark } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useToggle } from 'development-kit/use-toggle';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -47,7 +47,11 @@ const UserPopover = () => {
           )}
         {authStore.is === `authorized` && !authStore.user.avatar && (
           <span className="text-2xl">
-            {authStore.user.name ? authStore.user.name.charAt(0) : `?`}
+            {authStore.user.name ? (
+              authStore.user.name.charAt(0)
+            ) : (
+              <BiQuestionMark className="text-2xl" />
+            )}
           </span>
         )}
         {(authStore.is === `idle` || authStore.is === `unauthorized`) && (
