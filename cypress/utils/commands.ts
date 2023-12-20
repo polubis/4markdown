@@ -29,6 +29,9 @@ const BASE_COMMANDS = {
       cy.get(`button[title="${title}"]`);
     });
   },
+  'I reload page': () => {
+    cy.reload();
+  },
   'System sets pictures folder': (name: string) => {
     folder = name;
   },
