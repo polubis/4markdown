@@ -15,7 +15,7 @@ describe(`Docs management works when`, () => {
     Given(`System cleans pictures setup`).And(`System cleans local storage`);
   });
 
-  it(`user may sign in and sign out`, () => {
+  it(`user may log in and log out`, () => {
     LOG_IN_OUT_SCENARIOS[`I log in`]();
     LOG_IN_OUT_SCENARIOS[`I log out`]();
   });
