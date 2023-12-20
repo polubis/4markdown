@@ -20,7 +20,6 @@ let folder: string | undefined;
 
 const BASE_COMMANDS = {
   'I try to sign in': () => {
-    console.log(Cypress.env(`GOOGLE_REDIRECTION_KEY`));
     cy.intercept(
       `GET`,
       `https://identitytoolkit.googleapis.com/v1/projects?key=${Cypress.env(
