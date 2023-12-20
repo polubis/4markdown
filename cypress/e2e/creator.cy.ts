@@ -6,11 +6,13 @@ describe(`Creator works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
   before(() => {
-    Given(`System sets pictures folder`, `creator`);
+    Given(`System sets pictures folder`, `creator`).And(
+      `System cleans local storage`,
+    );
   });
 
   after(() => {
-    Given(`System cleans pictures setup`);
+    Given(`System cleans pictures setup`).And(`System cleans local storage`);
   });
 
   it(`user may use editor controls in both themes`, () => {

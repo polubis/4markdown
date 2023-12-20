@@ -36,6 +36,9 @@ const BASE_COMMANDS = {
     acc = 1;
     folder = undefined;
   },
+  'System cleans local storage': () => {
+    cy.clearAllLocalStorage();
+  },
   'System takes picture': () => {
     if (!folder) {
       throw Error(`Please specify folder for pictures`);
