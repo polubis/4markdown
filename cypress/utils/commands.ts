@@ -20,18 +20,6 @@ let folder: string | undefined;
 
 const BASE_COMMANDS = {
   'I try to sign in': () => {
-    cy.intercept(
-      `GET`,
-      `https://identitytoolkit.googleapis.com/v1/projects?key=${Cypress.env(
-        `GOOGLE_REDIRECTION_KEY`,
-      )}`,
-      (req) => {
-        req.reply({
-          statusCode: 200,
-          body: `Custom response instead of redirect`,
-        });
-      },
-    );
     BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
   },
   'I click button': (titles: ClickableControls[]) => {
