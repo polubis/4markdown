@@ -2,11 +2,11 @@ import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
-describe(`Docs management works when`, () => {
+describe(`Log in and out works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
   before(() => {
-    Given(`System sets pictures folder`, `docs-management`)
+    Given(`System sets pictures folder`, `log-in-out`)
       .And(`System cleans local storage`)
       .And(`Im on page`, `home`);
   });
