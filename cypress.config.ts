@@ -1,5 +1,8 @@
 import { defineConfig } from 'cypress';
 import { addMatchImageSnapshotPlugin } from 'cypress-image-snapshot/plugin';
+import { config } from 'dotenv';
+
+config();
 
 export default defineConfig({
   e2e: {
@@ -9,5 +12,8 @@ export default defineConfig({
       addMatchImageSnapshotPlugin(on, config);
       return config;
     },
+  },
+  env: {
+    GOOGLE_REDIRECTION_KEY: process.env.GOOGLE_REDIRECTION_KEY,
   },
 });

@@ -19,6 +19,22 @@ let acc = 1;
 let folder: string | undefined;
 
 const BASE_COMMANDS = {
+  'I try to sign in': () => {
+    console.log(Cypress.env(`GOOGLE_REDIRECTION_KEY`));
+    cy.intercept(
+      `GET`,
+      `https://identitytoolkit.googleapis.com/v1/projects?key=${Cypress.env(
+        `GOOGLE_REDIRECTION_KEY`,
+      )}`,
+      (req) => {
+        req.reply({
+          statusCode: 200,
+          body: `Custom response instead of redirect`,
+        });
+      },
+    );
+    BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
+  },
   'I click button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
       cy.get(`button[title="${title}"]`).click();
@@ -57,6 +73,11 @@ const BASE_COMMANDS = {
   'I see disabled button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
       cy.get(`button[title="${title}"]`).should(`be.disabled`);
+    });
+  },
+  'I see not disabled button': (titles: ClickableControls[]) => {
+    titles.forEach((title) => {
+      cy.get(`button[title="${title}"]`).should(`be.enabled`);
     });
   },
   'I not see button': (title: ClickableControls[]) => {
