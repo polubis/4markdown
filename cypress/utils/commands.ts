@@ -30,24 +30,21 @@ const BASE_COMMANDS = {
     });
   },
   'System sets pictures folder': (name: string) => {
-    // folder = name;
+    folder = name;
   },
   'System cleans pictures setup': () => {
-    // acc = 1;
-    // folder = undefined;
+    acc = 1;
+    folder = undefined;
   },
   'System cleans local storage': () => {
     cy.clearAllLocalStorage();
   },
   'System takes picture': () => {
-    cy.matchImageSnapshot();
-    // if (!folder) {
-    //   throw Error(`Please specify folder for pictures`);
-    // }
-    // cy.screenshot(`/current/${folder}/${acc}`, {
-    //   overwrite: true,
-    // });
-    // acc += 1;
+    if (!folder) {
+      throw Error(`Please specify folder for pictures`);
+    }
+    cy.matchImageSnapshot(`${folder}-${acc}`);
+    acc += 1;
   },
   'I paste in creator': async () => {
     // @TODO
