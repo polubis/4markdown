@@ -42,6 +42,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
           <Button
             className="mt-20 ml-auto"
             i={2}
+            title="Sign out"
             rfull
             onClick={signOutConfirmation.confirm}
           >

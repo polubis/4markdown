@@ -1,3 +1,4 @@
+import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
@@ -15,6 +16,7 @@ describe(`Docs management works when`, () => {
   });
 
   it(`user may sign in and sign out`, () => {
-    Given(`Im on page`, `home`).When(`I try to sign in`);
+    LOG_IN_OUT_SCENARIOS[`I log in`]();
+    LOG_IN_OUT_SCENARIOS[`I log out`]();
   });
 });

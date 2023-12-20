@@ -13,13 +13,15 @@ type ClickableControls =
   | `Navigation`
   | `Change theme`
   | `Close navigation`
-  | `Sign in`;
+  | `Sign in`
+  | `User details and options`
+  | `Sign out`;
 
 let acc = 1;
 let folder: string | undefined;
 
 const BASE_COMMANDS = {
-  'I try to sign in': () => {
+  'I sign in': () => {
     BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
   },
   'I click button': (titles: ClickableControls[]) => {
