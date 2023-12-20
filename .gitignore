@@ -6,4 +6,3 @@ src/gatsby-types.d.ts
 .env.development
 .env.production
 .env
-snapshots
