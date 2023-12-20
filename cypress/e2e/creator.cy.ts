@@ -1,47 +1,24 @@
+import { CREATOR_SCENARIOS } from '../scenarios/creator';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
 describe(`Creator works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
-  it(`user may use editor controls`, () => {
-    const folder = `creator`;
+  before(() => {
+    Given(`System sets pictures folder`, `creator`);
+  });
 
-    Given(`Im on page`, `home`)
-      .Then(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
-      .And(`I see disabled button`, [`Reset content`])
-      .And(`I see the same UI as before`, folder, `1`)
-      .When(`I click button`, [`Clear content`])
-      .Then(`I see text`, [`Sure?`])
-      .When(`I click button`, [`Clear content`])
-      .Then(`I not see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
-      .And(`I see disabled button`, [`Clear content`])
-      .When(`I type in creator`, `## My markdown`)
-      .Then(`I see text`, [`## My markdown`, `My markdown`])
-      .When(`I click button`, [`Clear content`])
-      .Then(`I see text`, [`Sure?`])
-      .When(`I click button`, [`Clear content`])
-      .Then(`I not see text`, [`## My markdown`, `My markdown`])
-      .When(`I click button`, [`Reset content`])
-      .Then(`I see text`, [`Sure?`])
-      .When(`I click button`, [`Reset content`])
-      .Then(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
-      .And(`I see disabled button`, [`Reset content`])
-      .And(`I see the same UI as before`, folder, `2`)
-      .When(`I click button`, [`Change view display`])
-      .Then(`I see the same UI as before`, folder, `3`)
-      .When(`I click button`, [`Change view display`])
-      .Then(`I see the same UI as before`, folder, `4`)
-      .When(`I click button`, [`Change view display`])
-      .Then(`I see the same UI as before`, folder, `5`)
-      .When(`I click button`, [`Use markdown templates`])
-      .Then(`I see the same UI as before`, folder, `6`)
-      .When(`I click button`, [`Copy headings markdown`])
-      .Then(`I see text`, [`Copied`])
-      .And(`I not see button`, [`Copy headings markdown`])
-      .When(`I click button`, [`Clear content`])
-      .And(`I click button`, [`Clear content`])
-      .Then(`I see empty creator`)
-      .And(`I not see text`, [`Copied`]);
+  after(() => {
+    Given(`System cleans pictures setup`);
+  });
+
+  it(`user may use editor controls in both themes`, () => {
+    CREATOR_SCENARIOS[`I played with editor`]().When(`I click button`, [
+      `Change theme`,
+      `Reset content`,
+      `Reset content`,
+    ]);
+    CREATOR_SCENARIOS[`I played with editor`]();
   });
 });

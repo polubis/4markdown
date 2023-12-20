@@ -9,17 +9,41 @@ type ClickableControls =
   | `Copy link markdown`
   | `Copy image markdown`
   | `Copy code markdown`
-  | `Copy table markdown`;
+  | `Copy table markdown`
+  | `Navigation`
+  | `Change theme`
+  | `Close navigation`;
 type TypeableControls = '';
 
+let acc = 1;
+let folder: string | undefined;
+
 const BASE_COMMANDS = {
-  'I click button': (title: ClickableControls[]) => {
-    cy.get(`button[title="${title}"]`).click();
+  'I click button': (titles: ClickableControls[]) => {
+    titles.forEach((title) => {
+      cy.get(`button[title="${title}"]`).click();
+    });
   },
-  'I see the same UI as before': (folder: string, name: string) => {
-    cy.screenshot(`/current/${folder}/${name}`, {
+  'I see button': (titles: ClickableControls[]) => {
+    titles.forEach((title) => {
+      cy.get(`button[title="${title}"]`);
+    });
+  },
+  'System sets pictures folder': (name: string) => {
+    folder = name;
+  },
+  'System cleans pictures setup': () => {
+    acc = 1;
+    folder = undefined;
+  },
+  'System takes picture': () => {
+    if (!folder) {
+      throw Error(`Please specify folder for pictures`);
+    }
+    cy.screenshot(`/current/${folder}/${acc}`, {
       overwrite: true,
     });
+    acc += 1;
   },
   'I paste in creator': async () => {
     // @TODO
