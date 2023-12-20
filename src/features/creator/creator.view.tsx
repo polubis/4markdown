@@ -176,6 +176,7 @@ const CreatorView: React.FC = () => {
           <textarea
             aria-labelledby="creator"
             aria-label="creator"
+            autoCorrect="off"
             className={c(
               `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
               { hidden: divideMode === `preview` },
