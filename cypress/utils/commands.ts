@@ -12,7 +12,8 @@ type ClickableControls =
   | `Copy table markdown`
   | `Navigation`
   | `Change theme`
-  | `Close navigation`;
+  | `Close navigation`
+  | `Sign in`;
 type TypeableControls = '';
 
 let acc = 1;

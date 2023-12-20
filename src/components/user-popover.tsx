@@ -11,7 +11,7 @@ const UserPopover = () => {
   const authStore = useAuthStore();
 
   const title =
-    authStore.is === `authorized` ? `User details and options` : `Sign In`;
+    authStore.is === `authorized` ? `User details and options` : `Sign in`;
 
   const handleClick = () => {
     if (authStore.is === `idle`) return;
