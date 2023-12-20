@@ -15,7 +15,8 @@ type ClickableControls =
   | `Close navigation`
   | `Sign in`
   | `User details and options`
-  | `Sign out`;
+  | `Sign out`
+  | `Close your account panel`;
 
 let acc = 1;
 let folder: string | undefined;

@@ -30,7 +30,13 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
         <div className="max-w-[280px] flex flex-col">
           <div className="flex items-center">
             <h6 className="text-xl">Your Account</h6>
-            <Button i={2} rfull className="ml-8" onClick={onClose}>
+            <Button
+              i={2}
+              rfull
+              className="ml-8"
+              title="Close your account panel"
+              onClick={onClose}
+            >
               <BiX className="text-2xl" />
             </Button>
           </div>
