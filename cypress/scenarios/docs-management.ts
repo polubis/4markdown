@@ -4,14 +4,11 @@ import { Gherkin } from '../utils/gherkin';
 const { When } = Gherkin(BASE_COMMANDS);
 
 const DOCS_MANAGEMENT_SCENARIOS = {
-  'I create, edit and delete document': () => {
-    const documentName = `Test document`;
-    const documentNameEdited = `Doc 2`;
-
+  'I create document': (name: string) => {
     return When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name...`, documentName)
+      .When(`I type in input`, `Type document name...`, name)
       .Then(`I see not disabled button`, [`Confirm document creation`])
       .And(`System takes picture`)
       .When(`I click button`, [`Confirm document creation`])
@@ -23,9 +20,15 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Confirm document creation`,
         `Close document adding`,
       ])
-      .And(`I see text`, [documentName])
+      .And(`I see text`, [name])
       .When(`I reload page`)
-      .Then(`I see text`, [documentName])
+      .Then(`I see text`, [name]);
+  },
+  'I create, edit and delete document': () => {
+    const documentName = `Test document`;
+    const documentNameEdited = `Doc 2`;
+
+    return DOCS_MANAGEMENT_SCENARIOS[`I create document`](documentName)
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [`Your Documents`, documentName])
       .And(`System takes picture`)
