@@ -40,7 +40,7 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
           disabled={disabled}
           i={2}
           rfull
-          title="Close"
+          title="Close document removal"
           onClick={close}
         >
           <BiX />
@@ -66,7 +66,7 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
             i={2}
             rfull
             disabled={disabled}
-            title="Close"
+            title="Cancel document removal"
             onClick={close}
           >
             Cancel

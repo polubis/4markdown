@@ -119,11 +119,7 @@
     "./src/**/*",
     "./gatsby-node.ts",
     "./gatsby-config.ts",
-    "./plugins/**/*"
-  ],
-  "exclude": [
-    "cypress/**/*.ts",
-    "cypress.config.ts",
-    "node_modules/cypress*/*.ts"
+    "./plugins/**/*",
+    "./cypress/**/*"
   ]
 }

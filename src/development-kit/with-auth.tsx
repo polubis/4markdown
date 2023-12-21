@@ -6,6 +6,7 @@ import {
   getAuth,
   onAuthStateChanged,
   setPersistence,
+  signInWithEmailAndPassword,
   signInWithRedirect,
   signOut,
 } from 'firebase/auth';
@@ -196,6 +197,15 @@ const WithAuth = () => {
         logIn: async () => {
           try {
             await setPersistence(auth, browserLocalPersistence);
+
+            const email = process.env.TEST_USER_EMAIL;
+            const password = process.env.TEST_USER_PASSWORD;
+
+            if (email !== undefined && password !== undefined) {
+              await signInWithEmailAndPassword(auth, email, password);
+              return;
+            }
+
             await signInWithRedirect(auth, provider);
           } catch (error: unknown) {}
         },

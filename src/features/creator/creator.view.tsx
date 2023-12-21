@@ -114,7 +114,7 @@ const CreatorView: React.FC = () => {
               className="md:flex hidden"
               rfull
               disabled={code === ``}
-              title="Clear Content"
+              title="Clear content"
               onClick={clearConfirm.confirm}
             >
               {clearConfirm.opened ? `Sure?` : `Clear`}
@@ -124,7 +124,7 @@ const CreatorView: React.FC = () => {
               className="md:flex hidden"
               rfull
               disabled={code === initialCode}
-              title="Reset Content"
+              title="Reset content"
               onClick={resetConfirm.confirm}
             >
               {resetConfirm.opened ? `Sure?` : `Reset`}
@@ -176,6 +176,7 @@ const CreatorView: React.FC = () => {
           <textarea
             aria-labelledby="creator"
             aria-label="creator"
+            spellCheck="false"
             className={c(
               `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
               { hidden: divideMode === `preview` },

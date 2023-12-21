@@ -26,7 +26,13 @@ const DocBarMorePopoverContent = ({
     >
       <div className="flex items-center">
         <h6 className="text-xl">Additional Options</h6>
-        <Button i={2} rfull className="ml-8" onClick={onClose}>
+        <Button
+          i={2}
+          rfull
+          className="ml-8"
+          title="Close additional options"
+          onClick={onClose}
+        >
           <BiX />
         </Button>
       </div>
@@ -40,7 +46,7 @@ const DocBarMorePopoverContent = ({
           }
           className="ml-auto"
           rfull
-          title="Delete this document"
+          title="Delete current document"
           onClick={onOpen}
         >
           <BiTrash className="text-2xl" />

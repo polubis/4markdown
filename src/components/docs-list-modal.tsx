@@ -29,7 +29,13 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     <Modal onClose={onClose}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Your Documents</h6>
-        <Button type="button" i={2} rfull title="Close" onClick={onClose}>
+        <Button
+          type="button"
+          i={2}
+          rfull
+          title="Close your documents"
+          onClick={onClose}
+        >
           <BiX />
         </Button>
       </div>
