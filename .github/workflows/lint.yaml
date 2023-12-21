@@ -1,8 +1,8 @@
-name: CI/CD workflow
+name: Linting
 
 on:
   pull_request:
-    branches: ['main']
+    branches: ['develop']
 
 jobs:
   build:
@@ -18,9 +18,6 @@ jobs:
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Run Tests
-        run: npm run test:ci
-
       - name: Run Linting
         run: npm run lint:ci
 
@@ -28,6 +25,3 @@ jobs:
         run: |
           BASE_BRANCH=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq -r .base.ref)
           git diff --name-only "$BASE_BRANCH..HEAD" | xargs -I {} npx commitlint --edit "{}"
-
-      - name: Run e2e
-        run: npm run test:e2e:ci
