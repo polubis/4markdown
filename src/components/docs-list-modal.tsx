@@ -59,6 +59,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
                 },
               )}
               key={doc.id}
+              title={doc.name}
               onClick={() => selectDoc(doc)}
             >
               <span className="font-bold line-clamp-3 text-center text-sm">

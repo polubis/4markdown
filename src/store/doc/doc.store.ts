@@ -1,4 +1,5 @@
 import type { Doc } from 'models/doc';
+import { creatorStoreActions } from 'store/creator/creator.store';
 import { create } from 'zustand';
 
 interface DocStoreIdleState {
@@ -57,6 +58,7 @@ const docStoreActions: DocStoreActions = {
       ...doc,
     };
     set(newState);
+    creatorStoreActions.change(doc.code);
     localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
   },
   sync: () => {

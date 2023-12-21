@@ -44,6 +44,9 @@ const BASE_COMMANDS = {
       cy.get(`button[title="${title}"]`).click();
     });
   },
+  'I select document': (title: string) => {
+    cy.get(`li[title="${title}"]`).click();
+  },
   'I see button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
       cy.get(`button[title="${title}"]`);
@@ -55,6 +58,9 @@ const BASE_COMMANDS = {
         `input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`,
       ).type(`{selectall}{backspace}`);
     });
+  },
+  'I clear creator': () => {
+    cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
   'I reload page': () => {
     cy.reload();
