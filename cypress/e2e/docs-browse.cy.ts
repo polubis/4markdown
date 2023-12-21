@@ -58,6 +58,10 @@ describe(`Docs browse works when`, () => {
       .Then(`I see text`, [documentName2, documentCode2])
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [documentName1, documentName2, `Your Documents`])
+      .And(`System takes picture`)
+      .When(`I select document`, documentName1)
+      .Then(`I not see text`, [`Your Documents`])
+      .And(`I see text`, [documentName1])
       .And(`System takes picture`);
   });
 });

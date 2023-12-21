@@ -44,6 +44,9 @@ const BASE_COMMANDS = {
       cy.get(`button[title="${title}"]`).click();
     });
   },
+  'I select document': (title: string) => {
+    cy.get(`li[title="${title}"]`).click();
+  },
   'I see button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
       cy.get(`button[title="${title}"]`);
