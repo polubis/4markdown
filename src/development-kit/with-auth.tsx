@@ -198,8 +198,8 @@ const WithAuth = () => {
           try {
             await setPersistence(auth, browserLocalPersistence);
 
-            const email = process.env.TEST_USER_EMAIL;
-            const password = process.env.TEST_USER_PASSWORD;
+            const email = process.env.GATSBY_TEST_USER_EMAIL;
+            const password = process.env.GATSBY_TEST_USER_PASSWORD;
 
             if (email !== undefined && password !== undefined) {
               await signInWithEmailAndPassword(auth, email, password);
