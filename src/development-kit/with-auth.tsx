@@ -200,7 +200,7 @@ const WithAuth = () => {
 
             const email = process.env.GATSBY_TEST_USER_EMAIL;
             const password = process.env.GATSBY_TEST_USER_PASSWORD;
-            console.log(!!email, !!password);
+
             if (email !== undefined && password !== undefined) {
               await signInWithEmailAndPassword(auth, email, password);
               return;
