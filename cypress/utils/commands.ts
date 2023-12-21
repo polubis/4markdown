@@ -53,8 +53,11 @@ const BASE_COMMANDS = {
     placeholders.forEach((placeholder) => {
       cy.get(
         `input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`,
-      ).type(`{selectall}{backspace}`);
+      );
     });
+  },
+  'I clear creator': () => {
+    cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
   'I reload page': () => {
     cy.reload();
