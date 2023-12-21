@@ -9,11 +9,17 @@ const ExceptionScreen = React.lazy(
   () => import(`./src/components/exception-screen`),
 );
 
+const SafeExceptionScreen = () => (
+  <React.Suspense>
+    <ExceptionScreen />
+  </React.Suspense>
+);
+
 export const wrapPageElement = ({ element }) => {
   const interacted = useOnInteraction();
 
   return (
-    <ErrorBoundary fallback={ExceptionScreen}>
+    <ErrorBoundary fallback={SafeExceptionScreen}>
       {element}
       {interacted && (
         <React.Suspense>
