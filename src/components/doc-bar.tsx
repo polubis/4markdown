@@ -92,7 +92,7 @@ const DocBar = () => {
             <Button
               i={2}
               rfull
-              title="Close edition"
+              title="Close document name edition"
               disabled={docManagementStore.is === `busy`}
               type="button"
               onClick={handleEditClose}
@@ -112,7 +112,7 @@ const DocBar = () => {
             <Button
               i={2}
               rfull
-              title="Change name"
+              title="Change document name"
               disabled={authStore.is !== `authorized`}
               onClick={handleEditOpen}
             >

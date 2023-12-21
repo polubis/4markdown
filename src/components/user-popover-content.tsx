@@ -4,7 +4,7 @@ import { BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import Popover from 'design-system/popover';
 import { useAuthStore } from 'store/auth/auth.store';
-import { docsStoreSelectors } from 'store/docs/docs.store';
+import { useDocsStore } from 'store/docs/docs.store';
 
 interface UserPopoverContentProps {
   onClose(): void;
@@ -12,7 +12,7 @@ interface UserPopoverContentProps {
 
 const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
   const authStore = useAuthStore();
-  const docsStore = docsStoreSelectors.useOk();
+  const docsStore = useDocsStore();
 
   const signOutConfirmation = useConfirm(async () => {
     if (authStore.is === `authorized`) {
@@ -30,11 +30,17 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
         <div className="max-w-[280px] flex flex-col">
           <div className="flex items-center">
             <h6 className="text-xl">Your Account</h6>
-            <Button i={2} rfull className="ml-8" onClick={onClose}>
+            <Button
+              i={2}
+              rfull
+              className="ml-8"
+              title="Close your account panel"
+              onClick={onClose}
+            >
               <BiX className="text-2xl" />
             </Button>
           </div>
-          {docsStore.docs.length > 0 && (
+          {docsStore.is === `ok` && docsStore.docs.length > 0 && (
             <p className="mt-4 text-md font-bold">
               Documents: {docsStore.docs.length}
             </p>
@@ -42,6 +48,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
           <Button
             className="mt-20 ml-auto"
             i={2}
+            title="Sign out"
             rfull
             onClick={signOutConfirmation.confirm}
           >
