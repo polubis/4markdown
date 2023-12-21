@@ -56,7 +56,7 @@ const BASE_COMMANDS = {
     placeholders.forEach((placeholder) => {
       cy.get(
         `input[placeholder="${placeholder}"], textarea[placeholder="${placeholder}"]`,
-      );
+      ).type(`{selectall}{backspace}`);
     });
   },
   'I clear creator': () => {
