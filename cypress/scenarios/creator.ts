@@ -6,7 +6,9 @@ const { Given } = Gherkin(BASE_COMMANDS);
 const CREATOR_SCENARIOS = {
   'I played with editor': () => {
     return Given(`Im on page`, `home`)
-      .Then(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
+      .When(`I move mouse`)
+      .Then(`I see not disabled button`, [`Sign in`])
+      .And(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
       .And(`I see disabled button`, [`Reset content`])
       .And(`System takes picture`)
       .When(`I click button`, [`Clear content`])

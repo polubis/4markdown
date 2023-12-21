@@ -5,9 +5,11 @@ describe(`Creator sync works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
   before(() => {
-    Given(`System sets pictures folder`, `creator-sync`).And(
-      `System cleans local storage`,
-    );
+    Given(`System sets pictures folder`, `creator-sync`);
+  });
+
+  beforeEach(() => {
+    Given(`System cleans local storage`);
   });
 
   after(() => {
