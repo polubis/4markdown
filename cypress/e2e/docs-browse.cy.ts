@@ -62,6 +62,23 @@ describe(`Docs browse works when`, () => {
       .When(`I select document`, documentName1)
       .Then(`I not see text`, [`Your Documents`])
       .And(`I see text`, [documentName1])
-      .And(`System takes picture`);
+      .And(`System takes picture`)
+      .When(`I click button`, [`Change theme`])
+      .And(`I click button`, [
+        `More document options`,
+        `Delete current document`,
+      ])
+      .Then(`System takes picture`)
+      .When(`I type in input`, `Type document name...`, documentName1)
+      .And(`I click button`, [`Confirm document removal`])
+      .Then(`I see text`, [documentName2, documentCode2])
+      .And(`System takes picture`)
+      .When(`I click button`, [
+        `More document options`,
+        `Delete current document`,
+      ])
+      .And(`I type in input`, `Type document name...`, documentName2)
+      .And(`I click button`, [`Confirm document removal`])
+      .Then(`I see text`, [`# Start from scratch`, `Start from scratch`]);
   });
 });
