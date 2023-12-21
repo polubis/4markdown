@@ -137,7 +137,7 @@ const CreatorView: React.FC = () => {
                   rfull
                   className="ml-auto"
                   onClick={() =>
-                    toggleTheme(theme === `dark` ? `light` : `dark`)
+                    toggleTheme(theme === `light` ? `dark` : `light`)
                   }
                 >
                   {theme === `light` ? (
