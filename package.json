@@ -22,7 +22,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "cy:open": "cypress open --browser chrome --e2e",
-    "cy:run": "CYPRESS_baseUrl=http://localhost:9000 cypress run --browser chrome",
+    "cy:run": "cypress run --browser chrome --config baseUrl=http://localhost:9000",
     "test:e2e": "start-server-and-test develop http://localhost:8000 cy:open",
     "test:ci": "npm run test",
     "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run",
