@@ -29,6 +29,4 @@ jobs:
           GATSBY_MEASURMENT_ID: ${{ secrets.GATSBY_MEASURMENT_ID }}
           GATSBY_TEST_USER_EMAIL: ${{ secrets.GATSBY_TEST_USER_EMAIL }}
           GATSBY_TEST_USER_PASSWORD: ${{ secrets.GATSBY_TEST_USER_PASSWORD }}
-        run: |
-          echo "Secret Value: ${{ secrets.GATSBY_TEST_USER_EMAIL }}"
-          npm run test:e2e:ci
+        run: npm run test:e2e:ci

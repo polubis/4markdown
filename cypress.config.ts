@@ -3,7 +3,6 @@ import { addMatchImageSnapshotPlugin } from 'cypress-image-snapshot/plugin';
 
 export default defineConfig({
   e2e: {
-    baseUrl: `http://localhost:9000`,
     specPattern: `cypress/e2e`,
     setupNodeEvents(on, config) {
       addMatchImageSnapshotPlugin(on, config);
