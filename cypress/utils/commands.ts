@@ -44,6 +44,9 @@ const BASE_COMMANDS = {
       cy.get(`button[title="${title}"]`).click();
     });
   },
+  'I wait': (ms = 500) => {
+    cy.wait(ms);
+  },
   'I select document': (title: string) => {
     cy.get(`li[title="${title}"]`).click();
   },
@@ -67,6 +70,7 @@ const BASE_COMMANDS = {
     BASE_COMMANDS[`I move mouse`]();
   },
   'I move mouse': () => {
+    BASE_COMMANDS[`I wait`](500);
     cy.get(`body`).trigger(`mousemove`, { clientX: 100, clientY: 200 });
   },
   'System sets pictures folder': (name: string) => {
