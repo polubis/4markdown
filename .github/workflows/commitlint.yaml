@@ -1,4 +1,4 @@
-name: Commitlint
+name: Commitlint and Commit Count Check
 
 on:
   pull_request:
@@ -17,6 +17,15 @@ jobs:
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
+
+      - name: Commit Count Check
+        run: |
+          BASE_BRANCH=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq -r .base.ref)
+          commit_count=$(git rev-list --count "$BASE_BRANCH..HEAD")
+          if [ "$commit_count" -ne 1 ]; then
+            echo "Error: The number of commits in the pull request must be exactly 1."
+            exit 1
+          fi
 
       - name: Run Commitlint
         run: |
