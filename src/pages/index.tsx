@@ -69,7 +69,8 @@ const HomePage: React.FC = () => {
 
     synced.current = true;
   }
-
+  
+  console.log(process.env.GATSBY_TEST_USER_EMAIL)
   return <CreatorView />;
 };
 
