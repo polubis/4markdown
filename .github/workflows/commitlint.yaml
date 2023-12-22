@@ -1,0 +1,14 @@
+name: Commitlint
+
+stages:
+  - lint
+
+commitlint:
+  stage: lint
+  script:
+    - npm install --legacy-peer-deps
+    - npx commitlint --from=develop
+  only:
+    - merge_requests@develop
+  except:
+    - master

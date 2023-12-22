@@ -20,8 +20,3 @@ jobs:
 
       - name: Run Linting
         run: npm run lint:ci
-
-      - name: Run commitlint
-        run: |
-          BASE_BRANCH=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq -r .base.ref)
-          git diff --name-only "$BASE_BRANCH..HEAD" | xargs -I {} npx commitlint --edit "{}"
