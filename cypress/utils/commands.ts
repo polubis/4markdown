@@ -140,12 +140,12 @@ const BASE_COMMANDS = {
   },
   'I see text': (values: string[]) => {
     values.forEach((text) => {
-      cy.get(text);
+      cy.contains(text, { matchCase: true }).should(`exist`);
     });
   },
   'I not see text': (values: string[]) => {
     values.forEach((text) => {
-      cy.get(text).should(`not.exist`);
+      cy.contains(text, { matchCase: true }).should(`not.exist`);
     });
   },
   'Im on page': (name: 'home') => {

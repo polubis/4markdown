@@ -26,8 +26,3 @@ jobs:
             echo "Error: The number of commits in the pull request must be exactly 1."
             exit 1
           fi
-
-      - name: Run Commitlint
-        run: |
-          BASE_BRANCH=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq -r .base.ref)
-          git diff --name-only "$BASE_BRANCH..HEAD" | xargs -I {} npx commitlint --edit "{}"
