@@ -6,9 +6,11 @@ describe(`Creator works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
   before(() => {
-    Given(`System sets pictures folder`, `creator`).And(
-      `System cleans local storage`,
-    );
+    Given(`System sets pictures folder`, `creator`);
+  });
+
+  beforeEach(() => {
+    Given(`System cleans local storage`);
   });
 
   after(() => {
