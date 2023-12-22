@@ -4,7 +4,7 @@ import type { SiteMetadata } from 'models/queries';
 require(`dotenv`).config({
   path: `.env.${process.env.NODE_ENV}`,
 });
-console.log(process.env.GATSBY_TEST_USER_EMAIL);
+
 const siteMetadata: SiteMetadata = {
   appName: `4Markdown`,
   lang: `en`,

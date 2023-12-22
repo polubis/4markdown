@@ -30,7 +30,7 @@
     "test:ci": "npm run test",
     "test:e2e-run-dev": "start-server-and-test develop http://localhost:8000 cy:run-dev",
     "test:e2e-run-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
-    "test:e2e:ci": "npm run test:e2e-run-prod",
+    "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "lint:ci": "npm run lint"
   },
   "dependencies": {
