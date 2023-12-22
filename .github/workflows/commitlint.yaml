@@ -1,14 +1,22 @@
-name: Commitlint
+name: Linting
 
-stages:
-  - lint
+on:
+  pull_request:
+    branches: ['develop']
 
-commitlint:
-  stage: lint
-  script:
-    - npm install --legacy-peer-deps
-    - npx commitlint --from=develop
-  only:
-    - merge_requests@develop
-  except:
-    - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run Linting
+        run: npx commitlint --from=develop
