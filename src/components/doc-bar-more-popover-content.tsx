@@ -1,5 +1,6 @@
 import { Button } from 'design-system/button';
 import Popover from 'design-system/popover';
+import Switch from 'design-system/switch';
 import React from 'react';
 import { BiTrash, BiX } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
@@ -18,6 +19,7 @@ const DocBarMorePopoverContent = ({
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
   const docManagementStore = useDocManagementStore();
+  const [active, setActive] = React.useState(false);
 
   return (
     <Popover
@@ -36,7 +38,7 @@ const DocBarMorePopoverContent = ({
           <BiX />
         </Button>
       </div>
-      <div className="mt-4">
+      <div className="flex items-center mt-4">
         <Button
           i={2}
           disabled={
@@ -44,13 +46,31 @@ const DocBarMorePopoverContent = ({
             authStore.is !== `authorized` ||
             docsStore.is === `busy`
           }
-          className="ml-auto"
           rfull
           title="Delete current document"
           onClick={onOpen}
         >
           <BiTrash className="text-2xl" />
         </Button>
+        <Switch
+          className="ml-2"
+          title="Change visiblity"
+          active={active}
+          onChange={() => setActive(!active)}
+        />
+        <Switch
+          className="ml-2"
+          active={active}
+          title="Change visiblity"
+          onChange={() => setActive(!active)}
+        />
+        <Switch
+          className="ml-2"
+          active={active}
+          disabled
+          title="Change visiblity"
+          onChange={() => setActive(!active)}
+        />
       </div>
     </Popover>
   );

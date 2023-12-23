@@ -6,11 +6,12 @@ interface Doc {
   code: Code;
   mdate: Date;
   cdate: Date;
+  visiblity: 'private' | 'public';
 }
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
-type UpdateDocPayload = Pick<Doc, 'name' | 'code' | 'id'>;
+type UpdateDocPayload = Pick<Doc, 'name' | 'code' | 'id' | 'visiblity'>;
 
 type DeleteDocPayload = Pick<Doc, 'id'>;
 

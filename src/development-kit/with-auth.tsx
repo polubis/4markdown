@@ -81,9 +81,9 @@ const WithAuth = () => {
     };
 
     const updateDoc = async (name: Doc['name']) => {
-      const { id } = docStoreSelectors.active();
+      const { id, visiblity } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
-      const doc: UpdateDocPayload = { id, name, code };
+      const doc: UpdateDocPayload = { id, name, code, visiblity };
 
       try {
         docManagementStoreActions.busy();
