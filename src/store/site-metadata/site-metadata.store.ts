@@ -16,7 +16,7 @@ const useSiteMetadataStore = create<SiteMetadataStoreState>(() => ({
   is: `idle`,
 }));
 
-const siteMetadatStoreSelectors: SiteMetadataStoreSelectors = {
+const siteMetadataStoreSelectors: SiteMetadataStoreSelectors = {
   useReady: () => {
     return useSiteMetadataStore((state) => {
       if (state.is === `idle`) {
@@ -28,4 +28,4 @@ const siteMetadatStoreSelectors: SiteMetadataStoreSelectors = {
   },
 };
 
-export { useSiteMetadataStore, siteMetadatStoreSelectors };
+export { useSiteMetadataStore, siteMetadataStoreSelectors };

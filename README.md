@@ -29,7 +29,7 @@ interface Article {
   description: string; // Added to SEO tag and as intro to article - in list view. 110 - 160 characters.
   resources_path?: string; // If specified, user need only to add file names.
   authorId: string; // The reference to the author id of signed in user.
-  // visiblity: 'Public' | 'Private' | string[]; // All may see an article, or only you, or only people that have shared the article.
+  // visibility: 'Public' | 'Private' | string[]; // All may see an article, or only you, or only people that have shared the article.
 }
 
 interface ArticleSerie {

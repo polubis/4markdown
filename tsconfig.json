@@ -110,6 +110,7 @@
       "views/*": ["./src/views/*"],
       "features/*": ["./src/features/*"],
       "models/*": ["./src/models/*"],
+      "queries/*": ["./src/queries/*"],
       "components/*": ["./src/components/*"],
       "__mocks__/*": ["./src/__mocks__/*"]
     },

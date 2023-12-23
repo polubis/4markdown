@@ -1,20 +1,16 @@
 import React from 'react';
-import { type HeadFC } from 'gatsby';
-import CreatorView from 'features/creator/creator.view';
+import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import {
   siteMetadataStoreSelectors,
   useSiteMetadataStore,
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
+import DocPreviewView from 'features/doc-preview/doc-preview.view';
 import { useStoreSync } from 'development-kit/use-store-sync';
-import {
-  createInitialCode,
-  useCreatorStore,
-} from 'store/creator/creator.store';
+import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
 
-const HomePage: React.FC = () => {
+const DocsPreviewPage: React.FC = () => {
   const siteMetadata = useSiteMetadataQuery();
 
   useStoreSync(
@@ -26,25 +22,11 @@ const HomePage: React.FC = () => {
       }) as const,
     ({ is }) => is === `idle`,
   );
-  useStoreSync(
-    useCreatorStore,
-    () => {
-      const code = createInitialCode(siteMetadata);
 
-      return {
-        is: `ready`,
-        initialCode: code,
-        prevCode: code,
-        code,
-      } as const;
-    },
-    ({ is }) => is === `idle`,
-  );
-
-  return <CreatorView />;
+  return <DocPreviewView />;
 };
 
-export default HomePage;
+export default DocsPreviewPage;
 
 export const Head: HeadFC = () => {
   const meta = siteMetadataStoreSelectors.useReady();
@@ -57,6 +39,7 @@ export const Head: HeadFC = () => {
       url={meta.siteUrl}
       lang={meta.lang}
       image={LogoThumbnail}
+      robots="noindex, nofollow"
     />
   );
 };

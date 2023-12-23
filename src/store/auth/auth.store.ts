@@ -1,4 +1,4 @@
-import type { Doc } from 'models/doc';
+import type { Doc, GetDocPayload } from 'models/doc';
 import type { User } from 'models/user';
 import { create } from 'zustand';
 
@@ -10,10 +10,12 @@ interface AuthorizedData {
   updateDoc(name: Doc['name']): Promise<void>;
   getDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
+  getPublicDoc(payload: GetDocPayload): Promise<Doc>;
 }
 
 interface UnauthrorizedData {
   logIn(): void;
+  getPublicDoc(payload: GetDocPayload): Promise<Doc>;
 }
 
 interface AuthStoreActions {

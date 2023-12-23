@@ -15,7 +15,7 @@ import {
 } from 'store/creator/creator.store';
 import c from 'classnames';
 import MoreNav from 'components/more-nav';
-import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from 'components/templates-popover';
 import UserPopover from 'components/user-popover';
@@ -35,7 +35,7 @@ type DivideMode = 'both' | 'preview' | 'code';
 const CreatorView: React.FC = () => {
   useLsSync();
 
-  const meta = siteMetadatStoreSelectors.useReady();
+  const meta = siteMetadataStoreSelectors.useReady();
   const docStore = useDocStore();
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);

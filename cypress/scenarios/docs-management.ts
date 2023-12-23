@@ -50,13 +50,50 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see not disabled button`, [`Change document name`])
       .When(`I click button`, [`More document options`])
       .Then(`I see text`, [`Additional Options`])
-      .And(`System takes picture`)
+      .And(`I see button`, [`Make this document public`])
       .When(`I click button`, [`Close additional options`])
       .Then(`I not see text`, [`Additional Options`])
-      .When(`I click button`, [
-        `More document options`,
-        `Delete current document`,
+      .When(`I click button`, [`More document options`])
+      .Then(`I see not disabled button`, [`Make this document public`])
+      .And(`I see text`, [
+        `Name: ${documentNameEdited}`,
+        `Visibility: Private`,
+        `Created`,
+        `Edited`,
       ])
+      .And(`I not see text`, [`Visibility: Private`, `URL: Preview`])
+      .When(`I click button`, [`Make this document public`])
+      .Then(`I see disabled button`, [
+        `Close additional options`,
+        `Delete current document`,
+        `Make this document public`,
+      ])
+      .And(`I see not disabled button`, [
+        `Make this document private`,
+        `Delete current document`,
+        `Close additional options`,
+      ])
+      .And(`I see text`, [
+        `Name: ${documentNameEdited}`,
+        `Visibility: Public`,
+        `Created`,
+        `Edited`,
+        `URL: Preview`,
+      ])
+      .And(`I not see text`, [`Visibility: Private`])
+      .When(`I click button`, [`Make this document private`])
+      .Then(`I see disabled button`, [
+        `Close additional options`,
+        `Delete current document`,
+        `Make this document private`,
+      ])
+      .And(`I see not disabled button`, [
+        `Make this document public`,
+        `Delete current document`,
+        `Close additional options`,
+      ])
+      .And(`System takes picture`)
+      .When(`I click button`, [`Delete current document`])
       .Then(`I see text`, [
         `Document Removal`,
         `Document name*`,

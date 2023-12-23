@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { siteMetadatStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import Backdrop from 'design-system/backdrop';
 
 interface MenuNavSidebarProps {
@@ -9,7 +9,7 @@ interface MenuNavSidebarProps {
 }
 
 const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
-  const meta = siteMetadatStoreSelectors.useReady();
+  const meta = siteMetadataStoreSelectors.useReady();
 
   return (
     <>

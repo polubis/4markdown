@@ -30,7 +30,9 @@ type ClickableControls =
   | `Delete current document`
   | `Close additional options`
   | `Your documents`
-  | `Close your documents`;
+  | `Close your documents`
+  | `Make this document public`
+  | `Make this document private`;
 
 let acc = 1;
 let folder: string | undefined;
