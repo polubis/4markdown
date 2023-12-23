@@ -1,7 +1,7 @@
 import { Button } from 'design-system/button';
 import React from 'react';
 
-const ErrorScreen = () => {
+const ExceptionScreen = () => {
   const resetAll = (): void => {
     localStorage.clear();
     window.location.reload();
@@ -16,6 +16,7 @@ const ErrorScreen = () => {
         <Button
           title="Restart application"
           className="mt-4"
+          rfull
           i={2}
           onClick={resetAll}
         >
@@ -26,4 +27,4 @@ const ErrorScreen = () => {
   );
 };
 
-export default ErrorScreen;
+export default ExceptionScreen;

@@ -20,6 +20,8 @@ import type {
   DeleteDocDto,
   DeleteDocPayload,
   Doc,
+  GetDocDto,
+  GetDocPayload,
   UpdateDocDto,
   UpdateDocPayload,
 } from 'models/doc';
@@ -32,13 +34,6 @@ import {
   docsStoreSelectors,
   useDocsStore,
 } from 'store/docs/docs.store';
-
-const ENDPOINTS = {
-  createDoc: `createDoc`,
-  updateDoc: `updateDoc`,
-  getDocs: `getDocs`,
-  deleteDoc: `deleteDoc`,
-} as const;
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -57,6 +52,15 @@ const WithAuth = () => {
     const functions = getFunctions(app);
     const provider = new GoogleAuthProvider();
 
+    const getPublicDoc = async (payload: GetDocPayload) => {
+      const { data: doc } = await httpsCallable<GetDocPayload, GetDocDto>(
+        functions,
+        `getPublicDoc`,
+      )(payload);
+
+      return doc;
+    };
+
     const createDoc = async (name: Doc['name']) => {
       const { code } = creatorStoreSelectors.ready();
 
@@ -69,7 +73,7 @@ const WithAuth = () => {
           CreateDocDto
         >(
           functions,
-          ENDPOINTS.createDoc,
+          `createDoc`,
         )(doc);
         docManagementStoreActions.ok();
         docStoreActions.setActive(createdDoc);
@@ -80,10 +84,18 @@ const WithAuth = () => {
       }
     };
 
-    const updateDoc = async (name: Doc['name']) => {
-      const { id, visiblity } = docStoreSelectors.active();
+    const updateDoc = async (
+      name: Doc['name'],
+      visibility: Doc['visibility'],
+    ) => {
+      const { id } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
-      const doc: UpdateDocPayload = { id, name, code, visiblity };
+      const doc: UpdateDocPayload = {
+        id,
+        name,
+        code,
+        visibility,
+      };
 
       try {
         docManagementStoreActions.busy();
@@ -92,7 +104,7 @@ const WithAuth = () => {
           UpdateDocDto
         >(
           functions,
-          ENDPOINTS.updateDoc,
+          `updateDoc`,
         )(doc);
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
@@ -116,7 +128,7 @@ const WithAuth = () => {
 
         const { data: docs } = await httpsCallable<undefined, Doc[]>(
           functions,
-          ENDPOINTS.getDocs,
+          `getDocs`,
         )();
 
         docsStoreActions.ok(docs);
@@ -137,7 +149,7 @@ const WithAuth = () => {
         docManagementStoreActions.busy();
         await httpsCallable<DeleteDocPayload, DeleteDocDto>(
           functions,
-          ENDPOINTS.deleteDoc,
+          `deleteDoc`,
         )({ id });
 
         docManagementStoreActions.ok();
@@ -175,16 +187,19 @@ const WithAuth = () => {
               await signOut(auth);
             } catch {}
           },
+          getPublicDoc,
           deleteDoc: async () => {
             await deleteDoc(docStoreSelectors.active().id);
           },
           getDocs,
           createDoc,
           saveDoc: async () => {
-            await updateDoc(docStoreSelectors.active().name);
+            const { name, visibility } = docStoreSelectors.active();
+            await updateDoc(name, visibility);
           },
           updateDoc,
         });
+
         getDocs();
 
         return;
@@ -194,6 +209,7 @@ const WithAuth = () => {
       docManagementStoreActions.idle();
       docsStoreActions.idle();
       authStoreActions.unauthorize({
+        getPublicDoc,
         logIn: async () => {
           try {
             await setPersistence(auth, browserLocalPersistence);

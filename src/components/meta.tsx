@@ -7,9 +7,18 @@ interface MetaProps {
   url: string;
   lang: string;
   image: string;
+  robots?: string;
 }
 
-const Meta = ({ title, appName, description, url, lang, image }: MetaProps) => {
+const Meta = ({
+  title,
+  appName,
+  description,
+  url,
+  lang,
+  image,
+  robots = `index,follow,max-image-preview:large`,
+}: MetaProps) => {
   return (
     <>
       {/* General */}
@@ -24,7 +33,7 @@ const Meta = ({ title, appName, description, url, lang, image }: MetaProps) => {
       <meta name="theme-color" content="#000000" />
       <meta property="al:ios:app_name" content={appName} />
       <meta property="al:android:app_name" content={appName} />
-      <meta name="robots" content="index,follow,max-image-preview:large" />
+      <meta name="robots" content={robots} />
       {/* Twitter */}
       <meta name="twitter:app:name:iphone" content={appName} />
       <meta name="twitter:card" content="summary_large_image" />
