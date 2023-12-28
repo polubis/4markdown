@@ -13,4 +13,11 @@ export type SiteMetadata = {
   ytChannelUrl: string;
   grammarlyUrl: string;
   ytVideoTutorialUrl: string;
+  routes: {
+    home: string;
+    docs: {
+      home: string;
+      preview: string;
+    };
+  };
 };

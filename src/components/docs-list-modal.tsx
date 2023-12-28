@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import Modal from 'design-system/modal';
 import type { Doc } from 'models/doc';
 import React from 'react';
-import { BiX } from 'react-icons/bi';
+import { BiLowVision, BiShow, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -48,7 +48,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
           {docsStore.docs.map((doc) => (
             <li
               className={c(
-                `cursor-pointer border-2 shrink-0 h-[100px] w-[100%] rounded-md p-4 flex justify-center items-center`,
+                `relative cursor-pointer border-2 shrink-0 h-[100px] w-[100%] rounded-md p-4 flex justify-center items-center`,
                 {
                   'bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800':
                     docStore.id !== doc.id,
@@ -62,6 +62,19 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
               title={doc.name}
               onClick={() => selectDoc(doc)}
             >
+              <span className="absolute top-1 right-1">
+                {doc.visibility === `private` ? (
+                  <BiLowVision
+                    title="This document is private"
+                    className="text-2xl"
+                  />
+                ) : (
+                  <BiShow
+                    title="This document is public"
+                    className="text-2xl"
+                  />
+                )}
+              </span>
               <span className="font-bold line-clamp-3 text-center text-sm">
                 {doc.name}
               </span>

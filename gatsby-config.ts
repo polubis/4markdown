@@ -20,6 +20,13 @@ const siteMetadata: SiteMetadata = {
   fbGroupUrl: `https://www.facebook.com/groups/1472987149805006`,
   grammarlyUrl: `https://chromewebstore.google.com/detail/grammarly-grammar-checker/kbfnbcaeplbcioakkpcpgfkobkghlhen?pli=1`,
   ytVideoTutorialUrl: `https://www.youtube.com/watch?v=t3Ve0em65rY`,
+  routes: {
+    home: `/`,
+    docs: {
+      home: `/docs/`,
+      preview: `/docs/preview/`,
+    },
+  },
 };
 
 const config: GatsbyConfig = {
