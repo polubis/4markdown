@@ -1,19 +1,15 @@
 import React from 'react';
-import { type HeadFC } from 'gatsby';
-import CreatorView from 'features/creator/creator.view';
+import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import {
   siteMetadataStoreSelectors,
   useSiteMetadataStore,
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
+import DocPreviewView from 'features/doc-preview/doc-preview.view';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
-import {
-  createInitialCode,
-  useCreatorStore,
-} from 'store/creator/creator.store';
 
-const HomePage: React.FC = () => {
+const DocsPreviewPage: React.FC = () => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 
@@ -22,23 +18,13 @@ const HomePage: React.FC = () => {
       is: `ready`,
       ...siteMetadata,
     });
-
-    const code = createInitialCode(siteMetadata);
-
-    useCreatorStore.setState({
-      is: `ready`,
-      initialCode: code,
-      prevCode: code,
-      code,
-    });
-
     synced.current = true;
   }
 
-  return <CreatorView />;
+  return <DocPreviewView />;
 };
 
-export default HomePage;
+export default DocsPreviewPage;
 
 export const Head: HeadFC = () => {
   const meta = siteMetadataStoreSelectors.useReady();
@@ -51,6 +37,7 @@ export const Head: HeadFC = () => {
       url={meta.siteUrl}
       lang={meta.lang}
       image={LogoThumbnail}
+      robots="noindex, nofollow"
     />
   );
 };

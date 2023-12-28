@@ -1,9 +1,69 @@
+import { type Doc } from 'models/doc';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
 const { When } = Gherkin(BASE_COMMANDS);
 
 const DOCS_MANAGEMENT_SCENARIOS = {
+  'I delete document': (name: Doc['name']) => {
+    return When(`I click button`, [
+      `More document options`,
+      `Delete current document`,
+    ])
+      .And(`I type in input`, `Type document name...`, name)
+      .And(`I click button`, [`Confirm document removal`])
+      .Then(`I see disabled button`, [
+        `Confirm document removal`,
+        `Cancel document removal`,
+        `Close document removal`,
+      ])
+      .And(`I not see text`, [`Delete current document`, name]);
+  },
+  'I change document visiblity': () => {
+    const documentName = `Test document`;
+
+    When(`I click button`, [`Create new document`])
+      .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
+      .And(`I see disabled button`, [`Confirm document creation`])
+      .When(`I type in input`, `Type document name...`, documentName)
+      .Then(`I see not disabled button`, [`Confirm document creation`])
+      .And(`System takes picture`)
+      .When(`I click button`, [`Confirm document creation`])
+      .Then(`I see disabled button`, [
+        `Confirm document creation`,
+        `Close document adding`,
+      ])
+      .And(`I not see button`, [
+        `Confirm document creation`,
+        `Close document adding`,
+      ])
+      .And(`I see text`, [documentName])
+      .When(`I click button`, [`More document options`])
+      .Then(`System takes picture`)
+      .When(`I click button`, [`Make this document public`])
+      .Then(`I see disabled button`, [`Make this document public`])
+      .And(`I see not disabled button`, [`Make this document private`])
+      .And(`System takes picture`)
+      .When(`I click button`, [`Document preview`])
+      .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
+      .When(`I reload page`)
+      .Then(`I see button`, [`Go back to editor`])
+      .And(`System takes picture`)
+      .When(`I click button`, [`Go back to editor`])
+      .Then(`I see button`, [`More document options`])
+      .And(`System takes picture`)
+      .When(`I click button`, [`More document options`])
+      .And(`I click button`, [`Make this document private`])
+      .Then(`I see disabled button`, [`Make this document private`])
+      .And(`I see not disabled button`, [`Make this document public`])
+      .And(`System takes picture`)
+      .When(`I click button`, [`Close additional options`]);
+
+    DOCS_MANAGEMENT_SCENARIOS[`I delete document`](documentName).Then(
+      `I see text`,
+      [`# Start from scratch`, `Start from scratch`],
+    );
+  },
   'I create, edit and delete document': () => {
     const documentName = `Test document`;
     const documentNameEdited = `Doc 2`;
@@ -84,6 +144,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see text`, [`# Start from scratch`, `Start from scratch`])
       .When(`I reload page`)
       .Then(`I see text`, [`# Start from scratch`, `Start from scratch`])
+      .And(`I see button`, [`User details and options`])
       .And(`System takes picture`);
   },
 } as const;

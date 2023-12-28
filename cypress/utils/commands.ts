@@ -30,7 +30,11 @@ type ClickableControls =
   | `Delete current document`
   | `Close additional options`
   | `Your documents`
-  | `Close your documents`;
+  | `Close your documents`
+  | `Make this document public`
+  | `Make this document private`
+  | `Document preview`
+  | `Go back to editor`;
 
 let acc = 1;
 let folder: string | undefined;
@@ -71,7 +75,7 @@ const BASE_COMMANDS = {
   },
   'I move mouse': () => {
     BASE_COMMANDS[`I wait`](500);
-    cy.get(`body`).trigger(`mousemove`, { clientX: 100, clientY: 200 });
+    cy.get(`body`).focus().trigger(`mousemove`, { clientX: 100, clientY: 200 });
   },
   'System sets pictures folder': (name: string) => {
     folder = name;
