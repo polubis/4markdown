@@ -18,6 +18,7 @@ import {
   docManagementStoreActions,
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
+import Alert from 'design-system/alert';
 
 const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
@@ -65,6 +66,18 @@ const CreatorView: React.FC = () => {
           />
         </React.Suspense>
       )}
+      <Alert variant="error">
+        <Alert.Message>Something went wrong</Alert.Message>
+      </Alert>
+      <Alert variant="info">
+        <Alert.Message>Something went wrong</Alert.Message>
+      </Alert>
+      <Alert variant="casual">
+        <Alert.Message>Something went wrong</Alert.Message>
+      </Alert>
+      <Alert variant="warn">
+        <Alert.Message>Something went wrong</Alert.Message>
+      </Alert>
       <main className="flex h-full md:flex-col flex-col-reverse">
         <header className="flex items-center overflow-x-auto overflow-y-hidden py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800 h-[72px]">
           <picture className="w-[32px] h-[32px] shrink-0 md:flex hidden mr-4">
