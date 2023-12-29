@@ -11,11 +11,19 @@ interface BtnProps
   rounded?: boolean;
 }
 
-const Btn: React.FC<BtnProps> = ({ className, children, s, i, rounded }) => {
+const Btn: React.FC<BtnProps> = ({
+  className,
+  children,
+  s,
+  i,
+  rounded,
+  ...props
+}) => {
   const classes = React.useMemo(() => {
     return c(
       className,
       `flex justify-center items-center shrink-0 enabled:focus:outline outline-2 outline-black font-medium font-sans disabled:cursor-not-allowed dark:outline-white`,
+      { [`h-8 w-8 text-[18px]`]: s === 1 },
       { [`h-10 w-10 text-xl`]: s === 2 },
       {
         [`disabled:text-black/30 text-black enabled:hover:bg-gray-400/20 dark:enabled:hover:bg-slate-800/50 dark:text-white dark:disabled:text-white/30`]:
@@ -29,7 +37,11 @@ const Btn: React.FC<BtnProps> = ({ className, children, s, i, rounded }) => {
     );
   }, [className, i, s, rounded]);
 
-  return <button className={classes}>{children}</button>;
+  return (
+    <button {...props} className={classes}>
+      {children}
+    </button>
+  );
 };
 
 export default Btn;
