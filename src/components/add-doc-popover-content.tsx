@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import Popover from 'design-system/popover';
 import { docStoreValidators } from 'store/doc/doc.store';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
+import Btn from 'design-system/btn';
 
 interface AddDocPopoverContentProps {
   onClose(): void;
@@ -32,17 +32,18 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
       <form className="max-w-[280px] flex flex-col" onSubmit={handleSubmit}>
         <div className="flex items-center mb-2">
           <h6 className="text-xl">Create Document</h6>
-          <Button
+          <Btn
             type="button"
             i={2}
-            rfull
+            s={1}
+            rounded
             title="Close document adding"
             className="ml-8"
             disabled={docManagementStore.is === `busy`}
             onClick={onClose}
           >
             <BiX />
-          </Button>
+          </Btn>
         </div>
         <fieldset className="flex flex-col gap-1.5">
           <label className="text-sm font-medium">Document name*</label>
@@ -53,18 +54,19 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
             className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black dark:border-white outline-none"
           />
         </fieldset>
-        <Button
+        <Btn
           type="submit"
           i={2}
+          s={2}
           className="mt-6"
-          rfull
+          auto
           title="Confirm document creation"
           disabled={
             docStoreValidators.name(name) || docManagementStore.is === `busy`
           }
         >
           Create
-        </Button>
+        </Btn>
       </form>
     </Popover>
   );
