@@ -1,13 +1,6 @@
 import React from 'react';
-import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import Markdown from 'components/markdown';
-import {
-  BiBookContent,
-  BiMoon,
-  BiSolidBookContent,
-  BiSun,
-  BiWindows,
-} from 'react-icons/bi';
+import { BiBookContent, BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import {
   creatorStoreActions,
@@ -129,25 +122,6 @@ const CreatorView: React.FC = () => {
             >
               {resetConfirm.opened ? `Sure?` : `Reset`}
             </Button>
-            <ThemeToggler>
-              {({ theme, toggleTheme }) => (
-                <Button
-                  i={2}
-                  title="Change theme"
-                  rfull
-                  className="ml-auto"
-                  onClick={() =>
-                    toggleTheme(theme === `light` ? `dark` : `light`)
-                  }
-                >
-                  {theme === `light` ? (
-                    <BiMoon className="text-2xl" />
-                  ) : (
-                    <BiSun className="text-2xl" />
-                  )}
-                </Button>
-              )}
-            </ThemeToggler>
             <UserPopover />
             <MoreNav />
             <div className="h-1 w-2 shrink-0 block sm:hidden" />

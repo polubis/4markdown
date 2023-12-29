@@ -3,6 +3,7 @@ import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import Backdrop from 'design-system/backdrop';
+import ThemeSwitch from './theme-switch';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -16,7 +17,7 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
       <Backdrop onClick={onClose} />
       <aside className="bg-zinc-200 z-20 dark:bg-gray-950 border-l-2 border-zinc-300 dark:border-zinc-800 fixed top-0 right-0 h-full w-[280px] overflow-y-auto">
         <div className="p-4 flex items-center h-[72px]">
-          <picture className="w-[32px] h-[32px]">
+          <picture className="w-[32px] h-[32px] shrink-0 mr-auto">
             <img
               loading="lazy"
               src="/favicon-32x32.png"
@@ -24,9 +25,9 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
               title={meta.title}
             />
           </picture>
-          <p className="text-xl ml-3 font-bold">{meta.appName}</p>
+          <ThemeSwitch />
           <Button
-            className="ml-auto"
+            className="ml-2"
             i={2}
             rfull
             title="Close navigation"
@@ -150,10 +151,11 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             href={meta.companyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center mt-auto cursor-pointer justify-end pb-4"
+            className="flex items-center mt-auto cursor-pointer justify-between pb-4"
           >
             <p className="text-md font-medium font-mono">
-              by <strong>{meta.company}</strong>
+              <strong>{meta.appName}</strong> <br /> by{` `}
+              <strong>{meta.company}</strong>
             </p>
             <svg
               className="ml-3"

@@ -30,6 +30,7 @@ const UserPopover = () => {
     <>
       <Button
         i={2}
+        className="ml-auto"
         disabled={authStore.is === `idle` || docsStore.is === `busy`}
         rfull
         title={title}
