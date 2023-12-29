@@ -11,7 +11,6 @@ import MoreNav from 'components/more-nav';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from 'components/templates-popover';
-import UserPopover from 'components/user-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useLsSync } from 'development-kit/use-ls-sync';
 import { useDocStore } from 'store/doc/doc.store';
@@ -68,7 +67,7 @@ const CreatorView: React.FC = () => {
       )}
       <main className="flex h-full md:flex-col flex-col-reverse">
         <header className="flex items-center overflow-x-auto overflow-y-hidden py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800 h-[72px]">
-          <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
+          <picture className="w-[32px] h-[32px] shrink-0 md:flex hidden mr-4">
             <img
               rel="preload"
               src="/favicon-32x32.png"
@@ -77,7 +76,6 @@ const CreatorView: React.FC = () => {
             />
           </picture>
           <nav className="flex gap-2 w-full items-center">
-            <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
             <AddDocPopover />
             <TemplatesPopover />
             <Button i={2} rfull title="Change view display" onClick={divide}>
@@ -122,7 +120,6 @@ const CreatorView: React.FC = () => {
             >
               {resetConfirm.opened ? `Sure?` : `Reset`}
             </Button>
-            <UserPopover />
             <MoreNav />
             <div className="h-1 w-2 shrink-0 block sm:hidden" />
           </nav>

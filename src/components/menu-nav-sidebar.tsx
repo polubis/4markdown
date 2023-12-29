@@ -4,6 +4,7 @@ import { BiX } from 'react-icons/bi';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import Backdrop from 'design-system/backdrop';
 import ThemeSwitch from './theme-switch';
+import UserPopover from './user-popover';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -26,6 +27,7 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             />
           </picture>
           <ThemeSwitch />
+          <UserPopover />
           <Button
             className="ml-2"
             i={2}

@@ -105,12 +105,11 @@ const DocBar = () => {
         ) : (
           <>
             <h6
-              className="text-xl font-bold max-w-[260px] truncate"
+              className="text-xl font-bold max-w-[260px] truncate mr-4"
               title={docStore.name}
             >
               {docStore.name}
             </h6>
-            <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
             <Button
               i={2}
               rfull

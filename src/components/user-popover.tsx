@@ -30,9 +30,9 @@ const UserPopover = () => {
     <>
       <Button
         i={2}
-        className="ml-auto"
         disabled={authStore.is === `idle` || docsStore.is === `busy`}
         rfull
+        className="ml-2"
         title={title}
         onClick={handleClick}
       >
