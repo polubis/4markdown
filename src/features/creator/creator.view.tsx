@@ -83,11 +83,11 @@ const CreatorView: React.FC = () => {
               title={meta.title}
             />
           </picture>
-          <nav className="flex gap-1 w-full items-center">
+          <nav className="flex gap-2 w-full items-center">
             <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
             <AddDocPopover />
             <TemplatesPopover />
-            <Button i={2} rfull title="Change view display" onClick={divide}>
+            <Button i={1} s={2} title="Change view display" onClick={divide}>
               {divideMode === `both` && (
                 <BiBookContent className="text-2xl rotate-90 md:rotate-0" />
               )}
@@ -105,14 +105,15 @@ const CreatorView: React.FC = () => {
               rel="noopener"
               title="Open in separate window"
             >
-              <Button i={2} rfull>
+              <Button i={1} s={2}>
                 <BiWindows className="text-2xl" />
               </Button>
             </a>
             <Button
               i={2}
+              s={2}
+              auto
               className="md:flex hidden"
-              rfull
               disabled={code === ``}
               title="Clear content"
               onClick={clearConfirm.confirm}
@@ -121,8 +122,9 @@ const CreatorView: React.FC = () => {
             </Button>
             <Button
               i={2}
+              s={2}
+              auto
               className="md:flex hidden"
-              rfull
               disabled={code === initialCode}
               title="Reset content"
               onClick={resetConfirm.confirm}
