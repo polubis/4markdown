@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiX } from 'react-icons/bi';
+import { BiPlusCircle, BiX } from 'react-icons/bi';
 import Popover from 'design-system/popover';
 import { docStoreValidators } from 'store/doc/doc.store';
 import { authStoreSelectors } from 'store/auth/auth.store';
@@ -35,7 +35,8 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
           <Button
             type="button"
             i={2}
-            rfull
+            rounded
+            s={1}
             title="Close document adding"
             className="ml-8"
             disabled={docManagementStore.is === `busy`}
@@ -56,14 +57,16 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
         <Button
           type="submit"
           i={2}
+          s={2}
           className="mt-6"
-          rfull
+          auto
           title="Confirm document creation"
           disabled={
             docStoreValidators.name(name) || docManagementStore.is === `busy`
           }
         >
           Create
+          <BiPlusCircle />
         </Button>
       </form>
     </Popover>
