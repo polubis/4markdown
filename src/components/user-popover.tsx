@@ -29,9 +29,9 @@ const UserPopover = () => {
   return (
     <>
       <Button
-        i={2}
+        i={1}
+        s={2}
         disabled={authStore.is === `idle` || docsStore.is === `busy`}
-        rfull
         title={title}
         onClick={handleClick}
       >
@@ -50,12 +50,12 @@ const UserPopover = () => {
             {authStore.user.name ? (
               authStore.user.name.charAt(0)
             ) : (
-              <BiQuestionMark className="text-2xl" />
+              <BiQuestionMark />
             )}
           </span>
         )}
         {(authStore.is === `idle` || authStore.is === `unauthorized`) && (
-          <BiLogInCircle className="text-2xl" />
+          <BiLogInCircle />
         )}
       </Button>
       {menu.opened && (

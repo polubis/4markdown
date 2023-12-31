@@ -35,7 +35,6 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
           <Button
             type="button"
             i={2}
-            rounded
             s={1}
             title="Close document adding"
             className="ml-8"

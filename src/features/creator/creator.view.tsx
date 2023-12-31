@@ -134,9 +134,9 @@ const CreatorView: React.FC = () => {
             <ThemeToggler>
               {({ theme, toggleTheme }) => (
                 <Button
-                  i={2}
+                  i={1}
+                  s={2}
                   title="Change theme"
-                  rfull
                   className="ml-auto"
                   onClick={() =>
                     toggleTheme(theme === `light` ? `dark` : `light`)

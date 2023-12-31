@@ -10,7 +10,7 @@ const MoreNav = () => {
 
   return (
     <>
-      <Button i={2} rfull title="Navigation" onClick={menu.toggle}>
+      <Button i={1} s={2} title="Navigation" onClick={menu.toggle}>
         <BiMenu className="text-2xl" />
       </Button>
       {menu.opened && (
