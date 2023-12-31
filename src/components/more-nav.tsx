@@ -11,7 +11,7 @@ const MoreNav = () => {
   return (
     <>
       <Button i={1} s={2} title="Navigation" onClick={menu.toggle}>
-        <BiMenu className="text-2xl" />
+        <BiMenu />
       </Button>
       {menu.opened && (
         <React.Suspense>

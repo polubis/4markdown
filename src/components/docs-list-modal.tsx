@@ -32,7 +32,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
         <Button
           type="button"
           i={2}
-          rfull
+          s={1}
           title="Close your documents"
           onClick={onClose}
         >
@@ -64,15 +64,9 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             >
               <span className="absolute top-1 right-1">
                 {doc.visibility === `private` ? (
-                  <BiLowVision
-                    title="This document is private"
-                    className="text-2xl"
-                  />
+                  <BiLowVision title="This document is private" />
                 ) : (
-                  <BiShow
-                    title="This document is public"
-                    className="text-2xl"
-                  />
+                  <BiShow title="This document is public" />
                 )}
               </span>
               <span className="font-bold line-clamp-3 text-center text-sm">

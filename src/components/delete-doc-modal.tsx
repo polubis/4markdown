@@ -39,7 +39,7 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
           type="button"
           disabled={disabled}
           i={2}
-          rfull
+          s={1}
           title="Close document removal"
           onClick={close}
         >
@@ -63,8 +63,9 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
           <Button
             className="ml-auto"
             type="button"
-            i={2}
-            rfull
+            i={1}
+            s={2}
+            auto
             disabled={disabled}
             title="Cancel document removal"
             onClick={close}
@@ -75,7 +76,8 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
             type="submit"
             className="ml-2"
             i={2}
-            rfull
+            s={2}
+            auto
             title="Confirm document removal"
             disabled={name !== docStore.name || disabled}
           >

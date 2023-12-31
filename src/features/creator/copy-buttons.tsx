@@ -16,7 +16,7 @@ interface CopyButtonProps {
 const CopyButton = ({ onClick, title, icon: Icon }: BaseButtonProps) => {
   return (
     <Button i={1} s={2} title={title} onClick={onClick}>
-      <Icon className="text-2xl" />
+      <Icon />
     </Button>
   );
 };

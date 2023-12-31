@@ -89,14 +89,12 @@ const CreatorView: React.FC = () => {
             <TemplatesPopover />
             <Button i={1} s={2} title="Change view display" onClick={divide}>
               {divideMode === `both` && (
-                <BiBookContent className="text-2xl rotate-90 md:rotate-0" />
+                <BiBookContent className="rotate-90 md:rotate-0" />
               )}
               {divideMode === `code` && (
-                <BiSolidBookContent className="text-2xl rotate-180" />
+                <BiSolidBookContent className="rotate-180" />
               )}
-              {divideMode === `preview` && (
-                <BiSolidBookContent className="text-2xl" />
-              )}
+              {divideMode === `preview` && <BiSolidBookContent />}
             </Button>
             <a
               href=""
@@ -106,7 +104,7 @@ const CreatorView: React.FC = () => {
               title="Open in separate window"
             >
               <Button i={1} s={2}>
-                <BiWindows className="text-2xl" />
+                <BiWindows />
               </Button>
             </a>
             <Button
@@ -142,11 +140,7 @@ const CreatorView: React.FC = () => {
                     toggleTheme(theme === `light` ? `dark` : `light`)
                   }
                 >
-                  {theme === `light` ? (
-                    <BiMoon className="text-2xl" />
-                  ) : (
-                    <BiSun className="text-2xl" />
-                  )}
+                  {theme === `light` ? <BiMoon /> : <BiSun />}
                 </Button>
               )}
             </ThemeToggler>

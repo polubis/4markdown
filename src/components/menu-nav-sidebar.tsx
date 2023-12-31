@@ -32,7 +32,7 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             title="Close navigation"
             onClick={onClose}
           >
-            <BiX className="text-2xl" />
+            <BiX />
           </Button>
         </div>
         <div className="p-4 pb-0 flex flex-col gap-2 h-[calc(100svh-72px)]">
