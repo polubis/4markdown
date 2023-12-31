@@ -16,7 +16,8 @@ const ExceptionScreen = () => {
         <Button
           title="Restart application"
           className="mt-4"
-          rfull
+          auto
+          s={2}
           i={2}
           onClick={resetAll}
         >
