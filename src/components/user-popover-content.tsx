@@ -32,12 +32,12 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
             <h6 className="text-xl">Your Account</h6>
             <Button
               i={2}
-              rfull
+              s={1}
               className="ml-8"
               title="Close your account panel"
               onClick={onClose}
             >
-              <BiX className="text-2xl" />
+              <BiX />
             </Button>
           </div>
           {docsStore.is === `ok` && docsStore.docs.length > 0 && (
@@ -48,8 +48,9 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
           <Button
             className="mt-20 ml-auto"
             i={2}
+            s={2}
             title="Sign out"
-            rfull
+            auto
             onClick={signOutConfirmation.confirm}
           >
             {signOutConfirmation.opened ? `Are You Sure?` : `Sign Out`}

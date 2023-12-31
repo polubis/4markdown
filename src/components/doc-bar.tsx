@@ -72,16 +72,16 @@ const DocBar = () => {
             onSubmit={handleNameChangeConfirm}
           >
             <input
-              className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black dark:border-white outline-none"
+              className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
               autoFocus
               placeholder="Type document name*"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
             <Button
-              i={2}
-              rfull
-              className="mr-2 ml-2"
+              i={1}
+              s={1}
+              className="mr-1 ml-3"
               disabled={
                 docStoreValidators.name(name) ||
                 docManagementStore.is === `busy`
@@ -92,8 +92,8 @@ const DocBar = () => {
               <BiCheck />
             </Button>
             <Button
-              i={2}
-              rfull
+              i={1}
+              s={1}
               title="Close document name edition"
               disabled={docManagementStore.is === `busy`}
               type="button"
@@ -110,10 +110,10 @@ const DocBar = () => {
             >
               {docStore.name}
             </h6>
-            <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mx-4 shrink-0" />
             <Button
-              i={2}
-              rfull
+              i={1}
+              s={1}
+              className="ml-4"
               title="Change document name"
               disabled={authStore.is !== `authorized`}
               onClick={handleEditOpen}
@@ -121,41 +121,41 @@ const DocBar = () => {
               <BiEdit />
             </Button>
             <Button
-              i={2}
+              i={1}
+              s={1}
               disabled={
                 docManagementStore.is === `busy` ||
                 unchanged ||
                 authStore.is !== `authorized`
               }
               className="ml-2"
-              rfull
               title="Save changes"
               onClick={handleSaveCodeConfirm}
             >
               <BiSave />
             </Button>
             <Button
-              i={2}
+              i={1}
+              s={1}
               disabled={
                 docManagementStore.is === `busy` ||
                 authStore.is !== `authorized` ||
                 docsStore.is === `busy`
               }
               className="mx-2"
-              rfull
               title="Your documents"
               onClick={docsModal.open}
             >
               <BiGridAlt />
             </Button>
             <Button
-              i={2}
+              i={1}
+              s={1}
               disabled={
                 docManagementStore.is === `busy` ||
                 authStore.is !== `authorized` ||
                 docsStore.is === `busy`
               }
-              rfull
               title="More document options"
               onClick={morePopover.open}
             >

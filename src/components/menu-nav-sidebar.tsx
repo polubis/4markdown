@@ -28,121 +28,112 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
           <Button
             className="ml-auto"
             i={2}
-            rfull
+            s={2}
             title="Close navigation"
             onClick={onClose}
           >
-            <BiX className="text-2xl" />
+            <BiX />
           </Button>
         </div>
-        <div className="p-4 pb-0 flex flex-col h-[calc(100svh-72px)]">
+        <div className="p-4 pb-0 flex flex-col gap-2 h-[calc(100svh-72px)]">
           <a
             href={`${meta.companyUrl}authors`}
             target="_blank"
-            className="mb-2"
             title={`${meta.appName} authors`}
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               Authors
             </Button>
           </a>
           <a
             href={`${meta.companyUrl}articles`}
             target="_blank"
-            className="mb-2"
             title={`${meta.company} learning platform`}
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               Blog
             </Button>
           </a>
           <a
             href={meta.discordUrl}
             target="_blank"
-            className="mb-2"
             title={`${meta.company} Discord Channel`}
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               Discord Channel
             </Button>
           </a>
           <a
             href={meta.linkedInUrl}
             target="_blank"
-            className="mb-2"
             title={`${meta.company} LinkedIn Profile`}
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               LinkedIn Profile
             </Button>
           </a>
           <a
             href={meta.fbGroupUrl}
             target="_blank"
-            className="mb-2"
             title={`${meta.company} Facebook Group`}
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               Facebook Group
             </Button>
           </a>
           <a
             href={meta.grammarlyUrl}
             target="_blank"
-            className="mb-2"
             title="Grammarly"
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               Grammarly Extension
             </Button>
           </a>
           <a
             href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
             target="_blank"
-            className="mb-2"
             title="Markdown Cheatsheet"
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               Markdown Cheatsheet
             </Button>
           </a>
           <a
             href={meta.sourceCodeUrl}
             target="_blank"
-            className="mb-2"
             title={`${meta.appName} Repository`}
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               Source Code
             </Button>
           </a>
           <a
             href={meta.ytVideoTutorialUrl}
             target="_blank"
-            className="mb-2"
             title="YouTube tutorial video"
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               Tutorial
             </Button>
           </a>
           <a
             href={meta.ytChannelUrl}
             target="_blank"
-            className="mb-8"
+            className="mb-6"
             title={`${meta.appName} YouTube channel`}
             rel="noopener noreferrer"
           >
-            <Button i={2} wfull>
+            <Button className="w-full" i={2} s={2} auto>
               YouTube Channel
             </Button>
           </a>
