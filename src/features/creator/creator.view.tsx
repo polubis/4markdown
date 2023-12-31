@@ -75,7 +75,7 @@ const CreatorView: React.FC = () => {
       )}
       <main className="flex h-full md:flex-col flex-col-reverse">
         <header className="flex items-center overflow-x-auto overflow-y-hidden py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800 h-[72px]">
-          <picture className="w-[32px] h-[32px] shrink-0 lg:flex hidden">
+          <picture className="w-[32px] h-[32px] shrink-0 sm:flex hidden mr-3">
             <img
               rel="preload"
               src="/favicon-32x32.png"
@@ -84,19 +84,16 @@ const CreatorView: React.FC = () => {
             />
           </picture>
           <nav className="flex gap-2 w-full items-center">
-            <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
             <AddDocPopover />
             <TemplatesPopover />
-            <Button i={2} rfull title="Change view display" onClick={divide}>
+            <Button i={1} s={2} title="Change view display" onClick={divide}>
               {divideMode === `both` && (
-                <BiBookContent className="text-2xl rotate-90 md:rotate-0" />
+                <BiBookContent className="rotate-90 md:rotate-0" />
               )}
               {divideMode === `code` && (
-                <BiSolidBookContent className="text-2xl rotate-180" />
+                <BiSolidBookContent className="rotate-180" />
               )}
-              {divideMode === `preview` && (
-                <BiSolidBookContent className="text-2xl" />
-              )}
+              {divideMode === `preview` && <BiSolidBookContent />}
             </Button>
             <a
               href=""
@@ -105,14 +102,15 @@ const CreatorView: React.FC = () => {
               rel="noopener"
               title="Open in separate window"
             >
-              <Button i={2} rfull>
-                <BiWindows className="text-2xl" />
+              <Button i={1} s={2}>
+                <BiWindows />
               </Button>
             </a>
             <Button
               i={2}
+              s={2}
+              auto
               className="md:flex hidden"
-              rfull
               disabled={code === ``}
               title="Clear content"
               onClick={clearConfirm.confirm}
@@ -121,8 +119,9 @@ const CreatorView: React.FC = () => {
             </Button>
             <Button
               i={2}
+              s={2}
+              auto
               className="md:flex hidden"
-              rfull
               disabled={code === initialCode}
               title="Reset content"
               onClick={resetConfirm.confirm}
@@ -132,19 +131,15 @@ const CreatorView: React.FC = () => {
             <ThemeToggler>
               {({ theme, toggleTheme }) => (
                 <Button
-                  i={2}
+                  i={1}
+                  s={2}
                   title="Change theme"
-                  rfull
                   className="ml-auto"
                   onClick={() =>
                     toggleTheme(theme === `light` ? `dark` : `light`)
                   }
                 >
-                  {theme === `light` ? (
-                    <BiMoon className="text-2xl" />
-                  ) : (
-                    <BiSun className="text-2xl" />
-                  )}
+                  {theme === `light` ? <BiMoon /> : <BiSun />}
                 </Button>
               )}
             </ThemeToggler>

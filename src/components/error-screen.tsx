@@ -17,7 +17,8 @@ const ErrorScreen = () => {
         <Button
           title="Go to editor"
           className="mt-4"
-          rfull
+          auto
+          s={2}
           i={2}
           onClick={() => navigate(siteMetadataStore.routes.home)}
         >

@@ -45,11 +45,11 @@ const DocPreviewView = () => {
           <Button
             type="button"
             i={2}
-            rfull
+            s={2}
             title="Go back to editor"
             onClick={() => navigate(siteMetadataStore.routes.home)}
           >
-            <BiArrowToLeft className="text-2xl" />
+            <BiArrowToLeft />
           </Button>
         </nav>
       </header>

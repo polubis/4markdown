@@ -44,7 +44,7 @@ const DocBarMorePopoverContent = ({
         <h6 className="text-xl mr-4">Additional Options</h6>
         <Button
           i={2}
-          rfull
+          s={1}
           className="ml-auto"
           disabled={docManagementStore.is === `busy`}
           title="Close additional options"
@@ -105,7 +105,7 @@ const DocBarMorePopoverContent = ({
       <div className="flex items-center mt-8">
         <Button
           i={2}
-          rfull
+          s={2}
           title={
             docStore.visibility === `private`
               ? `Make this document public`
@@ -114,25 +114,21 @@ const DocBarMorePopoverContent = ({
           disabled={docManagementStore.is === `busy`}
           onClick={changeVisiblity}
         >
-          {docStore.visibility === `private` ? (
-            <BiShow className="text-2xl" />
-          ) : (
-            <BiLowVision className="text-2xl" />
-          )}
+          {docStore.visibility === `private` ? <BiShow /> : <BiLowVision />}
         </Button>
         <Button
           i={2}
+          s={2}
           className="ml-2"
           disabled={
             docManagementStore.is === `busy` ||
             authStore.is !== `authorized` ||
             docsStore.is === `busy`
           }
-          rfull
           title="Delete current document"
           onClick={onOpen}
         >
-          <BiTrash className="text-2xl" />
+          <BiTrash />
         </Button>
       </div>
     </Popover>
