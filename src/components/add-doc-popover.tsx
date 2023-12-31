@@ -49,13 +49,7 @@ const AddDocPopover: React.FC = () => {
 
   return (
     <>
-      <Button
-        i={1}
-        rounded
-        s={1}
-        title="Create new document"
-        onClick={handleClick}
-      >
+      <Button i={1} s={2} title="Create new document" onClick={handleClick}>
         <BiPlus />
       </Button>
       {menu.opened && (

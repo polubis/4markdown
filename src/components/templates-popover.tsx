@@ -1,7 +1,7 @@
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
-import { BiCopyAlt } from 'react-icons/bi';
+import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 
 const TemplatesPopoverContent = React.lazy(
@@ -19,14 +19,12 @@ const TemplatesPopover: React.FC = () => {
 
   return (
     <>
-      <Button
-        i={2}
-        rfull
-        title="Use markdown templates"
-        overlay={copyState.is === `copied` ? `Copied` : undefined}
-        onClick={menu.toggle}
-      >
-        <BiCopyAlt className="text-2xl" />
+      <Button i={1} s={2} title="Use markdown templates" onClick={menu.toggle}>
+        {copyState.is === `copied` ? (
+          <BiCheck className="text-green-700" />
+        ) : (
+          <BiCopyAlt />
+        )}
       </Button>
       {menu.opened && (
         <React.Suspense>

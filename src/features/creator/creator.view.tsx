@@ -83,7 +83,7 @@ const CreatorView: React.FC = () => {
               title={meta.title}
             />
           </picture>
-          <nav className="flex gap-2 w-full items-center">
+          <nav className="flex gap-1 w-full items-center">
             <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 mr-2 ml-4 lg:block hidden shrink-0" />
             <AddDocPopover />
             <TemplatesPopover />
