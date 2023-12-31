@@ -110,10 +110,10 @@ const DocBar = () => {
             >
               {docStore.name}
             </h6>
-            <div className="bg-zinc-300 dark:bg-zinc-800 h-8 w-0.5 ml-3 mr-2 shrink-0" />
             <Button
               i={1}
               s={1}
+              className="ml-4"
               title="Change document name"
               disabled={authStore.is !== `authorized`}
               onClick={handleEditOpen}
