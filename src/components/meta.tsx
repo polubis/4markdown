@@ -4,18 +4,28 @@ interface MetaProps {
   title: string;
   appName: string;
   description: string;
+  keywords: string;
   url: string;
   lang: string;
   image: string;
 }
 
-const Meta = ({ title, appName, description, url, lang, image }: MetaProps) => {
+const Meta = ({
+  title,
+  appName,
+  description,
+  keywords,
+  url,
+  lang,
+  image,
+}: MetaProps) => {
   return (
     <>
       {/* General */}
       <html lang={lang} />
       <title lang={lang}>{title}</title>
       <meta name="description" content={description} />
+      <meta name="keywords" content={keywords} />
       <meta charSet="utf-8" />
       <meta
         name="viewport"

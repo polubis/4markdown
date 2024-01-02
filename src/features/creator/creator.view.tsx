@@ -44,6 +44,19 @@ const CreatorView: React.FC = () => {
     creatorStoreActions.change(value);
   };
 
+  const getEditorState = (): string => {
+    return `https://4markdown.com`;
+  };
+
+  const handleLinkClick = (): void => {
+    const editorStateLink = getEditorState();
+    window.open(
+      editorStateLink,
+      `_blank`,
+      `width=${screen.availWidth},height=${screen.availHeight}`,
+    );
+  };
+
   const clearConfirm = useConfirm(() => handleChange(``));
   const resetConfirm = useConfirm(() => handleChange(initialCode));
 
@@ -100,11 +113,12 @@ const CreatorView: React.FC = () => {
             )}
           </Button>
           <a
-            href=""
+            href={getEditorState()}
             target="_blank"
             className="ml-2 md:block hidden"
-            rel="noopener"
+            rel="noopener noreferrer"
             title="Open in separate window"
+            onClick={handleLinkClick}
           >
             <Button i={2} rfull>
               <BiWindows className="text-2xl" />

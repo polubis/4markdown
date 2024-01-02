@@ -29,6 +29,7 @@ const useHomePageQuery = () => {
           appName
           siteUrl
           description
+          keywords
           title
           company
           lang
@@ -83,6 +84,7 @@ export const Head: HeadFC = () => {
       appName={meta.appName}
       title={meta.title}
       description={meta.description}
+      keywords={meta.keywords}
       url={meta.siteUrl}
       lang={meta.lang}
       image={LogoThumbnail}

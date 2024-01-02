@@ -2,6 +2,7 @@ export type SiteMetadata = {
   appName: string;
   siteUrl: string;
   description: string;
+  keywords: string;
   title: string;
   lang: string;
   company: string;
