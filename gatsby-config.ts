@@ -11,7 +11,7 @@ const siteMetadata: SiteMetadata = {
   company: `GreenOn Software`,
   siteUrl: `https://4markdown.com`,
   description: `Craft, edit, and preview your Markdown documents with ease, all within a clean and user-friendly interface`,
-  keywords: `Markdown, 4markdown, Editor, Github, GreenOnSoftware, Open Source, Node.js, Markdown preview, online editor,`,
+  keywords: `Markdown, 4Markdown, Editor, Github, GreenOnSoftware, Programming articles, Open Source, Node.js, Markdown preview, Online markdown editor,`,
   title: `4Markdown - Online Markdown Editor`,
   companyUrl: `https://greenonsoftware.com/`,
   discordUrl: `https://discord.com/invite/PxXQayT3x3`,
