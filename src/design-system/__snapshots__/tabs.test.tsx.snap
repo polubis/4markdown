@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs works when: displays selection and items 1`] = `
+<DocumentFragment>
+  <div
+    class="ds-tabs flex"
+  >
+    <button
+      class="ds-tabs-item"
+    >
+      First
+    </button>
+    <button
+      class="ds-tabs-item"
+    >
+      Second
+    </button>
+    <button
+      class="ds-tabs-item"
+    >
+      Last
+    </button>
+  </div>
+</DocumentFragment>
+`;
