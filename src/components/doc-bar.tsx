@@ -8,12 +8,18 @@ import {
   BiGridAlt,
   BiSave,
   BiX,
+  BiChevronLeft,
+  BiChevronRight,
 } from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
+import {
+  docStoreSelectors,
+  docStoreValidators,
+} from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
+import { useDocumentNav } from 'development-kit/use-document-nav';
 
 const DocsListModal = React.lazy(() => import(`./docs-list-modal`));
 const DocBarMorePopoverContent = React.lazy(
@@ -32,6 +38,7 @@ const DocBar = () => {
   const docsModal = useToggle();
   const morePopover = useToggle();
   const deleteModal = useToggle();
+  const documentNav = useDocumentNav();
 
   const handleNameChangeConfirm: React.FormEventHandler<
     HTMLFormElement
@@ -59,6 +66,11 @@ const DocBar = () => {
   const handleEditClose: React.MouseEventHandler<HTMLButtonElement> = () => {
     edition.close();
     setName(``);
+  };
+
+  const documentNavActions = {
+    navigateNext: documentNav.navigateNext,
+    navigatePrev: documentNav.navigatePrevious,
   };
 
   const unchanged = creatorStore.prevCode === creatorStore.code;
@@ -110,6 +122,26 @@ const DocBar = () => {
             >
               {docStore.name}
             </h6>
+            <Button
+              i={1}
+              s={1}
+              disabled={documentNav.currentDocIndex === 0}
+              title="Previous document"
+              onClick={documentNavActions.navigatePrev}
+            >
+              <BiChevronLeft />
+            </Button>
+            <Button
+              i={1}
+              s={1}
+              disabled={
+                documentNav.currentDocIndex === documentNav.totalDocs - 1
+              }
+              title="Next document"
+              onClick={documentNavActions.navigateNext}
+            >
+              <BiChevronRight />
+            </Button>
             <Button
               i={1}
               s={1}
