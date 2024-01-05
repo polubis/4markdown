@@ -171,20 +171,17 @@ const DocBarMorePopoverContent = ({
               </strong>
             </p>
             {docStore.visibility === `public` && (
-              <p className="mt-1">
-                URL:{` `}
-                <button
-                  className="underline underline-offset-2 text-blue-800 dark:text-blue-500"
-                  title="Document preview"
-                  onClick={() =>
-                    navigate(
-                      `${siteMetaDataStore.routes.docs.preview}?id=${docStore.id}`,
-                    )
-                  }
-                >
-                  <strong>Preview</strong>
-                </button>
-              </p>
+              <button
+                className="mt-1 underline underline-offset-2 text-blue-800 dark:text-blue-500"
+                title="Document preview"
+                onClick={() =>
+                  navigate(
+                    `${siteMetaDataStore.routes.docs.preview}?id=${docStore.id}`,
+                  )
+                }
+              >
+                <strong>Preview</strong>
+              </button>
             )}
             <Tabs className="mt-8" loading={docManagementStore.is === `busy`}>
               <Tabs.Item
