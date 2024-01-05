@@ -1,9 +1,12 @@
 import React from 'react';
 import c from 'classnames';
 
-interface TabsItemProps {
+interface TabsItemProps
+  extends React.DetailedHTMLProps<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
   active?: boolean;
-  children: React.ReactNode;
 }
 
 interface TabsProps {
@@ -26,15 +29,19 @@ const Tabs = ({ children, fit }: TabsProps) => {
   );
 };
 
-const Item = ({ children, active }: TabsItemProps) => {
+const Item = ({ active, ...props }: TabsItemProps) => {
   return (
     <button
       className={c(
-        `font-medium flex-1 py-2 px-3 disabled:bg-neutral-300/30 disabled:text-black/30 bg-gray-300 text-black enabled:hover:bg-gray-400/70 dark:bg-slate-800 dark:enabled:hover:bg-slate-800/70 dark:text-white dark:disabled:bg-gray-900 dark:disabled:text-white/30`,
+        `font-medium flex-1 py-2 px-3 disabled:bg-neutral-300/30 disabled:text-black/30 dark:disabled:bg-gray-900 dark:disabled:text-white/30`,
+        { [`bg-green-400`]: active },
+        {
+          [`enabled:hover:bg-gray-400/70 dark:enabled:hover:bg-slate-800/70 dark:bg-slate-800 bg-gray-300 text-black dark:text-white`]:
+            !active,
+        },
       )}
-    >
-      {children}
-    </button>
+      {...props}
+    />
   );
 };
 
