@@ -6,7 +6,7 @@ interface Doc {
   code: Code;
   mdate: Date;
   cdate: Date;
-  visibility: 'private' | 'public';
+  visibility: 'private' | 'public' | `permanent`;
 }
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
