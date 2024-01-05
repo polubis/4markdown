@@ -109,10 +109,10 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .Then(`I see text`, [documentNameEdited])
       .And(`I see not disabled button`, [`Change document name`])
       .When(`I click button`, [`More document options`])
-      .Then(`I see text`, [`Additional Options`])
+      .Then(`I see text`, [`Details`])
       .And(`System takes picture`)
       .When(`I click button`, [`Close additional options`])
-      .Then(`I not see text`, [`Additional Options`])
+      .Then(`I not see text`, [`Details`])
       .When(`I click button`, [
         `More document options`,
         `Delete current document`,

@@ -10,14 +10,16 @@ interface TabsItemProps
 }
 
 interface TabsProps {
+  className?: string;
   children: React.ReactElement | React.ReactElement[];
   fit?: boolean;
 }
 
-const Tabs = ({ children, fit }: TabsProps) => {
+const Tabs = ({ className, children, fit }: TabsProps) => {
   return (
     <div
       className={c(
+        className,
         `flex rounded-md [&>*:first-child]:rounded-s-md [&>*:last-child]:rounded-r-md`,
         {
           [`w-fit`]: fit,
