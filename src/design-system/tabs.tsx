@@ -13,20 +13,35 @@ interface TabsProps {
   className?: string;
   children: React.ReactElement | React.ReactElement[];
   fit?: boolean;
+  loading?: boolean;
 }
 
-const Tabs = ({ className, children, fit }: TabsProps) => {
+const Tabs = ({ className, children, fit, loading }: TabsProps) => {
+  const enhancedChildren = React.Children.map(
+    children,
+    (child: React.ReactElement<TabsItemProps>) => {
+      if (!React.isValidElement(child))
+        throw Error(`Passed children is not an React element`);
+
+      return React.cloneElement(child, { ...child.props, disabled: loading });
+    },
+  );
+
   return (
     <div
       className={c(
         className,
-        `flex rounded-md [&>*:first-child]:rounded-s-md [&>*:last-child]:rounded-r-md`,
+        `relative 
+        flex rounded-md [&>*:first-child]:rounded-s-md [&>*:last-child]:rounded-r-md`,
         {
           [`w-fit`]: fit,
         },
       )}
     >
-      {children}
+      {enhancedChildren}
+      {loading && (
+        <div className="absolute z-10 top-0 right-0 left-0 bottom-0 bg-slate-300/40 rounded-r-md rounded-s-md " />
+      )}
     </div>
   );
 };

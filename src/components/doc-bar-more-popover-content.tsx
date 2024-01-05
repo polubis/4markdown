@@ -115,7 +115,7 @@ const DocBarMorePopoverContent = ({
           </button>
         </p>
       )}
-      <Tabs className="mt-8">
+      <Tabs className="mt-8" loading={docManagementStore.is === `busy`}>
         <Tabs.Item
           title="Make this document private"
           active={docStore.visibility === `private`}
