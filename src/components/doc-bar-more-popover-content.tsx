@@ -13,6 +13,7 @@ import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.st
 import { Tabs } from 'design-system/tabs';
 import { Doc } from 'models/doc';
 import { useToggle } from 'development-kit/use-toggle';
+import VisibilityToPermamentDialog from './visibility-to-permanent-dialog';
 
 interface DocBarMorePopoverContentProps {
   onClose(): void;
@@ -41,10 +42,7 @@ const DocBarMorePopoverContent = ({
     authStoreSelectors.authorized().updateDoc(docStore.name, visibility);
   };
 
-  const confirmVisibilityToPermanentChange: React.FormEventHandler<
-    HTMLFormElement
-  > = async (e): Promise<void> => {
-    e.preventDefault();
+  const confirmVisibilityToPermanentChange = async (): Promise<void> => {
     try {
       await authStoreSelectors
         .authorized()
@@ -60,52 +58,10 @@ const DocBarMorePopoverContent = ({
         onBackdropClick={docManagementStore.is === `busy` ? undefined : onClose}
       >
         {visibilityToPermanentDialog.opened && (
-          <form
-            className="flex flex-col"
-            onSubmit={confirmVisibilityToPermanentChange}
-          >
-            <h6 className="text-xl mr-4">Before You continue</h6>
-            <p className="mt-4 mb-1">
-              Changing the visibility to <strong>permanent</strong> will make
-              your document available in a <strong>static URL</strong>.
-            </p>
-            <p>
-              The document will be available in <strong>Google</strong> after
-              several days. Make sure that you don&apos;t have any sensitive
-              data in this document.
-            </p>
-            <p className="mt-1">
-              <i>
-                The document status can be changed later, however removing it
-                from <strong>Google</strong> may take several days.
-              </i>
-            </p>
-            <footer className="mt-6 flex">
-              <Button
-                className="ml-auto"
-                type="button"
-                i={1}
-                s={2}
-                auto
-                title="Cancel document permanent status change"
-                disabled={docManagementStore.is === `busy`}
-                onClick={visibilityToPermanentDialog.close}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="ml-2"
-                i={2}
-                s={2}
-                auto
-                disabled={docManagementStore.is === `busy`}
-                title="Confirm document permanent status change"
-              >
-                Yes, I understand
-              </Button>
-            </footer>
-          </form>
+          <VisibilityToPermamentDialog
+            onConfirm={confirmVisibilityToPermanentChange}
+            onCancel={visibilityToPermanentDialog.close}
+          />
         )}
 
         {visibilityToPermanentDialog.closed && (
