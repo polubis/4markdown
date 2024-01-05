@@ -1,0 +1,11 @@
+{
+	"vfn": {
+		"prefix": "vfn",
+		"body": [
+		  "const ${1:example} = (${2:example}: ${3:example}): void => {",
+		  "",
+		  "}"
+		],
+		"description": ""
+	  }
+}

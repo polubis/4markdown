@@ -1,0 +1,17 @@
+{
+  "store": {
+    "prefix": "store",
+    "body": [
+      "import { create } from 'zustand';",
+      "import { type ${1}Store } from './defs';",
+      "",
+      "const use${1}Store = create<${1}Store.State>(() => ({",
+      "  is: 'idle',",
+      "}));",
+      "",
+      "export { use${1}Store };",
+      ""
+    ],
+    "description": ""
+  }
+}

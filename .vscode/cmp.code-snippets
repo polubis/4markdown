@@ -1,0 +1,22 @@
+{
+	"cmp": {
+		"prefix": "cmp",
+		"body": [
+		  "import type { ${1:example}Props } from './defs';",
+		  "",
+		  "interface ${1:example}Props {",
+		  "  ",
+		  "}",
+		  "",
+		  "export type { ${1:example}Props };",
+		  "",
+		  "const ${1:example}= ({ }: ${1:example}Props) => {",
+		  "  return <${2:example}></${2:example}>",
+		  "};",
+		  "",
+		  "export { ${1:example}};",
+		  ""
+		],
+		"description": ""
+	  }
+}

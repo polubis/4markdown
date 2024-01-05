@@ -61,6 +61,7 @@ const DocBarMorePopoverContent = ({
           <VisibilityToPermamentDialog
             onConfirm={confirmVisibilityToPermanentChange}
             onCancel={visibilityToPermanentDialog.close}
+            onClose={onClose}
           />
         )}
 

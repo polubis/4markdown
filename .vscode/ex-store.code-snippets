@@ -1,0 +1,11 @@
+{
+  "ex-store": {
+    "prefix": "ex-store",
+    "body": [
+      "export * from './defs';",
+      "export * from './selectors';",
+      "export * from './actions';"
+    ],
+    "description": ""
+  }
+}
