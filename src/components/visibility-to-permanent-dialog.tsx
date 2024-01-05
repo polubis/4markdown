@@ -51,7 +51,7 @@ const VisibilityToPermamentDialog = ({
         </header>
         <Field
           label="Thumbnail*"
-          hint="The thumbnail is used for making the article more visually attractive - select a cool image"
+          hint="The thumbnail is used for making the article visually attractive"
         >
           <input
             placeholder="Add Document"
@@ -60,21 +60,12 @@ const VisibilityToPermamentDialog = ({
             className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
           />
         </Field>
-        <Field
-          label="Description*"
-          className="mt-3"
-          hint={
-            <span>
-              Describe your document in 3-4 sentences. The description will be
-              displayed in <strong>Google</strong>
-            </span>
-          }
-        >
+        <Field label="Description*" className="mt-3">
           <textarea
-            placeholder="For example: this document is a recipe for making a Pizza..."
+            placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
             // onChange={(e) => setName(e.target.value)}
             // value={name}
-            className="px-3 py-2 min-h-10 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
+            className="px-3 py-2 min-h-[100px] placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
           />
         </Field>
         <footer className="mt-6 flex">
