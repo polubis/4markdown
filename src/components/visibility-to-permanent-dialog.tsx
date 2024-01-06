@@ -1,10 +1,15 @@
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
-import { FilePicker } from 'design-system/file-picker';
+import {
+  FilePicker,
+  type FilePickerPreviewList,
+  type FilePickerFiles,
+} from 'design-system/file-picker';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
+import { docStoreSelectors } from 'store/doc/doc.store';
 
 interface VisibilityToPermamentDialogProps {
   onConfirm(): void;
@@ -12,13 +17,23 @@ interface VisibilityToPermamentDialogProps {
   onClose(): void;
 }
 
+interface Thumbnail {
+  preview: FilePickerPreviewList;
+  files: FilePickerFiles;
+}
+
 const VisibilityToPermamentDialog = ({
   onConfirm,
   onCancel,
   onClose,
 }: VisibilityToPermamentDialogProps) => {
+  const docStore = docStoreSelectors.active();
   const docManagementStore = useDocManagementStore();
   const formSection = useToggle();
+  const [thumbnail, setThumbnail] = React.useState<Thumbnail>({
+    files: null,
+    preview: docStore.visibility === `permanent` ? [docStore.thumbnail] : [],
+  });
 
   const openFormSection: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -54,7 +69,16 @@ const VisibilityToPermamentDialog = ({
           label="Thumbnail*"
           hint="The thumbnail is used for making the article visually attractive"
         >
-          <FilePicker preview={[]} onChange={() => {}} onRemove={() => {}} />
+          <FilePicker
+            preview={thumbnail.preview}
+            onChange={(files, preview) =>
+              setThumbnail({
+                files,
+                preview,
+              })
+            }
+            onRemove={() => {}}
+          />
         </Field>
         <Field label="Description*" className="mt-3">
           <textarea

@@ -38,7 +38,7 @@ const loadImage = (file: File): Promise<string> => {
 
 const loadPreview = async (
   e: React.ChangeEvent<HTMLInputElement>,
-): Promise<[FileList | null, FilePickerPreviewList]> => {
+): Promise<[FilePickerFiles, FilePickerPreviewList]> => {
   const { files } = e.target;
 
   if (!files) {
@@ -151,4 +151,5 @@ const FilePicker = ({
   );
 };
 
+export type { FilePickerPreviewList, FilePickerFiles };
 export { FilePicker };

@@ -1,4 +1,4 @@
-import type { Id, Name, Code, Date } from './general';
+import type { Id, Name, Code, Date, Path } from './general';
 
 interface DocBase {
   id: Id;
@@ -19,14 +19,16 @@ interface PublicDoc extends DocBase {
 interface PermanentBlog extends DocBase {
   visibility: `permanent`;
   description: string;
-  thumbnail: File;
+  thumbnail: Path;
 }
 
 type Doc = PrivateDoc | PublicDoc | PermanentBlog;
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
-type UpdateDocPayload = Omit<Doc, 'cdate' | 'mdate'>;
+type UpdateDocPayload = Omit<Doc, 'cdate' | 'mdate' | 'thumbnail'> & {
+  thumbnail: File | null;
+};
 
 type DeleteDocPayload = Pick<Doc, 'id'>;
 
