@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreSelectors } from '../store/docs/docs.store';
 
-
 interface DocumentNavState {
   currentDocIndex: number;
   totalDocs: number;
@@ -21,21 +20,25 @@ const useDocumentNav = () => {
     totalDocs: docsState().docs.length,
   });
 
+
+  useEffect(() => {
+    setDocumentNavState((prevState) => ({
+      ...prevState,
+      totalDocs: docsState().docs.length,
+    }));
+  }, [docsState().docs.length]);
+
+
+  const updateCurrentDocIndex = (updateFunction: (currentIndex: number, totalDocs: number) => number) => {
+    setDocumentNavState((prevState) => {
+      const newCurrentIndex = updateFunction(prevState.currentDocIndex, prevState.totalDocs);
+      return { ...prevState, currentDocIndex: newCurrentIndex };
+    });
+  };
+
   const documentNavActions: DocumentNavActions = {
-    navigateNext: () => {
-      setDocumentNavState((prevState) => ({
-        ...prevState,
-        currentDocIndex: (prevState.currentDocIndex + 1) % prevState.totalDocs,
-      }));
-    },
-    navigatePrevious: () => {
-      setDocumentNavState((prevState) => ({
-        ...prevState,
-        currentDocIndex:
-          (prevState.currentDocIndex - 1 + prevState.totalDocs) %
-          prevState.totalDocs,
-      }));
-    },
+    navigateNext: () => updateCurrentDocIndex((currentIndex, totalDocs) => (currentIndex + 1) % totalDocs),
+    navigatePrevious: () => updateCurrentDocIndex((currentIndex, totalDocs) => (currentIndex - 1 + totalDocs) % totalDocs),
   };
 
   useEffect(() => {
@@ -47,11 +50,15 @@ const useDocumentNav = () => {
 
   const touchStartX = useRef<number | null>(null);
 
-  const handleTouchStart = (e: React.TouchEvent) => {
+  const prevButtonDisabled = documentNavState.currentDocIndex === 0;
+  const nextButtonDisabled =
+    documentNavState.currentDocIndex === documentNavState.totalDocs - 1;
+
+  const handleTouchStart = (e: TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
 
-  const handleTouchEnd = (e: React.TouchEvent) => {
+  const handleTouchEnd = (e: TouchEvent) => {
     if (touchStartX.current !== null) {
       const touchEndX = e.changedTouches[0].clientX;
       const deltaX = touchEndX - touchStartX.current;
@@ -68,29 +75,13 @@ const useDocumentNav = () => {
     }
   };
 
-  const prevButtonDisabled = documentNavState.currentDocIndex === 0;
-  const nextButtonDisabled =
-    documentNavState.currentDocIndex === documentNavState.totalDocs - 1;
-
   useEffect(() => {
-    document.addEventListener(
-      `touchstart`,
-      handleTouchStart as unknown as EventListener,
-    );
-    document.addEventListener(
-      `touchend`,
-      handleTouchEnd as unknown as EventListener,
-    );
+    document.addEventListener('touchstart', handleTouchStart);
+    document.addEventListener('touchend', handleTouchEnd);
 
     return () => {
-      document.removeEventListener(
-        `touchstart`,
-        handleTouchStart as unknown as EventListener,
-      );
-      document.removeEventListener(
-        `touchend`,
-        handleTouchEnd as unknown as EventListener,
-      );
+      document.removeEventListener('touchstart', handleTouchStart);
+      document.removeEventListener('touchend', handleTouchEnd);
     };
   }, [handleTouchStart, handleTouchEnd]);
 

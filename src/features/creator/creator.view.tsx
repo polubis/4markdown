@@ -29,6 +29,7 @@ import {
 
 const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
+const LazyMarkdown = React.lazy(() => import(`../../components/markdown`));
 
 type DivideMode = 'both' | 'preview' | 'code';
 
@@ -189,7 +190,9 @@ const CreatorView: React.FC = () => {
               },
             )}
           >
-            <Markdown>{code}</Markdown>
+            <React.Suspense>
+              <LazyMarkdown>{code}</LazyMarkdown>
+            </React.Suspense>
           </div>
         </section>
       </main>
