@@ -1,13 +1,26 @@
 import type { Id, Name, Code, Date } from './general';
 
-interface Doc {
+interface DocBase {
   id: Id;
   name: Name;
   code: Code;
   mdate: Date;
   cdate: Date;
-  visibility: 'private' | 'public' | `permanent`;
 }
+
+interface PrivateDoc extends DocBase {
+  visibility: 'private';
+}
+
+interface PublicDoc extends DocBase {
+  visibility: 'public';
+}
+
+interface PermanentBlog extends DocBase {
+  visibility: `permanent`;
+}
+
+type Doc = PrivateDoc | PublicDoc | PermanentBlog;
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
@@ -35,4 +48,8 @@ export type {
   UpdateDocDto,
   DeleteDocPayload,
   DeleteDocDto,
+  DocBase,
+  PrivateDoc,
+  PublicDoc,
+  PermanentBlog,
 };
