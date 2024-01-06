@@ -1,5 +1,6 @@
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
+import { FilePicker } from 'design-system/file-picker';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
@@ -53,12 +54,7 @@ const VisibilityToPermamentDialog = ({
           label="Thumbnail*"
           hint="The thumbnail is used for making the article visually attractive"
         >
-          <input
-            placeholder="Add Document"
-            // onChange={(e) => setName(e.target.value)}
-            // value={name}
-            className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
-          />
+          <FilePicker preview={[]} onChange={() => {}} onRemove={() => {}} />
         </Field>
         <Field label="Description*" className="mt-3">
           <textarea
