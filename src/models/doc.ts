@@ -26,9 +26,10 @@ type Doc = PrivateDoc | PublicDoc | PermanentBlog;
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
-type UpdateDocPayload = Omit<Doc, 'cdate' | 'mdate' | 'thumbnail'> & {
-  thumbnail: File | null;
-};
+type UpdateDocPayload =
+  | Omit<PrivateDoc, 'cdate' | 'mdate'>
+  | Omit<PublicDoc, 'cdate' | 'mdate'>
+  | Omit<PermanentBlog, 'cdate' | 'mdate'>;
 
 type DeleteDocPayload = Pick<Doc, 'id'>;
 

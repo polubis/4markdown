@@ -1,4 +1,4 @@
-import type { Doc, GetDocPayload, UpdateDocPayload } from 'models/doc';
+import type { Doc, GetDocPayload } from 'models/doc';
 import type { User } from 'models/user';
 import { create } from 'zustand';
 
@@ -7,7 +7,8 @@ interface AuthorizedData {
   logOut(): void;
   createDoc(name: Doc['name']): Promise<void>;
   saveDoc(): Promise<void>;
-  updateDoc(payload: Omit<UpdateDocPayload, 'code' | 'id'>): Promise<void>;
+  updateName(name: Doc['name']): Promise<void>;
+  updateVisibility(name: Doc['visibility']): Promise<void>;
   getDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;

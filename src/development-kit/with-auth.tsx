@@ -84,15 +84,7 @@ const WithAuth = () => {
       }
     };
 
-    const updateDoc: AuthorizedData['updateDoc'] = async (payload) => {
-      const { id } = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-      const doc: UpdateDocPayload = {
-        ...payload,
-        id,
-        code,
-      };
-
+    const updateDoc = async (payload: UpdateDocPayload): Promise<void> => {
       try {
         docManagementStoreActions.busy();
         const { data: updatedDoc } = await httpsCallable<
@@ -101,7 +93,7 @@ const WithAuth = () => {
         >(
           functions,
           `updateDoc`,
-        )(doc);
+        )(payload);
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
         creatorStoreActions.setPrevCode(updatedDoc.code);
@@ -174,8 +166,7 @@ const WithAuth = () => {
     };
 
     const saveDoc: AuthorizedData['saveDoc'] = async () => {
-      const { name, visibility } = docStoreSelectors.active();
-      await updateDoc({ name, visibility });
+      await updateDoc(docStoreSelectors.active());
     };
 
     const logOut: AuthorizedData['logOut'] = async () => {
@@ -197,7 +188,32 @@ const WithAuth = () => {
           getDocs,
           createDoc,
           saveDoc,
-          updateDoc,
+          updateName: async (name) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { is, ...doc } = docStoreSelectors.active();
+
+            await updateDoc({
+              ...doc,
+              name,
+            });
+          },
+          updateVisibility: async (visibility) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const { is, ...doc } = docStoreSelectors.active();
+
+            if (visibility === `permanent`) {
+              await updateDoc({
+                ...doc,
+                visibility,
+              });
+              return;
+            }
+
+            await updateDoc({
+              ...doc,
+              visibility,
+            });
+          },
         });
 
         getDocs();
