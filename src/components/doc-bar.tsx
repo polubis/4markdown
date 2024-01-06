@@ -38,7 +38,7 @@ const DocBar = () => {
   > = async (e) => {
     e.preventDefault();
     try {
-      await authStoreSelectors.authorized().updateName(name);
+      await authStoreSelectors.authorized().upateDocName(name);
       edition.close();
     } catch {}
   };

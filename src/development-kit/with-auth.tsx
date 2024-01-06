@@ -188,7 +188,7 @@ const WithAuth = () => {
           getDocs,
           createDoc,
           saveDoc,
-          updateName: async (name) => {
+          upateDocName: async (name) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { is, ...doc } = docStoreSelectors.active();
 
@@ -197,7 +197,7 @@ const WithAuth = () => {
               name,
             });
           },
-          updateVisibility: async (visibility) => {
+          updateDocVisibility: async (visibility) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { is, ...doc } = docStoreSelectors.active();
 
