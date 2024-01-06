@@ -11,7 +11,7 @@ import {
   signOut,
 } from 'firebase/auth';
 import React from 'react';
-import { authStoreActions } from 'store/auth/auth.store';
+import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import type {
@@ -84,17 +84,13 @@ const WithAuth = () => {
       }
     };
 
-    const updateDoc = async (
-      name: Doc['name'],
-      visibility: Doc['visibility'],
-    ) => {
+    const updateDoc: AuthorizedData['updateDoc'] = async (payload) => {
       const { id } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
       const doc: UpdateDocPayload = {
+        ...payload,
         id,
-        name,
         code,
-        visibility,
       };
 
       try {
@@ -116,7 +112,7 @@ const WithAuth = () => {
       }
     };
 
-    const getDocs = async (): Promise<void> => {
+    const getDocs: AuthorizedData['getDocs'] = async () => {
       const state = useDocsStore.getState();
 
       if (state.is === `ok` || state.is === `busy`) {
@@ -144,13 +140,15 @@ const WithAuth = () => {
       }
     };
 
-    const deleteDoc = async (id: Doc['id']): Promise<void> => {
+    const deleteDoc: AuthorizedData['deleteDoc'] = async () => {
+      const id = docStoreSelectors.active().id;
+
       try {
         docManagementStoreActions.busy();
         await httpsCallable<DeleteDocPayload, DeleteDocDto>(
           functions,
           `deleteDoc`,
-        )({ id });
+        )({ id: docStoreSelectors.active().id });
 
         docManagementStoreActions.ok();
         docsStoreActions.deleteDoc(id);
@@ -175,28 +173,30 @@ const WithAuth = () => {
       }
     };
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const saveDoc: AuthorizedData['saveDoc'] = async () => {
+      const { name, visibility } = docStoreSelectors.active();
+      await updateDoc({ name, visibility });
+    };
+
+    const logOut: AuthorizedData['logOut'] = async () => {
+      try {
+        await signOut(auth);
+      } catch {}
+    };
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         authStoreActions.authorize({
           user: {
             avatar: user.photoURL,
             name: user.displayName,
           },
-          logOut: async () => {
-            try {
-              await signOut(auth);
-            } catch {}
-          },
+          logOut,
           getPublicDoc,
-          deleteDoc: async () => {
-            await deleteDoc(docStoreSelectors.active().id);
-          },
+          deleteDoc,
           getDocs,
           createDoc,
-          saveDoc: async () => {
-            const { name, visibility } = docStoreSelectors.active();
-            await updateDoc(name, visibility);
-          },
+          saveDoc,
           updateDoc,
         });
 

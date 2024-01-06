@@ -39,14 +39,18 @@ const DocBarMorePopoverContent = ({
       return;
     }
 
-    authStoreSelectors.authorized().updateDoc(docStore.name, visibility);
+    authStoreSelectors.authorized().updateDoc({
+      visibility,
+      name: docStore.name,
+    });
   };
 
   const confirmVisibilityToPermanentChange = async (): Promise<void> => {
     try {
-      await authStoreSelectors
-        .authorized()
-        .updateDoc(docStore.name, `permanent`);
+      await authStoreSelectors.authorized().updateDoc({
+        visibility: `permanent`,
+        name: docStore.name,
+      });
       visibilityToPermanentDialog.close();
     } catch {}
   };

@@ -38,9 +38,10 @@ const DocBar = () => {
   > = async (e) => {
     e.preventDefault();
     try {
-      await authStoreSelectors
-        .authorized()
-        .updateDoc(name, docStore.visibility);
+      await authStoreSelectors.authorized().updateDoc({
+        name,
+        visibility: docStore.visibility,
+      });
       edition.close();
     } catch {}
   };

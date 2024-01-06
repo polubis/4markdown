@@ -6,9 +6,9 @@ interface DocStoreIdleState {
   is: 'idle';
 }
 
-interface DocStoreActiveState extends Doc {
+type DocStoreActiveState = Doc & {
   is: 'active';
-}
+};
 
 type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
