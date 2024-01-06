@@ -18,6 +18,8 @@ interface PublicDoc extends DocBase {
 
 interface PermanentBlog extends DocBase {
   visibility: `permanent`;
+  description: string;
+  thumbnail: File;
 }
 
 type Doc = PrivateDoc | PublicDoc | PermanentBlog;
