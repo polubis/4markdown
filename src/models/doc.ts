@@ -26,10 +26,17 @@ type Doc = PrivateDoc | PublicDoc | PermanentBlog;
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
+type UpdateDocPrivatePayload = Omit<PrivateDoc, 'cdate' | 'mdate'>;
+type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate' | 'mdate'>;
+type UpdateDocPermanentPayload = Omit<
+  PermanentBlog,
+  'cdate' | 'mdate' | 'thumbnail'
+>;
+
 type UpdateDocPayload =
-  | Omit<PrivateDoc, 'cdate' | 'mdate'>
-  | Omit<PublicDoc, 'cdate' | 'mdate'>
-  | Omit<PermanentBlog, 'cdate' | 'mdate'>;
+  | UpdateDocPrivatePayload
+  | UpdateDocPublicPayload
+  | UpdateDocPermanentPayload;
 
 type DeleteDocPayload = Pick<Doc, 'id'>;
 
@@ -51,6 +58,9 @@ export type {
   GetDocDto,
   GetDocPayload,
   UpdateDocDto,
+  UpdateDocPrivatePayload,
+  UpdateDocPublicPayload,
+  UpdateDocPermanentPayload,
   DeleteDocPayload,
   DeleteDocDto,
   DocBase,

@@ -34,6 +34,9 @@ const VisibilityToPermamentDialog = ({
     files: null,
     preview: docStore.visibility === `permanent` ? [docStore.thumbnail] : [],
   });
+  const [description, setDescription] = React.useState(
+    docStore.visibility === `permanent` ? docStore.description : ``,
+  );
 
   const openFormSection: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -83,8 +86,8 @@ const VisibilityToPermamentDialog = ({
         <Field label="Description*" className="mt-3">
           <textarea
             placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
-            // onChange={(e) => setName(e.target.value)}
-            // value={name}
+            onChange={(e) => setDescription(e.target.value)}
+            value={description}
             className="px-3 py-2 min-h-[100px] placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
           />
         </Field>

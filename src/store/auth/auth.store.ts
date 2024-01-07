@@ -8,7 +8,7 @@ interface AuthorizedData {
   createDoc(name: Doc['name']): Promise<void>;
   saveDoc(): Promise<void>;
   upateDocName(name: Doc['name']): Promise<void>;
-  updateDocVisibility(name: Doc['visibility']): Promise<void>;
+  updateDocVisibility(visibility: Doc['visibility']): Promise<void>;
   getDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;
