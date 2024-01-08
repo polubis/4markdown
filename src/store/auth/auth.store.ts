@@ -41,6 +41,7 @@ type AuthStoreState =
 
 interface AuthStoreSelectors {
   authorized(): AuthStoreStateAuthorized;
+  ready(): AuthStoreState;
 }
 
 const useAuthStore = create<AuthStoreState>(() => ({
@@ -56,8 +57,9 @@ const authStoreSelectors: AuthStoreSelectors = {
     if (state.is !== `authorized`)
       throw Error(`Tried to access authorized only state`);
 
-    return state;
+    return state as AuthStoreStateAuthorized;
   },
+  ready: () => getState(),
 };
 
 const set = (state: AuthStoreState): void => {
@@ -75,11 +77,11 @@ const authStoreActions: AuthStoreActions = {
     set({ is: `unauthorized`, ...data });
   },
   deleteAccount: async (email) => {
-    const { deleteAccount } = authStoreSelectors.authorized();
+    const { deleteAccount } = authStoreActions;
     if (deleteAccount) {
       await deleteAccount(email);
     }
-  }
+  },
 };
 
 export { useAuthStore, authStoreActions, authStoreSelectors };
