@@ -10,6 +10,7 @@ interface AuthorizedData {
   updateDoc(name: Doc['name'], visibility: Doc['visibility']): Promise<void>;
   getDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
+  deleteAccount(email: string): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;
 }
 
@@ -21,6 +22,7 @@ interface UnauthrorizedData {
 interface AuthStoreActions {
   authorize(data: AuthorizedData): void;
   unauthorize(data: UnauthrorizedData): void;
+  deleteAccount(email: string): Promise<void>;
 }
 
 type AuthStoreStateIdle = { is: 'idle' };
@@ -39,6 +41,7 @@ type AuthStoreState =
 
 interface AuthStoreSelectors {
   authorized(): AuthStoreStateAuthorized;
+  ready(): AuthStoreState;
 }
 
 const useAuthStore = create<AuthStoreState>(() => ({
@@ -54,8 +57,9 @@ const authStoreSelectors: AuthStoreSelectors = {
     if (state.is !== `authorized`)
       throw Error(`Tried to access authorized only state`);
 
-    return state;
+    return state as AuthStoreStateAuthorized;
   },
+  ready: () => getState(),
 };
 
 const set = (state: AuthStoreState): void => {
@@ -71,6 +75,12 @@ const authStoreActions: AuthStoreActions = {
   },
   unauthorize: (data) => {
     set({ is: `unauthorized`, ...data });
+  },
+  deleteAccount: async (email) => {
+    const { deleteAccount } = authStoreSelectors.authorized();
+    if (deleteAccount) {
+      await deleteAccount(email);
+    }
   },
 };
 
