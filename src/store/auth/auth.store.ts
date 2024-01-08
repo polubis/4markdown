@@ -10,6 +10,7 @@ interface AuthorizedData {
   updateDoc(name: Doc['name'], visibility: Doc['visibility']): Promise<void>;
   getDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
+  deleteAccount(email: string): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;
 }
 
@@ -21,6 +22,7 @@ interface UnauthrorizedData {
 interface AuthStoreActions {
   authorize(data: AuthorizedData): void;
   unauthorize(data: UnauthrorizedData): void;
+  deleteAccount(email: string): Promise<void>;
 }
 
 type AuthStoreStateIdle = { is: 'idle' };
@@ -72,6 +74,12 @@ const authStoreActions: AuthStoreActions = {
   unauthorize: (data) => {
     set({ is: `unauthorized`, ...data });
   },
+  deleteAccount: async (email) => {
+    const { deleteAccount } = authStoreSelectors.authorized();
+    if (deleteAccount) {
+      await deleteAccount(email);
+    }
+  }
 };
 
 export { useAuthStore, authStoreActions, authStoreSelectors };
