@@ -49,6 +49,7 @@ export const Head: HeadFC = () => {
       title={meta.title}
       description={meta.description}
       url={meta.siteUrl}
+      keywords={`${meta.appName}, Editor, Github markdown editor online, ${meta.company}, Programming articles, Markdown preview, Online markdown editor`}
       lang={meta.lang}
       image={LogoThumbnail}
     />
