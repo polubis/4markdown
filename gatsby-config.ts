@@ -59,7 +59,13 @@ const config: GatsbyConfig = {
       options: {
         host: siteMetadata.siteUrl,
         sitemap: `${siteMetadata.siteUrl}/sitemap-index.xml`,
-        policy: [{ userAgent: `*`, allow: [`/`] }],
+        policy: [
+          {
+            userAgent: `*`,
+            allow: [`/`],
+            disallow: [siteMetadata.routes.docs.preview],
+          },
+        ],
       },
     },
     `gatsby-plugin-image`,
