@@ -95,17 +95,22 @@ const CreatorView: React.FC = () => {
               )}
               {divideMode === `preview` && <BiSolidBookContent />}
             </Button>
-            <a
-              href=""
-              target="_blank"
-              className="md:block hidden"
-              rel="noopener"
+
+            <Button
+              className="md:flex hidden"
               title="Open in separate window"
+              i={1}
+              s={2}
+              onClick={() => {
+                window.open(
+                  window.location.href,
+                  `_blank`,
+                  `width=${screen.availWidth},height=${screen.availHeight}`,
+                );
+              }}
             >
-              <Button i={1} s={2}>
-                <BiWindows />
-              </Button>
-            </a>
+              <BiWindows />
+            </Button>
             <Button
               i={2}
               s={2}
