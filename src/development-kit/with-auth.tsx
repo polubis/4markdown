@@ -175,6 +175,13 @@ const WithAuth = () => {
       } catch {}
     };
 
+    const makeDocPrivate: AuthorizedData['makeDocPrivate'] = async () => {
+      await updateDoc({
+        ...docStoreSelectors.active(),
+        visibility: `private`,
+      });
+    };
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         authStoreActions.authorize({
@@ -197,6 +204,7 @@ const WithAuth = () => {
               name,
             });
           },
+          makeDocPrivate,
           updateDocVisibility: async (visibility) => {
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { is, ...doc } = docStoreSelectors.active();

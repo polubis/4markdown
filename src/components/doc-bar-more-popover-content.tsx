@@ -34,6 +34,10 @@ const DocBarMorePopoverContent = ({
   const changeVisiblity = (visibility: Doc['visibility']): void => {
     if (docStore.visibility === visibility) return;
 
+    if (visibility === `private`) {
+      // TODO HEre finished
+    }
+
     if (docStore.visibility !== `permanent` && visibility === `permanent`) {
       visibilityToPermanentDialog.open();
       return;
