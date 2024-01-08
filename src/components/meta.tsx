@@ -7,6 +7,7 @@ interface MetaProps {
   url: string;
   lang: string;
   image: string;
+  keywords?: string;
   robots?: string;
 }
 
@@ -17,6 +18,7 @@ const Meta = ({
   url,
   lang,
   image,
+  keywords,
   robots = `index,follow,max-image-preview:large`,
 }: MetaProps) => {
   return (
@@ -25,6 +27,7 @@ const Meta = ({
       <html lang={lang} />
       <title lang={lang}>{title}</title>
       <meta name="description" content={description} />
+      {keywords && <meta name="keywords" content={keywords} />}
       <meta charSet="utf-8" />
       <meta
         name="viewport"
