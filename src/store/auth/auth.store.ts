@@ -77,7 +77,7 @@ const authStoreActions: AuthStoreActions = {
     set({ is: `unauthorized`, ...data });
   },
   deleteAccount: async (email) => {
-    const { deleteAccount } = authStoreActions;
+    const { deleteAccount } = authStoreSelectors.authorized();
     if (deleteAccount) {
       await deleteAccount(email);
     }

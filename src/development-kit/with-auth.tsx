@@ -187,6 +187,22 @@ const WithAuth = () => {
               await signOut(auth);
             } catch {}
           },
+          deleteAccount: async (email: string) => {
+            try {
+              const deleteAccountFunction = httpsCallable(
+                functions,
+                `deleteAccount`,
+              );
+              await deleteAccountFunction({ email });
+
+              docStoreActions.reset();
+              docManagementStoreActions.idle();
+              docsStoreActions.idle();
+
+            } catch (error) {
+              console.error('Error deleting account:', error);
+            }
+          },
           getPublicDoc,
           deleteDoc: async () => {
             await deleteDoc(docStoreSelectors.active().id);

@@ -21,11 +21,11 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({ onClose }) => {
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
-      if (isAuthorized) {
-        await authStoreSelectors.authorized().deleteAccount(email);
-        close();
-      }
-    } catch {}
+      await authStoreSelectors.authorized().deleteAccount(email);
+      close();
+    } catch (error) {
+      console.error('Error deleting account:', error);
+    }
   };
 
   return (

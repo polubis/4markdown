@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import Popover from 'design-system/popover';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
+import DeleteAccountModal from './delete-account-modal';
 
 interface UserPopoverContentProps {
   onClose(): void;
@@ -20,6 +21,17 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
     }
     onClose();
   });
+
+const [isDeleteAccountModalVisible, setDeleteAccountModalVisible] = useState(false);
+
+const openDeleteAccountModal = () => {
+  setDeleteAccountModalVisible(true);
+}
+
+const closeDeleteAccountModal = () => {
+  setDeleteAccountModalVisible(false);
+}
+
 
   return (
     <>
@@ -46,6 +58,16 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
             </p>
           )}
           <Button
+            className="mt-4" 
+            i={2}
+            s={2}
+            title="Delete Account"
+            auto
+            onClick={openDeleteAccountModal}
+          >
+            Delete Account
+          </Button>
+          <Button
             className="mt-20 ml-auto"
             i={2}
             s={2}
@@ -57,6 +79,9 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
           </Button>
         </div>
       </Popover>
+      {isDeleteAccountModalVisible && (
+        <DeleteAccountModal onClose={closeDeleteAccountModal} />
+      )}
     </>
   );
 };
