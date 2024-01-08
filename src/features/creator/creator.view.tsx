@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
-import Markdown from 'components/markdown';
 import {
   BiBookContent,
   BiMoon,
@@ -29,7 +28,6 @@ import {
 
 const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
-const LazyMarkdown = React.lazy(() => import(`../../components/markdown`));
 
 type DivideMode = 'both' | 'preview' | 'code';
 
@@ -61,6 +59,32 @@ const CreatorView: React.FC = () => {
     }
 
     setDivideMode(`both`);
+  };
+
+  const AnimatedLazyMarkdown = () => {
+    const [showMarkdown, setShowMarkdown] = useState(false);
+  
+    useEffect(() => {
+      const timeout = setTimeout(() => {
+        setShowMarkdown(true);
+      }, 500);
+  
+      return () => clearTimeout(timeout);
+    }, []);
+  
+    const LazyMarkdownComponent = React.lazy(() =>
+      import(`../../components/markdown`)
+    );
+  
+    return (
+      <React.Suspense fallback={<div>Loading...</div>}>
+        {showMarkdown && (
+          <div className={c('animate-fadeIn')}>
+            <LazyMarkdownComponent>{code}</LazyMarkdownComponent>
+          </div>
+        )}
+      </React.Suspense>
+    );
   };
 
   return (
@@ -187,12 +211,14 @@ const CreatorView: React.FC = () => {
               {
                 'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
                   divideMode === `both`,
+                'animate-fadeInOut': divideMode === 'preview',
               },
             )}
           >
-            <React.Suspense>
+            {/* <React.Suspense fallback={<div>Loading...</div>}>
               <LazyMarkdown>{code}</LazyMarkdown>
-            </React.Suspense>
+            </React.Suspense> */}
+            <AnimatedLazyMarkdown/>
           </div>
         </section>
       </main>

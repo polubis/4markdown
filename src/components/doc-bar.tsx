@@ -125,6 +125,7 @@ const DocBar = () => {
             <Button
               i={1}
               s={1}
+              className='ml-4'
               disabled={documentNav.currentDocIndex === 0}
               title="Previous document"
               onClick={documentNavActions.navigatePrev}
@@ -145,7 +146,7 @@ const DocBar = () => {
             <Button
               i={1}
               s={1}
-              className="ml-4"
+              className="ml-2"
               title="Change document name"
               disabled={authStore.is !== `authorized`}
               onClick={handleEditOpen}

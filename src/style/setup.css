@@ -19,6 +19,48 @@
   background: #555;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.animate-fadeOut {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
+.animate-fadeInOut {
+  animation: fadeInOut 0.5s ease-in-out;
+}
+
 .markdown ol {
   counter-reset: numbers;
 }
