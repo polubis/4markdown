@@ -25,6 +25,7 @@ import {
   docManagementStoreActions,
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
+import Markdown from '../../components/markdown';
 
 const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
@@ -37,8 +38,9 @@ const CreatorView: React.FC = () => {
   const meta = siteMetadataStoreSelectors.useReady();
   const docStore = useDocStore();
   const docManagementStore = useDocManagementStore();
-  const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
+  const [divideMode, setDivideMode] = useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleChange = (value: string): void => {
     creatorStoreActions.change(value);
@@ -61,31 +63,12 @@ const CreatorView: React.FC = () => {
     setDivideMode(`both`);
   };
 
-  const AnimatedLazyMarkdown = () => {
-    const [showMarkdown, setShowMarkdown] = useState(false);
-  
-    useEffect(() => {
-      const timeout = setTimeout(() => {
-        setShowMarkdown(true);
-      }, 500);
-  
-      return () => clearTimeout(timeout);
-    }, []);
-  
-    const LazyMarkdownComponent = React.lazy(() =>
-      import(`../../components/markdown`)
-    );
-  
-    return (
-      <React.Suspense fallback={<div>Loading...</div>}>
-        {showMarkdown && (
-          <div className={c('animate-fadeIn')}>
-            <LazyMarkdownComponent>{code}</LazyMarkdownComponent>
-          </div>
-        )}
-      </React.Suspense>
-    );
-  };
+  useEffect(() => {
+    setIsLoaded(false);
+    requestAnimationFrame(() => {
+      setIsLoaded(true);
+    });
+  }, []);
 
   return (
     <>
@@ -179,8 +162,9 @@ const CreatorView: React.FC = () => {
           </React.Suspense>
         )}
         <section
+          key={code}
           className={c(
-            `grid`,
+            `grid animate-${isLoaded ? 'fadeIn' : ''}`,
             docStore.is === `active`
               ? `h-[calc(100svh-72px-50px)]`
               : `h-[calc(100svh-72px)]`,
@@ -215,10 +199,7 @@ const CreatorView: React.FC = () => {
               },
             )}
           >
-            {/* <React.Suspense fallback={<div>Loading...</div>}>
-              <LazyMarkdown>{code}</LazyMarkdown>
-            </React.Suspense> */}
-            <AnimatedLazyMarkdown/>
+            <Markdown>{code}</Markdown>
           </div>
         </section>
       </main>
