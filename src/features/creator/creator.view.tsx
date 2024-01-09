@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
-import Markdown from 'components/markdown';
 import {
   BiBookContent,
   BiMoon,
@@ -26,6 +25,7 @@ import {
   docManagementStoreActions,
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
+import Markdown from '../../components/markdown';
 
 const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
@@ -38,8 +38,9 @@ const CreatorView: React.FC = () => {
   const meta = siteMetadataStoreSelectors.useReady();
   const docStore = useDocStore();
   const docManagementStore = useDocManagementStore();
-  const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
+  const [divideMode, setDivideMode] = useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const handleChange = (value: string): void => {
     creatorStoreActions.change(value);
@@ -61,6 +62,13 @@ const CreatorView: React.FC = () => {
 
     setDivideMode(`both`);
   };
+
+  useEffect(() => {
+    setIsLoaded(false);
+    requestAnimationFrame(() => {
+      setIsLoaded(true);
+    });
+  }, []);
 
   return (
     <>
@@ -159,8 +167,9 @@ const CreatorView: React.FC = () => {
           </React.Suspense>
         )}
         <section
+          key={code}
           className={c(
-            `grid`,
+            `grid animate-${isLoaded ? 'fadeIn' : ''}`,
             docStore.is === `active`
               ? `h-[calc(100svh-72px-50px)]`
               : `h-[calc(100svh-72px)]`,
@@ -191,6 +200,7 @@ const CreatorView: React.FC = () => {
               {
                 'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
                   divideMode === `both`,
+                'animate-fadeInOut': divideMode === 'preview',
               },
             )}
           >
