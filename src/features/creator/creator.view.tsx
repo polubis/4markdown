@@ -7,6 +7,7 @@ import {
   BiSolidBookContent,
   BiSun,
   BiWindows,
+  BiClipboard,
 } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import {
@@ -61,6 +62,17 @@ const CreatorView: React.FC = () => {
 
     setDivideMode(`both`);
   };
+
+  const copyToClipboard = (text: string): void => {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        console.log('Text copied to clipboard');
+      },
+      (err) => {
+        console.error('Unable to copy text to clipboard', err);
+      }
+    );
+  }
 
   return (
     <>
@@ -193,7 +205,17 @@ const CreatorView: React.FC = () => {
                   divideMode === `both`,
               },
             )}
+          ><Button
+            className="absolute top-0 right-0 m-2 p-2 text-gray-500 dark:text-gray-400 bg-transparent border-none cursor-pointer"
+            title="Copy Code"
+            onClick={() => {
+              copyToClipboard(code);
+            }}
+            s={1}
+            i={1}
           >
+              <BiClipboard />
+            </Button>
             <Markdown>{code}</Markdown>
           </div>
         </section>
