@@ -2,6 +2,8 @@ import React from 'react';
 import Md, { MarkdownToJSX } from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import { Components } from '@mdx-js/react/lib';
+import { BiCopy } from 'react-icons/bi';
+import { Button } from 'design-system/button';
 import c from 'classnames';
 
 const Code = ({
@@ -18,10 +20,21 @@ const Code = ({
     highlightElement(ref.current);
   }, [children, className]);
 
+  const handleCopy = () => {
+    if (typeof children === 'string') {
+      navigator.clipboard.writeText(children);
+    }
+  };
+
   return (
-    <code ref={ref} className={className}>
-      {children}
-    </code>
+    <div className="code-container">
+      <Button onClick={handleCopy} s={1} i={1} title='Copy code snippet'>
+        <BiCopy className='copy-snippet-btn'/>
+      </Button>
+      <code ref={ref} className={`code-snippet ${className}`}>
+        {children}
+      </code>
+    </div>
   );
 };
 

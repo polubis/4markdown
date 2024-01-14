@@ -124,3 +124,16 @@ pre {
   background: #e7e7e7;
   border-left-color: #989898;
 }
+
+body.light .markdown .code-container {
+  position: relative;
+  border: 1px solid #dcdcdc;
+  border-radius: 3px;
+  padding: 15px;
+}
+
+body.light .markdown .code-container button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
