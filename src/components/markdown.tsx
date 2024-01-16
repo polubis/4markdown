@@ -21,15 +21,15 @@ const Code = ({
   }, [children, className]);
 
   const handleCopy = () => {
-    if (typeof children === 'string') {
+    if (typeof children === `string`) {
       navigator.clipboard.writeText(children);
     }
   };
 
   return (
-    <div className="code-container">
-      <Button onClick={handleCopy} s={1} i={1} title='Copy code snippet'>
-        <BiCopy className='copy-snippet-btn'/>
+    <div className={c(`code-container`)}>
+      <Button onClick={handleCopy} s={1} i={1} title="Copy code snippet">
+        <BiCopy className={c(`copy-snippet-btn`)} />
       </Button>
       <code ref={ref} className={`code-snippet ${className}`}>
         {children}
