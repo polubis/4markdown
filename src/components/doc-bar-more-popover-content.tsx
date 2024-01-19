@@ -147,7 +147,11 @@ const DocBarMorePopoverContent = ({
             <Tabs.Item
               title="Make this document permanent"
               active={docStore.visibility === `permanent`}
-              onClick={visibilityToPermanentDialog.open}
+              onClick={
+                docStore.visibility === `permanent`
+                  ? undefined
+                  : visibilityToPermanentDialog.open
+              }
             >
               Permanent
             </Tabs.Item>
