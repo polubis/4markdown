@@ -6,17 +6,7 @@ const useOnInteraction = () => {
   React.useEffect(() => {
     if (interacted) return;
 
-    const listener = (): void => {
-      setInteracted(true);
-    };
-
-    window.addEventListener(`mousemove`, listener);
-    window.addEventListener(`touchstart`, listener);
-
-    return () => {
-      window.removeEventListener(`touchstart`, listener);
-      window.removeEventListener(`mousemove`, listener);
-    };
+    setInteracted(true);
   }, [interacted]);
 
   return interacted;
