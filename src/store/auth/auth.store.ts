@@ -10,7 +10,10 @@ interface AuthorizedData {
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
   updateDocName(name: Doc['name']): Promise<void>;
-  makeDocPermanent(description: PermanentBlog['description']): Promise<void>;
+  makeDocPermanent(
+    name: Doc['name'],
+    description: PermanentBlog['description'],
+  ): Promise<void>;
   getDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;

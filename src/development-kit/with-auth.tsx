@@ -129,9 +129,10 @@ const WithAuth = () => {
     };
 
     const makeDocPermanent: AuthorizedData['makeDocPermanent'] = async (
+      name,
       description,
     ) => {
-      const { id, name } = docStoreSelectors.active();
+      const { id } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
 
       await updateDoc({
