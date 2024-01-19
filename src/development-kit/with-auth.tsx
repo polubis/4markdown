@@ -105,8 +105,10 @@ const WithAuth = () => {
     };
 
     const makeDocPrivate: AuthorizedData['makeDocPrivate'] = async () => {
-      const { id, name } = docStoreSelectors.active();
+      const { id, name, visibility } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
+
+      if (visibility === `private`) return;
 
       await updateDoc({
         id,
@@ -117,8 +119,10 @@ const WithAuth = () => {
     };
 
     const makeDocPublic: AuthorizedData['makeDocPublic'] = async () => {
-      const { id, name } = docStoreSelectors.active();
+      const { id, name, visibility } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
+
+      if (visibility === `public`) return;
 
       await updateDoc({
         id,
@@ -132,8 +136,10 @@ const WithAuth = () => {
       name,
       description,
     ) => {
-      const { id } = docStoreSelectors.active();
+      const { id, visibility } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
+
+      if (visibility === `permanent`) return;
 
       await updateDoc({
         id,
