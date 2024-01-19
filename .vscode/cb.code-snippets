@@ -1,0 +1,26 @@
+{
+	"ct": {
+		"prefix": "ct",
+		"body": [
+		  "import { render, screen } from '@testing-library/react';",
+		  "import { ${1:example} } from './${2:example}';",
+		  "",
+		  "describe('${1:example} can be used when: ', () => {",
+		  "  it('[FRAGILE] assigns classes', () => {",
+		  "    const { container, asFragment } = render(",
+		  "      <${1:example} className=\"my-class\">",
+		  "        <></>",
+		  "      </${1:example}>",
+		  "    );",
+		  "",
+		  "    const component = container.querySelector('.${2:example}');",
+		  "",
+		  "    expect(component?.className).toContain('${2:example} my-class');",
+		  "    expect(asFragment()).toMatchSnapshot();",
+		  "  });",
+		  "});",
+		  ""
+		],
+		"description": ""
+	  }
+}

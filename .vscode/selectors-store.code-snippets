@@ -1,0 +1,29 @@
+{
+  "selectors-store": {
+    "prefix": "selectors-store",
+    "body": [
+      "import type { ${1}Store } from './defs';",
+      "import { use${1}Store } from './store';",
+      "",
+      "const isSafeState = (",
+      "  state: ${1}Store.State",
+      "): ${1}Store.Ok => {",
+      "  if (state.is === 'ok') return state;",
+      "",
+      "  throw Error(",
+      "    `The read attempt detected in ${1}Store, the state is: ${state.is}`",
+      "  );",
+      "};",
+      "",
+      "const ${2}_store_selectors: ${1}Store.Selectors = {",
+      "  useState: () => use${1}Store(),",
+      "  state: use${1}Store.getState,",
+      "  safeState: () => isSafeState(use${1}Store.getState()),",
+      "  useSafeState: () => use${1}Store(isSafeState),",
+      "};",
+      "",
+      "export { ${2}_store_selectors };"
+    ],
+    "description": ""
+  }
+}

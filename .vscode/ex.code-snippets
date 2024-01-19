@@ -1,0 +1,11 @@
+{
+	"ex": {
+		"prefix": "ex",
+		"body": [
+		  "export * from './${1:example}';",
+		  "export * from './defs';",
+		  ""
+		],
+		"description": ""
+	  }
+}

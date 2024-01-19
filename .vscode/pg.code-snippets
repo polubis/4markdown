@@ -1,0 +1,16 @@
+{
+	"pg": {
+		"prefix": "pg",
+		"body": [
+		  "import { Font } from '@system/figa-ui';",
+		  "",
+		  "const ${1:example}= () => {",
+		  "  return <Font variant=\"h1\">England</Font>;",
+		  "};",
+		  "",
+		  "export default ${1:example};",
+		  ""
+		],
+		"description": ""
+	  }
+}
