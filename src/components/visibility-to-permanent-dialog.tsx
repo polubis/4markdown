@@ -21,6 +21,7 @@ const VisibilityToPermamentDialog = ({
   const docStore = docStoreSelectors.active();
   const docManagementStore = useDocManagementStore();
   const formSection = useToggle();
+  const [name, setName] = React.useState(docStore.name);
   const [description, setDescription] = React.useState(
     docStore.visibility === `permanent` ? docStore.description : ``,
   );
@@ -47,7 +48,7 @@ const VisibilityToPermamentDialog = ({
     return (
       <form className="flex flex-col" onSubmit={handleConfirm}>
         <header className="flex items-center mb-4">
-          <h6 className="text-xl mr-4">Add required data</h6>
+          <h6 className="text-xl mr-4">Add Required Data</h6>
           <Button
             i={2}
             s={1}
@@ -59,6 +60,14 @@ const VisibilityToPermamentDialog = ({
             <BiX />
           </Button>
         </header>
+        <Field label="Name*" className="mt-3">
+          <input
+            placeholder="Type document name..."
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
+          />
+        </Field>
         <Field label="Description*" className="mt-3">
           <textarea
             placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
@@ -99,7 +108,7 @@ const VisibilityToPermamentDialog = ({
   return (
     <form className="flex flex-col" onSubmit={openFormSection}>
       <header className="flex items-center">
-        <h6 className="text-xl mr-4">Before You continue</h6>
+        <h6 className="text-xl mr-4">Before You Continue</h6>
         <Button
           i={2}
           s={1}

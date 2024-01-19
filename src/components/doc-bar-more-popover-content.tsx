@@ -32,7 +32,7 @@ const DocBarMorePopoverContent = ({
 
   return (
     <Popover
-      className="bottom-32 left-2 md:left-32 md:bottom-auto md:top-32"
+      className="bottom-32 left-2 md:left-32 md:bottom-auto md:top-32 min-w-[280px] max-w-[94%] md:max-w-[400px]"
       onBackdropClick={docManagementStore.is === `busy` ? undefined : onClose}
     >
       {visibilityToPermanentDialog.opened && (
@@ -139,9 +139,7 @@ const DocBarMorePopoverContent = ({
             <Tabs.Item
               title="Make this document permanent"
               active={docStore.visibility === `permanent`}
-              onClick={() =>
-                authStoreSelectors.authorized().makeDocPermanent(`permanent`)
-              }
+              onClick={visibilityToPermanentDialog.open}
             >
               Permanent
             </Tabs.Item>
