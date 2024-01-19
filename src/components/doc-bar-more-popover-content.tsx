@@ -82,7 +82,8 @@ const DocBarMorePopoverContent = ({
                 `capitalize`,
                 {
                   'text-green-700 dark:text-green-600':
-                    docStore.visibility === `public`,
+                    docStore.visibility === `public` ||
+                    docStore.visibility === `permanent`,
                 },
                 {
                   'text-gray-600 dark:text-gray-400':
@@ -105,21 +106,28 @@ const DocBarMorePopoverContent = ({
               {formatDistance(new Date().toISOString(), docStore.mdate)} ago
             </strong>
           </p>
-          {docStore.visibility === `public` && (
-            <p className="mt-1">
-              URL:{` `}
-              <button
-                className="underline underline-offset-2 text-blue-800 dark:text-blue-500"
-                title="Document preview"
-                onClick={() =>
-                  navigate(
-                    `${siteMetaDataStore.routes.docs.preview}?id=${docStore.id}`,
-                  )
-                }
-              >
-                <strong>Preview</strong>
-              </button>
-            </p>
+          {(docStore.visibility === `public` ||
+            docStore.visibility === `permanent`) && (
+            <button
+              className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
+              title="Document preview"
+              onClick={() =>
+                navigate(
+                  `${siteMetaDataStore.routes.docs.preview}?id=${docStore.id}`,
+                )
+              }
+            >
+              <strong>Preview</strong>
+            </button>
+          )}
+          {docStore.visibility === `permanent` && (
+            <button
+              className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
+              title="Document URL"
+              onClick={() => navigate(docStore.path)}
+            >
+              <strong>URL</strong>
+            </button>
           )}
           <Tabs className="mt-8" loading={docManagementStore.is === `busy`}>
             <Tabs.Item
