@@ -5,7 +5,7 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { docStoreSelectors } from 'store/doc/doc.store';
+import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 
 interface VisibilityToPermamentDialogProps {
   onConfirm(): void;
@@ -44,6 +44,9 @@ const VisibilityToPermamentDialog = ({
     } catch {}
   };
 
+  const nameInvalid = !docStoreValidators.name(name);
+  const descriptionInvalid = !docStoreValidators.description(description);
+
   if (formSection.opened) {
     return (
       <form className="flex flex-col" onSubmit={handleConfirm}>
@@ -60,8 +63,9 @@ const VisibilityToPermamentDialog = ({
             <BiX />
           </Button>
         </header>
-        <Field label="Name*" className="mt-3">
+        <Field label="Name*" className="mt-2">
           <input
+            autoFocus
             placeholder="Type document name..."
             onChange={(e) => setName(e.target.value)}
             value={name}
@@ -95,7 +99,11 @@ const VisibilityToPermamentDialog = ({
             i={2}
             s={2}
             auto
-            disabled={docManagementStore.is === `busy`}
+            disabled={
+              docManagementStore.is === `busy` ||
+              nameInvalid ||
+              descriptionInvalid
+            }
             title="Submit document permanent status change"
           >
             Submit

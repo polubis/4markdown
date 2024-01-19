@@ -1,4 +1,4 @@
-import type { Doc } from 'models/doc';
+import type { Doc, PermanentBlog } from 'models/doc';
 import { creatorStoreActions } from 'store/creator/creator.store';
 import { create } from 'zustand';
 
@@ -35,12 +35,21 @@ const set = (state: DocStoreState): void => {
 };
 
 const docStoreValidators = {
-  name: (name: string): boolean =>
+  name: (name: Doc['name']): boolean =>
     typeof name === `string` &&
     name.length === name.trim().length &&
     name.length >= 2 &&
     name.length <= 100 &&
     /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(name.trim()),
+  description: (description: PermanentBlog['description']): boolean => {
+    if (typeof description !== `string`) {
+      return false;
+    }
+
+    const trimmed = description.trim();
+
+    return trimmed.length >= 50 && trimmed.length <= 250;
+  },
 };
 
 const getActiveState = (state: DocStoreState): DocStoreActiveState => {
