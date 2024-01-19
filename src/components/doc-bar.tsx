@@ -38,16 +38,14 @@ const DocBar = () => {
   > = async (e) => {
     e.preventDefault();
     try {
-      await authStoreSelectors
-        .authorized()
-        .updateDoc(name, docStore.visibility);
+      await authStoreSelectors.authorized().updateDocName(name);
       edition.close();
     } catch {}
   };
 
   const handleSaveCodeConfirm = async (): Promise<void> => {
     try {
-      await authStoreSelectors.authorized().saveDoc();
+      await authStoreSelectors.authorized().saveDocCode();
     } catch {}
   };
 

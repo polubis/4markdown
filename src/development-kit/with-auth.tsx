@@ -11,7 +11,7 @@ import {
   signOut,
 } from 'firebase/auth';
 import React from 'react';
-import { authStoreActions } from 'store/auth/auth.store';
+import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import type {
@@ -84,19 +84,7 @@ const WithAuth = () => {
       }
     };
 
-    const updateDoc = async (
-      name: Doc['name'],
-      visibility: Doc['visibility'],
-    ) => {
-      const { id } = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-      const doc: UpdateDocPayload = {
-        id,
-        name,
-        code,
-        visibility,
-      };
-
+    const updateDoc = async (payload: UpdateDocPayload) => {
       try {
         docManagementStoreActions.busy();
         const { data: updatedDoc } = await httpsCallable<
@@ -105,7 +93,7 @@ const WithAuth = () => {
         >(
           functions,
           `updateDoc`,
-        )(doc);
+        )(payload);
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
         creatorStoreActions.setPrevCode(updatedDoc.code);
@@ -114,6 +102,64 @@ const WithAuth = () => {
         docManagementStoreActions.fail(error);
         throw error;
       }
+    };
+
+    const makeDocPrivate: AuthorizedData['makeDocPrivate'] = async () => {
+      const { id, name } = docStoreSelectors.active();
+      const { code } = creatorStoreSelectors.ready();
+
+      await updateDoc({
+        id,
+        name,
+        code,
+        visibility: `private`,
+      });
+    };
+
+    const makeDocPublic: AuthorizedData['makeDocPublic'] = async () => {
+      const { id, name } = docStoreSelectors.active();
+      const { code } = creatorStoreSelectors.ready();
+
+      await updateDoc({
+        id,
+        name,
+        code,
+        visibility: `public`,
+      });
+    };
+
+    const makeDocPermanent: AuthorizedData['makeDocPermanent'] = async (
+      description,
+    ) => {
+      const { id, name } = docStoreSelectors.active();
+      const { code } = creatorStoreSelectors.ready();
+
+      await updateDoc({
+        id,
+        name,
+        code,
+        visibility: `permanent`,
+        description,
+      });
+    };
+
+    const updateDocName: AuthorizedData['updateDocName'] = async (name) => {
+      const doc = docStoreSelectors.active();
+      const { code } = creatorStoreSelectors.ready();
+
+      if (doc.visibility === `public` || doc.visibility === `private`) {
+        return await updateDoc({
+          ...doc,
+          code,
+          name,
+        });
+      }
+
+      return await updateDoc({
+        ...doc,
+        code,
+        name,
+      });
     };
 
     const getDocs = async (): Promise<void> => {
@@ -193,11 +239,19 @@ const WithAuth = () => {
           },
           getDocs,
           createDoc,
-          saveDoc: async () => {
-            const { name, visibility } = docStoreSelectors.active();
-            await updateDoc(name, visibility);
+          saveDocCode: async () => {
+            const doc = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            await updateDoc({
+              ...doc,
+              code,
+            });
           },
-          updateDoc,
+          makeDocPrivate,
+          makeDocPublic,
+          makeDocPermanent,
+          updateDocName,
         });
 
         getDocs();

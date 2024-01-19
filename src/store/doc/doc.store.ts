@@ -6,9 +6,9 @@ interface DocStoreIdleState {
   is: 'idle';
 }
 
-interface DocStoreActiveState extends Doc {
+type DocStoreActiveState = Doc & {
   is: 'active';
-}
+};
 
 type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
@@ -35,7 +35,12 @@ const set = (state: DocStoreState): void => {
 };
 
 const docStoreValidators = {
-  name: (name: string): boolean => name.trim().length < 2,
+  name: (name: string): boolean =>
+    typeof name === `string` &&
+    name.length === name.trim().length &&
+    name.length >= 2 &&
+    name.length <= 100 &&
+    /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(name.trim()),
 };
 
 const getActiveState = (state: DocStoreState): DocStoreActiveState => {

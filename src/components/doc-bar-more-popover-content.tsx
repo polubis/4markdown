@@ -1,7 +1,7 @@
 import { Button } from 'design-system/button';
 import Popover from 'design-system/popover';
 import React from 'react';
-import { BiLowVision, BiShow, BiTrash, BiX } from 'react-icons/bi';
+import { BiTrash, BiX } from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
@@ -10,6 +10,7 @@ import c from 'classnames';
 import { formatDistance } from 'date-fns';
 import { navigate } from 'gatsby';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { Tabs } from 'design-system/tabs';
 
 interface DocBarMorePopoverContentProps {
   onClose(): void;
@@ -26,26 +27,31 @@ const DocBarMorePopoverContent = ({
   const docManagementStore = useDocManagementStore();
   const siteMetaDataStore = siteMetadataStoreSelectors.useReady();
 
-  const changeVisiblity = (): void => {
-    authStoreSelectors
-      .authorized()
-      .updateDoc(
-        docStore.name,
-        docStore.visibility === `public` ? `private` : `public`,
-      );
-  };
-
   return (
     <Popover
       className="bottom-32 left-2 md:left-32 md:bottom-auto md:top-32"
       onBackdropClick={docManagementStore.is === `busy` ? undefined : onClose}
     >
       <div className="flex items-center">
-        <h6 className="text-xl mr-4">Additional Options</h6>
+        <h6 className="text-xl mr-4">Details</h6>
         <Button
           i={2}
           s={1}
           className="ml-auto"
+          disabled={
+            docManagementStore.is === `busy` ||
+            authStore.is !== `authorized` ||
+            docsStore.is === `busy`
+          }
+          title="Delete current document"
+          onClick={onOpen}
+        >
+          <BiTrash />
+        </Button>
+        <Button
+          i={2}
+          s={1}
+          className="ml-2"
           disabled={docManagementStore.is === `busy`}
           title="Close additional options"
           onClick={onClose}
@@ -102,35 +108,31 @@ const DocBarMorePopoverContent = ({
           </button>
         </p>
       )}
-      <div className="flex items-center mt-8">
-        <Button
-          i={2}
-          s={2}
-          title={
-            docStore.visibility === `private`
-              ? `Make this document public`
-              : `Make this document private`
-          }
-          disabled={docManagementStore.is === `busy`}
-          onClick={changeVisiblity}
+      <Tabs className="mt-8" loading={docManagementStore.is === `busy`}>
+        <Tabs.Item
+          title="Make this document private"
+          active={docStore.visibility === `private`}
+          onClick={authStoreSelectors.authorized().makeDocPrivate}
         >
-          {docStore.visibility === `private` ? <BiShow /> : <BiLowVision />}
-        </Button>
-        <Button
-          i={2}
-          s={2}
-          className="ml-2"
-          disabled={
-            docManagementStore.is === `busy` ||
-            authStore.is !== `authorized` ||
-            docsStore.is === `busy`
-          }
-          title="Delete current document"
-          onClick={onOpen}
+          Private
+        </Tabs.Item>
+        <Tabs.Item
+          title="Make this document public"
+          active={docStore.visibility === `public`}
+          onClick={authStoreSelectors.authorized().makeDocPublic}
         >
-          <BiTrash />
-        </Button>
-      </div>
+          Public
+        </Tabs.Item>
+        <Tabs.Item
+          title="Make this document permanent"
+          active={docStore.visibility === `permanent`}
+          onClick={() =>
+            authStoreSelectors.authorized().makeDocPermanent(`permanent`)
+          }
+        >
+          Permanent
+        </Tabs.Item>
+      </Tabs>
     </Popover>
   );
 };
