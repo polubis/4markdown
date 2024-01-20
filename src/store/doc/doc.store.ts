@@ -38,8 +38,8 @@ const docStoreValidators = {
   name: (name: Doc['name']): boolean =>
     typeof name === `string` &&
     name.length === name.trim().length &&
-    name.length >= 50 &&
-    name.length <= 70 &&
+    name.length >= 2 &&
+    name.length <= 100 &&
     /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(name.trim()),
   description: (description: PermanentBlog['description']): boolean => {
     if (typeof description !== `string`) {
@@ -48,8 +48,8 @@ const docStoreValidators = {
 
     return (
       description.length === description.trim().length &&
-      description.length >= 110 &&
-      description.length <= 160
+      description.length >= 50 &&
+      description.length <= 250
     );
   },
 };
