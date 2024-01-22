@@ -1,4 +1,4 @@
-import type { Doc, GetDocPayload, PermanentBlog } from 'models/doc';
+import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
 import type { User } from 'models/user';
 import { create } from 'zustand';
 
@@ -12,7 +12,7 @@ interface AuthorizedData {
   updateDocName(name: Doc['name']): Promise<void>;
   makeDocPermanent(
     name: Doc['name'],
-    description: PermanentBlog['description'],
+    description: PermanentDoc['description'],
   ): Promise<void>;
   getDocs(): Promise<void>;
   deleteDoc(): Promise<void>;

@@ -1,15 +1,24 @@
 import React from 'react';
-import type { HeadFC } from 'gatsby';
+import { navigate, type HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import {
   siteMetadataStoreSelectors,
   useSiteMetadataStore,
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import DocPreviewView from 'features/doc-preview/doc-preview.view';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
+import { Button } from 'design-system/button';
+import { BiArrowToLeft } from 'react-icons/bi';
+import Markdown from 'components/markdown';
+import { PermanentDoc } from 'models/doc';
 
-const DocsPreviewPage = () => {
+interface DocumentPageProps {
+  pageContext: {
+    doc: PermanentDoc;
+  };
+}
+
+const DocumentPage = (props: DocumentPageProps) => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 
@@ -18,13 +27,33 @@ const DocsPreviewPage = () => {
       is: `ready`,
       ...siteMetadata,
     });
+
     synced.current = true;
   }
 
-  return <DocPreviewView />;
+  return (
+    <>
+      <header className="p-4">
+        <nav>
+          <Button
+            type="button"
+            i={2}
+            s={2}
+            title="Go back to editor"
+            onClick={() => navigate(siteMetadata.routes.home)}
+          >
+            <BiArrowToLeft />
+          </Button>
+        </nav>
+      </header>
+      <main className="max-w-4xl p-4 mx-auto">
+        <Markdown>{props.pageContext.doc.code}</Markdown>
+      </main>
+    </>
+  );
 };
 
-export default DocsPreviewPage;
+export default DocumentPage;
 
 export const Head: HeadFC = () => {
   const meta = siteMetadataStoreSelectors.useReady();

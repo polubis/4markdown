@@ -1,4 +1,4 @@
-import type { Doc, PermanentBlog } from 'models/doc';
+import type { Doc, PermanentDoc } from 'models/doc';
 import { creatorStoreActions } from 'store/creator/creator.store';
 import { create } from 'zustand';
 
@@ -41,7 +41,7 @@ const docStoreValidators = {
     name.length >= 2 &&
     name.length <= 100 &&
     /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(name.trim()),
-  description: (description: PermanentBlog['description']): boolean => {
+  description: (description: PermanentDoc['description']): boolean => {
     if (typeof description !== `string`) {
       return false;
     }

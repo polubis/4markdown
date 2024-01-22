@@ -13,7 +13,7 @@ import {
   useCreatorStore,
 } from 'store/creator/creator.store';
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 

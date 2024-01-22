@@ -16,22 +16,19 @@ interface PublicDoc extends DocBase {
   visibility: 'public';
 }
 
-interface PermanentBlog extends DocBase {
+interface PermanentDoc extends DocBase {
   visibility: `permanent`;
   description: string;
   path: Path;
 }
 
-type Doc = PrivateDoc | PublicDoc | PermanentBlog;
+type Doc = PrivateDoc | PublicDoc | PermanentDoc;
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
 type UpdateDocPrivatePayload = Omit<PrivateDoc, 'cdate' | 'mdate'>;
 type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate' | 'mdate'>;
-type UpdateDocPermanentPayload = Omit<
-  PermanentBlog,
-  'cdate' | 'mdate' | 'path'
->;
+type UpdateDocPermanentPayload = Omit<PermanentDoc, 'cdate' | 'mdate' | 'path'>;
 
 type UpdateDocPayload =
   | UpdateDocPrivatePayload
@@ -46,6 +43,8 @@ type UpdateDocDto = Doc;
 type DeleteDocDto = Pick<Doc, 'id'>;
 type GetDocDto = Doc;
 
+type GetPermanentDocsDto = PermanentDoc[];
+
 export type {
   Doc,
   CreateDocPayload,
@@ -58,9 +57,10 @@ export type {
   UpdateDocPublicPayload,
   UpdateDocPermanentPayload,
   DeleteDocPayload,
+  GetPermanentDocsDto,
   DeleteDocDto,
   DocBase,
   PrivateDoc,
   PublicDoc,
-  PermanentBlog,
+  PermanentDoc,
 };

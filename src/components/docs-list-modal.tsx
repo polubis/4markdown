@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import Modal from 'design-system/modal';
 import type { Doc } from 'models/doc';
 import React from 'react';
-import { BiLowVision, BiShow, BiX } from 'react-icons/bi';
+import { BiLowVision, BiShow, BiWorld, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -63,10 +63,14 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
               onClick={() => selectDoc(doc)}
             >
               <span className="absolute top-1 right-1">
-                {doc.visibility === `private` ? (
+                {doc.visibility === `private` && (
                   <BiLowVision title="This document is private" />
-                ) : (
+                )}
+                {doc.visibility === `public` && (
                   <BiShow title="This document is public" />
+                )}
+                {doc.visibility === `permanent` && (
+                  <BiWorld title="This document is permanent" />
                 )}
               </span>
               <span className="font-bold line-clamp-3 text-center text-sm">
