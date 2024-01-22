@@ -81,7 +81,7 @@ const DocBar = () => {
               s={1}
               className="mr-1 ml-3"
               disabled={
-                docStoreValidators.name(name) ||
+                !docStoreValidators.name(name) ||
                 docManagementStore.is === `busy`
               }
               title="Confirm name change"
