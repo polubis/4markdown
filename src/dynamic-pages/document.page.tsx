@@ -18,7 +18,7 @@ interface DocumentPageProps {
   };
 }
 
-const DocumentPage = (props: DocumentPageProps) => {
+const DocumentPage = ({ pageContext }: DocumentPageProps) => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 
@@ -47,7 +47,7 @@ const DocumentPage = (props: DocumentPageProps) => {
         </nav>
       </header>
       <main className="max-w-4xl p-4 mx-auto">
-        <Markdown>{props.pageContext.doc.code}</Markdown>
+        <Markdown>{pageContext.doc.code}</Markdown>
       </main>
     </>
   );
@@ -55,18 +55,20 @@ const DocumentPage = (props: DocumentPageProps) => {
 
 export default DocumentPage;
 
-export const Head: HeadFC = () => {
+export const Head: HeadFC<object, DocumentPageProps['pageContext']> = ({
+  pageContext,
+}) => {
   const meta = siteMetadataStoreSelectors.useReady();
 
   return (
     <Meta
       appName={meta.appName}
-      title={meta.title}
-      description={meta.description}
-      url={meta.siteUrl}
+      title={pageContext.doc.name}
+      description={pageContext.doc.description}
+      url={`${meta.siteUrl}${pageContext.doc.path}`}
+      keywords={`${meta.appName}, ${pageContext.doc.name}`}
       lang={meta.lang}
       image={LogoThumbnail}
-      robots="noindex, nofollow"
     />
   );
 };
