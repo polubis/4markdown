@@ -1,4 +1,4 @@
-import type { Doc } from 'models/doc';
+import type { Doc, PermanentDoc } from 'models/doc';
 import { creatorStoreActions } from 'store/creator/creator.store';
 import { create } from 'zustand';
 
@@ -6,9 +6,9 @@ interface DocStoreIdleState {
   is: 'idle';
 }
 
-interface DocStoreActiveState extends Doc {
+type DocStoreActiveState = Doc & {
   is: 'active';
-}
+};
 
 type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
@@ -35,7 +35,23 @@ const set = (state: DocStoreState): void => {
 };
 
 const docStoreValidators = {
-  name: (name: string): boolean => name.trim().length < 2,
+  name: (name: Doc['name']): boolean =>
+    typeof name === `string` &&
+    name.length === name.trim().length &&
+    name.length >= 2 &&
+    name.length <= 100 &&
+    /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(name.trim()),
+  description: (description: PermanentDoc['description']): boolean => {
+    if (typeof description !== `string`) {
+      return false;
+    }
+
+    return (
+      description.length === description.trim().length &&
+      description.length >= 50 &&
+      description.length <= 250
+    );
+  },
 };
 
 const getActiveState = (state: DocStoreState): DocStoreActiveState => {

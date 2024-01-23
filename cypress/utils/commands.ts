@@ -33,6 +33,7 @@ type ClickableControls =
   | `Close your documents`
   | `Make this document public`
   | `Make this document private`
+  | `Make this document permanent`
   | `Document preview`
   | `Go back to editor`;
 

@@ -1,16 +1,24 @@
 import React from 'react';
-import { HeadFC, navigate } from 'gatsby';
-import { Button } from 'design-system/button';
-import { BiArrowToLeft } from 'react-icons/bi';
-import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
+import { navigate, type HeadFC } from 'gatsby';
+import Meta from 'components/meta';
 import {
   siteMetadataStoreSelectors,
   useSiteMetadataStore,
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import Meta from 'components/meta';
+import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
+import { Button } from 'design-system/button';
+import { BiArrowToLeft } from 'react-icons/bi';
+import Markdown from 'components/markdown';
+import { PermanentDoc } from 'models/doc';
 
-const NotFoundPage = () => {
+interface DocumentPageProps {
+  pageContext: {
+    doc: PermanentDoc;
+  };
+}
+
+const DocumentPage = ({ pageContext }: DocumentPageProps) => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 
@@ -19,6 +27,7 @@ const NotFoundPage = () => {
       is: `ready`,
       ...siteMetadata,
     });
+
     synced.current = true;
   }
 
@@ -38,33 +47,28 @@ const NotFoundPage = () => {
         </nav>
       </header>
       <main className="max-w-4xl p-4 mx-auto">
-        <h1 className="text-2xl dark:text-white text-black">
-          Resource Not Found at the Specified <strong>URL</strong>
-        </h1>
-        <p className="mt-2">
-          If this is a <strong>permanent document</strong>, please allow some
-          time for it to be available at the specified <strong>URL</strong>.
-          Typically, it takes several days.
-        </p>
+        <Markdown>{pageContext.doc.code}</Markdown>
       </main>
     </>
   );
 };
 
-export default NotFoundPage;
+export default DocumentPage;
 
-export const Head: HeadFC = () => {
+export const Head: HeadFC<object, DocumentPageProps['pageContext']> = ({
+  pageContext,
+}) => {
   const meta = siteMetadataStoreSelectors.useReady();
 
   return (
     <Meta
       appName={meta.appName}
-      title={meta.title}
-      description={meta.description}
-      url={meta.siteUrl}
+      title={pageContext.doc.name}
+      description={pageContext.doc.description}
+      url={`${meta.siteUrl}${pageContext.doc.path}`}
+      keywords={`${meta.appName}, ${pageContext.doc.name}`}
       lang={meta.lang}
       image={LogoThumbnail}
-      robots="noindex, nofollow"
     />
   );
 };

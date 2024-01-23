@@ -1,0 +1,36 @@
+{
+  "actions-store": {
+    "prefix": "actions-store",
+    "body": [
+      "import { ${3}, getError } from '@system/blog-api';",
+      "import { type ${1}Store } from './defs';",
+      "import { use${1}Store } from './store';",
+      "",
+      "const { setState } = use${1}Store;",
+      "",
+      "const set = (state: ${1}Store.State): void => {",
+      "  setState(state, true);",
+      "};",
+      "",
+      "const ${2}_store_actions: ${1}Store.Actions = {",
+      "  reset: () => {",
+      "    set({ is: 'idle' });",
+      "  },",
+      "  delete: async (id) => {",
+      "    set({ is: 'busy' });",
+      "",
+      "    try {",
+      "      await ${3}({ id });",
+      "      set({ is: 'busy' });",
+      "    } catch (error: unknown) {",
+      "      set({ is: 'fail', error: getError(error) });",
+      "    }",
+      "  },",
+      "};",
+      "",
+      "export { ${2}_store_actions };",
+      ""
+    ],
+    "description": ""
+  }
+}

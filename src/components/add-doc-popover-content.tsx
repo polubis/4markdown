@@ -61,7 +61,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
           auto
           title="Confirm document creation"
           disabled={
-            docStoreValidators.name(name) || docManagementStore.is === `busy`
+            !docStoreValidators.name(name) || docManagementStore.is === `busy`
           }
         >
           Create
