@@ -9,7 +9,7 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import DocPreviewView from 'features/doc-preview/doc-preview.view';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
 
-const DocsPreviewPage: React.FC = () => {
+const DocsPreviewPage = () => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 
