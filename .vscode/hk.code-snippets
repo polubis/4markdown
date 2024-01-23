@@ -1,0 +1,35 @@
+{
+	"hk": {
+		"prefix": "hk",
+		"body": [
+		  "import { useState } from 'react';",
+		  "",
+		  "interface ${3:example}{",
+		  "",
+		  "}",
+		  "",
+		  "interface ${4:example}{",
+		  "",
+		  "}",
+		  "",
+		  "type Use${1:example} = (payload: ${3:example}) => ${4:example};",
+		  "",
+		  "export type { ${3:example}, ${4:example}}",
+		  "",
+		  "const use${1:example} = (${2:example}: ${3:example}): ${4:example} => {",
+		  "  const [value, setValue] = useState()",
+		  "",
+		  "  const handleSm = () => {",
+		  "",
+		  "  }",
+		  "  ",
+		  "  return {",
+		  "",
+		  "  }",
+		  "}",
+		  "",
+		  "export { use${1:example} }"
+		],
+		"description": ""
+	  }
+}

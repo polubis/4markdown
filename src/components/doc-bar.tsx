@@ -38,16 +38,14 @@ const DocBar = () => {
   > = async (e) => {
     e.preventDefault();
     try {
-      await authStoreSelectors
-        .authorized()
-        .updateDoc(name, docStore.visibility);
+      await authStoreSelectors.authorized().updateDocName(name);
       edition.close();
     } catch {}
   };
 
   const handleSaveCodeConfirm = async (): Promise<void> => {
     try {
-      await authStoreSelectors.authorized().saveDoc();
+      await authStoreSelectors.authorized().saveDocCode();
     } catch {}
   };
 
@@ -83,7 +81,7 @@ const DocBar = () => {
               s={1}
               className="mr-1 ml-3"
               disabled={
-                docStoreValidators.name(name) ||
+                !docStoreValidators.name(name) ||
                 docManagementStore.is === `busy`
               }
               title="Confirm name change"
