@@ -14,7 +14,7 @@ const DocBarRow = ({ title, children }: DocBarRowProps) => {
       >
         {title}
       </h6>
-      {children && <div className="flex gap-2">{children}</div>}
+      {children && <div className="flex items-center gap-2">{children}</div>}
     </>
   );
 };
