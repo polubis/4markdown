@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import Modal from 'design-system/modal';
 import type { Doc } from 'models/doc';
 import React from 'react';
-import { BiLowVision, BiShow, BiWorld, BiX } from 'react-icons/bi';
+import { BiLowVision, BiRefresh, BiShow, BiWorld, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { docStoreActions, useDocStore } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -24,20 +24,31 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     docStoreActions.setActive(doc);
     onClose?.();
   };
-
+  // @TODO finished here
   return (
     <Modal onClose={onClose}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Your Documents</h6>
-        <Button
-          type="button"
-          i={2}
-          s={1}
-          title="Close your documents"
-          onClick={onClose}
-        >
-          <BiX />
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            i={2}
+            s={1}
+            title="Sync documents"
+            onClick={onClose}
+          >
+            <BiRefresh />
+          </Button>
+          <Button
+            type="button"
+            i={2}
+            s={1}
+            title="Close your documents"
+            onClick={onClose}
+          >
+            <BiX />
+          </Button>
+        </div>
       </div>
       {(docsStore.is === `idle` || docsStore.is === `busy`) && (
         <p className="text-2xl">Just a second (～￣▽￣)U+007e</p>
