@@ -8,8 +8,8 @@ import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { DocBarLoader } from '../components/doc-bar-loader';
 
-const ActiveDocBarContent = React.lazy(
-  () => import(`../../../components/active-doc-bar-content`),
+const ActiveDocBarContainer = React.lazy(
+  () => import(`./active-doc-bar.container`),
 );
 
 const DocBarContainer = () => {
@@ -56,7 +56,7 @@ const DocBarContainer = () => {
             </DocBarRow>
           ) : (
             <React.Suspense fallback={<DocBarLoader />}>
-              <ActiveDocBarContent />
+              <ActiveDocBarContainer />
             </React.Suspense>
           )}
         </>

@@ -14,15 +14,19 @@ import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
-import { DocBarRow } from '../features/creator/components/doc-bar-row';
+import { DocBarRow } from '../components/doc-bar-row';
 
-const DocsListModal = React.lazy(() => import(`./docs-list-modal`));
-const DocBarMorePopoverContent = React.lazy(
-  () => import(`./doc-bar-more-popover-content`),
+const DocsListModal = React.lazy(
+  () => import(`../../../components/docs-list-modal`),
 );
-const DeleteDocModal = React.lazy(() => import(`./delete-doc-modal`));
+const DocBarMorePopoverContent = React.lazy(
+  () => import(`../../../components/doc-bar-more-popover-content`),
+);
+const DeleteDocModal = React.lazy(
+  () => import(`../../../components/delete-doc-modal`),
+);
 
-const ActiveDocBarContent = () => {
+const ActiveDocBarContainer = () => {
   const docManagementStore = useDocManagementStore();
   const docStore = docStoreSelectors.useActive();
   const docsStore = useDocsStore();
@@ -176,4 +180,4 @@ const ActiveDocBarContent = () => {
   );
 };
 
-export default ActiveDocBarContent;
+export default ActiveDocBarContainer;
