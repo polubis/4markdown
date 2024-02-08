@@ -14,7 +14,7 @@ import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
-import { DocBarRow } from './doc-bar-row';
+import { DocBarRow } from '../features/creator/components/doc-bar-row';
 
 const DocsListModal = React.lazy(() => import(`./docs-list-modal`));
 const DocBarMorePopoverContent = React.lazy(

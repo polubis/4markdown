@@ -5,8 +5,8 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { Button } from 'design-system/button';
 import { BiEdit, BiGridAlt, BiSave } from 'react-icons/bi';
 import { useDocsStore } from 'store/docs/docs.store';
-import { DocBarRow } from '../../../components/doc-bar-row';
-import { DocBarLoader } from '../../../components/doc-bar-loader';
+import { DocBarRow } from '../components/doc-bar-row';
+import { DocBarLoader } from '../components/doc-bar-loader';
 
 const ActiveDocBarContent = React.lazy(
   () => import(`../../../components/active-doc-bar-content`),
