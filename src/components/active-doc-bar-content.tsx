@@ -184,4 +184,4 @@ const ActiveDocBarContent = () => {
   );
 };
 
-export { ActiveDocBarContent };
+export default ActiveDocBarContent;
