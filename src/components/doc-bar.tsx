@@ -69,12 +69,7 @@ const DocBar = () => {
         </>
       )}
       {authStore.is === `unauthorized` && (
-        <h6
-          className="text-xl font-bold max-w-[260px] truncate"
-          title="Markdown Cheatsheet"
-        >
-          Markdown Cheatsheet
-        </h6>
+        <DocBarRow title="Markdown Cheatsheet" />
       )}
     </Bar>
   );

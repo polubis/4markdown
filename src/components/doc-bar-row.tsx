@@ -2,7 +2,7 @@ import React from 'react';
 
 interface DocBarRowProps {
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const DocBarRow = ({ title, children }: DocBarRowProps) => {
@@ -14,7 +14,7 @@ const DocBarRow = ({ title, children }: DocBarRowProps) => {
       >
         {title}
       </h6>
-      <div className="flex gap-2">{children}</div>
+      {children && <div className="flex gap-2">{children}</div>}
     </>
   );
 };
