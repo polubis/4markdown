@@ -5,21 +5,14 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { Button } from 'design-system/button';
 import { BiEdit, BiGridAlt, BiSave } from 'react-icons/bi';
 import { useDocsStore } from 'store/docs/docs.store';
-import { DocBarRow } from './doc-bar-row';
+import { DocBarRow } from '../../../components/doc-bar-row';
+import { DocBarLoader } from '../../../components/doc-bar-loader';
 
 const ActiveDocBarContent = React.lazy(
-  () => import(`./active-doc-bar-content`),
+  () => import(`../../../components/active-doc-bar-content`),
 );
 
-const Loader = () => (
-  <div className="flex gap-2">
-    <div className="w-20 h-8 rounded-sm bg-gray-300 dark:bg-gray-800" />
-    <div className="w-4 h-8 rounded-sm bg-gray-300 dark:bg-gray-800" />
-    <div className="w-10 h-8 rounded-sm bg-gray-300 dark:bg-gray-800" />
-  </div>
-);
-
-const DocBar = () => {
+const DocBarContainer = () => {
   const docStore = useDocStore();
   const docsStore = useDocsStore();
   const authStore = useAuthStore();
@@ -28,7 +21,7 @@ const DocBar = () => {
 
   return (
     <Bar className="h-[50px]">
-      {authStore.is === `idle` && <Loader />}
+      {authStore.is === `idle` && <DocBarLoader />}
       {authStore.is === `authorized` && (
         <>
           {docStore.is === `idle` ? (
@@ -62,7 +55,7 @@ const DocBar = () => {
               </Button>
             </DocBarRow>
           ) : (
-            <React.Suspense fallback={<Loader />}>
+            <React.Suspense fallback={<DocBarLoader />}>
               <ActiveDocBarContent />
             </React.Suspense>
           )}
@@ -75,4 +68,4 @@ const DocBar = () => {
   );
 };
 
-export default DocBar;
+export default DocBarContainer;

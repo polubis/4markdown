@@ -26,7 +26,7 @@ import {
   docManagementStoreActions,
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
-import DocBar from 'components/doc-bar';
+import DocBar from './containers/doc-bar.container';
 
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
