@@ -26,8 +26,8 @@ import {
   docManagementStoreActions,
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
+import DocBar from 'components/doc-bar';
 
-const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
 type DivideMode = 'both' | 'preview' | 'code';
@@ -153,11 +153,7 @@ const CreatorView: React.FC = () => {
             <div className="h-1 w-2 shrink-0 block sm:hidden" />
           </nav>
         </header>
-        {docStore.is === `active` && (
-          <React.Suspense>
-            <DocBar />
-          </React.Suspense>
-        )}
+        <DocBar />
         <section
           className={c(
             `grid`,

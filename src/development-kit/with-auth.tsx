@@ -185,13 +185,6 @@ const WithAuth = () => {
         )();
 
         docsStoreActions.ok(docs);
-
-        if (docs.length > 0) {
-          const [firstDoc] = docs;
-          docStoreActions.setActive(firstDoc);
-          creatorStoreActions.change(firstDoc.code);
-          creatorStoreActions.setPrevCode(firstDoc.code);
-        }
       } catch (error: unknown) {
         docsStoreActions.fail(error);
       }
