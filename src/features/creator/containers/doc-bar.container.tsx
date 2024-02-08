@@ -2,11 +2,9 @@ import { Bar } from 'design-system/bar';
 import React from 'react';
 import { useDocStore } from 'store/doc/doc.store';
 import { useAuthStore } from 'store/auth/auth.store';
-import { Button } from 'design-system/button';
-import { BiEdit, BiGridAlt, BiSave } from 'react-icons/bi';
-import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { DocBarLoader } from '../components/doc-bar-loader';
+import { YourDocumentsContainer } from './your-documents.container';
 
 const ActiveDocBarContainer = React.lazy(
   () => import(`./active-doc-bar.container`),
@@ -14,10 +12,7 @@ const ActiveDocBarContainer = React.lazy(
 
 const DocBarContainer = () => {
   const docStore = useDocStore();
-  const docsStore = useDocsStore();
   const authStore = useAuthStore();
-
-  const disabled = docsStore.is === `busy`;
 
   return (
     <Bar className="h-[50px]">
@@ -26,33 +21,7 @@ const DocBarContainer = () => {
         <>
           {docStore.is === `idle` ? (
             <DocBarRow title="Markdown Editor">
-              <Button
-                i={1}
-                s={1}
-                title="Change document name"
-                disabled={disabled}
-                // onClick={handleEditOpen}
-              >
-                <BiEdit />
-              </Button>
-              <Button
-                i={1}
-                s={1}
-                disabled={disabled}
-                title="Save changes"
-                // onClick={handleSaveCodeConfirm}
-              >
-                <BiSave />
-              </Button>
-              <Button
-                i={1}
-                s={1}
-                title="Your documents"
-                disabled={disabled}
-                // onClick={docsModal.open}
-              >
-                <BiGridAlt />
-              </Button>
+              <YourDocumentsContainer />
             </DocBarRow>
           ) : (
             <React.Suspense fallback={<DocBarLoader />}>

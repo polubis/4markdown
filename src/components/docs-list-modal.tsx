@@ -4,7 +4,7 @@ import type { Doc } from 'models/doc';
 import React from 'react';
 import { BiLowVision, BiShow, BiWorld, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
-import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
+import { docStoreActions, useDocStore } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
 
@@ -14,7 +14,7 @@ interface DocsListModalProps {
 
 const DocsListModal = ({ onClose }: DocsListModalProps) => {
   const docsStore = useDocsStore();
-  const docStore = docStoreSelectors.useActive();
+  const docStore = useDocStore();
 
   React.useEffect(() => {
     authStoreSelectors.authorized().getDocs();
@@ -49,14 +49,9 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             <li
               className={c(
                 `relative cursor-pointer border-2 shrink-0 h-[100px] w-[100%] rounded-md p-4 flex justify-center items-center`,
-                {
-                  'bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800':
-                    docStore.id !== doc.id,
-                },
-                {
-                  'bg-green-700 text-white border-green-700':
-                    docStore.id === doc.id,
-                },
+                docStore.is === `active` && docStore.id === doc.id
+                  ? `bg-green-700 text-white border-green-700`
+                  : `bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`,
               )}
               key={doc.id}
               title={doc.name}
