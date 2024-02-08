@@ -61,9 +61,7 @@ const DocBarContainer = () => {
           )}
         </>
       )}
-      {authStore.is === `unauthorized` && (
-        <DocBarRow title="Markdown Cheatsheet" />
-      )}
+      {authStore.is === `unauthorized` && <DocBarRow title="Markdown Editor" />}
     </Bar>
   );
 };
