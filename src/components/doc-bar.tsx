@@ -1,3 +1,4 @@
+import { Bar } from 'design-system/bar';
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
@@ -63,7 +64,7 @@ const DocBar = () => {
 
   return (
     <>
-      <div className="flex h-[50px] px-4 py-2 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800">
+      <Bar className="h-[50px]">
         {edition.opened ? (
           <form
             className="flex items-center"
@@ -161,7 +162,7 @@ const DocBar = () => {
             </Button>
           </>
         )}
-      </div>
+      </Bar>
 
       {docsModal.opened && (
         <React.Suspense>
