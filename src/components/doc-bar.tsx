@@ -5,6 +5,7 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { Button } from 'design-system/button';
 import { BiEdit, BiGridAlt, BiSave } from 'react-icons/bi';
 import { useDocsStore } from 'store/docs/docs.store';
+import { DocBarRow } from './doc-bar-row';
 
 const ActiveDocBarContent = React.lazy(
   () => import(`./active-doc-bar-content`),
@@ -31,17 +32,10 @@ const DocBar = () => {
       {authStore.is === `authorized` && (
         <>
           {docStore.is === `idle` ? (
-            <>
-              <h6
-                className="text-xl font-bold max-w-[260px] truncate"
-                title="Markdown Cheatsheet"
-              >
-                Type Your Document Name Here
-              </h6>
+            <DocBarRow title="Type Your Document Name Here">
               <Button
                 i={1}
                 s={1}
-                className="ml-4"
                 title="Change document name"
                 disabled={disabled}
                 // onClick={handleEditOpen}
@@ -51,7 +45,6 @@ const DocBar = () => {
               <Button
                 i={1}
                 s={1}
-                className="ml-2"
                 disabled={disabled}
                 title="Save changes"
                 // onClick={handleSaveCodeConfirm}
@@ -61,14 +54,13 @@ const DocBar = () => {
               <Button
                 i={1}
                 s={1}
-                className="ml-2"
                 title="Your documents"
                 disabled={disabled}
                 // onClick={docsModal.open}
               >
                 <BiGridAlt />
               </Button>
-            </>
+            </DocBarRow>
           ) : (
             <React.Suspense fallback={<Loader />}>
               <ActiveDocBarContent />

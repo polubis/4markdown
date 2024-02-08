@@ -14,6 +14,7 @@ import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
+import { DocBarRow } from './doc-bar-row';
 
 const DocsListModal = React.lazy(() => import(`./docs-list-modal`));
 const DocBarMorePopoverContent = React.lazy(
@@ -96,17 +97,10 @@ const ActiveDocBarContent = () => {
           </Button>
         </form>
       ) : (
-        <>
-          <h6
-            className="text-xl font-bold max-w-[260px] truncate"
-            title={docStore.name}
-          >
-            {docStore.name}
-          </h6>
+        <DocBarRow title={docStore.name}>
           <Button
             i={1}
             s={1}
-            className="ml-4"
             title="Change document name"
             disabled={authStore.is !== `authorized`}
             onClick={handleEditOpen}
@@ -121,7 +115,6 @@ const ActiveDocBarContent = () => {
               unchanged ||
               authStore.is !== `authorized`
             }
-            className="ml-2"
             title="Save changes"
             onClick={handleSaveCodeConfirm}
           >
@@ -135,7 +128,6 @@ const ActiveDocBarContent = () => {
               authStore.is !== `authorized` ||
               docsStore.is === `busy`
             }
-            className="mx-2"
             title="Your documents"
             onClick={docsModal.open}
           >
@@ -154,7 +146,7 @@ const ActiveDocBarContent = () => {
           >
             <BiDotsHorizontal />
           </Button>
-        </>
+        </DocBarRow>
       )}
 
       {docsModal.opened && (
