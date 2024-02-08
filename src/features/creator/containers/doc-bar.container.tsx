@@ -25,7 +25,7 @@ const DocBarContainer = () => {
       {authStore.is === `authorized` && (
         <>
           {docStore.is === `idle` ? (
-            <DocBarRow title="Type Your Document Name Here">
+            <DocBarRow title="Markdown Editor">
               <Button
                 i={1}
                 s={1}
