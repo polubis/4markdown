@@ -1,24 +1,15 @@
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
-import {
-  BiCheck,
-  BiDotsHorizontal,
-  BiEdit,
-  BiGridAlt,
-  BiSave,
-  BiX,
-} from 'react-icons/bi';
+import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
+import { YourDocumentsContainer } from './your-documents.container';
 
-const DocsListModal = React.lazy(
-  () => import(`../../../components/docs-list-modal`),
-);
 const DocBarMorePopoverContent = React.lazy(
   () => import(`../../../components/doc-bar-more-popover-content`),
 );
@@ -34,7 +25,6 @@ const ActiveDocBarContainer = () => {
   const creatorStore = creatorStoreSelectors.useReady();
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
-  const docsModal = useToggle();
   const morePopover = useToggle();
   const deleteModal = useToggle();
 
@@ -124,19 +114,7 @@ const ActiveDocBarContainer = () => {
           >
             <BiSave />
           </Button>
-          <Button
-            i={1}
-            s={1}
-            disabled={
-              docManagementStore.is === `busy` ||
-              authStore.is !== `authorized` ||
-              docsStore.is === `busy`
-            }
-            title="Your documents"
-            onClick={docsModal.open}
-          >
-            <BiGridAlt />
-          </Button>
+          <YourDocumentsContainer />
           <Button
             i={1}
             s={1}
@@ -151,12 +129,6 @@ const ActiveDocBarContainer = () => {
             <BiDotsHorizontal />
           </Button>
         </DocBarRow>
-      )}
-
-      {docsModal.opened && (
-        <React.Suspense>
-          <DocsListModal onClose={docsModal.close} />
-        </React.Suspense>
       )}
 
       {morePopover.opened && (

@@ -26,7 +26,7 @@ import {
   docManagementStoreActions,
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
-import DocBar from './containers/doc-bar.container';
+import { DocBarContainer } from './containers/doc-bar.container';
 
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
@@ -153,7 +153,7 @@ const CreatorView: React.FC = () => {
             <div className="h-1 w-2 shrink-0 block sm:hidden" />
           </nav>
         </header>
-        <DocBar />
+        <DocBarContainer />
         <section
           className={c(
             `grid`,

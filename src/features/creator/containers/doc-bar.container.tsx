@@ -66,4 +66,4 @@ const DocBarContainer = () => {
   );
 };
 
-export default DocBarContainer;
+export { DocBarContainer };
