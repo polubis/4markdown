@@ -35,7 +35,8 @@ type ClickableControls =
   | `Make this document private`
   | `Make this document permanent`
   | `Document preview`
-  | `Go back to editor`;
+  | `Go back to editor`
+  | `Sync documents`;
 
 let acc = 1;
 let folder: string | undefined;
