@@ -169,6 +169,22 @@ const WithAuth = () => {
       });
     };
 
+    const reloadDocs = async (): Promise<void> => {
+      try {
+        docsStoreActions.idle();
+        docsStoreActions.busy();
+
+        const { data: docs } = await httpsCallable<undefined, Doc[]>(
+          functions,
+          `getDocs`,
+        )();
+
+        docsStoreActions.ok(docs);
+      } catch (error: unknown) {
+        docsStoreActions.fail(error);
+      }
+    };
+
     const getDocs = async (): Promise<void> => {
       const state = useDocsStore.getState();
 
@@ -238,6 +254,7 @@ const WithAuth = () => {
             await deleteDoc(docStoreSelectors.active().id);
           },
           getDocs,
+          reloadDocs,
           createDoc,
           saveDocCode: async () => {
             const doc = docStoreSelectors.active();
