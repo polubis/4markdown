@@ -66,7 +66,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
       {docsStore.is === `ok` && (
         <>
           {docsStore.docs.length > 0 ? (
-            <ul className="grid tn:grid-cols-3 grid-cols-2 gap-2 justify-center max-h-[80svh] pr-2 overflow-y-auto">
+            <ul className="grid tn:grid-cols-3 grid-cols-2 gap-2 justify-center max-h-[80svh] overflow-y-auto">
               {docsStore.docs.map((doc) => (
                 <li
                   className={c(
