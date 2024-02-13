@@ -26,10 +26,8 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     onClose?.();
   };
 
-  const busy = docsStore.is === `busy`;
-
   return (
-    <Modal onClose={busy ? undefined : onClose}>
+    <Modal onClose={docsStore.is === `busy` ? undefined : onClose}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Your Documents</h6>
         <div className="flex gap-2">
@@ -38,7 +36,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             i={2}
             s={1}
             title="Sync documents"
-            disabled={busy}
+            disabled={docsStore.is === `busy`}
             onClick={authStore.reloadDocs}
           >
             <BiRefresh />
@@ -47,7 +45,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             type="button"
             i={2}
             s={1}
-            disabled={busy}
+            disabled={docsStore.is === `busy`}
             title="Close your documents"
             onClick={onClose}
           >
