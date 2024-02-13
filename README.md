@@ -1,6 +1,24 @@
+<!-- TOC --><a name="documentation"></a>
+
 # Documentation
 
 This project has been established using an **open-source** template designed for the **Gatsby 5** ecosystem. You can find the template at: [Gatsby 5 Template + Tailwind + Zustand + TypeScript + Cypress + jest | rtl](https://github.com/polubis/Gatsby5-Tailwind-TypeScript-Cypress-jest-rtl-template).
+
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
+
+- [Documentation](#documentation)
+  - [How to contribute?](#how-to-contribute)
+  - [How to run the project?](#how-to-run-the-project)
+  - [FAQ](#faq)
+  - [Commands](#commands)
+  - [Cheatsheet](#cheatsheet)
+  - [Folders & Files structure](#folders-files-structure)
+  - [Architecture](#architecture)
+  - [Conventions](#conventions)
+
+<!-- TOC end -->
+
+<!-- TOC --><a name="how-to-contribute"></a>
 
 ## How to contribute?
 
@@ -8,7 +26,9 @@ Please contact [Adrian Połubiński](https://www.linkedin.com/in/adrian-po%C5%82
 
 > If you encounter a **bug**, **defect**, or have any **ideas for improvement** regarding [4markdown.com](https://4markdown.com/), please feel free to raise a **GitHub** issue. Your feedback is valuable to us!
 
-Upon pushing a commit, you'll be seamlessly added to this [page](https://greenonsoftware.com/authors/) if you'd like! ヾ(≧▽≦*)o
+Upon pushing a commit, you'll be seamlessly added to this [page](https://greenonsoftware.com/authors/) if you'd like! ヾ(≧▽≦\*)o
+
+<!-- TOC --><a name="how-to-run-the-project"></a>
 
 ## How to run the project?
 
@@ -40,11 +60,23 @@ To initiate the `development` server, input `npm run start`.
 
 For generating a `production` build, execute `npm run build`.
 
+<!-- TOC --><a name="faq"></a>
+
 ## FAQ
+
+<!-- TOC --><a name="commands"></a>
+
+## Commands
+
+<!-- TOC --><a name="cheatsheet"></a>
 
 ## Cheatsheet
 
+<!-- TOC --><a name="folders-files-structure"></a>
+
 ## Folders & Files structure
+
+<!-- TOC --><a name="architecture"></a>
 
 ## Architecture
 
@@ -75,5 +107,7 @@ From a `storage` and `browser databases` perspective:
 8. **Repository**
 
 The architecture graph looks as follows when we include hierarchies:
+
+<!-- TOC --><a name="conventions"></a>
 
 ## Conventions
