@@ -58,7 +58,11 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
       {(docsStore.is === `idle` || docsStore.is === `busy`) && (
         <p className="text-2xl">Just a second (￣▽￣)...</p>
       )}
-      {docsStore.is === `fail` && <div>Error</div>}
+      {docsStore.is === `fail` && (
+        <p className="text-xl text-red-600 dark:text-red-400 text-center">
+          Something went wrong... Try again with <strong>above button</strong>
+        </p>
+      )}
       {docsStore.is === `ok` && (
         <>
           {docsStore.docs.length > 0 ? (
