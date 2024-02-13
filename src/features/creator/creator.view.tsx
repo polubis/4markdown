@@ -21,7 +21,6 @@ import TemplatesPopover from 'features/creator/components/templates-popover';
 import UserPopover from 'components/user-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useLsSync } from 'development-kit/use-ls-sync';
-import { useDocStore } from 'store/doc/doc.store';
 import {
   docManagementStoreActions,
   useDocManagementStore,
@@ -36,7 +35,6 @@ const CreatorView: React.FC = () => {
   useLsSync();
 
   const meta = siteMetadataStoreSelectors.useReady();
-  const docStore = useDocStore();
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
