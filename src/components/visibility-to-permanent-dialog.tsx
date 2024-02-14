@@ -1,6 +1,7 @@
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
+import { Textarea } from 'design-system/textarea';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
@@ -73,11 +74,10 @@ const VisibilityToPermamentDialog = ({
           />
         </Field>
         <Field label="Description*" className="mt-3">
-          <textarea
+          <Textarea
             placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
             onChange={(e) => setDescription(e.target.value)}
             value={description}
-            className="px-3 py-2 text-black dark:text-white min-h-[100px] placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
           />
         </Field>
         <Field
