@@ -51,6 +51,7 @@ const VisibilityToPermamentDialog = ({
 
   const nameInvalid = !docStoreValidators.name(name);
   const descriptionInvalid = !docStoreValidators.description(description);
+  const tagsInvalid = !docStoreValidators.tags(tags);
 
   if (formSection.opened) {
     return (
@@ -116,7 +117,8 @@ const VisibilityToPermamentDialog = ({
             disabled={
               docManagementStore.is === `busy` ||
               nameInvalid ||
-              descriptionInvalid
+              descriptionInvalid ||
+              tagsInvalid
             }
             title="Submit document permanent status change"
           >

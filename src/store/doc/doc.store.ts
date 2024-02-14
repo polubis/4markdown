@@ -52,7 +52,24 @@ const docStoreValidators = {
       description.length <= 250
     );
   },
-};
+  tags: (tags: string): boolean => {
+    if (typeof tags !== `string` || tags.length !== tags.trim().length) {
+      return false;
+    }
+
+    const splitted = tags.split(`,`);
+
+    return (
+      splitted.length >= 1 &&
+      splitted.length <= 10 &&
+      splitted.length === new Set([...splitted]).size &&
+      splitted.every(
+        (tag) =>
+          tag.length >= 2 && tag.length <= 50 && /^[a-zA-Z0-9,-]+$/.test(tag),
+      )
+    );
+  },
+} as const;
 
 const getActiveState = (state: DocStoreState): DocStoreActiveState => {
   if (state.is === `idle`) {
