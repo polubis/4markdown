@@ -10,7 +10,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       `More document options`,
       `Delete current document`,
     ])
-      .And(`I type in input`, `Type document name...`, name)
+      .And(`I type in input`, `Type document name`, name)
       .And(`I click button`, [`Confirm document removal`])
       .Then(`I see disabled button`, [
         `Confirm document removal`,
@@ -25,7 +25,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name...`, documentName)
+      .When(`I type in input`, `Type document name`, documentName)
       .Then(`I see not disabled button`, [`Confirm document creation`])
       .And(`System takes picture`)
       .When(`I click button`, [`Confirm document creation`])
@@ -71,7 +71,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     return When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name...`, documentName)
+      .When(`I type in input`, `Type document name`, documentName)
       .Then(`I see not disabled button`, [`Confirm document creation`])
       .And(`System takes picture`)
       .When(`I click button`, [`Confirm document creation`])
@@ -133,7 +133,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `More document options`,
         `Delete current document`,
       ])
-      .And(`I type in input`, `Type document name...`, documentNameEdited)
+      .And(`I type in input`, `Type document name`, documentNameEdited)
       .And(`I click button`, [`Confirm document removal`])
       .Then(`I see disabled button`, [
         `Confirm document removal`,

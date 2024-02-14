@@ -32,7 +32,7 @@ describe(`Docs browse works when`, () => {
       .And(`I not see button`, [`Your documents`])
       .And(`System takes picture`)
       .When(`I click button`, [`Create new document`])
-      .And(`I type in input`, `Type document name...`, documentName1)
+      .And(`I type in input`, `Type document name`, documentName1)
       .And(`I click button`, [`Confirm document creation`])
       .Then(`I see text`, [documentName1, documentCode1])
       .And(`I not see button`, [`Confirm document creation`])
@@ -58,7 +58,7 @@ describe(`Docs browse works when`, () => {
       .And(`I see text`, [documentCode2, documentName1])
       .And(`System takes picture`)
       .When(`I click button`, [`Create new document`])
-      .And(`I type in input`, `Type document name...`, documentName2)
+      .And(`I type in input`, `Type document name`, documentName2)
       .And(`I click button`, [`Confirm document creation`])
       .Then(`I see text`, [documentName2, documentCode2])
       .When(`I click button`, [`Your documents`])
@@ -74,7 +74,7 @@ describe(`Docs browse works when`, () => {
         `Delete current document`,
       ])
       .Then(`System takes picture`)
-      .When(`I type in input`, `Type document name...`, documentName1)
+      .When(`I type in input`, `Type document name`, documentName1)
       .And(`I click button`, [`Confirm document removal`])
       .Then(`I see text`, [documentName2, documentCode2])
       .And(`System takes picture`)
@@ -82,7 +82,7 @@ describe(`Docs browse works when`, () => {
         `More document options`,
         `Delete current document`,
       ])
-      .And(`I type in input`, `Type document name...`, documentName2)
+      .And(`I type in input`, `Type document name`, documentName2)
       .And(`I click button`, [`Confirm document removal`])
       .Then(`I see text`, [`# Start from scratch`, `Start from scratch`]);
   });

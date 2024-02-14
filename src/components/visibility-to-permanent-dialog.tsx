@@ -66,7 +66,7 @@ const VisibilityToPermamentDialog = ({
         <Field label="Name*" className="mt-2">
           <input
             autoFocus
-            placeholder="Type document name..."
+            placeholder="Type document name"
             onChange={(e) => setName(e.target.value)}
             value={name}
             className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
@@ -78,6 +78,18 @@ const VisibilityToPermamentDialog = ({
             onChange={(e) => setDescription(e.target.value)}
             value={description}
             className="px-3 py-2 text-black dark:text-white min-h-[100px] placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
+          />
+        </Field>
+        <Field
+          label="Tags*"
+          className="mt-2"
+          hint="It may be React, Angular, Vue and others..."
+        >
+          <input
+            placeholder="Separate tags with a comma"
+            // onChange={(e) => setName(e.target.value)}
+            // value={name}
+            className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
           />
         </Field>
         <footer className="mt-6 flex">
