@@ -1,5 +1,6 @@
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
+import { Input } from 'design-system/input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
@@ -64,12 +65,11 @@ const VisibilityToPermamentDialog = ({
           </Button>
         </header>
         <Field label="Name*" className="mt-2">
-          <input
+          <Input
             autoFocus
             placeholder="Type document name"
             onChange={(e) => setName(e.target.value)}
             value={name}
-            className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
           />
         </Field>
         <Field label="Description*" className="mt-3">
@@ -85,12 +85,7 @@ const VisibilityToPermamentDialog = ({
           className="mt-2"
           hint="It may be React, Angular, Vue and others..."
         >
-          <input
-            placeholder="Separate tags with a comma"
-            // onChange={(e) => setName(e.target.value)}
-            // value={name}
-            className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
-          />
+          <Input placeholder="Separate tags with a comma" />
         </Field>
         <footer className="mt-6 flex">
           <Button
