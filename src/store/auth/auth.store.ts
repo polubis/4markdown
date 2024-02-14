@@ -13,6 +13,7 @@ interface AuthorizedData {
   makeDocPermanent(
     name: Doc['name'],
     description: PermanentDoc['description'],
+    tags: PermanentDoc['tags'],
   ): Promise<void>;
   getDocs(): Promise<void>;
   reloadDocs(): Promise<void>;

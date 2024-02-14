@@ -44,7 +44,9 @@ const VisibilityToPermamentDialog = ({
     e.preventDefault();
 
     try {
-      await authStoreSelectors.authorized().makeDocPermanent(name, description);
+      await authStoreSelectors
+        .authorized()
+        .makeDocPermanent(name, description, tags.split(`,`));
       onConfirm();
     } catch {}
   };

@@ -135,6 +135,7 @@ const WithAuth = () => {
     const makeDocPermanent: AuthorizedData['makeDocPermanent'] = async (
       name,
       description,
+      tags,
     ) => {
       const { id, visibility } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
@@ -147,6 +148,7 @@ const WithAuth = () => {
         code,
         visibility: `permanent`,
         description,
+        tags,
       });
     };
 
