@@ -69,7 +69,7 @@ const VisibilityToPermamentDialog = ({
             <BiX />
           </Button>
         </header>
-        <Field label="Name*" className="mt-2">
+        <Field label={`Name (${name.length})*`} className="mt-2">
           <Input
             autoFocus
             placeholder="Type document name"
@@ -77,7 +77,7 @@ const VisibilityToPermamentDialog = ({
             value={name}
           />
         </Field>
-        <Field label="Description*" className="mt-3">
+        <Field label={`Description (${description.length})*`} className="mt-3">
           <Textarea
             placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
             onChange={(e) => setDescription(e.target.value)}
@@ -85,7 +85,7 @@ const VisibilityToPermamentDialog = ({
           />
         </Field>
         <Field
-          label="Tags*"
+          label={`Tags (${tags.split(`,`).length})*`}
           className="mt-2"
           hint="It may be React, Angular, Vue and others..."
         >
