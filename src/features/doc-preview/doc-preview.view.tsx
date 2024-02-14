@@ -56,13 +56,15 @@ const DocPreviewView = () => {
         </nav>
       </header>
       <main className="max-w-4xl p-4 mx-auto">
-        <Badges className="mb-4">
-          <Badge>React</Badge>
-          <Badge>Angular</Badge>
-          <Badge>Vue</Badge>
-          <Badge>JavaScript</Badge>
-          <Badge>Design Patterns</Badge>
-        </Badges>
+        {docPreviewStore.doc.visibility === `permanent` &&
+          docPreviewStore.doc.tags.length > 0 && (
+            <Badges className="mb-4">
+              {docPreviewStore.doc.tags.map((tag) => (
+                <Badge key={tag}>{tag}</Badge>
+              ))}
+            </Badges>
+          )}
+
         <Markdown>{docPreviewStore.doc.code}</Markdown>
       </main>
     </>
