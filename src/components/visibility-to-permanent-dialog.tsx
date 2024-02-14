@@ -87,7 +87,7 @@ const VisibilityToPermamentDialog = ({
           />
         </Field>
         <Field
-          label={`Tags (${tags.split(`,`).length})*`}
+          label={tagsInvalid ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
           className="mt-2"
           hint="It may be React, Angular, Vue and others..."
         >
