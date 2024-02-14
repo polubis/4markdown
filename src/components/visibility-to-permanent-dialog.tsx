@@ -27,6 +27,9 @@ const VisibilityToPermamentDialog = ({
   const [description, setDescription] = React.useState(
     docStore.visibility === `permanent` ? docStore.description : ``,
   );
+  const [tags, setTags] = React.useState(
+    docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
+  );
 
   const openFormSection: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -85,7 +88,11 @@ const VisibilityToPermamentDialog = ({
           className="mt-2"
           hint="It may be React, Angular, Vue and others..."
         >
-          <Input placeholder="Separate tags with a comma" />
+          <Input
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            placeholder="Separate tags with a comma"
+          />
         </Field>
         <footer className="mt-6 flex">
           <Button

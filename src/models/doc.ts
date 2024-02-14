@@ -20,6 +20,7 @@ interface PermanentDoc extends DocBase {
   visibility: `permanent`;
   description: string;
   path: Path;
+  tags: string[];
 }
 
 type Doc = PrivateDoc | PublicDoc | PermanentDoc;

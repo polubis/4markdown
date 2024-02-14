@@ -11,7 +11,7 @@ const Badge = ({ className, children, title }: BadgeProps) => {
   return (
     <div
       className={c(
-        `text-lg font-medium capitalize rounded-lg bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3`,
+        `text-sm uppercase font-medium rounded-lg bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3`,
         className,
       )}
       title={title}
