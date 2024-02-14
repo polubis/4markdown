@@ -1,4 +1,5 @@
 import { Button } from 'design-system/button';
+import { Input } from 'design-system/input';
 import Modal from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
@@ -52,11 +53,10 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
         </p>
         <fieldset className="flex flex-col gap-1.5">
           <label className="text-sm font-medium">Document name*</label>
-          <input
+          <Input
             placeholder="Type document name"
             onChange={(e) => setName(e.target.value)}
             value={name}
-            className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
           />
         </fieldset>
         <footer className="mt-6 flex">
