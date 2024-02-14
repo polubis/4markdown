@@ -1,5 +1,7 @@
 import LoadingScreen from 'components/loading-screen';
 import Markdown from 'components/markdown';
+import { Badge } from 'design-system/badge';
+import { Badges } from 'design-system/badges';
 import { Button } from 'design-system/button';
 import { navigate } from 'gatsby';
 import React from 'react';
@@ -54,6 +56,13 @@ const DocPreviewView = () => {
         </nav>
       </header>
       <main className="max-w-4xl p-4 mx-auto">
+        <Badges className="mb-4">
+          <Badge>React</Badge>
+          <Badge>Angular</Badge>
+          <Badge>Vue</Badge>
+          <Badge>JavaScript</Badge>
+          <Badge>Design Patterns</Badge>
+        </Badges>
         <Markdown>{docPreviewStore.doc.code}</Markdown>
       </main>
     </>
