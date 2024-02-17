@@ -28,7 +28,6 @@ const HomePage = () => {
     useCreatorStore.setState({
       is: `ready`,
       initialCode: code,
-      prevCode: code,
       code,
     });
 

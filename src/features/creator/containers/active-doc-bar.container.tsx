@@ -3,7 +3,6 @@ import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
-import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -22,7 +21,6 @@ const ActiveDocBarContainer = () => {
   const docStore = docStoreSelectors.useActive();
   const docsStore = useDocsStore();
   const authStore = useAuthStore();
-  const creatorStore = creatorStoreSelectors.useReady();
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
   const morePopover = useToggle();
@@ -53,8 +51,6 @@ const ActiveDocBarContainer = () => {
     edition.close();
     setName(``);
   };
-
-  const unchanged = creatorStore.prevCode === creatorStore.code;
 
   return (
     <>
@@ -105,9 +101,7 @@ const ActiveDocBarContainer = () => {
             i={1}
             s={1}
             disabled={
-              docManagementStore.is === `busy` ||
-              unchanged ||
-              authStore.is !== `authorized`
+              docManagementStore.is === `busy` || authStore.is !== `authorized`
             }
             title="Save changes"
             onClick={handleSaveCodeConfirm}
