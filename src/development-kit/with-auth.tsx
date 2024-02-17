@@ -78,6 +78,7 @@ const WithAuth = () => {
         docManagementStoreActions.ok();
         docStoreActions.setActive(createdDoc);
         docsStoreActions.addDoc(createdDoc);
+        creatorStoreActions.asUnchanged();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;
@@ -97,6 +98,7 @@ const WithAuth = () => {
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
         docsStoreActions.updateDoc(updatedDoc);
+        creatorStoreActions.asUnchanged();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;

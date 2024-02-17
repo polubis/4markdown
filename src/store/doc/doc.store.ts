@@ -92,6 +92,7 @@ const docStoreActions: DocStoreActions = {
     };
     set(newState);
     creatorStoreActions.change(doc.code);
+    creatorStoreActions.asUnchanged();
     localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
   },
   sync: () => {

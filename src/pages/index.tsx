@@ -29,6 +29,7 @@ const HomePage = () => {
       is: `ready`,
       initialCode: code,
       code,
+      changed: false,
     });
 
     synced.current = true;

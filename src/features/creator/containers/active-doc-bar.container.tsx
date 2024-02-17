@@ -8,6 +8,7 @@ import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
+import { creatorStoreSelectors } from 'store/creator/creator.store';
 
 const DocBarMorePopoverContent = React.lazy(
   () => import(`../../../components/doc-bar-more-popover-content`),
@@ -21,6 +22,7 @@ const ActiveDocBarContainer = () => {
   const docStore = docStoreSelectors.useActive();
   const docsStore = useDocsStore();
   const authStore = useAuthStore();
+  const creatorStore = creatorStoreSelectors.useReady();
   const [name, setName] = React.useState(docStore.name);
   const edition = useToggle();
   const morePopover = useToggle();
@@ -101,7 +103,9 @@ const ActiveDocBarContainer = () => {
             i={1}
             s={1}
             disabled={
-              docManagementStore.is === `busy` || authStore.is !== `authorized`
+              docManagementStore.is === `busy` ||
+              !creatorStore.changed ||
+              authStore.is !== `authorized`
             }
             title="Save changes"
             onClick={handleSaveCodeConfirm}

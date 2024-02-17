@@ -62,6 +62,7 @@ type CreatorStoreStateIdle = { is: 'idle' };
 type CreatorStoreStateReady = { is: 'ready' } & {
   initialCode: string;
   code: string;
+  changed: boolean;
 };
 
 interface CreatorStoreSelectors {
@@ -103,6 +104,19 @@ const creatorStoreActions = {
       is,
       code,
       initialCode,
+      changed: true,
+    };
+
+    set(newState);
+    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
+  },
+  asUnchanged: (): void => {
+    const { is, initialCode, code } = creatorStoreSelectors.ready();
+    const newState: CreatorStoreStateReady = {
+      is,
+      code,
+      initialCode,
+      changed: false,
     };
 
     set(newState);
