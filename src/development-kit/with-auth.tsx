@@ -226,12 +226,14 @@ const WithAuth = () => {
         if (lastDoc) {
           docStoreActions.setActive(lastDoc);
           creatorStoreActions.change(lastDoc.code);
+          creatorStoreActions.asUnchanged();
           return;
         }
 
         const code = `# Start from scratch`;
         docStoreActions.reset();
         creatorStoreActions.change(code);
+        creatorStoreActions.asUnchanged();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;
