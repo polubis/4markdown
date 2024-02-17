@@ -12,12 +12,6 @@ type DocStoreActiveState = Doc & {
 
 type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
-interface DocStoreActions {
-  reset(): void;
-  sync(): void;
-  setActive(doc: Doc): void;
-}
-
 interface DocStoreSelectors {
   active(): DocStoreActiveState;
   useActive(): DocStoreActiveState;
@@ -84,8 +78,8 @@ const docStoreSelectors: DocStoreSelectors = {
   useActive: () => useDocStore(getActiveState),
 };
 
-const docStoreActions: DocStoreActions = {
-  setActive: (doc) => {
+const docStoreActions = {
+  setActive: (doc: Doc): void => {
     const newState: DocStoreActiveState = {
       is: `active`,
       ...doc,
@@ -95,7 +89,7 @@ const docStoreActions: DocStoreActions = {
     creatorStoreActions.asUnchanged();
     localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
   },
-  sync: () => {
+  sync: (): void => {
     const state = localStorage.getItem(DOC_STORE_LS_KEY) as string | null;
 
     if (state === null) {
@@ -105,13 +99,11 @@ const docStoreActions: DocStoreActions = {
 
     set(JSON.parse(state) as DocStoreState);
   },
-  reset: () => {
-    set({
-      is: `idle`,
-    });
+  reset: (): void => {
+    set({ is: `idle` });
     localStorage.removeItem(DOC_STORE_LS_KEY);
   },
-};
+} as const;
 
 export {
   useDocStore,
