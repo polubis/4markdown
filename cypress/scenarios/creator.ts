@@ -10,7 +10,6 @@ const CREATOR_SCENARIOS = {
       .Then(`I see not disabled button`, [`Sign in`])
       .And(`I see text`, [`Markdown Cheatsheet`, `# Markdown Cheatsheet`])
       .And(`I see disabled button`, [`Reset content`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Clear content`])
       .Then(`I see text`, [`Sure?`])
       .When(`I click button`, [`Clear content`])

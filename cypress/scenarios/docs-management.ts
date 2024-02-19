@@ -27,7 +27,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see disabled button`, [`Confirm document creation`])
       .When(`I type in input`, `Type document name`, documentName)
       .Then(`I see not disabled button`, [`Confirm document creation`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Confirm document creation`])
       .Then(`I see disabled button`, [
         `Confirm document creation`,
@@ -38,25 +37,22 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Close document adding`,
       ])
       .And(`I see text`, [documentName])
-      .When(`I click button`, [`More document options`])
-      .Then(`System takes picture`)
-      .When(`I click button`, [`Make this document public`])
+      .When(`I click button`, [
+        `More document options`,
+        `Make this document public`,
+      ])
       .Then(`I see disabled button`, [`Make this document public`])
       .And(`I see not disabled button`, [`Make this document private`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Document preview`])
       .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
       .When(`I reload page`)
       .Then(`I see button`, [`Go back to editor`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Go back to editor`])
       .Then(`I see button`, [`More document options`])
-      .And(`System takes picture`)
       .When(`I click button`, [`More document options`])
       .And(`I click button`, [`Make this document private`])
       .Then(`I see disabled button`, [`Make this document private`])
       .And(`I see not disabled button`, [`Make this document public`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Close additional options`]);
 
     DOCS_MANAGEMENT_SCENARIOS[`I delete document`](documentName).Then(
@@ -73,7 +69,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see disabled button`, [`Confirm document creation`])
       .When(`I type in input`, `Type document name`, documentName)
       .Then(`I see not disabled button`, [`Confirm document creation`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Confirm document creation`])
       .Then(`I see disabled button`, [
         `Confirm document creation`,
@@ -88,13 +83,11 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .Then(`I see text`, [documentName])
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [`Your Documents`, documentName])
-      .And(`System takes picture`)
       .When(`I click button`, [`Close your documents`])
       .Then(`I not see text`, [`Your Documents`])
       .When(`I click button`, [`Change document name`])
       .And(`I clear input`, [`Type document name*`])
       .And(`I type in input`, `Type document name*`, documentNameEdited)
-      .And(`System takes picture`)
       .And(`I click button`, [`Confirm name change`])
       .Then(`I see disabled button`, [
         `Confirm name change`,
@@ -110,7 +103,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see not disabled button`, [`Change document name`])
       .When(`I click button`, [`More document options`])
       .Then(`I see text`, [`Details`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Close additional options`])
       .Then(`I not see text`, [`Details`])
       .When(`I click button`, [
@@ -122,7 +114,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Document name*`,
         `Type ${documentNameEdited} to remove this document`,
       ])
-      .And(`System takes picture`)
       .And(`I click button`, [`Cancel document removal`])
       .Then(`I not see text`, [
         `Document Removal`,
@@ -144,8 +135,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see text`, [`# Start from scratch`, `Start from scratch`])
       .When(`I reload page`)
       .Then(`I see text`, [`# Start from scratch`, `Start from scratch`])
-      .And(`I see button`, [`User details and options`])
-      .And(`System takes picture`);
+      .And(`I see button`, [`User details and options`]);
   },
 } as const;
 

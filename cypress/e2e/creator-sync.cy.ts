@@ -26,13 +26,11 @@ describe(`Creator sync works when`, () => {
         `## Markdown local storage sync test`,
         `Markdown local storage sync test`,
       ])
-      .And(`System takes picture`)
       .When(`I reload page`)
       .And(`I move mouse`)
       .Then(`I see text`, [
         `## Markdown local storage sync test`,
         `Markdown local storage sync test`,
-      ])
-      .And(`System takes picture`);
+      ]);
   });
 });
