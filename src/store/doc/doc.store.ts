@@ -54,7 +54,7 @@ const docStoreValidators = {
     const splitted = tags.split(`,`);
 
     return (
-      splitted.length >= 1 &&
+      splitted.length >= 0 &&
       splitted.length <= 10 &&
       splitted.length === new Set([...splitted]).size &&
       splitted.every(
