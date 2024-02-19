@@ -36,7 +36,9 @@ type ClickableControls =
   | `Make this document permanent`
   | `Document preview`
   | `Go back to editor`
-  | `Sync documents`;
+  | `Sync documents`
+  | `Confirm permanent document policy`
+  | `Make document permanent`;
 
 let acc = 1;
 let folder: string | undefined;

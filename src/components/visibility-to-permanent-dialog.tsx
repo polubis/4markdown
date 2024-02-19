@@ -122,7 +122,7 @@ const VisibilityToPermamentDialog = ({
               descriptionInvalid ||
               tagsInvalid
             }
-            title="Submit document permanent status change"
+            title="Make document permanent"
           >
             Submit
           </Button>
@@ -180,7 +180,7 @@ const VisibilityToPermamentDialog = ({
           i={2}
           s={2}
           auto
-          title="Confirm document permanent status confirmation"
+          title="Confirm permanent document policy"
         >
           Yes, I understand
         </Button>

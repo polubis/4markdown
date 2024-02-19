@@ -70,7 +70,20 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       ])
       .Then(`I see disabled visibility options`)
       .And(`I see enabled visibility options`)
-      .When(`I click button`, [`Close additional options`]);
+      .When(`I click button`, [
+        `Make this document permanent`,
+        `Confirm permanent document policy`,
+      ])
+      .And(`I type in input`, `Type document name`, `My own document`)
+      .And(
+        `I type in input`,
+        `Describe your document in 3-4 sentences. The description will be displayed in Google`,
+        `This is my permanent article description that will be displayed in Google for best possible SEO results`,
+      )
+      .And(`I click button`, [`Make document permanent`])
+      .Then(`I see disabled button`, [`Make document permanent`])
+      .And(`I not see button`, [`Make document permanent`])
+      .When(`I click button`, [`Document preview`, `Go back to editor`]);
 
     DOCS_MANAGEMENT_SCENARIOS[`I delete document`](documentName).Then(
       `I see text`,
