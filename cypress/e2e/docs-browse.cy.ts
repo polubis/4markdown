@@ -29,7 +29,7 @@ describe(`Docs browse works when`, () => {
       .And(`I clear creator`)
       .And(`I type in creator`, documentCode1)
       .Then(`I see text`, [documentCode1, `This is my heading`])
-      .And(`I not see button`, [`Your documents`])
+      .And(`I see button`, [`Your documents`])
       .When(`I click button`, [`Create new document`])
       .And(`I type in input`, `Type document name`, documentName1)
       .And(`I click button`, [`Confirm document creation`])
