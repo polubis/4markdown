@@ -80,6 +80,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Describe your document in 3-4 sentences. The description will be displayed in Google`,
         `This is my permanent article description that will be displayed in Google for best possible SEO results`,
       )
+      .And(`I type in input`, `Separate tags with comma`, `react,angular`)
       .And(`I click button`, [`Make document permanent`])
       .Then(`I see disabled button`, [`Make document permanent`])
       .And(`I not see button`, [`Make document permanent`])
