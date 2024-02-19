@@ -82,29 +82,29 @@ For generating a `production` build, execute `npm run build`.
 
 It's based on the following building blocks:
 
-- From the `React` perspective:
-
-1. **Component**
+1. **Design system component**
+   - Pure **UI** component, application agnostic, f.e `Button` or `Modal`
+2. **Component**
    - Application specific, f.e `UsersList` or `PostsTable`
    - Design system component (app agnostic), f.e `Modal` or `Button`
-2. **Container**
-3. **View**
-4. **Page**
+3. **Container**
+   - Contains connection to application **store**
+   - Triggers **actions** and injects data from **store**
+4. **View**
+   - **Facade** to application route. Groups all components
+5. **Page**
    - May be `static`
    - May be `dynamic`
-
-- From the `State Management` perspective:
-
-5. **Store**
-
-- From an `API communication` perspective:
-
-6. **Service**
-7. **Queries**
-
-From a `storage` and `browser databases` perspective:
-
-8. **Repository**
+   - Injects **framework** related data to **views**, it may be data from file system, or build time API requests
+6. **Store**
+   - The place where app related state is stored and maintained
+   - Contains logic for **API** requests and handles app transactions, f.e call to **API** and change state
+7. **Service**
+   - Groups and maintains **backend API** logic
+8. **Queries**
+   - **Gatsby framework** related file system and data calls, f.e reading metadata from `json` files in `public` directory and passing it through component `props`
+9. **Repository**
+   - A `facade` that allows to read and maintain `local storage` and other browser related `API's` for data management and storage
 
 The architecture graph looks as follows when we include hierarchies:
 
