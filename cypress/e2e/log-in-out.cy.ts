@@ -5,11 +5,11 @@ import { Gherkin } from '../utils/gherkin';
 describe(`Log in and out works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
-  before(() => {
+  beforeEach(() => {
     Given(`System cleans local storage`).And(`Im on page`, `home`);
   });
 
-  after(() => {
+  afterEach(() => {
     Given(`System cleans local storage`);
   });
 

@@ -1,5 +1,5 @@
 import Popover from 'design-system/popover';
-import CopyButtons from 'features/creator/components/copy-buttons';
+import CopyButtons from './copy-buttons';
 import React from 'react';
 
 interface TemplatesPopoverContentProps {

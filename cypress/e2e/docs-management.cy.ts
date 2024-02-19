@@ -10,7 +10,7 @@ describe(`Docs management works when`, () => {
     Given(`System cleans local storage`).And(`Im on page`, `home`);
   });
 
-  after(() => {
+  afterEach(() => {
     Given(`System cleans pictures setup`).And(`System cleans local storage`);
   });
 

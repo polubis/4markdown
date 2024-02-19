@@ -17,7 +17,7 @@ import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
-import TemplatesPopover from 'features/creator/components/templates-popover';
+import TemplatesPopover from './components/templates-popover';
 import UserPopover from 'components/user-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useLsSync } from 'development-kit/use-ls-sync';
