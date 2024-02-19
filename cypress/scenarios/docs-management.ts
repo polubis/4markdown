@@ -2,7 +2,23 @@ import { type Doc } from 'models/doc';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
-const { When } = Gherkin(BASE_COMMANDS);
+const { When, Given } = Gherkin({
+  ...BASE_COMMANDS,
+  'I see disabled visibility options': () => {
+    Given(`I see disabled button`, [
+      `Make this document permanent`,
+      `Make this document private`,
+      `Make this document public`,
+    ]);
+  },
+  'I see enabled visibility options': () => {
+    Given(`I see not disabled button`, [
+      `Make this document permanent`,
+      `Make this document private`,
+      `Make this document public`,
+    ]);
+  },
+});
 
 const DOCS_MANAGEMENT_SCENARIOS = {
   'I delete document': (name: Doc['name']) => {
@@ -41,18 +57,19 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `More document options`,
         `Make this document public`,
       ])
-      .Then(`I see disabled button`, [`Make this document public`])
-      .And(`I see not disabled button`, [`Make this document private`])
+      .Then(`I see disabled visibility options`)
+      .And(`I see enabled visibility options`)
       .When(`I click button`, [`Document preview`])
       .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
       .When(`I reload page`)
       .Then(`I see button`, [`Go back to editor`])
-      .When(`I click button`, [`Go back to editor`])
-      .Then(`I see button`, [`More document options`])
-      .When(`I click button`, [`More document options`])
-      .And(`I click button`, [`Make this document private`])
-      .Then(`I see disabled button`, [`Make this document private`])
-      .And(`I see not disabled button`, [`Make this document public`])
+      .When(`I click button`, [
+        `Go back to editor`,
+        `More document options`,
+        `Make this document private`,
+      ])
+      .Then(`I see disabled visibility options`)
+      .And(`I see enabled visibility options`)
       .When(`I click button`, [`Close additional options`]);
 
     DOCS_MANAGEMENT_SCENARIOS[`I delete document`](documentName).Then(
