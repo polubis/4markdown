@@ -75,11 +75,6 @@ const BASE_COMMANDS = {
   },
   'I reload page': () => {
     cy.reload();
-    BASE_COMMANDS[`I move mouse`]();
-  },
-  'I move mouse': () => {
-    BASE_COMMANDS[`I wait`](500);
-    cy.get(`body`).focus().trigger(`mousemove`, { clientX: 100, clientY: 200 });
   },
   'System sets pictures folder': (name: string) => {
     folder = name;
