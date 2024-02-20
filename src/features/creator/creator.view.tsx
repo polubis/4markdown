@@ -17,17 +17,16 @@ import c from 'classnames';
 import MoreNav from 'components/more-nav';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
-import TemplatesPopover from 'components/templates-popover';
+import TemplatesPopover from './components/templates-popover';
 import UserPopover from 'components/user-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useLsSync } from 'development-kit/use-ls-sync';
-import { useDocStore } from 'store/doc/doc.store';
 import {
   docManagementStoreActions,
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
+import { DocBarContainer } from './containers/doc-bar.container';
 
-const DocBar = React.lazy(() => import(`../../components/doc-bar`));
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
 type DivideMode = 'both' | 'preview' | 'code';
@@ -36,7 +35,6 @@ const CreatorView: React.FC = () => {
   useLsSync();
 
   const meta = siteMetadataStoreSelectors.useReady();
-  const docStore = useDocStore();
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
@@ -153,22 +151,12 @@ const CreatorView: React.FC = () => {
             <div className="h-1 w-2 shrink-0 block sm:hidden" />
           </nav>
         </header>
-        {docStore.is === `active` && (
-          <React.Suspense>
-            <DocBar />
-          </React.Suspense>
-        )}
+        <DocBarContainer />
         <section
-          className={c(
-            `grid`,
-            docStore.is === `active`
-              ? `h-[calc(100svh-72px-50px)]`
-              : `h-[calc(100svh-72px)]`,
-            {
-              'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
-                divideMode === `both`,
-            },
-          )}
+          className={c(`grid h-[calc(100svh-72px-50px)]`, {
+            'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
+              divideMode === `both`,
+          })}
         >
           <label className="hidden" htmlFor="creator" id="creator">
             Creator

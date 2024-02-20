@@ -12,12 +12,6 @@ type DocStoreActiveState = Doc & {
 
 type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
-interface DocStoreActions {
-  reset(): void;
-  sync(): void;
-  setActive(doc: Doc): void;
-}
-
 interface DocStoreSelectors {
   active(): DocStoreActiveState;
   useActive(): DocStoreActiveState;
@@ -52,7 +46,24 @@ const docStoreValidators = {
       description.length <= 250
     );
   },
-};
+  tags: (tags: string): boolean => {
+    if (typeof tags !== `string` || tags.length !== tags.trim().length) {
+      return false;
+    }
+
+    const splitted = tags.split(`,`);
+
+    return (
+      splitted.length >= 1 &&
+      splitted.length <= 10 &&
+      splitted.length === new Set([...splitted]).size &&
+      splitted.every(
+        (tag) =>
+          tag.length >= 2 && tag.length <= 50 && /^[a-zA-Z0-9,-]+$/.test(tag),
+      )
+    );
+  },
+} as const;
 
 const getActiveState = (state: DocStoreState): DocStoreActiveState => {
   if (state.is === `idle`) {
@@ -67,17 +78,18 @@ const docStoreSelectors: DocStoreSelectors = {
   useActive: () => useDocStore(getActiveState),
 };
 
-const docStoreActions: DocStoreActions = {
-  setActive: (doc) => {
+const docStoreActions = {
+  setActive: (doc: Doc): void => {
     const newState: DocStoreActiveState = {
       is: `active`,
       ...doc,
     };
     set(newState);
     creatorStoreActions.change(doc.code);
+    creatorStoreActions.asUnchanged();
     localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
   },
-  sync: () => {
+  sync: (): void => {
     const state = localStorage.getItem(DOC_STORE_LS_KEY) as string | null;
 
     if (state === null) {
@@ -87,13 +99,11 @@ const docStoreActions: DocStoreActions = {
 
     set(JSON.parse(state) as DocStoreState);
   },
-  reset: () => {
-    set({
-      is: `idle`,
-    });
+  reset: (): void => {
+    set({ is: `idle` });
     localStorage.removeItem(DOC_STORE_LS_KEY);
   },
-};
+} as const;
 
 export {
   useDocStore,

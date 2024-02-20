@@ -10,7 +10,7 @@ const useDocPreviewStore = create<DocPreviewStoreState>(() => ({
   is: `idle`,
 }));
 
-const { setState, getState: get } = useDocPreviewStore;
+const { setState } = useDocPreviewStore;
 
 const set = (state: DocPreviewStoreState): void => {
   setState(state, true);
@@ -22,12 +22,6 @@ const docPreviewStoreActions = {
 
     if (authStore.is === `idle`)
       throw Error(`Attempt to load Firebase data on idle`);
-
-    const docPreviewStore = get();
-
-    if (docPreviewStore.is === `ok` && docPreviewStore.doc.id === payload.id) {
-      return;
-    }
 
     try {
       set({ is: `busy` });

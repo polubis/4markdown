@@ -28,8 +28,8 @@ const HomePage = () => {
     useCreatorStore.setState({
       is: `ready`,
       initialCode: code,
-      prevCode: code,
       code,
+      changed: false,
     });
 
     synced.current = true;
