@@ -15,21 +15,13 @@ describe(`Docs management works when`, () => {
   });
 
   it(`user may create, edit and delete document`, () => {
-    Given(`System sets pictures folder`, `docs-management`);
-
     LOG_IN_OUT_SCENARIOS[`I log in`]().When(`I click button`, [
       `Close your account panel`,
     ]);
-    DOCS_MANAGEMENT_SCENARIOS[`I create, edit and delete document`]().When(
-      `I click button`,
-      [`Change theme`],
-    );
     DOCS_MANAGEMENT_SCENARIOS[`I create, edit and delete document`]();
   });
 
   it(`user may change document visiblity`, () => {
-    Given(`System sets pictures folder`, `docs-visiblity`);
-
     LOG_IN_OUT_SCENARIOS[`I log in`]().When(`I click button`, [
       `Close your account panel`,
     ]);

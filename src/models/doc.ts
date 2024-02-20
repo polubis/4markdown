@@ -1,4 +1,4 @@
-import type { Id, Name, Code, Date, Path } from './general';
+import type { Id, Name, Code, Date, Path, Tags } from './general';
 
 interface DocBase {
   id: Id;
@@ -20,6 +20,7 @@ interface PermanentDoc extends DocBase {
   visibility: `permanent`;
   description: string;
   path: Path;
+  tags: Tags;
 }
 
 type Doc = PrivateDoc | PublicDoc | PermanentDoc;

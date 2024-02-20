@@ -2,7 +2,23 @@ import { type Doc } from 'models/doc';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
-const { When } = Gherkin(BASE_COMMANDS);
+const { When, Given } = Gherkin({
+  ...BASE_COMMANDS,
+  'I see disabled visibility options': () => {
+    Given(`I see disabled button`, [
+      `Make this document permanent`,
+      `Make this document private`,
+      `Make this document public`,
+    ]);
+  },
+  'I see enabled visibility options': () => {
+    Given(`I see not disabled button`, [
+      `Make this document permanent`,
+      `Make this document private`,
+      `Make this document public`,
+    ]);
+  },
+});
 
 const DOCS_MANAGEMENT_SCENARIOS = {
   'I delete document': (name: Doc['name']) => {
@@ -10,7 +26,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       `More document options`,
       `Delete current document`,
     ])
-      .And(`I type in input`, `Type document name...`, name)
+      .And(`I type in input`, `Type document name`, name)
       .And(`I click button`, [`Confirm document removal`])
       .Then(`I see disabled button`, [
         `Confirm document removal`,
@@ -25,9 +41,8 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name...`, documentName)
+      .When(`I type in input`, `Type document name`, documentName)
       .Then(`I see not disabled button`, [`Confirm document creation`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Confirm document creation`])
       .Then(`I see disabled button`, [
         `Confirm document creation`,
@@ -38,26 +53,39 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Close document adding`,
       ])
       .And(`I see text`, [documentName])
-      .When(`I click button`, [`More document options`])
-      .Then(`System takes picture`)
-      .When(`I click button`, [`Make this document public`])
-      .Then(`I see disabled button`, [`Make this document public`])
-      .And(`I see not disabled button`, [`Make this document private`])
-      .And(`System takes picture`)
+      .When(`I click button`, [
+        `More document options`,
+        `Make this document public`,
+      ])
+      .Then(`I see disabled visibility options`)
+      .And(`I see enabled visibility options`)
       .When(`I click button`, [`Document preview`])
       .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
       .When(`I reload page`)
       .Then(`I see button`, [`Go back to editor`])
-      .And(`System takes picture`)
-      .When(`I click button`, [`Go back to editor`])
-      .Then(`I see button`, [`More document options`])
-      .And(`System takes picture`)
-      .When(`I click button`, [`More document options`])
-      .And(`I click button`, [`Make this document private`])
-      .Then(`I see disabled button`, [`Make this document private`])
-      .And(`I see not disabled button`, [`Make this document public`])
-      .And(`System takes picture`)
-      .When(`I click button`, [`Close additional options`]);
+      .When(`I click button`, [
+        `Go back to editor`,
+        `More document options`,
+        `Make this document private`,
+      ])
+      .Then(`I see disabled visibility options`)
+      .And(`I see enabled visibility options`)
+      .When(`I click button`, [
+        `Make this document permanent`,
+        `Confirm permanent document policy`,
+      ])
+      .And(`I clear input`, [`Type document name`])
+      .And(`I type in input`, `Type document name`, documentName)
+      .And(
+        `I type in input`,
+        `Describe your document in 3-4 sentences. The description will be displayed in Google`,
+        `This is my permanent article description that will be displayed in Google for best possible SEO results`,
+      )
+      .And(`I type in input`, `Separate tags with a comma`, `react,angular`)
+      .And(`I click button`, [`Make document permanent`])
+      .Then(`I see disabled button`, [`Make document permanent`])
+      .And(`I not see button`, [`Make document permanent`])
+      .When(`I click button`, [`Document preview`, `Go back to editor`]);
 
     DOCS_MANAGEMENT_SCENARIOS[`I delete document`](documentName).Then(
       `I see text`,
@@ -71,9 +99,8 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     return When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name...`, documentName)
+      .When(`I type in input`, `Type document name`, documentName)
       .Then(`I see not disabled button`, [`Confirm document creation`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Confirm document creation`])
       .Then(`I see disabled button`, [
         `Confirm document creation`,
@@ -88,13 +115,11 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .Then(`I see text`, [documentName])
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [`Your Documents`, documentName])
-      .And(`System takes picture`)
       .When(`I click button`, [`Close your documents`])
       .Then(`I not see text`, [`Your Documents`])
       .When(`I click button`, [`Change document name`])
       .And(`I clear input`, [`Type document name*`])
       .And(`I type in input`, `Type document name*`, documentNameEdited)
-      .And(`System takes picture`)
       .And(`I click button`, [`Confirm name change`])
       .Then(`I see disabled button`, [
         `Confirm name change`,
@@ -110,7 +135,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see not disabled button`, [`Change document name`])
       .When(`I click button`, [`More document options`])
       .Then(`I see text`, [`Details`])
-      .And(`System takes picture`)
       .When(`I click button`, [`Close additional options`])
       .Then(`I not see text`, [`Details`])
       .When(`I click button`, [
@@ -122,7 +146,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Document name*`,
         `Type ${documentNameEdited} to remove this document`,
       ])
-      .And(`System takes picture`)
       .And(`I click button`, [`Cancel document removal`])
       .Then(`I not see text`, [
         `Document Removal`,
@@ -133,7 +156,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `More document options`,
         `Delete current document`,
       ])
-      .And(`I type in input`, `Type document name...`, documentNameEdited)
+      .And(`I type in input`, `Type document name`, documentNameEdited)
       .And(`I click button`, [`Confirm document removal`])
       .Then(`I see disabled button`, [
         `Confirm document removal`,
@@ -144,8 +167,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see text`, [`# Start from scratch`, `Start from scratch`])
       .When(`I reload page`)
       .Then(`I see text`, [`# Start from scratch`, `Start from scratch`])
-      .And(`I see button`, [`User details and options`])
-      .And(`System takes picture`);
+      .And(`I see button`, [`User details and options`]);
   },
 } as const;
 

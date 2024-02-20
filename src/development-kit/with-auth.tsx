@@ -78,6 +78,7 @@ const WithAuth = () => {
         docManagementStoreActions.ok();
         docStoreActions.setActive(createdDoc);
         docsStoreActions.addDoc(createdDoc);
+        creatorStoreActions.asUnchanged();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;
@@ -96,8 +97,8 @@ const WithAuth = () => {
         )(payload);
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
-        creatorStoreActions.setPrevCode(updatedDoc.code);
         docsStoreActions.updateDoc(updatedDoc);
+        creatorStoreActions.asUnchanged();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;
@@ -135,6 +136,7 @@ const WithAuth = () => {
     const makeDocPermanent: AuthorizedData['makeDocPermanent'] = async (
       name,
       description,
+      tags,
     ) => {
       const { id, visibility } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
@@ -147,6 +149,7 @@ const WithAuth = () => {
         code,
         visibility: `permanent`,
         description,
+        tags,
       });
     };
 
@@ -169,6 +172,22 @@ const WithAuth = () => {
       });
     };
 
+    const reloadDocs = async (): Promise<void> => {
+      try {
+        docsStoreActions.idle();
+        docsStoreActions.busy();
+
+        const { data: docs } = await httpsCallable<undefined, Doc[]>(
+          functions,
+          `getDocs`,
+        )();
+
+        docsStoreActions.ok(docs);
+      } catch (error: unknown) {
+        docsStoreActions.fail(error);
+      }
+    };
+
     const getDocs = async (): Promise<void> => {
       const state = useDocsStore.getState();
 
@@ -185,13 +204,6 @@ const WithAuth = () => {
         )();
 
         docsStoreActions.ok(docs);
-
-        if (docs.length > 0) {
-          const [firstDoc] = docs;
-          docStoreActions.setActive(firstDoc);
-          creatorStoreActions.change(firstDoc.code);
-          creatorStoreActions.setPrevCode(firstDoc.code);
-        }
       } catch (error: unknown) {
         docsStoreActions.fail(error);
       }
@@ -214,14 +226,14 @@ const WithAuth = () => {
         if (lastDoc) {
           docStoreActions.setActive(lastDoc);
           creatorStoreActions.change(lastDoc.code);
-          creatorStoreActions.setPrevCode(lastDoc.code);
+          creatorStoreActions.asUnchanged();
           return;
         }
 
         const code = `# Start from scratch`;
         docStoreActions.reset();
         creatorStoreActions.change(code);
-        creatorStoreActions.setPrevCode(code);
+        creatorStoreActions.asUnchanged();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;
@@ -245,6 +257,7 @@ const WithAuth = () => {
             await deleteDoc(docStoreSelectors.active().id);
           },
           getDocs,
+          reloadDocs,
           createDoc,
           saveDocCode: async () => {
             const doc = docStoreSelectors.active();

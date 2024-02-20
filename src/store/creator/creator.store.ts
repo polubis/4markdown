@@ -58,17 +58,11 @@ Like our [LinkedIn](${meta.linkedInUrl}) profile or join [Discord](${meta.discor
 
 Any suggestions, comments, or ideas for improvement? Feel free to join our [Discord](${meta.discordUrl}) or add info on [LinkedIn](${meta.linkedInUrl}) profile. If you want to contribute, here you have a repository: [${meta.appName} repository](${meta.sourceCodeUrl}).`;
 
-interface CreatorStoreActions {
-  change(code: string): void;
-  sync(): void;
-  setPrevCode(prevCode: string): void;
-}
-
 type CreatorStoreStateIdle = { is: 'idle' };
 type CreatorStoreStateReady = { is: 'ready' } & {
   initialCode: string;
   code: string;
-  prevCode: string;
+  changed: boolean;
 };
 
 interface CreatorStoreSelectors {
@@ -103,24 +97,32 @@ const set = (state: CreatorStoreState): void => {
   setState(state, true);
 };
 
-const creatorStoreActions: CreatorStoreActions = {
-  change: (code) => {
-    const { is, initialCode, prevCode } = creatorStoreSelectors.ready();
+const creatorStoreActions = {
+  change: (code: string): void => {
+    const { is, initialCode } = creatorStoreSelectors.ready();
     const newState: CreatorStoreStateReady = {
       is,
       code,
-      prevCode,
       initialCode,
+      changed: true,
     };
 
     set(newState);
     localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
-  setPrevCode: (prevCode) => {
-    const state = creatorStoreSelectors.ready();
-    set({ ...state, prevCode });
+  asUnchanged: (): void => {
+    const { is, initialCode, code } = creatorStoreSelectors.ready();
+    const newState: CreatorStoreStateReady = {
+      is,
+      code,
+      initialCode,
+      changed: false,
+    };
+
+    set(newState);
+    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
-  sync: () => {
+  sync: (): void => {
     const state = localStorage.getItem(CREATOR_STORE_LS_KEY) as string | null;
 
     if (state === null) {
@@ -130,7 +132,7 @@ const creatorStoreActions: CreatorStoreActions = {
 
     set(JSON.parse(state) as CreatorStoreStateReady);
   },
-};
+} as const;
 
 export {
   useCreatorStore,
