@@ -13,8 +13,10 @@ interface AuthorizedData {
   makeDocPermanent(
     name: Doc['name'],
     description: PermanentDoc['description'],
+    tags: PermanentDoc['tags'],
   ): Promise<void>;
   getDocs(): Promise<void>;
+  reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;
 }
@@ -45,6 +47,7 @@ type AuthStoreState =
 
 interface AuthStoreSelectors {
   authorized(): AuthStoreStateAuthorized;
+  useAuthorized(): AuthStoreStateAuthorized;
 }
 
 const useAuthStore = create<AuthStoreState>(() => ({
@@ -53,15 +56,16 @@ const useAuthStore = create<AuthStoreState>(() => ({
 
 const { setState, getState } = useAuthStore;
 
+const getAuthorized = (state: AuthStoreState): AuthStoreStateAuthorized => {
+  if (state.is !== `authorized`)
+    throw Error(`Tried to access authorized only state`);
+
+  return state;
+};
+
 const authStoreSelectors: AuthStoreSelectors = {
-  authorized: () => {
-    const state = getState();
-
-    if (state.is !== `authorized`)
-      throw Error(`Tried to access authorized only state`);
-
-    return state;
-  },
+  authorized: () => getAuthorized(getState()),
+  useAuthorized: () => useAuthStore(getAuthorized),
 };
 
 const set = (state: AuthStoreState): void => {

@@ -12,9 +12,6 @@ const UserPopover = () => {
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
 
-  const title =
-    authStore.is === `authorized` ? `User details and options` : `Sign in`;
-
   const handleClick = () => {
     if (authStore.is === `idle`) return;
 
@@ -32,7 +29,9 @@ const UserPopover = () => {
         i={1}
         s={2}
         disabled={authStore.is === `idle` || docsStore.is === `busy`}
-        title={title}
+        title={
+          authStore.is === `authorized` ? `User details and options` : `Sign in`
+        }
         onClick={handleClick}
       >
         {authStore.is === `authorized` &&

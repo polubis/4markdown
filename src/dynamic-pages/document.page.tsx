@@ -11,6 +11,8 @@ import { Button } from 'design-system/button';
 import { BiArrowToLeft } from 'react-icons/bi';
 import Markdown from 'components/markdown';
 import { PermanentDoc } from 'models/doc';
+import { Badges } from 'design-system/badges';
+import { Badge } from 'design-system/badge';
 
 interface DocumentPageProps {
   pageContext: {
@@ -47,6 +49,13 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         </nav>
       </header>
       <main className="max-w-4xl p-4 mx-auto">
+        {pageContext.doc.tags.length > 0 && (
+          <Badges className="mb-4">
+            {pageContext.doc.tags.map((tag) => (
+              <Badge key={tag}>{tag}</Badge>
+            ))}
+          </Badges>
+        )}
         <Markdown>{pageContext.doc.code}</Markdown>
       </main>
     </>

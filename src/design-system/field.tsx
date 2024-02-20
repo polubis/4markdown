@@ -13,7 +13,7 @@ const Field = ({ children, className, label, hint }: FieldProps) => {
     <fieldset className={c(`flex flex-col gap-1.5`, className)}>
       <label className="text-sm font-medium">{label}</label>
       {children}
-      {hint && <i className="px-0.5 text-sm mt-0.5">{hint}</i>}
+      {hint && <i className="px-0.5 text-sm">{hint}</i>}
     </fieldset>
   );
 };

@@ -35,7 +35,10 @@ type ClickableControls =
   | `Make this document private`
   | `Make this document permanent`
   | `Document preview`
-  | `Go back to editor`;
+  | `Go back to editor`
+  | `Sync documents`
+  | `Confirm permanent document policy`
+  | `Make document permanent`;
 
 let acc = 1;
 let folder: string | undefined;
@@ -72,11 +75,6 @@ const BASE_COMMANDS = {
   },
   'I reload page': () => {
     cy.reload();
-    BASE_COMMANDS[`I move mouse`]();
-  },
-  'I move mouse': () => {
-    BASE_COMMANDS[`I wait`](500);
-    cy.get(`body`).focus().trigger(`mousemove`, { clientX: 100, clientY: 200 });
   },
   'System sets pictures folder': (name: string) => {
     folder = name;

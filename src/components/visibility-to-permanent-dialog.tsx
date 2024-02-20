@@ -1,5 +1,7 @@
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
+import { Input } from 'design-system/input';
+import { Textarea } from 'design-system/textarea';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
@@ -25,6 +27,9 @@ const VisibilityToPermamentDialog = ({
   const [description, setDescription] = React.useState(
     docStore.visibility === `permanent` ? docStore.description : ``,
   );
+  const [tags, setTags] = React.useState(
+    docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
+  );
 
   const openFormSection: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -39,13 +44,16 @@ const VisibilityToPermamentDialog = ({
     e.preventDefault();
 
     try {
-      await authStoreSelectors.authorized().makeDocPermanent(name, description);
+      await authStoreSelectors
+        .authorized()
+        .makeDocPermanent(name, description, tags.split(`,`));
       onConfirm();
     } catch {}
   };
 
   const nameInvalid = !docStoreValidators.name(name);
   const descriptionInvalid = !docStoreValidators.description(description);
+  const tagsInvalid = !docStoreValidators.tags(tags);
 
   if (formSection.opened) {
     return (
@@ -63,21 +71,30 @@ const VisibilityToPermamentDialog = ({
             <BiX />
           </Button>
         </header>
-        <Field label="Name*" className="mt-2">
-          <input
+        <Field label={`Name (${name.length})*`} className="mt-2">
+          <Input
             autoFocus
-            placeholder="Type document name..."
+            placeholder="Type document name"
             onChange={(e) => setName(e.target.value)}
             value={name}
-            className="px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
           />
         </Field>
-        <Field label="Description*" className="mt-3">
-          <textarea
+        <Field label={`Description (${description.length})*`} className="mt-3">
+          <Textarea
             placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
             onChange={(e) => setDescription(e.target.value)}
             value={description}
-            className="px-3 py-2 text-black dark:text-white min-h-[100px] placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
+          />
+        </Field>
+        <Field
+          label={tagsInvalid ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
+          className="mt-2"
+          hint="It may be React, Angular, Vue and others..."
+        >
+          <Input
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            placeholder="Separate tags with a comma"
           />
         </Field>
         <footer className="mt-6 flex">
@@ -102,9 +119,10 @@ const VisibilityToPermamentDialog = ({
             disabled={
               docManagementStore.is === `busy` ||
               nameInvalid ||
-              descriptionInvalid
+              descriptionInvalid ||
+              tagsInvalid
             }
-            title="Submit document permanent status change"
+            title="Make document permanent"
           >
             Submit
           </Button>
@@ -162,7 +180,7 @@ const VisibilityToPermamentDialog = ({
           i={2}
           s={2}
           auto
-          title="Confirm document permanent status confirmation"
+          title="Confirm permanent document policy"
         >
           Yes, I understand
         </Button>
