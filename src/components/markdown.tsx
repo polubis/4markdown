@@ -69,7 +69,7 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     strong: ({ children }) => <strong className="font-bold">{children}</strong>,
     ul: ({ children }) => <ul>{children}</ul>,
     ol: ({ children }) => <ol>{children}</ol>,
-    li: ({ children }) => <li className="text-xl">{children}</li>,
+    li: ({ children }) => <li className="text-md">{children}</li>,
     del: ({ children }) => <del>{children}</del>,
     a: ({ children, href }) => (
       <a
