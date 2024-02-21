@@ -11,7 +11,7 @@ interface ErrorModalProps {
 
 const ErrorModal = ({ heading, message, onClose }: ErrorModalProps) => {
   return (
-    <Modal onClose={onClose}>
+    <Modal>
       <div className="flex items-center justify-between gap-4">
         <h6 className="text-red-600 dark:text-red-400 text-xl">{heading}</h6>
         <Button type="button" i={2} s={1} title="Close" onClick={onClose}>
