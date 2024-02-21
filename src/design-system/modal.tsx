@@ -15,14 +15,17 @@ const Modal = ({ className, children, onClose }: ModalProps) => {
   return render(
     <>
       <Backdrop onClick={onClose} />
-      <div
-        className={c(
-          `p-4 w-[96%] tn:w-[380px] fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-40 bg-white dark:bg-black rounded-lg shadow-xl`,
-          className,
-        )}
-      >
-        {children}
+      <div className="fixed p-4 z-20 w-full h-full left-0 top-0 overflow-y-auto">
+        <div
+          className={c(
+            `bg-white mx-auto max-w-[420px] dark:bg-black rounded-lg shadow-xl p-4`,
+            className,
+          )}
+        >
+          {children}
+        </div>
       </div>
+      ,
     </>,
   );
 };
