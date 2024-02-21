@@ -2,6 +2,7 @@ import React from 'react';
 import Backdrop from './backdrop';
 import { usePortal } from 'development-kit/use-portal';
 import c from 'classnames';
+import { useScrollHide } from 'development-kit/use-scroll-hide';
 
 interface ModalProps {
   className?: string;
@@ -10,6 +11,7 @@ interface ModalProps {
 }
 
 const Modal = ({ className, children, onClose }: ModalProps) => {
+  useScrollHide();
   const { render } = usePortal();
 
   return render(
