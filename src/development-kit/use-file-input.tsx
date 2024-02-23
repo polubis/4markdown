@@ -23,7 +23,7 @@ const useFileInput = ({
       if (input) {
         const { files } = event.target;
         const filesCount = files?.length ?? 0;
-        const allowedTypes = accept.split(`, `);
+        const allowedTypes = accept.split(`,`).map((type) => type.trim());
 
         for (let i = 0; i < filesCount; i++) {
           const file = files?.item(i);
@@ -66,4 +66,5 @@ const useFileInput = ({
   return [upload] as const;
 };
 
+export type { UseFileInputConfig };
 export { useFileInput };

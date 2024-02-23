@@ -3,6 +3,7 @@ import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import Markdown from 'components/markdown';
 import {
   BiBookContent,
+  BiImageAdd,
   BiMoon,
   BiSolidBookContent,
   BiSun,
@@ -26,6 +27,7 @@ import {
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
+import { useFileInput } from 'development-kit/use-file-input';
 
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
@@ -60,6 +62,13 @@ const CreatorView: React.FC = () => {
     setDivideMode(`both`);
   };
 
+  const [upload] = useFileInput({
+    accept: `image/png, image/jpeg, image/jpg`,
+    onChange: () => {
+      alert(`Changed!`);
+    },
+  });
+
   return (
     <>
       {docManagementStore.is === `fail` && (
@@ -83,6 +92,9 @@ const CreatorView: React.FC = () => {
           </picture>
           <nav className="flex gap-2 w-full items-center">
             <AddDocPopover />
+            <Button i={1} s={2} title="Upload image" onClick={upload}>
+              <BiImageAdd />
+            </Button>
             <TemplatesPopover />
             <Button i={1} s={2} title="Change view display" onClick={divide}>
               {divideMode === `both` && (
