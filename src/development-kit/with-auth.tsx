@@ -105,6 +105,13 @@ const WithAuth = () => {
       }
     };
 
+    const uploadImage: AuthorizedData['uploadImage'] = async (file) => {
+      try {
+      } catch (error: unknown) {
+        throw error;
+      }
+    };
+
     const makeDocPrivate: AuthorizedData['makeDocPrivate'] = async () => {
       const { id, name, visibility } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
@@ -252,6 +259,7 @@ const WithAuth = () => {
               await signOut(auth);
             } catch {}
           },
+          uploadImage,
           getPublicDoc,
           deleteDoc: async () => {
             await deleteDoc(docStoreSelectors.active().id);
