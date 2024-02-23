@@ -4,14 +4,18 @@ import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiImageAdd, BiX } from 'react-icons/bi';
+import { authStoreSelectors } from 'store/auth/auth.store';
 
 const ImageUploaderContainer = () => {
   const modal = useToggle<File | null>();
+  const authStore = authStoreSelectors.useAuthorized();
 
   const [upload] = useFileInput({
     accept: `image/png, image/jpeg, image/jpg`,
-    onChange: (e) => {
-      modal.openWithData(e.target.files ? e.target.files[0] : null);
+    onChange: ({ target: { files } }) => {
+      if (!!files && files.length === 0) {
+        authStore.uploadImage(files[0]);
+      }
     },
   });
 
