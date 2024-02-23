@@ -47,8 +47,6 @@ const useFileInput = ({
     ref.current = document.createElement(`input`);
     const input = ref.current;
     input.type = `file`;
-    input.style.position = `fixed`;
-    input.style.opacity = `0`;
     input.accept = accept;
     input.multiple = multiple;
 
