@@ -20,6 +20,7 @@ const ImageUploaderAuthContainer = () => {
 
   const [upload] = useFileInput({
     accept: `image/png, image/jpeg, image/jpg`,
+    // Missing size check
     onChange: ({ target: { files } }) => {
       const uploadAndOpen = async (): Promise<void> => {
         if (!!files && files.length === 1) {
