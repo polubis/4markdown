@@ -53,7 +53,7 @@ const ImageUploaderAuthContainer = () => {
       {imageModal.opened && (
         <Modal>
           <div className="flex items-center justify-between gap-4 mb-6">
-            <h6 className="text-xl">Image upload</h6>
+            <h6 className="text-xl">The image has been uploaded</h6>
             <Button
               type="button"
               i={2}
@@ -64,6 +64,15 @@ const ImageUploaderAuthContainer = () => {
               <BiX />
             </Button>
           </div>
+          <p>
+            <span className="text-md">
+              To use <strong>uploaded image</strong> in markdown editor click
+              below button.
+            </span>
+            <Button className="capitalize mt-4" auto s={1} i={2}>
+              Copy Link
+            </Button>
+          </p>
         </Modal>
       )}
     </>
