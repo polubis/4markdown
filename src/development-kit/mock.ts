@@ -12,11 +12,11 @@ const mock =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   <Payload>(payload: Payload): Promise<Response> => {
     return new Promise((resolve, reject) => {
-      if (getRandomNumber() <= errorFactor) {
-        reject(error?.() ?? Error(`Ups problem...`));
-      }
-
       setTimeout(() => {
+        if (getRandomNumber() <= errorFactor) {
+          reject(error?.() ?? Error(`Ups problem...`));
+        }
+
         resolve(response);
       }, delay * 1000);
     });

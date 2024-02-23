@@ -34,6 +34,8 @@ import {
   docsStoreSelectors,
   useDocsStore,
 } from 'store/docs/docs.store';
+import { mock } from './mock';
+import { imagesStoreActions } from 'store/images/images.store';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -105,9 +107,14 @@ const WithAuth = () => {
       }
     };
 
-    const uploadImage: AuthorizedData['uploadImage'] = async (file) => {
+    const uploadImage: AuthorizedData['uploadImage'] = async () => {
       try {
+        imagesStoreActions.busy();
+
+        await mock({ delay: 3 })({})({});
+        imagesStoreActions.ok();
       } catch (error: unknown) {
+        imagesStoreActions.fail(error);
         throw error;
       }
     };

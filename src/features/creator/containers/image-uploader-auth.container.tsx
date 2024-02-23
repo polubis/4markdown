@@ -8,25 +8,39 @@ import { authStoreSelectors } from 'store/auth/auth.store';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
+import { useImagesStore } from 'store/images/images.store';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<File | null>();
   const errorModal = useToggle();
   const docsStore = useDocsStore();
+  const imagesStore = useImagesStore();
 
   const [upload] = useFileInput({
     accept: `image/png, image/jpeg, image/jpg`,
     onChange: ({ target: { files } }) => {
-      if (!!files && files.length === 0) {
-        authStoreSelectors.authorized().uploadImage(files[0]);
-      }
+      const uploadAndOpen = async (): Promise<void> => {
+        if (!!files && files.length === 1) {
+          try {
+            await authStoreSelectors.authorized().uploadImage(files[0]);
+            imageModal.open();
+          } catch {
+            errorModal.open();
+          }
+        }
+      };
+
+      uploadAndOpen();
     },
     onError: errorModal.open,
   });
 
   return (
     <>
-      <UploadImageButton disabled={docsStore.is === `busy`} onClick={upload} />
+      <UploadImageButton
+        disabled={docsStore.is === `busy` || imagesStore.is === `busy`}
+        onClick={upload}
+      />
 
       {errorModal.opened && (
         <ErrorModal
