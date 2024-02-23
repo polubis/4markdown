@@ -3,7 +3,7 @@ import Modal from 'design-system/modal';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
-import { BiImageAdd } from 'react-icons/bi';
+import { BiImageAdd, BiX } from 'react-icons/bi';
 
 const ImageUploaderContainer = () => {
   const modal = useToggle<File | null>();
@@ -20,7 +20,22 @@ const ImageUploaderContainer = () => {
       <Button i={1} s={2} title="Upload image" onClick={upload}>
         <BiImageAdd />
       </Button>
-      {modal.opened && <Modal>{modal.data?.name}</Modal>}
+      {modal.opened && (
+        <Modal>
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <h6 className="text-xl">Image upload</h6>
+            <Button
+              type="button"
+              i={2}
+              s={1}
+              title="Close image upload"
+              onClick={modal.close}
+            >
+              <BiX />
+            </Button>
+          </div>
+        </Modal>
+      )}
     </>
   );
 };
