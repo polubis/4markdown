@@ -6,9 +6,11 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { UploadImageButton } from '../components/upload-image-button';
+import ErrorModal from 'components/error-modal';
 
 const ImageUploaderAuthContainer = () => {
-  const modal = useToggle<File | null>();
+  const imageModal = useToggle<File | null>();
+  const errorModal = useToggle();
 
   const [upload] = useFileInput({
     accept: `image/png, image/jpeg, image/jpg`,
@@ -17,13 +19,22 @@ const ImageUploaderAuthContainer = () => {
         authStoreSelectors.authorized().uploadImage(files[0]);
       }
     },
+    onError: errorModal.open,
   });
 
   return (
     <>
       <UploadImageButton onClick={upload} />
 
-      {modal.opened && (
+      {errorModal.opened && (
+        <ErrorModal
+          heading="Invalid image"
+          message="Please ensure that the image format is valid. Supported formats include PNG, JPG, and JPEG, with a maximum file size of 8MB"
+          onClose={errorModal.close}
+        />
+      )}
+
+      {imageModal.opened && (
         <Modal>
           <div className="flex items-center justify-between gap-4 mb-6">
             <h6 className="text-xl">Image upload</h6>
@@ -32,7 +43,7 @@ const ImageUploaderAuthContainer = () => {
               i={2}
               s={1}
               title="Close image upload"
-              onClick={modal.close}
+              onClick={imageModal.close}
             >
               <BiX />
             </Button>
