@@ -5,13 +5,11 @@ import React from 'react';
 interface TemplatesPopoverContentProps {
   onCopy(content: string): void;
   onClose(): void;
-  onUploadImageClick(): void;
 }
 
 const TemplatesPopoverContent: React.FC<TemplatesPopoverContentProps> = ({
   onCopy,
   onClose,
-  onUploadImageClick,
 }) => {
   return (
     <Popover
@@ -23,7 +21,6 @@ const TemplatesPopoverContent: React.FC<TemplatesPopoverContentProps> = ({
       <Buttons.Image onClick={onCopy} />
       <Buttons.Code onClick={onCopy} />
       <Buttons.Table onClick={onCopy} />
-      <Buttons.UploadImage onClick={onUploadImageClick} />
     </Popover>
   );
 };

@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  BiCode,
-  BiHeading,
-  BiImage,
-  BiImageAdd,
-  BiLink,
-  BiTable,
-} from 'react-icons/bi';
+import { BiCode, BiHeading, BiImage, BiLink, BiTable } from 'react-icons/bi';
 import { Button as DSButton } from 'design-system/button';
 import type { IconType } from 'react-icons';
 
@@ -18,10 +11,6 @@ interface BaseButtonProps {
 
 interface CopyableButtonProps {
   onClick(content: string): void;
-}
-
-interface ClickableButtonProps {
-  onClick(): void;
 }
 
 const Button = ({ onClick, title, icon: Icon }: BaseButtonProps) => {
@@ -138,17 +127,12 @@ const Link = ({ onClick }: CopyableButtonProps) => {
   );
 };
 
-const UploadImage = ({ onClick }: ClickableButtonProps) => {
-  return <Button icon={BiImageAdd} title="Upload image" onClick={onClick} />;
-};
-
 const Buttons = {
   Table,
   Code,
   Image,
   Headings,
   Link,
-  UploadImage,
 };
 
 export { Buttons };
