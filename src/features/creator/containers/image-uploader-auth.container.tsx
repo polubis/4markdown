@@ -9,12 +9,14 @@ import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
 import { useImagesStore } from 'store/images/images.store';
+import { useCopy } from 'development-kit/use-copy';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<File | null>();
   const errorModal = useToggle();
   const docsStore = useDocsStore();
   const imagesStore = useImagesStore();
+  const [, copy] = useCopy();
 
   const [upload] = useFileInput({
     accept: `image/png, image/jpeg, image/jpg`,
@@ -34,6 +36,11 @@ const ImageUploaderAuthContainer = () => {
     },
     onError: errorModal.open,
   });
+
+  const copyAndClose = (): void => {
+    copy(`![Image alt](URL_WILL_BE_HERE)*Image description!*`);
+    imageModal.close();
+  };
 
   return (
     <>
@@ -75,6 +82,7 @@ const ImageUploaderAuthContainer = () => {
               auto
               s={1}
               i={2}
+              onClick={copyAndClose}
             >
               Copy Link
             </Button>
