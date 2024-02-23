@@ -7,10 +7,12 @@ import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
+import { useDocsStore } from 'store/docs/docs.store';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<File | null>();
   const errorModal = useToggle();
+  const docsStore = useDocsStore();
 
   const [upload] = useFileInput({
     accept: `image/png, image/jpeg, image/jpg`,
@@ -24,7 +26,7 @@ const ImageUploaderAuthContainer = () => {
 
   return (
     <>
-      <UploadImageButton onClick={upload} />
+      <UploadImageButton disabled={docsStore.is === `busy`} onClick={upload} />
 
       {errorModal.opened && (
         <ErrorModal
