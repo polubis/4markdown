@@ -20,7 +20,7 @@ const ImageUploaderAuthContainer = () => {
 
   const [upload] = useFileInput({
     accept: `image/png, image/jpeg, image/jpg`,
-    // Missing size check
+    maxSize: 4,
     onChange: ({ target: { files } }) => {
       const uploadAndOpen = async (): Promise<void> => {
         if (!!files && files.length === 1) {
@@ -53,7 +53,7 @@ const ImageUploaderAuthContainer = () => {
       {errorModal.opened && (
         <ErrorModal
           heading="Invalid image"
-          message="Please ensure that the image format is valid. Supported formats include PNG, JPG, and JPEG, with a maximum file size of 8MB"
+          message="Please ensure that the image format is valid. Supported formats include PNG, JPG, and JPEG, with a maximum file size of 4MB"
           onClose={errorModal.close}
         />
       )}

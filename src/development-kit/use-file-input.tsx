@@ -3,6 +3,7 @@ import React from 'react';
 interface UseFileInputConfig {
   accept?: string;
   multiple?: boolean;
+  maxSize?: number;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
   onError?(): void;
 }
@@ -10,6 +11,7 @@ interface UseFileInputConfig {
 const useFileInput = ({
   accept = ``,
   multiple = false,
+  maxSize = 10,
   onChange,
   onError,
 }: UseFileInputConfig) => {
@@ -28,9 +30,16 @@ const useFileInput = ({
         for (let i = 0; i < filesCount; i++) {
           const file = files?.item(i);
 
-          if (!!file && !allowedTypes.includes(file.type)) {
-            onError?.();
-            return;
+          if (file) {
+            const sizeAsMegabytes = file.size / 1024 / 1024;
+
+            if (
+              !allowedTypes.includes(file.type) ||
+              sizeAsMegabytes > maxSize
+            ) {
+              onError?.();
+              return;
+            }
           }
         }
 
@@ -40,7 +49,7 @@ const useFileInput = ({
         input.remove();
       }
     },
-    [accept, onError, onChange],
+    [accept, maxSize, onError, onChange],
   );
 
   const upload = React.useCallback((): void => {
