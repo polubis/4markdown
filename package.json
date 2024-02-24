@@ -38,6 +38,7 @@
     "classnames": "^2.3.2",
     "date-fns": "^3.0.6",
     "firebase": "^10.7.1",
+    "framer-motion": "^11.0.6",
     "gatsby": "^5.12.4",
     "gatsby-plugin-dark-mode": "^1.1.2",
     "gatsby-plugin-google-gtag": "^5.12.0",
