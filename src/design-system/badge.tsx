@@ -21,4 +21,5 @@ const Badge = ({ className, children, title }: BadgeProps) => {
   );
 };
 
+export type { BadgeProps };
 export { Badge };

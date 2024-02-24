@@ -10,13 +10,14 @@ import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
 import { useImagesStore } from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
+import { Status } from 'design-system/status';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<File | null>();
   const errorModal = useToggle();
   const docsStore = useDocsStore();
   const imagesStore = useImagesStore();
-  const [, copy] = useCopy();
+  const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
     accept: `image/png, image/jpeg, image/jpg`,
@@ -45,6 +46,9 @@ const ImageUploaderAuthContainer = () => {
 
   return (
     <>
+      {copyState.is === `copied` && <Status>Image copied</Status>}
+      {imagesStore.is === `busy` && <Status>Uploading image...</Status>}
+
       <UploadImageButton
         disabled={docsStore.is === `busy` || imagesStore.is === `busy`}
         onClick={upload}
