@@ -1,14 +1,14 @@
 import React from 'react';
 import { usePortal } from 'development-kit/use-portal';
-import { Badge, BadgeProps } from './badge';
+import { Badge, type BadgeProps } from './badge';
 import c from 'classnames';
-import { motion } from 'framer-motion';
+import { type Variants, motion } from 'framer-motion';
 
 interface StatusProps extends BadgeProps {
   open?: boolean;
 }
 
-const variants = {
+const variants: Variants = {
   initial: {
     y: -50,
     opacity: 0,
@@ -28,7 +28,7 @@ const variants = {
       duration: 0.3,
     },
   },
-} as const;
+};
 
 const Status = ({ className, open, ...props }: StatusProps) => {
   const { render } = usePortal();
