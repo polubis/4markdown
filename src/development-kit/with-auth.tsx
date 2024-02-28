@@ -24,6 +24,7 @@ import type {
   GetDocPayload,
   UpdateDocDto,
   UpdateDocPayload,
+  UploadImageDto,
 } from 'models/doc';
 import {
   creatorStoreActions,
@@ -34,7 +35,6 @@ import {
   docsStoreSelectors,
   useDocsStore,
 } from 'store/docs/docs.store';
-import { mock } from './mock';
 import { imagesStoreActions } from 'store/images/images.store';
 
 const WithAuth = () => {
@@ -107,11 +107,18 @@ const WithAuth = () => {
       }
     };
 
-    const uploadImage: AuthorizedData['uploadImage'] = async () => {
+    const uploadImage: AuthorizedData['uploadImage'] = async (image) => {
       try {
+        const formData = new FormData();
+        formData.append(`image`, image);
+
         imagesStoreActions.busy();
 
-        await mock({ delay: 3 })({})({});
+        const { data: images } = await httpsCallable<FormData, UploadImageDto>(
+          functions,
+          `uploadImage`,
+        )();
+        console.log(images);
         imagesStoreActions.ok();
       } catch (error: unknown) {
         imagesStoreActions.fail(error);

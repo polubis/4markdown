@@ -46,6 +46,8 @@ type GetDocDto = Doc;
 
 type GetPermanentDocsDto = PermanentDoc[];
 
+type UploadImageDto = string[];
+
 export type {
   Doc,
   CreateDocPayload,
@@ -64,4 +66,5 @@ export type {
   PrivateDoc,
   PublicDoc,
   PermanentDoc,
+  UploadImageDto,
 };
