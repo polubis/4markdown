@@ -25,6 +25,7 @@ import type {
   UpdateDocDto,
   UpdateDocPayload,
   UploadImageDto,
+  UploadImagePayload,
 } from 'models/doc';
 import {
   creatorStoreActions,
@@ -108,17 +109,25 @@ const WithAuth = () => {
     };
 
     const uploadImage: AuthorizedData['uploadImage'] = async (image) => {
+      const readFileAsBase64 = (file: File): Promise<FileReader['result']> => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      };
+
       try {
-        const formData = new FormData();
-        formData.append(`image`, image);
+        const base64Image = await readFileAsBase64(image);
 
         imagesStoreActions.busy();
 
-        const { data: images } = await httpsCallable<FormData, UploadImageDto>(
+        await httpsCallable<UploadImagePayload, UploadImageDto>(
           functions,
           `uploadImage`,
-        )();
-        console.log(images);
+        )({ image: base64Image });
+
         imagesStoreActions.ok();
       } catch (error: unknown) {
         imagesStoreActions.fail(error);
