@@ -14,6 +14,11 @@ const set = (state: ImagesStoreState): void => {
   setState(state, true);
 };
 
+const imagesStoreRestrictions = {
+  type: `image/png, image/jpeg, image/jpg`,
+  size: 4,
+} as const;
+
 const imagesStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
@@ -21,4 +26,4 @@ const imagesStoreActions = {
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 } as const;
 
-export { useImagesStore, imagesStoreActions };
+export { useImagesStore, imagesStoreActions, imagesStoreRestrictions };

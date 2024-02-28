@@ -5,7 +5,7 @@ import { BiX } from 'react-icons/bi';
 
 interface ErrorModalProps {
   heading: string;
-  message: string;
+  message: React.ReactNode;
   onClose(): void;
 }
 

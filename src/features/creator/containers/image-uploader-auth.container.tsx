@@ -8,7 +8,10 @@ import { authStoreSelectors } from 'store/auth/auth.store';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
-import { useImagesStore } from 'store/images/images.store';
+import {
+  imagesStoreRestrictions,
+  useImagesStore,
+} from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 
@@ -20,8 +23,8 @@ const ImageUploaderAuthContainer = () => {
   const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
-    accept: `image/png, image/jpeg, image/jpg`,
-    maxSize: 4,
+    accept: imagesStoreRestrictions.type,
+    maxSize: imagesStoreRestrictions.size,
     onChange: ({ target: { files } }) => {
       const uploadAndOpen = async (): Promise<void> => {
         if (!!files && files.length === 1) {
@@ -44,6 +47,14 @@ const ImageUploaderAuthContainer = () => {
     imageModal.close();
   };
 
+  const allowedTypes = React.useMemo(
+    () =>
+      imagesStoreRestrictions.type
+        .split(`, `)
+        .map((type) => ` ${type.split(`/`)[1]}`),
+    [],
+  );
+
   return (
     <>
       <Status open={copyState.is === `copied`}>Image copied</Status>
@@ -57,7 +68,13 @@ const ImageUploaderAuthContainer = () => {
       {errorModal.opened && (
         <ErrorModal
           heading="Invalid image"
-          message="Please ensure that the image format is valid. Supported formats include PNG, JPG, and JPEG, with a maximum file size of 4MB"
+          message={
+            <>
+              Please ensure that the image format is valid. Supported formats
+              include <strong>{allowedTypes}</strong>, with a maximum file size
+              of <strong>{imagesStoreRestrictions.size}MB</strong>
+            </>
+          }
           onClose={errorModal.close}
         />
       )}
