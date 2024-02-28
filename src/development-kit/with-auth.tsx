@@ -37,6 +37,7 @@ import {
   useDocsStore,
 } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
+import { readFileAsBase64 } from './file-reading';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -109,15 +110,6 @@ const WithAuth = () => {
     };
 
     const uploadImage: AuthorizedData['uploadImage'] = async (image) => {
-      const readFileAsBase64 = (file: File): Promise<FileReader['result']> => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      };
-
       try {
         imagesStoreActions.busy();
 
