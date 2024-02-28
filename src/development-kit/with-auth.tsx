@@ -119,14 +119,12 @@ const WithAuth = () => {
       };
 
       try {
-        const base64Image = await readFileAsBase64(image);
-
         imagesStoreActions.busy();
 
         await httpsCallable<UploadImagePayload, UploadImageDto>(
           functions,
           `uploadImage`,
-        )({ image: base64Image });
+        )({ image: await readFileAsBase64(image) });
 
         imagesStoreActions.ok();
       } catch (error: unknown) {
