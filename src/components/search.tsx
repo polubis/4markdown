@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Field } from 'design-system/field';
 
-function Search() {
-  const [query, setQuery] = useState(``);
-
+function Search({ query, setQuery }) {
   return (
     <div>
       <Field label="Search for an article">

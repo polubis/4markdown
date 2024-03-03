@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-function Filters() {
-  const [filter, setFilter] = useState(`public`);
-
+function Filters({ filter, setFilter }) {
   return (
     <div className="w-52 relative">
       <span className="absolute top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2">
