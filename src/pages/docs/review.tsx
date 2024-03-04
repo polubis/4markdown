@@ -4,16 +4,22 @@ import Pagination from 'components/pagination';
 import Navigation from 'components/navigation';
 
 const DocsReviewPage = () => {
+  const [query, setQuery] = useState(``);
+  const [articleFilter, setArticleFilter] = useState(`public`);
+  const [limit, setLimit] = useState(10);
   const [articleInfo, setArticleInfo] = useState([]);
-
-  function handleArticleInfo(query, filter) {
-    console.log(query, filter);
-  }
 
   return (
     <div className=" grid items-start h-screen bg-gray-100">
       <main className=" mt-16 mx-8 ">
-        <Navigation handleArticleInfo={handleArticleInfo} />
+        <Navigation
+          query={query}
+          setQuery={setQuery}
+          articleFilter={articleFilter}
+          setArticleFilter={setArticleFilter}
+          limit={limit}
+          setLimit={setLimit}
+        />
         <ArticleList />
         <Pagination />
       </main>

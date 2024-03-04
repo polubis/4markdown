@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
-import Filters from 'components/filters';
+import Filter from 'components/filter';
 import Search from './search';
 import { BiSearch } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 
-function Navigation({ handleArticleInfo }) {
-  const [query, setQuery] = useState(``);
-  const [filter, setFilter] = useState(`public`);
-
+function Navigation({
+  query,
+  setQuery,
+  articleFilter,
+  setArticleFilter,
+  limit,
+  setLimit,
+}) {
   return (
     <div className="flex gap-4 items-end">
       <Search query={query} setQuery={setQuery} />
-      <Filters filter={filter} setFilter={setFilter} />
+      <Filter
+        option={articleFilter}
+        setOption={setArticleFilter}
+        label={`Article state`}
+      >
+        <option value={`public`}>Public</option>
+        <option value={`accepted`}>Accepted</option>
+        <option value={`review`}>To review</option>
+      </Filter>
+      <Filter option={limit} setOption={setLimit} label={`Articles limit`}>
+        <option value={10}>10</option>
+        <option value={25}>25</option>
+        <option value={50}>50</option>
+        <option value={100}>100</option>
+      </Filter>
       <Button
-        onClick={() => handleArticleInfo(query, filter)}
+        onClick={() => console.log(`hej`)}
         auto
         type="button"
         i={2}
