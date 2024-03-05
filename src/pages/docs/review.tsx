@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ArticleList from 'components/article-list';
 import Pagination from 'components/pagination';
-import Navigation from 'components/navigation';
+import ArticleForm from 'components/article-form';
 
 const DocsReviewPage = () => {
   const [query, setQuery] = useState(``);
@@ -12,7 +12,7 @@ const DocsReviewPage = () => {
   return (
     <div className=" grid items-start h-screen bg-gray-100">
       <main className=" mt-16 mx-8 ">
-        <Navigation
+        <ArticleForm
           query={query}
           setQuery={setQuery}
           articleFilter={articleFilter}

@@ -4,7 +4,7 @@ import Search from './search';
 import { BiSearch } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 
-function Navigation({
+function ArticleForm({
   query,
   setQuery,
   articleFilter,
@@ -12,8 +12,12 @@ function Navigation({
   limit,
   setLimit,
 }) {
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(`cjik`);
+  }
   return (
-    <div className="flex gap-4 items-end">
+    <form className="flex gap-4 items-end" onSubmit={handleSubmit}>
       <Search query={query} setQuery={setQuery} />
       <Filter
         option={articleFilter}
@@ -40,8 +44,8 @@ function Navigation({
       >
         <BiSearch />
       </Button>
-    </div>
+    </form>
   );
 }
 
-export default Navigation;
+export default ArticleForm;
