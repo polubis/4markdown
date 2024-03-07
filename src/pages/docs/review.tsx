@@ -7,7 +7,9 @@ const DocsReviewPage = () => {
   const [query, setQuery] = useState(``);
   const [articleFilter, setArticleFilter] = useState(`public`);
   const [limit, setLimit] = useState(10);
-  const [articleInfo, setArticleInfo] = useState([]);
+  const [articleInfo, setArticleInfo] = useState(
+    Array.from({ length: 100 }, (_, i) => i + 1),
+  );
 
   return (
     <div className=" grid items-start h-screen bg-gray-100">
@@ -17,11 +19,11 @@ const DocsReviewPage = () => {
           setQuery={setQuery}
           articleFilter={articleFilter}
           setArticleFilter={setArticleFilter}
-          limit={limit}
+          limit={+limit}
           setLimit={setLimit}
         />
         <ArticleList />
-        <Pagination />
+        <Pagination limit={+limit} articleInfoCount={articleInfo.length} />
       </main>
     </div>
   );
