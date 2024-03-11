@@ -35,6 +35,7 @@ const DocsReviewPage = () => {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
     const handleLoad = async () => {
       setResponse({ is: `busy` });
 
@@ -45,27 +46,30 @@ const DocsReviewPage = () => {
       const getData = config<Response[]>([
         {
           id: 1,
-          name: `cos`,
-          description: `dasd`,
+          name: `Lorem Ipsum is simply dummy text`,
+          description: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution`,
           status: `public`,
           accepted: true,
         },
         {
           id: 2,
-          name: `cos innego`,
-          description: `dasd`,
+          name: `Lorem Ipsum is not simply random text.`,
+          description: `There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look`,
           status: `public`,
           accepted: false,
         },
       ]);
 
       try {
-        const data = await getData<Payload>({
-          query,
-          limit,
-          status,
-          page,
-        });
+        const data = await getData<Payload>(
+          {
+            query,
+            limit,
+            status,
+            page,
+          },
+          { signal: controller.signal },
+        );
 
         setResponse({ is: `ok`, data });
       } catch (error) {
@@ -73,7 +77,13 @@ const DocsReviewPage = () => {
       }
     };
 
+    if (query.length < 3) return;
+
     handleLoad();
+
+    return () => {
+      controller.abort();
+    };
   }, [query, limit, status, page]);
 
   useEffect(() => {
@@ -91,23 +101,16 @@ const DocsReviewPage = () => {
           limit={+limit}
           setLimit={setLimit}
         />
-        {articleInfo.length > 0 ? ( /////
-          <>
-            <ArticleList />
-            <Pagination
-              page={page}
-              setPage={setPage}
-              limit={+limit}
-              articleInfoCount={articleInfo.length} /////
-            />
-          </>
-        ) : (
-          <WelcomeMessage msg={`Start by searching for an article! 📰`} />
-        )}
-        <p>{response.is}</p>
-        {response.data &&
-          response.data.length > 0 &&
-          response.data.map((curr, i) => <p key={i}>{curr.name}</p>)}
+
+        <ArticleList articlesData={response.data} />
+        <Pagination
+          page={page}
+          setPage={setPage}
+          limit={+limit}
+          articleInfoCount={articleInfo.length}
+        />
+
+        <WelcomeMessage msg={`Start by searching for an article! 📰`} />
       </main>
     </div>
   );
