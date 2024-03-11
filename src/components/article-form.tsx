@@ -4,14 +4,7 @@ import Search from './search';
 import { BiSearch } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 
-function ArticleForm({
-  query,
-  setQuery,
-  articleFilter,
-  setArticleFilter,
-  limit,
-  setLimit,
-}) {
+function ArticleForm({ query, setQuery, status, setStatus, limit, setLimit }) {
   function handleSubmit(e) {
     e.preventDefault();
     console.log(`cjik`);
@@ -19,11 +12,7 @@ function ArticleForm({
   return (
     <form className="flex gap-4 items-end" onSubmit={handleSubmit}>
       <Search query={query} setQuery={setQuery} />
-      <Filter
-        option={articleFilter}
-        setOption={setArticleFilter}
-        label={`Article state`}
-      >
+      <Filter option={status} setOption={setStatus} label={`Article state`}>
         <option value={`public`}>Public</option>
         <option value={`accepted`}>Accepted</option>
         <option value={`review`}>To review</option>

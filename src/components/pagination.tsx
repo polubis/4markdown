@@ -2,21 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'design-system/button';
 import { BiLeftArrow, BiRightArrow } from 'react-icons/bi';
 
-function Pagination({ articleInfoCount, limit }) {
-  const [currentPage, setCurrentPage] = useState(1);
+function Pagination({ articleInfoCount, limit, page, setPage }) {
   const pageCount =
     articleInfoCount > 0 ? Math.ceil(articleInfoCount / limit) : 0;
 
-  useEffect(() => setCurrentPage(1), [limit]);
+  useEffect(() => setPage(1), [limit, setPage]);
 
   function handleNextPage() {
-    currentPage === pageCount
-      ? setCurrentPage(pageCount)
-      : setCurrentPage((curr) => curr + 1);
+    page === pageCount ? setPage(pageCount) : setPage((curr) => curr + 1);
   }
 
   function handlePreviousPage() {
-    currentPage === 1 ? setCurrentPage(1) : setCurrentPage((curr) => curr - 1);
+    page === 1 ? setPage(1) : setPage((curr) => curr - 1);
   }
 
   return (
@@ -30,7 +27,7 @@ function Pagination({ articleInfoCount, limit }) {
       >
         <BiLeftArrow />
       </Button>
-      <span className="text-lg">{currentPage}</span>
+      <span className="text-lg">{page}</span>
       <Button
         onClick={handleNextPage}
         type="button"
