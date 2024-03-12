@@ -6,7 +6,7 @@ import WelcomeMessage from 'components/welcome-message';
 import { mock } from 'development-kit/mock';
 import { Transaction } from 'models/transaction';
 import { parseError } from 'development-kit/parse-error';
-import { resolve } from 'path';
+import Loader from 'components/loader';
 
 interface Payload {
   query: string; // search string
@@ -105,7 +105,10 @@ const DocsReviewPage = () => {
           </>
         )}
 
-        <WelcomeMessage msg={`Start by searching for an article! 📰`} />
+        {response.is === `busy` && <Loader />}
+        {response.is === `idle` && (
+          <WelcomeMessage msg={`Start by searching for an article! 📰`} />
+        )}
       </main>
     </div>
   );
