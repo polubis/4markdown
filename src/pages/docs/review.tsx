@@ -7,6 +7,7 @@ import { mock } from 'development-kit/mock';
 import { Transaction } from 'models/transaction';
 import { parseError } from 'development-kit/parse-error';
 import Loader from 'components/loader';
+import ErrorModal from 'components/error-modal';
 
 interface Payload {
   query: string; // search string
@@ -40,6 +41,7 @@ const DocsReviewPage = () => {
 
       const config = mock({
         delay: 1,
+        errorFactor: 50,
       });
 
       const getData = config<Response[]>([
@@ -82,6 +84,14 @@ const DocsReviewPage = () => {
     console.log(response.data?.at(0));
   }, [response]);
 
+  function reset() {
+    setQuery(``);
+    setStatus(`public`);
+    setLimit(10);
+    setPage(1);
+    setResponse({ is: `idle`, data: [] });
+  }
+
   return (
     <div className=" grid items-start h-screen bg-gray-100">
       <main className="mt-16 mx-8">
@@ -104,10 +114,16 @@ const DocsReviewPage = () => {
             />
           </>
         )}
-
         {response.is === `busy` && <Loader />}
         {response.is === `idle` && (
           <WelcomeMessage msg={`Start by searching for an article! 📰`} />
+        )}
+        {response.is === `fail` && (
+          <ErrorModal
+            heading={response.error}
+            message="Try to search for the articles once again"
+            onClose={reset}
+          />
         )}
       </main>
     </div>
