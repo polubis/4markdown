@@ -35,7 +35,6 @@ const DocsReviewPage = () => {
   });
 
   useEffect(() => {
-    const controller = new AbortController();
     const handleLoad = async () => {
       setResponse({ is: `busy` });
 
@@ -61,15 +60,12 @@ const DocsReviewPage = () => {
       ]);
 
       try {
-        const data = await getData<Payload>(
-          {
-            query,
-            limit,
-            status,
-            page,
-          },
-          { signal: controller.signal },
-        );
+        const data = await getData<Payload>({
+          query,
+          limit,
+          status,
+          page,
+        });
 
         setResponse({ is: `ok`, data });
       } catch (error) {
@@ -80,10 +76,6 @@ const DocsReviewPage = () => {
     if (query.length < 3) return;
 
     handleLoad();
-
-    return () => {
-      controller.abort();
-    };
   }, [query, limit, status, page]);
 
   useEffect(() => {
@@ -101,14 +93,17 @@ const DocsReviewPage = () => {
           limit={+limit}
           setLimit={setLimit}
         />
-
-        <ArticleList articlesData={response.data} />
-        <Pagination
-          page={page}
-          setPage={setPage}
-          limit={+limit}
-          articleInfoCount={articleInfo.length}
-        />
+        {response.data?.length > 0 && (
+          <>
+            <ArticleList articlesData={response.data} />
+            <Pagination
+              page={page}
+              setPage={setPage}
+              limit={+limit}
+              articleInfoCount={articleInfo.length}
+            />
+          </>
+        )}
 
         <WelcomeMessage msg={`Start by searching for an article! 📰`} />
       </main>

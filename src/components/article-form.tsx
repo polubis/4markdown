@@ -5,12 +5,8 @@ import { BiSearch } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 
 function ArticleForm({ query, setQuery, status, setStatus, limit, setLimit }) {
-  function handleSubmit(e) {
-    e.preventDefault();
-    console.log(`cjik`);
-  }
   return (
-    <form className="flex gap-4 items-end" onSubmit={handleSubmit}>
+    <form className="flex gap-4 items-end">
       <Search query={query} setQuery={setQuery} />
       <Filter option={status} setOption={setStatus} label={`Article state`}>
         <option value={`public`}>Public</option>
@@ -23,16 +19,6 @@ function ArticleForm({ query, setQuery, status, setStatus, limit, setLimit }) {
         <option value={50}>50</option>
         <option value={100}>100</option>
       </Filter>
-      <Button
-        onClick={() => console.log(`hej`)}
-        auto
-        type="button"
-        i={2}
-        s={2}
-        title="Go to previous page"
-      >
-        <BiSearch />
-      </Button>
     </form>
   );
 }
