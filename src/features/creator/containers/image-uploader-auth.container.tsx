@@ -47,14 +47,6 @@ const ImageUploaderAuthContainer = () => {
     imageModal.close();
   };
 
-  const allowedTypes = React.useMemo(
-    () =>
-      imagesStoreRestrictions.type
-        .split(`, `)
-        .map((type) => ` ${type.split(`/`)[1]}`),
-    [],
-  );
-
   return (
     <>
       <Status open={copyState.is === `copied`}>Image copied</Status>
@@ -71,8 +63,9 @@ const ImageUploaderAuthContainer = () => {
           message={
             <>
               Please ensure that the image format is valid. Supported formats
-              include <strong>{allowedTypes}</strong>, with a maximum file size
-              of <strong>{imagesStoreRestrictions.size}MB</strong>
+              include <strong>{imagesStoreRestrictions.type}</strong>, with a
+              maximum file size of{` `}
+              <strong>{imagesStoreRestrictions.size}MB</strong>
             </>
           }
           onClose={errorModal.close}

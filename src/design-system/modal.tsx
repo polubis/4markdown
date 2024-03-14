@@ -49,7 +49,7 @@ const Modal = ({ className, children }: ModalProps) => {
         initial="initial"
         animate="open"
         className={c(
-          `bg-white m-auto max-w-[420px] dark:bg-black rounded-lg shadow-xl p-4`,
+          `bg-white m-auto w-[96%] tn:w-[380px] dark:bg-black rounded-lg shadow-xl p-4`,
           className,
         )}
       >
