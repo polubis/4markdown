@@ -24,12 +24,16 @@ interface Response {
   accepted: boolean;
 }
 
+const initPayload = (): Payload => ({
+  query: '',
+  status: 'public',
+  limit: 10,
+  page: 1,
+});
+
 const DocsReviewPage = () => {
-  const [query, setQuery] = useState(``);
-  const [status, setStatus] = useState<Response['status']>(`public`);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(1);
-  const [articleInfo, setArticleInfo] = useState([]);
+  const [payload, setPayload] = useState(initPayload);
+  const { query, status, limit, page } = payload;
 
   const [response, setResponse] = useState<Transaction<{ data: Response[] }>>({
     is: `idle`,
@@ -40,27 +44,19 @@ const DocsReviewPage = () => {
       setResponse({ is: `busy` });
 
       const config = mock({
-        delay: 1,
-        errorFactor: 50,
+        delay: 10,
+        errorFactor: 100,
       });
 
-      const getData = config<Response[]>([
-        {
-          id: 1,
-          name: `Lorem Ipsum is simply dummy text`,
+      const getData = config<Response[]>(
+        Array.from({ length: 50 }, (curr, i) => ({
+          id: i + 1,
+          name: ` ${i + 1}. Lorem Ipsum is simply dummy text`,
           description: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution`,
           status: `public`,
           accepted: true,
-        },
-        {
-          id: 2,
-          name: `Lorem Ipsum is not simply random text.`,
-          description: `There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look`,
-          status: `public`,
-          accepted: false,
-        },
-      ]);
-
+        })),
+      );
       try {
         const data = await getData<Payload>({
           query,
@@ -75,42 +71,43 @@ const DocsReviewPage = () => {
       }
     };
 
-    if (query.length < 3) return;
-
     handleLoad();
-  }, [query, limit, status, page]);
+  }, [payload]);
 
   useEffect(() => {
-    console.log(response.data?.at(0));
+    console.log(response.is);
   }, [response]);
 
+  useEffect(() => {
+    setPayload((payload) => ({ ...payload, page: 1 }));
+  }, [query, status, limit]);
+
   function reset() {
-    setQuery(``);
-    setStatus(`public`);
-    setLimit(10);
-    setPage(1);
-    setResponse({ is: `idle`, data: [] });
+    setPayload(initPayload());
+    setResponse({ is: `idle` });
   }
 
+  const changeFilters = (newPayload: Partial<Payload> = {}): void => {
+    setPayload((payload) => ({ ...payload, page: 1, ...newPayload }));
+  };
+
   return (
-    <div className=" grid items-start h-screen bg-gray-100">
+    <div className=" grid items-start  bg-gray-100">
       <main className="mt-16 mx-8">
         <ArticleForm
           query={query}
-          setQuery={setQuery}
+          onQueryChange={changeFilters}
           status={status}
-          setStatus={setStatus}
           limit={+limit}
-          setLimit={setLimit}
         />
         {response.data?.length > 0 && (
           <>
             <ArticleList articlesData={response.data} />
             <Pagination
               page={page}
-              setPage={setPage}
+              onPageChange={changeFilters}
               limit={+limit}
-              articleInfoCount={articleInfo.length}
+              responseCount={response.data.length}
             />
           </>
         )}
