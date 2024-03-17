@@ -26,6 +26,7 @@ import {
   useDocManagementStore,
 } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
+import { ImageUploaderContainer } from './containers/image-uploader.container';
 
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
@@ -83,6 +84,7 @@ const CreatorView: React.FC = () => {
           </picture>
           <nav className="flex gap-2 w-full items-center">
             <AddDocPopover />
+            <ImageUploaderContainer />
             <TemplatesPopover />
             <Button i={1} s={2} title="Change view display" onClick={divide}>
               {divideMode === `both` && (
@@ -176,6 +178,7 @@ const CreatorView: React.FC = () => {
             className={c(
               `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
               { hidden: divideMode === `code` },
+              { 'max-w-xl mx-auto': divideMode === `preview` },
               {
                 'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
                   divideMode === `both`,

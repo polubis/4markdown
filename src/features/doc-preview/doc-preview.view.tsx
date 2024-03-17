@@ -55,7 +55,7 @@ const DocPreviewView = () => {
           </Button>
         </nav>
       </header>
-      <main className="max-w-4xl p-4 mx-auto">
+      <main className="max-w-xl p-4 mx-auto">
         {docPreviewStore.doc.visibility === `permanent` &&
           docPreviewStore.doc.tags.length > 0 && (
             <Badges className="mb-4">
