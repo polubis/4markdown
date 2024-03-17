@@ -48,4 +48,5 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
+export type { ButtonProps };
 export { Button };

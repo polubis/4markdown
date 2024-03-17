@@ -46,6 +46,9 @@ type GetDocDto = Doc;
 
 type GetPermanentDocsDto = PermanentDoc[];
 
+type UploadImageDto = string[];
+type UploadImagePayload = { image: FileReader['result'] };
+
 export type {
   Doc,
   CreateDocPayload,
@@ -64,4 +67,6 @@ export type {
   PrivateDoc,
   PublicDoc,
   PermanentDoc,
+  UploadImageDto,
+  UploadImagePayload,
 };

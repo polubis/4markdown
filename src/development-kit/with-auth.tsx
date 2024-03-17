@@ -24,6 +24,8 @@ import type {
   GetDocPayload,
   UpdateDocDto,
   UpdateDocPayload,
+  UploadImageDto,
+  UploadImagePayload,
 } from 'models/doc';
 import {
   creatorStoreActions,
@@ -34,6 +36,8 @@ import {
   docsStoreSelectors,
   useDocsStore,
 } from 'store/docs/docs.store';
+import { imagesStoreActions } from 'store/images/images.store';
+import { readFileAsBase64 } from './file-reading';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -101,6 +105,22 @@ const WithAuth = () => {
         creatorStoreActions.asUnchanged();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
+        throw error;
+      }
+    };
+
+    const uploadImage: AuthorizedData['uploadImage'] = async (image) => {
+      try {
+        imagesStoreActions.busy();
+
+        await httpsCallable<UploadImagePayload, UploadImageDto>(
+          functions,
+          `uploadImage`,
+        )({ image: await readFileAsBase64(image) });
+
+        imagesStoreActions.ok();
+      } catch (error: unknown) {
+        imagesStoreActions.fail(error);
         throw error;
       }
     };
@@ -252,6 +272,7 @@ const WithAuth = () => {
               await signOut(auth);
             } catch {}
           },
+          uploadImage,
           getPublicDoc,
           deleteDoc: async () => {
             await deleteDoc(docStoreSelectors.active().id);
