@@ -12,7 +12,7 @@ const TemplatesPopover: React.FC = () => {
   const menu = useToggle();
   const [copyState, copy] = useCopy();
 
-  const handleCopy = (content: string): void => {
+  const copyAndClose = (content: string): void => {
     copy(content);
     menu.close();
   };
@@ -28,7 +28,7 @@ const TemplatesPopover: React.FC = () => {
       </Button>
       {menu.opened && (
         <React.Suspense>
-          <TemplatesPopoverContent onCopy={handleCopy} onClose={menu.close} />
+          <TemplatesPopoverContent onCopy={copyAndClose} onClose={menu.close} />
         </React.Suspense>
       )}
     </>

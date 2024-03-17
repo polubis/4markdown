@@ -11,7 +11,7 @@ const Badge = ({ className, children, title }: BadgeProps) => {
   return (
     <div
       className={c(
-        `text-sm uppercase font-medium rounded-lg bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3`,
+        `text-sm uppercase font-medium rounded-md bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3`,
         className,
       )}
       title={title}
@@ -21,4 +21,5 @@ const Badge = ({ className, children, title }: BadgeProps) => {
   );
 };
 
+export type { BadgeProps };
 export { Badge };

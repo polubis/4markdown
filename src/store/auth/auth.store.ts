@@ -10,6 +10,7 @@ interface AuthorizedData {
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
   updateDocName(name: Doc['name']): Promise<void>;
+  uploadImage(image: File): Promise<void>;
   makeDocPermanent(
     name: Doc['name'],
     description: PermanentDoc['description'],

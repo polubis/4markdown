@@ -1,6 +1,6 @@
 import React from 'react';
 import { BiCode, BiHeading, BiImage, BiLink, BiTable } from 'react-icons/bi';
-import { Button } from 'design-system/button';
+import { Button as DSButton } from 'design-system/button';
 import type { IconType } from 'react-icons';
 
 interface BaseButtonProps {
@@ -9,21 +9,21 @@ interface BaseButtonProps {
   onClick(): void;
 }
 
-interface CopyButtonProps {
+interface CopyableButtonProps {
   onClick(content: string): void;
 }
 
-const CopyButton = ({ onClick, title, icon: Icon }: BaseButtonProps) => {
+const Button = ({ onClick, title, icon: Icon }: BaseButtonProps) => {
   return (
-    <Button i={1} s={2} title={title} onClick={onClick}>
+    <DSButton i={1} s={2} title={title} onClick={onClick}>
       <Icon />
-    </Button>
+    </DSButton>
   );
 };
 
-const Code = ({ onClick }: CopyButtonProps) => {
+const Code = ({ onClick }: CopyableButtonProps) => {
   return (
-    <CopyButton
+    <Button
       title="Copy code markdown"
       icon={BiCode}
       onClick={() => {
@@ -37,9 +37,9 @@ const a = 'Thanks for using our editor!'
   );
 };
 
-const Headings = ({ onClick }: CopyButtonProps) => {
+const Headings = ({ onClick }: CopyableButtonProps) => {
   return (
-    <CopyButton
+    <Button
       title="Copy headings markdown"
       icon={BiHeading}
       onClick={() => {
@@ -73,9 +73,9 @@ const Headings = ({ onClick }: CopyButtonProps) => {
   );
 };
 
-const Image = ({ onClick }: CopyButtonProps) => {
+const Image = ({ onClick }: CopyableButtonProps) => {
   return (
-    <CopyButton
+    <Button
       title="Copy image markdown"
       icon={BiImage}
       onClick={() => {
@@ -88,9 +88,9 @@ const Image = ({ onClick }: CopyButtonProps) => {
   );
 };
 
-const Table = ({ onClick }: CopyButtonProps) => {
+const Table = ({ onClick }: CopyableButtonProps) => {
   return (
-    <CopyButton
+    <Button
       title="Copy table markdown"
       icon={BiTable}
       onClick={() => {
@@ -115,9 +115,9 @@ Markdown | Less | Pretty
   );
 };
 
-const Link = ({ onClick }: CopyButtonProps) => {
+const Link = ({ onClick }: CopyableButtonProps) => {
   return (
-    <CopyButton
+    <Button
       icon={BiLink}
       title="Copy link markdown"
       onClick={() => {
@@ -127,10 +127,12 @@ const Link = ({ onClick }: CopyButtonProps) => {
   );
 };
 
-export default {
+const Buttons = {
   Table,
   Code,
   Image,
   Headings,
   Link,
 };
+
+export { Buttons };

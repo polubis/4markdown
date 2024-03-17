@@ -27,7 +27,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
   };
 
   return (
-    <Modal onClose={docsStore.is === `busy` ? undefined : onClose}>
+    <Modal>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Your Documents</h6>
         <div className="flex gap-2">
@@ -64,7 +64,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
       {docsStore.is === `ok` && (
         <>
           {docsStore.docs.length > 0 ? (
-            <ul className="grid tn:grid-cols-3 grid-cols-2 gap-2 justify-center max-h-[80svh] overflow-y-auto">
+            <ul className="grid tn:grid-cols-3 grid-cols-2 gap-2 justify-center">
               {docsStore.docs.map((doc) => (
                 <li
                   className={c(
