@@ -24,8 +24,6 @@ import type {
   GetDocPayload,
   UpdateDocDto,
   UpdateDocPayload,
-  UploadImageDto,
-  UploadImagePayload,
 } from 'models/doc';
 import {
   creatorStoreActions,
@@ -38,6 +36,7 @@ import {
 } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
+import { UploadImageDto, UploadImagePayload } from 'models/image';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -113,12 +112,17 @@ const WithAuth = () => {
       try {
         imagesStoreActions.busy();
 
-        await httpsCallable<UploadImagePayload, UploadImageDto>(
+        const { data } = await httpsCallable<
+          UploadImagePayload,
+          UploadImageDto
+        >(
           functions,
           `uploadImage`,
         )({ image: await readFileAsBase64(image) });
 
         imagesStoreActions.ok();
+
+        return data;
       } catch (error: unknown) {
         imagesStoreActions.fail(error);
         throw error;
