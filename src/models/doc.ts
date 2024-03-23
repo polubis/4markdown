@@ -45,6 +45,23 @@ type GetDocDto = Doc;
 
 type GetPermanentDocsDto = PermanentDoc[];
 
+interface GetDocsToReviewPayload {
+  query: string;
+  limit: 10 | 25 | 50 | 100;
+  page: number;
+  status: 'public' | 'accepted' | 'review';
+}
+
+interface DocToReview {
+  id: number;
+  name: string;
+  description: string;
+  status: 'public' | 'permanent' | 'accepted';
+  accepted: boolean;
+}
+
+type GetDocsToReviewDto = DocToReview[];
+
 export type {
   Doc,
   CreateDocPayload,
@@ -63,4 +80,6 @@ export type {
   PrivateDoc,
   PublicDoc,
   PermanentDoc,
+  GetDocsToReviewPayload,
+  GetDocsToReviewDto,
 };

@@ -1,6 +1,7 @@
 import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
 import type { User } from 'models/user';
 import { create } from 'zustand';
+import { GetDocsToReviewPayload } from 'models/doc';
 
 interface AuthorizedData {
   user: User;
@@ -17,6 +18,7 @@ interface AuthorizedData {
   getDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;
+  getDocsToReview(payload: GetDocsToReviewPayload): Promise<void>;
 }
 
 interface UnauthrorizedData {

@@ -34,6 +34,9 @@ import {
   docsStoreSelectors,
   useDocsStore,
 } from 'store/docs/docs.store';
+import { mock } from './mock';
+import { reviewStoreActions } from 'store/review/review.store';
+import { GetDocsToReviewDto } from 'models/doc';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -228,6 +231,39 @@ const WithAuth = () => {
       }
     };
 
+    const getDocsToReview: AuthorizedData['getDocsToReview'] = async (
+      payload,
+    ) => {
+      try {
+        reviewStoreActions.busy();
+
+        const config = mock({
+          delay: 3,
+        });
+
+        const getData = config<GetDocsToReviewDto>(
+          Array.from({ length: 50 }, (curr, i) => ({
+            id: i + 1,
+            name: ` ${i + 1}. Lorem Ipsum is simply dummy text`,
+            description: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution`,
+            status: `public`,
+            accepted: true,
+          })),
+        );
+
+        const data = await getData(payload);
+        // @TODO: Uncomment later!
+        // const { data: docs } = await httpsCallable<undefined, Doc[]>(
+        //   functions,
+        //   `getDocsToReview`,
+        // )();
+
+        reviewStoreActions.ok(data);
+      } catch (error: unknown) {
+        reviewStoreActions.fail(error);
+      }
+    };
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         authStoreActions.authorize({
@@ -259,6 +295,7 @@ const WithAuth = () => {
           makeDocPublic,
           makeDocPermanent,
           updateDocName,
+          getDocsToReview,
         });
 
         getDocs();

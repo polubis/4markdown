@@ -1,15 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Filter from 'components/filter';
 import Search from './search';
-import { BiSearch } from 'react-icons/bi';
-import { Button } from 'design-system/button';
 
 function ArticleForm({ query, onQueryChange, status, limit }) {
   return (
     <form className="flex gap-4 items-end">
-      {/* 
-      <Search query={query} onQueryChange={onQueryChange} /> */}
-
       <Search query={query} setQuery={(query) => onQueryChange({ query })} />
 
       <Filter
