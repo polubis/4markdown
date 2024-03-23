@@ -71,7 +71,7 @@ const ImageUploaderAuthContainer = () => {
               Please ensure that the image format is valid. Supported formats
               include <strong>{imagesStoreRestrictions.type}</strong>, with a
               maximum file size of{` `}
-              <strong>{imagesStoreRestrictions.size}MB</strong>
+              <strong>{imagesStoreRestrictions.size} megabytes</strong>
             </>
           }
           onClose={errorModal.close}
@@ -92,22 +92,20 @@ const ImageUploaderAuthContainer = () => {
               <BiX />
             </Button>
           </div>
-          <p>
-            <span className="text-md">
-              To use <strong>uploaded image</strong> in markdown editor click
-              below button.
-            </span>
-            <Button
-              title="Copy image link"
-              className="capitalize mt-4"
-              auto
-              s={2}
-              i={2}
-              onClick={copyAndClose}
-            >
-              Copy Link
-            </Button>
+          <p className="text-md">
+            To use <strong>uploaded image</strong> in markdown editor click
+            below button.
           </p>
+          <Button
+            title="Copy image link"
+            className="capitalize mt-8 ml-auto"
+            auto
+            s={2}
+            i={2}
+            onClick={copyAndClose}
+          >
+            Copy Link
+          </Button>
         </Modal>
       )}
     </>
