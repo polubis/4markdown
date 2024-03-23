@@ -1,4 +1,5 @@
 import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
+import { UploadImageDto } from 'models/image';
 import type { User } from 'models/user';
 import { create } from 'zustand';
 
@@ -10,7 +11,7 @@ interface AuthorizedData {
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
   updateDocName(name: Doc['name']): Promise<void>;
-  uploadImage(image: File): Promise<void>;
+  uploadImage(image: File): Promise<UploadImageDto>;
   makeDocPermanent(
     name: Doc['name'],
     description: PermanentDoc['description'],

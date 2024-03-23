@@ -14,9 +14,10 @@ import {
 } from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
+import { UploadImageDto } from 'models/image';
 
 const ImageUploaderAuthContainer = () => {
-  const imageModal = useToggle<File | null>();
+  const imageModal = useToggle<UploadImageDto | null>();
   const errorModal = useToggle();
   const docsStore = useDocsStore();
   const imagesStore = useImagesStore();
@@ -29,8 +30,10 @@ const ImageUploaderAuthContainer = () => {
       const uploadAndOpen = async (): Promise<void> => {
         if (!!files && files.length === 1) {
           try {
-            await authStoreSelectors.authorized().uploadImage(files[0]);
-            imageModal.open();
+            const result = await authStoreSelectors
+              .authorized()
+              .uploadImage(files[0]);
+            imageModal.openWithData(result);
           } catch {
             errorModal.open();
           }
@@ -43,7 +46,10 @@ const ImageUploaderAuthContainer = () => {
   });
 
   const copyAndClose = (): void => {
-    copy(`![Image alt](URL_WILL_BE_HERE)*Image description!*`);
+    if (!imageModal.data)
+      throw Error(`There is no data assigned to image modal`);
+
+    copy(`![Alt](${imageModal.data.url})*Description*`);
     imageModal.close();
   };
 
@@ -65,7 +71,7 @@ const ImageUploaderAuthContainer = () => {
               Please ensure that the image format is valid. Supported formats
               include <strong>{imagesStoreRestrictions.type}</strong>, with a
               maximum file size of{` `}
-              <strong>{imagesStoreRestrictions.size}MB</strong>
+              <strong>{imagesStoreRestrictions.size} megabytes</strong>
             </>
           }
           onClose={errorModal.close}
@@ -86,22 +92,20 @@ const ImageUploaderAuthContainer = () => {
               <BiX />
             </Button>
           </div>
-          <p>
-            <span className="text-md">
-              To use <strong>uploaded image</strong> in markdown editor click
-              below button.
-            </span>
-            <Button
-              title="Copy image link"
-              className="capitalize mt-4"
-              auto
-              s={1}
-              i={2}
-              onClick={copyAndClose}
-            >
-              Copy Link
-            </Button>
+          <p className="text-md">
+            To use <strong>uploaded image</strong> in markdown editor click
+            below button.
           </p>
+          <Button
+            title="Copy image link"
+            className="capitalize mt-8 ml-auto"
+            auto
+            s={2}
+            i={2}
+            onClick={copyAndClose}
+          >
+            Copy Link
+          </Button>
         </Modal>
       )}
     </>
