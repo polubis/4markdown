@@ -1,8 +1,8 @@
 import { Id, Path } from './general';
 
-const IMAGE_EXTENSIONS = [`png`, `jpeg`, `jpg`, `gif`] as const;
+const imageExtensions = [`png`, `jpeg`, `jpg`, `gif`] as const;
 
-type ImageExtension = (typeof IMAGE_EXTENSIONS)[number];
+type ImageExtension = (typeof imageExtensions)[number];
 type ImageContentType = `image/${ImageExtension}`;
 
 interface UploadImageDto {
@@ -13,7 +13,7 @@ interface UploadImageDto {
 }
 type UploadImagePayload = { image: FileReader['result'] };
 
-export { IMAGE_EXTENSIONS };
+export { imageExtensions };
 export type {
   UploadImageDto,
   UploadImagePayload,

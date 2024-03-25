@@ -5,17 +5,32 @@ import React from 'react';
 import { BiLowVision, BiRefresh, BiShow, BiWorld, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { docStoreActions, useDocStore } from 'store/doc/doc.store';
-import { useDocsStore } from 'store/docs/docs.store';
+import { type DocsStoreOkState, useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
+import { differenceInDays, formatDistance } from 'date-fns';
+import { Tabs } from 'design-system/tabs';
 
 interface DocsListModalProps {
   onClose?(): void;
 }
 
+const rangeFilters = [`Recent`, `Old`, `Really old`] as const;
+
+type RangeFilter = (typeof rangeFilters)[number];
+
+const rangeLookup: Record<RangeFilter, [number, number]> = {
+  Recent: [0, 7],
+  Old: [7, 30],
+  'Really old': [30, Number.MAX_VALUE],
+};
+
 const DocsListModal = ({ onClose }: DocsListModalProps) => {
   const docsStore = useDocsStore();
   const docStore = useDocStore();
   const authStore = authStoreSelectors.useAuthorized();
+  const [activeRange, setActiveRange] = React.useState<RangeFilter>(
+    rangeFilters[0],
+  );
 
   React.useEffect(() => {
     authStoreSelectors.authorized().getDocs();
@@ -26,8 +41,27 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     onClose?.();
   };
 
+  const close = (): void => {
+    if (docsStore.is === `busy`) return;
+
+    onClose?.();
+  };
+
+  const docs = React.useMemo((): DocsStoreOkState['docs'] => {
+    if (docsStore.is !== `ok`) return [];
+
+    const now = new Date();
+
+    return docsStore.docs.filter((doc) => {
+      const diff = differenceInDays(now, doc.mdate);
+      const [from, to] = rangeLookup[activeRange];
+
+      return diff >= from && diff <= to;
+    });
+  }, [docsStore, activeRange]);
+
   return (
-    <Modal>
+    <Modal onEscape={close}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Your Documents</h6>
         <div className="flex gap-2">
@@ -47,7 +81,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             s={1}
             disabled={docsStore.is === `busy`}
             title="Close your documents"
-            onClick={onClose}
+            onClick={close}
           >
             <BiX />
           </Button>
@@ -63,41 +97,57 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
       )}
       {docsStore.is === `ok` && (
         <>
-          {docsStore.docs.length > 0 ? (
-            <ul className="grid tn:grid-cols-3 grid-cols-2 gap-2 justify-center">
-              {docsStore.docs.map((doc) => (
+          <Tabs className="mb-5">
+            {rangeFilters.map((range) => (
+              <Tabs.Item
+                key={range}
+                active={range === activeRange}
+                onClick={() => setActiveRange(range)}
+              >
+                {range}
+              </Tabs.Item>
+            ))}
+          </Tabs>
+          {docs.length > 0 ? (
+            <ul className="flex flex-col space-y-3">
+              {docs.map((doc) => (
                 <li
                   className={c(
-                    `relative cursor-pointer border-2 shrink-0 h-[100px] w-[100%] rounded-md p-4 flex justify-center items-center`,
+                    `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3`,
                     docStore.is === `active` && docStore.id === doc.id
                       ? `bg-green-700 text-white border-green-700`
                       : `bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`,
                   )}
-                  key={doc.id}
                   title={doc.name}
+                  key={doc.id}
                   onClick={() => selectDoc(doc)}
                 >
-                  <span className="absolute top-1 right-1">
+                  <div className="flex justify-between mb-0.5">
+                    <span className="text-sm capitalize">
+                      {formatDistance(new Date(), doc.cdate, {
+                        addSuffix: true,
+                      })}
+                      {` `}
+                      ago
+                    </span>
                     {doc.visibility === `private` && (
-                      <BiLowVision title="This document is private" />
+                      <BiLowVision size="20" title="This document is private" />
                     )}
                     {doc.visibility === `public` && (
-                      <BiShow title="This document is public" />
+                      <BiShow size="20" title="This document is public" />
                     )}
                     {doc.visibility === `permanent` && (
-                      <BiWorld title="This document is permanent" />
+                      <BiWorld size="20" title="This document is permanent" />
                     )}
-                  </span>
-                  <span className="font-bold line-clamp-3 text-center text-sm">
-                    {doc.name}
-                  </span>
+                  </div>
+                  <strong className="text-md">{doc.name}</strong>
                 </li>
               ))}
             </ul>
           ) : (
-            <div className="flex flex-col">
-              <h6>No documents added yet</h6>
-            </div>
+            <h6 className="p-4 text-center">
+              No documents for selected filters
+            </h6>
           )}
         </>
       )}

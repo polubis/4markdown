@@ -22,14 +22,18 @@ describe(`Tabs works when:`, () => {
     expect(spy).toHaveBeenCalledTimes(1);
   });
 
-  it(`makes tabs disabled when loading`, () => {
+  it(`may be disabled`, () => {
     const spy = jest.fn();
 
     const { asFragment, rerender } = render(
-      <Tabs loading>
-        <Tabs.Item active>First</Tabs.Item>
-        <Tabs.Item onClick={spy}>Second</Tabs.Item>
-        <Tabs.Item>Last</Tabs.Item>
+      <Tabs>
+        <Tabs.Item active disabled>
+          First
+        </Tabs.Item>
+        <Tabs.Item onClick={spy} disabled>
+          Second
+        </Tabs.Item>
+        <Tabs.Item disabled>Last</Tabs.Item>
       </Tabs>,
     );
 
