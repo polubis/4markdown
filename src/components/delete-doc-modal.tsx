@@ -33,7 +33,7 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
   };
 
   return (
-    <Modal>
+    <Modal onEscape={close}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Document Removal</h6>
         <Button

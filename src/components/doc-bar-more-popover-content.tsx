@@ -129,11 +129,12 @@ const DocBarMorePopoverContent = ({
               <strong>URL</strong>
             </button>
           )}
-          <Tabs className="mt-8" loading={docManagementStore.is === `busy`}>
+          <Tabs className="mt-8">
             <Tabs.Item
               title="Make this document private"
               active={docStore.visibility === `private`}
               onClick={authStoreSelectors.authorized().makeDocPrivate}
+              disabled={docManagementStore.is === `busy`}
             >
               Private
             </Tabs.Item>
@@ -141,6 +142,7 @@ const DocBarMorePopoverContent = ({
               title="Make this document public"
               active={docStore.visibility === `public`}
               onClick={authStoreSelectors.authorized().makeDocPublic}
+              disabled={docManagementStore.is === `busy`}
             >
               Public
             </Tabs.Item>
@@ -152,6 +154,7 @@ const DocBarMorePopoverContent = ({
                   ? undefined
                   : visibilityToPermanentDialog.open
               }
+              disabled={docManagementStore.is === `busy`}
             >
               Permanent
             </Tabs.Item>

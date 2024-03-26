@@ -1,5 +1,5 @@
 import { parseError } from 'development-kit/parse-error';
-import { IMAGE_EXTENSIONS } from 'models/image';
+import { imageExtensions } from 'models/image';
 import type { Transaction } from 'models/transaction';
 import { create } from 'zustand';
 
@@ -16,7 +16,7 @@ const set = (state: ImagesStoreState): void => {
 };
 
 const imagesStoreRestrictions = {
-  type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
+  type: imageExtensions.map((extension) => `image/${extension}`).join(`, `),
   size: 4,
 } as const;
 
