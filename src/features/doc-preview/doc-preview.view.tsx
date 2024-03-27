@@ -1,3 +1,4 @@
+import { AppNav } from 'components/app-nav';
 import LoadingScreen from 'components/loading-screen';
 import Markdown from 'components/markdown';
 import { Badge } from 'design-system/badge';
@@ -42,6 +43,7 @@ const DocPreviewView = () => {
 
   return (
     <>
+      <AppNav>Siema</AppNav>
       <header className="p-4">
         <nav>
           <Button
