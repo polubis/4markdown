@@ -1,5 +1,5 @@
 import React from 'react';
-import { navigate, type HeadFC } from 'gatsby';
+import { type HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import {
   siteMetadataStoreSelectors,
@@ -7,12 +7,10 @@ import {
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
-import { Button } from 'design-system/button';
-import { BiArrowToLeft } from 'react-icons/bi';
-import Markdown from 'components/markdown';
 import { PermanentDoc } from 'models/doc';
-import { Badges } from 'design-system/badges';
-import { Badge } from 'design-system/badge';
+import { AppNavContainer } from 'containers/app-nav.container';
+import { DocumentLayout } from 'components/document-layout';
+import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -35,29 +33,12 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
 
   return (
     <>
-      <header className="p-4">
-        <nav>
-          <Button
-            type="button"
-            i={2}
-            s={2}
-            title="Go back to editor"
-            onClick={() => navigate(siteMetadata.routes.home)}
-          >
-            <BiArrowToLeft />
-          </Button>
-        </nav>
-      </header>
-      <main className="max-w-xl p-4 mx-auto">
-        {pageContext.doc.tags.length > 0 && (
-          <Badges className="mb-4">
-            {pageContext.doc.tags.map((tag) => (
-              <Badge key={tag}>{tag}</Badge>
-            ))}
-          </Badges>
-        )}
-        <Markdown>{pageContext.doc.code}</Markdown>
-      </main>
+      <AppNavContainer>
+        <BackToCreatorLinkContainer />
+      </AppNavContainer>
+      <DocumentLayout tags={pageContext.doc.tags}>
+        {pageContext.doc.code}
+      </DocumentLayout>
     </>
   );
 };

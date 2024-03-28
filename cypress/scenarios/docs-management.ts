@@ -62,9 +62,9 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .When(`I click button`, [`Document preview`])
       .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
       .When(`I reload page`)
-      .Then(`I see button`, [`Go back to editor`])
-      .When(`I click button`, [
-        `Go back to editor`,
+      .Then(`I see elements`, [`Back to creator`])
+      .When(`I click elements`, [`Back to creator`])
+      .And(`I click button`, [
         `More document options`,
         `Make this document private`,
       ])
@@ -85,7 +85,8 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I click button`, [`Make document permanent`])
       .Then(`I see disabled button`, [`Make document permanent`])
       .And(`I not see button`, [`Make document permanent`])
-      .When(`I click button`, [`Document preview`, `Go back to editor`]);
+      .When(`I click button`, [`Document preview`])
+      .And(`I click elements`, [`Back to creator`]);
 
     DOCS_MANAGEMENT_SCENARIOS[`I delete document`](documentName).Then(
       `I see text`,
