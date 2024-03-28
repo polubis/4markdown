@@ -1,16 +1,13 @@
-import { AppNav } from 'components/app-nav';
+import { AppNavContainer } from 'containers/app-nav.container';
+import { DocumentLayout } from 'components/document-layout';
 import LoadingScreen from 'components/loading-screen';
-import Markdown from 'components/markdown';
-import { Badge } from 'design-system/badge';
-import { Badges } from 'design-system/badges';
-import { Link } from 'gatsby';
 import React from 'react';
-import { BiArrowBack } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import {
   docPreviewStoreActions,
   useDocPreviewStore,
 } from 'store/doc-preview/doc-preview.store';
+import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 
 const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
 
@@ -32,12 +29,9 @@ const DocPreviewView = () => {
 
   return (
     <>
-      <AppNav>
-        <Link to="/" className="flex items-center ml-2">
-          <BiArrowBack className="mr-2" />
-          <span className="text-md font-semibold">Back to Creator</span>
-        </Link>
-      </AppNav>
+      <AppNavContainer>
+        <BackToCreatorLinkContainer />
+      </AppNavContainer>
       {(docPreviewStore.is === `idle` || docPreviewStore.is === `busy`) && (
         <LoadingScreen />
       )}
@@ -47,20 +41,15 @@ const DocPreviewView = () => {
         </React.Suspense>
       )}
       {docPreviewStore.is === `ok` && (
-        <>
-          <main className="max-w-4xl p-4 mx-auto">
-            {docPreviewStore.doc.visibility === `permanent` &&
-              docPreviewStore.doc.tags.length > 0 && (
-                <Badges className="mb-4">
-                  {docPreviewStore.doc.tags.map((tag) => (
-                    <Badge key={tag}>{tag}</Badge>
-                  ))}
-                </Badges>
-              )}
-
-            <Markdown>{docPreviewStore.doc.code}</Markdown>
-          </main>
-        </>
+        <DocumentLayout
+          tags={
+            docPreviewStore.doc.visibility === `permanent`
+              ? docPreviewStore.doc.tags
+              : []
+          }
+        >
+          {docPreviewStore.doc.code}
+        </DocumentLayout>
       )}
     </>
   );

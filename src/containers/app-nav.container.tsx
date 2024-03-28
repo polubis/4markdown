@@ -1,16 +1,16 @@
 import React from 'react';
-import UserPopover from './user-popover';
-import MoreNav from './more-nav';
+import UserPopover from '../components/user-popover';
+import MoreNav from '../components/more-nav';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import { Button } from 'design-system/button';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { BiMoon, BiSun } from 'react-icons/bi';
 
-interface AppNavProps {
+interface AppNavContainerProps {
   children: React.ReactNode;
 }
 
-const AppNav = ({ children }: AppNavProps) => {
+const AppNavContainer = ({ children }: AppNavContainerProps) => {
   const meta = siteMetadataStoreSelectors.useReady();
 
   return (
@@ -46,4 +46,4 @@ const AppNav = ({ children }: AppNavProps) => {
   );
 };
 
-export { AppNav };
+export { AppNavContainer };

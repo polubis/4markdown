@@ -17,7 +17,7 @@ import {
 } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
-import { AppNav } from 'components/app-nav';
+import { AppNavContainer } from 'containers/app-nav.container';
 
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
@@ -63,7 +63,7 @@ const CreatorView: React.FC = () => {
         </React.Suspense>
       )}
       <main className="flex h-full md:flex-col flex-col-reverse">
-        <AppNav>
+        <AppNavContainer>
           <AddDocPopover />
           <ImageUploaderContainer />
           <TemplatesPopover />
@@ -114,7 +114,7 @@ const CreatorView: React.FC = () => {
           >
             {resetConfirm.opened ? `Sure?` : `Reset`}
           </Button>
-        </AppNav>
+        </AppNavContainer>
         <DocBarContainer />
         <section
           className={c(`grid h-[calc(100svh-72px-50px)]`, {
