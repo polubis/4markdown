@@ -8,6 +8,7 @@ const BackToCreatorLinkContainer = () => {
 
   return (
     <Link
+      title="Back to creator"
       to={siteMetadata.routes.home}
       className="cursor-pointer no-underline flex items-center ml-2 dark:hover:text-white/80 hover:text-black/80"
     >
