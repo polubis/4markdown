@@ -140,7 +140,7 @@ const CreatorView: React.FC = () => {
             className={c(
               `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
               { hidden: divideMode === `code` },
-              { 'max-w-xl mx-auto': divideMode === `preview` },
+              { 'max-w-4xl mx-auto': divideMode === `preview` },
               {
                 'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
                   divideMode === `both`,
