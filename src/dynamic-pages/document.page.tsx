@@ -48,7 +48,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
           </Button>
         </nav>
       </header>
-      <main className="max-w-xl p-4 mx-auto">
+      <main className="max-w-4xl p-4 mx-auto">
         {pageContext.doc.tags.length > 0 && (
           <Badges className="mb-4">
             {pageContext.doc.tags.map((tag) => (
