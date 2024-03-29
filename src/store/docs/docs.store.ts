@@ -4,7 +4,7 @@ import type { Transaction } from 'models/transaction';
 import { create } from 'zustand';
 
 type DocsStoreState = Transaction<{ docs: Doc[] }>;
-type DocStoreOkState = Extract<DocsStoreState, { is: 'ok' }>;
+type DocsStoreOkState = Extract<DocsStoreState, { is: 'ok' }>;
 
 const useDocsStore = create<DocsStoreState>(() => ({
   is: `idle`,
@@ -16,7 +16,7 @@ const set = (state: DocsStoreState): void => {
   setState(state, true);
 };
 
-const getOkState = (state: DocsStoreState): DocStoreOkState => {
+const getOkState = (state: DocsStoreState): DocsStoreOkState => {
   if (state.is !== `ok`) {
     throw Error(`Tried to read state when not allowed`);
   }
@@ -38,7 +38,7 @@ const docsStoreActions = {
   },
   busy: () => set({ is: `busy` }),
   ok: (docs: Doc[]) => {
-    const newState: DocStoreOkState = { is: `ok`, docs };
+    const newState: DocsStoreOkState = { is: `ok`, docs };
 
     set(newState);
     localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
@@ -52,11 +52,11 @@ const docsStoreActions = {
       return;
     }
 
-    set(JSON.parse(state) as DocStoreOkState);
+    set(JSON.parse(state) as DocsStoreOkState);
   },
   updateDoc: (doc: Doc) => {
     const state = docsStoreSelectors.ok();
-    const newState: DocStoreOkState = {
+    const newState: DocsStoreOkState = {
       ...state,
       docs: state.docs.map((d) => (d.id === doc.id ? doc : d)),
     };
@@ -65,7 +65,7 @@ const docsStoreActions = {
   },
   addDoc: (doc: Doc) => {
     const state = docsStoreSelectors.ok();
-    const newState: DocStoreOkState = {
+    const newState: DocsStoreOkState = {
       ...state,
       docs: [...state.docs, doc],
     };
@@ -74,7 +74,7 @@ const docsStoreActions = {
   },
   deleteDoc: (id: Doc['id']) => {
     const state = docsStoreSelectors.ok();
-    const newState: DocStoreOkState = {
+    const newState: DocsStoreOkState = {
       ...state,
       docs: state.docs.filter((doc) => doc.id !== id),
     };
@@ -83,6 +83,7 @@ const docsStoreActions = {
   },
 } as const;
 
+export type { DocsStoreOkState };
 export {
   useDocsStore,
   docsStoreActions,
