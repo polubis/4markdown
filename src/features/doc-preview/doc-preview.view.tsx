@@ -1,24 +1,17 @@
+import { AppNavContainer } from 'containers/app-nav.container';
+import { DocumentLayout } from 'components/document-layout';
 import LoadingScreen from 'components/loading-screen';
-import Markdown from 'components/markdown';
-import { Badge } from 'design-system/badge';
-import { Badges } from 'design-system/badges';
-import { Button } from 'design-system/button';
-import { navigate } from 'gatsby';
 import React from 'react';
-import { BiArrowToLeft } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import {
   docPreviewStoreActions,
   useDocPreviewStore,
 } from 'store/doc-preview/doc-preview.store';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 
 const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
 
-const DocPreviewView = () => {
-  const siteMetadataStore = siteMetadataStoreSelectors.useReady();
-
-  const docPreviewStore = useDocPreviewStore();
+const useDocLoad = () => {
   const authStore = useAuthStore();
 
   React.useEffect(() => {
@@ -27,46 +20,37 @@ const DocPreviewView = () => {
       docPreviewStoreActions.load({ id: searchParams.get(`id`) ?? `` });
     }
   }, [authStore]);
+};
 
-  if (docPreviewStore.is === `idle` || docPreviewStore.is === `busy`) {
-    return <LoadingScreen />;
-  }
+const DocPreviewView = () => {
+  useDocLoad();
 
-  if (docPreviewStore.is === `fail`) {
-    return (
-      <React.Suspense fallback={<LoadingScreen />}>
-        <ErrorScreen />
-      </React.Suspense>
-    );
-  }
+  const docPreviewStore = useDocPreviewStore();
 
   return (
     <>
-      <header className="p-4">
-        <nav>
-          <Button
-            type="button"
-            i={2}
-            s={2}
-            title="Go back to editor"
-            onClick={() => navigate(siteMetadataStore.routes.home)}
-          >
-            <BiArrowToLeft />
-          </Button>
-        </nav>
-      </header>
-      <main className="max-w-xl p-4 mx-auto">
-        {docPreviewStore.doc.visibility === `permanent` &&
-          docPreviewStore.doc.tags.length > 0 && (
-            <Badges className="mb-4">
-              {docPreviewStore.doc.tags.map((tag) => (
-                <Badge key={tag}>{tag}</Badge>
-              ))}
-            </Badges>
-          )}
-
-        <Markdown>{docPreviewStore.doc.code}</Markdown>
-      </main>
+      <AppNavContainer>
+        <BackToCreatorLinkContainer />
+      </AppNavContainer>
+      {(docPreviewStore.is === `idle` || docPreviewStore.is === `busy`) && (
+        <LoadingScreen />
+      )}
+      {docPreviewStore.is === `fail` && (
+        <React.Suspense fallback={<LoadingScreen />}>
+          <ErrorScreen />
+        </React.Suspense>
+      )}
+      {docPreviewStore.is === `ok` && (
+        <DocumentLayout
+          tags={
+            docPreviewStore.doc.visibility === `permanent`
+              ? docPreviewStore.doc.tags
+              : []
+          }
+        >
+          {docPreviewStore.doc.code}
+        </DocumentLayout>
+      )}
     </>
   );
 };

@@ -35,10 +35,11 @@ type ClickableControls =
   | `Make this document private`
   | `Make this document permanent`
   | `Document preview`
-  | `Go back to editor`
   | `Sync documents`
   | `Confirm permanent document policy`
   | `Make document permanent`;
+
+type Element = `Back to creator`;
 
 let acc = 1;
 let folder: string | undefined;
@@ -50,6 +51,16 @@ const BASE_COMMANDS = {
   'I click button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
       cy.get(`button[title="${title}"]`).click();
+    });
+  },
+  'I click elements': (elements: Element[]) => {
+    elements.forEach((element) => {
+      cy.get(`[title="${element}"]`).click();
+    });
+  },
+  'I see elements': (elements: Element[]) => {
+    elements.forEach((element) => {
+      cy.get(`[title="${element}"]`);
     });
   },
   'I wait': (ms = 500) => {
