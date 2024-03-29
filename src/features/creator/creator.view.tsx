@@ -1,24 +1,14 @@
 import React from 'react';
-import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import Markdown from 'components/markdown';
-import {
-  BiBookContent,
-  BiMoon,
-  BiSolidBookContent,
-  BiSun,
-  BiWindows,
-} from 'react-icons/bi';
+import { BiBookContent, BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
 import c from 'classnames';
-import MoreNav from 'components/more-nav';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from './components/templates-popover';
-import UserPopover from 'components/user-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useLsSync } from 'development-kit/use-ls-sync';
 import {
@@ -27,6 +17,7 @@ import {
 } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
+import { AppNavContainer } from 'containers/app-nav.container';
 
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
@@ -35,7 +26,6 @@ type DivideMode = 'both' | 'preview' | 'code';
 const CreatorView: React.FC = () => {
   useLsSync();
 
-  const meta = siteMetadataStoreSelectors.useReady();
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
@@ -73,86 +63,58 @@ const CreatorView: React.FC = () => {
         </React.Suspense>
       )}
       <main className="flex h-full md:flex-col flex-col-reverse">
-        <header className="flex items-center overflow-x-auto overflow-y-hidden py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 border-t-2 md:border-b-2 md:border-t-0 border-zinc-300 dark:border-zinc-800 h-[72px]">
-          <picture className="w-[32px] h-[32px] shrink-0 sm:flex hidden mr-3">
-            <img
-              rel="preload"
-              src="/favicon-32x32.png"
-              alt={meta.appName}
-              title={meta.title}
-            />
-          </picture>
-          <nav className="flex gap-2 w-full items-center">
-            <AddDocPopover />
-            <ImageUploaderContainer />
-            <TemplatesPopover />
-            <Button i={1} s={2} title="Change view display" onClick={divide}>
-              {divideMode === `both` && (
-                <BiBookContent className="rotate-90 md:rotate-0" />
-              )}
-              {divideMode === `code` && (
-                <BiSolidBookContent className="rotate-180" />
-              )}
-              {divideMode === `preview` && <BiSolidBookContent />}
-            </Button>
+        <AppNavContainer>
+          <AddDocPopover />
+          <ImageUploaderContainer />
+          <TemplatesPopover />
+          <Button i={1} s={2} title="Change view display" onClick={divide}>
+            {divideMode === `both` && (
+              <BiBookContent className="rotate-90 md:rotate-0" />
+            )}
+            {divideMode === `code` && (
+              <BiSolidBookContent className="rotate-180" />
+            )}
+            {divideMode === `preview` && <BiSolidBookContent />}
+          </Button>
 
-            <Button
-              className="md:flex hidden"
-              title="Open in separate window"
-              i={1}
-              s={2}
-              onClick={() => {
-                window.open(
-                  window.location.href,
-                  `_blank`,
-                  `width=${screen.availWidth},height=${screen.availHeight}`,
-                );
-              }}
-            >
-              <BiWindows />
-            </Button>
-            <Button
-              i={2}
-              s={2}
-              auto
-              className="md:flex hidden"
-              disabled={code === ``}
-              title="Clear content"
-              onClick={clearConfirm.confirm}
-            >
-              {clearConfirm.opened ? `Sure?` : `Clear`}
-            </Button>
-            <Button
-              i={2}
-              s={2}
-              auto
-              className="md:flex hidden"
-              disabled={code === initialCode}
-              title="Reset content"
-              onClick={resetConfirm.confirm}
-            >
-              {resetConfirm.opened ? `Sure?` : `Reset`}
-            </Button>
-            <ThemeToggler>
-              {({ theme, toggleTheme }) => (
-                <Button
-                  i={1}
-                  s={2}
-                  title="Change theme"
-                  className="ml-auto"
-                  onClick={() =>
-                    toggleTheme(theme === `light` ? `dark` : `light`)
-                  }
-                >
-                  {theme === `light` ? <BiMoon /> : <BiSun />}
-                </Button>
-              )}
-            </ThemeToggler>
-            <UserPopover />
-            <MoreNav />
-            <div className="h-1 w-2 shrink-0 block sm:hidden" />
-          </nav>
-        </header>
+          <Button
+            className="md:flex hidden"
+            title="Open in separate window"
+            i={1}
+            s={2}
+            onClick={() => {
+              window.open(
+                window.location.href,
+                `_blank`,
+                `width=${screen.availWidth},height=${screen.availHeight}`,
+              );
+            }}
+          >
+            <BiWindows />
+          </Button>
+          <Button
+            i={2}
+            s={2}
+            auto
+            className="md:flex hidden"
+            disabled={code === ``}
+            title="Clear content"
+            onClick={clearConfirm.confirm}
+          >
+            {clearConfirm.opened ? `Sure?` : `Clear`}
+          </Button>
+          <Button
+            i={2}
+            s={2}
+            auto
+            className="md:flex hidden"
+            disabled={code === initialCode}
+            title="Reset content"
+            onClick={resetConfirm.confirm}
+          >
+            {resetConfirm.opened ? `Sure?` : `Reset`}
+          </Button>
+        </AppNavContainer>
         <DocBarContainer />
         <section
           className={c(`grid h-[calc(100svh-72px-50px)]`, {
@@ -178,7 +140,7 @@ const CreatorView: React.FC = () => {
             className={c(
               `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
               { hidden: divideMode === `code` },
-              { 'max-w-xl mx-auto': divideMode === `preview` },
+              { 'max-w-4xl mx-auto': divideMode === `preview` },
               {
                 'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
                   divideMode === `both`,
