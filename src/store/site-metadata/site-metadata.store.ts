@@ -16,16 +16,18 @@ const useSiteMetadataStore = create<SiteMetadataStoreState>(() => ({
   is: `idle`,
 }));
 
-const siteMetadataStoreSelectors: SiteMetadataStoreSelectors = {
-  useReady: () => {
-    return useSiteMetadataStore((state) => {
-      if (state.is === `idle`) {
-        throw Error(`Trying to read state when not ready`);
-      }
+const getReady = (
+  state: SiteMetadataStoreState,
+): SiteMetadataStoreStateReady => {
+  if (state.is === `idle`) {
+    throw Error(`Trying to read state when not ready`);
+  }
 
-      return state;
-    });
-  },
+  return state;
+};
+
+const siteMetadataStoreSelectors: SiteMetadataStoreSelectors = {
+  useReady: () => useSiteMetadataStore(getReady),
 };
 
 export { useSiteMetadataStore, siteMetadataStoreSelectors };

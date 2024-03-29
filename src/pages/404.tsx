@@ -1,7 +1,5 @@
 import React from 'react';
-import { HeadFC, navigate } from 'gatsby';
-import { Button } from 'design-system/button';
-import { BiArrowToLeft } from 'react-icons/bi';
+import { HeadFC } from 'gatsby';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
 import {
   siteMetadataStoreSelectors,
@@ -9,6 +7,8 @@ import {
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
+import { AppNavContainer } from 'containers/app-nav.container';
+import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 
 const NotFoundPage = () => {
   const synced = React.useRef(false);
@@ -24,25 +24,15 @@ const NotFoundPage = () => {
 
   return (
     <>
-      <header className="p-4">
-        <nav>
-          <Button
-            type="button"
-            i={2}
-            s={2}
-            title="Go back to editor"
-            onClick={() => navigate(siteMetadata.routes.home)}
-          >
-            <BiArrowToLeft />
-          </Button>
-        </nav>
-      </header>
-      <main className="max-w-4xl p-4 mx-auto">
+      <AppNavContainer>
+        <BackToCreatorLinkContainer />
+      </AppNavContainer>
+      <main className="max-w-4xl p-4 mx-auto h-screen flex flex-col justify-center">
         <h1 className="text-2xl dark:text-white text-black">
           Resource Not Found at the Specified <strong>URL</strong>
         </h1>
         <p className="mt-2">
-          If this is a <strong>permanent document</strong>, please allow some
+          If this is a <strong>permanent document</strong>, please wait some
           time for it to be available at the specified <strong>URL</strong>.
           Typically, it takes several days.
         </p>
