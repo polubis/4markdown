@@ -15,7 +15,7 @@ const useDocLoad = () => {
   const authStore = useAuthStore();
 
   React.useEffect(() => {
-    if (authStore.is !== `idle`) {
+    if (authStore.is === `authorized` || authStore.is === `unauthorized`) {
       const searchParams = new URLSearchParams(window.location.search);
       docPreviewStoreActions.load({ id: searchParams.get(`id`) ?? `` });
     }
