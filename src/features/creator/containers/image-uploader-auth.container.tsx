@@ -79,7 +79,7 @@ const ImageUploaderAuthContainer = () => {
       )}
 
       {imageModal.opened && (
-        <Modal>
+        <Modal onEscape={imageModal.close}>
           <div className="flex items-center justify-between gap-4 mb-6">
             <h6 className="text-xl">Image uploaded ✅</h6>
             <Button
