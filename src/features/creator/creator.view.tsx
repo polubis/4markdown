@@ -18,6 +18,10 @@ import {
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { AppNavContainer } from 'containers/app-nav.container';
+import {
+  CreatorProvider,
+  useCreatorProvider,
+} from './providers/creator.provider';
 
 const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
 
@@ -25,6 +29,8 @@ type DivideMode = 'both' | 'preview' | 'code';
 
 const CreatorView: React.FC = () => {
   useLsSync();
+
+  const creator = useCreatorProvider();
 
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
@@ -122,37 +128,19 @@ const CreatorView: React.FC = () => {
               divideMode === `both`,
           })}
         >
-          <label className="hidden" htmlFor="creator" id="creator">
-            Creator
-          </label>
-          <textarea
-            aria-labelledby="creator"
-            aria-label="creator"
-            spellCheck="false"
-            className={c(
-              `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
-              { hidden: divideMode === `preview` },
-            )}
-            value={code}
-            onChange={(e) => handleChange(e.target.value)}
-          />
-          <div
-            className={c(
-              `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
-              { hidden: divideMode === `code` },
-              { 'max-w-4xl mx-auto': divideMode === `preview` },
-              {
-                'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
-                  divideMode === `both`,
-              },
-            )}
-          >
-            <Markdown>{code}</Markdown>
-          </div>
+          <Button s={2} i={2} auto onClick={creator.increment}>
+            Increment ({creator.count})
+          </Button>
         </section>
       </main>
     </>
   );
 };
 
-export default CreatorView;
+const ConnectedCreatorView = () => (
+  <CreatorProvider>
+    <CreatorView />
+  </CreatorProvider>
+);
+
+export default ConnectedCreatorView;
