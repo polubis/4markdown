@@ -49,7 +49,7 @@ const PrivateConfirmationContainer = ({
         it, or if you want it to always be private. This document will be
         visible only to you.
       </p>
-      <p className="mt-1">
+      <p>
         <i>The document status can be changed anytime.</i>
       </p>
       <footer className="mt-6 flex">
