@@ -9,17 +9,17 @@ import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 
-interface VisibilityToPermamentDialogProps {
+interface PermanentConfirmationContainerProps {
   onConfirm(): void;
   onCancel(): void;
   onClose(): void;
 }
 
-const VisibilityToPermamentDialog = ({
+const PermanentConfirmationContainer = ({
   onConfirm,
   onCancel,
   onClose,
-}: VisibilityToPermamentDialogProps) => {
+}: PermanentConfirmationContainerProps) => {
   const docStore = docStoreSelectors.active();
   const docManagementStore = useDocManagementStore();
   const formSection = useToggle();
@@ -134,7 +134,7 @@ const VisibilityToPermamentDialog = ({
   return (
     <form className="flex flex-col" onSubmit={openFormSection}>
       <header className="flex items-center">
-        <h6 className="text-xl mr-4">Before You Continue</h6>
+        <h6 className="text-xl mr-4 capitalize">Make it permanent</h6>
         <Button
           i={2}
           s={1}
@@ -182,11 +182,11 @@ const VisibilityToPermamentDialog = ({
           auto
           title="Confirm permanent document policy"
         >
-          Yes, I understand
+          Confirm
         </Button>
       </footer>
     </form>
   );
 };
 
-export default VisibilityToPermamentDialog;
+export { PermanentConfirmationContainer };

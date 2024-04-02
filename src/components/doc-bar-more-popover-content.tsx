@@ -12,9 +12,9 @@ import { navigate } from 'gatsby';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { Tabs } from 'design-system/tabs';
 import { useToggle } from 'development-kit/use-toggle';
-import VisibilityToPermamentDialog from './visibility-to-permanent-dialog';
 import { PublicConfirmationContainer } from 'features/creator/containers/public-confirmation.container';
 import { PrivateConfirmationContainer } from 'features/creator/containers/private-confirmation.container';
+import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
 
 interface DocBarMorePopoverContentProps {
   onClose(): void;
@@ -48,7 +48,7 @@ const DocBarMorePopoverContent = ({
       )}
 
       {permanentConfirmation.opened && (
-        <VisibilityToPermamentDialog
+        <PermanentConfirmationContainer
           onConfirm={permanentConfirmation.close}
           onCancel={permanentConfirmation.close}
           onClose={onClose}

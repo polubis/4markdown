@@ -32,7 +32,7 @@ const PrivateConfirmationContainer = ({
   return (
     <form className="flex flex-col" onSubmit={handleConfirm}>
       <header className="flex items-center">
-        <h6 className="text-xl mr-4 capitalize">Make private</h6>
+        <h6 className="text-xl mr-4 capitalize">Make it private</h6>
         <Button
           i={2}
           s={1}
