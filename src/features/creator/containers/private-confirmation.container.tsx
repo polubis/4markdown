@@ -32,9 +32,7 @@ const PrivateConfirmationContainer = ({
   return (
     <form className="flex flex-col" onSubmit={handleConfirm}>
       <header className="flex items-center">
-        <h6 className="text-xl mr-4 capitalize">
-          Changing the status to private
-        </h6>
+        <h6 className="text-xl mr-4 capitalize">Make private</h6>
         <Button
           i={2}
           s={1}
@@ -48,9 +46,9 @@ const PrivateConfirmationContainer = ({
       </header>
       <p className="mt-4 mb-1">
         A private document is great to start with before you finish working on
-        it, or if you want it to always be private.
+        it, or if you want it to always be private. This document will be
+        visible only to you.
       </p>
-      <p>The document will be visible only to you.</p>
       <p className="mt-1">
         <i>The document status can be changed anytime.</i>
       </p>
