@@ -13,6 +13,7 @@ import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.st
 import { Tabs } from 'design-system/tabs';
 import { useToggle } from 'development-kit/use-toggle';
 import VisibilityToPermamentDialog from './visibility-to-permanent-dialog';
+import { PublicConfirmationContainer } from 'features/creator/containers/public-confirmation.container';
 
 interface DocBarMorePopoverContentProps {
   onClose(): void;
@@ -26,6 +27,7 @@ const DocBarMorePopoverContent = ({
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
   const visibilityToPermanentDialog = useToggle();
+  const publicConfirmation = useToggle();
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
   const siteMetaDataStore = siteMetadataStoreSelectors.useReady();
@@ -43,7 +45,14 @@ const DocBarMorePopoverContent = ({
         />
       )}
 
-      {visibilityToPermanentDialog.closed && (
+      {publicConfirmation.opened && (
+        <PublicConfirmationContainer
+          onConfirm={publicConfirmation.close}
+          onClose={publicConfirmation.close}
+        />
+      )}
+
+      {visibilityToPermanentDialog.closed && publicConfirmation.closed && (
         <>
           <div className="flex items-center">
             <h6 className="text-xl mr-4">Details</h6>
@@ -141,7 +150,11 @@ const DocBarMorePopoverContent = ({
             <Tabs.Item
               title="Make this document public"
               active={docStore.visibility === `public`}
-              onClick={authStoreSelectors.authorized().makeDocPublic}
+              onClick={
+                docStore.visibility === `public`
+                  ? undefined
+                  : publicConfirmation.open
+              }
               disabled={docManagementStore.is === `busy`}
             >
               Public
