@@ -30,7 +30,9 @@ const PublicConfirmationContainer = ({
   return (
     <form className="flex flex-col" onSubmit={handleConfirm}>
       <header className="flex items-center">
-        <h6 className="text-xl mr-4">Before You Continue</h6>
+        <h6 className="text-xl mr-4 capitalize">
+          Changing the status to public
+        </h6>
         <Button
           i={2}
           s={1}
@@ -43,18 +45,16 @@ const PublicConfirmationContainer = ({
         </Button>
       </header>
       <p className="mt-4 mb-1">
-        <strong>Public document</strong> will be accessible via unique,
-        generated <strong>URL</strong> provided to you and other authorized
-        individuals. This document will be not <strong>searchable</strong> or
-        {` `}
-        <strong>indexed by Google</strong>.
+        You will be able to share this document using a unique{` `}
+        <strong>URL</strong>. Simply press <strong>confirm</strong>, and then
+        share the link with others.
+      </p>
+      <p>
+        The document will not appear in <strong>Google</strong> and in the
+        application search.
       </p>
       <p className="mt-1">
-        <i>
-          The document status can be changed later. The <strong>URL</strong>
-          {` `}
-          will be available after confirmation.
-        </i>
+        <i>The document status can be changed anytime.</i>
       </p>
       <footer className="mt-6 flex">
         <Button
@@ -78,7 +78,7 @@ const PublicConfirmationContainer = ({
           disabled={docManagementStore.is === `busy`}
           title="Confirm public document status change"
         >
-          Yes, I understand
+          Confirm
         </Button>
       </footer>
     </form>
