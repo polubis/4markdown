@@ -26,7 +26,7 @@ const DocBarMorePopoverContent = ({
 }: DocBarMorePopoverContentProps) => {
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
-  const visibilityToPermanentDialog = useToggle();
+  const permanentConfirmation = useToggle();
   const publicConfirmation = useToggle();
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
@@ -37,10 +37,10 @@ const DocBarMorePopoverContent = ({
       className="bottom-32 left-2 md:left-32 md:bottom-auto md:top-32 min-w-[280px] max-w-[94%] md:max-w-[400px]"
       onBackdropClick={docManagementStore.is === `busy` ? undefined : onClose}
     >
-      {visibilityToPermanentDialog.opened && (
+      {permanentConfirmation.opened && (
         <VisibilityToPermamentDialog
-          onConfirm={visibilityToPermanentDialog.close}
-          onCancel={visibilityToPermanentDialog.close}
+          onConfirm={permanentConfirmation.close}
+          onCancel={permanentConfirmation.close}
           onClose={onClose}
         />
       )}
@@ -48,11 +48,12 @@ const DocBarMorePopoverContent = ({
       {publicConfirmation.opened && (
         <PublicConfirmationContainer
           onConfirm={publicConfirmation.close}
-          onClose={publicConfirmation.close}
+          onCancel={publicConfirmation.close}
+          onClose={onClose}
         />
       )}
 
-      {visibilityToPermanentDialog.closed && publicConfirmation.closed && (
+      {permanentConfirmation.closed && publicConfirmation.closed && (
         <>
           <div className="flex items-center">
             <h6 className="text-xl mr-4">Details</h6>
@@ -165,7 +166,7 @@ const DocBarMorePopoverContent = ({
               onClick={
                 docStore.visibility === `permanent`
                   ? undefined
-                  : visibilityToPermanentDialog.open
+                  : permanentConfirmation.open
               }
               disabled={docManagementStore.is === `busy`}
             >

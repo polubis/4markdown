@@ -6,11 +6,13 @@ import { useDocManagementStore } from 'store/doc-management/doc-management.store
 
 interface PublicConfirmationContainerProps {
   onClose(): void;
+  onCancel(): void;
   onConfirm(): void;
 }
 
 const PublicConfirmationContainer = ({
   onClose,
+  onCancel,
   onConfirm,
 }: PublicConfirmationContainerProps) => {
   const docManagementStore = useDocManagementStore();
@@ -65,7 +67,7 @@ const PublicConfirmationContainer = ({
           auto
           title="Cancel public document confirmation"
           disabled={docManagementStore.is === `busy`}
-          onClick={onClose}
+          onClick={onCancel}
         >
           Cancel
         </Button>
