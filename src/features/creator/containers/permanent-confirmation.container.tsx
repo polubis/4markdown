@@ -124,7 +124,7 @@ const PermanentConfirmationContainer = ({
             }
             title="Make document permanent"
           >
-            Submit
+            Confirm
           </Button>
         </footer>
       </form>
@@ -152,8 +152,7 @@ const PermanentConfirmationContainer = ({
       </p>
       <p>
         The document will be available in <strong>Google</strong> after several
-        days. Make sure that you don&apos;t have any sensitive data in this
-        document.
+        days.
       </p>
       <p className="mt-1">
         <i>

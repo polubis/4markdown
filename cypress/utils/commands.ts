@@ -37,7 +37,9 @@ type ClickableControls =
   | `Document preview`
   | `Sync documents`
   | `Confirm permanent document policy`
-  | `Make document permanent`;
+  | `Make document permanent`
+  | `Confirm public document status change`
+  | `Confirm private document status change`;
 
 type Element = `Back to creator`;
 
