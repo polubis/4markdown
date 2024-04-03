@@ -1,16 +1,10 @@
 import { type Doc } from 'models/doc';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
+import { uid } from '../utils/uid';
 
 const { When, Given } = Gherkin({
   ...BASE_COMMANDS,
-  'I see disabled visibility options': () => {
-    Given(`I see disabled button`, [
-      `Make this document permanent`,
-      `Make this document private`,
-      `Make this document public`,
-    ]);
-  },
   'I see enabled visibility options': () => {
     Given(`I see not disabled button`, [
       `Make this document permanent`,
@@ -36,7 +30,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I not see text`, [`Delete current document`, name]);
   },
   'I change document visiblity': () => {
-    const documentName = `Test document`;
+    const documentName = uid(`S`);
 
     When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
@@ -56,8 +50,9 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .When(`I click button`, [
         `More document options`,
         `Make this document public`,
+        `Confirm public document status change`,
       ])
-      .Then(`I see disabled visibility options`)
+      .Then(`I see disabled button`, [`Confirm public document status change`])
       .And(`I see enabled visibility options`)
       .When(`I click button`, [`Document preview`])
       .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
@@ -67,8 +62,9 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I click button`, [
         `More document options`,
         `Make this document private`,
+        `Confirm private document status change`,
       ])
-      .Then(`I see disabled visibility options`)
+      .Then(`I see disabled button`, [`Confirm private document status change`])
       .And(`I see enabled visibility options`)
       .When(`I click button`, [
         `Make this document permanent`,

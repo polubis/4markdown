@@ -1,6 +1,7 @@
 import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
+import { uid } from '../utils/uid';
 
 describe(`Docs browse works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
@@ -18,7 +19,7 @@ describe(`Docs browse works when`, () => {
   });
 
   it(`user may browse his documents`, () => {
-    const [documentName1, documentName2] = [`Test1`, `Custom2`];
+    const [documentName1, documentName2] = [uid(`S`), uid(`K`)];
     const [documentCode1, documentCode2] = [
       `# This is my heading`,
       `## My content`,
