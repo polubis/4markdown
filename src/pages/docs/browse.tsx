@@ -9,7 +9,7 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import DocPreviewView from 'features/doc-preview/doc-preview.view';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
 
-const DocsPreviewPage = () => {
+const DocsBrowsePage = () => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 
@@ -24,7 +24,7 @@ const DocsPreviewPage = () => {
   return <DocPreviewView />;
 };
 
-export default DocsPreviewPage;
+export default DocsBrowsePage;
 
 export const Head: HeadFC = () => {
   const meta = siteMetadataStoreSelectors.useReady();
@@ -32,12 +32,11 @@ export const Head: HeadFC = () => {
   return (
     <Meta
       appName={meta.appName}
-      title={meta.title}
-      description={meta.description}
-      url={meta.siteUrl + meta.routes.docs.preview}
+      title="Explore a Wealth of Knowledge: Articles About Everything"
+      description="Embark on a diverse journey through our extensive collection of articles about programming, mathematics, medicine, and more!"
+      url={meta.siteUrl + meta.routes.docs.browse}
       lang={meta.lang}
       image={LogoThumbnail}
-      robots="noindex, nofollow"
     />
   );
 };

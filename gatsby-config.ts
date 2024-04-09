@@ -23,8 +23,8 @@ const siteMetadata: SiteMetadata = {
   routes: {
     home: `/`,
     docs: {
-      home: `/docs/`,
       preview: `/docs/preview/`,
+      browse: `/docs/browse/`,
     },
   },
 };

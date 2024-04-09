@@ -16,8 +16,8 @@ export type SiteMetadata = {
   routes: {
     home: string;
     docs: {
-      home: string;
       preview: string;
+      browse: string;
     };
   };
 };
