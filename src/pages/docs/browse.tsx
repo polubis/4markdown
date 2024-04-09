@@ -6,8 +6,8 @@ import {
   useSiteMetadataStore,
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import DocPreviewView from 'features/doc-preview/doc-preview.view';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
+import { DocsBrowseView } from 'features/docs-browse/docs-browse.view';
 
 const DocsBrowsePage = () => {
   const synced = React.useRef(false);
@@ -21,7 +21,7 @@ const DocsBrowsePage = () => {
     synced.current = true;
   }
 
-  return <DocPreviewView />;
+  return <DocsBrowseView />;
 };
 
 export default DocsBrowsePage;
