@@ -14,7 +14,7 @@ interface DocsBrowsePageProps {
   pageContext: DocsBrowsePageContext;
 }
 
-const DocsBrowsePage = (props: DocsBrowsePageProps) => {
+const DocsBrowsePage = ({ pageContext }: DocsBrowsePageProps) => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 
@@ -26,7 +26,7 @@ const DocsBrowsePage = (props: DocsBrowsePageProps) => {
     synced.current = true;
   }
 
-  return <DocsBrowseView />;
+  return <DocsBrowseView context={pageContext} />;
 };
 
 export default DocsBrowsePage;

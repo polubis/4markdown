@@ -1,6 +1,12 @@
 import React from 'react';
 import { AppNavContainer } from 'containers/app-nav.container';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
+import { DocsBrowseProvider } from './providers/docs-browse.provider';
+import { DocsBrowsePageContext } from 'models/pages-contexts';
+
+interface DocsBrowseViewProps {
+  context: DocsBrowsePageContext;
+}
 
 const DocsBrowseView = () => {
   return (
@@ -13,4 +19,10 @@ const DocsBrowseView = () => {
   );
 };
 
-export { DocsBrowseView };
+const ConnectedDocsBrowseView = ({ context }: DocsBrowseViewProps) => (
+  <DocsBrowseProvider context={context}>
+    <DocsBrowseView />
+  </DocsBrowseProvider>
+);
+
+export { ConnectedDocsBrowseView as DocsBrowseView };
