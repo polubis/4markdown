@@ -8,8 +8,13 @@ import {
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
 import { DocsBrowseView } from 'features/docs-browse/docs-browse.view';
+import { DocsBrowsePageContext } from 'models/pages-contexts';
 
-const DocsBrowsePage = () => {
+interface DocsBrowsePageProps {
+  pageContext: DocsBrowsePageContext;
+}
+
+const DocsBrowsePage = (props: DocsBrowsePageProps) => {
   const synced = React.useRef(false);
   const siteMetadata = useSiteMetadataQuery();
 

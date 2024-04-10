@@ -1,8 +1,10 @@
 import { initializeApp, type FirebaseOptions } from 'firebase/app';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
-import { GetPermanentDocsDto } from 'models/doc';
+import { GetPermanentDocsDto, PermamentSlimDoc } from 'models/doc';
 import path from 'path';
+import { siteMetadata } from './gatsby-config';
+import { DocsBrowsePageContext } from 'models/pages-contexts';
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,
@@ -18,12 +20,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const app = initializeApp(config);
   const functions = getFunctions(app);
 
-  const { data: documents } = await httpsCallable<unknown, GetPermanentDocsDto>(
+  const { data: docs } = await httpsCallable<unknown, GetPermanentDocsDto>(
     functions,
     `getPermanentDocs`,
   )();
 
-  documents.forEach((doc) => {
+  docs.forEach((doc) => {
     actions.createPage({
       path: doc.path,
       component: path.resolve(`./src/dynamic-pages/document.page.tsx`),
@@ -31,5 +33,14 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         doc,
       },
     });
+  });
+
+  actions.createPage<DocsBrowsePageContext>({
+    path: siteMetadata.routes.docs.browse,
+    component: path.resolve(`./src/dynamic-pages/docs-browse.page.tsx`),
+    context: {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      docs: docs.map(({ code, visibility, ...doc }): PermamentSlimDoc => doc),
+    },
   });
 };
