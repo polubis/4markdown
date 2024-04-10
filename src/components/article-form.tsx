@@ -11,7 +11,7 @@ function ArticleForm({ query, onQueryChange, status, limit }) {
         option={status}
         onQueryChange={onQueryChange}
         setOption={(status) => onQueryChange({ status })}
-        label={`Article state`}
+        label={`Articles state`}
       >
         <option value={`public`}>Public</option>
         <option value={`accepted`}>Accepted</option>
