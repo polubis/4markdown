@@ -1,25 +1,5 @@
-type SiteMetadata = {
-  appName: string;
-  siteUrl: string;
-  description: string;
-  title: string;
-  lang: string;
-  company: string;
-  companyUrl: string;
-  discordUrl: string;
-  linkedInUrl: string;
-  sourceCodeUrl: string;
-  fbGroupUrl: string;
-  ytChannelUrl: string;
-  grammarlyUrl: string;
-  ytVideoTutorialUrl: string;
-  routes: {
-    home: string;
-    docs: {
-      preview: string;
-      browse: string;
-    };
-  };
-};
+import type { siteMetadata } from '../../gatsby-config';
+
+type SiteMetadata = typeof siteMetadata;
 
 export type { SiteMetadata };
