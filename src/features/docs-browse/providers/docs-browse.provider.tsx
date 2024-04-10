@@ -1,8 +1,10 @@
 import { DocsBrowsePageContext } from 'models/pages-contexts';
 import React from 'react';
-import { create } from 'zustand';
+import { StoreApi, UseBoundStore, create } from 'zustand';
 
-interface DocsBrowseProviderContext extends DocsBrowsePageContext {}
+interface DocsBrowseProviderContext extends DocsBrowsePageContext {
+  set: UseBoundStore<StoreApi<DocsBrowseProviderContext>>['setState'];
+}
 
 interface DocsBrowseProviderProps {
   children: React.ReactNode;
@@ -13,8 +15,9 @@ const Context = React.createContext<DocsBrowseProviderContext | null>(null);
 
 const DocsBrowseProvider = ({ children, context }: DocsBrowseProviderProps) => {
   const [useStore] = React.useState(() =>
-    create<DocsBrowseProviderContext>(() => ({
+    create<DocsBrowseProviderContext>((set) => ({
       ...context,
+      set,
     })),
   );
 
