@@ -1,10 +1,11 @@
 import type { GatsbyConfig } from 'gatsby';
+import type { SiteMetadata } from 'models/queries';
 
 require(`dotenv`).config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
-export const siteMetadata = {
+const siteMetadata: SiteMetadata = {
   appName: `4Markdown`,
   lang: `en`,
   company: `GreenOn Software`,
@@ -26,7 +27,7 @@ export const siteMetadata = {
       browse: `/docs/browse/`,
     },
   },
-} as const;
+};
 
 const config: GatsbyConfig = {
   siteMetadata,

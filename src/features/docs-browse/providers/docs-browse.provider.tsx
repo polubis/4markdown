@@ -25,7 +25,7 @@ const DocsBrowseProvider = ({ children, context }: DocsBrowseProviderProps) => {
 
   return <Context.Provider value={store}>{children}</Context.Provider>;
 };
-const useDocsBrowseProvider = (): DocsBrowseProviderContext => {
+const useDocsBrowseCtx = (): DocsBrowseProviderContext => {
   const ctx = React.useContext(Context);
 
   if (!ctx) throw Error(`Lack of provider`);
@@ -33,4 +33,4 @@ const useDocsBrowseProvider = (): DocsBrowseProviderContext => {
   return ctx;
 };
 
-export { DocsBrowseProvider, useDocsBrowseProvider };
+export { DocsBrowseProvider, useDocsBrowseCtx };

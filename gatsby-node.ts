@@ -3,7 +3,6 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
 import { GetPermanentDocsDto, PermamentSlimDoc } from 'models/doc';
 import path from 'path';
-import { siteMetadata } from './gatsby-config';
 import { DocsBrowsePageContext } from 'models/pages-contexts';
 
 const config: FirebaseOptions = {
@@ -36,7 +35,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   actions.createPage<DocsBrowsePageContext>({
-    path: siteMetadata.routes.docs.browse,
+    path: `/docs/browse/`,
     component: path.resolve(`./src/dynamic-pages/docs-browse.page.tsx`),
     context: {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
