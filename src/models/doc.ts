@@ -23,6 +23,8 @@ interface PermanentDoc extends DocBase {
   tags: Tags;
 }
 
+interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}
+
 type Doc = PrivateDoc | PublicDoc | PermanentDoc;
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
@@ -64,4 +66,5 @@ export type {
   PrivateDoc,
   PublicDoc,
   PermanentDoc,
+  PermamentSlimDoc,
 };
