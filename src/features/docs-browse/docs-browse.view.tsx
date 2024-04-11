@@ -25,7 +25,7 @@ const DocsBrowseView = () => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavContainer>
-      <main className="max-w-4xl mx-auto my-6 p-4">
+      <main className="max-w-2xl mx-auto my-6 p-4">
         <ul className="flex flex-col space-y-10">
           {docsBrowse.docs.map((doc) => (
             <li className="flex flex-col" key={doc.name}>
