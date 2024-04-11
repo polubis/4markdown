@@ -135,3 +135,11 @@ body.dark .markdown blockquote {
   background: #242323;
   border-left-color: #3d3d3d;
 }
+
+body.dark .active-link {
+  color: #045f27;
+}
+
+body.dark .active-link:hover {
+  color: #045f27;
+}

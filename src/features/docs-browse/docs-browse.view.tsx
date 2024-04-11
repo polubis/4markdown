@@ -18,10 +18,8 @@ const DocsBrowseView = () => {
   return (
     <>
       <AppNavContainer>
-        <div className="flex items-center gap-4">
-          <BackToCreatorLinkContainer />
-          <DocsBrowseLinkContainer />
-        </div>
+        <BackToCreatorLinkContainer />
+        <DocsBrowseLinkContainer />
       </AppNavContainer>
       <main className="max-w-4xl mx-auto">
         <ul>

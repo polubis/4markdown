@@ -24,7 +24,8 @@ pre {
   hyphens: none;
 }
 
-p code, td code {
+p code,
+td code {
   background: #e0e0e0;
 }
 
@@ -111,7 +112,8 @@ pre {
   border-bottom: 1px solid #989898;
 }
 
-.markdown table tr th, .markdown table tr td {
+.markdown table tr th,
+.markdown table tr td {
   border: 1px solid #989898;
   color: var(--black);
 }
@@ -123,4 +125,12 @@ pre {
 .markdown blockquote {
   background: #e7e7e7;
   border-left-color: #989898;
+}
+
+body .active-link {
+  color: rgb(22 101 52);
+}
+
+body .active-link:hover {
+  color: rgb(22 101 52);
 }

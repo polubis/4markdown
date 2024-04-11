@@ -8,6 +8,7 @@ import {
   useDocPreviewStore,
 } from 'store/doc-preview/doc-preview.store';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
+import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 
 const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
 
@@ -31,6 +32,7 @@ const DocPreviewView = () => {
     <>
       <AppNavContainer>
         <BackToCreatorLinkContainer />
+        <DocsBrowseLinkContainer />
       </AppNavContainer>
       {(docPreviewStore.is === `idle` || docPreviewStore.is === `busy`) && (
         <LoadingScreen />
