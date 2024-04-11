@@ -9,6 +9,7 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
 import { AppNavContainer } from 'containers/app-nav.container';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
+import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 
 const NotFoundPage = () => {
   const synced = React.useRef(false);
@@ -26,6 +27,7 @@ const NotFoundPage = () => {
     <>
       <AppNavContainer>
         <BackToCreatorLinkContainer />
+        <DocsBrowseLinkContainer />
       </AppNavContainer>
       <main className="max-w-4xl p-4 mx-auto h-screen flex flex-col justify-center">
         <h1 className="text-2xl dark:text-white text-black">

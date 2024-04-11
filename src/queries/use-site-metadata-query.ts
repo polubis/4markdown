@@ -31,7 +31,7 @@ const useSiteMetadataQuery = () => {
           routes {
             home
             docs {
-              home
+              browse
               preview
             }
           }

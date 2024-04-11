@@ -3,6 +3,7 @@ import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import Backdrop from 'design-system/backdrop';
+import { Link } from 'gatsby';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -66,6 +67,11 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
               Discord Channel
             </Button>
           </a>
+          <Link to={meta.routes.docs.browse} title="Navigate to education zone">
+            <Button className="w-full" i={2} s={2} auto>
+              Education Zone
+            </Button>
+          </Link>
           <a
             href={meta.linkedInUrl}
             target="_blank"

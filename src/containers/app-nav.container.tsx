@@ -23,7 +23,7 @@ const AppNavContainer = ({ children }: AppNavContainerProps) => {
           title={meta.title}
         />
       </picture>
-      <nav className="flex gap-2 w-full items-center">
+      <nav className="flex gap-3 w-full items-center">
         {children}
         <ThemeToggler>
           {({ theme, toggleTheme }) => (

@@ -11,6 +11,7 @@ import { PermanentDoc } from 'models/doc';
 import { AppNavContainer } from 'containers/app-nav.container';
 import { DocumentLayout } from 'components/document-layout';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
+import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -35,6 +36,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
     <>
       <AppNavContainer>
         <BackToCreatorLinkContainer />
+        <DocsBrowseLinkContainer />
       </AppNavContainer>
       <DocumentLayout tags={pageContext.doc.tags}>
         {pageContext.doc.code}
