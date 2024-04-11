@@ -6,6 +6,7 @@ import {
   useDocsBrowseCtx,
 } from './providers/docs-browse.provider';
 import { DocsBrowsePageContext } from 'models/pages-contexts';
+import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 
 interface DocsBrowseViewProps {
   context: DocsBrowsePageContext;
@@ -17,7 +18,10 @@ const DocsBrowseView = () => {
   return (
     <>
       <AppNavContainer>
-        <BackToCreatorLinkContainer />
+        <div className="flex items-center gap-4">
+          <BackToCreatorLinkContainer />
+          <DocsBrowseLinkContainer />
+        </div>
       </AppNavContainer>
       <main className="max-w-4xl mx-auto">
         <ul>
