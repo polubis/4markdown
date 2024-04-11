@@ -128,9 +128,9 @@ pre {
 }
 
 body .active-link {
-  color: rgb(22 101 52);
+  color: #045f27;
 }
 
 body .active-link:hover {
-  color: rgb(22 101 52);
+  color: #045f27;
 }

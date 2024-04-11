@@ -137,9 +137,9 @@ body.dark .markdown blockquote {
 }
 
 body.dark .active-link {
-  color: #045f27;
+  color: rgb(34 197 94);
 }
 
 body.dark .active-link:hover {
-  color: #045f27;
+  color: rgb(34 197 94);
 }
