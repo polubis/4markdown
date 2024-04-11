@@ -11,7 +11,7 @@ interface DocumentLayoutProps {
 
 const DocumentLayout = ({ children, tags }: DocumentLayoutProps) => {
   return (
-    <main className="max-w-4xl p-4 mx-auto">
+    <main className="max-w-4xl p-4 my-6 mx-auto">
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
