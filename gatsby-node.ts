@@ -4,7 +4,7 @@ import { type GatsbyNode } from 'gatsby';
 import { GetPermanentDocsDto, PermamentSlimDoc } from 'models/doc';
 import path from 'path';
 import { DocsBrowsePageContext } from 'models/pages-contexts';
-import { siteMetadata } from './gatsby-config';
+import { siteMetadata } from './site-metadata';
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,

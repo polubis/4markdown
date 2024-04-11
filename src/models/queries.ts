@@ -1,4 +1,4 @@
-import type { siteMetadata } from '../../gatsby-config';
+import type { siteMetadata } from '../../site-metadata';
 
 type SiteMetadata = typeof siteMetadata;
 
