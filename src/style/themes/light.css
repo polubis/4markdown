@@ -128,9 +128,19 @@ pre {
 }
 
 body .active-link {
-  color: #045f27;
+  color: #15803d;
 }
 
 body .active-link:hover {
-  color: #045f27;
+  color: #15803d;
+}
+
+body .active-button-link {
+  background: #15803d;
+  color: #fff;
+}
+
+body .active-button-link:hover {
+  background: #15803d;
+  color: #fff;
 }
