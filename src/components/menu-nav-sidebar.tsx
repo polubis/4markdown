@@ -4,6 +4,7 @@ import { BiX } from 'react-icons/bi';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import Backdrop from 'design-system/backdrop';
 import { Link } from 'gatsby';
+import { ButtonLink } from 'design-system/button-link';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -37,112 +38,96 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
           </Button>
         </div>
         <div className="p-4 pb-0 flex flex-col gap-2 h-[calc(100svh-72px)]">
-          <a
-            href={`${meta.companyUrl}authors`}
+          <ButtonLink
+            to={`${meta.companyUrl}authors`}
             target="_blank"
             title={`${meta.appName} authors`}
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              Authors
-            </Button>
-          </a>
-          <a
-            href={`${meta.companyUrl}articles`}
+            Authors
+          </ButtonLink>
+          <ButtonLink
+            to={`${meta.companyUrl}articles`}
             target="_blank"
             title={`${meta.company} learning platform`}
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              Blog
-            </Button>
-          </a>
-          <a
-            href={meta.discordUrl}
+            Blog
+          </ButtonLink>
+          <ButtonLink
+            to={meta.discordUrl}
             target="_blank"
             title={`${meta.company} Discord Channel`}
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              Discord Channel
-            </Button>
-          </a>
-          <Link to={meta.routes.docs.browse} title="Navigate to education zone">
-            <Button className="w-full" i={2} s={2} auto>
-              Education Zone
-            </Button>
-          </Link>
-          <a
-            href={meta.linkedInUrl}
+            Discord Channel
+          </ButtonLink>
+          <ButtonLink
+            to={meta.routes.docs.browse}
+            title="Navigate to education zone"
+            component={(props) => (
+              <Link activeClassName="active-button-link" {...props} />
+            )}
+          >
+            Education Zone
+          </ButtonLink>
+          <ButtonLink
+            to={meta.linkedInUrl}
             target="_blank"
             title={`${meta.company} LinkedIn Profile`}
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              LinkedIn Profile
-            </Button>
-          </a>
-          <a
-            href={meta.fbGroupUrl}
+            LinkedIn Profile
+          </ButtonLink>
+          <ButtonLink
+            to={meta.fbGroupUrl}
             target="_blank"
             title={`${meta.company} Facebook Group`}
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              Facebook Group
-            </Button>
-          </a>
-          <a
-            href={meta.grammarlyUrl}
+            Facebook Group
+          </ButtonLink>
+          <ButtonLink
+            to={meta.grammarlyUrl}
             target="_blank"
             title="Grammarly"
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              Grammarly Extension
-            </Button>
-          </a>
-          <a
-            href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
+            Grammarly Extension
+          </ButtonLink>
+          <ButtonLink
+            to="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet"
             target="_blank"
             title="Markdown Cheatsheet"
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              Markdown Cheatsheet
-            </Button>
-          </a>
-          <a
-            href={meta.sourceCodeUrl}
+            Markdown Cheatsheet
+          </ButtonLink>
+          <ButtonLink
+            to={meta.sourceCodeUrl}
             target="_blank"
             title={`${meta.appName} Repository`}
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              Source Code
-            </Button>
-          </a>
-          <a
-            href={meta.ytVideoTutorialUrl}
+            Source Code
+          </ButtonLink>
+          <ButtonLink
+            to={meta.ytVideoTutorialUrl}
             target="_blank"
             title="YouTube tutorial video"
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              Tutorial
-            </Button>
-          </a>
-          <a
-            href={meta.ytChannelUrl}
+            Tutorial
+          </ButtonLink>
+          <ButtonLink
+            to={meta.ytChannelUrl}
             target="_blank"
             className="mb-6"
             title={`${meta.appName} YouTube channel`}
             rel="noopener noreferrer"
           >
-            <Button className="w-full" i={2} s={2} auto>
-              YouTube Channel
-            </Button>
-          </a>
+            YouTube Channel
+          </ButtonLink>
           <a
             href={meta.companyUrl}
             target="_blank"

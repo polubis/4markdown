@@ -61,7 +61,3 @@
 .markdown picture + em {
   margin-top: 12px;
 }
-
-body .active-link {
-  cursor: default;
-}
