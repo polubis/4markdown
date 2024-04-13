@@ -2,8 +2,7 @@ import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiMenu } from 'react-icons/bi';
-
-const MenuNavSidebar = React.lazy(() => import(`./menu-nav-sidebar`));
+import MenuNavSidebar from './menu-nav-sidebar';
 
 const MoreNav = () => {
   const menu = useToggle();
@@ -13,11 +12,7 @@ const MoreNav = () => {
       <Button i={1} s={2} title="Navigation" onClick={menu.toggle}>
         <BiMenu />
       </Button>
-      {menu.opened && (
-        <React.Suspense>
-          <MenuNavSidebar onClose={menu.close} />
-        </React.Suspense>
-      )}
+      <MenuNavSidebar opened={menu.opened} onClose={menu.close} />
     </>
   );
 };
