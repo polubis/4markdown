@@ -5,18 +5,40 @@ import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.st
 import Backdrop from 'design-system/backdrop';
 import { Link } from 'gatsby';
 import { ButtonLink } from 'design-system/button-link';
+import c from 'classnames';
+import { Variants, motion } from 'framer-motion';
 
 interface MenuNavSidebarProps {
   onClose(): void;
+  opened?: boolean;
 }
 
-const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
+const width = `280px`;
+
+const variants: Variants = {
+  open: {
+    transform: `translateX(0)`,
+  },
+  close: {
+    transform: `translateX(${width})`,
+  },
+};
+
+const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
   const meta = siteMetadataStoreSelectors.useReady();
 
   return (
     <>
-      <Backdrop onClick={onClose} />
-      <aside className="bg-zinc-200 z-20 dark:bg-gray-950 border-l-2 border-zinc-300 dark:border-zinc-800 fixed top-0 right-0 h-full w-[280px] overflow-y-auto">
+      {opened && <Backdrop onClick={onClose} />}
+
+      <motion.aside
+        className={c(
+          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[${width}] overflow-y-auto`,
+        )}
+        initial="open"
+        animate={opened ? `open` : `close`}
+        variants={variants}
+      >
         <div className="p-4 flex items-center h-[72px]">
           <picture className="w-[32px] h-[32px]">
             <img
@@ -198,7 +220,7 @@ const MenuNavSidebar = ({ onClose }: MenuNavSidebarProps) => {
             </svg>
           </a>
         </div>
-      </aside>
+      </motion.aside>
     </>
   );
 };
