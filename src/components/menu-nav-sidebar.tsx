@@ -13,17 +13,15 @@ interface MenuNavSidebarProps {
   opened?: boolean;
 }
 
-const width = `280px`;
-
 const variants: Variants = {
   initial: {
-    transform: `translateX(${width})`,
+    transform: `translateX(280px)`,
   },
   open: {
     transform: `translateX(0)`,
   },
   close: {
-    transform: `translateX(${width})`,
+    transform: `translateX(280px)`,
   },
 };
 
@@ -36,7 +34,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
 
       <motion.aside
         className={c(
-          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[${width}] overflow-y-auto`,
+          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[280px] overflow-y-auto`,
         )}
         initial="initial"
         animate={opened ? `open` : `close`}
