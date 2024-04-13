@@ -16,6 +16,9 @@ interface MenuNavSidebarProps {
 const width = `280px`;
 
 const variants: Variants = {
+  initial: {
+    transform: `translateX(${width})`,
+  },
   open: {
     transform: `translateX(0)`,
   },
@@ -35,7 +38,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
         className={c(
           `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[${width}] overflow-y-auto`,
         )}
-        initial="open"
+        initial="initial"
         animate={opened ? `open` : `close`}
         variants={variants}
       >
