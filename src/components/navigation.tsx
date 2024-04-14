@@ -1,20 +1,17 @@
 import React from 'react';
-import UserPopover from '../components/user-popover';
-import MoreNav from '../components/more-nav';
+import c from 'classnames';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import { Button } from 'design-system/button';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { BiMoon, BiSun } from 'react-icons/bi';
-import c from 'classnames';
+import UserPopover from './user-popover';
+import MoreNav from './more-nav';
 
-interface AppNavContainerProps {
-  children: React.ReactNode;
+interface NavigationProps {
   className?: string;
+  children: React.ReactNode;
 }
 
-const AppNavContainer = ({ className, children }: AppNavContainerProps) => {
-  const meta = siteMetadataStoreSelectors.useReady();
-
+const Navigation = ({ className, children }: NavigationProps) => {
   return (
     <header
       className={c(
@@ -23,12 +20,7 @@ const AppNavContainer = ({ className, children }: AppNavContainerProps) => {
       )}
     >
       <picture className="w-[32px] h-[32px] shrink-0 sm:flex hidden mr-3">
-        <img
-          rel="preload"
-          src="/favicon-32x32.png"
-          alt={meta.appName}
-          title={meta.title}
-        />
+        <img rel="preload" src="/favicon-32x32.png" alt="Logo" />
       </picture>
       <nav className="flex gap-3 w-full items-center">
         {children}
@@ -53,4 +45,5 @@ const AppNavContainer = ({ className, children }: AppNavContainerProps) => {
   );
 };
 
-export { AppNavContainer };
+export type { NavigationProps };
+export { Navigation };

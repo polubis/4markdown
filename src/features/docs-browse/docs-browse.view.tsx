@@ -1,5 +1,4 @@
 import React from 'react';
-import { AppNavContainer } from 'containers/app-nav.container';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import {
   DocsBrowseProvider,
@@ -11,6 +10,7 @@ import { Link } from 'gatsby';
 import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
 import { Button } from 'design-system/button';
+import { AppNavigation } from 'components/app-navigation';
 
 interface DocsBrowseViewProps {
   context: DocsBrowsePageContext;
@@ -21,10 +21,10 @@ const DocsBrowseView = () => {
 
   return (
     <>
-      <AppNavContainer>
+      <AppNavigation>
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
-      </AppNavContainer>
+      </AppNavigation>
       <main className="max-w-2xl mx-auto my-6 p-4">
         <ul className="flex flex-col space-y-10">
           {docsBrowse.docs.map((doc) => (

@@ -1,4 +1,3 @@
-import { AppNavContainer } from 'containers/app-nav.container';
 import { DocumentLayout } from 'components/document-layout';
 import LoadingScreen from 'components/loading-screen';
 import React from 'react';
@@ -9,6 +8,7 @@ import {
 } from 'store/doc-preview/doc-preview.store';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { AppNavigation } from 'components/app-navigation';
 
 const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
 
@@ -30,10 +30,10 @@ const DocPreviewView = () => {
 
   return (
     <>
-      <AppNavContainer>
+      <AppNavigation>
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
-      </AppNavContainer>
+      </AppNavigation>
       {(docPreviewStore.is === `idle` || docPreviewStore.is === `busy`) && (
         <LoadingScreen />
       )}
