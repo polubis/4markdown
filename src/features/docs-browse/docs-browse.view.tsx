@@ -35,7 +35,7 @@ const DocsBrowseView = () => {
                 ))}
               </Badges>
               <h6 className="mb-2 text-2xl">{doc.name}</h6>
-              <p>{doc.description}</p>
+              <p className="break-words">{doc.description}</p>
               <Link
                 className="mt-4"
                 to={doc.path}
