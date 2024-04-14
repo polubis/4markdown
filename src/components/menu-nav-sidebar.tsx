@@ -7,6 +7,7 @@ import { Link } from 'gatsby';
 import { ButtonLink } from 'design-system/button-link';
 import c from 'classnames';
 import { Variants, motion } from 'framer-motion';
+import { useScrollHide } from 'development-kit/use-scroll-hide';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -25,12 +26,22 @@ const variants: Variants = {
   },
 };
 
+const ScrollHide = ({ children }: { children: React.ReactNode }) => {
+  useScrollHide();
+
+  return <>{children}</>;
+};
+
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
   const meta = siteMetadataStoreSelectors.useReady();
 
   return (
     <>
-      {opened && <Backdrop onClick={onClose} />}
+      {opened && (
+        <ScrollHide>
+          <Backdrop onClick={onClose} />
+        </ScrollHide>
+      )}
 
       <motion.aside
         className={c(
