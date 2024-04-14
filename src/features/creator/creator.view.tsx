@@ -63,7 +63,7 @@ const CreatorView: React.FC = () => {
         </React.Suspense>
       )}
       <main className="flex h-full md:flex-col flex-col-reverse">
-        <AppNavContainer>
+        <AppNavContainer className="border-t-2 md:border-b-2 md:border-t-0">
           <AddDocPopover />
           <ImageUploaderContainer />
           <TemplatesPopover />
