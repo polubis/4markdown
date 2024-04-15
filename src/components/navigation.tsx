@@ -3,15 +3,15 @@ import c from 'classnames';
 import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import { Button } from 'design-system/button';
 import { BiMoon, BiSun } from 'react-icons/bi';
-import UserPopover from './user-popover';
 import MoreNav from './more-nav';
 
 interface NavigationProps {
   className?: string;
   children: React.ReactNode;
+  popover: React.ReactNode;
 }
 
-const Navigation = ({ className, children }: NavigationProps) => {
+const Navigation = ({ className, children, popover }: NavigationProps) => {
   return (
     <header
       className={c(
@@ -37,7 +37,7 @@ const Navigation = ({ className, children }: NavigationProps) => {
             </Button>
           )}
         </ThemeToggler>
-        <UserPopover />
+        {popover}
         <MoreNav />
         <div className="h-1 w-2 shrink-0 block sm:hidden" />
       </nav>

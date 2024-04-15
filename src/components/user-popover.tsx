@@ -7,7 +7,11 @@ import { useDocsStore } from 'store/docs/docs.store';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
-const UserPopover = () => {
+interface UserPopoverProps {
+  className: string;
+}
+
+const UserPopover = ({ className }: UserPopoverProps) => {
   const menu = useToggle();
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
@@ -59,7 +63,7 @@ const UserPopover = () => {
       </Button>
       {menu.opened && (
         <React.Suspense>
-          <UserPopoverContent onClose={menu.close} />
+          <UserPopoverContent className={className} onClose={menu.close} />
         </React.Suspense>
       )}
     </>
