@@ -7,24 +7,29 @@ import { Link } from 'gatsby';
 import { ButtonLink } from 'design-system/button-link';
 import c from 'classnames';
 import { Variants, motion } from 'framer-motion';
+import { useScrollHide } from 'development-kit/use-scroll-hide';
 
 interface MenuNavSidebarProps {
   onClose(): void;
   opened?: boolean;
 }
 
-const width = `280px`;
-
 const variants: Variants = {
   initial: {
-    transform: `translateX(${width})`,
+    transform: `translateX(280px)`,
   },
   open: {
     transform: `translateX(0)`,
   },
   close: {
-    transform: `translateX(${width})`,
+    transform: `translateX(280px)`,
   },
+};
+
+const ScrollHide = ({ children }: { children: React.ReactNode }) => {
+  useScrollHide();
+
+  return <>{children}</>;
 };
 
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
@@ -32,11 +37,15 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
 
   return (
     <>
-      {opened && <Backdrop onClick={onClose} />}
+      {opened && (
+        <ScrollHide>
+          <Backdrop onClick={onClose} />
+        </ScrollHide>
+      )}
 
       <motion.aside
         className={c(
-          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[${width}] overflow-y-auto`,
+          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[280px] overflow-y-auto`,
         )}
         initial="initial"
         animate={opened ? `open` : `close`}
@@ -78,6 +87,15 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             rel="noopener noreferrer"
           >
             Blog
+          </ButtonLink>
+          <ButtonLink
+            to={meta.routes.home}
+            title="Navigate to creator"
+            component={(props) => (
+              <Link activeClassName="active-button-link" {...props} />
+            )}
+          >
+            Creator
           </ButtonLink>
           <ButtonLink
             to={meta.discordUrl}
