@@ -7,10 +7,14 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
 
 interface UserPopoverContentProps {
+  className: string;
   onClose(): void;
 }
 
-const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
+const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
+  className,
+  onClose,
+}) => {
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
 
@@ -23,10 +27,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
 
   return (
     <>
-      <Popover
-        className="bottom-20 right-2 md:bottom-auto md:top-16"
-        onBackdropClick={onClose}
-      >
+      <Popover className={className} onBackdropClick={onClose}>
         <div className="max-w-[280px] flex flex-col">
           <div className="flex items-center">
             <h6 className="text-xl">Your Account</h6>
