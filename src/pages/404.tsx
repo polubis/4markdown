@@ -7,9 +7,9 @@ import {
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
-import { AppNavContainer } from 'containers/app-nav.container';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { AppNavigation } from 'components/app-navigation';
 
 const NotFoundPage = () => {
   const synced = React.useRef(false);
@@ -25,10 +25,10 @@ const NotFoundPage = () => {
 
   return (
     <>
-      <AppNavContainer>
+      <AppNavigation>
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
-      </AppNavContainer>
+      </AppNavigation>
       <main className="max-w-4xl p-4 mx-auto h-screen flex flex-col justify-center">
         <h1 className="text-2xl dark:text-white text-black">
           Resource Not Found at the Specified <strong>URL</strong>

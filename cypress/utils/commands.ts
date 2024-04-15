@@ -41,7 +41,7 @@ type ClickableControls =
   | `Confirm public document status change`
   | `Confirm private document status change`;
 
-type Element = `Back to creator`;
+type Element = `Go to creator`;
 
 let acc = 1;
 let folder: string | undefined;
