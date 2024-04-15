@@ -8,10 +8,10 @@ import {
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
 import { PermanentDoc } from 'models/doc';
-import { AppNavContainer } from 'containers/app-nav.container';
 import { DocumentLayout } from 'components/document-layout';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { AppNavigation } from 'components/app-navigation';
 
 interface DocumentPageProps {
   pageContext: {
@@ -34,10 +34,10 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
 
   return (
     <>
-      <AppNavContainer>
+      <AppNavigation>
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
-      </AppNavContainer>
+      </AppNavigation>
       <DocumentLayout tags={pageContext.doc.tags}>
         {pageContext.doc.code}
       </DocumentLayout>
