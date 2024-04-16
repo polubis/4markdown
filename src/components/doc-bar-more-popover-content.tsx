@@ -97,6 +97,22 @@ const DocBarMorePopoverContent = ({
             <p className="mt-4">
               Name: <strong>{docStore.name}</strong>
             </p>
+            {docStore.visibility === `permanent` && (
+              <>
+                <p className="mt-1">
+                  Description:{` `}
+                  <strong className="break-words">
+                    {docStore.description}
+                  </strong>
+                </p>
+                <p className="mt-1">
+                  Tags:{` `}
+                  <strong className="break-words">
+                    {docStore.tags.join(`, `)}
+                  </strong>
+                </p>
+              </>
+            )}
             <p className="mt-1">
               Visibility:{` `}
               <strong
