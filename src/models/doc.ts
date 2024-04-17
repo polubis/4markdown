@@ -29,9 +29,9 @@ type Doc = PrivateDoc | PublicDoc | PermanentDoc;
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
-type UpdateDocPrivatePayload = Omit<PrivateDoc, 'cdate' | 'mdate'>;
-type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate' | 'mdate'>;
-type UpdateDocPermanentPayload = Omit<PermanentDoc, 'cdate' | 'mdate' | 'path'>;
+type UpdateDocPrivatePayload = Omit<PrivateDoc, 'cdate'>;
+type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate'>;
+type UpdateDocPermanentPayload = Omit<PermanentDoc, 'cdate' | 'path'>;
 
 type UpdateDocPayload =
   | UpdateDocPrivatePayload
