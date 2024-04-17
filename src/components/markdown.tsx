@@ -77,7 +77,7 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     del: ({ children }) => <del>{children}</del>,
     a: ({ children, href }) => (
       <a
-        className="text-md underline underline-offset-3 cursor-pointer"
+        className="text-md underline underline-offset-3 cursor-pointer break-words"
         href={href}
         target="_blank"
         rel="noopener noreferrer"
