@@ -6,10 +6,11 @@ import { BiX } from 'react-icons/bi';
 interface ErrorModalProps {
   heading: string;
   message: React.ReactNode;
+  footer?: React.ReactNode;
   onClose(): void;
 }
 
-const ErrorModal = ({ heading, message, onClose }: ErrorModalProps) => {
+const ErrorModal = ({ heading, message, footer, onClose }: ErrorModalProps) => {
   return (
     <Modal onEscape={onClose}>
       <div className="flex items-center justify-between gap-4">
@@ -19,17 +20,12 @@ const ErrorModal = ({ heading, message, onClose }: ErrorModalProps) => {
         </Button>
       </div>
       <p className="text-sm mt-2">{message}</p>
-      <Button
-        type="button"
-        className="mt-8 ml-auto"
-        i={1}
-        s={2}
-        auto
-        title="Close"
-        onClick={onClose}
-      >
-        Close
-      </Button>
+      <footer className="flex justify-end space-x-2 mt-8">
+        {footer}
+        <Button type="button" i={1} s={2} auto title="Close" onClick={onClose}>
+          Close
+        </Button>
+      </footer>
     </Modal>
   );
 };
