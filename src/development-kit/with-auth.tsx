@@ -220,6 +220,7 @@ const WithAuth = () => {
         )();
 
         docsStoreActions.ok(docs);
+        docStoreActions.reset();
       } catch (error: unknown) {
         docsStoreActions.fail(error);
       }
@@ -300,7 +301,6 @@ const WithAuth = () => {
           resyncDocuments: async () => {
             docManagementStoreActions.idle();
             reloadDocs();
-            docStoreActions.reset();
           },
           saveDocCode: async () => {
             const doc = docStoreSelectors.active();
@@ -325,6 +325,7 @@ const WithAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
+
       authStoreActions.unauthorize({
         getPublicDoc,
         logIn: async () => {
