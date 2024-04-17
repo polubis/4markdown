@@ -47,11 +47,6 @@ type AuthStoreState =
   | AuthStoreStateAuthorized
   | AuthStoreStateUnauthorized;
 
-interface AuthStoreSelectors {
-  authorized(): AuthStoreStateAuthorized;
-  useAuthorized(): AuthStoreStateAuthorized;
-}
-
 const useAuthStore = create<AuthStoreState>(() => ({
   is: `idle`,
 }));
@@ -65,10 +60,10 @@ const getAuthorized = (state: AuthStoreState): AuthStoreStateAuthorized => {
   return state;
 };
 
-const authStoreSelectors: AuthStoreSelectors = {
+const authStoreSelectors = {
   authorized: () => getAuthorized(getState()),
   useAuthorized: () => useAuthStore(getAuthorized),
-};
+} as const;
 
 const set = (state: AuthStoreState): void => {
   setState(state, true);

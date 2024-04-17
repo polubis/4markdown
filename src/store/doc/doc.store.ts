@@ -12,11 +12,6 @@ type DocStoreActiveState = Doc & {
 
 type DocStoreState = DocStoreIdleState | DocStoreActiveState;
 
-interface DocStoreSelectors {
-  active(): DocStoreActiveState;
-  useActive(): DocStoreActiveState;
-}
-
 const useDocStore = create<DocStoreState>(() => ({
   is: `idle`,
 }));
@@ -73,10 +68,10 @@ const getActiveState = (state: DocStoreState): DocStoreActiveState => {
   return state;
 };
 
-const docStoreSelectors: DocStoreSelectors = {
+const docStoreSelectors = {
   active: () => getActiveState(useDocStore.getState()),
   useActive: () => useDocStore(getActiveState),
-};
+} as const;
 
 const docStoreActions = {
   setActive: (doc: Doc): void => {

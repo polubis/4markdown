@@ -65,11 +65,6 @@ type CreatorStoreStateReady = { is: 'ready' } & {
   changed: boolean;
 };
 
-interface CreatorStoreSelectors {
-  useReady(): CreatorStoreStateReady;
-  ready(): CreatorStoreStateReady;
-}
-
 type CreatorStoreState = CreatorStoreStateIdle | CreatorStoreStateReady;
 
 const CREATOR_STORE_LS_KEY = `code`;
@@ -88,10 +83,10 @@ const isReadyState = (state: CreatorStoreState): CreatorStoreStateReady => {
   return state;
 };
 
-const creatorStoreSelectors: CreatorStoreSelectors = {
+const creatorStoreSelectors = {
   useReady: () => useCreatorStore(isReadyState),
   ready: () => isReadyState(get()),
-};
+} as const;
 
 const set = (state: CreatorStoreState): void => {
   setState(state, true);
