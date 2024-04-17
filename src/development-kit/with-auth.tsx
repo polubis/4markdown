@@ -297,6 +297,11 @@ const WithAuth = () => {
           getDocs,
           reloadDocs,
           createDoc,
+          resyncDocuments: async () => {
+            docManagementStoreActions.idle();
+            reloadDocs();
+            docStoreActions.reset();
+          },
           saveDocCode: async () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();

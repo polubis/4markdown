@@ -8,11 +8,23 @@ const useDocManagementStore = create<DocManagementStoreState>(() => ({
   is: `idle`,
 }));
 
-const { setState } = useDocManagementStore;
+const { setState, getState: get } = useDocManagementStore;
 
 const set = (state: DocManagementStoreState): void => {
   setState(state, true);
 };
+
+const docManagementStoreSelectors = {
+  useFail: () => {
+    const state = get();
+
+    if (state.is !== `fail`) {
+      throw Error(`Tried to access state not in fail mode`);
+    }
+
+    return state;
+  },
+} as const;
 
 const docManagementStoreActions = {
   idle: () => set({ is: `idle` }),
@@ -21,4 +33,8 @@ const docManagementStoreActions = {
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 } as const;
 
-export { useDocManagementStore, docManagementStoreActions };
+export {
+  useDocManagementStore,
+  docManagementStoreActions,
+  docManagementStoreSelectors,
+};
