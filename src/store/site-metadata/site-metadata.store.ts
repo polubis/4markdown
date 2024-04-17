@@ -8,10 +8,6 @@ type SiteMetadataStoreState =
   | SiteMetadataStoreStateIdle
   | SiteMetadataStoreStateReady;
 
-interface SiteMetadataStoreSelectors {
-  useReady(): SiteMetadataStoreStateReady;
-}
-
 const useSiteMetadataStore = create<SiteMetadataStoreState>(() => ({
   is: `idle`,
 }));
@@ -26,8 +22,8 @@ const getReady = (
   return state;
 };
 
-const siteMetadataStoreSelectors: SiteMetadataStoreSelectors = {
+const siteMetadataStoreSelectors = {
   useReady: () => useSiteMetadataStore(getReady),
-};
+} as const;
 
 export { useSiteMetadataStore, siteMetadataStoreSelectors };
