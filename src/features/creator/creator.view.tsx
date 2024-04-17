@@ -11,15 +11,14 @@ import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from './components/templates-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useLsSync } from 'development-kit/use-ls-sync';
-import {
-  docManagementStoreActions,
-  useDocManagementStore,
-} from 'store/doc-management/doc-management.store';
+import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
 
-const ErrorModal = React.lazy(() => import(`../../components/error-modal`));
+const CreatorErrorModalContainer = React.lazy(
+  () => import(`./containers/creator-error-modal.container`),
+);
 
 type DivideMode = 'both' | 'preview' | 'code';
 
@@ -55,11 +54,7 @@ const CreatorView: React.FC = () => {
     <>
       {docManagementStore.is === `fail` && (
         <React.Suspense>
-          <ErrorModal
-            heading="Ups, something went wrong"
-            message={docManagementStore.error}
-            onClose={docManagementStoreActions.idle}
-          />
+          <CreatorErrorModalContainer />
         </React.Suspense>
       )}
       <main className="flex h-full md:flex-col flex-col-reverse">

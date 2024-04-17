@@ -130,11 +130,12 @@ const WithAuth = () => {
     };
 
     const makeDocPrivate: AuthorizedData['makeDocPrivate'] = async () => {
-      const { id, name } = docStoreSelectors.active();
+      const { id, name, mdate } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
 
       await updateDoc({
         id,
+        mdate,
         name,
         code,
         visibility: `private`,
@@ -142,11 +143,12 @@ const WithAuth = () => {
     };
 
     const makeDocPublic: AuthorizedData['makeDocPublic'] = async () => {
-      const { id, name } = docStoreSelectors.active();
+      const { id, name, mdate } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
 
       await updateDoc({
         id,
+        mdate,
         name,
         code,
         visibility: `public`,
@@ -158,10 +160,11 @@ const WithAuth = () => {
       description,
       tags,
     ) => {
-      const { id } = docStoreSelectors.active();
+      const { id, mdate } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
 
       await updateDoc({
+        mdate,
         id,
         name,
         code,
@@ -175,10 +178,34 @@ const WithAuth = () => {
       const doc = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
 
+      if (doc.visibility === `private`) {
+        return await updateDoc({
+          code,
+          name,
+          id: doc.id,
+          mdate: doc.mdate,
+          visibility: `private`,
+        });
+      }
+
+      if (doc.visibility === `public`) {
+        return await updateDoc({
+          code,
+          name,
+          id: doc.id,
+          mdate: doc.mdate,
+          visibility: `public`,
+        });
+      }
+
       return await updateDoc({
-        ...doc,
         code,
         name,
+        tags: doc.tags,
+        description: doc.description,
+        id: doc.id,
+        mdate: doc.mdate,
+        visibility: `permanent`,
       });
     };
 
@@ -193,6 +220,7 @@ const WithAuth = () => {
         )();
 
         docsStoreActions.ok(docs);
+        docStoreActions.reset();
       } catch (error: unknown) {
         docsStoreActions.fail(error);
       }
@@ -270,6 +298,10 @@ const WithAuth = () => {
           getDocs,
           reloadDocs,
           createDoc,
+          resyncDocuments: async () => {
+            docManagementStoreActions.idle();
+            reloadDocs();
+          },
           saveDocCode: async () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
@@ -293,6 +325,7 @@ const WithAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
+
       authStoreActions.unauthorize({
         getPublicDoc,
         logIn: async () => {
