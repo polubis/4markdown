@@ -18,5 +18,23 @@ jobs:
       - name: Install Dependencies
         run: npm install -g @unlighthouse/cli puppeteer
 
+      - name: Install Internal Deps
+        run: npm install --legacy-peer-deps
+
+      - name: Build an App
+        env:
+          GATSBY_API_URL: ${{ secrets.GATSBY_API_URL }}
+          GATSBY_API_KEY: ${{ secrets.GATSBY_API_KEY }}
+          GATSBY_AUTH_DOMAIN: ${{ secrets.GATSBY_AUTH_DOMAIN }}
+          GATSBY_PROJECT_ID: ${{ secrets.GATSBY_PROJECT_ID }}
+          GATSBY_STORAGE_BUCKET: ${{ secrets.GATSBY_STORAGE_BUCKET }}
+          GATSBY_MESSAGING_SENDER_ID: ${{ secrets.GATSBY_MESSAGING_SENDER_ID }}
+          GATSBY_APP_ID: ${{ secrets.GATSBY_APP_ID }}
+          GATSBY_MEASURMENT_ID: ${{ secrets.GATSBY_MEASURMENT_ID }}
+        run: npm run build
+
+      - name: Serve an App
+        run: npm run serve
+
       - name: Run Tests
         run: unlighthouse-ci
