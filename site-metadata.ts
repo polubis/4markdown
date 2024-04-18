@@ -19,5 +19,6 @@ export const siteMetadata = {
       preview: `/docs/preview/`,
       browse: `/docs/browse/`,
     },
+    notFound: `/404/`,
   },
 } as const;
