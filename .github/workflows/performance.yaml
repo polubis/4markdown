@@ -24,4 +24,4 @@ jobs:
       - name: Read Result
         run: |
           echo "Content: "
-          cat unlighthouse/ci-result.json
+          cat ./.unlighthouse/ci-result.json
