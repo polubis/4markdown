@@ -13,4 +13,5 @@ export default {
   scanner: {
     device: `mobile`,
   },
+  debug: true,
 };
