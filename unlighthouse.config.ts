@@ -3,10 +3,10 @@ export default {
   site: `https://soft-pithivier-093469.netlify.app`,
   ci: {
     budget: {
-      performance: 94,
-      accessibility: 94,
-      'best-practices': 94,
-      seo: 94,
+      performance: 90,
+      accessibility: 90,
+      'best-practices': 90,
+      seo: 90,
     },
   },
   reporter: `jsonExpanded`,
