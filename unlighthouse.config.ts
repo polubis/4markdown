@@ -1,12 +1,12 @@
 export default {
   // Production clone environment
-  site: `https://soft-pithivier-093469.netlify.app`,
+  site: `http://localhost:9000`,
   ci: {
     budget: {
-      performance: 90,
-      accessibility: 90,
-      'best-practices': 90,
-      seo: 90,
+      performance: 92,
+      accessibility: 92,
+      'best-practices': 92,
+      seo: 92,
     },
   },
   reporter: `jsonExpanded`,

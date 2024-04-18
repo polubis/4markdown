@@ -15,11 +15,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
 
-      - name: Install Dependencies
+      - name: Install External Dependencies
         run: npm install -g @unlighthouse/cli puppeteer
+
+      - name: Install App Dependencies
+        run: npm i --legacy-peer-deps
+
+      - name: Build App
+        run: npm run build
+
+      - name: Run Server
+        run: npm run serve
 
       - name: Run Tests
         run: unlighthouse-ci
 
       - name: Read Result
         run: cat ./.unlighthouse/ci-result.json
+
+      - name: Kill Server
+        run: kill $!
