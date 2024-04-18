@@ -1,0 +1,25 @@
+name: Performance Audit
+
+on:
+  pull_request:
+    branches: ['develop']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install Dependencies
+        run: npm install -g @unlighthouse/cli puppeteer
+
+      - name: Run Tests
+        run: unlighthouse-ci
+
+      - name: Read Result
+        run: cat ./.unlighthouse/ci-result.json
