@@ -9,7 +9,7 @@ export default {
       seo: 90,
     },
   },
-  reporter: `lighthouseServer`,
+  reporter: `jsonExpanded`,
   scanner: {
     device: `mobile`,
   },

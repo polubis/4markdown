@@ -20,3 +20,8 @@ jobs:
 
       - name: Run Tests
         run: unlighthouse-ci
+
+      - name: Read Result
+        run: |
+          echo "Content: "
+          cat ./.unlighthouse/ci-result.json
