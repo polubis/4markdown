@@ -9,4 +9,8 @@ export default {
       seo: 100,
     },
   },
+  reporter: `jsonExpanded`,
+  scanner: {
+    device: `mobile`,
+  },
 };
