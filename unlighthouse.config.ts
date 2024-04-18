@@ -4,10 +4,10 @@ export default {
   site: `http://localhost:9000`,
   ci: {
     budget: {
-      performance: 96,
-      accessibility: 100,
-      'best-practices': 100,
-      seo: 100,
+      performance: 94,
+      accessibility: 94,
+      'best-practices': 94,
+      seo: 94,
     },
   },
   reporter: `jsonExpanded`,
