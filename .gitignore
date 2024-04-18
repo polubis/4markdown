@@ -10,3 +10,4 @@ cypress/snapshots/__diff_output__/
 cypress/downloads/
 cypress/snapshots/**/
 cypress/screenshots/
+.unlighthouse
