@@ -22,6 +22,4 @@ jobs:
         run: unlighthouse-ci
 
       - name: Read Result
-        run: |
-          pwd
-          cat ./.unlighthouse/ci-result.json
+        run: cat ./.unlighthouse/ci-result.json
