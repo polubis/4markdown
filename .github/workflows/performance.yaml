@@ -1,5 +1,3 @@
-npm install -g @unlighthouse/cli puppeteer
-
 name: Performance Audit
 
 on:
