@@ -9,9 +9,8 @@ export default {
       seo: 90,
     },
   },
-  reporter: `jsonExpanded`,
+  reporter: `lighthouseServer`,
   scanner: {
     device: `mobile`,
   },
-  debug: true,
 };
