@@ -8,13 +8,11 @@ import { authStoreSelectors } from 'store/auth/auth.store';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
-import {
-  imagesStoreRestrictions,
-  useImagesStore,
-} from 'store/images/images.store';
+import { useImagesStore } from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { UploadImageDto } from 'models/image';
+import { imageRestrictions } from 'consts/restrictions';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<UploadImageDto | null>();
@@ -24,8 +22,8 @@ const ImageUploaderAuthContainer = () => {
   const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
-    accept: imagesStoreRestrictions.type,
-    maxSize: imagesStoreRestrictions.size,
+    accept: imageRestrictions.type,
+    maxSize: imageRestrictions.size,
     onChange: ({ target: { files } }) => {
       const uploadAndOpen = async (): Promise<void> => {
         if (!!files && files.length === 1) {
@@ -69,9 +67,9 @@ const ImageUploaderAuthContainer = () => {
           message={
             <>
               Please ensure that the image format is valid. Supported formats
-              include <strong>{imagesStoreRestrictions.type}</strong>, with a
-              maximum file size of{` `}
-              <strong>{imagesStoreRestrictions.size} megabytes</strong>
+              include <strong>{imageRestrictions.type}</strong>, with a maximum
+              file size of{` `}
+              <strong>{imageRestrictions.size} megabytes</strong>
             </>
           }
           onClose={errorModal.close}

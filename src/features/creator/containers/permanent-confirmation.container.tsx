@@ -8,11 +8,11 @@ import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
-import { imagesStoreRestrictions } from 'store/images/images.store';
 import {
   ThumbnailInput,
   ThumbnailInputProps,
 } from '../components/thumbnail-input';
+import { thumbnailRestrictions } from 'consts/restrictions';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;
@@ -102,8 +102,8 @@ const PermanentConfirmationContainer = ({
         </Field>
         <Field label="Thumbnail" className="mt-2">
           <ThumbnailInput
-            accept={imagesStoreRestrictions.type}
-            maxSize={imagesStoreRestrictions.size}
+            accept={thumbnailRestrictions.type}
+            maxSize={thumbnailRestrictions.size}
             src={thumbnail}
             onChange={handleThumbnailChange}
             onError={thumbnailError.open}

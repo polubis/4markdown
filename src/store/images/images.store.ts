@@ -1,5 +1,4 @@
 import { parseError } from 'development-kit/parse-error';
-import { imageExtensions } from 'models/image';
 import type { Transaction } from 'models/transaction';
 import { create } from 'zustand';
 
@@ -15,11 +14,6 @@ const set = (state: ImagesStoreState): void => {
   setState(state, true);
 };
 
-const imagesStoreRestrictions = {
-  type: imageExtensions.map((extension) => `image/${extension}`).join(`, `),
-  size: 4,
-} as const;
-
 const imagesStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
@@ -27,4 +21,4 @@ const imagesStoreActions = {
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 } as const;
 
-export { useImagesStore, imagesStoreActions, imagesStoreRestrictions };
+export { useImagesStore, imagesStoreActions };
