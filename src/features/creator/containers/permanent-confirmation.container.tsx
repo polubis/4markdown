@@ -56,11 +56,12 @@ const PermanentConfirmationContainer = ({
         name,
         description,
         tags: tags.split(`,`),
-        // If unchanged the nothing
-        thumbnail: {
-          action: `update`,
-          data: thumbnail,
-        },
+        thumbnail: thumbnail.includes(`https://`)
+          ? { action: `noop` }
+          : {
+              action: `update`,
+              data: thumbnail,
+            },
       });
       onConfirm();
     } catch {}
