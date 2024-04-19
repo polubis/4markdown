@@ -69,7 +69,7 @@ const ImageUploaderAuthContainer = () => {
               Please ensure that the image format is valid. Supported formats
               include <strong>{imageRestrictions.type}</strong>, with a maximum
               file size of{` `}
-              <strong>{imageRestrictions.size} megabytes</strong>
+              <strong>{imageRestrictions.size} MB</strong>
             </>
           }
           onClose={errorModal.close}

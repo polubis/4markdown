@@ -12,7 +12,6 @@ import {
   ThumbnailInput,
   ThumbnailInputProps,
 } from '../components/thumbnail-input';
-import { thumbnailRestrictions } from 'consts/image-restrictions';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;
@@ -102,20 +101,8 @@ const PermanentConfirmationContainer = ({
         </Field>
         <Field label="Thumbnail" className="mt-3">
           <ThumbnailInput
-            accept={thumbnailRestrictions.type}
-            maxSize={thumbnailRestrictions.size}
             src={thumbnail}
-            description={`Max ${thumbnailRestrictions.size} MB. Formats: ${thumbnailRestrictions.type}`}
-            error={
-              thumbnailError.opened && (
-                <>
-                  Please ensure that the image format is valid. Supported
-                  formats include <strong>{thumbnailRestrictions.type}</strong>,
-                  with a maximum file size of{` `}
-                  <strong>{thumbnailRestrictions.size} MB</strong>
-                </>
-              )
-            }
+            error={thumbnailError.opened}
             onChange={handleThumbnailChange}
             onError={thumbnailError.open}
           />

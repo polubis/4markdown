@@ -1,3 +1,4 @@
+import { thumbnailRestrictions } from 'consts/image-restrictions';
 import { Button } from 'design-system/button';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import {
@@ -6,20 +7,16 @@ import {
 } from 'development-kit/use-file-input';
 import React from 'react';
 
-interface ThumbnailInputProps
-  extends Omit<UseFileInputConfig, 'onChange' | 'multiple'> {
+interface ThumbnailInputProps {
   src: string;
-  error?: React.ReactNode;
-  description?: React.ReactNode;
+  error: boolean;
   onChange(base64: string): void;
+  onError?(): void;
 }
 
 const ThumbnailInput = ({
   src,
-  accept,
-  maxSize,
   error,
-  description,
   onError,
   onChange,
 }: ThumbnailInputProps) => {
@@ -38,8 +35,8 @@ const ThumbnailInput = ({
   );
 
   const [upload] = useFileInput({
-    accept,
-    maxSize,
+    accept: thumbnailRestrictions.type,
+    maxSize: thumbnailRestrictions.size,
     onChange: handleChange,
     onError,
   });
@@ -62,13 +59,16 @@ const ThumbnailInput = ({
             alt="Document thumbnail preview"
           />
         ) : (
-          description
+          `One image (max 1MB size) with jpg, jpeg or png format`
         )}
       </Button>
-      {error ? (
-        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>
-      ) : (
-        description && <p className="text-sm mt-1">{description}</p>
+      {error && (
+        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+          Please ensure that the image format is valid. Supported formats
+          include <strong>{thumbnailRestrictions.type}</strong>, with a maximum
+          file size of{` `}
+          <strong>{thumbnailRestrictions.size} MB</strong>
+        </p>
       )}
     </div>
   );
