@@ -1,6 +1,5 @@
+import { imageExtensions } from 'consts/setup';
 import { Id, Path } from './general';
-
-const imageExtensions = [`png`, `jpeg`, `jpg`, `gif`] as const;
 
 type ImageExtension = (typeof imageExtensions)[number];
 type ImageContentType = `image/${ImageExtension}`;

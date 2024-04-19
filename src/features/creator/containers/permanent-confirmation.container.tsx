@@ -12,7 +12,7 @@ import {
   ThumbnailInput,
   ThumbnailInputProps,
 } from '../components/thumbnail-input';
-import { thumbnailRestrictions } from 'consts/restrictions';
+import { thumbnailRestrictions } from 'consts/setup';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;

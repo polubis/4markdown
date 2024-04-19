@@ -54,11 +54,7 @@ const ThumbnailInput = ({
         onClick={upload}
       >
         {src ? (
-          <img
-            className="rounded-md w-8 h-8 object-cover"
-            src={src}
-            alt="Files preview"
-          />
+          <img className="rounded-md" src={src} alt="Files preview" />
         ) : (
           `Add document thumbnail`
         )}

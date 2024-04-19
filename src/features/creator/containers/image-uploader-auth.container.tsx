@@ -12,7 +12,7 @@ import { useImagesStore } from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { UploadImageDto } from 'models/image';
-import { imageRestrictions } from 'consts/restrictions';
+import { imageRestrictions } from 'consts/setup';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<UploadImageDto | null>();
