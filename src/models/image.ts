@@ -1,4 +1,4 @@
-import { imageExtensions } from 'consts/setup';
+import { imageExtensions } from 'consts/image-restrictions';
 import { Id, Path } from './general';
 
 type ImageExtension = (typeof imageExtensions)[number];

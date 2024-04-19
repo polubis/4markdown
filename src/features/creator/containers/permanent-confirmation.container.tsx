@@ -12,7 +12,7 @@ import {
   ThumbnailInput,
   ThumbnailInputProps,
 } from '../components/thumbnail-input';
-import { thumbnailRestrictions } from 'consts/setup';
+import { thumbnailRestrictions } from 'consts/image-restrictions';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;
@@ -72,7 +72,7 @@ const PermanentConfirmationContainer = ({
   if (formSection.opened) {
     return (
       <form className="flex flex-col" onSubmit={handleConfirm}>
-        <header className="flex items-center mb-4">
+        <header className="flex items-center mb-6">
           <h6 className="text-xl mr-4">Add Required Data</h6>
           <Button
             i={2}
@@ -85,7 +85,7 @@ const PermanentConfirmationContainer = ({
             <BiX />
           </Button>
         </header>
-        <Field label={`Name (${name.length})*`} className="mt-2">
+        <Field label={`Name (${name.length})*`}>
           <Input
             autoFocus
             placeholder="Type document name"
@@ -100,18 +100,28 @@ const PermanentConfirmationContainer = ({
             value={description}
           />
         </Field>
-        <Field label="Thumbnail" className="mt-2">
+        <Field label="Thumbnail" className="mt-3">
           <ThumbnailInput
             accept={thumbnailRestrictions.type}
             maxSize={thumbnailRestrictions.size}
             src={thumbnail}
+            error={
+              thumbnailError.opened && (
+                <>
+                  Please ensure that the image format is valid. Supported
+                  formats include <strong>{thumbnailRestrictions.type}</strong>,
+                  with a maximum file size of{` `}
+                  <strong>{thumbnailRestrictions.size} megabytes</strong>
+                </>
+              )
+            }
             onChange={handleThumbnailChange}
             onError={thumbnailError.open}
           />
         </Field>
         <Field
           label={tagsInvalid ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
-          className="mt-2"
+          className="mt-3"
           hint="It may be React, Angular, Vue and others..."
         >
           <Input
