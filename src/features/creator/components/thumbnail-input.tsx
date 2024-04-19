@@ -48,7 +48,7 @@ const ThumbnailInput = ({
         i={2}
         s={2}
         auto
-        className="w-full"
+        className="w-full text-sm font-normal text-gray-600 dark:text-gray-300"
         title="Add document thumbnail"
         onClick={upload}
       >
