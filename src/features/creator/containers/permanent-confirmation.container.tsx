@@ -64,6 +64,11 @@ const PermanentConfirmationContainer = ({
     thumbnailError.close();
   };
 
+  const removeThumbnail = (): void => {
+    setThumbnail(``);
+    thumbnailError.close();
+  };
+
   const nameInvalid = !docStoreValidators.name(name);
   const descriptionInvalid = !docStoreValidators.description(description);
   const tagsInvalid = !docStoreValidators.tags(tags);
@@ -106,6 +111,18 @@ const PermanentConfirmationContainer = ({
             onChange={handleThumbnailChange}
             onError={thumbnailError.open}
           />
+          {thumbnail && (
+            <Button
+              type="button"
+              className="mt-1 ml-auto"
+              s={1}
+              i={1}
+              auto
+              onClick={removeThumbnail}
+            >
+              Remove
+            </Button>
+          )}
         </Field>
         <Field
           label={tagsInvalid ? `Tags*` : `Tags (${tags.split(`,`).length})*`}

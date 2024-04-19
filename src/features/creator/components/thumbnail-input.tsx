@@ -64,7 +64,7 @@ const ThumbnailInput = ({
       </Button>
       {error && (
         <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-          Please ensure that the image format is valid. Supported formats
+          Please ensure that the thumbnail format is valid. Supported formats
           include <strong>{thumbnailRestrictions.type}</strong>, with a maximum
           file size of{` `}
           <strong>{thumbnailRestrictions.size} MB</strong>
