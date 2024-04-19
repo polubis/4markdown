@@ -6,7 +6,8 @@ import {
 } from 'development-kit/use-file-input';
 import React from 'react';
 
-interface ThumbnailInputProps extends Omit<UseFileInputConfig, 'onChange'> {
+interface ThumbnailInputProps
+  extends Omit<UseFileInputConfig, 'onChange' | 'multiple'> {
   src: string;
   error?: string;
   onChange(base64: string): void;
@@ -14,7 +15,6 @@ interface ThumbnailInputProps extends Omit<UseFileInputConfig, 'onChange'> {
 
 const ThumbnailInput = ({
   src,
-  multiple,
   accept,
   maxSize,
   error,
@@ -23,10 +23,6 @@ const ThumbnailInput = ({
 }: ThumbnailInputProps) => {
   const handleChange: UseFileInputConfig['onChange'] = React.useCallback(
     async ({ target: { files } }) => {
-      if (multiple) {
-        return;
-      }
-
       if (!files || files.length !== 1) return;
 
       try {
@@ -36,13 +32,12 @@ const ThumbnailInput = ({
         onError?.();
       }
     },
-    [onChange, onError, multiple],
+    [onChange, onError],
   );
 
   const [upload] = useFileInput({
     accept,
     maxSize,
-    multiple,
     onChange: handleChange,
     onError,
   });
