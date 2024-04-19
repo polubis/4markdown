@@ -1,9 +1,8 @@
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
+import { FileInput, FileInputProps } from 'design-system/file-input';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
-import { readFileAsBase64 } from 'development-kit/file-reading';
-import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
@@ -33,29 +32,10 @@ const PermanentConfirmationContainer = ({
   const [tags, setTags] = React.useState(
     docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
   );
-  const errorModal = useToggle();
   const [thumbnail, setThumbnail] = React.useState(
     docStore.visibility === `permanent` ? docStore.thumbnail ?? `` : ``,
   );
-
-  const [upload] = useFileInput({
-    accept: imagesStoreRestrictions.type,
-    maxSize: imagesStoreRestrictions.size,
-    onChange: ({ target: { files } }) => {
-      const uploadAndOpen = async (): Promise<void> => {
-        if (!!files && files.length === 1) {
-          try {
-            const result = await readFileAsBase64(files[0]);
-
-            setThumbnail(result);
-          } catch {}
-        }
-      };
-
-      uploadAndOpen();
-    },
-    onError: errorModal.open,
-  });
+  const thumbnailError = useToggle();
 
   const openFormSection: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -75,6 +55,11 @@ const PermanentConfirmationContainer = ({
         .makeDocPermanent(name, description, tags.split(`,`));
       onConfirm();
     } catch {}
+  };
+
+  const handleThumbnailChange: FileInputProps['onChange'] = (base64) => {
+    setThumbnail(base64);
+    thumbnailError.close();
   };
 
   const nameInvalid = !docStoreValidators.name(name);
@@ -113,18 +98,13 @@ const PermanentConfirmationContainer = ({
           />
         </Field>
         <Field label="Thumbnail" className="mt-2">
-          <Button
-            type="button"
-            i={2}
-            s={2}
-            auto
-            title="Add document thumbnail"
-            disabled={docManagementStore.is === `busy`}
-            onClick={upload}
-          >
-            Add document thumbnail
-          </Button>
-          {thumbnail && <img src={thumbnail} />}
+          <FileInput
+            accept={imagesStoreRestrictions.type}
+            maxSize={imagesStoreRestrictions.size}
+            src={thumbnail}
+            onChange={handleThumbnailChange}
+            onError={thumbnailError.open}
+          />
         </Field>
         <Field
           label={tagsInvalid ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
@@ -160,7 +140,8 @@ const PermanentConfirmationContainer = ({
               docManagementStore.is === `busy` ||
               nameInvalid ||
               descriptionInvalid ||
-              tagsInvalid
+              tagsInvalid ||
+              thumbnailError.opened
             }
             title="Make document permanent"
           >
