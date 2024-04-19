@@ -31,7 +31,7 @@ const Modal = ({ className, children, onEscape }: ModalProps) => {
     >
       <div
         className={c(
-          `bg-white m-auto w-[96%] tn:w-[380px] dark:bg-black rounded-lg shadow-xl p-4`,
+          `bg-white m-auto w-[100%] tn:w-[380px] dark:bg-black rounded-lg shadow-xl p-4`,
           className,
         )}
       >

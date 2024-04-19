@@ -1,5 +1,4 @@
 import { Button } from 'design-system/button';
-import Popover from 'design-system/popover';
 import React from 'react';
 import { BiTrash, BiX } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
@@ -15,16 +14,17 @@ import { useToggle } from 'development-kit/use-toggle';
 import { PublicConfirmationContainer } from 'features/creator/containers/public-confirmation.container';
 import { PrivateConfirmationContainer } from 'features/creator/containers/private-confirmation.container';
 import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
+import Modal from 'design-system/modal';
 
-interface DocBarMorePopoverContentProps {
+interface DocumentDetailsContainerProps {
   onClose(): void;
   onOpen(): void;
 }
 
-const DocBarMorePopoverContent = ({
+const DocumentDetailsContainer = ({
   onClose,
   onOpen,
-}: DocBarMorePopoverContentProps) => {
+}: DocumentDetailsContainerProps) => {
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
   const privateConfirmation = useToggle();
@@ -35,10 +35,7 @@ const DocBarMorePopoverContent = ({
   const siteMetaDataStore = siteMetadataStoreSelectors.useReady();
 
   return (
-    <Popover
-      className="bottom-32 left-2 md:left-32 md:bottom-auto md:top-32 min-w-[280px] max-w-[94%] md:max-w-[400px]"
-      onBackdropClick={docManagementStore.is === `busy` ? undefined : onClose}
-    >
+    <Modal>
       {privateConfirmation.opened && (
         <PrivateConfirmationContainer
           onConfirm={privateConfirmation.close}
@@ -207,8 +204,8 @@ const DocBarMorePopoverContent = ({
             </Tabs>
           </>
         )}
-    </Popover>
+    </Modal>
   );
 };
 
-export default DocBarMorePopoverContent;
+export default DocumentDetailsContainer;
