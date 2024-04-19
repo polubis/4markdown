@@ -59,7 +59,7 @@ const ThumbnailInput = ({
             alt="Document thumbnail preview"
           />
         ) : (
-          `One image (max 1MB size) with jpg, jpeg or png format`
+          `Max ${thumbnailRestrictions.size} MB size. Formats: ${thumbnailRestrictions.type}`
         )}
       </Button>
       {error && (
