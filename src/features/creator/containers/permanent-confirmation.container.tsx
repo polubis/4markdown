@@ -2,12 +2,15 @@ import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
+import { readFileAsBase64 } from 'development-kit/file-reading';
+import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
+import { imagesStoreRestrictions } from 'store/images/images.store';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;
@@ -30,6 +33,29 @@ const PermanentConfirmationContainer = ({
   const [tags, setTags] = React.useState(
     docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
   );
+  const errorModal = useToggle();
+  const [thumbnail, setThumbnail] = React.useState(
+    docStore.visibility === `permanent` ? docStore.thumbnail ?? `` : ``,
+  );
+
+  const [upload] = useFileInput({
+    accept: imagesStoreRestrictions.type,
+    maxSize: imagesStoreRestrictions.size,
+    onChange: ({ target: { files } }) => {
+      const uploadAndOpen = async (): Promise<void> => {
+        if (!!files && files.length === 1) {
+          try {
+            const result = await readFileAsBase64(files[0]);
+
+            setThumbnail(result);
+          } catch {}
+        }
+      };
+
+      uploadAndOpen();
+    },
+    onError: errorModal.open,
+  });
 
   const openFormSection: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -85,6 +111,20 @@ const PermanentConfirmationContainer = ({
             onChange={(e) => setDescription(e.target.value)}
             value={description}
           />
+        </Field>
+        <Field label="Thumbnail" className="mt-2">
+          <Button
+            type="button"
+            i={2}
+            s={2}
+            auto
+            title="Add document thumbnail"
+            disabled={docManagementStore.is === `busy`}
+            onClick={upload}
+          >
+            Add document thumbnail
+          </Button>
+          {thumbnail && <img src={thumbnail} />}
         </Field>
         <Field
           label={tagsInvalid ? `Tags*` : `Tags (${tags.split(`,`).length})*`}

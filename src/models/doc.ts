@@ -21,6 +21,7 @@ interface PermanentDoc extends DocBase {
   description: string;
   path: Path;
   tags: Tags;
+  thumbnail?: string;
 }
 
 interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}
