@@ -10,8 +10,8 @@ import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 
-const DocBarMorePopoverContent = React.lazy(
-  () => import(`../../../components/doc-bar-more-popover-content`),
+const DocumentDetailsContainer = React.lazy(
+  () => import(`./document-details.container`),
 );
 const DeleteDocModal = React.lazy(
   () => import(`../../../components/delete-doc-modal`),
@@ -131,7 +131,7 @@ const ActiveDocBarContainer = () => {
 
       {morePopover.opened && (
         <React.Suspense>
-          <DocBarMorePopoverContent
+          <DocumentDetailsContainer
             onOpen={() => {
               deleteModal.open();
               morePopover.close();
