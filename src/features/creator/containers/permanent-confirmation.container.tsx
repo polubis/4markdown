@@ -1,6 +1,5 @@
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
-import { FileInput, FileInputProps } from 'design-system/file-input';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { useToggle } from 'development-kit/use-toggle';
@@ -10,6 +9,10 @@ import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
 import { imagesStoreRestrictions } from 'store/images/images.store';
+import {
+  ThumbnailInput,
+  ThumbnailInputProps,
+} from '../components/thumbnail-input';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;
@@ -57,7 +60,7 @@ const PermanentConfirmationContainer = ({
     } catch {}
   };
 
-  const handleThumbnailChange: FileInputProps['onChange'] = (base64) => {
+  const handleThumbnailChange: ThumbnailInputProps['onChange'] = (base64) => {
     setThumbnail(base64);
     thumbnailError.close();
   };
@@ -98,7 +101,7 @@ const PermanentConfirmationContainer = ({
           />
         </Field>
         <Field label="Thumbnail" className="mt-2">
-          <FileInput
+          <ThumbnailInput
             accept={imagesStoreRestrictions.type}
             maxSize={imagesStoreRestrictions.size}
             src={thumbnail}
