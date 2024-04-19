@@ -105,13 +105,14 @@ const PermanentConfirmationContainer = ({
             accept={thumbnailRestrictions.type}
             maxSize={thumbnailRestrictions.size}
             src={thumbnail}
+            description={`Max ${thumbnailRestrictions.size} MB. Formats: ${thumbnailRestrictions.type}`}
             error={
               thumbnailError.opened && (
                 <>
                   Please ensure that the image format is valid. Supported
                   formats include <strong>{thumbnailRestrictions.type}</strong>,
                   with a maximum file size of{` `}
-                  <strong>{thumbnailRestrictions.size} megabytes</strong>
+                  <strong>{thumbnailRestrictions.size} MB</strong>
                 </>
               )
             }

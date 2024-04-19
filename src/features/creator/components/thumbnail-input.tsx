@@ -1,4 +1,3 @@
-import { thumbnailRestrictions } from 'consts/image-restrictions';
 import { Button } from 'design-system/button';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import {
@@ -11,6 +10,7 @@ interface ThumbnailInputProps
   extends Omit<UseFileInputConfig, 'onChange' | 'multiple'> {
   src: string;
   error?: React.ReactNode;
+  description?: React.ReactNode;
   onChange(base64: string): void;
 }
 
@@ -19,6 +19,7 @@ const ThumbnailInput = ({
   accept,
   maxSize,
   error,
+  description,
   onError,
   onChange,
 }: ThumbnailInputProps) => {
@@ -61,15 +62,13 @@ const ThumbnailInput = ({
             alt="Document thumbnail preview"
           />
         ) : (
-          `Add document thumbnail`
+          description
         )}
       </Button>
       {error ? (
         <p className="mt-1 text-sm text-red-600 dark:text-red-400">{error}</p>
       ) : (
-        <p className="text-sm mt-1">
-          Max {thumbnailRestrictions.size} MB {thumbnailRestrictions.type}
-        </p>
+        description && <p className="text-sm mt-1">{description}</p>
       )}
     </div>
   );
