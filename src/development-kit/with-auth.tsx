@@ -155,11 +155,12 @@ const WithAuth = () => {
       });
     };
 
-    const makeDocPermanent: AuthorizedData['makeDocPermanent'] = async (
+    const makeDocPermanent: AuthorizedData['makeDocPermanent'] = async ({
       name,
       description,
       tags,
-    ) => {
+      thumbnail,
+    }) => {
       const { id, mdate } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
 
@@ -171,6 +172,7 @@ const WithAuth = () => {
         visibility: `permanent`,
         description,
         tags,
+        thumbnail,
       });
     };
 
@@ -178,23 +180,13 @@ const WithAuth = () => {
       const doc = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
 
-      if (doc.visibility === `private`) {
+      if (doc.visibility === `private` || doc.visibility === `public`) {
         return await updateDoc({
           code,
           name,
           id: doc.id,
           mdate: doc.mdate,
-          visibility: `private`,
-        });
-      }
-
-      if (doc.visibility === `public`) {
-        return await updateDoc({
-          code,
-          name,
-          id: doc.id,
-          mdate: doc.mdate,
-          visibility: `public`,
+          visibility: doc.visibility,
         });
       }
 
@@ -205,7 +197,10 @@ const WithAuth = () => {
         description: doc.description,
         id: doc.id,
         mdate: doc.mdate,
-        visibility: `permanent`,
+        visibility: doc.visibility,
+        thumbnail: {
+          action: `noop`,
+        },
       });
     };
 
@@ -306,9 +301,27 @@ const WithAuth = () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
 
-            await updateDoc({
-              ...doc,
+            if (doc.visibility === `private` || doc.visibility === `public`) {
+              return await updateDoc({
+                name: doc.name,
+                mdate: doc.mdate,
+                code,
+                id: doc.id,
+                visibility: doc.visibility,
+              });
+            }
+
+            return await updateDoc({
+              name: doc.name,
+              mdate: doc.mdate,
               code,
+              id: doc.id,
+              visibility: doc.visibility,
+              thumbnail: {
+                action: `noop`,
+              },
+              description: doc.description,
+              tags: doc.tags,
             });
           },
           makeDocPrivate,

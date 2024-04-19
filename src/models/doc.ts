@@ -21,7 +21,7 @@ interface PermanentDoc extends DocBase {
   description: string;
   path: Path;
   tags: Tags;
-  thumbnail?: string;
+  thumbnail: string;
 }
 
 interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}
@@ -32,7 +32,19 @@ type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
 type UpdateDocPrivatePayload = Omit<PrivateDoc, 'cdate'>;
 type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate'>;
-type UpdateDocPermanentPayload = Omit<PermanentDoc, 'cdate' | 'path'>;
+type UpdateDocPermanentPayload = Omit<
+  PermanentDoc,
+  'cdate' | 'path' | 'thumbnail'
+> & {
+  thumbnail:
+    | {
+        action: 'noop';
+      }
+    | {
+        action: 'update';
+        data: string;
+      };
+};
 
 type UpdateDocPayload =
   | UpdateDocPrivatePayload

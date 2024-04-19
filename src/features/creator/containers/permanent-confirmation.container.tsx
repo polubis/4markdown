@@ -52,9 +52,16 @@ const PermanentConfirmationContainer = ({
     e.preventDefault();
 
     try {
-      await authStoreSelectors
-        .authorized()
-        .makeDocPermanent(name, description, tags.split(`,`));
+      await authStoreSelectors.authorized().makeDocPermanent({
+        name,
+        description,
+        tags: tags.split(`,`),
+        // If unchanged the nothing
+        thumbnail: {
+          action: `update`,
+          data: thumbnail,
+        },
+      });
       onConfirm();
     } catch {}
   };
@@ -72,6 +79,7 @@ const PermanentConfirmationContainer = ({
   const nameInvalid = !docStoreValidators.name(name);
   const descriptionInvalid = !docStoreValidators.description(description);
   const tagsInvalid = !docStoreValidators.tags(tags);
+  const thumbnailInvalid = !docStoreValidators.thumbnail(thumbnail);
 
   if (formSection.opened) {
     return (
@@ -104,7 +112,7 @@ const PermanentConfirmationContainer = ({
             value={description}
           />
         </Field>
-        <Field label="Thumbnail" className="mt-3">
+        <Field label="Thumbnail*" className="mt-3">
           <ThumbnailInput
             src={thumbnail}
             error={thumbnailError.opened}
@@ -159,6 +167,7 @@ const PermanentConfirmationContainer = ({
               nameInvalid ||
               descriptionInvalid ||
               tagsInvalid ||
+              thumbnailInvalid ||
               thumbnailError.opened
             }
             title="Make document permanent"
