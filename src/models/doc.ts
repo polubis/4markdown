@@ -16,12 +16,24 @@ interface PublicDoc extends DocBase {
   visibility: 'public';
 }
 
+const THUMBNAIL_EXTENSIONS = [`png`, `jpeg`, `jpg`] as const;
+
+type ThumbnailExtension = (typeof THUMBNAIL_EXTENSIONS)[number];
+type ThumbnailContentType = `image/${ThumbnailExtension}`;
+
+interface PermamentDocThumbnail {
+  id: Id;
+  extension: ThumbnailExtension;
+  contentType: ThumbnailContentType;
+  url: Path;
+}
+
 interface PermanentDoc extends DocBase {
   visibility: `permanent`;
   description: string;
   path: Path;
   tags: Tags;
-  thumbnail: string;
+  thumbnail?: PermamentDocThumbnail;
 }
 
 interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}

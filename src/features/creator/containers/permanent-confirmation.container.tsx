@@ -35,7 +35,7 @@ const PermanentConfirmationContainer = ({
     docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
   );
   const [thumbnail, setThumbnail] = React.useState(
-    docStore.visibility === `permanent` ? docStore.thumbnail ?? `` : ``,
+    docStore.visibility === `permanent` ? docStore.thumbnail?.url ?? `` : ``,
   );
   const thumbnailError = useToggle();
 
