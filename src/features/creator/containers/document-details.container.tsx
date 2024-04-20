@@ -108,6 +108,19 @@ const DocumentDetailsContainer = ({
                     {docStore.tags.join(`, `)}
                   </strong>
                 </p>
+                {docStore.thumbnail && (
+                  <p className="mt-1">
+                    Thumbnail: {` `}
+                    <a
+                      className="break-words line-clamp-1 text-blue-800 dark:text-blue-500 font-bold hover:text-blue-800/80 hover:dark:text-blue-500/90"
+                      href={docStore.thumbnail.url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {docStore.thumbnail.url}
+                    </a>
+                  </p>
+                )}
               </>
             )}
             <p className="mt-1">
@@ -144,7 +157,7 @@ const DocumentDetailsContainer = ({
             {(docStore.visibility === `public` ||
               docStore.visibility === `permanent`) && (
               <button
-                className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
+                className="underline underline-offset-2 text-blue-800 dark:text-blue-500 hover:text-blue-800/80 hover:dark:text-blue-500/90 mt-1"
                 title="Document preview"
                 onClick={() =>
                   navigate(
@@ -157,7 +170,7 @@ const DocumentDetailsContainer = ({
             )}
             {docStore.visibility === `permanent` && (
               <button
-                className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
+                className="underline underline-offset-2 text-blue-800 dark:text-blue-500 hover:text-blue-800/80 hover:dark:text-blue-500/90 ml-3"
                 title="Document URL"
                 onClick={() => navigate(docStore.path)}
               >
