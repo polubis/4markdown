@@ -44,6 +44,11 @@ const DocPreviewView = () => {
       )}
       {docPreviewStore.is === `ok` && (
         <DocumentLayout
+          thumbnail={
+            docPreviewStore.doc.visibility === `permanent`
+              ? docPreviewStore.doc.thumbnail?.url
+              : undefined
+          }
           tags={
             docPreviewStore.doc.visibility === `permanent`
               ? docPreviewStore.doc.tags

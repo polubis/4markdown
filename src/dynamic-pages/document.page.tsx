@@ -38,7 +38,10 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <DocumentLayout tags={pageContext.doc.tags}>
+      <DocumentLayout
+        thumbnail={pageContext.doc.thumbnail?.url}
+        tags={pageContext.doc.tags}
+      >
         {pageContext.doc.code}
       </DocumentLayout>
     </>

@@ -7,19 +7,29 @@ import { Badge } from 'design-system/badge';
 interface DocumentLayoutProps {
   children: string;
   tags: Tags;
+  thumbnail?: string;
 }
 
-const DocumentLayout = ({ children, tags }: DocumentLayoutProps) => {
+const DocumentLayout = ({ children, tags, thumbnail }: DocumentLayoutProps) => {
   return (
-    <main className="max-w-4xl p-4 my-6 mx-auto">
-      {tags.length > 0 && (
-        <Badges className="mb-4">
-          {tags.map((tag) => (
-            <Badge key={tag}>{tag}</Badge>
-          ))}
-        </Badges>
+    <main>
+      {thumbnail && (
+        <img
+          className="object-cover lg:h-[320px] h-[200px] w-full"
+          src={thumbnail}
+          alt="Document thumbnail"
+        />
       )}
-      <Markdown>{children}</Markdown>
+      <div className="max-w-4xl p-4 my-6 mx-auto">
+        {tags.length > 0 && (
+          <Badges className="mb-4">
+            {tags.map((tag) => (
+              <Badge key={tag}>{tag}</Badge>
+            ))}
+          </Badges>
+        )}
+        <Markdown>{children}</Markdown>
+      </div>
     </main>
   );
 };
