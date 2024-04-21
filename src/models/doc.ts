@@ -1,5 +1,5 @@
 import type { Id, Name, Code, Date, Path, Tags } from './general';
-import { ThumbnailContentType, ThumbnailExtension } from './thumbnail';
+import { DocThumbnailContentType, DocThumbnailExtension } from './doc-thumbnail';
 
 interface DocBase {
   id: Id;
@@ -19,8 +19,8 @@ interface PublicDoc extends DocBase {
 
 interface PermamentDocThumbnail {
   id: Id;
-  extension: ThumbnailExtension;
-  contentType: ThumbnailContentType;
+  extension: DocThumbnailExtension;
+  contentType: DocThumbnailContentType;
   url: Path;
 }
 

@@ -1,7 +1,7 @@
-import { thumbnailExtensions } from 'models/thumbnail';
+import { docThumbnailExtensions } from 'models/doc-thumbnail';
 
 const thumbnailRestrictions = {
-  type: thumbnailExtensions.map((extension) => `image/${extension}`).join(`, `),
+  type: docThumbnailExtensions.map((extension) => `image/${extension}`).join(`, `),
   size: 1,
 } as const;
 
