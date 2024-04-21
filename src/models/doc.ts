@@ -16,9 +16,9 @@ interface PublicDoc extends DocBase {
   visibility: 'public';
 }
 
-const THUMBNAIL_EXTENSIONS = [`png`, `jpeg`, `jpg`] as const;
+const thumbnailExtensions = [`png`, `jpeg`, `jpg`, `webp`] as const;
 
-type ThumbnailExtension = (typeof THUMBNAIL_EXTENSIONS)[number];
+type ThumbnailExtension = (typeof thumbnailExtensions)[number];
 type ThumbnailContentType = `image/${ThumbnailExtension}`;
 
 interface PermamentDocThumbnail {
@@ -93,3 +93,4 @@ export type {
   PermanentDoc,
   PermamentSlimDoc,
 };
+export { thumbnailExtensions };

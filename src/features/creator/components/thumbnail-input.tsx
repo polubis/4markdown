@@ -1,4 +1,4 @@
-import { thumbnailRestrictions } from 'consts/image-restrictions';
+import { thumbnailRestrictions } from 'consts/thumbnail-restrictions';
 import { Button } from 'design-system/button';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import {
