@@ -1,4 +1,5 @@
 import type { Id, Name, Code, Date, Path, Tags } from './general';
+import { ThumbnailContentType, ThumbnailExtension } from './thumbnail';
 
 interface DocBase {
   id: Id;
@@ -15,11 +16,6 @@ interface PrivateDoc extends DocBase {
 interface PublicDoc extends DocBase {
   visibility: 'public';
 }
-
-const thumbnailExtensions = [`png`, `jpeg`, `jpg`, `webp`] as const;
-
-type ThumbnailExtension = (typeof thumbnailExtensions)[number];
-type ThumbnailContentType = `image/${ThumbnailExtension}`;
 
 interface PermamentDocThumbnail {
   id: Id;
@@ -93,4 +89,3 @@ export type {
   PermanentDoc,
   PermamentSlimDoc,
 };
-export { thumbnailExtensions };
