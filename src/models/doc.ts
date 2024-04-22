@@ -1,8 +1,5 @@
 import type { Id, Name, Code, Date, Path, Tags } from './general';
-import {
-  DocThumbnailContentType,
-  DocThumbnailExtension,
-} from './doc-thumbnail';
+import { DocThumbnail } from './doc-thumbnail';
 
 interface DocBase {
   id: Id;
@@ -20,19 +17,12 @@ interface PublicDoc extends DocBase {
   visibility: 'public';
 }
 
-interface PermamentDocThumbnail {
-  id: Id;
-  extension: DocThumbnailExtension;
-  contentType: DocThumbnailContentType;
-  url: Path;
-}
-
 interface PermanentDoc extends DocBase {
   visibility: `permanent`;
   description: string;
   path: Path;
   tags: Tags;
-  thumbnail?: PermamentDocThumbnail;
+  thumbnail?: DocThumbnail;
 }
 
 interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}
