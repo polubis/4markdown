@@ -4,5 +4,6 @@ type Code = string;
 type Name = string;
 type Path = string;
 type Tags = string[];
+type Url = string;
 
-export type { Id, Date, Code, Name, Path, Tags };
+export type { Id, Date, Code, Name, Path, Tags, Url };

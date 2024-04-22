@@ -1,5 +1,8 @@
 import type { Id, Name, Code, Date, Path, Tags } from './general';
-import { DocThumbnailContentType, DocThumbnailExtension } from './doc-thumbnail';
+import {
+  DocThumbnailContentType,
+  DocThumbnailExtension,
+} from './doc-thumbnail';
 
 interface DocBase {
   id: Id;

@@ -15,7 +15,7 @@ const DocumentLayout = ({ children, tags, thumbnail }: DocumentLayoutProps) => {
     <main>
       {thumbnail && (
         <img
-          className="object-cover lg:h-[620px] h-[420px] w-full max-w-[1920px] mx-auto"
+          className="object-cover mx-auto"
           src={thumbnail}
           alt="Document thumbnail"
         />
