@@ -15,6 +15,7 @@ import { PublicConfirmationContainer } from 'features/creator/containers/public-
 import { PrivateConfirmationContainer } from 'features/creator/containers/private-confirmation.container';
 import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
 import Modal from 'design-system/modal';
+import { PermamentDocFormContainer } from './permament-doc-form.container';
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
@@ -33,9 +34,18 @@ const DocumentDetailsContainer = ({
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
   const siteMetaDataStore = siteMetadataStoreSelectors.useReady();
+  const permamentDocumentEdition = useToggle();
 
   return (
     <Modal>
+      {permamentDocumentEdition.opened && (
+        <PermamentDocFormContainer
+          onBack={permamentDocumentEdition.close}
+          onConfirm={permamentDocumentEdition.close}
+          onClose={onClose}
+        />
+      )}
+
       {privateConfirmation.opened && (
         <PrivateConfirmationContainer
           onConfirm={privateConfirmation.close}
@@ -62,7 +72,8 @@ const DocumentDetailsContainer = ({
 
       {permanentConfirmation.closed &&
         publicConfirmation.closed &&
-        privateConfirmation.closed && (
+        privateConfirmation.closed &&
+        permamentDocumentEdition.closed && (
           <>
             <div className="flex items-center">
               <h6 className="text-xl mr-4">Details</h6>
@@ -80,20 +91,22 @@ const DocumentDetailsContainer = ({
               >
                 <BiTrash />
               </Button>
-              <Button
-                i={2}
-                s={1}
-                className="ml-2"
-                disabled={
-                  docManagementStore.is === `busy` ||
-                  authStore.is !== `authorized` ||
-                  docsStore.is === `busy`
-                }
-                title="Edit current document"
-                onClick={onOpen}
-              >
-                <BiPencil />
-              </Button>
+              {docStore.visibility === `permanent` && (
+                <Button
+                  i={2}
+                  s={1}
+                  className="ml-2"
+                  disabled={
+                    docManagementStore.is === `busy` ||
+                    authStore.is !== `authorized` ||
+                    docsStore.is === `busy`
+                  }
+                  title="Edit current document"
+                  onClick={permamentDocumentEdition.open}
+                >
+                  <BiPencil />
+                </Button>
+              )}
               <Button
                 i={2}
                 s={1}

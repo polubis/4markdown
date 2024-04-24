@@ -78,7 +78,7 @@ const PermanentConfirmationContainer = ({
             Education Zone
           </Link>
           {` `}
-          may take several days.
+          may take some time.
         </i>
       </p>
       <footer className="mt-6 flex">
