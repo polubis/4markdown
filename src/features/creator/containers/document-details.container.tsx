@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { BiTrash, BiX } from 'react-icons/bi';
+import { BiPencil, BiTrash, BiX } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
@@ -79,6 +79,20 @@ const DocumentDetailsContainer = ({
                 onClick={onOpen}
               >
                 <BiTrash />
+              </Button>
+              <Button
+                i={2}
+                s={1}
+                className="ml-2"
+                disabled={
+                  docManagementStore.is === `busy` ||
+                  authStore.is !== `authorized` ||
+                  docsStore.is === `busy`
+                }
+                title="Edit current document"
+                onClick={onOpen}
+              >
+                <BiPencil />
               </Button>
               <Button
                 i={2}
