@@ -31,6 +31,8 @@ const DOCS_MANAGEMENT_SCENARIOS = {
   },
   'I change document visiblity': () => {
     const documentName = uid(`S`);
+    const editedDocumentName = uid(`K`);
+    const editedDocumentDescription = `This is totally new description for permament document to prove edition mechanism works`;
 
     When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
@@ -47,8 +49,9 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Close document adding`,
       ])
       .And(`I see text`, [documentName])
+      .When(`I click button`, [`More document options`])
+      .Then(`I not see button`, [`Edit current document`])
       .When(`I click button`, [
-        `More document options`,
         `Make this document public`,
         `Confirm public document status change`,
       ])
@@ -59,8 +62,9 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .When(`I reload page`)
       .Then(`I see elements`, [`Go to creator`])
       .When(`I click elements`, [`Go to creator`])
-      .And(`I click button`, [
-        `More document options`,
+      .And(`I click button`, [`More document options`])
+      .Then(`I not see button`, [`Edit current document`])
+      .When(`I click button`, [
         `Make this document private`,
         `Confirm private document status change`,
       ])
@@ -82,9 +86,33 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .Then(`I see disabled button`, [`Make document permanent`])
       .And(`I not see button`, [`Make document permanent`])
       .When(`I click button`, [`Document preview`])
-      .And(`I click elements`, [`Go to creator`]);
+      .And(`I click elements`, [`Go to creator`])
+      .When(`I click button`, [
+        `More document options`,
+        `Edit current document`,
+      ])
+      .And(`I clear input`, [
+        `Type document name`,
+        `Describe your document in 3-4 sentences. The description will be displayed in Google`,
+        `Separate tags with a comma`,
+      ])
+      .And(`I type in input`, `Type document name`, editedDocumentName)
+      .And(
+        `I type in input`,
+        `Describe your document in 3-4 sentences. The description will be displayed in Google`,
+        editedDocumentDescription,
+      )
+      .And(`I type in input`, `Separate tags with a comma`, `angular,vue,node`)
+      .And(`I click button`, [`Make document permanent`])
+      .Then(`I see button`, [`Edit current document`])
+      .And(`I see text`, [
+        editedDocumentName,
+        editedDocumentDescription,
+        `angular, vue, node`,
+      ])
+      .When(`I click button`, [`Close additional options`]);
 
-    DOCS_MANAGEMENT_SCENARIOS[`I delete document`](documentName).Then(
+    DOCS_MANAGEMENT_SCENARIOS[`I delete document`](editedDocumentName).Then(
       `I see text`,
       [`# Start from scratch`, `Start from scratch`],
     );
