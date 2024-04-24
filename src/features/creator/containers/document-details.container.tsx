@@ -1,10 +1,8 @@
 import { Button } from 'design-system/button';
 import React from 'react';
 import { BiPencil, BiTrash, BiX } from 'react-icons/bi';
-import { useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
-import { useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
 import { formatDistance } from 'date-fns';
 import { navigate } from 'gatsby';
@@ -26,8 +24,6 @@ const DocumentDetailsContainer = ({
   onClose,
   onOpen,
 }: DocumentDetailsContainerProps) => {
-  const authStore = useAuthStore();
-  const docsStore = useDocsStore();
   const privateConfirmation = useToggle();
   const permanentConfirmation = useToggle();
   const publicConfirmation = useToggle();
@@ -81,11 +77,7 @@ const DocumentDetailsContainer = ({
                 i={2}
                 s={1}
                 className="ml-auto"
-                disabled={
-                  docManagementStore.is === `busy` ||
-                  authStore.is !== `authorized` ||
-                  docsStore.is === `busy`
-                }
+                disabled={docManagementStore.is === `busy`}
                 title="Delete current document"
                 onClick={onOpen}
               >
@@ -96,11 +88,7 @@ const DocumentDetailsContainer = ({
                   i={2}
                   s={1}
                   className="ml-2"
-                  disabled={
-                    docManagementStore.is === `busy` ||
-                    authStore.is !== `authorized` ||
-                    docsStore.is === `busy`
-                  }
+                  disabled={docManagementStore.is === `busy`}
                   title="Edit current document"
                   onClick={permamentDocumentEdition.open}
                 >
