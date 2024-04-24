@@ -1,10 +1,8 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { BiTrash, BiX } from 'react-icons/bi';
-import { useAuthStore } from 'store/auth/auth.store';
+import { BiPencil, BiTrash, BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
-import { useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
 import { formatDistance } from 'date-fns';
 import { navigate } from 'gatsby';
@@ -15,6 +13,7 @@ import { PublicConfirmationContainer } from 'features/creator/containers/public-
 import { PrivateConfirmationContainer } from 'features/creator/containers/private-confirmation.container';
 import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
 import Modal from 'design-system/modal';
+import { PermamentDocFormContainer } from './permament-doc-form.container';
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
@@ -25,17 +24,24 @@ const DocumentDetailsContainer = ({
   onClose,
   onOpen,
 }: DocumentDetailsContainerProps) => {
-  const authStore = useAuthStore();
-  const docsStore = useDocsStore();
   const privateConfirmation = useToggle();
   const permanentConfirmation = useToggle();
   const publicConfirmation = useToggle();
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
   const siteMetaDataStore = siteMetadataStoreSelectors.useReady();
+  const permamentDocumentEdition = useToggle();
 
   return (
     <Modal>
+      {permamentDocumentEdition.opened && (
+        <PermamentDocFormContainer
+          onBack={permamentDocumentEdition.close}
+          onConfirm={permamentDocumentEdition.close}
+          onClose={onClose}
+        />
+      )}
+
       {privateConfirmation.opened && (
         <PrivateConfirmationContainer
           onConfirm={privateConfirmation.close}
@@ -62,7 +68,8 @@ const DocumentDetailsContainer = ({
 
       {permanentConfirmation.closed &&
         publicConfirmation.closed &&
-        privateConfirmation.closed && (
+        privateConfirmation.closed &&
+        permamentDocumentEdition.closed && (
           <>
             <div className="flex items-center">
               <h6 className="text-xl mr-4">Details</h6>
@@ -70,16 +77,24 @@ const DocumentDetailsContainer = ({
                 i={2}
                 s={1}
                 className="ml-auto"
-                disabled={
-                  docManagementStore.is === `busy` ||
-                  authStore.is !== `authorized` ||
-                  docsStore.is === `busy`
-                }
+                disabled={docManagementStore.is === `busy`}
                 title="Delete current document"
                 onClick={onOpen}
               >
                 <BiTrash />
               </Button>
+              {docStore.visibility === `permanent` && (
+                <Button
+                  i={2}
+                  s={1}
+                  className="ml-2"
+                  disabled={docManagementStore.is === `busy`}
+                  title="Edit current document"
+                  onClick={permamentDocumentEdition.open}
+                >
+                  <BiPencil />
+                </Button>
+              )}
               <Button
                 i={2}
                 s={1}

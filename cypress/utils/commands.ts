@@ -39,7 +39,8 @@ type ClickableControls =
   | `Confirm permanent document policy`
   | `Make document permanent`
   | `Confirm public document status change`
-  | `Confirm private document status change`;
+  | `Confirm private document status change`
+  | `Edit current document`;
 
 type Element = `Go to creator`;
 
