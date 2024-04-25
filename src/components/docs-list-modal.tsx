@@ -124,7 +124,8 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
                 >
                   <div className="flex justify-between mb-0.5">
                     <span className="text-sm capitalize">
-                      {formatDistance(new Date(), doc.cdate, {
+                      Edited{` `}
+                      {formatDistance(new Date(), doc.mdate, {
                         addSuffix: true,
                       })}
                       {` `}

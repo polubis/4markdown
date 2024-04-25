@@ -11,6 +11,7 @@ import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
 import { Button } from 'design-system/button';
 import { AppNavigation } from 'components/app-navigation';
+import { formatDistance } from 'date-fns';
 
 interface DocsBrowseViewProps {
   context: DocsBrowsePageContext;
@@ -29,15 +30,31 @@ const DocsBrowseView = () => {
         <ul className="flex flex-col space-y-10">
           {docsBrowse.docs.map((doc) => (
             <li className="flex flex-col" key={doc.name}>
-              <Badges className="mb-4">
+              <Badges className="mb-3">
                 {doc.tags.map((tag) => (
                   <Badge key={tag}>{tag}</Badge>
                 ))}
               </Badges>
               <h6 className="mb-2 text-2xl">{doc.name}</h6>
               <p className="break-words">{doc.description}</p>
+              <span className="mt-2 text-sm capitalize">
+                Created{` `}
+                {formatDistance(new Date(), doc.cdate, {
+                  addSuffix: true,
+                })}
+                {` `}
+                ago
+              </span>
+              <span className="mt-1 text-sm capitalize">
+                Edited{` `}
+                {formatDistance(new Date(), doc.mdate, {
+                  addSuffix: true,
+                })}
+                {` `}
+                ago
+              </span>
               <Link
-                className="mt-4"
+                className="mt-5"
                 to={doc.path}
                 title={`Explore ${doc.name}`}
               >
