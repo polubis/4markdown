@@ -1,7 +1,6 @@
 import React from 'react';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
-import { AppNavigation } from 'components/app-navigation';
 import ReactFlow, {
   MiniMap,
   Controls,
@@ -14,9 +13,9 @@ import ReactFlow, {
   Handle,
   Position,
 } from 'reactflow';
-
-import 'reactflow/dist/style.css';
 import { MindmapCreatorLinkContainer } from 'containers/mindmap-creator-link.container';
+import { MindmapNavigation } from './components/mindmap-navigation';
+import 'reactflow/dist/style.css';
 
 const initialNodes = [
   { id: `1`, position: { x: 0, y: 0 }, data: { label: `1` } },
@@ -72,13 +71,13 @@ const MindmapsCreatorView = () => {
 
   return (
     <>
-      <AppNavigation>
+      <MindmapNavigation>
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
         <MindmapCreatorLinkContainer />
-      </AppNavigation>
+      </MindmapNavigation>
       <main className="flex h-[calc(100svh-72px)]">
-        <aside className="shrink-0 w-[72px] border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+        <aside className="shrink-0 w-[66px] border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           s
         </aside>
         <ReactFlow

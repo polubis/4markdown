@@ -17,7 +17,7 @@ const Navigation = ({
   className,
   children,
   popover,
-  logo = <Logo className="sm:flex hidden mr-3" />,
+  logo = <Logo className="sm:flex hidden mr-5" />,
 }: NavigationProps) => {
   return (
     <header
