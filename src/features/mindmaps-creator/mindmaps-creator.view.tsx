@@ -75,7 +75,10 @@ const MindmapsCreatorView = () => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="h-[calc(100svh-72px)]">
+      <main className="flex h-[calc(100svh-72px)]">
+        <aside className="shrink-0 w-[72px] border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+          s
+        </aside>
         <ReactFlow
           nodes={nodes}
           edges={edges}
