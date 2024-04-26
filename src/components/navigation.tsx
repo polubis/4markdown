@@ -4,14 +4,21 @@ import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import { Button } from 'design-system/button';
 import { BiMoon, BiSun } from 'react-icons/bi';
 import MoreNav from './more-nav';
+import { Logo } from './logo';
 
 interface NavigationProps {
   className?: string;
   children: React.ReactNode;
   popover: React.ReactNode;
+  logo?: React.ReactNode;
 }
 
-const Navigation = ({ className, children, popover }: NavigationProps) => {
+const Navigation = ({
+  className,
+  children,
+  popover,
+  logo = <Logo className="sm:flex hidden mr-3" />,
+}: NavigationProps) => {
   return (
     <header
       className={c(
@@ -19,9 +26,7 @@ const Navigation = ({ className, children, popover }: NavigationProps) => {
         className,
       )}
     >
-      <picture className="w-[32px] h-[32px] shrink-0 sm:flex hidden mr-3">
-        <img rel="preload" src="/favicon-32x32.png" alt="Logo" />
-      </picture>
+      {logo}
       <nav className="flex gap-3 w-full items-center">
         {children}
         <ThemeToggler>
