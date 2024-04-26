@@ -7,9 +7,9 @@ const BackToCreatorLinkContainer = () => {
   const siteMetadata = siteMetadataStoreSelectors.useReady();
 
   return (
-    <AppNavLink title="Go to creator" to={siteMetadata.routes.home}>
+    <AppNavLink title="Go to documents creator" to={siteMetadata.routes.home}>
       <BiCodeBlock size={20} className="mr-2 shrink-0" />
-      <span className="text-md font-semibold">Creator</span>
+      <span className="text-md font-semibold">Documents Creator</span>
     </AppNavLink>
   );
 };
