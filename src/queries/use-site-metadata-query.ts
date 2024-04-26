@@ -34,6 +34,9 @@ const useSiteMetadataQuery = () => {
               browse
               preview
             }
+            mindmaps {
+              creator
+            }
           }
         }
       }

@@ -147,6 +147,15 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Markdown Cheatsheet
           </ButtonLink>
           <ButtonLink
+            to={meta.routes.mindmaps.creator}
+            title="Navigate to mindmaps creator"
+            component={(props) => (
+              <Link activeClassName="active-button-link" {...props} />
+            )}
+          >
+            Mindmaps Creator
+          </ButtonLink>
+          <ButtonLink
             to={meta.sourceCodeUrl}
             target="_blank"
             title={`${meta.appName} Repository`}
