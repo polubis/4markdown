@@ -20,5 +20,8 @@ export const siteMetadata = {
       browse: `/docs/browse/`,
     },
     notFound: `/404/`,
+    mindmaps: {
+      creator: `/mindmaps/creator/`,
+    },
   },
 } as const;
