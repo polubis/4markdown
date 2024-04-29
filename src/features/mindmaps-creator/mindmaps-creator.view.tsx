@@ -100,12 +100,14 @@ const MindmapsCreatorView = () => {
     edges,
     setNodes,
     setEdges,
+    setOperation,
     onConnect,
     onEdgesChange,
     onNodesChange,
   } = useMindmapsCreatorCtx();
 
   const addNode = (): void => {
+    setOperation(`adding`);
     setNodes((prevNodes) => [
       ...prevNodes,
       {
@@ -115,6 +117,10 @@ const MindmapsCreatorView = () => {
         type: `initial`,
       },
     ]);
+
+    setTimeout(() => {
+      setOperation(`idle`);
+    }, 3000);
   };
 
   React.useEffect(() => {

@@ -12,14 +12,18 @@ import {
 import { create } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 
+type MindmapsCreatorOperation = 'idle' | 'adding';
+
 interface MindmapsCreatorProviderContext {
   nodes: Node[];
   edges: Edge[];
+  operation: MindmapsCreatorOperation;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
   setNodes(setter: (nodes: Node[]) => Node[]): void;
   setEdges(setter: (edges: Edge[]) => Edge[]): void;
+  setOperation(operation: MindmapsCreatorOperation): void;
 }
 
 interface MindmapsCreatorProviderProps {
@@ -41,6 +45,7 @@ const MindmapsCreatorProvider = ({
     create<MindmapsCreatorProviderContext>((set, get) => ({
       nodes: [],
       edges: [],
+      operation: `idle`,
       onNodesChange: (changes) => {
         set({
           nodes: applyNodeChanges(changes, get().nodes),
@@ -61,6 +66,9 @@ const MindmapsCreatorProvider = ({
       },
       setEdges: (setter) => {
         set({ edges: setter(get().edges) });
+      },
+      setOperation: (operation) => {
+        set({ operation });
       },
     })),
   );
