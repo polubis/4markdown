@@ -13,7 +13,7 @@ const MindmapCreatorLinkContainer = () => {
       to={siteMetadata.routes.mindmaps.creator}
     >
       <BiSolidVector size={20} className="mr-2 shrink-0" />
-      <span className="text-md font-semibold">Mindmap Creator</span>
+      <span className="text-md font-semibold">Mindmaps Creator</span>
     </AppNavLink>
   );
 };

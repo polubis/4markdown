@@ -32,7 +32,7 @@ export const Head: HeadFC = () => {
   return (
     <Meta
       appName={meta.appName}
-      title={`Mindmap Creator for Building a Knowledge Base`}
+      title={`Mindmaps Creator for Building a Knowledge Base`}
       description={`Use this powerful creator to build and link your materials. Share them with others and contribute to each other's work`}
       url={meta.siteUrl + meta.routes.mindmaps.creator}
       lang={meta.lang}
