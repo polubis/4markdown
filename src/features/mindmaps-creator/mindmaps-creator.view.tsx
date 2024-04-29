@@ -72,7 +72,7 @@ const InitialNode = (props: NodeProps) => {
       className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border"
       onSubmit={confirm}
     >
-      <h6 className="text-md mb-4">Create Node</h6>
+      <h6 className="text-md mb-4">Add Node</h6>
       <footer className="flex space-x-2">
         <Button
           type="button"
