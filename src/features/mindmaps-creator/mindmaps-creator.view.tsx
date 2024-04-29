@@ -20,6 +20,9 @@ import {
   useMindmapsCreatorCtx,
 } from './providers/mindmaps-creator.provider';
 import { Status } from 'design-system/status';
+import { Field } from 'design-system/field';
+import { Input } from 'design-system/input';
+import { Tabs } from 'design-system/tabs';
 
 const handleStyle = { left: 10 };
 
@@ -47,6 +50,8 @@ const InternalLink = ({ data }: NodeProps) => {
 };
 
 const InitialNode = (props: NodeProps) => {
+  const [type, setType] = React.useState<`internal` | `external`>(`internal`);
+
   const { setNodes, setOperation } = useMindmapsCreatorCtx();
 
   const cancel = (): void => {
@@ -60,7 +65,7 @@ const InitialNode = (props: NodeProps) => {
 
     setNodes((nodes) =>
       nodes.map((node) =>
-        node.id === props.id ? { ...node, type: `internal` } : node,
+        node.id === props.id ? { ...node, type: `InternalLink` } : node,
       ),
     );
 
@@ -69,22 +74,40 @@ const InitialNode = (props: NodeProps) => {
 
   return (
     <form
-      className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border"
+      className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border max-w-[280px]"
       onSubmit={confirm}
     >
-      <h6 className="text-md mb-4">Add Node</h6>
-      <footer className="flex space-x-2">
+      <h6 className="text-xl mb-4">Add Node</h6>
+      <section>
+        <Tabs className="mb-5">
+          <Tabs.Item
+            type="button"
+            active={type === `internal`}
+            onClick={() => setType(`internal`)}
+          >
+            Internal
+          </Tabs.Item>
+          <Tabs.Item
+            type="button"
+            active={type === `external`}
+            onClick={() => setType(`external`)}
+          >
+            External
+          </Tabs.Item>
+        </Tabs>
+      </section>
+      <footer className="mt-8 flex space-x-2 justify-end">
         <Button
           type="button"
-          i={2}
-          s={1}
+          i={1}
+          s={2}
           auto
           title="Cancel node creation"
           onClick={cancel}
         >
           Cancel
         </Button>
-        <Button type="submit" i={2} s={1} auto title="Confirm node creation">
+        <Button type="submit" i={2} s={2} auto title="Confirm node creation">
           Confirm
         </Button>
       </footer>
@@ -93,8 +116,8 @@ const InitialNode = (props: NodeProps) => {
 };
 
 const nodeTypes: NodeTypes = {
-  internal: InternalLink,
-  initial: InitialNode,
+  InternalLink,
+  InitialNode,
 };
 
 const generateId = (): string => new Date().toISOString();
@@ -118,7 +141,7 @@ const MindmapsCreatorView = () => {
         id: generateId(),
         position: { x: 0, y: 0 },
         data: { label: `test` },
-        type: `initial`,
+        type: `InitialNode`,
       },
     ]);
   };
@@ -129,7 +152,7 @@ const MindmapsCreatorView = () => {
       { id: `2`, position: { x: 0, y: 100 }, data: { label: `2` } },
       {
         id: `node-1`,
-        type: `internal-link`,
+        type: `InternalLink`,
         position: { x: 0, y: 300 },
         data: { value: 123 },
       },
