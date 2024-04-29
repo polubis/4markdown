@@ -19,6 +19,7 @@ import {
   MindmapsCreatorProvider,
   useMindmapsCreatorCtx,
 } from './providers/mindmaps-creator.provider';
+import { Status } from 'design-system/status';
 
 const handleStyle = { left: 10 };
 
@@ -46,7 +47,7 @@ const InternalLink = ({ data }: NodeProps) => {
 };
 
 const InitialNode = (props: NodeProps) => {
-  const { setNodes } = useMindmapsCreatorCtx();
+  const { setNodes, setOperation } = useMindmapsCreatorCtx();
 
   const cancel = (): void => {
     setNodes((nodes) => nodes.filter((node) => node.id !== props.id));
@@ -55,11 +56,15 @@ const InitialNode = (props: NodeProps) => {
   const confirm: React.FormEventHandler<HTMLFormElement> = (e): void => {
     e.preventDefault();
 
+    setOperation(`node-added`);
+
     setNodes((nodes) =>
       nodes.map((node) =>
         node.id === props.id ? { ...node, type: `internal` } : node,
       ),
     );
+
+    setOperation(`idle`, 3000);
   };
 
   return (
@@ -98,16 +103,15 @@ const MindmapsCreatorView = () => {
   const {
     nodes,
     edges,
+    operation,
     setNodes,
     setEdges,
-    setOperation,
     onConnect,
     onEdgesChange,
     onNodesChange,
   } = useMindmapsCreatorCtx();
 
   const addNode = (): void => {
-    setOperation(`adding`);
     setNodes((prevNodes) => [
       ...prevNodes,
       {
@@ -117,10 +121,6 @@ const MindmapsCreatorView = () => {
         type: `initial`,
       },
     ]);
-
-    setTimeout(() => {
-      setOperation(`idle`);
-    }, 3000);
   };
 
   React.useEffect(() => {
@@ -148,6 +148,7 @@ const MindmapsCreatorView = () => {
         <DocsBrowseLinkContainer />
         <MindmapCreatorLinkContainer />
       </MindmapNavigation>
+      <Status open={operation === `node-added`}>New node added</Status>
       <main className="flex h-[calc(100svh-72px)]">
         <aside className="py-4 flex flex-col items-center space-y-4 shrink-0 w-[66px] border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           <Button i={1} s={2} title="Add node" onClick={addNode}>

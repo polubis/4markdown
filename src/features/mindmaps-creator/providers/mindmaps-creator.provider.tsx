@@ -12,7 +12,7 @@ import {
 import { create } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 
-type MindmapsCreatorOperation = 'idle' | 'adding';
+type MindmapsCreatorOperation = 'idle' | 'node-added';
 
 interface MindmapsCreatorProviderContext {
   nodes: Node[];
@@ -23,7 +23,7 @@ interface MindmapsCreatorProviderContext {
   onConnect: OnConnect;
   setNodes(setter: (nodes: Node[]) => Node[]): void;
   setEdges(setter: (edges: Edge[]) => Edge[]): void;
-  setOperation(operation: MindmapsCreatorOperation): void;
+  setOperation(operation: MindmapsCreatorOperation, delay?: number): void;
 }
 
 interface MindmapsCreatorProviderProps {
@@ -41,6 +41,16 @@ const selector = (
 const MindmapsCreatorProvider = ({
   children,
 }: MindmapsCreatorProviderProps) => {
+  const operationTimeout = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+
+  const clearOperationTimeout = (): void => {
+    const timeout = operationTimeout.current;
+
+    timeout && clearTimeout(timeout);
+  };
+
   const [useStore] = React.useState(() =>
     create<MindmapsCreatorProviderContext>((set, get) => ({
       nodes: [],
@@ -67,13 +77,28 @@ const MindmapsCreatorProvider = ({
       setEdges: (setter) => {
         set({ edges: setter(get().edges) });
       },
-      setOperation: (operation) => {
-        set({ operation });
+      setOperation: (operation, delay = 0) => {
+        clearOperationTimeout();
+
+        if (delay === 0) {
+          set({ operation });
+          return;
+        }
+
+        operationTimeout.current = setTimeout(() => {
+          set({ operation });
+        }, delay);
       },
     })),
   );
 
   const store = useStore(useShallow(selector));
+
+  React.useEffect(() => {
+    return () => {
+      clearOperationTimeout();
+    };
+  }, []);
 
   return <Context.Provider value={store}>{children}</Context.Provider>;
 };
