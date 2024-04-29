@@ -15,10 +15,8 @@ import { MindmapNavigation } from './components/mindmap-navigation';
 import 'reactflow/dist/style.css';
 import { Button } from 'design-system/button';
 import { BiPlus } from 'react-icons/bi';
-import {
-  MindmapsCreatorProvider,
-  useMindmapsCreatorCtx,
-} from './providers/mindmaps-creator.provider';
+import { MindmapsCreatorProvider } from './providers/mindmaps-creator.provider';
+import { useMindmapsCreatorManagement } from './logic/use-mindmaps-creator-management';
 
 const handleStyle = { left: 10 };
 
@@ -48,7 +46,7 @@ const InternalLink = ({ data }: NodeProps) => {
 const InitialNode = (props: NodeProps) => {
   return (
     <form className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border">
-      <h6 className="text-md">Create Node</h6>
+      <h6 className="text-md mb-4">Create Node</h6>
       <footer className="flex space-x-2">
         <Button type="button" i={2} s={1} auto title="Cancel node creation">
           Cancel
@@ -66,48 +64,9 @@ const nodeTypes: NodeTypes = {
   initial: InitialNode,
 };
 
-const generateId = (): string => new Date().toISOString();
-
 const MindmapsCreatorView = () => {
-  const {
-    nodes,
-    edges,
-    setNodes,
-    setEdges,
-    onConnect,
-    onEdgesChange,
-    onNodesChange,
-  } = useMindmapsCreatorCtx();
-
-  const addNode = (): void => {
-    setNodes((prevNodes) => [
-      ...prevNodes,
-      {
-        id: generateId(),
-        position: { x: 0, y: 0 },
-        data: { label: `test` },
-        type: `initial`,
-      },
-    ]);
-  };
-
-  React.useEffect(() => {
-    setNodes(() => [
-      { id: `1`, position: { x: 0, y: 0 }, data: { label: `1` } },
-      { id: `2`, position: { x: 0, y: 100 }, data: { label: `2` } },
-      {
-        id: `node-1`,
-        type: `internal-link`,
-        position: { x: 0, y: 300 },
-        data: { value: 123 },
-      },
-    ]);
-    setEdges(() => [
-      { id: `e1-2`, source: `1`, target: `2` },
-      { id: `e1-3`, source: `1`, target: `node-1` },
-    ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { nodes, edges, onConnect, onEdgesChange, onNodesChange, addNode } =
+    useMindmapsCreatorManagement();
 
   return (
     <>
@@ -140,25 +99,8 @@ const MindmapsCreatorView = () => {
   );
 };
 
-const context: MindmapsCreatorContext = {
-  nodes: [
-    { id: `1`, position: { x: 0, y: 0 }, data: { label: `1` } },
-    { id: `2`, position: { x: 0, y: 100 }, data: { label: `2` } },
-    {
-      id: `node-1`,
-      type: `internal-link`,
-      position: { x: 0, y: 300 },
-      data: { value: 123 },
-    },
-  ],
-  edges: [
-    { id: `e1-2`, source: `1`, target: `2` },
-    { id: `e1-3`, source: `1`, target: `node-1` },
-  ],
-};
-
 const ConnectedMindmapsCreatorView = () => (
-  <MindmapsCreatorProvider context={context}>
+  <MindmapsCreatorProvider>
     <MindmapsCreatorView />
   </MindmapsCreatorProvider>
 );
