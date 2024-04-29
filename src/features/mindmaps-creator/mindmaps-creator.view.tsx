@@ -23,6 +23,7 @@ import { Status } from 'design-system/status';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import { Tabs } from 'design-system/tabs';
+import { Textarea } from 'design-system/textarea';
 
 const handleStyle = { left: 10 };
 
@@ -74,7 +75,7 @@ const InitialNode = (props: NodeProps) => {
 
   return (
     <form
-      className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border max-w-[280px]"
+      className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border min-w-[280px]"
       onSubmit={confirm}
     >
       <h6 className="text-xl mb-4">Add Node</h6>
@@ -95,6 +96,23 @@ const InitialNode = (props: NodeProps) => {
             External
           </Tabs.Item>
         </Tabs>
+        {type === `internal` && (
+          <>
+            <Field
+              className="mb-2"
+              label="Source*"
+              hint="Select document or mindmap"
+            >
+              <Input placeholder="Type to search" />
+            </Field>
+            <Field className="mb-2" label="Name*">
+              <Input placeholder="How to make pizza, ...etc" />
+            </Field>
+            <Field label="Description*">
+              <Textarea placeholder="To prepare a pizza, buy the ingredients, ...etc" />
+            </Field>
+          </>
+        )}
       </section>
       <footer className="mt-8 flex space-x-2 justify-end">
         <Button
