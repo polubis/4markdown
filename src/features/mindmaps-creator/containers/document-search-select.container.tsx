@@ -7,10 +7,12 @@ import { docsStoreSelectors } from 'store/docs/docs.store';
 
 interface DocumentSearchSelectContainerProps {
   onSelect(doc: Doc): void;
+  onChange(value: string): void;
 }
 
 const DocumentSearchSelectContainer = ({
   onSelect,
+  onChange,
 }: DocumentSearchSelectContainerProps) => {
   const [text, setText] = React.useState(``);
   const trimmedText = React.useMemo(() => text.trim(), [text]);
@@ -42,7 +44,7 @@ const DocumentSearchSelectContainer = ({
 
   const closeMenu = (): void => {
     clearBlurTimeout();
-    blurTimeout.current = setTimeout(menu.close, 100);
+    blurTimeout.current = setTimeout(menu.close, 250);
   };
 
   const changeAndClose: InputProps['onChange'] = (e) => {
@@ -53,6 +55,7 @@ const DocumentSearchSelectContainer = ({
     }
 
     setText(e.target.value);
+    onChange(e.target.value);
   };
 
   React.useEffect(() => {
@@ -80,7 +83,7 @@ const DocumentSearchSelectContainer = ({
                 tabIndex={idx}
                 className="px-3 text-sm py-2 font-semibold cursor-pointer hover:bg-gray-400/70 bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-900/50"
                 key={doc.id}
-                onClickCapture={() => {
+                onClick={() => {
                   select(doc);
                 }}
               >
