@@ -1,32 +1,32 @@
 import { BASE_COMMANDS } from '../utils/commands';
-import { Gherkin } from '../utils/gherkin';
+import { gherkin } from '@greenstack/gherkin';
 
 describe(`Creator sync works when`, () => {
-  const { Given } = Gherkin(BASE_COMMANDS);
+  const { given } = gherkin((_, key) => cy.log(key))(BASE_COMMANDS);
 
   before(() => {
-    Given(`System sets pictures folder`, `creator-sync`);
+    given(`System sets pictures folder`, `creator-sync`);
   });
 
   beforeEach(() => {
-    Given(`System cleans local storage`);
+    given(`System cleans local storage`);
   });
 
   after(() => {
-    Given(`System cleans pictures setup`).And(`System cleans local storage`);
+    given(`System cleans pictures setup`).and(`System cleans local storage`);
   });
 
   it(`user see changes from local storage after page refresh`, () => {
-    Given(`Im on page`, `home`)
-      .And(`I see not disabled button`, [`Sign in`])
-      .When(`I click button`, [`Change theme`])
-      .And(`I type in creator`, `## Markdown local storage sync test`)
-      .Then(`I see text`, [
+    given(`Im on page`, `home`)
+      .and(`I see not disabled button`, [`Sign in`])
+      .when(`I click button`, [`Change theme`])
+      .and(`I type in creator`, `## Markdown local storage sync test`)
+      .then(`I see text`, [
         `## Markdown local storage sync test`,
         `Markdown local storage sync test`,
       ])
-      .When(`I reload page`)
-      .Then(`I see text`, [
+      .when(`I reload page`)
+      .then(`I see text`, [
         `## Markdown local storage sync test`,
         `Markdown local storage sync test`,
       ]);

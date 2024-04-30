@@ -170,6 +170,6 @@ const BASE_COMMANDS = {
       cy.visit(`/`);
     }
   },
-} as const;
+};
 
 export { BASE_COMMANDS };

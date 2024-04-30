@@ -1,12 +1,12 @@
 import { type Doc } from 'models/doc';
 import { BASE_COMMANDS } from '../utils/commands';
-import { Gherkin } from '../utils/gherkin';
 import { uid } from '../utils/uid';
+import { gherkin } from '@greenstack/gherkin';
 
-const { When, Given } = Gherkin({
+const { given } = gherkin((_, key) => cy.log(key))({
   ...BASE_COMMANDS,
   'I see enabled visibility options': () => {
-    Given(`I see not disabled button`, [
+    given(`I see not disabled button`, [
       `Make this document permanent`,
       `Make this document private`,
       `Make this document public`,
@@ -16,183 +16,182 @@ const { When, Given } = Gherkin({
 
 const DOCS_MANAGEMENT_SCENARIOS = {
   'I delete document': (name: Doc['name']) => {
-    return When(`I click button`, [
+    return given(`I click button`, [
       `More document options`,
       `Delete current document`,
     ])
-      .And(`I type in input`, `Type document name`, name)
-      .And(`I click button`, [`Confirm document removal`])
-      .Then(`I see disabled button`, [
+      .and(`I type in input`, `Type document name`, name)
+      .and(`I click button`, [`Confirm document removal`])
+      .then(`I see disabled button`, [
         `Confirm document removal`,
         `Cancel document removal`,
         `Close document removal`,
       ])
-      .And(`I not see text`, [`Delete current document`, name]);
+      .and(`I not see text`, [`Delete current document`, name]);
   },
   'I change document visiblity': () => {
     const documentName = uid(`S`);
     const editedDocumentName = uid(`K`);
     const editedDocumentDescription = `This is totally new description for permament document to prove edition mechanism works`;
 
-    When(`I click button`, [`Create new document`])
-      .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
-      .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name`, documentName)
-      .Then(`I see not disabled button`, [`Confirm document creation`])
-      .When(`I click button`, [`Confirm document creation`])
-      .Then(`I see disabled button`, [
+    given(`I click button`, [`Create new document`])
+      .then(`I see text`, [`Create Document`, `Document name*`, `Create`])
+      .and(`I see disabled button`, [`Confirm document creation`])
+      .when(`I type in input`, `Type document name`, documentName)
+      .then(`I see not disabled button`, [`Confirm document creation`])
+      .when(`I click button`, [`Confirm document creation`])
+      .then(`I see disabled button`, [
         `Confirm document creation`,
         `Close document adding`,
       ])
-      .And(`I not see button`, [
+      .and(`I not see button`, [
         `Confirm document creation`,
         `Close document adding`,
       ])
-      .And(`I see text`, [documentName])
-      .When(`I click button`, [`More document options`])
-      .Then(`I not see button`, [`Edit current document`])
-      .When(`I click button`, [
+      .and(`I see text`, [documentName])
+      .when(`I click button`, [`More document options`])
+      .then(`I not see button`, [`Edit current document`])
+      .when(`I click button`, [
         `Make this document public`,
         `Confirm public document status change`,
       ])
-      .Then(`I see disabled button`, [`Confirm public document status change`])
-      .And(`I see enabled visibility options`)
-      .When(`I click button`, [`Document preview`])
-      .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
-      .When(`I reload page`)
-      .Then(`I see elements`, [`Go to creator`])
-      .When(`I click elements`, [`Go to creator`])
-      .And(`I click button`, [`More document options`])
-      .Then(`I not see button`, [`Edit current document`])
-      .When(`I click button`, [
+      .then(`I see disabled button`, [`Confirm public document status change`])
+      .and(`I see enabled visibility options`)
+      .when(`I click button`, [`Document preview`])
+      .then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
+      .when(`I reload page`)
+      .then(`I see elements`, [`Go to creator`])
+      .when(`I click elements`, [`Go to creator`])
+      .and(`I click button`, [`More document options`])
+      .then(`I not see button`, [`Edit current document`])
+      .when(`I click button`, [
         `Make this document private`,
         `Confirm private document status change`,
       ])
-      .Then(`I see disabled button`, [`Confirm private document status change`])
-      .And(`I see enabled visibility options`)
-      .When(`I click button`, [
+      .then(`I see disabled button`, [`Confirm private document status change`])
+      .and(`I see enabled visibility options`)
+      .when(`I click button`, [
         `Make this document permanent`,
         `Confirm permanent document policy`,
       ])
-      .And(`I clear input`, [`Type document name`])
-      .And(`I type in input`, `Type document name`, documentName)
-      .And(
+      .and(`I clear input`, [`Type document name`])
+      .and(`I type in input`, `Type document name`, documentName)
+      .and(
         `I type in input`,
         `Describe your document in 3-4 sentences. The description will be displayed in Google`,
         `This is my permanent article description that will be displayed in Google for best possible SEO results`,
       )
-      .And(`I type in input`, `Separate tags with a comma`, `react,angular`)
-      .And(`I click button`, [`Make document permanent`])
-      .Then(`I see disabled button`, [`Make document permanent`])
-      .And(`I not see button`, [`Make document permanent`])
-      .When(`I click button`, [`Document preview`])
-      .And(`I click elements`, [`Go to creator`])
-      .When(`I click button`, [
+      .and(`I type in input`, `Separate tags with a comma`, `react,angular`)
+      .and(`I click button`, [`Make document permanent`])
+      .then(`I see disabled button`, [`Make document permanent`])
+      .and(`I not see button`, [`Make document permanent`])
+      .when(`I click button`, [`Document preview`])
+      .and(`I click elements`, [`Go to creator`])
+      .when(`I click button`, [
         `More document options`,
         `Edit current document`,
       ])
-      .And(`I clear input`, [
+      .and(`I clear input`, [
         `Type document name`,
         `Describe your document in 3-4 sentences. The description will be displayed in Google`,
         `Separate tags with a comma`,
       ])
-      .And(`I type in input`, `Type document name`, editedDocumentName)
-      .And(
+      .and(`I type in input`, `Type document name`, editedDocumentName)
+      .and(
         `I type in input`,
         `Describe your document in 3-4 sentences. The description will be displayed in Google`,
         editedDocumentDescription,
       )
-      .And(`I type in input`, `Separate tags with a comma`, `angular,vue,node`)
-      .And(`I click button`, [`Make document permanent`])
-      .Then(`I see button`, [`Edit current document`])
-      .And(`I see text`, [
+      .and(`I type in input`, `Separate tags with a comma`, `angular,vue,node`)
+      .and(`I click button`, [`Make document permanent`])
+      .then(`I see button`, [`Edit current document`])
+      .and(`I see text`, [
         editedDocumentName,
         editedDocumentDescription,
         `angular, vue, node`,
       ])
-      .When(`I click button`, [`Close additional options`]);
+      .when(`I click button`, [`Close additional options`]);
 
-    DOCS_MANAGEMENT_SCENARIOS[`I delete document`](editedDocumentName).Then(
-      `I see text`,
-      [`# Start from scratch`, `Start from scratch`],
-    );
+    return DOCS_MANAGEMENT_SCENARIOS[`I delete document`](
+      editedDocumentName,
+    ).then(`I see text`, [`# Start from scratch`, `Start from scratch`]);
   },
   'I create, edit and delete document': () => {
     const documentName = `Test document`;
     const documentNameEdited = `Doc 2`;
 
-    return When(`I click button`, [`Create new document`])
-      .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
-      .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name`, documentName)
-      .Then(`I see not disabled button`, [`Confirm document creation`])
-      .When(`I click button`, [`Confirm document creation`])
-      .Then(`I see disabled button`, [
+    return given(`I click button`, [`Create new document`])
+      .then(`I see text`, [`Create Document`, `Document name*`, `Create`])
+      .and(`I see disabled button`, [`Confirm document creation`])
+      .when(`I type in input`, `Type document name`, documentName)
+      .then(`I see not disabled button`, [`Confirm document creation`])
+      .when(`I click button`, [`Confirm document creation`])
+      .then(`I see disabled button`, [
         `Confirm document creation`,
         `Close document adding`,
       ])
-      .And(`I not see button`, [
+      .and(`I not see button`, [
         `Confirm document creation`,
         `Close document adding`,
       ])
-      .And(`I see text`, [documentName])
-      .When(`I reload page`)
-      .Then(`I see text`, [documentName])
-      .When(`I click button`, [`Your documents`])
-      .Then(`I see text`, [`Your Documents`, documentName])
-      .When(`I click button`, [`Close your documents`])
-      .Then(`I not see text`, [`Your Documents`])
-      .When(`I click button`, [`Change document name`])
-      .And(`I clear input`, [`Type document name*`])
-      .And(`I type in input`, `Type document name*`, documentNameEdited)
-      .And(`I click button`, [`Confirm name change`])
-      .Then(`I see disabled button`, [
+      .and(`I see text`, [documentName])
+      .when(`I reload page`)
+      .then(`I see text`, [documentName])
+      .when(`I click button`, [`Your documents`])
+      .then(`I see text`, [`Your Documents`, documentName])
+      .when(`I click button`, [`Close your documents`])
+      .then(`I not see text`, [`Your Documents`])
+      .when(`I click button`, [`Change document name`])
+      .and(`I clear input`, [`Type document name*`])
+      .and(`I type in input`, `Type document name*`, documentNameEdited)
+      .and(`I click button`, [`Confirm name change`])
+      .then(`I see disabled button`, [
         `Confirm name change`,
         `Close document name edition`,
       ])
-      .And(`I not see button`, [
+      .and(`I not see button`, [
         `Confirm name change`,
         `Close document name edition`,
       ])
-      .And(`I see text`, [documentNameEdited])
-      .When(`I reload page`)
-      .Then(`I see text`, [documentNameEdited])
-      .And(`I see not disabled button`, [`Change document name`])
-      .When(`I click button`, [`More document options`])
-      .Then(`I see text`, [`Details`])
-      .When(`I click button`, [`Close additional options`])
-      .Then(`I not see text`, [`Details`])
-      .When(`I click button`, [
+      .and(`I see text`, [documentNameEdited])
+      .when(`I reload page`)
+      .then(`I see text`, [documentNameEdited])
+      .and(`I see not disabled button`, [`Change document name`])
+      .when(`I click button`, [`More document options`])
+      .then(`I see text`, [`Details`])
+      .when(`I click button`, [`Close additional options`])
+      .then(`I not see text`, [`Details`])
+      .when(`I click button`, [
         `More document options`,
         `Delete current document`,
       ])
-      .Then(`I see text`, [
+      .then(`I see text`, [
         `Document Removal`,
         `Document name*`,
         `Type ${documentNameEdited} to remove this document`,
       ])
-      .And(`I click button`, [`Cancel document removal`])
-      .Then(`I not see text`, [
+      .and(`I click button`, [`Cancel document removal`])
+      .then(`I not see text`, [
         `Document Removal`,
         `Document name*`,
         `Type ${documentNameEdited} to remove this document`,
       ])
-      .When(`I click button`, [
+      .when(`I click button`, [
         `More document options`,
         `Delete current document`,
       ])
-      .And(`I type in input`, `Type document name`, documentNameEdited)
-      .And(`I click button`, [`Confirm document removal`])
-      .Then(`I see disabled button`, [
+      .and(`I type in input`, `Type document name`, documentNameEdited)
+      .and(`I click button`, [`Confirm document removal`])
+      .then(`I see disabled button`, [
         `Confirm document removal`,
         `Cancel document removal`,
         `Close document removal`,
       ])
-      .And(`I not see text`, [`Delete current document`, documentNameEdited])
-      .And(`I see text`, [`# Start from scratch`, `Start from scratch`])
-      .When(`I reload page`)
-      .Then(`I see text`, [`# Start from scratch`, `Start from scratch`])
-      .And(`I see button`, [`User details and options`]);
+      .and(`I not see text`, [`Delete current document`, documentNameEdited])
+      .and(`I see text`, [`# Start from scratch`, `Start from scratch`])
+      .when(`I reload page`)
+      .then(`I see text`, [`# Start from scratch`, `Start from scratch`])
+      .and(`I see button`, [`User details and options`]);
   },
 } as const;
 
