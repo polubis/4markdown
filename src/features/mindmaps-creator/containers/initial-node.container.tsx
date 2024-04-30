@@ -6,6 +6,7 @@ import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import { Button } from 'design-system/button';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { BiSearch } from 'react-icons/bi';
 
 const InitialNodeContainer = (props: NodeProps) => {
   const [type, setType] = React.useState<`internal` | `external`>(`internal`);
@@ -60,11 +61,10 @@ const InitialNodeContainer = (props: NodeProps) => {
               hint={
                 <>
                   Select <strong>{siteMetadataStore.appName}</strong> document
-                  or mindmap
                 </>
               }
             >
-              <Input placeholder="Type to search" />
+              <Input placeholder="Type to search" rightIcon={<BiSearch />} />
             </Field>
           </>
         )}
