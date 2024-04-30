@@ -3,14 +3,11 @@ import { type NodeProps } from 'reactflow';
 import { useMindmapsCreatorCtx } from '../providers/mindmaps-creator.provider';
 import { Tabs } from 'design-system/tabs';
 import { Field } from 'design-system/field';
-import { Input } from 'design-system/input';
 import { Button } from 'design-system/button';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
-import { BiSearch } from 'react-icons/bi';
+import { DocumentSearchSelectContainer } from './document-search-select.container';
 
 const InitialNodeContainer = (props: NodeProps) => {
-  const [type, setType] = React.useState<`internal` | `external`>(`internal`);
-  const siteMetadataStore = siteMetadataStoreSelectors.useReady();
+  const [type, setType] = React.useState<`yours` | `external`>(`yours`);
 
   const { setNodes, setOperation } = useMindmapsCreatorCtx();
 
@@ -40,10 +37,10 @@ const InitialNodeContainer = (props: NodeProps) => {
         <Tabs className="mb-5">
           <Tabs.Item
             type="button"
-            active={type === `internal`}
-            onClick={() => setType(`internal`)}
+            active={type === `yours`}
+            onClick={() => setType(`yours`)}
           >
-            Internal
+            Yours
           </Tabs.Item>
           <Tabs.Item
             type="button"
@@ -53,18 +50,18 @@ const InitialNodeContainer = (props: NodeProps) => {
             External
           </Tabs.Item>
         </Tabs>
-        {type === `internal` && (
+        {type === `yours` && (
           <>
             <Field
               className="mb-2"
-              label="Source*"
+              label="Document*"
               hint={
                 <>
-                  Select <strong>{siteMetadataStore.appName}</strong> document
+                  Select <strong>your</strong> document
                 </>
               }
             >
-              <Input placeholder="Type to search" rightIcon={<BiSearch />} />
+              <DocumentSearchSelectContainer />
             </Field>
           </>
         )}

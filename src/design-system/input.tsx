@@ -30,4 +30,5 @@ const Input = ({ className, rightIcon, ...props }: InputProps) => {
   );
 };
 
+export type { InputProps };
 export { Input };
