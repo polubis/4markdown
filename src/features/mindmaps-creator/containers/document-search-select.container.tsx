@@ -1,4 +1,4 @@
-import { Input } from 'design-system/input';
+import { Input, InputProps } from 'design-system/input';
 import { useToggle } from 'development-kit/use-toggle';
 import { Doc } from 'models/doc';
 import React from 'react';
@@ -45,6 +45,16 @@ const DocumentSearchSelectContainer = ({
     blurTimeout.current = setTimeout(menu.close, 100);
   };
 
+  const changeAndClose: InputProps['onChange'] = (e) => {
+    const trimmedValue = e.target.value.trim();
+
+    if (trimmedValue.length > 0) {
+      menu.open();
+    }
+
+    setText(e.target.value);
+  };
+
   React.useEffect(() => {
     return () => {
       clearBlurTimeout();
@@ -59,15 +69,7 @@ const DocumentSearchSelectContainer = ({
         value={text}
         onFocus={menu.open}
         onBlur={closeMenu}
-        onChange={(e) => {
-          const trimmedValue = e.target.value.trim();
-
-          if (trimmedValue.length > 0) {
-            menu.open();
-          }
-
-          setText(e.target.value);
-        }}
+        onChange={changeAndClose}
       />
 
       {menu.opened && (
