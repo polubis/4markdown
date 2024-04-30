@@ -6,7 +6,6 @@ import ReactFlow, {
   Controls,
   Background,
   NodeTypes,
-  NodeProps,
   Handle,
   Position,
 } from 'reactflow';
@@ -25,7 +24,7 @@ import { useDocsStore } from 'store/docs/docs.store';
 
 const handleStyle = { left: 10 };
 
-const InternalNode = ({ data }: NodeProps) => {
+const InternalNode = () => {
   return (
     <>
       <Handle type="target" position={Position.Top} />
@@ -46,10 +45,10 @@ const InternalNode = ({ data }: NodeProps) => {
 
 const nodeTypes: NodeTypes = {
   internal: InternalNode,
-  initial: InitialNodeContainer,
+  external: InitialNodeContainer,
 };
 
-const generateId = (): string => new Date().toISOString();
+// const generateId = (): string => new Date().toISOString();
 
 const MindmapsCreatorView = () => {
   const {
@@ -65,26 +64,54 @@ const MindmapsCreatorView = () => {
   const docsStore = useDocsStore();
 
   const addNode = (): void => {
-    setNodes((prevNodes) => [
-      ...prevNodes,
-      {
-        id: generateId(),
-        position: { x: 0, y: 0 },
-        data: { label: `test` },
-        type: `initial`,
-      },
-    ]);
+    // setNodes((prevNodes) => [
+    //   ...prevNodes,
+    //   {
+    //     id: generateId(),
+    //     position: { x: 0, y: 0 },
+    //     data: null,
+    //     type: `creation`,
+    //   },
+    // ]);
   };
 
   React.useEffect(() => {
     setNodes(() => [
-      { id: `1`, position: { x: 0, y: 0 }, data: { label: `1` } },
-      { id: `2`, position: { x: 0, y: 100 }, data: { label: `2` } },
+      {
+        id: `1`,
+        position: { x: 0, y: 0 },
+        height: null,
+        width: null,
+        data: {
+          url: `https://google.com`,
+          name: `Test`,
+          description: `dasdasdasdasddasdds`,
+        },
+        type: `external`,
+      },
+      {
+        id: `2`,
+        position: { x: 0, y: 100 },
+        height: null,
+        width: null,
+        data: {
+          url: `https://google.com`,
+          name: `Test`,
+          description: `dasdasdasdasddasdds`,
+        },
+        type: `external`,
+      },
       {
         id: `node-1`,
-        type: `internal`,
         position: { x: 0, y: 300 },
-        data: { value: 123 },
+        height: null,
+        width: null,
+        data: {
+          url: `https://google.com`,
+          name: `Test`,
+          description: `dasdasdasdasddasdds`,
+        },
+        type: `external`,
       },
     ]);
     setEdges(() => [

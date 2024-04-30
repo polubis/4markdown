@@ -43,7 +43,13 @@ const YoursFormContainer = (props: YoursFormContainerProps) => {
     setOperation(`node-added`);
     setNodes((nodes) =>
       nodes.map((node) =>
-        node.id === props.id ? { ...node, type: `internal` } : node,
+        node.id === props.id
+          ? {
+              ...node,
+              type: `internal`,
+              data: { name, description, doc: selectedDoc! },
+            }
+          : node,
       ),
     );
     setOperation(`idle`, 3000);

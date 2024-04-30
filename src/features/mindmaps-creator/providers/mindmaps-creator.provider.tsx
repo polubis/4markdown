@@ -1,3 +1,4 @@
+import type { MindmapNode } from 'models/mindmap';
 import React from 'react';
 import {
   Edge,
@@ -15,13 +16,13 @@ import { useShallow } from 'zustand/react/shallow';
 type MindmapsCreatorOperation = 'idle' | 'node-added';
 
 interface MindmapsCreatorProviderContext {
-  nodes: Node[];
+  nodes: MindmapNode[];
   edges: Edge[];
   operation: MindmapsCreatorOperation;
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  setNodes(setter: (nodes: Node[]) => Node[]): void;
+  setNodes(setter: (nodes: MindmapNode[]) => MindmapNode[]): void;
   setEdges(setter: (edges: Edge[]) => Edge[]): void;
   setOperation(operation: MindmapsCreatorOperation, delay?: number): void;
 }
@@ -58,7 +59,10 @@ const MindmapsCreatorProvider = ({
       operation: `idle`,
       onNodesChange: (changes) => {
         set({
-          nodes: applyNodeChanges(changes, get().nodes),
+          nodes: applyNodeChanges(
+            changes,
+            get().nodes as Node[],
+          ) as MindmapNode[],
         });
       },
       onEdgesChange: (changes) => {
