@@ -18,17 +18,11 @@ const validators = {
     name.length >= 2 &&
     name.length <= 100 &&
     /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(name.trim()),
-  description: (description: string): boolean => {
-    if (typeof description !== `string`) {
-      return false;
-    }
-
-    return (
-      description.length === description.trim().length &&
-      description.length >= 10 &&
-      description.length <= 250
-    );
-  },
+  description: (description: string): boolean =>
+    typeof description === `string` &&
+    description.length === description.trim().length &&
+    description.length >= 10 &&
+    description.length <= 250,
 };
 
 const InitialNodeContainer = (props: InitialNodeContainerProps) => {
