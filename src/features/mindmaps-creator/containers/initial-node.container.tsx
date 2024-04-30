@@ -5,9 +5,11 @@ import { Tabs } from 'design-system/tabs';
 import { Field } from 'design-system/field';
 import { Button } from 'design-system/button';
 import { DocumentSearchSelectContainer } from './document-search-select.container';
+import { Doc } from 'models/doc';
 
 const InitialNodeContainer = (props: NodeProps) => {
   const [type, setType] = React.useState<`yours` | `external`>(`yours`);
+  const [selectedDoc, setSelectedDoc] = React.useState<Doc | null>(null);
 
   const { setNodes, setOperation } = useMindmapsCreatorCtx();
 
@@ -61,7 +63,7 @@ const InitialNodeContainer = (props: NodeProps) => {
                 </>
               }
             >
-              <DocumentSearchSelectContainer />
+              <DocumentSearchSelectContainer onSelect={setSelectedDoc} />
             </Field>
           </>
         )}

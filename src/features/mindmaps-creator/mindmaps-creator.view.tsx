@@ -21,6 +21,7 @@ import {
 } from './providers/mindmaps-creator.provider';
 import { Status } from 'design-system/status';
 import { InitialNodeContainer } from './containers/initial-node.container';
+import { useDocsStore } from 'store/docs/docs.store';
 
 const handleStyle = { left: 10 };
 
@@ -65,6 +66,7 @@ const MindmapsCreatorView = () => {
     onEdgesChange,
     onNodesChange,
   } = useMindmapsCreatorCtx();
+  const docsStore = useDocsStore();
 
   const addNode = (): void => {
     setNodes((prevNodes) => [
@@ -106,7 +108,13 @@ const MindmapsCreatorView = () => {
       <Status open={operation === `node-added`}>New node added</Status>
       <main className="flex h-[calc(100svh-72px)]">
         <aside className="py-4 flex flex-col items-center space-y-4 shrink-0 w-[66px] border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-          <Button i={1} s={2} title="Add node" onClick={addNode}>
+          <Button
+            disabled={docsStore.is !== `ok`}
+            i={1}
+            s={2}
+            title="Add node"
+            onClick={addNode}
+          >
             <BiPlus size={24} />
           </Button>
         </aside>
