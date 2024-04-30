@@ -19,8 +19,13 @@ import {
   useMindmapsCreatorCtx,
 } from './providers/mindmaps-creator.provider';
 import { Status } from 'design-system/status';
-import { InitialNodeContainer } from './containers/initial-node.container';
 import { useDocsStore } from 'store/docs/docs.store';
+import { useToggle } from 'development-kit/use-toggle';
+import Modal from 'design-system/modal';
+
+const NodeFormModalContainer = React.lazy(
+  () => import(`./containers/node-form-modal.container`),
+);
 
 const handleStyle = { left: 10 };
 
@@ -29,7 +34,25 @@ const InternalNode = () => {
     <>
       <Handle type="target" position={Position.Top} />
       <div>
-        <label htmlFor="text">Text:</label>
+        <label>InternalNode</label>
+      </div>
+      <Handle type="source" position={Position.Bottom} id="a" />
+      <Handle
+        type="source"
+        position={Position.Bottom}
+        id="b"
+        style={handleStyle}
+      />
+    </>
+  );
+};
+
+const ExternalNode = () => {
+  return (
+    <>
+      <Handle type="target" position={Position.Top} />
+      <div>
+        <label htmlFor="text">ExternalNode</label>
         <input id="text" name="text" className="nodrag" />
       </div>
       <Handle type="source" position={Position.Bottom} id="a" />
@@ -45,7 +68,7 @@ const InternalNode = () => {
 
 const nodeTypes: NodeTypes = {
   internal: InternalNode,
-  external: InitialNodeContainer,
+  external: ExternalNode,
 };
 
 // const generateId = (): string => new Date().toISOString();
@@ -61,9 +84,11 @@ const MindmapsCreatorView = () => {
     onEdgesChange,
     onNodesChange,
   } = useMindmapsCreatorCtx();
+  const nodeFormModal = useToggle();
   const docsStore = useDocsStore();
 
   const addNode = (): void => {
+    nodeFormModal.open();
     // setNodes((prevNodes) => [
     //   ...prevNodes,
     //   {
@@ -157,6 +182,15 @@ const MindmapsCreatorView = () => {
           </ReactFlow>
         )}
       </main>
+
+      {nodeFormModal.opened && (
+        <React.Suspense>
+          <NodeFormModalContainer
+            onClose={nodeFormModal.close}
+            onConfirm={() => nodeFormModal.close()}
+          />
+        </React.Suspense>
+      )}
     </>
   );
 };
