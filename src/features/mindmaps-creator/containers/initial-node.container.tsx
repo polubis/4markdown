@@ -25,12 +25,12 @@ const validators = {
     description.length <= 250,
 };
 
-const InitialNodeContainer = (props: InitialNodeContainerProps) => {
-  const [type, setType] = React.useState<`yours` | `external`>(`yours`);
+interface YoursFormContainerProps extends InitialNodeContainerProps {}
+
+const YoursFormContainer = (props: YoursFormContainerProps) => {
   const [selectedDoc, setSelectedDoc] = React.useState<Doc | null>(null);
   const [name, setName] = React.useState(``);
   const [description, setDescription] = React.useState(``);
-
   const { setNodes, setOperation } = useMindmapsCreatorCtx();
 
   const cancel = (): void => {
@@ -66,66 +66,42 @@ const InitialNodeContainer = (props: InitialNodeContainerProps) => {
   );
 
   return (
-    <form
-      className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border max-w-[280px]"
-      onSubmit={confirm}
-    >
-      <h6 className="text-xl mb-4">Add Node</h6>
+    <form onSubmit={confirm}>
       <section>
-        <Tabs className="mb-5">
-          <Tabs.Item
-            type="button"
-            active={type === `yours`}
-            onClick={() => setType(`yours`)}
-          >
-            Yours
-          </Tabs.Item>
-          <Tabs.Item
-            type="button"
-            active={type === `external`}
-            onClick={() => setType(`external`)}
-          >
-            External
-          </Tabs.Item>
-        </Tabs>
-        {type === `yours` && (
+        <Field
+          className="mb-2"
+          label="Document*"
+          hint={
+            selectedDoc ? (
+              <>
+                You selected <strong>{selectedDoc.name}</strong>
+              </>
+            ) : (
+              <>Select the document</>
+            )
+          }
+        >
+          <DocumentSearchSelectContainer
+            onSelect={selectDoc}
+            onChange={unselectDoc}
+          />
+        </Field>
+        {selectedDoc && (
           <>
-            <Field
-              className="mb-2"
-              label="Document*"
-              hint={
-                selectedDoc ? (
-                  <>
-                    You selected <strong>{selectedDoc.name}</strong>
-                  </>
-                ) : (
-                  <>Select the document</>
-                )
-              }
-            >
-              <DocumentSearchSelectContainer
-                onSelect={selectDoc}
-                onChange={unselectDoc}
+            <Field className="mb-2" label="Name*">
+              <Input
+                placeholder="Example: Pizza recipe"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </Field>
-            {selectedDoc && (
-              <>
-                <Field className="mb-2" label="Name*">
-                  <Input
-                    placeholder="Example: Pizza recipe"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Field>
-                <Field label="Description*">
-                  <Textarea
-                    placeholder="Example: All pizza dough starts with the same basic ingredients: flour, yeast, water, salt, and olive oil..."
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </Field>
-              </>
-            )}
+            <Field label="Description*">
+              <Textarea
+                placeholder="Example: All pizza dough starts with the same basic ingredients: flour, yeast, water, salt, and olive oil..."
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Field>
           </>
         )}
       </section>
@@ -152,6 +128,28 @@ const InitialNodeContainer = (props: InitialNodeContainerProps) => {
         </Button>
       </footer>
     </form>
+  );
+};
+
+const InitialNodeContainer = (props: InitialNodeContainerProps) => {
+  const [type, setType] = React.useState<`yours` | `external`>(`yours`);
+
+  return (
+    <div className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border max-w-[280px]">
+      <h6 className="text-xl mb-4">Add Node</h6>
+      <Tabs className="mb-5">
+        <Tabs.Item active={type === `yours`} onClick={() => setType(`yours`)}>
+          Yours
+        </Tabs.Item>
+        <Tabs.Item
+          active={type === `external`}
+          onClick={() => setType(`external`)}
+        >
+          External
+        </Tabs.Item>
+      </Tabs>
+      {type === `yours` && <YoursFormContainer {...props} />}
+    </div>
   );
 };
 
