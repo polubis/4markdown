@@ -11,6 +11,26 @@ import { Textarea } from 'design-system/textarea';
 
 interface InitialNodeContainerProps extends NodeProps {}
 
+const validators = {
+  name: (name: string): boolean =>
+    typeof name === `string` &&
+    name.length === name.trim().length &&
+    name.length >= 2 &&
+    name.length <= 100 &&
+    /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(name.trim()),
+  description: (description: string): boolean => {
+    if (typeof description !== `string`) {
+      return false;
+    }
+
+    return (
+      description.length === description.trim().length &&
+      description.length >= 10 &&
+      description.length <= 250
+    );
+  },
+};
+
 const InitialNodeContainer = (props: InitialNodeContainerProps) => {
   const [type, setType] = React.useState<`yours` | `external`>(`yours`);
   const [selectedDoc, setSelectedDoc] = React.useState<Doc | null>(null);
@@ -44,6 +64,12 @@ const InitialNodeContainer = (props: InitialNodeContainerProps) => {
   const unselectDoc = (): void => {
     setSelectedDoc(null);
   };
+
+  const isNameValid = React.useMemo(() => validators.name(name), [name]);
+  const isDescriptionValid = React.useMemo(
+    () => validators.description(description),
+    [description],
+  );
 
   return (
     <form
@@ -120,7 +146,14 @@ const InitialNodeContainer = (props: InitialNodeContainerProps) => {
         >
           Cancel
         </Button>
-        <Button type="submit" i={2} s={2} auto title="Confirm node creation">
+        <Button
+          disabled={!isNameValid || !isDescriptionValid}
+          type="submit"
+          i={2}
+          s={2}
+          auto
+          title="Confirm node creation"
+        >
           Confirm
         </Button>
       </footer>
