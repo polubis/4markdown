@@ -21,11 +21,9 @@ import {
 import { Status } from 'design-system/status';
 import { useDocsStore } from 'store/docs/docs.store';
 import { useToggle } from 'development-kit/use-toggle';
-import Modal from 'design-system/modal';
+import { NodeFormModalProps } from './components/node-form-modal';
 
-const NodeFormModalContainer = React.lazy(
-  () => import(`./containers/node-form-modal.container`),
-);
+const NodeFormModal = React.lazy(() => import(`./components/node-form-modal`));
 
 const handleStyle = { left: 10 };
 
@@ -71,7 +69,7 @@ const nodeTypes: NodeTypes = {
   external: ExternalNode,
 };
 
-// const generateId = (): string => new Date().toISOString();
+const generateId = (): string => new Date().toISOString();
 
 const MindmapsCreatorView = () => {
   const {
@@ -81,23 +79,29 @@ const MindmapsCreatorView = () => {
     setNodes,
     setEdges,
     onConnect,
+    setOperation,
     onEdgesChange,
     onNodesChange,
   } = useMindmapsCreatorCtx();
   const nodeFormModal = useToggle();
   const docsStore = useDocsStore();
 
-  const addNode = (): void => {
-    nodeFormModal.open();
-    // setNodes((prevNodes) => [
-    //   ...prevNodes,
-    //   {
-    //     id: generateId(),
-    //     position: { x: 0, y: 0 },
-    //     data: null,
-    //     type: `creation`,
-    //   },
-    // ]);
+  const addNode: NodeFormModalProps['onConfirm'] = (node): void => {
+    setOperation(`node-added`);
+    setNodes((prevNodes) => [
+      ...prevNodes,
+      {
+        id: generateId(),
+        position: { x: 0, y: 0 },
+        height: null,
+        width: null,
+        data: node.data,
+        type: node.type,
+      },
+    ]);
+    setOperation(`idle`, 3000);
+
+    nodeFormModal.close();
   };
 
   React.useEffect(() => {
@@ -160,8 +164,8 @@ const MindmapsCreatorView = () => {
             disabled={docsStore.is !== `ok`}
             i={1}
             s={2}
-            title="Add node"
-            onClick={addNode}
+            title="Create new node"
+            onClick={nodeFormModal.open}
           >
             <BiPlus size={24} />
           </Button>
@@ -185,10 +189,7 @@ const MindmapsCreatorView = () => {
 
       {nodeFormModal.opened && (
         <React.Suspense>
-          <NodeFormModalContainer
-            onClose={nodeFormModal.close}
-            onConfirm={() => nodeFormModal.close()}
-          />
+          <NodeFormModal onClose={nodeFormModal.close} onConfirm={addNode} />
         </React.Suspense>
       )}
     </>
