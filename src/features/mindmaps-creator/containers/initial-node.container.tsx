@@ -132,14 +132,17 @@ const YoursFormContainer = (props: YoursFormContainerProps) => {
 };
 
 const InitialNodeContainer = (props: InitialNodeContainerProps) => {
-  const [type, setType] = React.useState<`yours` | `external`>(`yours`);
+  const [type, setType] = React.useState<`internal` | `external`>(`internal`);
 
   return (
     <div className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md border max-w-[280px]">
       <h6 className="text-xl mb-4">Add Node</h6>
       <Tabs className="mb-5">
-        <Tabs.Item active={type === `yours`} onClick={() => setType(`yours`)}>
-          Yours
+        <Tabs.Item
+          active={type === `internal`}
+          onClick={() => setType(`internal`)}
+        >
+          Internal
         </Tabs.Item>
         <Tabs.Item
           active={type === `external`}
@@ -148,7 +151,7 @@ const InitialNodeContainer = (props: InitialNodeContainerProps) => {
           External
         </Tabs.Item>
       </Tabs>
-      {type === `yours` && <YoursFormContainer {...props} />}
+      {type === `internal` && <YoursFormContainer {...props} />}
     </div>
   );
 };

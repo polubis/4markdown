@@ -25,17 +25,13 @@ import { useDocsStore } from 'store/docs/docs.store';
 
 const handleStyle = { left: 10 };
 
-const InternalLink = ({ data }: NodeProps) => {
-  const onChange = React.useCallback((evt) => {
-    console.log(evt.target.value);
-  }, []);
-
+const InternalNode = ({ data }: NodeProps) => {
   return (
     <>
       <Handle type="target" position={Position.Top} />
       <div>
         <label htmlFor="text">Text:</label>
-        <input id="text" name="text" onChange={onChange} className="nodrag" />
+        <input id="text" name="text" className="nodrag" />
       </div>
       <Handle type="source" position={Position.Bottom} id="a" />
       <Handle
@@ -49,7 +45,7 @@ const InternalLink = ({ data }: NodeProps) => {
 };
 
 const nodeTypes: NodeTypes = {
-  internal: InternalLink,
+  internal: InternalNode,
   initial: InitialNodeContainer,
 };
 
