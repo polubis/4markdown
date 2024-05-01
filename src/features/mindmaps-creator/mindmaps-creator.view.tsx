@@ -8,6 +8,7 @@ import ReactFlow, {
   NodeTypes,
   Handle,
   Position,
+  NodeProps,
 } from 'reactflow';
 import { MindmapCreatorLinkContainer } from 'containers/mindmap-creator-link.container';
 import { MindmapNavigation } from './components/mindmap-navigation';
@@ -22,25 +23,20 @@ import { Status } from 'design-system/status';
 import { useDocsStore } from 'store/docs/docs.store';
 import { useToggle } from 'development-kit/use-toggle';
 import { NodeFormModalProps } from './components/node-form-modal';
+import { InternalMindmapNodeData } from 'models/mindmap';
 
 const NodeFormModal = React.lazy(() => import(`./components/node-form-modal`));
 
-const handleStyle = { left: 10 };
-
-const InternalNode = () => {
+const InternalNode = (props: NodeProps<InternalMindmapNodeData>) => {
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <div>
-        <label>InternalNode</label>
+      <div className="rounded-md bg-white dark:bg-black p-4">
+        <h6>{props.data.name}</h6>
+        <p>{props.data.description}</p>
       </div>
-      <Handle type="source" position={Position.Bottom} id="a" />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        style={handleStyle}
-      />
+      <Handle type="source" position={Position.Bottom} />
+      <Handle type="source" position={Position.Bottom} />
     </>
   );
 };
@@ -53,13 +49,8 @@ const ExternalNode = () => {
         <label htmlFor="text">ExternalNode</label>
         <input id="text" name="text" className="nodrag" />
       </div>
-      <Handle type="source" position={Position.Bottom} id="a" />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        style={handleStyle}
-      />
+      <Handle type="source" position={Position.Bottom} />
+      <Handle type="source" position={Position.Bottom} />
     </>
   );
 };

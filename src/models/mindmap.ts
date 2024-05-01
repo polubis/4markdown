@@ -10,19 +10,16 @@ type NodeNativeProperties =
   | 'position'
   | 'type';
 
+type InternalMindmapNodeData = { doc: Doc; name: Name; description: string };
+type ExternalMindmapNodeData = { url: Path; name: Name; description: string };
+
 interface InternalMindmapNode
   extends Required<
-    Pick<
-      Node<{ doc: Doc; name: Name; description: string }, 'internal'>,
-      NodeNativeProperties
-    >
+    Pick<Node<InternalMindmapNodeData, 'internal'>, NodeNativeProperties>
   > {}
 
 type ExternalMindmapNode = Required<
-  Pick<
-    Node<{ url: Path; name: Name; description: string }, 'external'>,
-    NodeNativeProperties
-  >
+  Pick<Node<ExternalMindmapNodeData, 'external'>, NodeNativeProperties>
 >;
 
 type MindmapNode = InternalMindmapNode | ExternalMindmapNode;
@@ -37,4 +34,11 @@ interface Mindmap {
   edges: Edge[];
 }
 
-export type { Mindmap, ExternalMindmapNode, InternalMindmapNode, MindmapNode };
+export type {
+  Mindmap,
+  ExternalMindmapNode,
+  InternalMindmapNodeData,
+  ExternalMindmapNodeData,
+  InternalMindmapNode,
+  MindmapNode,
+};
