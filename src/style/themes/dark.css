@@ -7,14 +7,6 @@ body.dark :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i) {
   color: var(--white);
 }
 
-body.dark ul li::before {
-  background: var(--white);
-}
-
-ul li:before {
-  background: var(--black);
-}
-
 body.dark p code,
 body.dark td code {
   background: #151515;
