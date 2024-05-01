@@ -48,6 +48,25 @@ const CreatorView: React.FC = () => {
     setDivideMode(`both`);
   };
 
+  const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.key !== `Tab`) {
+      return;
+    }
+
+    e.preventDefault();
+
+    const target = e.target as HTMLTextAreaElement;
+    const start = target.selectionStart;
+    const end = target.selectionEnd;
+
+    const newValue =
+      code.substring(0, start) + ` ` + ` ` + ` ` + ` ` + code.substring(end);
+
+    creatorStoreActions.change(newValue);
+
+    target.selectionStart = target.selectionEnd = start + 1;
+  };
+
   return (
     <>
       {docManagementStore.is === `fail` && (
@@ -128,27 +147,7 @@ const CreatorView: React.FC = () => {
             )}
             value={code}
             onChange={(e) => creatorStoreActions.change(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === `Tab`) {
-                e.preventDefault();
-
-                const target = e.target as HTMLTextAreaElement;
-                const start = target.selectionStart;
-                const end = target.selectionEnd;
-
-                const newValue =
-                  code.substring(0, start) +
-                  ` ` +
-                  ` ` +
-                  ` ` +
-                  ` ` +
-                  code.substring(end);
-
-                creatorStoreActions.change(newValue);
-
-                target.selectionStart = target.selectionEnd = start + 1;
-              }
-            }}
+            onKeyDown={maintainTabs}
           />
           <div
             className={c(
