@@ -23,15 +23,15 @@
   counter-reset: numbers;
 }
 
-.markdown ol li {
+.markdown ol > li {
   counter-increment: numbers;
 }
 
-.markdown ol li::before {
+.markdown ol > li::before {
   content: counter(numbers) '. ';
 }
 
-.markdown ul li:before {
+.markdown ul > li:before {
   content: '- ';
   display: contents;
 }
@@ -60,4 +60,9 @@
 
 .markdown picture + em {
   margin-top: 12px;
+}
+
+.markdown li ol,
+.markdown li ul {
+  margin-left: 16px;
 }
