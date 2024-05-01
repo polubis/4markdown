@@ -29,12 +29,10 @@ const CreatorView: React.FC = () => {
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
 
-  const handleChange = (value: string): void => {
-    creatorStoreActions.change(value);
-  };
-
-  const clearConfirm = useConfirm(() => handleChange(``));
-  const resetConfirm = useConfirm(() => handleChange(initialCode));
+  const clearConfirm = useConfirm(() => creatorStoreActions.change(``));
+  const resetConfirm = useConfirm(() =>
+    creatorStoreActions.change(initialCode),
+  );
 
   const divide = (): void => {
     if (divideMode === `both`) {
@@ -129,7 +127,28 @@ const CreatorView: React.FC = () => {
               { hidden: divideMode === `preview` },
             )}
             value={code}
-            onChange={(e) => handleChange(e.target.value)}
+            onChange={(e) => creatorStoreActions.change(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === `Tab`) {
+                e.preventDefault();
+
+                const target = e.target as HTMLTextAreaElement;
+                const start = target.selectionStart;
+                const end = target.selectionEnd;
+
+                const newValue =
+                  code.substring(0, start) +
+                  ` ` +
+                  ` ` +
+                  ` ` +
+                  ` ` +
+                  code.substring(end);
+
+                creatorStoreActions.change(newValue);
+
+                target.selectionStart = target.selectionEnd = start + 1;
+              }
+            }}
           />
           <div
             className={c(
