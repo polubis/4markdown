@@ -14,7 +14,7 @@ import { MindmapCreatorLinkContainer } from 'containers/mindmap-creator-link.con
 import { MindmapNavigation } from './components/mindmap-navigation';
 import 'reactflow/dist/style.css';
 import { Button } from 'design-system/button';
-import { BiPlus } from 'react-icons/bi';
+import { BiLowVision, BiPlus, BiShow, BiWorld } from 'react-icons/bi';
 import {
   MindmapsCreatorProvider,
   useMindmapsCreatorCtx,
@@ -31,11 +31,23 @@ const InternalNode = (props: NodeProps<InternalMindmapNodeData>) => {
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <div className="rounded-md bg-white dark:bg-black p-4">
-        <h6>{props.data.name}</h6>
+      <div className="rounded-md bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 border-2 p-4">
+        <div>
+          <strong className="text-md">{props.data.name}</strong>
+          <p>
+            {props.data.doc.visibility === `private` && (
+              <BiLowVision size="20" title="This document is private" />
+            )}
+            {props.data.doc.visibility === `public` && (
+              <BiShow size="20" title="This document is public" />
+            )}
+            {props.data.doc.visibility === `permanent` && (
+              <BiWorld size="20" title="This document is permanent" />
+            )}
+          </p>
+        </div>
         <p>{props.data.description}</p>
       </div>
-      <Handle type="source" position={Position.Bottom} />
       <Handle type="source" position={Position.Bottom} />
     </>
   );
