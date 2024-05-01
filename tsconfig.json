@@ -113,8 +113,7 @@
       "queries/*": ["./src/queries/*"],
       "components/*": ["./src/components/*"],
       "containers/*": ["./src/containers/*"],
-      "__mocks__/*": ["./src/__mocks__/*"],
-      "__tests__/*": ["./src/__tests__/*"],
+      "__mocks__/*": ["./src/__mocks__/*"]
     },
     "types": ["jest", "node", "cypress"]
   },
