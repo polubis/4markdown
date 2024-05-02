@@ -16,7 +16,7 @@ import {
   nickname,
   report,
   url,
-} from 'development-kit/validators';
+} from 'development-kit/form';
 
 interface UserProfileFormModalProps {
   onClose(): void;
