@@ -28,6 +28,39 @@ const chain =
     return true;
   };
 
+const report =
+  <V extends Record<string, any>>(
+    validators: Partial<Record<keyof V, (value: any) => boolean>>,
+  ) =>
+  (
+    values: V,
+  ): {
+    result: Record<keyof V, boolean>;
+    ok: boolean;
+    nok: boolean;
+  } => {
+    const result = {} as Record<keyof V, boolean>;
+    let ok = true;
+
+    for (const key in values) {
+      const validator = validators[key] ?? (() => true);
+      result[key] = validator(values[key]);
+    }
+
+    for (const status in result) {
+      if (!status) {
+        ok = false;
+        break;
+      }
+    }
+
+    return {
+      result,
+      ok,
+      nok: !ok,
+    };
+  };
+
 const nickname = (value: string): boolean => /^[a-zA-Z0-9_-]+$/.test(value);
 
 export {
@@ -39,4 +72,5 @@ export {
   minLength,
   maxLength,
   nickname,
+  report,
 };

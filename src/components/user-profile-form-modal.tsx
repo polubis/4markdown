@@ -14,6 +14,7 @@ import {
   minLength,
   maxLength,
   nickname,
+  report,
 } from 'development-kit/validators';
 
 interface UserProfileFormModalProps {
@@ -40,8 +41,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
     twitterUrl: ``,
   }));
 
-  const nicknameInvalid = !validators.nickname(values.nickname);
-  const invalid = nicknameInvalid;
+  const { nok } = report(validators)(values);
 
   return (
     <Modal onEscape={onClose}>
@@ -61,7 +61,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
       </div>
       <form onSubmit={() => {}}>
         <section className="space-y-4">
-          <Field label={`Nickname`}>
+          <Field label={`Nickname*`}>
             <Input
               placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
               onChange={(e) =>
@@ -73,7 +73,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
               value={values.nickname}
             />
           </Field>
-          <Field label={`Bio`}>
+          <Field label={`Bio*`}>
             <Textarea
               placeholder="Example: I like programming and playing computer games..."
               // onChange={(e) => setName(e.target.value)}
@@ -133,7 +133,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
             i={2}
             s={2}
             auto
-            disabled={invalid}
+            disabled={nok}
             title="Confirm user profile update"
           >
             Confirm
