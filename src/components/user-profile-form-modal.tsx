@@ -14,7 +14,7 @@ import {
   maxLength,
   nickname,
   url,
-  chain,
+  optional,
 } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
 
@@ -25,7 +25,7 @@ interface UserProfileFormModalProps {
 type UserProfileFormValues = NonNullableProperties<UserProfile>;
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
-  const [{ nok, result }, { inject }] = useForm<UserProfileFormValues>(
+  const [{ nok }, { inject }] = useForm<UserProfileFormValues>(
     {
       nickname: ``,
       bio: ``,
@@ -39,16 +39,9 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
     {
       nickname: [notEmpty, noEdgeSpaces, minLength(2), maxLength(25), nickname],
       bio: [notEmpty, noEdgeSpaces, minLength(60), maxLength(300)],
-      githubUrl: [
-        (value) => {
-          if (value === ``) return true;
-          return chain(noEdgeSpaces, url)(value);
-        },
-      ],
+      githubUrl: [(value) => optional(noEdgeSpaces, url)(value)],
     },
   );
-
-  console.log(result.githubUrl);
 
   return (
     <Modal>

@@ -33,6 +33,14 @@ const chain =
     return true;
   };
 
+const optional =
+  (...validators: ((value: any) => boolean)[]) =>
+  (value: any): boolean => {
+    if (value === `` || value === undefined || value === null) return true;
+
+    return chain(...validators)(value);
+  };
+
 type ValidatorsMap<Values extends Record<string, any>> = {
   [K in keyof Values]?: ((value: Values[K]) => boolean)[];
 };
@@ -84,6 +92,7 @@ export {
   nonNullable,
   minLength,
   maxLength,
+  optional,
   nickname,
   report,
   url,
