@@ -15,6 +15,7 @@ import {
   maxLength,
   nickname,
   report,
+  url,
 } from 'development-kit/validators';
 
 interface UserProfileFormModalProps {
@@ -28,6 +29,7 @@ const validators = {
     chain(notEmpty, noEdgeSpaces, minLength(2), maxLength(25), nickname)(value),
   bio: (value: string): boolean =>
     chain(notEmpty, noEdgeSpaces, minLength(60), maxLength(300))(value),
+  githubUrl: (value: string): boolean => chain(noEdgeSpaces, url)(value),
 };
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
@@ -51,7 +53,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
       }));
     };
 
-  const injectProps = <Key extends keyof UserProfileFormValues>(key: Key) => ({
+  const inject = <Key extends keyof UserProfileFormValues>(key: Key) => ({
     onChange: changeValue(key),
     value: values[key],
   });
@@ -79,43 +81,43 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
           <Field label={`Nickname*`}>
             <Input
               placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
-              {...injectProps(`nickname`)}
+              {...inject(`nickname`)}
             />
           </Field>
           <Field label={`Bio*`}>
             <Textarea
               placeholder="Example: I like programming and playing computer games..."
-              {...injectProps(`bio`)}
+              {...inject(`bio`)}
             />
           </Field>
           <Field label={`GitHub Link`}>
             <Input
               placeholder="https://github.com/your-profile"
-              {...injectProps(`githubUrl`)}
+              {...inject(`githubUrl`)}
             />
           </Field>
           <Field label={`Facebook Link`}>
             <Input
               placeholder="https://www.facebook.com/your-profile"
-              {...injectProps(`fbUrl`)}
+              {...inject(`fbUrl`)}
             />
           </Field>
           <Field label={`LinkedIn Link`}>
             <Input
               placeholder="https://www.linkedin.com/your-profile"
-              {...injectProps(`linkedInUrl`)}
+              {...inject(`linkedInUrl`)}
             />
           </Field>
           <Field label={`Twitter Link`}>
             <Input
               placeholder="https://twitter.com/your-profile"
-              {...injectProps(`twitterUrl`)}
+              {...inject(`twitterUrl`)}
             />
           </Field>
           <Field label={`Blog`}>
             <Input
               placeholder="https://your-blog-domain"
-              {...injectProps(`blogUrl`)}
+              {...inject(`blogUrl`)}
             />
           </Field>
         </section>

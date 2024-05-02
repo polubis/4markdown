@@ -8,6 +8,11 @@ const nonNullable = <T>(value: T): value is NonNullable<T> =>
 
 const notEmpty = (value: string): boolean => value.trim().length > 0;
 
+const url = (value: string) =>
+  /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
+    value,
+  );
+
 const minLength =
   (limit: number) =>
   (value: string | any[]): boolean =>
@@ -80,4 +85,5 @@ export {
   maxLength,
   nickname,
   report,
+  url,
 };
