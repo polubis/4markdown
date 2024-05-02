@@ -5,10 +5,14 @@ import Modal from 'design-system/modal';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
+import { UserProfile } from 'models/user';
+import { NonNullableProperties } from 'development-kit/utility-types';
 
 interface UserProfileFormModalProps {
   onClose(): void;
 }
+
+type UserProfileFormValues = NonNullableProperties<UserProfile>;
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
   return (

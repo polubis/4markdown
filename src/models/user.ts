@@ -3,4 +3,14 @@ interface User {
   avatar: string | null;
 }
 
-export type { User };
+type UserProfile = {
+  nickname: string;
+  bio: string;
+  avatar: string | null;
+  githubUrl: string | null;
+  linkedInUrl: string | null;
+  twitterUrl: string | null;
+  fbUrl: string | null;
+};
+
+export type { User, UserProfile };
