@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigation } from 'components/navigation';
-import UserPopover from 'components/user-popover';
+import UserPopoverContainer from 'containers/user-popover.container';
 
 interface CreatorNavigationProps {
   children: React.ReactNode;
@@ -11,7 +11,7 @@ const CreatorNavigation = ({ children }: CreatorNavigationProps) => {
     <Navigation
       className="border-t-2 md:border-b-2 md:border-t-0"
       popover={
-        <UserPopover className="bottom-20 right-2 md:bottom-auto md:top-16" />
+        <UserPopoverContainer className="bottom-20 right-2 md:bottom-auto md:top-16" />
       }
     >
       {children}
