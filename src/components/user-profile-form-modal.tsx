@@ -7,6 +7,14 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { UserProfile } from 'models/user';
 import { NonNullableProperties } from 'development-kit/utility-types';
+import {
+  chain,
+  noEdgeSpaces,
+  notEmpty,
+  minLength,
+  maxLength,
+  nickname,
+} from 'development-kit/validators';
 
 interface UserProfileFormModalProps {
   onClose(): void;
@@ -14,7 +22,27 @@ interface UserProfileFormModalProps {
 
 type UserProfileFormValues = NonNullableProperties<UserProfile>;
 
+const validators = {
+  nickname: (value: string): boolean =>
+    chain(notEmpty, noEdgeSpaces, minLength(2), maxLength(25), nickname)(value),
+  bio: (value: string): boolean =>
+    chain(notEmpty, noEdgeSpaces, minLength(60), maxLength(300))(value),
+};
+
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
+  const [values, setValues] = React.useState<UserProfileFormValues>(() => ({
+    nickname: ``,
+    bio: ``,
+    avatar: ``,
+    githubUrl: ``,
+    linkedInUrl: ``,
+    fbUrl: ``,
+    twitterUrl: ``,
+  }));
+
+  const nicknameInvalid = !validators.nickname(values.nickname);
+  const invalid = nicknameInvalid;
+
   return (
     <Modal onEscape={onClose}>
       <div className="flex items-center justify-between gap-4 mb-6">
@@ -35,9 +63,14 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
         <section className="space-y-4">
           <Field label={`Nickname`}>
             <Input
-              placeholder="Examples: tom1994, workfororc, programmer, ...etc"
-              // onChange={(e) => setName(e.target.value)}
-              // value={name}
+              placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
+              onChange={(e) =>
+                setValues((prev) => ({
+                  ...prev,
+                  nickname: e.target.value,
+                }))
+              }
+              value={values.nickname}
             />
           </Field>
           <Field label={`Bio`}>
@@ -77,7 +110,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
           </Field>
           <Field label={`Blog`}>
             <Input
-              placeholder="https://your-blog-domain.com"
+              placeholder="https://your-blog-domain"
               // onChange={(e) => setName(e.target.value)}
               // value={name}
             />
@@ -100,6 +133,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
             i={2}
             s={2}
             auto
+            disabled={invalid}
             title="Confirm user profile update"
           >
             Confirm
