@@ -11,6 +11,7 @@ type UserProfile = {
   linkedInUrl: string | null;
   twitterUrl: string | null;
   fbUrl: string | null;
+  blogUrl: string | null;
 };
 
 export type { User, UserProfile };

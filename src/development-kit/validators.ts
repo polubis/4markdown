@@ -28,38 +28,45 @@ const chain =
     return true;
   };
 
-const report =
-  <V extends Record<string, any>>(
-    validators: Partial<Record<keyof V, (value: any) => boolean>>,
-  ) =>
-  (
-    values: V,
-  ): {
-    result: Record<keyof V, boolean>;
-    ok: boolean;
-    nok: boolean;
-  } => {
-    const result = {} as Record<keyof V, boolean>;
-    let ok = true;
+type ValidatorsMap<Values extends Record<string, any>> = {
+  [K in keyof Values]?: (value: Values[K]) => boolean;
+};
 
-    for (const key in values) {
-      const validator = validators[key] ?? (() => true);
-      result[key] = validator(values[key]);
+type ValidationReport<Values extends Record<string, any>> = {
+  ok: boolean;
+  nok: boolean;
+  result: Record<keyof Values, boolean>;
+};
+
+const report = <Values extends Record<string, any>>(
+  values: Values,
+  validators: ValidatorsMap<Values>,
+): ValidationReport<Values> => {
+  const result = {} as ValidationReport<Values>['result'];
+
+  for (const key in values) {
+    const validator = validators[key] ?? (() => true);
+    result[key] = validator(values[key]);
+  }
+
+  for (const status in result) {
+    if (!status) {
+      return {
+        result,
+        ok: false,
+        nok: true,
+      };
     }
+  }
 
-    for (const status in result) {
-      if (!status) {
-        ok = false;
-        break;
-      }
-    }
+  const nok = Object.values(result).some((status) => !status);
 
-    return {
-      result,
-      ok,
-      nok: !ok,
-    };
+  return {
+    result,
+    ok: !nok,
+    nok,
   };
+};
 
 const nickname = (value: string): boolean => /^[a-zA-Z0-9_-]+$/.test(value);
 

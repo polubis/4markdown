@@ -39,12 +39,27 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
     linkedInUrl: ``,
     fbUrl: ``,
     twitterUrl: ``,
+    blogUrl: ``,
   }));
 
-  const { nok } = report(validators)(values);
+  const changeValue =
+    <Key extends keyof UserProfileFormValues>(key: Key) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setValues((prev) => ({
+        ...prev,
+        [key]: e.target.value,
+      }));
+    };
+
+  const injectProps = <Key extends keyof UserProfileFormValues>(key: Key) => ({
+    onChange: changeValue(key),
+    value: values[key],
+  });
+
+  const { nok } = React.useMemo(() => report(values, validators), [values]);
 
   return (
-    <Modal onEscape={onClose}>
+    <Modal>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Your Profile Details</h6>
         <div className="flex gap-2">
@@ -64,55 +79,43 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
           <Field label={`Nickname*`}>
             <Input
               placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
-              onChange={(e) =>
-                setValues((prev) => ({
-                  ...prev,
-                  nickname: e.target.value,
-                }))
-              }
-              value={values.nickname}
+              {...injectProps(`nickname`)}
             />
           </Field>
           <Field label={`Bio*`}>
             <Textarea
               placeholder="Example: I like programming and playing computer games..."
-              // onChange={(e) => setName(e.target.value)}
-              // value={name}
+              {...injectProps(`bio`)}
             />
           </Field>
           <Field label={`GitHub Link`}>
             <Input
               placeholder="https://github.com/your-profile"
-              // onChange={(e) => setName(e.target.value)}
-              // value={name}
+              {...injectProps(`githubUrl`)}
             />
           </Field>
           <Field label={`Facebook Link`}>
             <Input
               placeholder="https://www.facebook.com/your-profile"
-              // onChange={(e) => setName(e.target.value)}
-              // value={name}
+              {...injectProps(`fbUrl`)}
             />
           </Field>
           <Field label={`LinkedIn Link`}>
             <Input
               placeholder="https://www.linkedin.com/your-profile"
-              // onChange={(e) => setName(e.target.value)}
-              // value={name}
+              {...injectProps(`linkedInUrl`)}
             />
           </Field>
           <Field label={`Twitter Link`}>
             <Input
               placeholder="https://twitter.com/your-profile"
-              // onChange={(e) => setName(e.target.value)}
-              // value={name}
+              {...injectProps(`twitterUrl`)}
             />
           </Field>
           <Field label={`Blog`}>
             <Input
               placeholder="https://your-blog-domain"
-              // onChange={(e) => setName(e.target.value)}
-              // value={name}
+              {...injectProps(`blogUrl`)}
             />
           </Field>
         </section>
@@ -124,6 +127,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
             s={2}
             auto
             title="Cancel user profile update"
+            onClick={onClose}
           >
             Cancel
           </Button>
