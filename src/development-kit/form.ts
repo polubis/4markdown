@@ -34,7 +34,7 @@ const chain =
   };
 
 type ValidatorsMap<Values extends Record<string, any>> = {
-  [K in keyof Values]?: (value: Values[K]) => boolean;
+  [K in keyof Values]?: ((value: Values[K]) => boolean)[];
 };
 
 type ValidationReport<Values extends Record<string, any>> = {
@@ -50,8 +50,8 @@ const report = <Values extends Record<string, any>>(
   const result = {} as ValidationReport<Values>['result'];
 
   for (const key in values) {
-    const validator = validators[key] ?? (() => true);
-    result[key] = validator(values[key]);
+    const validator = validators[key] ?? [];
+    result[key] = chain(...validator)(values[key]);
   }
 
   for (const status in result) {

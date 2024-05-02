@@ -8,7 +8,6 @@ import { Textarea } from 'design-system/textarea';
 import { UserProfile } from 'models/user';
 import { NonNullableProperties } from 'development-kit/utility-types';
 import {
-  chain,
   noEdgeSpaces,
   notEmpty,
   minLength,
@@ -24,14 +23,6 @@ interface UserProfileFormModalProps {
 
 type UserProfileFormValues = NonNullableProperties<UserProfile>;
 
-const validators = {
-  nickname: (value: string): boolean =>
-    chain(notEmpty, noEdgeSpaces, minLength(2), maxLength(25), nickname)(value),
-  bio: (value: string): boolean =>
-    chain(notEmpty, noEdgeSpaces, minLength(60), maxLength(300))(value),
-  githubUrl: (value: string): boolean => chain(noEdgeSpaces, url)(value),
-};
-
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
   const [{ nok }, { inject }] = useForm<UserProfileFormValues>(
     {
@@ -44,7 +35,11 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
       twitterUrl: ``,
       blogUrl: ``,
     },
-    validators,
+    {
+      nickname: [notEmpty, noEdgeSpaces, minLength(2), maxLength(25), nickname],
+      bio: [notEmpty, noEdgeSpaces, minLength(60), maxLength(300)],
+      githubUrl: [noEdgeSpaces, url],
+    },
   );
 
   return (
