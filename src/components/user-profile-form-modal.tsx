@@ -14,9 +14,9 @@ import {
   minLength,
   maxLength,
   nickname,
-  report,
   url,
 } from 'development-kit/form';
+import { useForm } from 'development-kit/use-form';
 
 interface UserProfileFormModalProps {
   onClose(): void;
@@ -33,32 +33,19 @@ const validators = {
 };
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
-  const [values, setValues] = React.useState<UserProfileFormValues>(() => ({
-    nickname: ``,
-    bio: ``,
-    avatar: ``,
-    githubUrl: ``,
-    linkedInUrl: ``,
-    fbUrl: ``,
-    twitterUrl: ``,
-    blogUrl: ``,
-  }));
-
-  const changeValue =
-    <Key extends keyof UserProfileFormValues>(key: Key) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setValues((prev) => ({
-        ...prev,
-        [key]: e.target.value,
-      }));
-    };
-
-  const inject = <Key extends keyof UserProfileFormValues>(key: Key) => ({
-    onChange: changeValue(key),
-    value: values[key],
-  });
-
-  const { nok } = React.useMemo(() => report(values, validators), [values]);
+  const [{ nok }, { inject }] = useForm<UserProfileFormValues>(
+    {
+      nickname: ``,
+      bio: ``,
+      avatar: ``,
+      githubUrl: ``,
+      linkedInUrl: ``,
+      fbUrl: ``,
+      twitterUrl: ``,
+      blogUrl: ``,
+    },
+    validators,
+  );
 
   return (
     <Modal>
