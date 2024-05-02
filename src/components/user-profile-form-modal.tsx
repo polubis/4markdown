@@ -98,7 +98,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
             auto
             title="Confirm user profile update"
           >
-            Save
+            Confirm
           </Button>
         </footer>
       </form>
