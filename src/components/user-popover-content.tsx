@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiX } from 'react-icons/bi';
+import { BiEdit, BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import Popover from 'design-system/popover';
 import { useAuthStore } from 'store/auth/auth.store';
@@ -9,11 +9,13 @@ import { useDocsStore } from 'store/docs/docs.store';
 interface UserPopoverContentProps {
   className: string;
   onClose(): void;
+  onSettingsOpen(): void;
 }
 
 const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
   className,
   onClose,
+  onSettingsOpen,
 }) => {
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
@@ -26,39 +28,46 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
   });
 
   return (
-    <>
-      <Popover className={className} onBackdropClick={onClose}>
-        <div className="max-w-[280px] flex flex-col">
-          <div className="flex items-center">
-            <h6 className="text-xl">Your Account</h6>
-            <Button
-              i={2}
-              s={1}
-              className="ml-8"
-              title="Close your account panel"
-              onClick={onClose}
-            >
-              <BiX />
-            </Button>
-          </div>
-          {docsStore.is === `ok` && docsStore.docs.length > 0 && (
-            <p className="mt-4 text-md font-bold">
-              Documents: {docsStore.docs.length}
-            </p>
-          )}
+    <Popover className={className} onBackdropClick={onClose}>
+      <div className="max-w-[280px] flex flex-col">
+        <div className="flex items-center">
+          <h6 className="text-xl">Your Account</h6>
           <Button
-            className="mt-20 ml-auto"
             i={2}
-            s={2}
-            title="Sign out"
-            auto
-            onClick={signOutConfirmation.confirm}
+            s={1}
+            className="ml-8"
+            title="Open user details settings"
+            onClick={onSettingsOpen}
           >
-            {signOutConfirmation.opened ? `Are You Sure?` : `Sign Out`}
+            <BiEdit />
+          </Button>
+          <Button
+            i={2}
+            s={1}
+            className="ml-2"
+            title="Close your account panel"
+            onClick={onClose}
+          >
+            <BiX />
           </Button>
         </div>
-      </Popover>
-    </>
+        {docsStore.is === `ok` && docsStore.docs.length > 0 && (
+          <p className="mt-4 text-md font-bold">
+            Documents: {docsStore.docs.length}
+          </p>
+        )}
+        <Button
+          className="mt-20 ml-auto"
+          i={2}
+          s={2}
+          title="Sign out"
+          auto
+          onClick={signOutConfirmation.confirm}
+        >
+          {signOutConfirmation.opened ? `Are You Sure?` : `Sign Out`}
+        </Button>
+      </div>
+    </Popover>
   );
 };
 

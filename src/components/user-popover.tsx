@@ -6,13 +6,17 @@ import { useToggle } from 'development-kit/use-toggle';
 import { useDocsStore } from 'store/docs/docs.store';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
+const UserProfileFormModal = React.lazy(
+  () => import(`./user-profile-form-modal`),
+);
 
 interface UserPopoverProps {
   className: string;
 }
 
 const UserPopover = ({ className }: UserPopoverProps) => {
-  const menu = useToggle();
+  const userContent = useToggle();
+  const userDetailsSettingsModal = useToggle();
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
 
@@ -20,11 +24,16 @@ const UserPopover = ({ className }: UserPopoverProps) => {
     if (authStore.is === `idle`) return;
 
     if (authStore.is === `authorized`) {
-      menu.open();
+      userContent.open();
       return;
     }
 
     authStore.logIn();
+  };
+
+  const openUserDetailsSettings = (): void => {
+    userContent.close();
+    userDetailsSettingsModal.open();
   };
 
   return (
@@ -61,9 +70,18 @@ const UserPopover = ({ className }: UserPopoverProps) => {
           <BiLogInCircle />
         )}
       </Button>
-      {menu.opened && (
+      {userContent.opened && (
         <React.Suspense>
-          <UserPopoverContent className={className} onClose={menu.close} />
+          <UserPopoverContent
+            className={className}
+            onClose={userContent.close}
+            onSettingsOpen={openUserDetailsSettings}
+          />
+        </React.Suspense>
+      )}
+      {userDetailsSettingsModal.opened && (
+        <React.Suspense>
+          <UserProfileFormModal onClose={userDetailsSettingsModal.close} />
         </React.Suspense>
       )}
     </>
