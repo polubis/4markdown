@@ -1,5 +1,5 @@
 import React from 'react';
-import { ValidatorsSetup, form } from '.';
+import { Formable, ValidatorsSetup, form } from '.';
 
 const useForm = <Values extends Record<string, any>>(
   values: Values,
@@ -12,10 +12,8 @@ const useForm = <Values extends Record<string, any>>(
   });
   const [state, setState] = React.useState(instance.state);
 
-  const set = React.useCallback(
-    (values: Partial<Values>): void => {
-      instance.set(values);
-    },
+  const set: Formable<Values>['set'] = React.useCallback(
+    (values) => instance.set(values),
     [instance],
   );
 
@@ -34,9 +32,10 @@ const useForm = <Values extends Record<string, any>>(
     [state, instance],
   );
 
-  const confirm = React.useCallback((): void => {
-    instance.confirm();
-  }, [instance]);
+  const confirm: Formable<Values>['confirm'] = React.useCallback(
+    () => instance.confirm(),
+    [instance],
+  );
 
   React.useEffect(() => {
     const unsubscribe = instance.subscribe((_, state) => setState(state));

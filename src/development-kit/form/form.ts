@@ -4,14 +4,14 @@ import {
   FormState,
   ValidationResult,
   FormSubscriber,
-  FormSubscription,
   FormSubscriberAction,
+  Formable,
 } from './defs';
 import { chain } from './validators';
 
 export const form = <Values extends ValuesBase>(
   validatorsSetup: ValidatorsSetup<Values> = {},
-) => {
+): Formable<Values> => {
   const subscriptions = new Map<string, FormSubscriber<Values>>();
 
   let state: FormState<Values>;
@@ -35,11 +35,13 @@ export const form = <Values extends ValuesBase>(
     return { result, invalid, valid: !invalid };
   };
 
-  const setState = (newState: FormState<Values>): void => {
+  const setState = (newState: FormState<Values>): FormState<Values> => {
     state = {
       ...state,
       ...newState,
     };
+
+    return state;
   };
 
   const confirm = (
@@ -70,38 +72,44 @@ export const form = <Values extends ValuesBase>(
   };
 
   return {
-    init: (values: Values): void => {
-      setState({
+    init: (values) => {
+      const newState = setState({
         values,
         ...validate(values),
         ...confirm(false),
         ...touch(false),
       });
       notify(`init`);
+
+      return newState;
     },
-    set: (values: Partial<Values>): void => {
+    set: (values) => {
       const newValues = {
         ...state.values,
         ...values,
       };
 
-      setState({
+      const newState = setState({
         ...state,
         values: newValues,
         ...validate(newValues),
         ...touch(true),
       });
       notify(`set`);
+
+      return newState;
     },
-    confirm: (): void => {
-      setState({
+    confirm: () => {
+      const newState = setState({
         ...state,
         ...validate(state.values),
         ...confirm(true),
       });
       notify(`confirm`);
+
+      return newState;
     },
-    subscribe: (subscriber: FormSubscriber<Values>): FormSubscription => {
+    subscribe: (subscriber) => {
       const key = new Date().toISOString();
       subscriptions.set(key, subscriber);
 
@@ -109,6 +117,6 @@ export const form = <Values extends ValuesBase>(
         subscriptions.delete(key);
       };
     },
-    state: (): FormState<Values> => state,
+    state: () => state,
   };
 };

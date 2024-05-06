@@ -35,3 +35,11 @@ export type FormSubscriber<Values extends ValuesBase> = (
   state: FormState<Values>,
 ) => void;
 export type FormSubscription = () => void;
+
+export interface Formable<Values extends ValuesBase> {
+  state(): FormState<Values>;
+  set(values: Partial<Values>): FormState<Values>;
+  init(values: Values): FormState<Values>;
+  confirm(): FormState<Values>;
+  subscribe(subscriber: FormSubscriber<Values>): FormSubscription;
+}
