@@ -2,12 +2,12 @@ import React from 'react';
 import { ValidatorsSetup, form } from '.';
 
 const useForm = <Values extends Record<string, any>>(
-  initialValues: Values,
+  values: Values,
   validators: ValidatorsSetup<Values> = {},
 ) => {
   const [instance] = React.useState(() => {
     const inst = form<Values>(validators);
-    inst.init(initialValues);
+    inst.init(values);
     return inst;
   });
   const [state, setState] = React.useState(instance.state);
@@ -34,6 +34,10 @@ const useForm = <Values extends Record<string, any>>(
     [state, instance],
   );
 
+  const confirm = React.useCallback((): void => {
+    instance.confirm();
+  }, [instance]);
+
   React.useEffect(() => {
     const unsubscribe = instance.subscribe((_, state) => setState(state));
 
@@ -42,7 +46,7 @@ const useForm = <Values extends Record<string, any>>(
     };
   }, [instance]);
 
-  return [state, { set, inject }] as const;
+  return [state, { set, inject, confirm }] as const;
 };
 
 export { useForm };
