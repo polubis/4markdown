@@ -46,7 +46,10 @@ const useForm = <Values extends Record<string, any>>(
     };
   }, [instance]);
 
-  return [state, { set, inject, confirm }] as const;
+  return [
+    state,
+    { set, inject, confirm, subscribe: instance.subscribe },
+  ] as const;
 };
 
 export { useForm };
