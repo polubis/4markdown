@@ -12,6 +12,28 @@ const useForm = <Values extends Record<string, any>>(
   });
   const [state, setState] = React.useState(instance.state);
 
+  const set = React.useCallback(
+    (values: Partial<Values>): void => {
+      instance.set(values);
+    },
+    [instance],
+  );
+
+  const inject = React.useCallback(
+    <Key extends keyof Values>(key: Key) => ({
+      onChange: (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      ) => {
+        instance.set({
+          [key]: e.target.value,
+        } as Partial<Values>);
+      },
+      name: key,
+      value: state.values[key],
+    }),
+    [state, instance],
+  );
+
   React.useEffect(() => {
     const unsubscribe = instance.subscribe((_, state) => setState(state));
 
@@ -20,7 +42,7 @@ const useForm = <Values extends Record<string, any>>(
     };
   }, [instance]);
 
-  return [state] as const;
+  return [state, { set, inject }] as const;
 };
 
 export { useForm };

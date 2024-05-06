@@ -25,7 +25,7 @@ interface UserProfileFormModalProps {
 type UserProfileFormValues = NonNullableProperties<UserProfile>;
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
-  const [state] = useForm<UserProfileFormValues>(
+  const [state, { inject }] = useForm<UserProfileFormValues>(
     {
       nickname: ``,
       bio: ``,

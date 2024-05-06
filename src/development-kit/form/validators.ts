@@ -1,36 +1,33 @@
-import { ValidatorResult } from './defs';
+import { ValidatorFn, ValidatorResult } from './defs';
 
 export const minLength =
-  (limit: number) =>
-  (value: string | unknown[]): ValidatorResult<'minLength'> =>
+  (limit: number): ValidatorFn<string | unknown[], 'minLength'> =>
+  (value) =>
     value.length >= limit ? null : `minLength`;
 
 export const maxLength =
-  (limit: number) =>
-  (value: string | unknown[]): ValidatorResult<'maxLength'> =>
+  (limit: number): ValidatorFn<string | unknown[], 'maxLength'> =>
+  (value) =>
     value.length <= limit ? null : `maxLength`;
 
-export const noEdgeSpaces = (value: string): ValidatorResult<'noEdgeSpaces'> =>
+export const noEdgeSpaces: ValidatorFn<string, 'noEdgeSpaces'> = (value) =>
   value.trim().length === value.length ? null : `noEdgeSpaces`;
 
-export const nonNullable = <T>(value: T): ValidatorResult<'nonNullable'> =>
-  value !== undefined && value !== null ? null : `nonNullable`;
-
-export const notEmpty = (value: string): ValidatorResult<'notEmpty'> =>
+export const notEmpty: ValidatorFn<string, 'notEmpty'> = (value) =>
   value.trim().length > 0 ? null : `notEmpty`;
 
-export const url = (value: string): ValidatorResult<'url'> =>
+export const url: ValidatorFn<string, 'url'> = (value) =>
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
     value,
   )
     ? null
     : `url`;
 
-export const nickname = (value: string): ValidatorResult<'nickname'> =>
+export const nickname: ValidatorFn<string, 'nickname'> = (value) =>
   /^[a-zA-Z0-9_-]+$/.test(value) ? null : `nickname`;
 
 const chain =
-  (...validators: ((value: any) => ValidatorResult<string>)[]) =>
+  (...validators: ValidatorFn<any, string>[]) =>
   (value: any): ValidatorResult<string> => {
     for (const validator of validators) {
       const result = validator(value);
