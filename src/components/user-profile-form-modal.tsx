@@ -7,7 +7,7 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { UserProfile } from 'models/user';
 import { NonNullableProperties } from 'development-kit/utility-types';
-import { useForm } from 'development-kit/form/use-form';
+import { useForm } from 'development-kit/use-form';
 import {
   maxLength,
   minLength,

@@ -1,46 +1,33 @@
-import { ValidatorFn, ValidatorResult } from './defs';
+import { validator } from './core';
 
-export const minLength =
-  (limit: number): ValidatorFn<string | unknown[], 'minLength'> =>
-  (value) =>
-    value.length >= limit ? null : `minLength`;
+export const minLength = (limit: number) =>
+  validator(`minLength`, (value: string | unknown[]) => value.length >= limit);
 
-export const maxLength =
-  (limit: number): ValidatorFn<string | unknown[], 'maxLength'> =>
-  (value) =>
-    value.length <= limit ? null : `maxLength`;
+export const maxLength = (limit: number) =>
+  validator(`maxLength`, (value: string | unknown[]) => value.length <= limit);
 
-export const noEdgeSpaces: ValidatorFn<string, 'noEdgeSpaces'> = (value) =>
-  value.trim().length === value.length ? null : `noEdgeSpaces`;
+export const min = (limit: number) =>
+  validator(`min`, (value: number) => value >= limit);
 
-export const notEmpty: ValidatorFn<string, 'notEmpty'> = (value) =>
-  value.trim().length > 0 ? null : `notEmpty`;
+export const max = (limit: number) =>
+  validator(`max`, (value: number) => value <= limit);
 
-export const url: ValidatorFn<string, 'url'> = (value) =>
+export const noEdgeSpaces = validator(
+  `noEdgeSpaces`,
+  (value: string) => value.trim().length === value.length,
+);
+
+export const notEmpty = validator(
+  `notEmpty`,
+  (value: string) => value.trim().length > 0,
+);
+
+export const url = validator(`url`, (value: string) =>
   /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/.test(
     value,
-  )
-    ? null
-    : `url`;
+  ),
+);
 
-export const nickname: ValidatorFn<string, 'nickname'> = (value) =>
-  /^[a-zA-Z0-9_-]+$/.test(value) ? null : `nickname`;
-
-export const chain =
-  (...validators: ValidatorFn<any, string>[]) =>
-  (value: any): ValidatorResult<string> => {
-    for (const validator of validators) {
-      const result = validator(value);
-      if (result) return result;
-    }
-
-    return null;
-  };
-
-export const optional =
-  (...validators: ((value: any) => ValidatorResult<string>)[]) =>
-  (value: any): ValidatorResult<string> => {
-    if (value === `` || value === undefined || value === null) return null;
-
-    return chain(...validators)(value);
-  };
+export const nickname = validator(`nickname`, (value: string) =>
+  /^[a-zA-Z0-9_-]+$/.test(value),
+);
