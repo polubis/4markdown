@@ -7,16 +7,16 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { UserProfile } from 'models/user';
 import { NonNullableProperties } from 'development-kit/utility-types';
+import { useForm } from 'development-kit/use-form';
 import {
+  maxLength,
+  minLength,
+  nickname,
   noEdgeSpaces,
   notEmpty,
-  minLength,
-  maxLength,
-  nickname,
-  url,
   optional,
+  url,
 } from 'development-kit/form';
-import { useForm } from 'development-kit/use-form';
 
 interface UserProfileFormModalProps {
   onClose(): void;
@@ -25,7 +25,7 @@ interface UserProfileFormModalProps {
 type UserProfileFormValues = NonNullableProperties<UserProfile>;
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
-  const [{ nok }, { inject }] = useForm<UserProfileFormValues>(
+  const [state] = useForm<UserProfileFormValues>(
     {
       nickname: ``,
       bio: ``,
@@ -39,7 +39,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
     {
       nickname: [notEmpty, noEdgeSpaces, minLength(2), maxLength(25), nickname],
       bio: [notEmpty, noEdgeSpaces, minLength(60), maxLength(300)],
-      githubUrl: [(value) => optional(noEdgeSpaces, url)(value)],
+      githubUrl: [optional(noEdgeSpaces, url)],
     },
   );
 

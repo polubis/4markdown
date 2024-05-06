@@ -1,64 +1,26 @@
 import React from 'react';
-import { report as makeReport, type ValidatorsMap } from './form';
+import { ValidatorsSetup, form } from './form/';
 
 const useForm = <Values extends Record<string, any>>(
-  valuesInitializer: Values | (() => Values),
-  validatorsInitializer:
-    | ValidatorsMap<Values>
-    | (() => ValidatorsMap<Values>) = {},
+  initialValues: Values,
+  validators: ValidatorsSetup<Values> = {},
 ) => {
-  const [validators, setValidators] = React.useState(validatorsInitializer);
-  const [values, setValues] = React.useState(valuesInitializer);
+  const [instance] = React.useState(() => {
+    const inst = form<Values>(validators);
+    inst.init(initialValues);
+    return inst;
+  });
+  const [state, setState] = React.useState(instance.state);
 
-  const set = React.useCallback(
-    <Key extends keyof Values>(key: Key, value: Values[Key]): void => {
-      setValues((prevValues) => ({
-        ...prevValues,
-        [key]: value,
-      }));
-    },
-    [],
-  );
+  React.useEffect(() => {
+    const unsubscribe = instance.subscribe((_, state) => setState(state));
 
-  const patch = React.useCallback((values: Partial<Values>) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      ...values,
-    }));
-  }, []);
+    return () => {
+      unsubscribe();
+    };
+  }, [instance]);
 
-  const reconfigure = React.useCallback(
-    (validators: ValidatorsMap<Values> = {}): void => {
-      setValidators(validators);
-    },
-    [],
-  );
-
-  const inject = React.useCallback(
-    <Key extends keyof Values>(key: Key) => ({
-      onChange: (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-      ) => {
-        setValues((prevValues) => ({
-          ...prevValues,
-          [key]: e.target.value,
-        }));
-      },
-      name: key,
-      value: values[key],
-    }),
-    [values],
-  );
-
-  const report = React.useMemo(
-    () => makeReport(values, validators),
-    [values, validators],
-  );
-
-  return [
-    { values, validators, ...report },
-    { set, reconfigure, inject, patch },
-  ] as const;
+  return [state] as const;
 };
 
 export { useForm };
