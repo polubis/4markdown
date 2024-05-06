@@ -7,6 +7,7 @@ import {
   FormSubscription,
   FormSubscriberAction,
 } from './defs';
+import { chain } from './validators';
 
 export const form = <Values extends ValuesBase>(
   validatorsSetup: ValidatorsSetup<Values> = {},
@@ -24,16 +25,10 @@ export const form = <Values extends ValuesBase>(
     for (const key in values) {
       const value = values[key];
       const fns = validatorsSetup[key] ?? [];
-      result[key] = null;
+      result[key] = chain(...fns)(value);
 
-      for (const fn of fns) {
-        const status = fn(value);
-
-        if (status !== null) {
-          result[key] = status;
-          invalid = true;
-          break;
-        }
+      if (result[key] !== null) {
+        invalid = true;
       }
     }
 
