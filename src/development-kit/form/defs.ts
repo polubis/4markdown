@@ -29,7 +29,7 @@ export interface FormState<Values extends ValuesBase> {
   valid: boolean;
 }
 
-export type FormSubscriberAction = `init` | `set` | `confirm`;
+export type FormSubscriberAction = `init` | `set` | `confirm` | `reset`;
 export type FormSubscriber<Values extends ValuesBase> = (
   action: FormSubscriberAction,
   state: FormState<Values>,
@@ -42,4 +42,5 @@ export interface Formable<Values extends ValuesBase> {
   init(values: Values): FormState<Values>;
   confirm(): FormState<Values>;
   subscribe(subscriber: FormSubscriber<Values>): FormSubscription;
+  reset(): FormState<Values>;
 }

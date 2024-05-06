@@ -48,6 +48,8 @@ const useForm = <Values extends Record<string, any>>(
     [],
   );
 
+  const reset = React.useCallback(() => instance.reset(), [instance]);
+
   React.useEffect(() => {
     const unsubscribe = instance.subscribe((_, state) => setState(state));
 
@@ -58,7 +60,7 @@ const useForm = <Values extends Record<string, any>>(
 
   return [
     state,
-    { set, restart, inject, confirm, subscribe: instance.subscribe },
+    { set, restart, inject, reset, confirm, subscribe: instance.subscribe },
   ] as const;
 };
 

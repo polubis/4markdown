@@ -15,6 +15,7 @@ export const form = <Values extends ValuesBase>(
   const subscriptions = new Map<string, FormSubscriber<Values>>();
 
   let state: FormState<Values>;
+  let initialState: FormState<Values>;
 
   const validate = (
     values: Values,
@@ -81,6 +82,8 @@ export const form = <Values extends ValuesBase>(
       });
       notify(`init`);
 
+      initialState = { ...newState };
+
       return newState;
     },
     set: (values) => {
@@ -108,6 +111,13 @@ export const form = <Values extends ValuesBase>(
       notify(`confirm`);
 
       return newState;
+    },
+    reset: () => {
+      state = { ...initialState };
+
+      notify(`reset`);
+
+      return state;
     },
     subscribe: (subscriber) => {
       const key = new Date().toISOString();
