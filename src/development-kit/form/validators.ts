@@ -26,7 +26,7 @@ export const url: ValidatorFn<string, 'url'> = (value) =>
 export const nickname: ValidatorFn<string, 'nickname'> = (value) =>
   /^[a-zA-Z0-9_-]+$/.test(value) ? null : `nickname`;
 
-const chain =
+export const chain =
   (...validators: ValidatorFn<any, string>[]) =>
   (value: any): ValidatorResult<string> => {
     for (const validator of validators) {
