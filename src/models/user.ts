@@ -14,4 +14,12 @@ type UserProfile = {
   blogUrl: string | null;
 };
 
-export type { User, UserProfile };
+type UpdateUserProfilePayload = UserProfile;
+type UpdateUserProfileDto = UserProfile;
+
+export type {
+  User,
+  UserProfile,
+  UpdateUserProfilePayload,
+  UpdateUserProfileDto,
+};

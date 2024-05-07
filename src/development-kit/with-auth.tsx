@@ -37,6 +37,12 @@ import {
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
+import { UpdateUserProfilePayload, UpdateUserProfileDto } from 'models/user';
+import {
+  userProfileStoreActions,
+  userProfileStoreSelectors,
+} from 'store/user-profile/user-profile.store';
+import { mock } from './mock';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -126,6 +132,25 @@ const WithAuth = () => {
       } catch (error: unknown) {
         imagesStoreActions.fail(error);
         throw error;
+      }
+    };
+
+    const updateUserProfile: AuthorizedData['updateUserProfile'] = async (
+      payload,
+    ) => {
+      try {
+        if (userProfileStoreSelectors.state().is === `ok`) return;
+
+        userProfileStoreActions.busy();
+
+        const data = await mock({
+          delay: 3,
+          errorFactor: 100,
+        })<UpdateUserProfileDto>(payload)<UpdateUserProfilePayload>(payload);
+
+        userProfileStoreActions.ok(data);
+      } catch (error: unknown) {
+        userProfileStoreActions.fail(error);
       }
     };
 
@@ -298,6 +323,7 @@ const WithAuth = () => {
           getDocs,
           reloadDocs,
           createDoc,
+          updateUserProfile,
           resyncDocuments: async () => {
             docManagementStoreActions.idle();
             reloadDocs();

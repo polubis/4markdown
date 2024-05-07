@@ -17,6 +17,13 @@ import {
   optional,
   url,
 } from 'development-kit/form';
+import {
+  userProfileStoreActions,
+  userProfileStoreSelectors,
+} from 'store/user-profile/user-profile.store';
+import { authStoreSelectors } from 'store/auth/auth.store';
+import { Status } from 'design-system/status';
+import { ErrorModal } from './error-modal';
 
 interface UserProfileFormModalProps {
   onClose(): void;
@@ -24,8 +31,11 @@ interface UserProfileFormModalProps {
 
 type UserProfileFormValues = NonNullableProperties<UserProfile>;
 
+const urlValidator = [optional(noEdgeSpaces, url)];
+
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
-  const [{ invalid }, { inject }] = useForm<UserProfileFormValues>(
+  const userProfileStore = userProfileStoreSelectors.useState();
+  const [{ invalid, values }, { inject }] = useForm<UserProfileFormValues>(
     {
       nickname: ``,
       bio: ``,
@@ -39,97 +49,122 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
     {
       nickname: [notEmpty, noEdgeSpaces, minLength(2), maxLength(25), nickname],
       bio: [notEmpty, noEdgeSpaces, minLength(60), maxLength(300)],
-      githubUrl: [optional(noEdgeSpaces, url)],
+      githubUrl: urlValidator,
+      blogUrl: urlValidator,
+      linkedInUrl: urlValidator,
+      fbUrl: urlValidator,
+      twitterUrl: urlValidator,
     },
   );
 
+  const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    await authStoreSelectors.authorized().updateUserProfile(values);
+  };
+
   return (
-    <Modal>
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <h6 className="text-xl">Your Profile Details</h6>
-        <div className="flex gap-2">
-          <Button
-            type="button"
-            i={2}
-            s={1}
-            title="Close user profile settings form"
-            onClick={onClose}
-          >
-            <BiX />
-          </Button>
-        </div>
-      </div>
-      <form onSubmit={() => {}}>
-        <section className="space-y-4">
-          <Field label={`Nickname*`}>
-            <Input
-              placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
-              {...inject(`nickname`)}
-            />
-          </Field>
-          <Field label={`Bio*`}>
-            <Textarea
-              placeholder="Example: I like programming and playing computer games..."
-              {...inject(`bio`)}
-            />
-          </Field>
-          <Field label={`GitHub Link`}>
-            <Input
-              placeholder="https://github.com/your-profile"
-              {...inject(`githubUrl`)}
-            />
-          </Field>
-          <Field label={`Facebook Link`}>
-            <Input
-              placeholder="https://www.facebook.com/your-profile"
-              {...inject(`fbUrl`)}
-            />
-          </Field>
-          <Field label={`LinkedIn Link`}>
-            <Input
-              placeholder="https://www.linkedin.com/your-profile"
-              {...inject(`linkedInUrl`)}
-            />
-          </Field>
-          <Field label={`Twitter Link`}>
-            <Input
-              placeholder="https://twitter.com/your-profile"
-              {...inject(`twitterUrl`)}
-            />
-          </Field>
-          <Field label={`Blog`}>
-            <Input
-              placeholder="https://your-blog-domain"
-              {...inject(`blogUrl`)}
-            />
-          </Field>
-        </section>
-        <footer className="mt-10 flex">
-          <Button
-            className="ml-auto"
-            type="button"
-            i={1}
-            s={2}
-            auto
-            title="Cancel user profile update"
-            onClick={onClose}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            className="ml-2"
-            i={2}
-            s={2}
-            auto
-            disabled={invalid}
-            title="Confirm user profile update"
-          >
-            Confirm
-          </Button>
-        </footer>
-      </form>
-    </Modal>
+    <>
+      {userProfileStore.is !== `fail` && (
+        <Modal>
+          <div className="flex items-center justify-between gap-4 mb-6">
+            <h6 className="text-xl">Your Profile Details</h6>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                i={2}
+                s={1}
+                title="Close user profile settings form"
+                onClick={onClose}
+              >
+                <BiX />
+              </Button>
+            </div>
+          </div>
+          <form onSubmit={save}>
+            <section className="space-y-4">
+              <Field label={`Nickname*`}>
+                <Input
+                  placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
+                  {...inject(`nickname`)}
+                />
+              </Field>
+              <Field label={`Bio*`}>
+                <Textarea
+                  placeholder="Example: I like programming and playing computer games..."
+                  {...inject(`bio`)}
+                />
+              </Field>
+              <Field label={`GitHub Link`}>
+                <Input
+                  placeholder="https://github.com/your-profile"
+                  {...inject(`githubUrl`)}
+                />
+              </Field>
+              <Field label={`Facebook Link`}>
+                <Input
+                  placeholder="https://www.facebook.com/your-profile"
+                  {...inject(`fbUrl`)}
+                />
+              </Field>
+              <Field label={`LinkedIn Link`}>
+                <Input
+                  placeholder="https://www.linkedin.com/your-profile"
+                  {...inject(`linkedInUrl`)}
+                />
+              </Field>
+              <Field label={`Twitter Link`}>
+                <Input
+                  placeholder="https://twitter.com/your-profile"
+                  {...inject(`twitterUrl`)}
+                />
+              </Field>
+              <Field label={`Blog`}>
+                <Input
+                  placeholder="https://your-blog-domain"
+                  {...inject(`blogUrl`)}
+                />
+              </Field>
+            </section>
+            <footer className="mt-10 flex">
+              <Button
+                className="ml-auto"
+                type="button"
+                i={1}
+                s={2}
+                auto
+                title="Cancel user profile update"
+                onClick={onClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                className="ml-2"
+                i={2}
+                s={2}
+                auto
+                disabled={invalid || userProfileStore.is === `busy`}
+                title="Confirm user profile update"
+              >
+                Confirm
+              </Button>
+            </footer>
+          </form>
+        </Modal>
+      )}
+
+      <Status open={userProfileStore.is === `busy`}>
+        Updating your profile...
+      </Status>
+
+      {userProfileStore.is === `fail` && (
+        <ErrorModal
+          heading="Ups, something went wrong"
+          message={userProfileStore.error}
+          onClose={userProfileStoreActions.idle}
+        />
+      )}
+    </>
   );
 };
 

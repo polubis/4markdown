@@ -30,4 +30,4 @@ const ErrorModal = ({ heading, message, footer, onClose }: ErrorModalProps) => {
   );
 };
 
-export default ErrorModal;
+export { ErrorModal };

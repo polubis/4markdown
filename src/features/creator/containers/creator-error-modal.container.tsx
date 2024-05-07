@@ -1,4 +1,4 @@
-import ErrorModal from 'components/error-modal';
+import { ErrorModal } from 'components/error-modal';
 import { Button } from 'design-system/button';
 import React from 'react';
 import { authStoreSelectors } from 'store/auth/auth.store';

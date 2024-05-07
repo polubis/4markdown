@@ -6,7 +6,7 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { UploadImageButton } from '../components/upload-image-button';
-import ErrorModal from 'components/error-modal';
+import { ErrorModal } from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
 import {
   imagesStoreRestrictions,
