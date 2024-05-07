@@ -73,6 +73,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                 type="button"
                 i={2}
                 s={1}
+                disabled={userProfileStore.is === `busy`}
                 title="Close user profile settings form"
                 onClick={onClose}
               >
