@@ -145,7 +145,6 @@ const WithAuth = () => {
 
         const data = await mock({
           delay: 3,
-          errorFactor: 100,
         })<UpdateUserProfileDto>(payload)<UpdateUserProfilePayload>(payload);
 
         userProfileStoreActions.ok(data);

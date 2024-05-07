@@ -62,6 +62,11 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
     await authStoreSelectors.authorized().updateUserProfile(values);
   };
 
+  const close = (): void => {
+    userProfileStoreActions.idle();
+    onClose();
+  };
+
   return (
     <>
       {userProfileStore.is !== `fail` && (
@@ -75,82 +80,86 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                 s={1}
                 disabled={userProfileStore.is === `busy`}
                 title="Close user profile settings form"
-                onClick={onClose}
+                onClick={close}
               >
                 <BiX />
               </Button>
             </div>
           </div>
-          <form onSubmit={save}>
-            <section className="space-y-4">
-              <Field label={`Nickname*`}>
-                <Input
-                  placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
-                  {...inject(`nickname`)}
-                />
-              </Field>
-              <Field label={`Bio*`}>
-                <Textarea
-                  placeholder="Example: I like programming and playing computer games..."
-                  {...inject(`bio`)}
-                />
-              </Field>
-              <Field label={`GitHub Link`}>
-                <Input
-                  placeholder="https://github.com/your-profile"
-                  {...inject(`githubUrl`)}
-                />
-              </Field>
-              <Field label={`Facebook Link`}>
-                <Input
-                  placeholder="https://www.facebook.com/your-profile"
-                  {...inject(`fbUrl`)}
-                />
-              </Field>
-              <Field label={`LinkedIn Link`}>
-                <Input
-                  placeholder="https://www.linkedin.com/your-profile"
-                  {...inject(`linkedInUrl`)}
-                />
-              </Field>
-              <Field label={`Twitter Link`}>
-                <Input
-                  placeholder="https://twitter.com/your-profile"
-                  {...inject(`twitterUrl`)}
-                />
-              </Field>
-              <Field label={`Blog`}>
-                <Input
-                  placeholder="https://your-blog-domain"
-                  {...inject(`blogUrl`)}
-                />
-              </Field>
-            </section>
-            <footer className="mt-10 flex">
-              <Button
-                className="ml-auto"
-                type="button"
-                i={1}
-                s={2}
-                auto
-                title="Cancel user profile update"
-                onClick={onClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                className="ml-2"
-                i={2}
-                s={2}
-                auto
-                disabled={invalid || userProfileStore.is === `busy`}
-                title="Confirm user profile update"
-              >
-                Confirm
-              </Button>
-            </footer>
-          </form>
+          {userProfileStore.is === `ok` && <div>Success!</div>}
+          {userProfileStore.is !== `ok` && (
+            <form onSubmit={save}>
+              <section className="space-y-4">
+                <Field label={`Nickname*`}>
+                  <Input
+                    placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
+                    {...inject(`nickname`)}
+                  />
+                </Field>
+                <Field label={`Bio*`}>
+                  <Textarea
+                    placeholder="Example: I like programming and playing computer games..."
+                    {...inject(`bio`)}
+                  />
+                </Field>
+                <Field label={`GitHub Link`}>
+                  <Input
+                    placeholder="https://github.com/your-profile"
+                    {...inject(`githubUrl`)}
+                  />
+                </Field>
+                <Field label={`Facebook Link`}>
+                  <Input
+                    placeholder="https://www.facebook.com/your-profile"
+                    {...inject(`fbUrl`)}
+                  />
+                </Field>
+                <Field label={`LinkedIn Link`}>
+                  <Input
+                    placeholder="https://www.linkedin.com/your-profile"
+                    {...inject(`linkedInUrl`)}
+                  />
+                </Field>
+                <Field label={`Twitter Link`}>
+                  <Input
+                    placeholder="https://twitter.com/your-profile"
+                    {...inject(`twitterUrl`)}
+                  />
+                </Field>
+                <Field label={`Blog`}>
+                  <Input
+                    placeholder="https://your-blog-domain"
+                    {...inject(`blogUrl`)}
+                  />
+                </Field>
+              </section>
+              <footer className="mt-10 flex">
+                <Button
+                  className="ml-auto"
+                  type="button"
+                  i={1}
+                  s={2}
+                  disabled={userProfileStore.is === `busy`}
+                  auto
+                  title="Cancel user profile update"
+                  onClick={close}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="submit"
+                  className="ml-2"
+                  i={2}
+                  s={2}
+                  auto
+                  disabled={invalid || userProfileStore.is === `busy`}
+                  title="Confirm user profile update"
+                >
+                  Confirm
+                </Button>
+              </footer>
+            </form>
+          )}
         </Modal>
       )}
 
