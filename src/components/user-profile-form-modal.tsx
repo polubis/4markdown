@@ -55,14 +55,14 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
   const [{ invalid, values, untouched }, { inject, set }] =
     useForm<UserProfileFormValues>(
       {
-        displayName: ``,
-        bio: ``,
+        displayName: userProfileStore.displayName ?? ``,
+        bio: userProfileStore.bio ?? ``,
         avatar: { type: `noop` },
-        githubUrl: ``,
-        linkedInUrl: ``,
-        fbUrl: ``,
-        twitterUrl: ``,
-        blogUrl: ``,
+        githubUrl: userProfileStore.githubUrl ?? ``,
+        linkedInUrl: userProfileStore.linkedInUrl ?? ``,
+        fbUrl: userProfileStore.fbUrl ?? ``,
+        twitterUrl: userProfileStore.twitterUrl ?? ``,
+        blogUrl: userProfileStore.blogUrl ?? ``,
       },
       {
         avatar: [
