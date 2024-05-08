@@ -31,3 +31,9 @@ export const url = validator(`url`, (value: string) =>
 export const nickname = validator(`nickname`, (value: string) =>
   /^[a-zA-Z0-9_-]+$/.test(value),
 );
+
+export const base64Blob = validator(`base64Blob`, (value: string) =>
+  /^\s*data:([a-zA-Z]+\/[a-zA-Z]+)?(;base64)?,[a-zA-Z0-9+/]+={0,2}\s*$/.test(
+    value,
+  ),
+);

@@ -4,7 +4,7 @@ interface User {
 }
 
 type UserProfile = {
-  nickname: string;
+  displayName: string;
   bio: string;
   avatar: string | null;
   githubUrl: string | null;
