@@ -144,7 +144,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                   >
                     {values.avatar ? (
                       <img
-                        className="h-full object-cover rounded-full"
+                        className="h-full w-full object-cover rounded-full"
                         src={values.avatar}
                       />
                     ) : (
