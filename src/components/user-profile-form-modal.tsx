@@ -45,34 +45,35 @@ const avatarRestrictions = {
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
   const userProfileStore = userProfileStoreSelectors.useState();
-  const [{ invalid, values }, { inject, set }] = useForm<UserProfileFormValues>(
-    {
-      displayName: ``,
-      bio: ``,
-      avatar: ``,
-      githubUrl: ``,
-      linkedInUrl: ``,
-      fbUrl: ``,
-      twitterUrl: ``,
-      blogUrl: ``,
-    },
-    {
-      avatar: [optional(base64Blob)],
-      displayName: [
-        notEmpty,
-        noEdgeSpaces,
-        minLength(2),
-        maxLength(25),
-        nickname,
-      ],
-      bio: [notEmpty, noEdgeSpaces, minLength(60), maxLength(300)],
-      githubUrl: urlValidator,
-      blogUrl: urlValidator,
-      linkedInUrl: urlValidator,
-      fbUrl: urlValidator,
-      twitterUrl: urlValidator,
-    },
-  );
+  const [{ invalid, values, untouched }, { inject, set }] =
+    useForm<UserProfileFormValues>(
+      {
+        displayName: ``,
+        bio: ``,
+        avatar: ``,
+        githubUrl: ``,
+        linkedInUrl: ``,
+        fbUrl: ``,
+        twitterUrl: ``,
+        blogUrl: ``,
+      },
+      {
+        avatar: [optional(base64Blob)],
+        displayName: [
+          notEmpty,
+          noEdgeSpaces,
+          minLength(2),
+          maxLength(25),
+          nickname,
+        ],
+        bio: [notEmpty, noEdgeSpaces, minLength(60), maxLength(300)],
+        githubUrl: urlValidator,
+        blogUrl: urlValidator,
+        linkedInUrl: urlValidator,
+        fbUrl: urlValidator,
+        twitterUrl: urlValidator,
+      },
+    );
   const avatarErrorModal = useToggle();
 
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -225,7 +226,9 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                   i={2}
                   s={2}
                   auto
-                  disabled={invalid || userProfileStore.is === `busy`}
+                  disabled={
+                    untouched || invalid || userProfileStore.is === `busy`
+                  }
                   title="Confirm user profile update"
                 >
                   Confirm
