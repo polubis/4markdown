@@ -42,5 +42,5 @@ export interface Formable<Values extends ValuesBase> {
   init(values: Values): FormState<Values>;
   confirm(): FormState<Values>;
   subscribe(subscriber: FormSubscriber<Values>): FormSubscription;
-  reset(): FormState<Values>;
+  reset(values?: Partial<Values>): FormState<Values>;
 }

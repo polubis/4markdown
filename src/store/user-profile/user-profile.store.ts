@@ -4,6 +4,7 @@ import { UserProfile } from 'models/user';
 import { create } from 'zustand';
 
 type UserProfileStoreState = Transaction<UserProfile>;
+type UserProfileStoreOkState = Extract<UserProfileStoreState, { is: 'ok' }>;
 
 const useUserProfileStore = create<UserProfileStoreState>(() => ({
   is: `idle`,
@@ -22,9 +23,7 @@ const userProfileStoreActions = {
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 };
 
-const isOk = (
-  state: UserProfileStoreState,
-): Extract<UserProfileStoreState, { is: 'ok' }> => {
+const isOk = (state: UserProfileStoreState): UserProfileStoreOkState => {
   if (state.is !== `ok`) {
     throw Error(`Tried to read state when not allowed`);
   }
@@ -35,7 +34,9 @@ const isOk = (
 const userProfileStoreSelectors = {
   state: getState,
   useState: () => useUserProfileStore(),
+  ok: () => isOk(getState()),
   useOk: () => useUserProfileStore(isOk),
 };
 
+export type { UserProfileStoreState, UserProfileStoreOkState };
 export { userProfileStoreActions, userProfileStoreSelectors };

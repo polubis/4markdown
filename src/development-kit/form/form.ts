@@ -112,12 +112,22 @@ export const form = <Values extends ValuesBase>(
 
       return newState;
     },
-    reset: () => {
-      state = { ...initialState };
+    reset: (values = {}) => {
+      const newValues = {
+        ...initialState.values,
+        ...values,
+      };
+
+      const newState = setState({
+        values: newValues,
+        ...validate(newValues),
+        ...confirm(false),
+        ...touch(false),
+      });
 
       notify(`reset`);
 
-      return state;
+      return newState;
     },
     subscribe: (subscriber) => {
       const key = new Date().toISOString();

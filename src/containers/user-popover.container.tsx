@@ -83,7 +83,9 @@ const UserPopoverContainer = ({ className }: UserPopoverContainerProps) => {
       )}
       {userDetailsSettingsModal.opened && (
         <React.Suspense>
-          <UserProfileFormModalContainer onClose={userDetailsSettingsModal.close} />
+          <UserProfileFormModalContainer
+            onClose={userDetailsSettingsModal.close}
+          />
         </React.Suspense>
       )}
     </>

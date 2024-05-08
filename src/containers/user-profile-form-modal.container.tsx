@@ -9,6 +9,7 @@ import { UpdateUserProfilePayload } from 'models/user';
 import { NonNullableProperties } from 'development-kit/utility-types';
 import { useForm } from 'development-kit/use-form';
 import {
+  ValidatorsSetup,
   base64,
   maxLength,
   minLength,
@@ -28,7 +29,10 @@ import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import { Path } from 'models/general';
-import { userProfileStoreSelectors } from 'store/user-profile/user-profile.store';
+import {
+  UserProfileStoreOkState,
+  userProfileStoreSelectors,
+} from 'store/user-profile/user-profile.store';
 import c from 'classnames';
 
 interface UserProfileFormModalContainerProps {
@@ -45,6 +49,30 @@ const avatarRestrictions = {
   size: 4,
 };
 
+const createInitialValues = (
+  store: UserProfileStoreOkState,
+): UserProfileFormValues => ({
+  displayName: store.displayName ?? ``,
+  bio: store.bio ?? ``,
+  avatar: { type: `noop` },
+  githubUrl: store.githubUrl ?? ``,
+  linkedInUrl: store.linkedInUrl ?? ``,
+  fbUrl: store.fbUrl ?? ``,
+  twitterUrl: store.twitterUrl ?? ``,
+  blogUrl: store.blogUrl ?? ``,
+});
+
+const validators: ValidatorsSetup<UserProfileFormValues> = {
+  avatar: [(value) => (value.type === `update` ? base64(value.data) : null)],
+  displayName: [optional(noEdgeSpaces, minLength(2), maxLength(25), nickname)],
+  bio: [optional(noEdgeSpaces, minLength(60), maxLength(300))],
+  githubUrl: urlValidator,
+  blogUrl: urlValidator,
+  linkedInUrl: urlValidator,
+  fbUrl: urlValidator,
+  twitterUrl: urlValidator,
+};
+
 const UserProfileFormModalContainer = ({
   onClose,
 }: UserProfileFormModalContainerProps) => {
@@ -55,38 +83,17 @@ const UserProfileFormModalContainer = ({
     userProfileStore.avatar?.lg.src ?? ``,
   );
 
-  const [{ invalid, values, untouched }, { inject, set }] =
+  const [{ invalid, values, untouched }, { inject, set, reset }] =
     useForm<UserProfileFormValues>(
-      {
-        displayName: userProfileStore.displayName ?? ``,
-        bio: userProfileStore.bio ?? ``,
-        avatar: { type: `noop` },
-        githubUrl: userProfileStore.githubUrl ?? ``,
-        linkedInUrl: userProfileStore.linkedInUrl ?? ``,
-        fbUrl: userProfileStore.fbUrl ?? ``,
-        twitterUrl: userProfileStore.twitterUrl ?? ``,
-        blogUrl: userProfileStore.blogUrl ?? ``,
-      },
-      {
-        avatar: [
-          (value) => (value.type === `update` ? base64(value.data) : null),
-        ],
-        displayName: [
-          optional(noEdgeSpaces, minLength(2), maxLength(25), nickname),
-        ],
-        bio: [optional(noEdgeSpaces, minLength(60), maxLength(300))],
-        githubUrl: urlValidator,
-        blogUrl: urlValidator,
-        linkedInUrl: urlValidator,
-        fbUrl: urlValidator,
-        twitterUrl: urlValidator,
-      },
+      createInitialValues(userProfileStore),
+      validators,
     );
   const avatarErrorModal = useToggle();
 
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     await authStoreSelectors.authorized().updateUserProfile(values);
+    reset(createInitialValues(userProfileStoreSelectors.ok()));
   };
 
   const close = (): void => {
@@ -145,7 +152,7 @@ const UserProfileFormModalContainer = ({
             </div>
           </div>
           {updateUserProfileStore.is === `ok` && (
-            <div>
+            <>
               <p className="text-md text-green-700 mb-2">
                 <strong>Your profile has been successfully updated!</strong>
               </p>
@@ -255,7 +262,7 @@ const UserProfileFormModalContainer = ({
                   Edit Again
                 </Button>
               </footer>
-            </div>
+            </>
           )}
           {updateUserProfileStore.is !== `ok` && (
             <form onSubmit={save}>

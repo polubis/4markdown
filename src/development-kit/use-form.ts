@@ -48,7 +48,10 @@ const useForm = <Values extends Record<string, any>>(
     [],
   );
 
-  const reset = React.useCallback(() => instance.reset(), [instance]);
+  const reset: Formable<Values>['reset'] = React.useCallback(
+    (values) => instance.reset(values),
+    [instance],
+  );
 
   React.useEffect(() => {
     const unsubscribe = instance.subscribe((_, state) => setState(state));
