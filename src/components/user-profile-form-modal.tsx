@@ -9,7 +9,7 @@ import { UpdateUserProfilePayload } from 'models/user';
 import { NonNullableProperties } from 'development-kit/utility-types';
 import { useForm } from 'development-kit/use-form';
 import {
-  base64Blob,
+  base64,
   maxLength,
   minLength,
   nickname,
@@ -27,6 +27,8 @@ import { ErrorModal } from './error-modal';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import { readFileAsBase64 } from 'development-kit/file-reading';
+import { Path } from 'models/general';
+import { userProfileStoreSelectors } from 'store/user-profile/user-profile.store';
 
 interface UserProfileFormModalProps {
   onClose(): void;
@@ -43,14 +45,19 @@ const avatarRestrictions = {
 };
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
+  const userProfileStore = userProfileStoreSelectors.useOk();
   const updateUserProfileStore = updateUserProfileStoreSelectors.useState();
+
+  const [avatarPreview, setAvatarPreview] = React.useState<Path>(
+    userProfileStore.avatar?.lg.src ?? ``,
+  );
 
   const [{ invalid, values, untouched }, { inject, set }] =
     useForm<UserProfileFormValues>(
       {
         displayName: ``,
         bio: ``,
-        avatar: ``,
+        avatar: { type: `noop` },
         githubUrl: ``,
         linkedInUrl: ``,
         fbUrl: ``,
@@ -58,7 +65,9 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
         blogUrl: ``,
       },
       {
-        avatar: [optional(base64Blob)],
+        avatar: [
+          (value) => (value.type === `update` ? base64(value.data) : null),
+        ],
         displayName: [
           optional(noEdgeSpaces, minLength(2), maxLength(25), nickname),
         ],
@@ -90,7 +99,13 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
         if (!!files && files.length === 1) {
           try {
             const avatar = await readFileAsBase64(files[0]);
-            set({ avatar });
+            setAvatarPreview(avatar);
+            set({
+              avatar: {
+                data: avatar,
+                type: `update`,
+              },
+            });
           } catch {
             avatarErrorModal.open();
           }
@@ -103,7 +118,8 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
   });
 
   const removeAvatar = (): void => {
-    set({ avatar: `` });
+    set({ avatar: { type: `remove` } });
+    setAvatarPreview(``);
   };
 
   return (
@@ -203,16 +219,16 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                     i={2}
                     onClick={uploadAvatar}
                   >
-                    {values.avatar ? (
+                    {avatarPreview ? (
                       <img
                         className="h-full w-full object-cover rounded-full"
-                        src={values.avatar}
+                        src={avatarPreview}
                       />
                     ) : (
                       <BiUser size={32} />
                     )}
                   </Button>
-                  {values.avatar && (
+                  {avatarPreview && (
                     <Button
                       type="button"
                       auto

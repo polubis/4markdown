@@ -34,8 +34,14 @@ type UserProfile = {
 
 type GetYourProfileDto = UserProfile;
 
+type UpdateUserProfileAvatarAction =
+  | {
+      type: `noop`;
+    }
+  | { type: `remove` }
+  | { type: `update`; data: Base64 };
 type UpdateUserProfilePayload = Omit<UserProfile, 'avatar'> & {
-  avatar: Base64 | null;
+  avatar: UpdateUserProfileAvatarAction;
 };
 type UpdateUserProfileDto = UserProfile;
 
@@ -43,6 +49,7 @@ export type {
   User,
   UserProfileAvatar,
   UserProfile,
+  UpdateUserProfileAvatarAction,
   UpdateUserProfilePayload,
   UpdateUserProfileDto,
   GetYourProfileDto,
