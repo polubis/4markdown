@@ -23,7 +23,6 @@ interface AuthorizedData {
   deleteDoc(): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;
   updateUserProfile(payload: UpdateUserProfilePayload): Promise<void>;
-  getYourProfile(): Promise<void>;
 }
 
 interface UnauthrorizedData {

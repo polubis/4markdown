@@ -214,7 +214,7 @@ const WithAuth = () => {
       });
     };
 
-    const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
+    const getYourProfile = async (): Promise<void> => {
       try {
         if (userProfileStoreSelectors.state().is === `ok`) return;
 
@@ -223,8 +223,17 @@ const WithAuth = () => {
         const data = await mock({
           delay: 3,
         })<GetYourProfileDto>({
-          displayName: null,
-          avatar: null,
+          displayName: `Tom194`,
+          avatar: {
+            tn: { h: 24, w: 24, src: `` },
+            sm: { h: 32, w: 32, src: `` },
+            md: { h: 64, w: 64, src: `` },
+            lg: {
+              h: 100,
+              w: 100,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+          },
           bio: null,
           githubUrl: null,
           linkedInUrl: null,
@@ -357,7 +366,6 @@ const WithAuth = () => {
           },
           uploadImage,
           getPublicDoc,
-          getYourProfile,
           deleteDoc: async () => {
             await deleteDoc(docStoreSelectors.active().id);
           },
@@ -385,6 +393,7 @@ const WithAuth = () => {
         });
 
         getDocs();
+        getYourProfile();
 
         return;
       }
@@ -392,6 +401,7 @@ const WithAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
+      userProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
         getPublicDoc,

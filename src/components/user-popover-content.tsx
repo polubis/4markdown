@@ -37,10 +37,6 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
     close();
   });
 
-  React.useEffect(() => {
-    authStoreSelectors.authorized().getYourProfile();
-  }, []);
-
   if (userProfileStore.is === `fail`) {
     return (
       <ErrorModal
