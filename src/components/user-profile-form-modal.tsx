@@ -32,7 +32,9 @@ interface UserProfileFormModalProps {
   onClose(): void;
 }
 
-type UserProfileFormValues = NonNullableProperties<UserProfile>;
+type UserProfileFormValues = NonNullableProperties<
+  Omit<UserProfile, 'avatar'>
+> & { avatar: string };
 
 const urlValidator = [optional(noEdgeSpaces, url)];
 
@@ -73,7 +75,13 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
 
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    await authStoreSelectors.authorized().updateUserProfile(values);
+    await authStoreSelectors.authorized().updateUserProfile({
+      ...values,
+      avatar: {
+        type: `update`,
+        data: values.avatar,
+      },
+    });
   };
 
   const close = (): void => {

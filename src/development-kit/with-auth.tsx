@@ -37,7 +37,11 @@ import {
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
-import { UpdateUserProfilePayload, UpdateUserProfileDto } from 'models/user';
+import {
+  UpdateUserProfilePayload,
+  UpdateUserProfileDto,
+  GetYourProfileDto,
+} from 'models/user';
 import {
   updateUserProfileStoreActions,
   updateUserProfileStoreSelectors,
@@ -149,7 +153,15 @@ const WithAuth = () => {
 
         const data = await mock({
           delay: 3,
-        })<UpdateUserProfileDto>(payload)<UpdateUserProfilePayload>(payload);
+        })<UpdateUserProfileDto>({
+          ...payload,
+          avatar: {
+            tn: { h: 24, w: 24, src: `` },
+            sm: { h: 32, w: 32, src: `` },
+            md: { h: 64, w: 64, src: `` },
+            lg: { h: 100, w: 100, src: `` },
+          },
+        })<UpdateUserProfilePayload>(payload);
 
         updateUserProfileStoreActions.ok(data);
       } catch (error: unknown) {
@@ -210,7 +222,7 @@ const WithAuth = () => {
 
         const data = await mock({
           delay: 3,
-        })<UpdateUserProfileDto>({
+        })<GetYourProfileDto>({
           displayName: null,
           avatar: null,
           bio: null,
