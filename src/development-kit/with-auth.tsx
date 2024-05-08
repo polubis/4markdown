@@ -43,6 +43,10 @@ import {
   updateUserProfileStoreSelectors,
 } from 'store/update-user-profile/update-user-profile.store';
 import { mock } from './mock';
+import {
+  userProfileStoreActions,
+  userProfileStoreSelectors,
+} from 'store/user-profile/user-profile.store';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -198,6 +202,31 @@ const WithAuth = () => {
       });
     };
 
+    const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
+      try {
+        if (userProfileStoreSelectors.state().is === `ok`) return;
+
+        userProfileStoreActions.busy();
+
+        const data = await mock({
+          delay: 3,
+        })<UpdateUserProfileDto>({
+          displayName: null,
+          avatar: null,
+          bio: null,
+          githubUrl: null,
+          linkedInUrl: null,
+          blogUrl: null,
+          twitterUrl: null,
+          fbUrl: null,
+        })({});
+
+        userProfileStoreActions.ok(data);
+      } catch (error: unknown) {
+        userProfileStoreActions.fail(error);
+      }
+    };
+
     const updateDocName: AuthorizedData['updateDocName'] = async (name) => {
       const doc = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
@@ -316,6 +345,7 @@ const WithAuth = () => {
           },
           uploadImage,
           getPublicDoc,
+          getYourProfile,
           deleteDoc: async () => {
             await deleteDoc(docStoreSelectors.active().id);
           },

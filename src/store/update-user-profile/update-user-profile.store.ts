@@ -27,8 +27,4 @@ const updateUserProfileStoreSelectors = {
   useState: () => useUpdateUserProfileStore(),
 };
 
-export {
-  useUpdateUserProfileStore,
-  updateUserProfileStoreActions,
-  updateUserProfileStoreSelectors,
-};
+export { updateUserProfileStoreActions, updateUserProfileStoreSelectors };

@@ -5,6 +5,7 @@ import { useConfirm } from 'development-kit/use-confirm';
 import Popover from 'design-system/popover';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
+import { userProfileStoreSelectors } from 'store/user-profile/user-profile.store';
 
 interface UserPopoverContentProps {
   className: string;
@@ -19,16 +20,27 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
 }) => {
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
+  const userProfileStore = userProfileStoreSelectors.useState();
 
-  const signOutConfirmation = useConfirm(async () => {
+  const close = (): void => {
+    if (userProfileStore.is === `busy`) return;
+
+    onClose();
+  };
+
+  const signOutConfirmation = useConfirm(() => {
     if (authStore.is === `authorized`) {
       authStore.logOut();
     }
-    onClose();
+    close();
   });
 
+  React.useEffect(() => {
+    authStore.is === `authorized` && authStore.getYourProfile();
+  }, [authStore]);
+
   return (
-    <Popover className={className} onBackdropClick={onClose}>
+    <Popover className={className} onBackdropClick={close}>
       <div className="max-w-[280px] flex flex-col">
         <div className="flex items-center">
           <h6 className="text-xl">Your Account</h6>
@@ -46,7 +58,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
             s={1}
             className="ml-2"
             title="Close your account panel"
-            onClick={onClose}
+            onClick={close}
           >
             <BiX />
           </Button>
