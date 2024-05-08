@@ -14,7 +14,6 @@ import {
   minLength,
   nickname,
   noEdgeSpaces,
-  notEmpty,
   optional,
   url,
 } from 'development-kit/form';
@@ -60,13 +59,9 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
       {
         avatar: [optional(base64Blob)],
         displayName: [
-          notEmpty,
-          noEdgeSpaces,
-          minLength(2),
-          maxLength(25),
-          nickname,
+          optional(noEdgeSpaces, minLength(2), maxLength(25), nickname),
         ],
-        bio: [notEmpty, noEdgeSpaces, minLength(60), maxLength(300)],
+        bio: [optional(noEdgeSpaces, minLength(60), maxLength(300))],
         githubUrl: urlValidator,
         blogUrl: urlValidator,
         linkedInUrl: urlValidator,
@@ -121,14 +116,67 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                 i={2}
                 s={1}
                 disabled={userProfileStore.is === `busy`}
-                title="Close user profile settings form"
+                title="Close user profile update form"
                 onClick={close}
               >
                 <BiX />
               </Button>
             </div>
           </div>
-          {userProfileStore.is === `ok` && <div>Success!</div>}
+          {userProfileStore.is === `ok` && (
+            <div>
+              <p className="text-md text-green-700 mb-2">
+                <strong>Your profile has been successfully updated!</strong>
+              </p>
+              <p>
+                Below are your current details. Remember, you can remove them at
+                any time.
+              </p>
+              <div className="bg-zinc-300 dark:bg-zinc-800 h-0.5 my-4" />
+              <p className="mb-1">
+                Display Name:{` `}
+                <strong className="break-words">{values.displayName}</strong>
+              </p>
+              <p className="mb-1">
+                Bio:{` `}
+                <strong className="break-words">{values.bio}</strong>
+              </p>
+              <p className="mb-1">
+                GitHub Link:{` `}
+                <strong className="break-words">{values.githubUrl}</strong>
+              </p>
+              <p className="mb-1">
+                Facebook Link:{` `}
+                <strong className="break-words">{values.fbUrl}</strong>
+              </p>
+              <p className="mb-1">
+                Twitter Link:{` `}
+                <strong className="break-words">{values.twitterUrl}</strong>
+              </p>
+              <p className="mb-1">
+                LinkedIn Link:{` `}
+                <strong className="break-words">{values.linkedInUrl}</strong>
+              </p>
+              <p className="mb-1">
+                Blog Link:{` `}
+                <strong className="break-words">{values.blogUrl}</strong>
+              </p>
+
+              <footer className="mt-8">
+                <Button
+                  className="ml-auto"
+                  type="button"
+                  i={1}
+                  s={2}
+                  auto
+                  title="Close user profile update success summary"
+                  onClick={close}
+                >
+                  Close
+                </Button>
+              </footer>
+            </div>
+          )}
           {userProfileStore.is !== `ok` && (
             <form onSubmit={save}>
               <section className="flex flex-col space-y-4">
@@ -164,13 +212,13 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                     </Button>
                   )}
                 </Field>
-                <Field label={`Display Name*`}>
+                <Field label={`Display Name`}>
                   <Input
                     placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
                     {...inject(`displayName`)}
                   />
                 </Field>
-                <Field label={`Bio*`}>
+                <Field label={`Bio`}>
                   <Textarea
                     placeholder="Example: I like programming and playing computer games..."
                     {...inject(`bio`)}

@@ -4,8 +4,8 @@ interface User {
 }
 
 type UserProfile = {
-  displayName: string;
-  bio: string;
+  displayName: string | null;
+  bio: string | null;
   avatar: string | null;
   githubUrl: string | null;
   linkedInUrl: string | null;
