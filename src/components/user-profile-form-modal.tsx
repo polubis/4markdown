@@ -162,7 +162,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                 <strong className="break-words">{values.blogUrl}</strong>
               </p>
 
-              <footer className="mt-8">
+              <footer className="flex mt-8">
                 <Button
                   className="ml-auto"
                   type="button"
@@ -173,6 +173,17 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                   onClick={close}
                 >
                   Close
+                </Button>
+                <Button
+                  className="ml-2"
+                  type="button"
+                  i={1}
+                  s={2}
+                  auto
+                  title="Edit your profile again"
+                  onClick={updateUserProfileStoreActions.idle}
+                >
+                  Edit Again
                 </Button>
               </footer>
             </div>
