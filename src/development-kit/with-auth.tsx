@@ -39,9 +39,9 @@ import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
 import { UpdateUserProfilePayload, UpdateUserProfileDto } from 'models/user';
 import {
-  userProfileStoreActions,
-  userProfileStoreSelectors,
-} from 'store/user-profile/user-profile.store';
+  updateUserProfileStoreActions,
+  updateUserProfileStoreSelectors,
+} from 'store/update-user-profile/update-user-profile.store';
 import { mock } from './mock';
 
 const WithAuth = () => {
@@ -139,17 +139,17 @@ const WithAuth = () => {
       payload,
     ) => {
       try {
-        if (userProfileStoreSelectors.state().is === `ok`) return;
+        if (updateUserProfileStoreSelectors.state().is === `ok`) return;
 
-        userProfileStoreActions.busy();
+        updateUserProfileStoreActions.busy();
 
         const data = await mock({
           delay: 3,
         })<UpdateUserProfileDto>(payload)<UpdateUserProfilePayload>(payload);
 
-        userProfileStoreActions.ok(data);
+        updateUserProfileStoreActions.ok(data);
       } catch (error: unknown) {
-        userProfileStoreActions.fail(error);
+        updateUserProfileStoreActions.fail(error);
       }
     };
 

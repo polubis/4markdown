@@ -19,9 +19,9 @@ import {
   url,
 } from 'development-kit/form';
 import {
-  userProfileStoreActions,
-  userProfileStoreSelectors,
-} from 'store/user-profile/user-profile.store';
+  updateUserProfileStoreActions,
+  updateUserProfileStoreSelectors,
+} from 'store/update-user-profile/update-user-profile.store';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { Status } from 'design-system/status';
 import { ErrorModal } from './error-modal';
@@ -44,7 +44,7 @@ const avatarRestrictions = {
 };
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
-  const userProfileStore = userProfileStoreSelectors.useState();
+  const userProfileStore = updateUserProfileStoreSelectors.useState();
   const [{ invalid, values, untouched }, { inject, set }] =
     useForm<UserProfileFormValues>(
       {
@@ -82,7 +82,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
   };
 
   const close = (): void => {
-    userProfileStoreActions.idle();
+    updateUserProfileStoreActions.idle();
     onClose();
   };
 
@@ -247,7 +247,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
         <ErrorModal
           heading="Ups, something went wrong"
           message={userProfileStore.error}
-          onClose={userProfileStoreActions.idle}
+          onClose={updateUserProfileStoreActions.idle}
         />
       )}
 
