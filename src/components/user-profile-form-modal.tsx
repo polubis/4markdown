@@ -5,7 +5,7 @@ import Modal from 'design-system/modal';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
-import { UserProfile } from 'models/user';
+import { UpdateUserProfilePayload } from 'models/user';
 import { NonNullableProperties } from 'development-kit/utility-types';
 import { useForm } from 'development-kit/use-form';
 import {
@@ -32,9 +32,7 @@ interface UserProfileFormModalProps {
   onClose(): void;
 }
 
-type UserProfileFormValues = NonNullableProperties<
-  Omit<UserProfile, 'avatar'>
-> & { avatar: string };
+type UserProfileFormValues = NonNullableProperties<UpdateUserProfilePayload>;
 
 const urlValidator = [optional(noEdgeSpaces, url)];
 
@@ -46,6 +44,7 @@ const avatarRestrictions = {
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
   const updateUserProfileStore = updateUserProfileStoreSelectors.useState();
+
   const [{ invalid, values, untouched }, { inject, set }] =
     useForm<UserProfileFormValues>(
       {
@@ -75,13 +74,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
 
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    await authStoreSelectors.authorized().updateUserProfile({
-      ...values,
-      avatar: {
-        type: `update`,
-        data: values.avatar,
-      },
-    });
+    await authStoreSelectors.authorized().updateUserProfile(values);
   };
 
   const close = (): void => {
@@ -96,7 +89,8 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
       const uploadAndOpen = async (): Promise<void> => {
         if (!!files && files.length === 1) {
           try {
-            set({ avatar: await readFileAsBase64(files[0]) });
+            const avatar = await readFileAsBase64(files[0]);
+            set({ avatar });
           } catch {
             avatarErrorModal.open();
           }
