@@ -10,6 +10,7 @@ import {
   userProfileStoreSelectors,
 } from 'store/user-profile/user-profile.store';
 import { ErrorModal } from './error-modal';
+import { Loader } from 'design-system/loader';
 
 interface UserPopoverContentProps {
   className: string;
@@ -54,7 +55,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
     <Popover className={className} onBackdropClick={close}>
       <div className="max-w-[280px] flex flex-col">
         {(userProfileStore.is === `busy` || userProfileStore.is === `idle`) && (
-          <div>Loading...</div>
+          <Loader />
         )}
       </div>
 
