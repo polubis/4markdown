@@ -43,7 +43,7 @@ const avatarRestrictions = {
 };
 
 const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
-  const userProfileStore = updateUserProfileStoreSelectors.useState();
+  const updateUserProfileStore = updateUserProfileStoreSelectors.useState();
   const [{ invalid, values, untouched }, { inject, set }] =
     useForm<UserProfileFormValues>(
       {
@@ -106,7 +106,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
 
   return (
     <>
-      {userProfileStore.is !== `fail` && avatarErrorModal.closed && (
+      {updateUserProfileStore.is !== `fail` && avatarErrorModal.closed && (
         <Modal>
           <div className="flex items-center justify-between gap-4 mb-6">
             <h6 className="text-xl">Your Profile Details</h6>
@@ -115,7 +115,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                 type="button"
                 i={2}
                 s={1}
-                disabled={userProfileStore.is === `busy`}
+                disabled={updateUserProfileStore.is === `busy`}
                 title="Close user profile update form"
                 onClick={close}
               >
@@ -123,7 +123,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
               </Button>
             </div>
           </div>
-          {userProfileStore.is === `ok` && (
+          {updateUserProfileStore.is === `ok` && (
             <div>
               <p className="text-md text-green-700 mb-2">
                 <strong>Your profile has been successfully updated!</strong>
@@ -188,7 +188,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
               </footer>
             </div>
           )}
-          {userProfileStore.is !== `ok` && (
+          {updateUserProfileStore.is !== `ok` && (
             <form onSubmit={save}>
               <section className="flex flex-col space-y-4">
                 <Field className="items-center mx-auto [&>label]:mb-2" label="">
@@ -272,7 +272,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                   type="button"
                   i={1}
                   s={2}
-                  disabled={userProfileStore.is === `busy`}
+                  disabled={updateUserProfileStore.is === `busy`}
                   auto
                   title="Cancel user profile update"
                   onClick={close}
@@ -286,7 +286,7 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
                   s={2}
                   auto
                   disabled={
-                    untouched || invalid || userProfileStore.is === `busy`
+                    untouched || invalid || updateUserProfileStore.is === `busy`
                   }
                   title="Confirm user profile update"
                 >
@@ -298,14 +298,14 @@ const UserProfileFormModal = ({ onClose }: UserProfileFormModalProps) => {
         </Modal>
       )}
 
-      <Status open={userProfileStore.is === `busy`}>
+      <Status open={updateUserProfileStore.is === `busy`}>
         Updating your profile...
       </Status>
 
-      {userProfileStore.is === `fail` && (
+      {updateUserProfileStore.is === `fail` && (
         <ErrorModal
           heading="Ups, something went wrong"
-          message={userProfileStore.error}
+          message={updateUserProfileStore.error}
           onClose={updateUserProfileStoreActions.idle}
         />
       )}
