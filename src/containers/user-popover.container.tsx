@@ -8,8 +8,8 @@ import { useDocsStore } from 'store/docs/docs.store';
 const UserPopoverContent = React.lazy(
   () => import(`../components/user-popover-content`),
 );
-const UserProfileFormModal = React.lazy(
-  () => import(`../components/user-profile-form-modal`),
+const UserProfileFormModalContainer = React.lazy(
+  () => import(`./user-profile-form-modal.container`),
 );
 
 interface UserPopoverContainerProps {
@@ -83,7 +83,7 @@ const UserPopoverContainer = ({ className }: UserPopoverContainerProps) => {
       )}
       {userDetailsSettingsModal.opened && (
         <React.Suspense>
-          <UserProfileFormModal onClose={userDetailsSettingsModal.close} />
+          <UserProfileFormModalContainer onClose={userDetailsSettingsModal.close} />
         </React.Suspense>
       )}
     </>
