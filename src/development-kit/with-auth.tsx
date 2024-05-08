@@ -156,14 +156,31 @@ const WithAuth = () => {
         })<UpdateUserProfileDto>({
           ...payload,
           avatar: {
-            tn: { h: 24, w: 24, src: `` },
-            sm: { h: 32, w: 32, src: `` },
-            md: { h: 64, w: 64, src: `` },
-            lg: { h: 100, w: 100, src: `` },
+            tn: {
+              h: 24,
+              w: 24,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            sm: {
+              h: 32,
+              w: 32,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            md: {
+              h: 64,
+              w: 64,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            lg: {
+              h: 100,
+              w: 100,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
           },
         })<UpdateUserProfilePayload>(payload);
 
         updateUserProfileStoreActions.ok(data);
+        userProfileStoreActions.ok(data);
       } catch (error: unknown) {
         updateUserProfileStoreActions.fail(error);
       }
@@ -225,9 +242,21 @@ const WithAuth = () => {
         })<GetYourProfileDto>({
           displayName: `Tom194`,
           avatar: {
-            tn: { h: 24, w: 24, src: `` },
-            sm: { h: 32, w: 32, src: `` },
-            md: { h: 64, w: 64, src: `` },
+            tn: {
+              h: 24,
+              w: 24,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            sm: {
+              h: 32,
+              w: 32,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            md: {
+              h: 64,
+              w: 64,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
             lg: {
               h: 100,
               w: 100,
