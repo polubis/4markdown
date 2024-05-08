@@ -22,9 +22,20 @@ const userProfileStoreActions = {
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 };
 
+const isOk = (
+  state: UserProfileStoreState,
+): Extract<UserProfileStoreState, { is: 'ok' }> => {
+  if (state.is !== `ok`) {
+    throw Error(`Tried to read state when not allowed`);
+  }
+
+  return state;
+};
+
 const userProfileStoreSelectors = {
   state: getState,
   useState: () => useUserProfileStore(),
+  useOk: () => useUserProfileStore(isOk),
 };
 
 export { userProfileStoreActions, userProfileStoreSelectors };
