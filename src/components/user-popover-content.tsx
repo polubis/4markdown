@@ -3,7 +3,7 @@ import { Button } from 'design-system/button';
 import { BiEdit, BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import Popover from 'design-system/popover';
-import { useAuthStore } from 'store/auth/auth.store';
+import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import {
   userProfileStoreActions,
@@ -22,7 +22,6 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
   onClose,
   onSettingsOpen,
 }) => {
-  const authStore = useAuthStore();
   const docsStore = useDocsStore();
   const userProfileStore = userProfileStoreSelectors.useState();
 
@@ -33,15 +32,13 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
   };
 
   const signOutConfirmation = useConfirm(() => {
-    if (authStore.is === `authorized`) {
-      authStore.logOut();
-    }
+    authStoreSelectors.authorized().logOut();
     close();
   });
 
   React.useEffect(() => {
-    authStore.is === `authorized` && authStore.getYourProfile();
-  }, [authStore]);
+    authStoreSelectors.authorized().getYourProfile();
+  }, []);
 
   if (userProfileStore.is === `fail`) {
     return (
