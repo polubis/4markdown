@@ -133,6 +133,25 @@ exports[`Form management can be used when:  triggers events with metadata when i
 }
 `;
 
+exports[`Form management can be used when:  triggers events with metadata when interaction happens 5`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
 exports[`Form management can be used when:  validates 1`] = `
 {
   "confirmed": false,
@@ -281,6 +300,25 @@ exports[`Form management can be used when:  validates 8`] = `
   "values": {
     "password": "",
     "username": "sd",
+  },
+}
+`;
+
+exports[`Form management can be used when:  validates 9`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "s",
   },
 }
 `;

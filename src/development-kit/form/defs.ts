@@ -29,7 +29,12 @@ export interface FormState<Values extends ValuesBase> {
   valid: boolean;
 }
 
-export type FormSubscriberAction = `init` | `set` | `confirm` | `reset`;
+export type FormSubscriberAction =
+  | `init`
+  | `set`
+  | `confirm`
+  | `reset`
+  | `reconfigure`;
 export type FormSubscriber<Values extends ValuesBase> = (
   action: FormSubscriberAction,
   state: FormState<Values>,
@@ -43,4 +48,8 @@ export interface Formable<Values extends ValuesBase> {
   confirm(): FormState<Values>;
   subscribe(subscriber: FormSubscriber<Values>): FormSubscription;
   reset(values?: Partial<Values>): FormState<Values>;
+  reconfigure(
+    values: Values,
+    validators?: ValidatorsSetup<Values>,
+  ): FormState<Values>;
 }

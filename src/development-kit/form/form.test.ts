@@ -43,6 +43,11 @@ describe(`Form management can be used when: `, () => {
     expect(signInForm.init(createSignInFormValues(`sd`, ``))).toMatchSnapshot();
     expect(signInForm.set(createSignInFormValues(``, ``))).toMatchSnapshot();
     expect(signInForm.reset()).toMatchSnapshot();
+    expect(
+      signInForm.reconfigure(createSignInFormValues(`s`, ``), {
+        username: [minLength(2)],
+      }),
+    ).toMatchSnapshot();
   });
 
   it(`triggers events with metadata when interaction happens`, () => {
@@ -84,7 +89,20 @@ describe(`Form management can be used when: `, () => {
     );
     expect(resetStateResult).toMatchSnapshot();
 
-    expect(spy).toHaveBeenCalledTimes(4);
+    const reconfigureStateResult = signInForm.reconfigure(
+      createSignInFormValues(``, ``),
+      {
+        username: [minLength(1)],
+      },
+    );
+
+    expect(spy).toHaveBeenCalledWith(
+      `reconfigure` as FormSubscriberAction,
+      reconfigureStateResult,
+    );
+    expect(reconfigureStateResult).toMatchSnapshot();
+
+    expect(spy).toHaveBeenCalledTimes(5);
 
     unsubscribe();
   });

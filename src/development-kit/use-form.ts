@@ -5,7 +5,7 @@ const useForm = <Values extends Record<string, any>>(
   values: Values,
   validators: ValidatorsSetup<Values> = {},
 ) => {
-  const [instance, setInstance] = React.useState(() => {
+  const [instance] = React.useState(() => {
     const inst = form<Values>(validators);
     inst.init(values);
     return inst;
@@ -37,15 +37,9 @@ const useForm = <Values extends Record<string, any>>(
     [instance],
   );
 
-  const restart = React.useCallback(
-    (values: Values, validators: ValidatorsSetup<Values> = {}) => {
-      const inst = form<Values>(validators);
-      inst.init(values);
-      setInstance(inst);
-
-      return inst.state();
-    },
-    [],
+  const reconfigure: Formable<Values>['reconfigure'] = React.useCallback(
+    (values, validators) => instance.reconfigure(values, validators),
+    [instance],
   );
 
   const reset: Formable<Values>['reset'] = React.useCallback(
@@ -63,7 +57,7 @@ const useForm = <Values extends Record<string, any>>(
 
   return [
     state,
-    { set, restart, inject, reset, confirm, subscribe: instance.subscribe },
+    { set, reconfigure, inject, reset, confirm, subscribe: instance.subscribe },
   ] as const;
 };
 

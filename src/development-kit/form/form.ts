@@ -10,7 +10,7 @@ import {
 } from './defs';
 
 export const form = <Values extends ValuesBase>(
-  validatorsSetup: ValidatorsSetup<Values> = {},
+  validators: ValidatorsSetup<Values> = {},
 ): Formable<Values> => {
   const subscriptions = new Map<string, FormSubscriber<Values>>();
 
@@ -25,7 +25,7 @@ export const form = <Values extends ValuesBase>(
 
     for (const key in values) {
       const value = values[key];
-      const fns = validatorsSetup[key] ?? [];
+      const fns = validators[key] ?? [];
       result[key] = chain(...fns)(value);
 
       if (result[key] !== null) {
@@ -126,6 +126,22 @@ export const form = <Values extends ValuesBase>(
       });
 
       notify(`reset`);
+
+      return newState;
+    },
+    reconfigure: (values, newValidators = {}) => {
+      validators = newValidators;
+
+      const newState = setState({
+        values,
+        ...validate(values),
+        ...confirm(false),
+        ...touch(false),
+      });
+
+      notify(`reconfigure`);
+
+      initialState = { ...newState };
 
       return newState;
     },
