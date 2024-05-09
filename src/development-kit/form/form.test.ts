@@ -2,6 +2,7 @@ import { FormSubscriber, FormSubscriberAction } from './defs';
 import { expect } from '@jest/globals';
 import { form } from './form';
 import { minLength, maxLength } from './validators';
+import { optional } from './core';
 
 describe(`Form management can be used when: `, () => {
   interface SignInFormValues {
@@ -15,6 +16,18 @@ describe(`Form management can be used when: `, () => {
   ): SignInFormValues => ({
     username,
     password,
+  });
+
+  it(`supports optional validators`, () => {
+    const signInForm = form<SignInFormValues>({
+      username: [optional(minLength(2), maxLength(3))],
+    });
+
+    expect(signInForm.init(createSignInFormValues(``, ``))).toMatchSnapshot();
+    expect(signInForm.init(createSignInFormValues(`d`, ``))).toMatchSnapshot();
+    expect(
+      signInForm.init(createSignInFormValues(`dsd`, ``)),
+    ).toMatchSnapshot();
   });
 
   it(`validates`, () => {

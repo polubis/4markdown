@@ -1,5 +1,138 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Form management can be used when:  supports optional validators 1`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management can be used when:  supports optional validators 2`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "d",
+  },
+}
+`;
+
+exports[`Form management can be used when:  supports optional validators 3`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "dsd",
+  },
+}
+`;
+
+exports[`Form management can be used when:  triggers events with metadata when interaction happens 1`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management can be used when:  triggers events with metadata when interaction happens 2`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": true,
+  "unconfirmed": true,
+  "untouched": false,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management can be used when:  triggers events with metadata when interaction happens 3`] = `
+{
+  "confirmed": true,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": true,
+  "unconfirmed": false,
+  "untouched": false,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management can be used when:  triggers events with metadata when interaction happens 4`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
 exports[`Form management can be used when:  validates 1`] = `
 {
   "confirmed": false,
