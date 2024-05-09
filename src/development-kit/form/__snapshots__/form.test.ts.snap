@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form management can be used when:  validates 1`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "sd",
+  },
+}
+`;
+
+exports[`Form management can be used when:  validates 2`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management can be used when:  validates 3`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": true,
+  "unconfirmed": true,
+  "untouched": false,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "ds",
+  },
+}
+`;
+
+exports[`Form management can be used when:  validates 4`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": true,
+  "unconfirmed": true,
+  "untouched": false,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management can be used when:  validates 5`] = `
+{
+  "confirmed": true,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": true,
+  "unconfirmed": false,
+  "untouched": false,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management can be used when:  validates 6`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "sd",
+  },
+}
+`;
+
+exports[`Form management can be used when:  validates 7`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": true,
+  "unconfirmed": true,
+  "untouched": false,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management can be used when:  validates 8`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "sd",
+  },
+}
+`;
