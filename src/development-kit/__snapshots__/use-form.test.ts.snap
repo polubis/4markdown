@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Form management is integrated with React when:  allows to manage form 1`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management is integrated with React when:  allows to manage form 2`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": "minLength",
+    "username": null,
+  },
+  "touched": true,
+  "unconfirmed": true,
+  "untouched": false,
+  "valid": false,
+  "values": {
+    "password": "s",
+    "username": "cos",
+  },
+}
+`;
+
+exports[`Form management is integrated with React when:  allows to manage form 3`] = `
+{
+  "confirmed": true,
+  "invalid": true,
+  "result": {
+    "password": "minLength",
+    "username": null,
+  },
+  "touched": true,
+  "unconfirmed": false,
+  "untouched": false,
+  "valid": false,
+  "values": {
+    "password": "s",
+    "username": "cos",
+  },
+}
+`;
+
+exports[`Form management is integrated with React when:  allows to manage form 4`] = `
+{
+  "confirmed": false,
+  "invalid": true,
+  "result": {
+    "password": null,
+    "username": "minLength",
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": false,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management is integrated with React when:  allows to manage form 5`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": true,
+  "unconfirmed": true,
+  "untouched": false,
+  "valid": true,
+  "values": {
+    "password": "cos",
+    "username": "cos",
+  },
+}
+`;
+
+exports[`Form management is integrated with React when:  allows to manage form 6`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": false,
+  "unconfirmed": true,
+  "untouched": true,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
+
+exports[`Form management is integrated with React when:  allows to manage form 7`] = `
+{
+  "confirmed": false,
+  "invalid": false,
+  "result": {
+    "password": null,
+    "username": null,
+  },
+  "touched": true,
+  "unconfirmed": true,
+  "untouched": false,
+  "valid": true,
+  "values": {
+    "password": "",
+    "username": "",
+  },
+}
+`;
