@@ -128,7 +128,9 @@ const UserProfileFormModalContainer = ({
   });
 
   const removeAvatar = (): void => {
-    set({ avatar: { type: `remove` } });
+    set({
+      avatar: userProfileStore.avatar ? { type: `remove` } : { type: `noop` },
+    });
     setAvatarPreview(``);
   };
 
