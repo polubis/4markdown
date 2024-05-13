@@ -152,7 +152,7 @@ const WithAuth = () => {
 
         const profile = await mock({
           delay: 1,
-          errorFactor: 50,
+          errorFactor: 100,
         })<GetYourProfileDto>({
           displayName: `Tom194`,
           avatar: {

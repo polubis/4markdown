@@ -71,20 +71,6 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
           <BiX />
         </Button>
       </div>
-      <div className="flex flex-col space-y-1 mt-4">
-        {docsStore.is === `ok` && docsStore.docs.length > 0 && (
-          <Detail label="Documents" value={docsStore.docs.length} />
-        )}
-        {userProfileStore.is === `ok` && (
-          <>
-            <Detail
-              label="Display Name"
-              value={userProfileStore.user?.displayName ?? `Unset`}
-            />
-            <Detail label="Bio" value={userProfileStore.user?.bio ?? `Unset`} />
-          </>
-        )}
-      </div>
 
       {(userProfileStore.is === `idle` || userProfileStore.is === `busy`) && (
         <div className="mt-4 flex flex-wrap gap-2">
@@ -114,6 +100,21 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
           </Button>
         </div>
       )}
+
+      <div className="flex flex-wrap gap-x-3 gap-y-2 mt-2">
+        {docsStore.is === `ok` && docsStore.docs.length > 0 && (
+          <Detail label="Documents" value={docsStore.docs.length} />
+        )}
+        {userProfileStore.is === `ok` && (
+          <>
+            <Detail
+              label="Display Name"
+              value={userProfileStore.user?.displayName ?? `Unset`}
+            />
+            <Detail label="Bio" value={userProfileStore.user?.bio ?? `Unset`} />
+          </>
+        )}
+      </div>
 
       <Button
         className="mt-10 ml-auto"
