@@ -38,7 +38,11 @@ import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
 import { GetYourProfileDto } from 'models/user';
-import { userProfileStoreActions } from 'store/your-profile/your-profile.store';
+import {
+  userProfileStoreActions,
+  userProfileStoreSelectors,
+} from 'store/your-profile/your-profile.store';
+import { mock } from './mock';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -133,15 +137,53 @@ const WithAuth = () => {
 
     const getYourProfile = async () => {
       try {
+        if (userProfileStoreSelectors.state().is === `ok`) return;
+
         userProfileStoreActions.busy();
-        const { data: profile } = await httpsCallable<
-          undefined,
-          GetYourProfileDto
-        >(functions, `getYourUserProfile`)();
+        // const { data: profile } = await httpsCallable<
+        //   undefined,
+        //   GetYourProfileDto
+        // >(functions, `getYourUserProfile`)();
+        // userProfileStoreActions.ok(profile);
+
+        const profile = await mock({
+          delay: 3,
+          errorFactor: 100,
+        })<GetYourProfileDto>({
+          displayName: `Tom194`,
+          avatar: {
+            tn: {
+              h: 24,
+              w: 24,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            sm: {
+              h: 32,
+              w: 32,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            md: {
+              h: 64,
+              w: 64,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            lg: {
+              h: 100,
+              w: 100,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+          },
+          bio: null,
+          githubUrl: null,
+          linkedInUrl: null,
+          blogUrl: null,
+          twitterUrl: null,
+          fbUrl: null,
+        })({});
+
         userProfileStoreActions.ok(profile);
       } catch (error: unknown) {
         userProfileStoreActions.fail(error);
-        throw error;
       }
     };
 
@@ -313,6 +355,7 @@ const WithAuth = () => {
           },
           getDocs,
           reloadDocs,
+          getYourProfile,
           createDoc,
           resyncDocuments: async () => {
             docManagementStoreActions.idle();
