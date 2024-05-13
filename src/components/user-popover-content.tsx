@@ -82,6 +82,38 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
         </div>
       )}
 
+      {userProfileStore.is === `ok` && (
+        <>
+          {userProfileStore.user ? (
+            <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4"></div>
+          ) : (
+            <div className="mt-4 border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+              <h6 className="text-yellow-600 dark:text-yellow-400 font-bold">
+                Make Yourself visible
+              </h6>
+              <p className="mt-1 mb-1">
+                You have not created a <strong>profile</strong> yet. A profile
+                is like a business card that allows others to recognize the
+                documents you have created.
+              </p>
+              <i className="block mb-4">
+                Profile cards may be changed or removed any time.
+              </i>
+              <Button
+                i={2}
+                s={1}
+                auto
+                type="button"
+                title="Create your user profile"
+                onClick={reloadYourProfile}
+              >
+                Create
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+
       {userProfileStore.is === `fail` && (
         <div className="mt-4 rounded-lg border-2 border-zinc-300 dark:border-zinc-800 p-4">
           <h6 className="text-red-600 dark:text-red-400 font-bold">
@@ -104,15 +136,6 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
       <div className="flex flex-wrap gap-x-3 gap-y-2 mt-2">
         {docsStore.is === `ok` && docsStore.docs.length > 0 && (
           <Detail label="Documents" value={docsStore.docs.length} />
-        )}
-        {userProfileStore.is === `ok` && (
-          <>
-            <Detail
-              label="Display Name"
-              value={userProfileStore.user?.displayName ?? `Unset`}
-            />
-            <Detail label="Bio" value={userProfileStore.user?.bio ?? `Unset`} />
-          </>
         )}
       </div>
 
