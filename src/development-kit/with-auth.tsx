@@ -37,12 +37,20 @@ import {
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
-import { GetYourProfileDto } from 'models/user';
 import {
-  userProfileStoreActions,
-  userProfileStoreSelectors,
+  GetYourProfileDto,
+  UpdateYourProfileDto,
+  UpdateYourProfilePayload,
+} from 'models/user';
+import {
+  yourProfileStoreActions,
+  yourProfileStoreSelectors,
 } from 'store/your-profile/your-profile.store';
 import { mock } from './mock';
+import {
+  updateYourProfileStoreActions,
+  updateYourProfileStoreSelectors,
+} from 'store/update-your-profile/update-your-profile.store';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -135,20 +143,63 @@ const WithAuth = () => {
       }
     };
 
+    const updateYourProfile: AuthorizedData['updateYourProfile'] = async (
+      payload,
+    ) => {
+      try {
+        if (updateYourProfileStoreSelectors.state().is === `ok`) return;
+
+        updateYourProfileStoreActions.busy();
+
+        const data = await mock({
+          delay: 3,
+        })<UpdateYourProfileDto>({
+          ...payload,
+          avatar: {
+            tn: {
+              h: 24,
+              w: 24,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            sm: {
+              h: 32,
+              w: 32,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            md: {
+              h: 64,
+              w: 64,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            lg: {
+              h: 100,
+              w: 100,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+          },
+        })<UpdateYourProfilePayload>(payload);
+
+        updateYourProfileStoreActions.ok(data);
+        yourProfileStoreActions.ok(data);
+      } catch (error: unknown) {
+        updateYourProfileStoreActions.fail(error);
+      }
+    };
+
     const getYourProfile = async () => {
       try {
         if (
-          userProfileStoreSelectors.state().is === `ok` ||
-          userProfileStoreSelectors.state().is === `busy`
+          yourProfileStoreSelectors.state().is === `ok` ||
+          yourProfileStoreSelectors.state().is === `busy`
         )
           return;
 
-        userProfileStoreActions.busy();
+        yourProfileStoreActions.busy();
         // const { data: profile } = await httpsCallable<
         //   undefined,
         //   GetYourProfileDto
         // >(functions, `getYourUserProfile`)();
-        // userProfileStoreActions.ok(profile);
+        // yourProfileStoreActions.ok(profile);
 
         const profile = await mock({
           delay: 1,
@@ -188,9 +239,9 @@ const WithAuth = () => {
         //   delay: 1,
         // })<GetYourProfileDto>(null)({});
 
-        userProfileStoreActions.ok(profile);
+        yourProfileStoreActions.ok(profile);
       } catch (error: unknown) {
-        userProfileStoreActions.fail(error);
+        yourProfileStoreActions.fail(error);
       }
     };
 
@@ -381,6 +432,7 @@ const WithAuth = () => {
           makeDocPublic,
           makeDocPermanent,
           updateDocName,
+          updateYourProfile,
         });
 
         getDocs();
@@ -392,7 +444,7 @@ const WithAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
-      userProfileStoreActions.idle();
+      yourProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
         getPublicDoc,

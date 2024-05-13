@@ -1,6 +1,6 @@
 import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
 import { UploadImageDto } from 'models/image';
-import type { User } from 'models/user';
+import type { UpdateYourProfilePayload, User } from 'models/user';
 import { create } from 'zustand';
 
 interface AuthorizedData {
@@ -23,6 +23,7 @@ interface AuthorizedData {
   deleteDoc(): Promise<void>;
   getPublicDoc(payload: GetDocPayload): Promise<Doc>;
   getYourProfile(): Promise<void>;
+  updateYourProfile(payload: UpdateYourProfilePayload): Promise<void>;
 }
 
 interface UnauthrorizedData {

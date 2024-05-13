@@ -31,22 +31,22 @@ type UserProfile = {
 
 type GetYourProfileDto = UserProfile | null;
 
-type UpdateUserProfileAvatarAction =
+type UpdateYourProfileAvatarAction =
   | {
       type: `noop`;
     }
   | { type: `remove` }
   | { type: `update`; data: Base64 };
-type UpdateUserProfilePayload = Omit<UserProfile, 'avatar'> & {
-  avatar: UpdateUserProfileAvatarAction;
+type UpdateYourProfilePayload = Omit<UserProfile, 'avatar'> & {
+  avatar: UpdateYourProfileAvatarAction;
 };
-type UpdateUserProfileDto = UserProfile;
+type UpdateYourProfileDto = UserProfile;
 
 export type {
   User,
   UserProfile,
   GetYourProfileDto,
-  UpdateUserProfilePayload,
-  UpdateUserProfileAvatarAction,
-  UpdateUserProfileDto,
+  UpdateYourProfilePayload,
+  UpdateYourProfileAvatarAction,
+  UpdateYourProfileDto,
 };
