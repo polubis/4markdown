@@ -37,6 +37,7 @@ import {
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
+import { GetYourProfileDto } from 'models/user';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -125,6 +126,19 @@ const WithAuth = () => {
         return data;
       } catch (error: unknown) {
         imagesStoreActions.fail(error);
+        throw error;
+      }
+    };
+
+    const getYourProfile = async () => {
+      try {
+        const { data: profile } = await httpsCallable<
+          undefined,
+          GetYourProfileDto
+        >(functions, `getYourUserProfile`)();
+        console.log(profile);
+      } catch (error: unknown) {
+        console.log(error);
         throw error;
       }
     };
@@ -318,6 +332,7 @@ const WithAuth = () => {
         });
 
         getDocs();
+        getYourProfile();
 
         return;
       }
