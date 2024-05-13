@@ -46,7 +46,6 @@ import {
   yourProfileStoreActions,
   yourProfileStoreSelectors,
 } from 'store/your-profile/your-profile.store';
-import { mock } from './mock';
 import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
@@ -151,33 +150,13 @@ const WithAuth = () => {
 
         updateYourProfileStoreActions.busy();
 
-        const data = await mock({
-          delay: 3,
-        })<UpdateYourProfileDto>({
-          ...payload,
-          avatar: {
-            tn: {
-              h: 24,
-              w: 24,
-              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-            },
-            sm: {
-              h: 32,
-              w: 32,
-              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-            },
-            md: {
-              h: 64,
-              w: 64,
-              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-            },
-            lg: {
-              h: 100,
-              w: 100,
-              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-            },
-          },
-        })<UpdateYourProfilePayload>(payload);
+        const { data } = await httpsCallable<
+          UpdateYourProfilePayload,
+          UpdateYourProfileDto
+        >(
+          functions,
+          `updateYourProfile`,
+        )(payload);
 
         updateYourProfileStoreActions.ok(data);
         yourProfileStoreActions.ok(data);

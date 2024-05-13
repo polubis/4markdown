@@ -3,6 +3,7 @@ import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import Modal from 'design-system/modal';
+import { Status } from 'design-system/status';
 import { Textarea } from 'design-system/textarea';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import {
@@ -152,7 +153,7 @@ const UserProfileFormContainer = ({
 
   return (
     <>
-      {avatarErrorModal.closed && (
+      {updateYourProfileStore.is !== `fail` && avatarErrorModal.closed && (
         <Modal>
           <form onSubmit={save}>
             <div className="flex items-center">
@@ -274,6 +275,18 @@ const UserProfileFormContainer = ({
             </footer>
           </form>
         </Modal>
+      )}
+
+      <Status open={updateYourProfileStore.is === `busy`}>
+        Updating your profile...
+      </Status>
+
+      {updateYourProfileStore.is === `fail` && (
+        <ErrorModal
+          heading="Ups, something went wrong"
+          message={updateYourProfileStore.error}
+          onClose={updateYourProfileStoreActions.idle}
+        />
       )}
 
       {avatarErrorModal.opened && (

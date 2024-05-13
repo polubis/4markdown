@@ -121,7 +121,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
               <h6 className="mt-2 text-2xl font-bold">
                 {userProfileStore.user.displayName ?? `Unset`}
               </h6>
-              <p className="mt-2 text-center">
+              <p className="mt-2 text-center break-all">
                 {userProfileStore.user.bio ??
                   `You've not provided your biography yet. Go to your profile settings to change it.`}
               </p>
