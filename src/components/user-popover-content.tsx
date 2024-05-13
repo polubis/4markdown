@@ -1,6 +1,14 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiEdit, BiX } from 'react-icons/bi';
+import {
+  BiEdit,
+  BiLogoFacebook,
+  BiLogoGithub,
+  BiLogoLinkedin,
+  BiLogoTwitter,
+  BiWorld,
+  BiX,
+} from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -90,6 +98,30 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                   className="w-full h-full object-cover rounded-full"
                 />
               </picture>
+              <h6 className="mt-2 text-2xl font-bold">
+                {userProfileStore.user.displayName ?? `Unset`}
+              </h6>
+              <p className="mt-2 text-center">
+                {userProfileStore.user.bio ??
+                  `You've not provided your biography yet. Go to your profile settings to change it.`}
+              </p>
+              <footer className="mt-4 flex space-x-3">
+                <Button i={2} s={1}>
+                  <BiLogoGithub />
+                </Button>
+                <Button i={2} s={1}>
+                  <BiLogoFacebook />
+                </Button>
+                <Button i={2} s={1}>
+                  <BiLogoLinkedin />
+                </Button>
+                <Button i={2} s={1}>
+                  <BiLogoTwitter />
+                </Button>
+                <Button i={2} s={1}>
+                  <BiWorld />
+                </Button>
+              </footer>
             </div>
           ) : (
             <div className="mt-4 border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
