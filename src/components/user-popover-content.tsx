@@ -15,6 +15,8 @@ import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { userProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import Modal from 'design-system/modal';
+import { useToggle } from 'development-kit/use-toggle';
+import { UserProfileFormContainer } from 'containers/user-profile-form.container';
 
 interface UserPopoverContentProps {
   onClose(): void;
@@ -42,6 +44,7 @@ const DetailLoader = () => (
 const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
   const docsStore = useDocsStore();
   const userProfileStore = userProfileStoreSelectors.useState();
+  const userProfileForm = useToggle();
 
   const signOutConfirmation = useConfirm(async () => {
     authStoreSelectors.authorized().logOut();
@@ -54,6 +57,17 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
 
   React.useEffect(reloadYourProfile, [reloadYourProfile]);
 
+  if (userProfileForm.opened) {
+    return (
+      <Modal>
+        <UserProfileFormContainer
+          onBack={userProfileForm.close}
+          onClose={onClose}
+        />
+      </Modal>
+    );
+  }
+
   return (
     <Modal>
       <div className="flex items-center">
@@ -64,7 +78,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
           className="ml-auto"
           title="Open user profile settings"
           disabled={userProfileStore.is !== `ok`}
-          // onClick={onSettingsOpen}
+          onClick={userProfileForm.open}
         >
           <BiEdit />
         </Button>
