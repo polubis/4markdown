@@ -83,7 +83,14 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
       {userProfileStore.is === `ok` && (
         <>
           {userProfileStore.user ? (
-            <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4"></div>
+            <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+              <picture className="w-[100px] h-[100px] shadow-xl rounded-full">
+                <img
+                  src={userProfileStore.user.avatar?.lg.src}
+                  className="w-full h-full object-cover rounded-full"
+                />
+              </picture>
+            </div>
           ) : (
             <div className="mt-4 border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
               <h6 className="text-yellow-600 dark:text-yellow-400 font-bold">
