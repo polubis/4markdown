@@ -6,6 +6,7 @@ import {
   BiLogoGithub,
   BiLogoLinkedin,
   BiLogoTwitter,
+  BiQuestionMark,
   BiWorld,
   BiX,
 } from 'react-icons/bi';
@@ -92,11 +93,18 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
         <>
           {userProfileStore.user ? (
             <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
-              <picture className="w-[100px] h-[100px] shadow-xl rounded-full">
-                <img
-                  src={userProfileStore.user.avatar?.lg.src}
-                  className="w-full h-full object-cover rounded-full"
-                />
+              <picture className="flex bg-slate-50 dark:bg-slate-800 items-center justify-center w-[100px] h-[100px] shadow-xl rounded-full">
+                {userProfileStore.user.avatar ? (
+                  <img
+                    src={userProfileStore.user.avatar?.lg.src}
+                    className="w-full h-full object-cover rounded-full"
+                  />
+                ) : (
+                  <BiQuestionMark
+                    className="text-black dark:text-white"
+                    size={40}
+                  />
+                )}
               </picture>
               <h6 className="mt-2 text-2xl font-bold">
                 {userProfileStore.user.displayName ?? `Unset`}

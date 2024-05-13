@@ -158,7 +158,7 @@ const WithAuth = () => {
             tn: {
               h: 24,
               w: 24,
-              src: `https://media.istockphoto.com/id/1341288649/photo/75mpix-panorama-of-beautiful-mount-ama-dablam-in-himalayas-nepal.jpg?s=612x612&w=0&k=20&c=0xb_bb-NBIxjiJL_kqY-o3dCjv2PmKFZfRjHcVEijDc=`,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
             },
             sm: {
               h: 32,
