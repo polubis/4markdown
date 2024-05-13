@@ -183,6 +183,7 @@ const WithAuth = () => {
         yourProfileStoreActions.ok(data);
       } catch (error: unknown) {
         updateYourProfileStoreActions.fail(error);
+        throw error;
       }
     };
 
@@ -195,49 +196,10 @@ const WithAuth = () => {
           return;
 
         yourProfileStoreActions.busy();
-        // const { data: profile } = await httpsCallable<
-        //   undefined,
-        //   GetYourProfileDto
-        // >(functions, `getYourUserProfile`)();
-        // yourProfileStoreActions.ok(profile);
-
-        const profile = await mock({
-          delay: 1,
-        })<GetYourProfileDto>({
-          displayName: `Tom194`,
-          avatar: {
-            tn: {
-              h: 24,
-              w: 24,
-              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-            },
-            sm: {
-              h: 32,
-              w: 32,
-              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-            },
-            md: {
-              h: 64,
-              w: 64,
-              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-            },
-            lg: {
-              h: 100,
-              w: 100,
-              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-            },
-          },
-          bio: null,
-          githubUrl: null,
-          linkedInUrl: null,
-          blogUrl: null,
-          twitterUrl: null,
-          fbUrl: null,
-        })({});
-
-        // const profile = await mock({
-        //   delay: 1,
-        // })<GetYourProfileDto>(null)({});
+        const { data: profile } = await httpsCallable<
+          undefined,
+          GetYourProfileDto
+        >(functions, `getYourUserProfile`)();
 
         yourProfileStoreActions.ok(profile);
       } catch (error: unknown) {

@@ -25,6 +25,10 @@ import React from 'react';
 import { BiQuestionMark, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import {
+  updateYourProfileStoreActions,
+  updateYourProfileStoreSelectors,
+} from 'store/update-your-profile/update-your-profile.store';
+import {
   YourProfileStoreOkState,
   yourProfileStoreSelectors,
 } from 'store/your-profile/your-profile.store';
@@ -73,6 +77,7 @@ const UserProfileFormContainer = ({
   onBack,
 }: UserProfileFormContainerProps) => {
   const yourProfileStore = yourProfileStoreSelectors.useOk();
+  const updateYourProfileStore = updateYourProfileStoreSelectors.useState();
   const [avatarPreview, setAvatarPreview] = React.useState<Path>(
     yourProfileStore.user?.avatar?.lg.src ?? ``,
   );
@@ -83,11 +88,30 @@ const UserProfileFormContainer = ({
       validators,
     );
 
+  const close = (): void => {
+    updateYourProfileStoreActions.idle();
+    onClose();
+  };
+
+  const back = (): void => {
+    updateYourProfileStoreActions.idle();
+    onBack();
+  };
+
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
-      await authStoreSelectors.authorized().updateYourProfile(values);
-      onBack();
+      await authStoreSelectors.authorized().updateYourProfile({
+        displayName: values.displayName || null,
+        bio: values.bio || null,
+        twitterUrl: values.twitterUrl || null,
+        fbUrl: values.fbUrl || null,
+        githubUrl: values.githubUrl || null,
+        blogUrl: values.blogUrl || null,
+        linkedInUrl: values.linkedInUrl || null,
+        avatar: values.avatar,
+      });
+      back();
     } catch {}
   };
 
@@ -139,7 +163,8 @@ const UserProfileFormContainer = ({
                 className="ml-auto"
                 type="button"
                 title="Close your profile form"
-                onClick={onClose}
+                disabled={updateYourProfileStore.is === `busy`}
+                onClick={close}
               >
                 <BiX />
               </Button>
@@ -229,7 +254,8 @@ const UserProfileFormContainer = ({
                 auto
                 type="button"
                 title="Back to user profile"
-                onClick={onBack}
+                disabled={updateYourProfileStore.is === `busy`}
+                onClick={back}
               >
                 Back
               </Button>
@@ -239,7 +265,9 @@ const UserProfileFormContainer = ({
                 auto
                 type="submit"
                 title="Save user profile"
-                disabled={untouched || invalid}
+                disabled={
+                  untouched || invalid || updateYourProfileStore.is === `busy`
+                }
               >
                 Save
               </Button>

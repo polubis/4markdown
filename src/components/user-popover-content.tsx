@@ -160,9 +160,8 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                 i={2}
                 s={1}
                 auto
-                type="button"
                 title="Create your user profile"
-                onClick={reloadYourProfile}
+                onClick={userProfileForm.open}
               >
                 Create
               </Button>
