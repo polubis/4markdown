@@ -48,7 +48,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
   }, []);
 
   React.useEffect(() => {
-    // reloadYourProfile();
+    reloadYourProfile();
   }, [reloadYourProfile]);
 
   return (
@@ -76,34 +76,38 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
             <BiX />
           </Button>
         </div>
-        <div className="flex flex-wrap gap-4 mt-4">
+        <div className="flex flex-col space-y-1 mt-4">
           {docsStore.is === `ok` && docsStore.docs.length > 0 && (
             <Detail label="Documents" value={docsStore.docs.length} />
           )}
           {userProfileStore.is === `ok` && (
             <>
-              <Detail label="Display Name" value="Unknown" />
-              <Detail label="Bio" value="Unknown" />
-              <Detail label="Display Name" value="Unknown" />
-              <Detail label="Display Name" value="Unknown" />
-            </>
-          )}
-          {(userProfileStore.is === `idle` ||
-            userProfileStore.is === `busy`) && (
-            <>
-              <DetailLoader />
-              <DetailLoader />
-              <DetailLoader />
-              <DetailLoader />
-              <DetailLoader />
+              <Detail
+                label="Display Name"
+                value={userProfileStore.user?.displayName ?? `Unset`}
+              />
+              <Detail
+                label="Bio"
+                value={userProfileStore.user?.bio ?? `Unset`}
+              />
             </>
           )}
         </div>
 
+        {(userProfileStore.is === `idle` || userProfileStore.is === `busy`) && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            <DetailLoader />
+            <DetailLoader />
+            <DetailLoader />
+            <DetailLoader />
+            <DetailLoader />
+          </div>
+        )}
+
         {userProfileStore.is === `fail` && (
           <div className="mt-4 rounded-lg border-2 border-zinc-300 dark:border-zinc-800 p-4">
             <h6 className="text-red-600 dark:text-red-400 font-bold">
-              Cannot load your profile information
+              Cannot load Your Profile information
             </h6>
             <p className="mt-1 mb-4">{userProfileStore.error}</p>
             <Button
@@ -114,13 +118,13 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
               title="Retry your profile load"
               onClick={reloadYourProfile}
             >
-              Retry
+              Try Again
             </Button>
           </div>
         )}
 
         <Button
-          className="mt-20 ml-auto"
+          className="mt-10 ml-auto"
           i={2}
           s={2}
           title="Sign out"

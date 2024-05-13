@@ -137,7 +137,11 @@ const WithAuth = () => {
 
     const getYourProfile = async () => {
       try {
-        if (userProfileStoreSelectors.state().is === `ok`) return;
+        if (
+          userProfileStoreSelectors.state().is === `ok` ||
+          userProfileStoreSelectors.state().is === `busy`
+        )
+          return;
 
         userProfileStoreActions.busy();
         // const { data: profile } = await httpsCallable<
@@ -147,8 +151,8 @@ const WithAuth = () => {
         // userProfileStoreActions.ok(profile);
 
         const profile = await mock({
-          delay: 3,
-          errorFactor: 100,
+          delay: 1,
+          errorFactor: 50,
         })<GetYourProfileDto>({
           displayName: `Tom194`,
           avatar: {
