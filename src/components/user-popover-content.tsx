@@ -43,9 +43,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
     authStoreSelectors.authorized().getYourProfile();
   }, []);
 
-  React.useEffect(() => {
-    reloadYourProfile();
-  }, [reloadYourProfile]);
+  React.useEffect(reloadYourProfile, [reloadYourProfile]);
 
   return (
     <Modal>

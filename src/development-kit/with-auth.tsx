@@ -150,43 +150,43 @@ const WithAuth = () => {
         // >(functions, `getYourUserProfile`)();
         // userProfileStoreActions.ok(profile);
 
-        // const profile = await mock({
-        //   delay: 1,
-        // })<GetYourProfileDto>({
-        //   displayName: `Tom194`,
-        //   avatar: {
-        //     tn: {
-        //       h: 24,
-        //       w: 24,
-        //       src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-        //     },
-        //     sm: {
-        //       h: 32,
-        //       w: 32,
-        //       src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-        //     },
-        //     md: {
-        //       h: 64,
-        //       w: 64,
-        //       src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-        //     },
-        //     lg: {
-        //       h: 100,
-        //       w: 100,
-        //       src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
-        //     },
-        //   },
-        //   bio: null,
-        //   githubUrl: null,
-        //   linkedInUrl: null,
-        //   blogUrl: null,
-        //   twitterUrl: null,
-        //   fbUrl: null,
-        // })({});
-
         const profile = await mock({
           delay: 1,
-        })<GetYourProfileDto>(null)({});
+        })<GetYourProfileDto>({
+          displayName: `Tom194`,
+          avatar: {
+            tn: {
+              h: 24,
+              w: 24,
+              src: `https://media.istockphoto.com/id/1341288649/photo/75mpix-panorama-of-beautiful-mount-ama-dablam-in-himalayas-nepal.jpg?s=612x612&w=0&k=20&c=0xb_bb-NBIxjiJL_kqY-o3dCjv2PmKFZfRjHcVEijDc=`,
+            },
+            sm: {
+              h: 32,
+              w: 32,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            md: {
+              h: 64,
+              w: 64,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+            lg: {
+              h: 100,
+              w: 100,
+              src: `https://lh3.googleusercontent.com/a/AAcHTtfvrCXoKHWYKUGh67s6J5-28MD55bPFfiT5WopCOg54cg=s96-c`,
+            },
+          },
+          bio: null,
+          githubUrl: null,
+          linkedInUrl: null,
+          blogUrl: null,
+          twitterUrl: null,
+          fbUrl: null,
+        })({});
+
+        // const profile = await mock({
+        //   delay: 1,
+        // })<GetYourProfileDto>(null)({});
 
         userProfileStoreActions.ok(profile);
       } catch (error: unknown) {
