@@ -38,6 +38,7 @@ import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
 import { GetYourProfileDto } from 'models/user';
+import { userProfileStoreActions } from 'store/your-profile/your-profile.store';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -132,13 +133,14 @@ const WithAuth = () => {
 
     const getYourProfile = async () => {
       try {
+        userProfileStoreActions.busy();
         const { data: profile } = await httpsCallable<
           undefined,
           GetYourProfileDto
         >(functions, `getYourUserProfile`)();
-        console.log(profile);
+        userProfileStoreActions.ok(profile);
       } catch (error: unknown) {
-        console.log(error);
+        userProfileStoreActions.fail(error);
         throw error;
       }
     };
@@ -340,6 +342,7 @@ const WithAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
+      userProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
         getPublicDoc,

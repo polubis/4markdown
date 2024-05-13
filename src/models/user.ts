@@ -29,7 +29,7 @@ type UserProfile = {
   blogUrl: string | null;
 };
 
-type GetYourProfileDto = UserProfile;
+type GetYourProfileDto = UserProfile | null;
 
 type UpdateUserProfileAvatarAction =
   | {
@@ -44,6 +44,7 @@ type UpdateUserProfileDto = UserProfile;
 
 export type {
   User,
+  UserProfile,
   GetYourProfileDto,
   UpdateUserProfilePayload,
   UpdateUserProfileAvatarAction,
