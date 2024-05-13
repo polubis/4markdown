@@ -8,10 +8,7 @@ interface AppNavigationProps {
 
 const AppNavigation = ({ children }: AppNavigationProps) => {
   return (
-    <Navigation
-      className="border-b-2"
-      popover={<UserPopover className="right-2 top-16" />}
-    >
+    <Navigation className="border-b-2" popover={<UserPopover />}>
       <div className="flex items-center space-x-5 sm:pl-5">{children}</div>
     </Navigation>
   );
