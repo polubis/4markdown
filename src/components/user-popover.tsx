@@ -1,10 +1,11 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { BiLogInCircle, BiQuestionMark } from 'react-icons/bi';
+import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useToggle } from 'development-kit/use-toggle';
 import { useDocsStore } from 'store/docs/docs.store';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
+import { YourAvatar } from './your-avatar';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
@@ -37,24 +38,7 @@ const UserPopover = () => {
         onClick={handleClick}
       >
         {authStore.is === `authorized` && yourProfileStore.is === `ok` && (
-          <>
-            {yourProfileStore.user?.avatar ? (
-              <img
-                referrerPolicy="no-referrer"
-                className="h-[24px] w-[24px] rounded-full shadow-lg"
-                src={yourProfileStore.user.avatar.tn.src}
-                alt="Your avatar"
-              />
-            ) : (
-              <span className="text-xl capitalize">
-                {yourProfileStore.user?.displayName ? (
-                  yourProfileStore.user?.displayName.charAt(0)
-                ) : (
-                  <BiQuestionMark size={24} />
-                )}
-              </span>
-            )}
-          </>
+          <YourAvatar size="tn" h={24} w={24} />
         )}
         {(authStore.is === `idle` || authStore.is === `unauthorized`) && (
           <BiLogInCircle />

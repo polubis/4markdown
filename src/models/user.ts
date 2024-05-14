@@ -5,18 +5,22 @@ interface User {
   avatar: string | null;
 }
 
-type AvatarVariant<Key extends 'tn' | 'sm' | 'md' | 'lg' | 'xl'> = {
-  [K in Key]: {
-    w: number;
-    h: number;
-    src: Path;
-  };
+type UserAvatarVariantKey = 'tn' | 'sm' | 'md' | 'lg';
+
+type UserAvatarVariantObj = {
+  w: number;
+  h: number;
+  src: Path;
 };
 
-type UserProfileAvatar = AvatarVariant<'tn'> &
-  AvatarVariant<'sm'> &
-  AvatarVariant<'md'> &
-  AvatarVariant<'lg'>;
+type UserAvatarVariant<Key extends UserAvatarVariantKey> = {
+  [K in Key]: UserAvatarVariantObj;
+};
+
+type UserProfileAvatar = UserAvatarVariant<'tn'> &
+  UserAvatarVariant<'sm'> &
+  UserAvatarVariant<'md'> &
+  UserAvatarVariant<'lg'>;
 
 type UserProfile = {
   displayName: string | null;
@@ -49,4 +53,6 @@ export type {
   UpdateYourProfilePayload,
   UpdateYourProfileAvatarAction,
   UpdateYourProfileDto,
+  UserAvatarVariantKey,
+  UserAvatarVariantObj,
 };
