@@ -385,7 +385,6 @@ const WithAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
-      yourProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
         getPublicDoc,
