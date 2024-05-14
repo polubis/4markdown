@@ -27,6 +27,7 @@ const YourAvatar = ({ size, h, w }: YourAvatarProps) => {
 
   return yourProfileStore.user?.avatar ? (
     <img
+      key={yourProfileStore.user.avatar[size].id}
       referrerPolicy="no-referrer"
       className={`h-[${h}px] w-[${w}px] rounded-full shadow-lg`}
       src={yourProfileStore.user.avatar[size].src}

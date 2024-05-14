@@ -1,4 +1,4 @@
-import { Base64, Path } from './general';
+import { Base64, Id, Path } from './general';
 
 interface User {
   name: string | null;
@@ -10,6 +10,7 @@ type UserAvatarVariantKey = 'tn' | 'sm' | 'md' | 'lg';
 type UserAvatarVariantObj = {
   w: number;
   h: number;
+  id: Id;
   src: Path;
 };
 
