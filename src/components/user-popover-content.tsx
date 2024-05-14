@@ -16,7 +16,7 @@ import { useDocsStore } from 'store/docs/docs.store';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import Modal from 'design-system/modal';
 import { useToggle } from 'development-kit/use-toggle';
-import { UserProfileFormContainer } from 'containers/user-profile-form.container';
+import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
 
 interface UserPopoverContentProps {
   onClose(): void;
@@ -59,7 +59,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
 
   if (userProfileForm.opened) {
     return (
-      <UserProfileFormContainer
+      <UserProfileFormModalContainer
         onBack={userProfileForm.close}
         onClose={onClose}
       />

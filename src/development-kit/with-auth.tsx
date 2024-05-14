@@ -155,7 +155,7 @@ const WithAuth = () => {
           UpdateYourProfileDto
         >(
           functions,
-          `updateYourProfile`,
+          `updateYourUserProfile`,
         )(payload);
 
         updateYourProfileStoreActions.ok(data);
