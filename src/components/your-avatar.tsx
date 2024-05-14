@@ -10,7 +10,15 @@ interface YourAvatarProps {
 }
 
 const YourAvatar = ({ size, h, w }: YourAvatarProps) => {
-  const yourProfileStore = yourProfileStoreSelectors.useOk();
+  const yourProfileStore = yourProfileStoreSelectors.useState();
+
+  if (yourProfileStore.is !== `ok`) {
+    return (
+      <span className="text-xl capitalize">
+        <BiQuestionMark size={24} />
+      </span>
+    );
+  }
 
   return yourProfileStore.user?.avatar ? (
     <img
