@@ -1,3 +1,4 @@
+import c from 'classnames';
 import { UserAvatarVariantKey, UserAvatarVariantObj } from 'models/user';
 import React from 'react';
 import { BiQuestionMark } from 'react-icons/bi';
@@ -9,15 +10,19 @@ interface YourAvatarProps {
   w: UserAvatarVariantObj['w'];
 }
 
+const iconSizesLookup: Record<UserAvatarVariantKey, number> = {
+  tn: 24,
+  sm: 28,
+  md: 32,
+  lg: 40,
+};
+
 const YourAvatar = ({ size, h, w }: YourAvatarProps) => {
   const yourProfileStore = yourProfileStoreSelectors.useState();
+  const iconSize = iconSizesLookup[size];
 
   if (yourProfileStore.is !== `ok`) {
-    return (
-      <span className="text-xl capitalize">
-        <BiQuestionMark size={24} />
-      </span>
-    );
+    return <BiQuestionMark size={iconSize} />;
   }
 
   return yourProfileStore.user?.avatar ? (
@@ -27,14 +32,23 @@ const YourAvatar = ({ size, h, w }: YourAvatarProps) => {
       src={yourProfileStore.user.avatar[size].src}
       alt="Your avatar"
     />
-  ) : (
-    <span className="text-xl capitalize">
-      {yourProfileStore.user?.displayName ? (
-        yourProfileStore.user?.displayName.charAt(0)
-      ) : (
-        <BiQuestionMark size={24} />
+  ) : yourProfileStore.user?.displayName ? (
+    <span
+      className={c(
+        `capitalize`,
+        {
+          'text-xl': size === `tn` || size === `sm`,
+        },
+        {
+          'text-2xl': size === `md`,
+        },
+        { 'text-3xl': size === `lg` },
       )}
+    >
+      {yourProfileStore.user?.displayName.charAt(0)}
     </span>
+  ) : (
+    <BiQuestionMark size={iconSize} />
   );
 };
 
