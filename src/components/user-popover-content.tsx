@@ -43,7 +43,7 @@ const DetailLoader = () => (
 
 const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
   const docsStore = useDocsStore();
-  const userProfileStore = yourProfileStoreSelectors.useState();
+  const yourProfileStore = yourProfileStoreSelectors.useState();
   const userProfileForm = useToggle();
 
   const signOutConfirmation = useConfirm(async () => {
@@ -75,7 +75,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
           s={1}
           className="ml-auto"
           title="Open user profile settings"
-          disabled={userProfileStore.is !== `ok`}
+          disabled={yourProfileStore.is !== `ok`}
           onClick={userProfileForm.open}
         >
           <BiEdit />
@@ -91,7 +91,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
         </Button>
       </div>
 
-      {(userProfileStore.is === `idle` || userProfileStore.is === `busy`) && (
+      {(yourProfileStore.is === `idle` || yourProfileStore.is === `busy`) && (
         <div className="mt-4 flex flex-wrap gap-2">
           <DetailLoader />
           <DetailLoader />
@@ -101,14 +101,14 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
         </div>
       )}
 
-      {userProfileStore.is === `ok` && (
+      {yourProfileStore.is === `ok` && (
         <>
-          {userProfileStore.user ? (
+          {yourProfileStore.user ? (
             <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
               <picture className="flex bg-slate-50 dark:bg-slate-800 items-center justify-center w-[100px] h-[100px] shadow-xl rounded-full">
-                {userProfileStore.user.avatar ? (
+                {yourProfileStore.user.avatar ? (
                   <img
-                    src={userProfileStore.user.avatar?.lg.src}
+                    src={yourProfileStore.user.avatar?.lg.src}
                     className="w-full h-full object-cover rounded-full"
                   />
                 ) : (
@@ -119,16 +119,16 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                 )}
               </picture>
               <h6 className="mt-2 text-2xl font-bold">
-                {userProfileStore.user.displayName ?? `Unset`}
+                {yourProfileStore.user.displayName ?? `Unset`}
               </h6>
               <p className="mt-2 text-center break-all">
-                {userProfileStore.user.bio ??
+                {yourProfileStore.user.bio ??
                   `You've not provided your biography yet. Go to your profile settings to change it.`}
               </p>
               <footer className="mt-4 flex space-x-3">
-                {userProfileStore.user.githubUrl && (
+                {yourProfileStore.user.githubUrl && (
                   <a
-                    href={userProfileStore.user.githubUrl}
+                    href={yourProfileStore.user.githubUrl}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -137,9 +137,9 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                     </Button>
                   </a>
                 )}
-                {userProfileStore.user.fbUrl && (
+                {yourProfileStore.user.fbUrl && (
                   <a
-                    href={userProfileStore.user.fbUrl}
+                    href={yourProfileStore.user.fbUrl}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -148,9 +148,9 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                     </Button>
                   </a>
                 )}
-                {userProfileStore.user.linkedInUrl && (
+                {yourProfileStore.user.linkedInUrl && (
                   <a
-                    href={userProfileStore.user.linkedInUrl}
+                    href={yourProfileStore.user.linkedInUrl}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -159,9 +159,9 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                     </Button>
                   </a>
                 )}
-                {userProfileStore.user.twitterUrl && (
+                {yourProfileStore.user.twitterUrl && (
                   <a
-                    href={userProfileStore.user.twitterUrl}
+                    href={yourProfileStore.user.twitterUrl}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -170,9 +170,9 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                     </Button>
                   </a>
                 )}
-                {userProfileStore.user.blogUrl && (
+                {yourProfileStore.user.blogUrl && (
                   <a
-                    href={userProfileStore.user.blogUrl}
+                    href={yourProfileStore.user.blogUrl}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -210,12 +210,12 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
         </>
       )}
 
-      {userProfileStore.is === `fail` && (
+      {yourProfileStore.is === `fail` && (
         <div className="mt-4 rounded-lg border-2 border-zinc-300 dark:border-zinc-800 p-4">
           <h6 className="text-red-600 dark:text-red-400 font-bold">
             Cannot load Your Profile information
           </h6>
-          <p className="mt-1 mb-4">{userProfileStore.error}</p>
+          <p className="mt-1 mb-4">{yourProfileStore.error}</p>
           <Button
             i={2}
             s={1}
