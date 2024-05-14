@@ -126,21 +126,61 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                   `You've not provided your biography yet. Go to your profile settings to change it.`}
               </p>
               <footer className="mt-4 flex space-x-3">
-                <Button i={2} s={1}>
-                  <BiLogoGithub />
-                </Button>
-                <Button i={2} s={1}>
-                  <BiLogoFacebook />
-                </Button>
-                <Button i={2} s={1}>
-                  <BiLogoLinkedin />
-                </Button>
-                <Button i={2} s={1}>
-                  <BiLogoTwitter />
-                </Button>
-                <Button i={2} s={1}>
-                  <BiWorld />
-                </Button>
+                {userProfileStore.user.githubUrl && (
+                  <a
+                    href={userProfileStore.user.githubUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiLogoGithub />
+                    </Button>
+                  </a>
+                )}
+                {userProfileStore.user.fbUrl && (
+                  <a
+                    href={userProfileStore.user.fbUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiLogoFacebook />
+                    </Button>
+                  </a>
+                )}
+                {userProfileStore.user.linkedInUrl && (
+                  <a
+                    href={userProfileStore.user.linkedInUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiLogoLinkedin />
+                    </Button>
+                  </a>
+                )}
+                {userProfileStore.user.twitterUrl && (
+                  <a
+                    href={userProfileStore.user.twitterUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiLogoTwitter />
+                    </Button>
+                  </a>
+                )}
+                {userProfileStore.user.blogUrl && (
+                  <a
+                    href={userProfileStore.user.blogUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiWorld />
+                    </Button>
+                  </a>
+                )}
               </footer>
             </div>
           ) : (
