@@ -1,171 +1,21 @@
 import React from 'react';
-import Markdown from 'components/markdown';
-import { BiBookContent, BiSolidBookContent, BiWindows } from 'react-icons/bi';
-import { Button } from 'design-system/button';
-import {
-  creatorStoreActions,
-  creatorStoreSelectors,
-} from 'store/creator/creator.store';
-import c from 'classnames';
-import { useConfirm } from 'development-kit/use-confirm';
-import TemplatesPopover from './components/templates-popover';
-import AddDocPopover from 'components/add-doc-popover';
-import { useLsSync } from 'development-kit/use-ls-sync';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { DocBarContainer } from './containers/doc-bar.container';
-import { ImageUploaderContainer } from './containers/image-uploader.container';
-import { CreatorNavigation } from './components/creator-navigation';
-
-const CreatorErrorModalContainer = React.lazy(
-  () => import(`./containers/creator-error-modal.container`),
-);
-
-type DivideMode = 'both' | 'preview' | 'code';
+import { Queue } from './queue';
+import { mock } from './mock';
 
 const CreatorView: React.FC = () => {
-  useLsSync();
+  React.useEffect(() => {
+    const queue = new Queue();
 
-  const docManagementStore = useDocManagementStore();
-  const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
-  const { code, initialCode } = creatorStoreSelectors.useReady();
+    const request1 = mock(1000, `request1`);
+    const request2 = mock(500, `request2`);
+    const request3 = mock(1200, `request3`);
+    const request4 = mock(100, `request4`);
 
-  const clearConfirm = useConfirm(() => creatorStoreActions.change(``));
-  const resetConfirm = useConfirm(() =>
-    creatorStoreActions.change(initialCode),
-  );
+    queue.enq(request2, request1, request3);
+    queue.enq(request4);
+  }, []);
 
-  const divide = (): void => {
-    if (divideMode === `both`) {
-      setDivideMode(`code`);
-      return;
-    }
-
-    if (divideMode === `code`) {
-      setDivideMode(`preview`);
-      return;
-    }
-
-    setDivideMode(`both`);
-  };
-
-  const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    if (e.key !== `Tab`) {
-      return;
-    }
-
-    e.preventDefault();
-
-    const target = e.target as HTMLTextAreaElement;
-    const start = target.selectionStart;
-    const end = target.selectionEnd;
-
-    const newValue =
-      code.substring(0, start) + ` ` + ` ` + ` ` + ` ` + code.substring(end);
-
-    creatorStoreActions.change(newValue);
-
-    target.selectionStart = target.selectionEnd = start + 1;
-  };
-
-  return (
-    <>
-      {docManagementStore.is === `fail` && (
-        <React.Suspense>
-          <CreatorErrorModalContainer />
-        </React.Suspense>
-      )}
-      <main className="flex h-full md:flex-col flex-col-reverse">
-        <CreatorNavigation>
-          <AddDocPopover />
-          <ImageUploaderContainer />
-          <TemplatesPopover />
-          <Button i={1} s={2} title="Change view display" onClick={divide}>
-            {divideMode === `both` && (
-              <BiBookContent className="rotate-90 md:rotate-0" />
-            )}
-            {divideMode === `code` && (
-              <BiSolidBookContent className="rotate-180" />
-            )}
-            {divideMode === `preview` && <BiSolidBookContent />}
-          </Button>
-
-          <Button
-            className="md:flex hidden"
-            title="Open in separate window"
-            i={1}
-            s={2}
-            onClick={() => {
-              window.open(
-                window.location.href,
-                `_blank`,
-                `width=${screen.availWidth},height=${screen.availHeight}`,
-              );
-            }}
-          >
-            <BiWindows />
-          </Button>
-          <Button
-            i={2}
-            s={2}
-            auto
-            className="md:flex hidden"
-            disabled={code === ``}
-            title="Clear content"
-            onClick={clearConfirm.confirm}
-          >
-            {clearConfirm.opened ? `Sure?` : `Clear`}
-          </Button>
-          <Button
-            i={2}
-            s={2}
-            auto
-            className="md:flex hidden"
-            disabled={code === initialCode}
-            title="Reset content"
-            onClick={resetConfirm.confirm}
-          >
-            {resetConfirm.opened ? `Sure?` : `Reset`}
-          </Button>
-        </CreatorNavigation>
-        <DocBarContainer />
-        <section
-          className={c(`grid h-[calc(100svh-72px-50px)]`, {
-            'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
-              divideMode === `both`,
-          })}
-        >
-          <label className="hidden" htmlFor="creator" id="creator">
-            Creator
-          </label>
-          <textarea
-            aria-labelledby="creator"
-            aria-label="creator"
-            spellCheck="false"
-            className={c(
-              `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
-              { hidden: divideMode === `preview` },
-            )}
-            value={code}
-            onChange={(e) => creatorStoreActions.change(e.target.value)}
-            onKeyDown={maintainTabs}
-          />
-          <div
-            className={c(
-              `p-4 overflow-auto w-full h-full border-zinc-300 dark:border-zinc-800`,
-              { hidden: divideMode === `code` },
-              { 'max-w-4xl mx-auto': divideMode === `preview` },
-              {
-                'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
-                  divideMode === `both`,
-              },
-            )}
-          >
-            <Markdown>{code}</Markdown>
-          </div>
-        </section>
-      </main>
-    </>
-  );
+  return <></>;
 };
 
 export default CreatorView;
