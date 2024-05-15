@@ -227,13 +227,13 @@ const UserProfileFormModalContainer = ({
               </Field>
               <Field label={`Facebook Link`}>
                 <Input
-                  placeholder="https://www.facebook.com/your-profile"
+                  placeholder="https://facebook.com/your-profile"
                   {...inject(`fbUrl`)}
                 />
               </Field>
               <Field label={`LinkedIn Link`}>
                 <Input
-                  placeholder="https://www.linkedin.com/your-profile"
+                  placeholder="https://linkedin.com/your-profile"
                   {...inject(`linkedInUrl`)}
                 />
               </Field>
