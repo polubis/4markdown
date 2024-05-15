@@ -38,7 +38,7 @@ const Avatar = ({ className, size, src, char, alt }: AvatarProps) => {
       {src && (
         <img
           referrerPolicy="no-referrer"
-          className="rounded-full h-full w-full shadow-lg"
+          className="rounded-full h-full w-full"
           src={src}
           alt={alt}
         />

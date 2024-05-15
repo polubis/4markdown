@@ -136,7 +136,7 @@ exports[`Avatar can be used when renders image if given and skips character disp
   >
     <img
       alt="User avatar"
-      class="rounded-full h-full w-full shadow-lg"
+      class="rounded-full h-full w-full"
       referrerpolicy="no-referrer"
       src="https://"
     />
