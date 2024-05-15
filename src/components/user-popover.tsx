@@ -35,9 +35,7 @@ const UserPopover = () => {
         }
         onClick={handleClick}
       >
-        {authStore.is === `authorized` && (
-          <YourAvatar size="tn" h={24} w={24} />
-        )}
+        {authStore.is === `authorized` && <YourAvatar size="tn" />}
         {(authStore.is === `idle` || authStore.is === `unauthorized`) && (
           <BiLogInCircle />
         )}
