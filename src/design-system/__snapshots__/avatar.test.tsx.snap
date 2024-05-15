@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Avatar can be used when renders character when image is not available but character is given 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center rounded-full w-[100px] h-[100px]"
+  >
+    <span
+      class="capitalize font-bold text-black dark:text-white text-3xl"
+    >
+      1
+    </span>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Avatar can be used when renders different sizes 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center rounded-full w-[24px] h-[24px]"
+  >
+    <svg
+      class="text-black dark:text-white"
+      fill="currentColor"
+      height="24"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 24 24"
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 4C9.243 4 7 6.243 7 9h2c0-1.654 1.346-3 3-3s3 1.346 3 3c0 1.069-.454 1.465-1.481 2.255-.382.294-.813.626-1.226 1.038C10.981 13.604 10.995 14.897 11 15v2h2v-2.009c0-.024.023-.601.707-1.284.32-.32.682-.598 1.031-.867C15.798 12.024 17 11.1 17 9c0-2.757-2.243-5-5-5zm-1 14h2v2h-2z"
+      />
+    </svg>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Avatar can be used when renders different sizes 2`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center rounded-full w-[32px] h-[32px]"
+  >
+    <svg
+      class="text-black dark:text-white"
+      fill="currentColor"
+      height="28"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 24 24"
+      width="28"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 4C9.243 4 7 6.243 7 9h2c0-1.654 1.346-3 3-3s3 1.346 3 3c0 1.069-.454 1.465-1.481 2.255-.382.294-.813.626-1.226 1.038C10.981 13.604 10.995 14.897 11 15v2h2v-2.009c0-.024.023-.601.707-1.284.32-.32.682-.598 1.031-.867C15.798 12.024 17 11.1 17 9c0-2.757-2.243-5-5-5zm-1 14h2v2h-2z"
+      />
+    </svg>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Avatar can be used when renders different sizes 3`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center rounded-full w-[64px] h-[64px]"
+  >
+    <svg
+      class="text-black dark:text-white"
+      fill="currentColor"
+      height="32"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 24 24"
+      width="32"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 4C9.243 4 7 6.243 7 9h2c0-1.654 1.346-3 3-3s3 1.346 3 3c0 1.069-.454 1.465-1.481 2.255-.382.294-.813.626-1.226 1.038C10.981 13.604 10.995 14.897 11 15v2h2v-2.009c0-.024.023-.601.707-1.284.32-.32.682-.598 1.031-.867C15.798 12.024 17 11.1 17 9c0-2.757-2.243-5-5-5zm-1 14h2v2h-2z"
+      />
+    </svg>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Avatar can be used when renders different sizes 4`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center rounded-full w-[100px] h-[100px]"
+  >
+    <svg
+      class="text-black dark:text-white"
+      fill="currentColor"
+      height="40"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 24 24"
+      width="40"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 4C9.243 4 7 6.243 7 9h2c0-1.654 1.346-3 3-3s3 1.346 3 3c0 1.069-.454 1.465-1.481 2.255-.382.294-.813.626-1.226 1.038C10.981 13.604 10.995 14.897 11 15v2h2v-2.009c0-.024.023-.601.707-1.284.32-.32.682-.598 1.031-.867C15.798 12.024 17 11.1 17 9c0-2.757-2.243-5-5-5zm-1 14h2v2h-2z"
+      />
+    </svg>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Avatar can be used when renders icon if no src and character 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center rounded-full w-[100px] h-[100px]"
+  >
+    <svg
+      class="text-black dark:text-white"
+      fill="currentColor"
+      height="40"
+      stroke="currentColor"
+      stroke-width="0"
+      viewBox="0 0 24 24"
+      width="40"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 4C9.243 4 7 6.243 7 9h2c0-1.654 1.346-3 3-3s3 1.346 3 3c0 1.069-.454 1.465-1.481 2.255-.382.294-.813.626-1.226 1.038C10.981 13.604 10.995 14.897 11 15v2h2v-2.009c0-.024.023-.601.707-1.284.32-.32.682-.598 1.031-.867C15.798 12.024 17 11.1 17 9c0-2.757-2.243-5-5-5zm-1 14h2v2h-2z"
+      />
+    </svg>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Avatar can be used when renders image if given and skips character display 1`] = `
+<DocumentFragment>
+  <div
+    class="flex items-center justify-center rounded-full w-[100px] h-[100px]"
+  >
+    <img
+      alt="User avatar"
+      class="rounded-full h-full w-full shadow-lg"
+      referrerpolicy="no-referrer"
+      src="https://"
+    />
+  </div>
+</DocumentFragment>
+`;
