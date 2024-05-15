@@ -1,55 +1,35 @@
-import c from 'classnames';
-import { UserAvatarVariantKey, UserAvatarVariantObj } from 'models/user';
+import { Avatar, AvatarSize } from 'design-system/avatar';
 import React from 'react';
-import { BiQuestionMark } from 'react-icons/bi';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
 interface YourAvatarProps {
-  size: UserAvatarVariantKey;
-  h: UserAvatarVariantObj['h'];
-  w: UserAvatarVariantObj['w'];
+  size: AvatarSize;
 }
 
-const iconSizesLookup: Record<UserAvatarVariantKey, number> = {
-  tn: 24,
-  sm: 28,
-  md: 32,
-  lg: 40,
-};
+const alt = `Your avatar`;
 
-const YourAvatar = ({ size, h, w }: YourAvatarProps) => {
+const YourAvatar = ({ size }: YourAvatarProps) => {
   const yourProfileStore = yourProfileStoreSelectors.useState();
-  const iconSize = iconSizesLookup[size];
 
   if (yourProfileStore.is !== `ok`) {
-    return <BiQuestionMark size={iconSize} />;
+    return <Avatar size={size} alt={alt} />;
   }
 
   return yourProfileStore.user?.avatar ? (
-    <img
+    <Avatar
+      size={size}
       key={yourProfileStore.user.avatar[size].id}
-      referrerPolicy="no-referrer"
-      className={`h-[${h}px] w-[${w}px] rounded-full shadow-lg`}
       src={yourProfileStore.user.avatar[size].src}
-      alt="Your avatar"
+      alt={alt}
     />
   ) : yourProfileStore.user?.displayName ? (
-    <span
-      className={c(
-        `capitalize`,
-        {
-          'text-xl': size === `tn` || size === `sm`,
-        },
-        {
-          'text-2xl': size === `md`,
-        },
-        { 'text-3xl': size === `lg` },
-      )}
-    >
-      {yourProfileStore.user?.displayName.charAt(0)}
-    </span>
+    <Avatar
+      size={size}
+      char={yourProfileStore.user?.displayName.charAt(0)}
+      alt={alt}
+    />
   ) : (
-    <BiQuestionMark size={iconSize} />
+    <Avatar size={size} alt={alt} />
   );
 };
 

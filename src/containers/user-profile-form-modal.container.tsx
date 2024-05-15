@@ -1,4 +1,5 @@
 import ErrorModal from 'components/error-modal';
+import { Avatar } from 'design-system/avatar';
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
@@ -23,7 +24,7 @@ import { NonNullableProperties } from 'development-kit/utility-types';
 import { Path } from 'models/general';
 import { UpdateYourProfilePayload } from 'models/user';
 import React from 'react';
-import { BiQuestionMark, BiX } from 'react-icons/bi';
+import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import {
   updateYourProfileStoreActions,
@@ -83,7 +84,7 @@ const UserProfileFormModalContainer = ({
     yourProfileStore.user?.avatar?.lg.src ?? ``,
   );
   const avatarErrorModal = useToggle();
-  const [{ invalid, values, untouched }, { inject, set }] =
+  const [{ invalid, values, untouched, result }, { inject, set }] =
     useForm<UserProfileFormValues>(
       createInitialValues(yourProfileStore),
       validators,
@@ -174,22 +175,23 @@ const UserProfileFormModalContainer = ({
             <div className="flex flex-col space-y-3 mt-8">
               <Field className="items-center mx-auto [&>label]:mb-2">
                 <Button
-                  className="w-[100px] h-[100px]"
                   type="button"
                   rounded
                   title="Add your avatar"
-                  s={2}
+                  s="auto"
                   i={2}
                   onClick={uploadAvatar}
                 >
-                  {avatarPreview ? (
-                    <img
-                      className="h-full w-full object-cover rounded-full"
-                      src={avatarPreview}
-                    />
-                  ) : (
-                    <BiQuestionMark size={32} />
-                  )}
+                  <Avatar
+                    alt="Your avatar"
+                    size="lg"
+                    char={
+                      result.displayName
+                        ? undefined
+                        : values.displayName.charAt(0)
+                    }
+                    src={avatarPreview}
+                  />
                 </Button>
                 {avatarPreview && (
                   <Button
