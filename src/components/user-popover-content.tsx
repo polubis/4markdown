@@ -6,7 +6,6 @@ import {
   BiLogoGithub,
   BiLogoLinkedin,
   BiLogoTwitter,
-  BiQuestionMark,
   BiWorld,
   BiX,
 } from 'react-icons/bi';
@@ -17,6 +16,7 @@ import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store
 import Modal from 'design-system/modal';
 import { useToggle } from 'development-kit/use-toggle';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
+import { Avatar } from 'design-system/avatar';
 
 interface UserPopoverContentProps {
   onClose(): void;
@@ -105,19 +105,17 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
         <>
           {yourProfileStore.user ? (
             <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
-              <picture className="flex bg-slate-50 dark:bg-slate-800 items-center justify-center w-[100px] h-[100px] shadow-xl rounded-full">
-                {yourProfileStore.user.avatar ? (
-                  <img
-                    src={yourProfileStore.user.avatar?.lg.src}
-                    className="w-full h-full object-cover rounded-full"
-                  />
-                ) : (
-                  <BiQuestionMark
-                    className="text-black dark:text-white"
-                    size={40}
-                  />
-                )}
-              </picture>
+              <Avatar
+                size="lg"
+                alt="Your avatar"
+                className="bg-gray-300 dark:bg-slate-800"
+                char={
+                  yourProfileStore.user.displayName
+                    ? yourProfileStore.user.displayName.charAt(0)
+                    : undefined
+                }
+                src={yourProfileStore.user.avatar?.lg.src}
+              />
               <h6 className="mt-2 text-2xl font-bold">
                 {yourProfileStore.user.displayName ?? `Unset`}
               </h6>

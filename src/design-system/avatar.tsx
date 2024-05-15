@@ -46,7 +46,7 @@ const Avatar = ({ className, size, src, char, alt }: AvatarProps) => {
       {!src && char && (
         <span
           className={c(
-            `capitalize font-bold`,
+            `capitalize font-bold text-black dark:text-white`,
             {
               'text-xl': size === `tn` || size === `sm`,
             },
@@ -60,7 +60,12 @@ const Avatar = ({ className, size, src, char, alt }: AvatarProps) => {
         </span>
       )}
 
-      {!src && !char && <BiQuestionMark size={iconSizesLookup[size]} />}
+      {!src && !char && (
+        <BiQuestionMark
+          className="text-black dark:text-white"
+          size={iconSizesLookup[size]}
+        />
+      )}
     </div>
   );
 };
