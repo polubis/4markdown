@@ -251,7 +251,7 @@ const UserProfileFormModalContainer = ({
               </Field>
             </div>
 
-            <footer className="flex items-center justify-end mt-4 space-x-2">
+            <footer className="flex items-center justify-end mt-8 space-x-2">
               <Button
                 i={1}
                 s={2}
