@@ -12,13 +12,6 @@ interface AvatarProps {
   alt: string;
 }
 
-const sizesMap: Record<AvatarSize, number> = {
-  tn: 24,
-  sm: 32,
-  md: 64,
-  lg: 100,
-};
-
 const iconSizesLookup: Record<AvatarSize, number> = {
   tn: 24,
   sm: 28,
@@ -32,7 +25,16 @@ const Avatar = ({ className, size, src, char, alt }: AvatarProps) => {
       className={c(
         className,
         `flex items-center justify-center rounded-full`,
-        `w-[${sizesMap[size]}px] h-[${sizesMap[size]}px]`,
+        {
+          'w-[24px] h-[24px]': size === `tn`,
+        },
+        {
+          'w-[32px] h-[32px]': size === `sm`,
+        },
+        { 'w-[64px] h-[64px]': size === `md` },
+        {
+          'w-[100px] h-[100px]': size === `lg`,
+        },
       )}
     >
       {src && (

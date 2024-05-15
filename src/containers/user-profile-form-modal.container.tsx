@@ -178,8 +178,9 @@ const UserProfileFormModalContainer = ({
                   type="button"
                   rounded
                   title="Add your avatar"
+                  className="bg-gray-300 dark:bg-slate-800"
                   s="auto"
-                  i={2}
+                  i={1}
                   onClick={uploadAvatar}
                 >
                   <Avatar

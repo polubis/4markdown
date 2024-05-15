@@ -40,7 +40,12 @@ type ClickableControls =
   | `Make document permanent`
   | `Confirm public document status change`
   | `Confirm private document status change`
-  | `Edit current document`;
+  | `Edit current document`
+  | `Open user profile settings`
+  | `Create your user profile`
+  | `Close your profile form`
+  | `Back to user profile`
+  | `Save user profile`;
 
 type Element = `Go to creator`;
 
