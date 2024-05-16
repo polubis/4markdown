@@ -45,7 +45,8 @@ type ClickableControls =
   | `Create your user profile`
   | `Close your profile form`
   | `Back to user profile`
-  | `Save user profile`;
+  | `Save user profile`
+  | `Add your avatar`;
 
 type Element = `Go to creator`;
 

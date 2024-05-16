@@ -36,9 +36,9 @@ describe(`User profile works when`, () => {
     'I change blog link': (value: string) => {
       BaseGiven(`I type in input`, `https://your-blog-domain`, value);
     },
-    'I change avatar': (value: string) => {
-      // TODO BACK HERE
-      BaseGiven(`I type in input`, `https://your-blog-domain`, value);
+    'I change avatar': (path: string) => {
+      BaseGiven(`I click button`, [`Add your avatar`]);
+      cy.get(`input[type="file"]`).selectFile(path);
     },
   });
 
@@ -61,8 +61,7 @@ describe(`User profile works when`, () => {
       `User details and options`,
       `Your documents`,
     ])
-      .When(`I click button`, [`User details and options`])
-      .Then(`I see not disabled button`, [
+      .And(`I see not disabled button`, [
         `Open user profile settings`,
         `Create your user profile`,
         `Close your account panel`,
@@ -124,7 +123,13 @@ describe(`User profile works when`, () => {
         `I change LinkedIn link`,
         `https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/`,
       )
-      .And(`I change avatar`, ``)
+      .And(`I change avatar`, `../assets/cringe.jpg`)
+      .And(`I wait`, 4000)
+      .Then(`System takes picture`)
+      .When(`I click button`, [`Save user profile`])
+      .Then(`I see disabled button`, [`Save user profile`])
+      .And(`I see text`, [`Your Account`])
+      .When(`I wait`, 4000)
       .Then(`System takes picture`);
   });
 });
