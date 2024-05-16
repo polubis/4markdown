@@ -103,7 +103,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
 
       {yourProfileStore.is === `ok` && (
         <>
-          {yourProfileStore.user ? (
+          {yourProfileStore.user?.displayName && yourProfileStore.user?.bio ? (
             <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
               <Avatar
                 size="lg"
