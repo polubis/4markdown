@@ -3,6 +3,7 @@ import { queue } from './queue';
 import { mock } from './mock';
 import { motion, AnimationProps } from 'framer-motion';
 import { Button } from 'design-system/button';
+import classNames from 'classnames';
 
 const props: AnimationProps = {
   initial: { opacity: 0 },
@@ -11,11 +12,27 @@ const props: AnimationProps = {
 
 const { enq, deq } = queue();
 
-const CreatorView: React.FC = () => {
-  const [tasks, setTasks] = React.useState<string[]>([]);
+type TaskBadge = {
+  label: string;
+  status: 'pending' | 'error' | 'skipped' | 'finished';
+};
 
-  const addTask = (task: string) => {
-    setTasks((prevTasks) => [...prevTasks, task]);
+const CreatorView: React.FC = () => {
+  const [tasks, setTasks] = React.useState<TaskBadge[]>([]);
+
+  const addTask = (label: TaskBadge['label']) => {
+    setTasks((prevTasks) => [...prevTasks, { status: `pending`, label }]);
+  };
+
+  const changeTask = (
+    label: TaskBadge['label'],
+    status: TaskBadge['status'],
+  ) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.label === label ? { ...task, status } : task,
+      ),
+    );
   };
 
   const addNewRandomTask = () => {
@@ -36,22 +53,26 @@ const CreatorView: React.FC = () => {
     enq(
       async () => {
         try {
-          await request2();
           addTask(`request2`);
+          await request2();
+          changeTask(`request2`, `finished`);
         } catch (err) {}
       },
       async () => {
-        await request1();
         addTask(`request1`);
+        await request1();
+        changeTask(`request1`, `finished`);
       },
       async () => {
-        await request4();
         addTask(`request4`);
+        await request4();
+        changeTask(`request4`, `finished`);
       },
     );
     enq(async () => {
-      await request3();
       addTask(`request3`);
+      await request3();
+      changeTask(`request3`, `finished`);
     });
   }, []);
 
@@ -60,13 +81,40 @@ const CreatorView: React.FC = () => {
       <div className="p-4 flex items-center flex-wrap gap-4">
         {tasks.map((task) => (
           <motion.div
-            key={task}
-            className="text-xl rounded-md bg-slate-400 text-white shadow-md p-4"
+            key={task.label}
+            className={classNames(
+              `text-xl rounded-md text-black shadow-md p-4`,
+              { 'bg-gray-500 animate-pulse': task.status === `pending` },
+              { 'bg-green-500': task.status === `finished` },
+              { 'bg-red-500': task.status === `error` },
+              { 'bg-yellow-500': task.status === `skipped` },
+            )}
             {...props}
           >
-            {task}
+            {task.label}
           </motion.div>
         ))}
+      </div>
+      <div className="flex flex-col space-y-2 p-4">
+        <h6 className="text-2xl">Legend</h6>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <strong>Pending:</strong>
+            <div className="bg-gray-500 animate-pulse h-5 w-5 rounded-full" />
+          </div>
+          <div className="flex items-center space-x-2">
+            <strong>Ok:</strong>
+            <div className="bg-green-500 h-5 w-5 rounded-full" />
+          </div>
+          <div className="flex items-center space-x-2">
+            <strong>Error:</strong>
+            <div className="bg-red-500 h-5 w-5 rounded-full" />
+          </div>
+          <div className="flex items-center space-x-2">
+            <strong>Skipped/Cancelled:</strong>
+            <div className="bg-yellow-500 h-5 w-5 rounded-full" />
+          </div>
+        </div>
       </div>
       <div className="p-4 mt-10 flex space-x-3">
         <Button s={2} i={2} auto onClick={addNewRandomTask}>
