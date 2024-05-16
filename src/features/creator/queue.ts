@@ -30,6 +30,9 @@ const queue = () => {
       tasks.forEach((task) => allTasks.push(task));
       ticking || tick();
     },
+    deq: () => {
+      allTasks.pop();
+    },
   };
 };
 

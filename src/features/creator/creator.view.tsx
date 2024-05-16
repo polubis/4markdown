@@ -9,7 +9,7 @@ const props: AnimationProps = {
   animate: { opacity: 1 },
 };
 
-const { enq } = queue();
+const { enq, deq } = queue();
 
 const CreatorView: React.FC = () => {
   const [tasks, setTasks] = React.useState<string[]>([]);
@@ -57,7 +57,7 @@ const CreatorView: React.FC = () => {
 
   return (
     <>
-      <div className="flex items-center flex-wrap gap-4">
+      <div className="p-4 flex items-center flex-wrap gap-4">
         {tasks.map((task) => (
           <motion.div
             key={task}
@@ -68,9 +68,14 @@ const CreatorView: React.FC = () => {
           </motion.div>
         ))}
       </div>
-      <Button className="mt-10" s={2} i={2} auto onClick={addNewRandomTask}>
-        Add New Random Task
-      </Button>
+      <div className="p-4 mt-10 flex space-x-3">
+        <Button s={2} i={2} auto onClick={addNewRandomTask}>
+          Enqueue
+        </Button>
+        <Button s={2} i={2} auto onClick={deq}>
+          Dequeue
+        </Button>
+      </div>
     </>
   );
 };
