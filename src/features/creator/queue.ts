@@ -1,33 +1,36 @@
 type QueueTask = () => Promise<unknown>;
 
-class Queue {
-  #tasks: QueueTask[] = [];
-  #isTicking = false;
+const queue = () => {
+  const allTasks: QueueTask[] = [];
+  let ticking = false;
+  let processing = false;
 
-  //   request2, request1, request3, request4
-
-  tick() {
-    this.#isTicking = true;
+  const tick = () => {
+    ticking = true;
 
     const interval = setInterval(async () => {
-      const task = this.#tasks.shift();
-      console.log(this.#tasks);
+      if (processing) return;
+
+      const task = allTasks.shift();
+
       if (typeof task === `function`) {
+        processing = true;
         await task();
+        processing = false;
         return;
       }
 
-      this.#isTicking = false;
+      ticking = false;
       clearInterval(interval);
-    });
-  }
+    }, 50);
+  };
 
-  async enq(...tasks: QueueTask[]) {
-    tasks.forEach((task) => this.#tasks.push(task));
-    this.#isTicking || this.tick();
-  }
+  return {
+    enq: async (...tasks: QueueTask[]) => {
+      tasks.forEach((task) => allTasks.push(task));
+      ticking || tick();
+    },
+  };
+};
 
-  deq() {}
-}
-
-export { Queue };
+export { queue };
