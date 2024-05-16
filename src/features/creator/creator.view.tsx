@@ -39,8 +39,9 @@ const CreatorView: React.FC = () => {
     enq(async () => {
       const id = new Date().toISOString().split(`T`)[1];
       const request = mock(1000, id);
-      await request();
       addTask(id);
+      await request();
+      changeTask(id, `finished`);
     });
   };
 
@@ -60,8 +61,12 @@ const CreatorView: React.FC = () => {
       },
       async () => {
         addTask(`request1`);
-        await request1();
-        changeTask(`request1`, `finished`);
+        try {
+          await request1();
+          throw Error(`Ups`);
+        } catch (err) {
+          changeTask(`request1`, `error`);
+        }
       },
       async () => {
         addTask(`request4`);
@@ -87,7 +92,6 @@ const CreatorView: React.FC = () => {
               { 'bg-gray-500 animate-pulse': task.status === `pending` },
               { 'bg-green-500': task.status === `finished` },
               { 'bg-red-500': task.status === `error` },
-              { 'bg-yellow-500': task.status === `skipped` },
             )}
             {...props}
           >
@@ -109,10 +113,6 @@ const CreatorView: React.FC = () => {
           <div className="flex items-center space-x-2">
             <strong>Error:</strong>
             <div className="bg-red-500 h-5 w-5 rounded-full" />
-          </div>
-          <div className="flex items-center space-x-2">
-            <strong>Skipped/Cancelled:</strong>
-            <div className="bg-yellow-500 h-5 w-5 rounded-full" />
           </div>
         </div>
       </div>
