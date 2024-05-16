@@ -14,12 +14,22 @@ describe(`User profile works when`, () => {
         value,
       );
     },
+    'I clear display name': () => {
+      BaseGiven(`I clear input`, [
+        `Examples: tom1994, work_work, pro-grammer, ...etc`,
+      ]);
+    },
     'I change bio': (value: string) => {
       BaseGiven(
         `I type in input`,
         `Example: I like programming and playing computer games...`,
         value,
       );
+    },
+    'I clear bio': () => {
+      BaseGiven(`I clear input`, [
+        `Example: I like programming and playing computer games...`,
+      ]);
     },
     'I change Github link': (value: string) => {
       BaseGiven(`I type in input`, `https://github.com/your-profile`, value);
@@ -87,11 +97,11 @@ describe(`User profile works when`, () => {
       .When(`I click button`, [`Create your user profile`])
       .And(`I change display name`, `tom_riddle`)
       .Then(`System takes picture`)
-      .When(`I change display name`, ``)
+      .When(`I clear display name`)
       .Then(`System takes picture`)
       .When(`I change display name`, `tom_riddle`)
       .And(`I see not disabled button`, [`Save user profile`])
-      .When(`I change display name`, ``)
+      .When(`I clear display name`)
       .Then(`I see disabled button`, [`Save user profile`])
       .When(
         `I change bio`,
@@ -105,14 +115,14 @@ describe(`User profile works when`, () => {
       .Then(`I see text`, [`Your Account`])
       .And(`System takes picture`)
       .When(`I click button`, [`Open user profile settings`])
-      .And(`I change display name`, ``)
+      .And(`I clear display name`)
       .And(`I click button`, [`Save user profile`])
       .Then(`I see disabled button`, [`Save user profile`])
       .And(`I see text`, [`Your Account`, `Updating your profile...`])
       .And(`System takes picture`)
       .When(`I click button`, [`Open user profile settings`])
       .Then(`System takes picture`)
-      .When(`I change bio`, ``)
+      .When(`I clear bio`)
       .And(
         `I change Facebook link`,
         `https://www.facebook.com/profile.php?id=100004388103426`,
