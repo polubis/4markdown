@@ -31,7 +31,7 @@ const queue = () => {
       ticking || tick();
     },
     deq: () => {
-      allTasks.pop();
+      allTasks.shift();
     },
   };
 };
