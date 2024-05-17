@@ -30,8 +30,8 @@ const NotFoundPage = () => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="max-w-4xl p-4 mx-auto h-screen flex flex-col justify-center">
-        <h1 className="text-2xl dark:text-white text-black">
+      <main className="max-w-2xl p-4 mx-auto h-screen flex flex-col justify-center">
+        <h1 className="text-2xl">
           Resource Not Found at the Specified <strong>URL</strong>
         </h1>
         <p className="mt-2">
