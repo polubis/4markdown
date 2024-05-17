@@ -10,6 +10,7 @@ import Meta from 'components/meta';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
+import { AppFooterContainer } from 'containers/app-footer.container';
 
 const NotFoundPage = () => {
   const synced = React.useRef(false);
@@ -39,6 +40,7 @@ const NotFoundPage = () => {
           Typically, it takes several days.
         </p>
       </main>
+      <AppFooterContainer />
     </>
   );
 };
