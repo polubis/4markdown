@@ -58,7 +58,13 @@ const docsStoreActions = {
     const state = docsStoreSelectors.ok();
     const newState: DocsStoreOkState = {
       ...state,
-      docs: state.docs.map((d) => (d.id === doc.id ? doc : d)),
+      docs: state.docs
+        .map((d) => (d.id === doc.id ? doc : d))
+        .sort((prev, curr) => {
+          if (prev.mdate > curr.mdate) return -1;
+          if (prev.mdate === curr.mdate) return 0;
+          return 1;
+        }),
     };
     set(newState);
     localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
@@ -67,7 +73,7 @@ const docsStoreActions = {
     const state = docsStoreSelectors.ok();
     const newState: DocsStoreOkState = {
       ...state,
-      docs: [...state.docs, doc],
+      docs: [doc, ...state.docs],
     };
     set(newState);
     localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
