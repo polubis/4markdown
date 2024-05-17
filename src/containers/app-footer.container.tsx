@@ -18,7 +18,9 @@ const Column = ({
       <h5 className="font-bold text-sm uppercase mb-2 text-gray-700">
         {title}
       </h5>
-      <div className="flex flex-col space-y-1">{children}</div>
+      <div className="flex flex-wrap gap-x-3 gap-y-2 md:flex-col md:space-y-1 md:gap-x-0 md:gap-y-0">
+        {children}
+      </div>
     </div>
   );
 };
@@ -31,7 +33,7 @@ const AppFooterContainer = () => {
       <div className="border-t-2 border-zinc-300">
         <div className="flex flex-col px-4 py-8 md:max-w-6xl md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
           <div className="flex flex-col space-y-2">
-            <div className="flex items-center space-x-3 mb-4">
+            <div className="flex items-center space-x-3 mb-2">
               <img
                 className="w-[32px] h-[32px]"
                 loading="lazy"
@@ -42,16 +44,16 @@ const AppFooterContainer = () => {
               <h4 className="font-bold mb-1 text-gray-700">{meta.appName}</h4>
             </div>
 
-            <p className="text-sm">
-              By{` `}
-              <a>
-                <CompanyLogo size={16} className="inline mx-1 mb-1" />
-                <strong>{meta.company}</strong>
-              </a>
-              <br />
-              © 2024 All rights reserved
-              <br />
-              {meta.contactEmail}
+            <p className="text-sm flex flex-col">
+              <span>
+                By{` `}
+                <a>
+                  <CompanyLogo size={16} className="inline mx-1 mb-1" />
+                  <strong>{meta.company}</strong>
+                </a>
+              </span>
+              <span>© 2024 All rights reserved</span>
+              <span>{meta.contactEmail}</span>
             </p>
           </div>
           <Column title="About">
