@@ -67,7 +67,7 @@ const docsStoreActions = {
     const state = docsStoreSelectors.ok();
     const newState: DocsStoreOkState = {
       ...state,
-      docs: [...state.docs, doc],
+      docs: [doc, ...state.docs],
     };
     set(newState);
     localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
