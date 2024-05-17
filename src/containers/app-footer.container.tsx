@@ -126,6 +126,12 @@ const AppFooterContainer = () => {
             >
               Education Zone
             </Link>
+            <Link
+              className="hover:underline underline-offset-2"
+              to={meta.routes.privacyPolicy}
+            >
+              Privacy Policy
+            </Link>
           </Column>
           <Column title="Socials">
             <a

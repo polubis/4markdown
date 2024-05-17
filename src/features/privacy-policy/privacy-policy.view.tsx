@@ -60,10 +60,15 @@ const PrivacyPolicyView = () => {
           <li>
             Company: when this policy mentions “Company,” “we,” “us,” or “our,”
             it refers to{` `}
-            <strong>
+            <a
+              className="underline underline-offset-2"
+              href={siteMetadataStore.companyUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               {siteMetadataStore.company} Adrian Połubiński, Olsztyn, Pileckiego
               6/19 10-693
-            </strong>
+            </a>
             {` `}
             that is responsible for your information under this Privacy Policy.
           </li>
