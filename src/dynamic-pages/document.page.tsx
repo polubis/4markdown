@@ -12,6 +12,7 @@ import { DocumentLayout } from 'components/document-layout';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
+import { AppFooterContainer } from 'containers/app-footer.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -41,6 +42,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
       <DocumentLayout tags={pageContext.doc.tags}>
         {pageContext.doc.code}
       </DocumentLayout>
+      <AppFooterContainer />
     </>
   );
 };
