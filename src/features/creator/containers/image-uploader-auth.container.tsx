@@ -49,7 +49,7 @@ const ImageUploaderAuthContainer = () => {
     if (!imageModal.data)
       throw Error(`There is no data assigned to image modal`);
 
-    copy(`![Alt](${imageModal.data.url})*Description*`);
+    copy(`![Alt](${imageModal.data.url})\n*Description*`);
     imageModal.close();
   };
 
