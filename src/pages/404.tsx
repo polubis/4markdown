@@ -10,6 +10,7 @@ import Meta from 'components/meta';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
+import { AppFooterContainer } from 'containers/app-footer.container';
 
 const NotFoundPage = () => {
   const synced = React.useRef(false);
@@ -29,8 +30,8 @@ const NotFoundPage = () => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="max-w-4xl p-4 mx-auto h-screen flex flex-col justify-center">
-        <h1 className="text-2xl dark:text-white text-black">
+      <main className="max-w-2xl p-4 mx-auto h-screen flex flex-col justify-center">
+        <h1 className="text-2xl">
           Resource Not Found at the Specified <strong>URL</strong>
         </h1>
         <p className="mt-2">
@@ -39,6 +40,7 @@ const NotFoundPage = () => {
           Typically, it takes several days.
         </p>
       </main>
+      <AppFooterContainer />
     </>
   );
 };
