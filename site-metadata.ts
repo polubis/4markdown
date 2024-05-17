@@ -24,5 +24,6 @@ export const siteMetadata = {
       browse: `/docs/browse/`,
     },
     notFound: `/404/`,
+    privacyPolicy: `/privacy-policy/`,
   },
 } as const;
