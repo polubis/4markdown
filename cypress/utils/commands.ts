@@ -48,7 +48,13 @@ type ClickableControls =
   | `Save user profile`
   | `Add your avatar`;
 
-type Element = `Go to creator`;
+type Element =
+  | `Go to creator`
+  | `Your Github link`
+  | `Your Twitter link`
+  | `Your Facebook link`
+  | `Your Blog link`
+  | `Your LinkedIn link`;
 
 let acc = 1;
 let folder: string | undefined;

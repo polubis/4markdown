@@ -129,6 +129,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                     href={yourProfileStore.user.githubUrl}
                     rel="noopener noreferrer"
                     target="_blank"
+                    title="Your Github link"
                   >
                     <Button i={2} s={1}>
                       <BiLogoGithub />
@@ -139,6 +140,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                   <a
                     href={yourProfileStore.user.fbUrl}
                     rel="noopener noreferrer"
+                    title="Your Facebook link"
                     target="_blank"
                   >
                     <Button i={2} s={1}>
@@ -150,6 +152,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                   <a
                     href={yourProfileStore.user.linkedInUrl}
                     rel="noopener noreferrer"
+                    title="Your LinkedIn link"
                     target="_blank"
                   >
                     <Button i={2} s={1}>
@@ -161,6 +164,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                   <a
                     href={yourProfileStore.user.twitterUrl}
                     rel="noopener noreferrer"
+                    title="Your Twitter link"
                     target="_blank"
                   >
                     <Button i={2} s={1}>
@@ -172,6 +176,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                   <a
                     href={yourProfileStore.user.blogUrl}
                     rel="noopener noreferrer"
+                    title="Your Blog link"
                     target="_blank"
                   >
                     <Button i={2} s={1}>

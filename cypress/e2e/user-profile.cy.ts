@@ -109,6 +109,13 @@ describe(`User profile works when`, () => {
       .When(`I click button`, [`Create your user profile`])
       .And(`I create full profile`)
       .Then(`I see profile card`)
+      .And(`I see elements`, [
+        `Your Blog link`,
+        `Your Facebook link`,
+        `Your Github link`,
+        `Your LinkedIn link`,
+        `Your Twitter link`,
+      ])
       .When(`I click button`, [`Open user profile settings`])
       .And(`I clear profile`)
       .Then(`I see no profile section`);
