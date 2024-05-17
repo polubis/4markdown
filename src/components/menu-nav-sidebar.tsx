@@ -74,7 +74,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
         </div>
         <div className="p-4 pb-0 flex flex-col gap-2 h-[calc(100svh-72px)]">
           <ButtonLink
-            to={`${meta.companyUrl}authors`}
+            to={meta.authorsUrl}
             target="_blank"
             title={`${meta.appName} authors`}
             rel="noopener noreferrer"
@@ -101,10 +101,10 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
           <ButtonLink
             to={meta.discordUrl}
             target="_blank"
-            title={`${meta.company} Discord Channel`}
+            title={`${meta.company} Discord`}
             rel="noopener noreferrer"
           >
-            Discord Channel
+            Discord
           </ButtonLink>
           <ButtonLink
             to={meta.routes.docs.browse}
@@ -118,18 +118,18 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
           <ButtonLink
             to={meta.linkedInUrl}
             target="_blank"
-            title={`${meta.company} LinkedIn Profile`}
+            title={`${meta.company} LinkedIn`}
             rel="noopener noreferrer"
           >
-            LinkedIn Profile
+            LinkedIn
           </ButtonLink>
           <ButtonLink
             to={meta.fbGroupUrl}
             target="_blank"
-            title={`${meta.company} Facebook Group`}
+            title={`${meta.company} Facebook`}
             rel="noopener noreferrer"
           >
-            Facebook Group
+            Facebook
           </ButtonLink>
           <ButtonLink
             to={meta.grammarlyUrl}
@@ -167,10 +167,10 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             to={meta.ytChannelUrl}
             target="_blank"
             className="mb-6"
-            title={`${meta.appName} YouTube channel`}
+            title={`${meta.appName} YouTube`}
             rel="noopener noreferrer"
           >
-            YouTube Channel
+            YouTube
           </ButtonLink>
           <a
             href={meta.companyUrl}
@@ -179,7 +179,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             className="flex items-center mt-auto cursor-pointer justify-end pb-4"
           >
             <p className="text-md font-medium font-mono">
-              by <strong>{meta.company}</strong>
+              By <strong>{meta.company}</strong>
             </p>
             <CompanyLogo size={32} className="ml-3" />
           </a>
