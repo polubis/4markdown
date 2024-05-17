@@ -6,7 +6,7 @@ interface ButtonProps
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  s: 1 | 2;
+  s: 1 | 2 | 'auto';
   i: 1 | 2;
   auto?: boolean;
   rounded?: boolean;

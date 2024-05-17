@@ -66,3 +66,13 @@
 .markdown li ul {
   margin-left: 16px;
 }
+
+.loader {
+  animation: lrotate 1s infinite linear;
+}
+
+@keyframes lrotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
