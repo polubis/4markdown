@@ -1,64 +1,254 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiX } from 'react-icons/bi';
+import {
+  BiEdit,
+  BiLogoFacebook,
+  BiLogoGithub,
+  BiLogoLinkedin,
+  BiLogoTwitter,
+  BiWorld,
+  BiX,
+} from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
-import Popover from 'design-system/popover';
-import { useAuthStore } from 'store/auth/auth.store';
+import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
+import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
+import Modal from 'design-system/modal';
+import { useToggle } from 'development-kit/use-toggle';
+import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
+import { Avatar } from 'design-system/avatar';
 
 interface UserPopoverContentProps {
-  className: string;
   onClose(): void;
 }
 
-const UserPopoverContent: React.FC<UserPopoverContentProps> = ({
-  className,
-  onClose,
-}) => {
-  const authStore = useAuthStore();
+const Detail = ({
+  label,
+  value,
+}: {
+  label: React.ReactNode;
+  value: React.ReactNode;
+}) => (
+  <p>
+    {label}: <strong>{value}</strong>
+  </p>
+);
+
+const DetailLoader = () => (
+  <div className="flex space-x-1 h-6">
+    <div className="rounded-md bg-gray-300 dark:bg-gray-800 h-full w-10" />
+    <div className="rounded-md bg-gray-300 dark:bg-gray-800 h-full w-10" />
+  </div>
+);
+
+const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
   const docsStore = useDocsStore();
+  const yourProfileStore = yourProfileStoreSelectors.useState();
+  const userProfileForm = useToggle();
 
   const signOutConfirmation = useConfirm(async () => {
-    if (authStore.is === `authorized`) {
-      authStore.logOut();
-    }
+    authStoreSelectors.authorized().logOut();
     onClose();
   });
 
+  const reloadYourProfile = React.useCallback((): void => {
+    authStoreSelectors.authorized().getYourProfile();
+  }, []);
+
+  React.useEffect(reloadYourProfile, [reloadYourProfile]);
+
+  if (userProfileForm.opened) {
+    return (
+      <UserProfileFormModalContainer
+        onBack={userProfileForm.close}
+        onClose={onClose}
+      />
+    );
+  }
+
   return (
-    <>
-      <Popover className={className} onBackdropClick={onClose}>
-        <div className="max-w-[280px] flex flex-col">
-          <div className="flex items-center">
-            <h6 className="text-xl">Your Account</h6>
-            <Button
-              i={2}
-              s={1}
-              className="ml-8"
-              title="Close your account panel"
-              onClick={onClose}
-            >
-              <BiX />
-            </Button>
-          </div>
-          {docsStore.is === `ok` && docsStore.docs.length > 0 && (
-            <p className="mt-4 text-md font-bold">
-              Documents: {docsStore.docs.length}
-            </p>
+    <Modal>
+      <div className="flex items-center">
+        <h6 className="text-xl mr-8">Your Account</h6>
+        <Button
+          i={2}
+          s={1}
+          className="ml-auto"
+          title="Open user profile settings"
+          disabled={yourProfileStore.is !== `ok`}
+          onClick={userProfileForm.open}
+        >
+          <BiEdit />
+        </Button>
+        <Button
+          i={2}
+          s={1}
+          className="ml-2"
+          title="Close your account panel"
+          onClick={onClose}
+        >
+          <BiX />
+        </Button>
+      </div>
+
+      {(yourProfileStore.is === `idle` || yourProfileStore.is === `busy`) && (
+        <div className="mt-4 flex flex-wrap gap-2">
+          <DetailLoader />
+          <DetailLoader />
+          <DetailLoader />
+          <DetailLoader />
+          <DetailLoader />
+        </div>
+      )}
+
+      {yourProfileStore.is === `ok` && (
+        <>
+          {yourProfileStore.user?.displayName && yourProfileStore.user?.bio ? (
+            <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+              <Avatar
+                size="lg"
+                alt="Your avatar"
+                className="bg-gray-300 dark:bg-slate-800"
+                char={
+                  yourProfileStore.user.displayName
+                    ? yourProfileStore.user.displayName.charAt(0)
+                    : undefined
+                }
+                src={yourProfileStore.user.avatar?.lg.src}
+              />
+              <h6 className="mt-2 text-2xl font-bold">
+                {yourProfileStore.user.displayName ?? `Unset`}
+              </h6>
+              <p className="mt-2 text-center break-all">
+                {yourProfileStore.user.bio ??
+                  `You've not provided your biography yet. Go to your profile settings to change it.`}
+              </p>
+              <footer className="mt-4 flex space-x-3">
+                {yourProfileStore.user.githubUrl && (
+                  <a
+                    href={yourProfileStore.user.githubUrl}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    title="Your Github link"
+                  >
+                    <Button i={2} s={1}>
+                      <BiLogoGithub />
+                    </Button>
+                  </a>
+                )}
+                {yourProfileStore.user.fbUrl && (
+                  <a
+                    href={yourProfileStore.user.fbUrl}
+                    rel="noopener noreferrer"
+                    title="Your Facebook link"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiLogoFacebook />
+                    </Button>
+                  </a>
+                )}
+                {yourProfileStore.user.linkedInUrl && (
+                  <a
+                    href={yourProfileStore.user.linkedInUrl}
+                    rel="noopener noreferrer"
+                    title="Your LinkedIn link"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiLogoLinkedin />
+                    </Button>
+                  </a>
+                )}
+                {yourProfileStore.user.twitterUrl && (
+                  <a
+                    href={yourProfileStore.user.twitterUrl}
+                    rel="noopener noreferrer"
+                    title="Your Twitter link"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiLogoTwitter />
+                    </Button>
+                  </a>
+                )}
+                {yourProfileStore.user.blogUrl && (
+                  <a
+                    href={yourProfileStore.user.blogUrl}
+                    rel="noopener noreferrer"
+                    title="Your Blog link"
+                    target="_blank"
+                  >
+                    <Button i={2} s={1}>
+                      <BiWorld />
+                    </Button>
+                  </a>
+                )}
+              </footer>
+            </div>
+          ) : (
+            <div className="mt-4 border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+              <h6 className="text-yellow-600 dark:text-yellow-400 font-bold">
+                Make Yourself visible
+              </h6>
+              <p className="mt-1 mb-1">
+                You have not created a <strong>profile</strong> yet. A profile
+                is like a business card that allows others to recognize the
+                documents you have created.
+              </p>
+              <i className="block mb-4">
+                Profile cards may be changed or removed any time.
+              </i>
+              <Button
+                i={2}
+                s={1}
+                auto
+                title="Create your user profile"
+                onClick={userProfileForm.open}
+              >
+                Create
+              </Button>
+            </div>
           )}
+        </>
+      )}
+
+      {yourProfileStore.is === `fail` && (
+        <div className="mt-4 rounded-lg border-2 border-zinc-300 dark:border-zinc-800 p-4">
+          <h6 className="text-red-600 dark:text-red-400 font-bold">
+            Cannot load Your Profile information
+          </h6>
+          <p className="mt-1 mb-4">{yourProfileStore.error}</p>
           <Button
-            className="mt-20 ml-auto"
             i={2}
-            s={2}
-            title="Sign out"
+            s={1}
             auto
-            onClick={signOutConfirmation.confirm}
+            type="button"
+            title="Retry your profile load"
+            onClick={reloadYourProfile}
           >
-            {signOutConfirmation.opened ? `Are You Sure?` : `Sign Out`}
+            Try Again
           </Button>
         </div>
-      </Popover>
-    </>
+      )}
+
+      <div className="flex flex-wrap gap-x-3 gap-y-2 mt-2">
+        {docsStore.is === `ok` && docsStore.docs.length > 0 && (
+          <Detail label="Documents" value={docsStore.docs.length} />
+        )}
+      </div>
+
+      <Button
+        className="mt-10 ml-auto"
+        i={2}
+        s={2}
+        title="Sign out"
+        auto
+        onClick={signOutConfirmation.confirm}
+      >
+        {signOutConfirmation.opened ? `Are You Sure?` : `Sign Out`}
+      </Button>
+    </Modal>
   );
 };
 
