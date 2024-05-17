@@ -30,7 +30,7 @@ const AppFooterContainer = () => {
 
   return (
     <footer className="bg-zinc-200 dark:bg-gray-950">
-      <div className="border-t-2 border-zinc-300">
+      <div className="border-t-2 border-zinc-300 dark:border-zinc-800">
         <div className="flex flex-col px-4 py-8 md:max-w-6xl md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
           <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-3 mb-2">
