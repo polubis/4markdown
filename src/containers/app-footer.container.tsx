@@ -1,7 +1,27 @@
+import c from 'classnames';
 import { CompanyLogo } from 'components/company-logo';
 import { Link } from 'gatsby';
 import React from 'react';
 import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
+
+const Column = ({
+  className,
+  title,
+  children,
+}: {
+  className?: string;
+  title: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className={c(`flex flex-col`, className)}>
+      <h5 className="font-bold text-sm uppercase mb-2 text-gray-700">
+        {title}
+      </h5>
+      <div className="flex flex-col space-y-1">{children}</div>
+    </div>
+  );
+};
 
 const AppFooterContainer = () => {
   const meta = siteMetadataStoreSelectors.useReady();
@@ -9,7 +29,7 @@ const AppFooterContainer = () => {
   return (
     <footer className="bg-zinc-200 dark:bg-gray-950">
       <div className="border-t-2 border-zinc-300">
-        <div className="flex space-x-12 py-8 max-w-6xl mx-auto justify-center">
+        <div className="flex flex-col px-4 py-8 md:max-w-6xl md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
           <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-3 mb-4">
               <img
@@ -34,10 +54,7 @@ const AppFooterContainer = () => {
               {meta.contactEmail}
             </p>
           </div>
-          <div className="flex flex-col space-y-1">
-            <h5 className="font-bold text-sm uppercase mb-1 text-gray-700">
-              About
-            </h5>
+          <Column title="About">
             <a
               className="hover:underline underline-offset-2 text-black"
               href={meta.authorsUrl}
@@ -54,11 +71,8 @@ const AppFooterContainer = () => {
             >
               Source Code
             </a>
-          </div>
-          <div className="flex flex-col space-y-1">
-            <h5 className="font-bold text-sm uppercase mb-1 text-gray-700">
-              Help
-            </h5>
+          </Column>
+          <Column title="Help">
             <a
               className="hover:underline underline-offset-2 text-black"
               href={meta.blogUrl}
@@ -91,11 +105,8 @@ const AppFooterContainer = () => {
             >
               Tutorial
             </a>
-          </div>
-          <div className="flex flex-col space-y-1">
-            <h5 className="font-bold text-sm uppercase mb-1 text-gray-700">
-              Navigation
-            </h5>
+          </Column>
+          <Column title="Navigation">
             <Link
               className="hover:underline underline-offset-2 text-black"
               to={meta.routes.home}
@@ -108,11 +119,8 @@ const AppFooterContainer = () => {
             >
               Education Zone
             </Link>
-          </div>
-          <div className="flex flex-col space-y-1">
-            <h5 className="font-bold text-sm uppercase mb-1 text-gray-700">
-              Socials
-            </h5>
+          </Column>
+          <Column title="Socials">
             <a
               className="hover:underline underline-offset-2 text-black"
               href={meta.discordUrl}
@@ -145,7 +153,7 @@ const AppFooterContainer = () => {
             >
               YouTube
             </a>
-          </div>
+          </Column>
         </div>
       </div>
     </footer>
