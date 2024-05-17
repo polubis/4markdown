@@ -40,7 +40,8 @@ describe(`User profile works when`, () => {
         .And(`I type in input`, twitterInput, profileData.twitterUrl)
         .And(`I type in input`, blogInput, profileData.blogUrl)
         .And(`I type in input`, linkedInInput, profileData.linkedInUrl)
-        .And(`I click button`, [`Save user profile`])
+        .Then(`System takes picture`)
+        .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
     'I see profile card': () => {
@@ -54,7 +55,8 @@ describe(`User profile works when`, () => {
       Given(`I see text`, [`Your Profile Edition`])
         .When(`I type in input`, displayNameInput, profileData.displayName)
         .And(`I type in input`, githubInput, profileData.githubUrl)
-        .And(`I click button`, [`Save user profile`])
+        .Then(`System takes picture`)
+        .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
     'I clear profile': () => {
@@ -68,7 +70,8 @@ describe(`User profile works when`, () => {
           blogInput,
           linkedInInput,
         ])
-        .And(`I click button`, [`Save user profile`])
+        .Then(`System takes picture`)
+        .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
   });
