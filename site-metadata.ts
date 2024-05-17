@@ -4,7 +4,7 @@ export const siteMetadata = {
   contactEmail: `greenonsoftware@gmail.com`,
   company: `GreenOn Software`,
   blogUrl: `https://greenonsoftware.com/articles/`,
-  siteUrl: `https://4markdown.com`,
+  siteUrl: `https://4markdown.com/`,
   description: `Craft, edit, and preview your Markdown documents with ease, all within a clean and user-friendly interface`,
   title: `4Markdown - Online Markdown Editor`,
   companyUrl: `https://greenonsoftware.com/`,
