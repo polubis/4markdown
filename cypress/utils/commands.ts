@@ -40,9 +40,21 @@ type ClickableControls =
   | `Make document permanent`
   | `Confirm public document status change`
   | `Confirm private document status change`
-  | `Edit current document`;
+  | `Edit current document`
+  | `Open user profile settings`
+  | `Create your user profile`
+  | `Close your profile form`
+  | `Back to user profile`
+  | `Save user profile`
+  | `Add your avatar`;
 
-type Element = `Go to creator`;
+type Element =
+  | `Go to creator`
+  | `Your Github link`
+  | `Your Twitter link`
+  | `Your Facebook link`
+  | `Your Blog link`
+  | `Your LinkedIn link`;
 
 let acc = 1;
 let folder: string | undefined;

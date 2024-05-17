@@ -37,6 +37,19 @@ import {
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
+import {
+  GetYourProfileDto,
+  UpdateYourProfileDto,
+  UpdateYourProfilePayload,
+} from 'models/user';
+import {
+  yourProfileStoreActions,
+  yourProfileStoreSelectors,
+} from 'store/your-profile/your-profile.store';
+import {
+  updateYourProfileStoreActions,
+  updateYourProfileStoreSelectors,
+} from 'store/update-your-profile/update-your-profile.store';
 
 const WithAuth = () => {
   React.useEffect(() => {
@@ -126,6 +139,50 @@ const WithAuth = () => {
       } catch (error: unknown) {
         imagesStoreActions.fail(error);
         throw error;
+      }
+    };
+
+    const updateYourProfile: AuthorizedData['updateYourProfile'] = async (
+      payload,
+    ) => {
+      try {
+        if (updateYourProfileStoreSelectors.state().is === `ok`) return;
+
+        updateYourProfileStoreActions.busy();
+
+        const { data } = await httpsCallable<
+          UpdateYourProfilePayload,
+          UpdateYourProfileDto
+        >(
+          functions,
+          `updateYourUserProfile`,
+        )(payload);
+
+        updateYourProfileStoreActions.ok(data);
+        yourProfileStoreActions.ok(data);
+      } catch (error: unknown) {
+        updateYourProfileStoreActions.fail(error);
+        throw error;
+      }
+    };
+
+    const getYourProfile = async () => {
+      try {
+        if (
+          yourProfileStoreSelectors.state().is === `ok` ||
+          yourProfileStoreSelectors.state().is === `busy`
+        )
+          return;
+
+        yourProfileStoreActions.busy();
+        const { data: profile } = await httpsCallable<
+          undefined,
+          GetYourProfileDto
+        >(functions, `getYourUserProfile`)();
+
+        yourProfileStoreActions.ok(profile);
+      } catch (error: unknown) {
+        yourProfileStoreActions.fail(error);
       }
     };
 
@@ -297,6 +354,7 @@ const WithAuth = () => {
           },
           getDocs,
           reloadDocs,
+          getYourProfile,
           createDoc,
           resyncDocuments: async () => {
             docManagementStoreActions.idle();
@@ -315,9 +373,11 @@ const WithAuth = () => {
           makeDocPublic,
           makeDocPermanent,
           updateDocName,
+          updateYourProfile,
         });
 
         getDocs();
+        getYourProfile();
 
         return;
       }
