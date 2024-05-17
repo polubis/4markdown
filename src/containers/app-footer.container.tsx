@@ -31,7 +31,7 @@ const AppFooterContainer = () => {
   return (
     <footer className="bg-zinc-200 dark:bg-gray-950">
       <div className="border-t-2 border-zinc-300 dark:border-zinc-800">
-        <div className="flex flex-col px-4 py-8 md:max-w-6xl md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
+        <div className="flex flex-col px-4 py-8 md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
           <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-3 mb-2">
               <img
@@ -47,7 +47,12 @@ const AppFooterContainer = () => {
             <p className="text-sm flex flex-col">
               <span>
                 By{` `}
-                <a>
+                <a
+                  href={meta.companyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline underline-offset-2"
+                >
                   <CompanyLogo size={16} className="inline mx-1 mb-1" />
                   <strong>{meta.company}</strong>
                 </a>
@@ -58,7 +63,7 @@ const AppFooterContainer = () => {
           </div>
           <Column title="About">
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.authorsUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -66,7 +71,7 @@ const AppFooterContainer = () => {
               Authors
             </a>
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.sourceCodeUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -76,7 +81,7 @@ const AppFooterContainer = () => {
           </Column>
           <Column title="Help">
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.blogUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -84,7 +89,7 @@ const AppFooterContainer = () => {
               Blog
             </a>
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.grammarlyUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -92,7 +97,7 @@ const AppFooterContainer = () => {
               Grammarly Extension
             </a>
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.mdCheatsheet}
               target="_blank"
               rel="noopener noreferrer"
@@ -100,7 +105,7 @@ const AppFooterContainer = () => {
               Markdown Cheatsheet
             </a>
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.ytVideoTutorialUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -110,13 +115,13 @@ const AppFooterContainer = () => {
           </Column>
           <Column title="Navigation">
             <Link
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               to={meta.routes.home}
             >
               Creator
             </Link>
             <Link
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               to={meta.routes.docs.browse}
             >
               Education Zone
@@ -124,7 +129,7 @@ const AppFooterContainer = () => {
           </Column>
           <Column title="Socials">
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.discordUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -132,7 +137,7 @@ const AppFooterContainer = () => {
               Discord
             </a>
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.linkedInUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -140,7 +145,7 @@ const AppFooterContainer = () => {
               LinkedIn
             </a>
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.fbGroupUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -148,7 +153,7 @@ const AppFooterContainer = () => {
               Facebook
             </a>
             <a
-              className="hover:underline underline-offset-2 text-black"
+              className="hover:underline underline-offset-2"
               href={meta.ytChannelUrl}
               target="_blank"
               rel="noopener noreferrer"
