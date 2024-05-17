@@ -11,6 +11,16 @@ describe(`User profile works when`, () => {
   const blogInput = `https://your-blog-domain`;
   const linkedInInput = `https://linkedin.com/your-profile`;
 
+  const profileData = {
+    displayName: `tom_ridle`,
+    bio: `I worked as a developer already 10 years and I know React with NextJS`,
+    githubUrl: `https://github.com/polubis/Dream-stack-for-React-dev`,
+    blogUrl: `https://greenonsoftware.com/`,
+    linkedInUrl: `https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/`,
+    fbUrl: `https://www.facebook.com/profile.php?id=100004388103426`,
+    twitterUrl: `https://twitter.com/home?lang=en`,
+  } as const;
+
   const { Given } = Gherkin({
     ...BASE_COMMANDS,
     'I see no profile section': () => {
@@ -21,14 +31,29 @@ describe(`User profile works when`, () => {
         `Profile cards may be changed or removed any time.`,
       ]).And(`I see not disabled button`, [`Create your user profile`]);
     },
+    'I create full profile': () => {
+      Given(`I see text`, [`Your Profile Edition`])
+        .When(`I type in input`, displayNameInput, profileData.displayName)
+        .And(`I type in input`, githubInput, profileData.githubUrl)
+        .And(`I type in input`, bioInput, profileData.bio)
+        .And(`I type in input`, fbInput, profileData.fbUrl)
+        .And(`I type in input`, twitterInput, profileData.twitterUrl)
+        .And(`I type in input`, blogInput, profileData.blogUrl)
+        .And(`I type in input`, linkedInInput, profileData.linkedInUrl)
+        .And(`I click button`, [`Save user profile`])
+        .Then(`I see disabled button`, [`Save user profile`]);
+    },
+    'I see profile card': () => {
+      Given(`I see text`, [
+        `Your Account`,
+        profileData.displayName,
+        profileData.bio,
+      ]);
+    },
     'I create partial profile': () => {
       Given(`I see text`, [`Your Profile Edition`])
-        .When(`I type in input`, displayNameInput, `tom_riddle`)
-        .And(
-          `I type in input`,
-          githubInput,
-          `https://github.com/polubis/Dream-stack-for-React-dev`,
-        )
+        .When(`I type in input`, displayNameInput, profileData.displayName)
+        .And(`I type in input`, githubInput, profileData.githubUrl)
         .And(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
@@ -77,78 +102,12 @@ describe(`User profile works when`, () => {
       .Then(`I see no profile section`)
       .When(`I click button`, [`Create your user profile`])
       .And(`I clear profile`)
+      .Then(`I see no profile section`)
+      .When(`I click button`, [`Create your user profile`])
+      .And(`I create full profile`)
+      .Then(`I see profile card`)
+      .When(`I click button`, [`Open user profile settings`])
+      .And(`I clear profile`)
       .Then(`I see no profile section`);
-
-    // Given(`I see not disabled button`, [
-    //   `User details and options`,
-    //   `Your documents`,
-    // ])
-    //   .And(`I see not disabled button`, [
-    //     `Open user profile settings`,
-    //     `Create your user profile`,
-    //     `Close your account panel`,
-    //     `Sign out`,
-    //   ])
-    //   .And(`I see text`, [`Your Account`])
-    //   .And(`I see no profile yet section`)
-    //   .When(`I click button`, [`Create your user profile`])
-    //   .Then(`I see not disabled button`, [
-    //     `Close your profile form`,
-    //     `Back to user profile`,
-    //   ])
-    //   .And(`I see disabled button`, [`Save user profile`])
-    //   .And(`I see text`, [`Your Profile Edition`])
-    //   .When(`I click button`, [`Back to user profile`])
-    //   .Then(`I see text`, [`Your Account`])
-    //   .When(`I click button`, [`Create your user profile`])
-    //   .And(`I change display name`, `tom_riddle`)
-    //   .When(`I clear display name`)
-    //   .And(`I change display name`, `tom_riddle`)
-    //   .Then(`I see not disabled button`, [`Save user profile`])
-    //   .When(`I clear display name`)
-    //   .Then(`I see not disabled button`, [`Save user profile`])
-    //   .When(
-    //     `I change bio`,
-    //     `I worked as a developer already 10 years and I know React with NextJS`,
-    //   )
-    //   .And(
-    //     `I change Github link`,
-    //     `https://github.com/polubis/Dream-stack-for-React-dev`,
-    //   )
-    //   .When(`I click button`, [`Save user profile`])
-    //   .Then(`I see text`, [`Updating your profile`])
-    //   .And(`I see disabled button`, [`Save user profile`])
-    //   .And(`I see text`, [`Your Account`])
-    //   .And(`I see no profile yet section`)
-    //   .When(`I create profile`)
-    //   .And(`I reset profile`)
-    //   .Then(`I see no profile yet section`);
-    // .Then(`I see text`, [`Your Account`])
-    // .And(`System takes picture`)
-    // .When(`I click button`, [`Open user profile settings`])
-    // .And(`I clear display name`)
-    // .And(`I click button`, [`Save user profile`])
-    // .Then(`I see disabled button`, [`Save user profile`])
-    // .And(`I see text`, [`Your Account`, `Updating your profile...`])
-    // .And(`System takes picture`)
-    // .When(`I click button`, [`Open user profile settings`])
-    // .Then(`System takes picture`)
-    // .When(`I clear bio`)
-    // .And(
-    //   `I change Facebook link`,
-    //   `https://www.facebook.com/profile.php?id=100004388103426`,
-    // )
-    // .And(`I change Twitter link`, `https://twitter.com/home?lang=en`)
-    // .And(`I change blog link`, `https://greenonsoftware.com/`)
-    // .And(
-    //   `I change LinkedIn link`,
-    //   `https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/`,
-    // )
-    // .And(`I change avatar`, `../assets/cringe.jpg`)
-    // .Then(`System takes picture`)
-    // .When(`I click button`, [`Save user profile`])
-    // .Then(`I see disabled button`, [`Save user profile`])
-    // .And(`I see text`, [`Your Account`])
-    // .Then(`System takes picture`);
   });
 });
