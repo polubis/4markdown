@@ -16,8 +16,11 @@ const useSiteMetadataQuery = () => {
         siteMetadata {
           appName
           siteUrl
+          blogUrl
           description
           title
+          contactEmail
+          authorsUrl
           company
           lang
           companyUrl
@@ -26,6 +29,7 @@ const useSiteMetadataQuery = () => {
           sourceCodeUrl
           fbGroupUrl
           ytChannelUrl
+          mdCheatsheet
           grammarlyUrl
           ytVideoTutorialUrl
           routes {

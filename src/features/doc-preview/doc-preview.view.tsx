@@ -9,6 +9,7 @@ import {
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
+import { AppFooterContainer } from 'containers/app-footer.container';
 
 const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
 
@@ -53,6 +54,7 @@ const DocPreviewView = () => {
           {docPreviewStore.doc.code}
         </DocumentLayout>
       )}
+      <AppFooterContainer />
     </>
   );
 };

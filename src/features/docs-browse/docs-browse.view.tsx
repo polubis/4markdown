@@ -12,6 +12,7 @@ import { Badge } from 'design-system/badge';
 import { Button } from 'design-system/button';
 import { AppNavigation } from 'components/app-navigation';
 import { formatDistance } from 'date-fns';
+import { AppFooterContainer } from 'containers/app-footer.container';
 
 interface DocsBrowseViewProps {
   context: DocsBrowsePageContext;
@@ -66,6 +67,7 @@ const DocsBrowseView = () => {
           ))}
         </ul>
       </main>
+      <AppFooterContainer />
     </>
   );
 };
