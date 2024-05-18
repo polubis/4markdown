@@ -38,6 +38,7 @@ const useSiteMetadataQuery = () => {
               browse
               preview
             }
+            privacyPolicy
           }
         }
       }

@@ -148,6 +148,15 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Markdown Cheatsheet
           </ButtonLink>
           <ButtonLink
+            to={meta.routes.privacyPolicy}
+            title="Check privacy policy"
+            component={(props) => (
+              <Link activeClassName="active-button-link" {...props} />
+            )}
+          >
+            Privacy Policy
+          </ButtonLink>
+          <ButtonLink
             to={meta.sourceCodeUrl}
             target="_blank"
             title={`${meta.appName} Repository`}
