@@ -30,8 +30,8 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I not see text`, [`Delete current document`, name]);
   },
   'I change document visiblity': () => {
-    const documentName = uid(`S`);
-    const editedDocumentName = uid(`K`);
+    const documentName = `${uid(`S`)} next next`;
+    const editedDocumentName = `${uid(`S`)} next next`;
     const editedDocumentDescription = `This is totally new description for permament document to prove edition mechanism works`;
 
     When(`I click button`, [`Create new document`])
@@ -75,13 +75,16 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Confirm permanent document policy`,
       ])
       .And(`I clear input`, [`Type document name`])
-      .And(`I type in input`, `Type document name`, documentName)
+      .And(`I type in input`, `Type document name`, `Document name`)
       .And(
         `I type in input`,
         `Describe your document in 3-4 sentences. The description will be displayed in Google`,
         `This is my permanent article description that will be displayed in Google for best possible SEO results`,
       )
       .And(`I type in input`, `Separate tags with a comma`, `react,angular`)
+      .Then(`I see disabled button`, [`Make document permanent`])
+      .When(`I clear input`, [`Type document name`])
+      .And(`I type in input`, `Type document name`, documentName)
       .And(`I click button`, [`Make document permanent`])
       .Then(`I see disabled button`, [`Make document permanent`])
       .And(`I not see button`, [`Make document permanent`])

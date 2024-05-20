@@ -4,11 +4,16 @@ import React from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
+import { DocStoreActiveState, docStoreSelectors } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
+import { useForm } from 'development-kit/use-form';
+import {
+  updateDocNameSchema,
+  updatePermamentDocNameSchema,
+} from 'core/validators/doc-validators';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -17,13 +22,19 @@ const DeleteDocModal = React.lazy(
   () => import(`../../../components/delete-doc-modal`),
 );
 
+const getSchema = (docStore: DocStoreActiveState) =>
+  docStore.visibility === `permanent`
+    ? updatePermamentDocNameSchema
+    : updateDocNameSchema;
+
 const ActiveDocBarContainer = () => {
   const docManagementStore = useDocManagementStore();
   const docStore = docStoreSelectors.useActive();
   const docsStore = useDocsStore();
   const authStore = useAuthStore();
   const creatorStore = creatorStoreSelectors.useReady();
-  const [name, setName] = React.useState(docStore.name);
+  const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
+    useForm({ name: docStore.name }, getSchema(docStore));
   const edition = useToggle();
   const morePopover = useToggle();
   const deleteModal = useToggle();
@@ -33,7 +44,7 @@ const ActiveDocBarContainer = () => {
   > = async (e) => {
     e.preventDefault();
     try {
-      await authStoreSelectors.authorized().updateDocName(name);
+      await authStoreSelectors.authorized().updateDocName(values.name);
       edition.close();
     } catch {}
   };
@@ -45,14 +56,18 @@ const ActiveDocBarContainer = () => {
   };
 
   const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
-    setName(docStore.name);
+    set({ name: docStore.name });
     edition.open();
   };
 
   const handleEditClose: React.MouseEventHandler<HTMLButtonElement> = () => {
     edition.close();
-    setName(``);
+    set({ name: `` });
   };
+
+  React.useEffect(() => {
+    reconfigure({ name: docStore.name }, getSchema(docStore));
+  }, [docStore, reconfigure]);
 
   return (
     <>
@@ -62,16 +77,13 @@ const ActiveDocBarContainer = () => {
             className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
             autoFocus
             placeholder="Type document name*"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            {...inject(`name`)}
           />
           <Button
             i={1}
             s={1}
             className="mr-1 ml-3"
-            disabled={
-              !docStoreValidators.name(name) || docManagementStore.is === `busy`
-            }
+            disabled={invalid || untouched || docManagementStore.is === `busy`}
             title="Confirm name change"
             type="submit"
           >
