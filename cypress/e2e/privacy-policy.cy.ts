@@ -39,7 +39,7 @@ describe(`Privacy policy works when`, () => {
     Given(`System cleans pictures setup`);
   });
 
-  it(`there is no regression for different devices and themes`, () => {
+  it(`there is no regression for desktop and different themes`, () => {
     Given(`Im on page`, `home`)
       .When(`I click button`, [`Navigation`])
       .Then(`I see not disabled button`, [`Close navigation`])
@@ -48,6 +48,7 @@ describe(`Privacy policy works when`, () => {
       .When(`I scroll to`, `Privacy Policy`)
       .Then(`System takes picture`)
       .And(`I see policy headings`)
-      .And(`I see well aligned UI on mobile`);
+      .When(`I click button`, [`Change theme`])
+      .And(`System takes picture`);
   });
 });
