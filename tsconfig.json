@@ -112,6 +112,7 @@
       "models/*": ["./src/models/*"],
       "queries/*": ["./src/queries/*"],
       "components/*": ["./src/components/*"],
+      "core/*": ["./src/core/*"],
       "containers/*": ["./src/containers/*"],
       "__mocks__/*": ["./src/__mocks__/*"]
     },

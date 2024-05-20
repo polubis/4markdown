@@ -2,10 +2,11 @@ import React from 'react';
 import { Button } from 'design-system/button';
 import { BiPlusCircle, BiX } from 'react-icons/bi';
 import Popover from 'design-system/popover';
-import { docStoreValidators } from 'store/doc/doc.store';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Input } from 'design-system/input';
+import { useForm } from 'development-kit/use-form';
+import { createDocSchema } from 'core/validators/doc-validators';
 
 interface AddDocPopoverContentProps {
   onClose(): void;
@@ -15,12 +16,15 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
   onClose,
 }) => {
   const docManagementStore = useDocManagementStore();
-  const [name, setName] = React.useState(``);
+  const [{ invalid, values, untouched }, { inject }] = useForm(
+    { name: `` },
+    createDocSchema,
+  );
 
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
-      await authStoreSelectors.authorized().createDoc(name);
+      await authStoreSelectors.authorized().createDoc(values.name);
       onClose();
     } catch {}
   };
@@ -47,11 +51,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
         </div>
         <fieldset className="flex flex-col gap-1.5">
           <label className="text-sm font-medium">Document name*</label>
-          <Input
-            placeholder="Type document name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-          />
+          <Input placeholder="Type document name" {...inject(`name`)} />
         </fieldset>
         <Button
           type="submit"
@@ -60,9 +60,7 @@ const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
           className="mt-6"
           auto
           title="Confirm document creation"
-          disabled={
-            !docStoreValidators.name(name) || docManagementStore.is === `busy`
-          }
+          disabled={untouched || invalid || docManagementStore.is === `busy`}
         >
           Create
           <BiPlusCircle />
