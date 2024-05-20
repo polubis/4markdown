@@ -97,7 +97,7 @@ const PrivacyPolicyView = () => {
             the Internet.
           </li>
           <li>
-            Personnel: refers to those individuals who are employed by
+            Personnel: refers to those individuals who are employed by{` `}
             <strong>{siteMetadataStore.appName}</strong> or are under contract
             to perform a service on behalf of one of the parties.
           </li>
@@ -138,6 +138,7 @@ const PrivacyPolicyView = () => {
           <li>Email Addresses</li>
           <li>Mailing Addresses</li>
           <li>Job Titles</li>
+          <li>Avatars</li>
         </ul>
         <h2>How Do We Use The Information We Collect?</h2>
         <p>
@@ -170,7 +171,7 @@ const PrivacyPolicyView = () => {
         </h2>
         <p>
           <strong>{siteMetadataStore.appName}</strong> will collect End User
-          Data necessary to provide the
+          Data necessary to provide the{` `}
           <strong>{siteMetadataStore.appName}</strong> services to our
           customers.
         </p>
@@ -192,7 +193,7 @@ const PrivacyPolicyView = () => {
           interest in becoming a <strong>{siteMetadataStore.appName}</strong>
           {` `}
           customer, we receive information from a third party that provides
-          automated fraud detection services to
+          automated fraud detection services to{` `}
           <strong>{siteMetadataStore.appName}</strong>. We also occasionally
           collect information that is made publicly available on social media
           websites. You can control how much of your information social media
@@ -271,7 +272,7 @@ const PrivacyPolicyView = () => {
         </p>
         <h2>How Long Do We Keep Your Information?</h2>
         <p>
-          We keep your information only so long as we need it to provide
+          We keep your information only so long as we need it to provide{` `}
           <strong>{siteMetadataStore.appName}</strong> to you and fulfill the
           purposes described in this policy. This is also the case for anyone
           that we share your information with and who carries out services on
