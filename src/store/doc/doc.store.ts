@@ -63,4 +63,5 @@ const docStoreActions = {
   },
 } as const;
 
+export type { DocStoreState, DocStoreActiveState };
 export { useDocStore, docStoreActions, DOC_STORE_LS_KEY, docStoreSelectors };

@@ -36,6 +36,8 @@ const baseSchemas = {
   Pick<PermanentDoc, 'name' | 'description'> & { tags: string }
 >;
 
+const permamentDocNameSchema = [...baseSchemas.name, minWords(3)];
+
 const createDocSchema: Required<ValidatorsSetup<Pick<PermanentDoc, 'name'>>> = {
   name: baseSchemas.name,
 };
@@ -46,12 +48,23 @@ const updateDocNameSchema: Required<
   name: baseSchemas.name,
 };
 
+const updatePermamentDocNameSchema: Required<
+  ValidatorsSetup<Pick<PermanentDoc, 'name'>>
+> = {
+  name: permamentDocNameSchema,
+};
+
 const makeDocPermamentSchema: Required<
   ValidatorsSetup<Pick<PermanentDoc, 'name' | 'description'> & { tags: string }>
 > = {
-  name: [...baseSchemas.name, minWords(3)],
+  name: permamentDocNameSchema,
   description: baseSchemas.description,
   tags: baseSchemas.tags,
 };
 
-export { createDocSchema, makeDocPermamentSchema, updateDocNameSchema };
+export {
+  createDocSchema,
+  makeDocPermamentSchema,
+  updateDocNameSchema,
+  updatePermamentDocNameSchema,
+};

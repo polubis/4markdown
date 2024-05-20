@@ -4,13 +4,16 @@ import React from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { docStoreSelectors } from 'store/doc/doc.store';
+import { DocStoreActiveState, docStoreSelectors } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
-import { updateDocNameSchema } from 'core/validators/doc-validators';
+import {
+  updateDocNameSchema,
+  updatePermamentDocNameSchema,
+} from 'core/validators/doc-validators';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -19,16 +22,19 @@ const DeleteDocModal = React.lazy(
   () => import(`../../../components/delete-doc-modal`),
 );
 
+const getSchema = (docStore: DocStoreActiveState) =>
+  docStore.visibility === `permanent`
+    ? updatePermamentDocNameSchema
+    : updateDocNameSchema;
+
 const ActiveDocBarContainer = () => {
   const docManagementStore = useDocManagementStore();
   const docStore = docStoreSelectors.useActive();
   const docsStore = useDocsStore();
   const authStore = useAuthStore();
   const creatorStore = creatorStoreSelectors.useReady();
-  const [{ values, invalid, untouched }, { inject, set }] = useForm(
-    { name: docStore.name },
-    updateDocNameSchema,
-  );
+  const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
+    useForm({ name: docStore.name }, getSchema(docStore));
   const edition = useToggle();
   const morePopover = useToggle();
   const deleteModal = useToggle();
@@ -58,6 +64,10 @@ const ActiveDocBarContainer = () => {
     edition.close();
     set({ name: `` });
   };
+
+  React.useEffect(() => {
+    reconfigure({ name: docStore.name }, getSchema(docStore));
+  }, [docStore, reconfigure]);
 
   return (
     <>
