@@ -37,3 +37,18 @@ export const base64 = validator(`base64`, (value: string) =>
     value,
   ),
 );
+
+export const isString = validator(
+  `isString`,
+  (value: unknown): value is string => typeof value === `string`,
+);
+
+export const name = validator(`name`, (value: string) =>
+  /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(value.trim()),
+);
+
+export const minWords = (count: number) =>
+  validator(
+    `minWords`,
+    (value: string) => value.trim().split(` `).length >= count,
+  );
