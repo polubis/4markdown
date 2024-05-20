@@ -46,3 +46,9 @@ export const isString = validator(
 export const name = validator(`name`, (value: string) =>
   /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(value.trim()),
 );
+
+export const minWords = (count: number) =>
+  validator(
+    `minWords`,
+    (value: string) => value.trim().split(` `).length >= count,
+  );
