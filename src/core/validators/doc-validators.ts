@@ -40,6 +40,12 @@ const createDocSchema: Required<ValidatorsSetup<Pick<PermanentDoc, 'name'>>> = {
   name: baseSchemas.name,
 };
 
+const updateDocNameSchema: Required<
+  ValidatorsSetup<Pick<PermanentDoc, 'name'>>
+> = {
+  name: baseSchemas.name,
+};
+
 const makeDocPermamentSchema: Required<
   ValidatorsSetup<Pick<PermanentDoc, 'name' | 'description'> & { tags: string }>
 > = {
@@ -48,4 +54,4 @@ const makeDocPermamentSchema: Required<
   tags: baseSchemas.tags,
 };
 
-export { createDocSchema, makeDocPermamentSchema };
+export { createDocSchema, makeDocPermamentSchema, updateDocNameSchema };
