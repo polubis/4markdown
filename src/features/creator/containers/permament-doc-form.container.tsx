@@ -1,12 +1,14 @@
+import { makeDocPermamentSchema } from 'core/validators/doc-validators';
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
+import { useForm } from 'development-kit/use-form';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { docStoreSelectors, docStoreValidators } from 'store/doc/doc.store';
+import { docStoreSelectors } from 'store/doc/doc.store';
 
 interface PermamentDocFormContainerProps {
   onConfirm(): void;
@@ -21,13 +23,17 @@ const PermamentDocFormContainer = ({
 }: PermamentDocFormContainerProps) => {
   const docStore = docStoreSelectors.active();
   const docManagementStore = useDocManagementStore();
-  const [name, setName] = React.useState(docStore.name);
-  const [description, setDescription] = React.useState(
-    docStore.visibility === `permanent` ? docStore.description : ``,
+  const [{ invalid, values, result, untouched }, { inject }] = useForm(
+    {
+      name: docStore.name,
+      description:
+        docStore.visibility === `permanent` ? docStore.description : ``,
+      tags: docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
+    },
+    makeDocPermamentSchema,
   );
-  const [tags, setTags] = React.useState(
-    docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
-  );
+
+  const { name, description, tags } = values;
 
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -41,10 +47,6 @@ const PermamentDocFormContainer = ({
       onConfirm();
     } catch {}
   };
-
-  const nameInvalid = !docStoreValidators.name(name);
-  const descriptionInvalid = !docStoreValidators.description(description);
-  const tagsInvalid = !docStoreValidators.tags(tags);
 
   return (
     <form className="flex flex-col" onSubmit={handleConfirm}>
@@ -62,30 +64,20 @@ const PermamentDocFormContainer = ({
         </Button>
       </header>
       <Field label={`Name (${name.length})*`} className="mt-2">
-        <Input
-          autoFocus
-          placeholder="Type document name"
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-        />
+        <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
       </Field>
       <Field label={`Description (${description.length})*`} className="mt-3">
         <Textarea
           placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
-          onChange={(e) => setDescription(e.target.value)}
-          value={description}
+          {...inject(`description`)}
         />
       </Field>
       <Field
-        label={tagsInvalid ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
+        label={result.tags ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
         className="mt-2"
         hint="It may be React, Angular, Vue and others..."
       >
-        <Input
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          placeholder="Separate tags with a comma"
-        />
+        <Input placeholder="Separate tags with a comma" {...inject(`tags`)} />
       </Field>
       <footer className="mt-6 flex">
         <Button
@@ -106,12 +98,7 @@ const PermamentDocFormContainer = ({
           i={2}
           s={2}
           auto
-          disabled={
-            docManagementStore.is === `busy` ||
-            nameInvalid ||
-            descriptionInvalid ||
-            tagsInvalid
-          }
+          disabled={invalid || untouched || docManagementStore.is === `busy`}
           title="Make document permanent"
         >
           Confirm
