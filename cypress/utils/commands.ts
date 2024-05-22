@@ -54,7 +54,8 @@ type Element =
   | `Your Twitter link`
   | `Your Facebook link`
   | `Your Blog link`
-  | `Your LinkedIn link`;
+  | `Your LinkedIn link`
+  | `Check privacy policy`;
 
 let acc = 1;
 let folder: string | undefined;
@@ -184,4 +185,5 @@ const BASE_COMMANDS = {
   },
 } as const;
 
+export type { Element, ClickableControls };
 export { BASE_COMMANDS };
