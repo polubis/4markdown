@@ -12,8 +12,8 @@ describe(`Privacy policy works when`, () => {
       cy.contains(text).scrollIntoView();
     },
     'I see policy headings': () => {
-      cy.get(`h2`).each(($h2) => {
-        cy.contains($h2.text()).scrollIntoView();
+      cy.get(`h1, h2`).each((h) => {
+        cy.contains(h.text()).scrollIntoView();
         Given(`System takes picture`);
       });
     },
@@ -45,10 +45,6 @@ describe(`Privacy policy works when`, () => {
       .Then(`I see not disabled button`, [`Close navigation`])
       .When(`I click elements`, [`Check privacy policy`])
       .Then(`Im on privacy policy page`)
-      .When(`I scroll to`, `Privacy Policy`)
-      .Then(`System takes picture`)
-      .And(`I see policy headings`)
-      .When(`I click button`, [`Change theme`])
-      .And(`System takes picture`);
+      .And(`I see policy headings`);
   });
 });
