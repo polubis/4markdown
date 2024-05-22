@@ -185,4 +185,5 @@ const BASE_COMMANDS = {
   },
 } as const;
 
+export type { Element, ClickableControls };
 export { BASE_COMMANDS };

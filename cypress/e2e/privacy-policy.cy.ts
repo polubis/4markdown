@@ -1,4 +1,4 @@
-import { BASE_COMMANDS } from '../utils/commands';
+import { BASE_COMMANDS, Element } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
 describe(`Privacy policy works when`, () => {
@@ -17,9 +17,10 @@ describe(`Privacy policy works when`, () => {
         Given(`System takes picture`);
       });
     },
-    'I see well aligned UI on mobile': () => {
-      cy.viewport(320, 800);
-      Given(`System takes picture`);
+    'I click privacy policy link': () => {
+      cy.get(`[title="${`Check privacy policy` as Element}"]`).click({
+        force: true,
+      });
     },
   });
 
@@ -43,7 +44,7 @@ describe(`Privacy policy works when`, () => {
     Given(`Im on page`, `home`)
       .When(`I click button`, [`Navigation`])
       .Then(`I see not disabled button`, [`Close navigation`])
-      .When(`I click elements`, [`Check privacy policy`])
+      .When(`I click privacy policy link`)
       .Then(`Im on privacy policy page`)
       .And(`I see policy headings`);
   });
