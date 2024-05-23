@@ -17,6 +17,7 @@ type DocAuthor = UserProfile | null;
 
 interface PublicDoc extends DocBase {
   visibility: 'public';
+  avatar: DocAuthor;
 }
 
 interface PermanentDoc extends DocBase {
@@ -24,6 +25,7 @@ interface PermanentDoc extends DocBase {
   description: string;
   path: Path;
   tags: Tags;
+  avatar: DocAuthor;
 }
 
 interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}

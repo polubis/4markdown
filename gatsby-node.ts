@@ -40,7 +40,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     component: path.resolve(`./src/dynamic-pages/docs-browse.page.tsx`),
     context: {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      docs: docs.map(({ code, visibility, ...doc }): PermamentSlimDoc => doc),
+      docs: docs.map((doc): PermamentSlimDoc => doc),
     },
   });
 };
