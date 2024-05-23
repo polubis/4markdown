@@ -1,5 +1,5 @@
 import type { Id, Name, Code, Date, Path, Tags } from './general';
-import { UserProfile } from './user';
+import type { UserProfile } from './user';
 
 interface DocBase {
   id: Id;
