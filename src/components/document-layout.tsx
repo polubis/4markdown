@@ -41,7 +41,7 @@ const DocumentLayout = ({ children, tags }: DocumentLayoutProps) => {
               sadsad sad d asdsa sads adsa d asdsadsads adsdasa asd saasd asdsa
               asd
             </p>
-            <div className="flex space-x-2 mt-2">
+            <div className="flex space-x-2 mt-4">
               <UserSocials
                 githubUrl="dsad"
                 linkedInUrl="dasd"
