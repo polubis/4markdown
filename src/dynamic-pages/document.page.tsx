@@ -7,17 +7,15 @@ import {
 } from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
-import { PermanentDoc } from 'models/doc';
 import { DocumentLayout } from 'components/document-layout';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
+import { DocumentPageContext } from 'models/pages-contexts';
 
 interface DocumentPageProps {
-  pageContext: {
-    doc: PermanentDoc;
-  };
+  pageContext: DocumentPageContext;
 }
 
 const DocumentPage = ({ pageContext }: DocumentPageProps) => {
@@ -39,7 +37,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <DocumentLayout tags={pageContext.doc.tags}>
+      <DocumentLayout tags={pageContext.doc.tags} author={pageContext.author}>
         {pageContext.doc.code}
       </DocumentLayout>
       <AppFooterContainer />

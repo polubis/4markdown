@@ -1,4 +1,5 @@
 import type { Id, Name, Code, Date, Path, Tags } from './general';
+import { NullableUserProfile } from './user';
 
 interface DocBase {
   id: Id;
@@ -14,6 +15,7 @@ interface PrivateDoc extends DocBase {
 
 interface PublicDoc extends DocBase {
   visibility: 'public';
+  author: NullableUserProfile;
 }
 
 interface PermanentDoc extends DocBase {
@@ -21,6 +23,7 @@ interface PermanentDoc extends DocBase {
   description: string;
   path: Path;
   tags: Tags;
+  author: NullableUserProfile;
 }
 
 interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}

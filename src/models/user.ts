@@ -34,7 +34,8 @@ type UserProfile = {
   blogUrl: string | null;
 };
 
-type GetYourProfileDto = UserProfile | null;
+type NullableUserProfile = UserProfile | null;
+type GetYourProfileDto = NullableUserProfile;
 
 type UpdateYourProfileAvatarAction =
   | {
@@ -54,6 +55,7 @@ export type {
   UpdateYourProfilePayload,
   UpdateYourProfileAvatarAction,
   UpdateYourProfileDto,
+  NullableUserProfile,
   UserAvatarVariantKey,
   UserAvatarVariantObj,
 };
