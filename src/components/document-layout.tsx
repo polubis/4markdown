@@ -4,6 +4,7 @@ import { Tags } from 'models/general';
 import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
+import { UserSocials } from './user-socials';
 
 interface DocumentLayoutProps {
   children: string;
@@ -31,13 +32,25 @@ const DocumentLayout = ({ children, tags }: DocumentLayoutProps) => {
             char="A"
           />
           <div className="flex flex-col">
-            <i>About author</i>
-            <strong className="mb-1">tom_riddle</strong>
+            <i>About Author</i>
+            <strong className="mb-1 text-black dark:text-white">
+              tom_riddle
+            </strong>
             <p>
               dasd asddadas sadd sada asdsad asdsad asdsa sad sadadsa sadsa
               sadsad sad d asdsa sads adsa d asdsadsads adsdasa asd saasd asdsa
               asd
             </p>
+            <div className="flex space-x-2 mt-2">
+              <UserSocials
+                githubUrl="dsad"
+                linkedInUrl="dasd"
+                blogUrl="dasd"
+                twitterUrl="dasd"
+                fbUrl="dasd"
+                createTitle={(title) => `Author ${title}`}
+              />
+            </div>
           </div>
         </div>
       </section>
