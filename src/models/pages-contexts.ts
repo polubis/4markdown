@@ -1,4 +1,4 @@
-import { PermamentSlimDoc, PermanentDoc, DocAuthor } from './doc';
+import { PermamentSlimDoc, PermanentDoc } from './doc';
 
 interface DocsBrowsePageContext {
   docs: PermamentSlimDoc[];
@@ -6,7 +6,6 @@ interface DocsBrowsePageContext {
 
 interface DocumentPageContext {
   doc: PermanentDoc;
-  author: DocAuthor;
 }
 
 export type { DocsBrowsePageContext, DocumentPageContext };

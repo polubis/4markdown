@@ -37,7 +37,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <DocumentLayout tags={pageContext.doc.tags} author={pageContext.author}>
+      <DocumentLayout tags={pageContext.doc.tags} author={null}>
         {pageContext.doc.code}
       </DocumentLayout>
       <AppFooterContainer />

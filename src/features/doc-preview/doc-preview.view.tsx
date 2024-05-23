@@ -50,11 +50,7 @@ const DocPreviewView = () => {
               ? docPreviewStore.doc.tags
               : []
           }
-          author={
-            docPreviewStore.doc.visibility === `private`
-              ? null
-              : docPreviewStore.doc.author
-          }
+          author={null}
         >
           {docPreviewStore.doc.code}
         </DocumentLayout>
