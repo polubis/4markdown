@@ -30,9 +30,9 @@ const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
             <Avatar
               className="shrink-0 bg-gray-300 dark:bg-slate-800"
               size="md"
-              src=""
-              alt="User avatar"
-              char="A"
+              src={author.avatar?.md.src}
+              alt="Author avatar"
+              char={author.displayName.charAt(0)}
             />
             <div className="flex flex-col">
               <i>About Author</i>
