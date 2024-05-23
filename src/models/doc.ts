@@ -13,11 +13,11 @@ interface PrivateDoc extends DocBase {
   visibility: 'private';
 }
 
-type NullableDocAuthor = UserProfile | null;
+type DocAuthor = UserProfile | null;
 
 interface PublicDoc extends DocBase {
   visibility: 'public';
-  author: NullableDocAuthor;
+  author: DocAuthor;
 }
 
 interface PermanentDoc extends DocBase {
@@ -25,7 +25,7 @@ interface PermanentDoc extends DocBase {
   description: string;
   path: Path;
   tags: Tags;
-  author: NullableDocAuthor;
+  author: DocAuthor;
 }
 
 interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}
@@ -65,7 +65,7 @@ export type {
   UpdateDocPublicPayload,
   UpdateDocPermanentPayload,
   DeleteDocPayload,
-  NullableDocAuthor,
+  DocAuthor,
   GetPermanentDocsDto,
   DeleteDocDto,
   DocBase,

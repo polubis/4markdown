@@ -5,12 +5,12 @@ import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
-import { NullableDocAuthor } from 'models/doc';
+import { DocAuthor } from 'models/doc';
 
 interface DocumentLayoutProps {
   children: string;
   tags: Tags;
-  author: NullableDocAuthor;
+  author: DocAuthor;
 }
 
 const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
