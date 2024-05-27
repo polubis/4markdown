@@ -75,4 +75,5 @@ export type {
   PublicDoc,
   PermanentDoc,
   PermamentSlimDoc,
+  DocAuthor,
 };
