@@ -39,10 +39,11 @@ const DocsBrowseView = () => {
               </Badges>
               <h6 className="mb-2 text-2xl">{doc.name}</h6>
               <p className="break-words">{doc.description}</p>
-              <div className="flex items-center mt-3">
+              <div className="flex items-center mt-3 p-3">
                 {doc.author?.displayName && doc.author?.bio && (
                   <Avatar
                     size="sm"
+                    title={doc.author.displayName}
                     alt={`${doc.author.displayName} avatar`}
                     className="bg-gray-300 dark:bg-slate-800 shrink-0 mr-4"
                     char={

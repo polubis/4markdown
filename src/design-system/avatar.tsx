@@ -10,6 +10,7 @@ interface AvatarProps {
   className?: string;
   char?: string;
   alt: string;
+  title?: string;
 }
 
 const iconSizesLookup: Record<AvatarSize, number> = {
@@ -19,9 +20,10 @@ const iconSizesLookup: Record<AvatarSize, number> = {
   lg: 40,
 };
 
-const Avatar = ({ className, size, src, char, alt }: AvatarProps) => {
+const Avatar = ({ className, size, src, char, alt, title }: AvatarProps) => {
   return (
     <div
+      title={title}
       className={c(
         className,
         `flex items-center justify-center rounded-full`,
