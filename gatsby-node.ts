@@ -43,10 +43,13 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ code, visibility, author, ...doc }): PermamentSlimDoc => ({
           ...doc,
-          author: {
-            displayName: author?.displayName ?? null,
-            avatar: author?.avatar ? author.avatar.sm : null,
-          },
+          author:
+            author?.displayName && author?.bio
+              ? {
+                  displayName: author.displayName ?? null,
+                  avatar: author?.avatar ? author.avatar.sm : null,
+                }
+              : null,
         }),
       ),
     },

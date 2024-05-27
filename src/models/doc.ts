@@ -30,7 +30,7 @@ interface PermanentDoc extends DocBase {
 
 type PermamentSlimDoc = Omit<PermanentDoc, 'visibility' | 'code' | 'author'> & {
   author: {
-    displayName: UserProfile['displayName'];
+    displayName: NonNullable<UserProfile['displayName']>;
     avatar: UserAvatarVariantObj | null;
   } | null;
 };

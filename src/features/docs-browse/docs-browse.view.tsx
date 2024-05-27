@@ -40,7 +40,7 @@ const DocsBrowseView = () => {
               <h6 className="mb-2 text-2xl">{doc.name}</h6>
               <p className="break-words">{doc.description}</p>
               <div className="flex items-center mt-3 p-3">
-                {doc.author?.displayName && doc.author?.bio && (
+                {doc.author && (
                   <Avatar
                     size="sm"
                     title={doc.author.displayName}
@@ -51,7 +51,7 @@ const DocsBrowseView = () => {
                         ? doc.author.displayName.charAt(0)
                         : undefined
                     }
-                    src={doc.author?.avatar?.sm.src}
+                    src={doc.author?.avatar?.src}
                   />
                 )}
                 <div className="flex flex-col space-y-1">
