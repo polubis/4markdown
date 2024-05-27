@@ -1,7 +1,7 @@
 import { initializeApp, type FirebaseOptions } from 'firebase/app';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
-import { GetPermanentDocsDto, PermamentSlimDoc } from 'models/doc';
+import { GetPermanentDocsDto } from 'models/doc';
 import path from 'path';
 import { DocsBrowsePageContext } from 'models/pages-contexts';
 import { siteMetadata } from './site-metadata';
@@ -40,7 +40,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     component: path.resolve(`./src/dynamic-pages/docs-browse.page.tsx`),
     context: {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      docs: docs.map(({ code, visibility, ...doc }): PermamentSlimDoc => doc),
+      docs,
     },
   });
 };
