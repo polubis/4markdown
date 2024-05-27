@@ -1,5 +1,5 @@
 import type { Id, Name, Code, Date, Path, Tags } from './general';
-import type { UserProfile } from './user';
+import type { UserAvatarVariantObj, UserProfile } from './user';
 
 interface DocBase {
   id: Id;
@@ -28,7 +28,12 @@ interface PermanentDoc extends DocBase {
   author: DocAuthor;
 }
 
-type PermamentSlimDoc = Omit<PermanentDoc, 'visibility' | 'code'>;
+type PermamentSlimDoc = Omit<PermanentDoc, 'visibility' | 'code' | 'author'> & {
+  author: {
+    displayName: UserProfile['displayName'];
+    avatar: UserAvatarVariantObj | null;
+  } | null;
+};
 
 type Doc = PrivateDoc | PublicDoc | PermanentDoc;
 
