@@ -39,7 +39,7 @@ const DocsBrowseView = () => {
               </Badges>
               <h6 className="mb-2 text-2xl">{doc.name}</h6>
               <p className="break-words">{doc.description}</p>
-              <div className="flex items-center mt-3 p-3">
+              <div className="flex items-center mt-3 py-2">
                 {doc.author && (
                   <Avatar
                     size="sm"
