@@ -25,7 +25,7 @@ const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
       )}
       <Markdown>{children}</Markdown>
       {author && author.bio && author.displayName && (
-        <section className="mt-10">
+        <section className="mt-12">
           <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
             <Avatar
               className="shrink-0 bg-gray-300 dark:bg-slate-800"
