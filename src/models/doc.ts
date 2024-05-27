@@ -1,4 +1,5 @@
 import type { Id, Name, Code, Date, Path, Tags } from './general';
+import type { UserAvatarVariantObj, UserProfile } from './user';
 
 interface DocBase {
   id: Id;
@@ -8,12 +9,15 @@ interface DocBase {
   cdate: Date;
 }
 
+type DocAuthor = UserProfile | null;
+
 interface PrivateDoc extends DocBase {
   visibility: 'private';
 }
 
 interface PublicDoc extends DocBase {
   visibility: 'public';
+  author: DocAuthor;
 }
 
 interface PermanentDoc extends DocBase {
@@ -21,17 +25,26 @@ interface PermanentDoc extends DocBase {
   description: string;
   path: Path;
   tags: Tags;
+  author: DocAuthor;
 }
 
-interface PermamentSlimDoc extends Omit<PermanentDoc, 'visibility' | 'code'> {}
+type PermamentSlimDoc = Omit<PermanentDoc, 'visibility' | 'code' | 'author'> & {
+  author: {
+    displayName: NonNullable<UserProfile['displayName']>;
+    avatar: UserAvatarVariantObj | null;
+  } | null;
+};
 
 type Doc = PrivateDoc | PublicDoc | PermanentDoc;
 
 type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
 
 type UpdateDocPrivatePayload = Omit<PrivateDoc, 'cdate'>;
-type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate'>;
-type UpdateDocPermanentPayload = Omit<PermanentDoc, 'cdate' | 'path'>;
+type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate' | 'author'>;
+type UpdateDocPermanentPayload = Omit<
+  PermanentDoc,
+  'cdate' | 'path' | 'author'
+>;
 
 type UpdateDocPayload =
   | UpdateDocPrivatePayload
@@ -67,4 +80,5 @@ export type {
   PublicDoc,
   PermanentDoc,
   PermamentSlimDoc,
+  DocAuthor,
 };

@@ -39,8 +39,19 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     path: siteMetadata.routes.docs.browse,
     component: path.resolve(`./src/dynamic-pages/docs-browse.page.tsx`),
     context: {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      docs: docs.map(({ code, visibility, ...doc }): PermamentSlimDoc => doc),
+      docs: docs.map(
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ({ code, visibility, author, ...doc }): PermamentSlimDoc => ({
+          ...doc,
+          author:
+            author?.displayName && author?.bio
+              ? {
+                  displayName: author.displayName,
+                  avatar: author?.avatar ? author.avatar.sm : null,
+                }
+              : null,
+        }),
+      ),
     },
   });
 };

@@ -1,14 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import {
-  BiEdit,
-  BiLogoFacebook,
-  BiLogoGithub,
-  BiLogoLinkedin,
-  BiLogoTwitter,
-  BiWorld,
-  BiX,
-} from 'react-icons/bi';
+import { BiEdit, BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -17,6 +9,7 @@ import Modal from 'design-system/modal';
 import { useToggle } from 'development-kit/use-toggle';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
 import { Avatar } from 'design-system/avatar';
+import { UserSocials } from './user-socials';
 
 interface UserPopoverContentProps {
   onClose(): void;
@@ -124,66 +117,14 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
                   `You've not provided your biography yet. Go to your profile settings to change it.`}
               </p>
               <footer className="mt-4 flex space-x-3">
-                {yourProfileStore.user.githubUrl && (
-                  <a
-                    href={yourProfileStore.user.githubUrl}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    title="Your Github link"
-                  >
-                    <Button i={2} s={1}>
-                      <BiLogoGithub />
-                    </Button>
-                  </a>
-                )}
-                {yourProfileStore.user.fbUrl && (
-                  <a
-                    href={yourProfileStore.user.fbUrl}
-                    rel="noopener noreferrer"
-                    title="Your Facebook link"
-                    target="_blank"
-                  >
-                    <Button i={2} s={1}>
-                      <BiLogoFacebook />
-                    </Button>
-                  </a>
-                )}
-                {yourProfileStore.user.linkedInUrl && (
-                  <a
-                    href={yourProfileStore.user.linkedInUrl}
-                    rel="noopener noreferrer"
-                    title="Your LinkedIn link"
-                    target="_blank"
-                  >
-                    <Button i={2} s={1}>
-                      <BiLogoLinkedin />
-                    </Button>
-                  </a>
-                )}
-                {yourProfileStore.user.twitterUrl && (
-                  <a
-                    href={yourProfileStore.user.twitterUrl}
-                    rel="noopener noreferrer"
-                    title="Your Twitter link"
-                    target="_blank"
-                  >
-                    <Button i={2} s={1}>
-                      <BiLogoTwitter />
-                    </Button>
-                  </a>
-                )}
-                {yourProfileStore.user.blogUrl && (
-                  <a
-                    href={yourProfileStore.user.blogUrl}
-                    rel="noopener noreferrer"
-                    title="Your Blog link"
-                    target="_blank"
-                  >
-                    <Button i={2} s={1}>
-                      <BiWorld />
-                    </Button>
-                  </a>
-                )}
+                <UserSocials
+                  githubUrl={yourProfileStore.user.githubUrl}
+                  fbUrl={yourProfileStore.user.fbUrl}
+                  linkedInUrl={yourProfileStore.user.linkedInUrl}
+                  twitterUrl={yourProfileStore.user.twitterUrl}
+                  blogUrl={yourProfileStore.user.blogUrl}
+                  createTitle={(title) => `Your ${title}`}
+                />
               </footer>
             </div>
           ) : (
