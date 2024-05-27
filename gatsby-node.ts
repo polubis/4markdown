@@ -46,7 +46,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
           author:
             author?.displayName && author?.bio
               ? {
-                  displayName: author.displayName ?? null,
+                  displayName: author.displayName,
                   avatar: author?.avatar ? author.avatar.sm : null,
                 }
               : null,

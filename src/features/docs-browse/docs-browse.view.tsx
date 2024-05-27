@@ -46,11 +46,7 @@ const DocsBrowseView = () => {
                     title={doc.author.displayName}
                     alt={`${doc.author.displayName} avatar`}
                     className="bg-gray-300 dark:bg-slate-800 shrink-0 mr-4"
-                    char={
-                      doc.author.displayName
-                        ? doc.author.displayName.charAt(0)
-                        : undefined
-                    }
+                    char={doc.author.displayName.charAt(0)}
                     src={doc.author?.avatar?.src}
                   />
                 )}
