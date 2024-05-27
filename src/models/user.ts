@@ -17,7 +17,6 @@ type UserAvatarVariantObj = {
 type UserAvatarVariant<Key extends UserAvatarVariantKey> = {
   [K in Key]: UserAvatarVariantObj;
 };
-
 type UserProfileAvatar = UserAvatarVariant<'tn'> &
   UserAvatarVariant<'sm'> &
   UserAvatarVariant<'md'> &
