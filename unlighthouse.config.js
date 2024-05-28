@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   // Production clone environment
   site: `https://soft-pithivier-093469.netlify.app`,
   ci: {
