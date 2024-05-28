@@ -42,7 +42,7 @@ const UserSocials = ({
           target="_blank"
           title={createTitle(`Github link`)}
         >
-          <Button i={2} s={1}>
+          <Button aria-label="Github link" i={2} s={1}>
             <BiLogoGithub />
           </Button>
         </a>
@@ -54,7 +54,7 @@ const UserSocials = ({
           title={createTitle(`Facebook link`)}
           target="_blank"
         >
-          <Button i={2} s={1}>
+          <Button aria-label="Facebook link" i={2} s={1}>
             <BiLogoFacebook />
           </Button>
         </a>
@@ -66,7 +66,7 @@ const UserSocials = ({
           title={createTitle(`LinkedIn link`)}
           target="_blank"
         >
-          <Button i={2} s={1}>
+          <Button aria-label="LinkedIn link" i={2} s={1}>
             <BiLogoLinkedin />
           </Button>
         </a>
@@ -78,7 +78,7 @@ const UserSocials = ({
           title={createTitle(`Twitter link`)}
           target="_blank"
         >
-          <Button i={2} s={1}>
+          <Button aria-label="Twitter link" i={2} s={1}>
             <BiLogoTwitter />
           </Button>
         </a>
@@ -90,7 +90,7 @@ const UserSocials = ({
           title={createTitle(`Blog link`)}
           target="_blank"
         >
-          <Button i={2} s={1}>
+          <Button aria-label="Blog link" i={2} s={1}>
             <BiWorld />
           </Button>
         </a>
