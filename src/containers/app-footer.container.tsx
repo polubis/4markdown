@@ -35,7 +35,7 @@ const AppFooterContainer = () => {
           <div className="flex flex-col space-y-2">
             <div className="flex items-center space-x-3 mb-2">
               <img
-                className="w-[32px] h-[32px]"
+                className="w-8 h-8"
                 loading="lazy"
                 src="/favicon-32x32.png"
                 alt={meta.appName}
