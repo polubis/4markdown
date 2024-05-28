@@ -127,6 +127,10 @@ pre {
   border-left-color: #989898;
 }
 
+.markdown span {
+  color: var(--black);
+}
+
 body .active-link {
   color: #00501d;
 }

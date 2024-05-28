@@ -128,6 +128,10 @@ body.dark .markdown blockquote {
   border-left-color: #3d3d3d;
 }
 
+body.dark .markdown span {
+  color: var(--white);
+}
+
 body.dark .active-link {
   color: rgb(34 197 94);
 }
