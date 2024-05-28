@@ -113,21 +113,21 @@ const AppFooterContainer = () => {
           </Column>
           <Column title="Navigation">
             <Link
-              activeClassName="active-link font-bold"
+              activeClassName="active-link"
               className="hover:underline underline-offset-2"
               to={meta.routes.home}
             >
               Creator
             </Link>
             <Link
-              activeClassName="active-link font-bold"
+              activeClassName="active-link"
               className="hover:underline underline-offset-2"
               to={meta.routes.docs.browse}
             >
               Education Zone
             </Link>
             <Link
-              activeClassName="active-link font-bold"
+              activeClassName="active-link"
               className="hover:underline underline-offset-2"
               to={meta.routes.privacyPolicy}
             >
