@@ -19,8 +19,13 @@ const Navigation = ({ className, children }: NavigationProps) => {
         className,
       )}
     >
-      <picture className="w-[32px] h-[32px] shrink-0 sm:flex hidden mr-3">
-        <img rel="preload" src="/favicon-32x32.png" alt="Logo" />
+      <picture className="shrink-0 sm:flex hidden mr-3">
+        <img
+          className="w-8 h-8"
+          rel="preload"
+          src="/favicon-32x32.png"
+          alt="Logo"
+        />
       </picture>
       <nav className="flex gap-3 w-full items-center">
         {children}
