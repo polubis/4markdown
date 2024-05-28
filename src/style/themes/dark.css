@@ -128,7 +128,7 @@ body.dark .markdown blockquote {
   border-left-color: #3d3d3d;
 }
 
-body.dark .markdown span {
+body.dark .markdown > span {
   color: var(--white);
 }
 

@@ -127,7 +127,7 @@ pre {
   border-left-color: #989898;
 }
 
-.markdown span {
+.markdown > span {
   color: var(--black);
 }
 
