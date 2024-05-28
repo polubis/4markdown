@@ -2,7 +2,7 @@ body {
   background: var(--white);
 }
 
-body :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input) {
+body :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i) {
   color: var(--black);
 }
 
@@ -125,6 +125,10 @@ pre {
 .markdown blockquote {
   background: #e7e7e7;
   border-left-color: #989898;
+}
+
+.markdown > span {
+  color: var(--black);
 }
 
 body .active-link {
