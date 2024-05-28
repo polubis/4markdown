@@ -41,7 +41,7 @@ pre {
 .prolog,
 .doctype,
 .cdata {
-  color: #6a9955;
+  color: #437e28;
 }
 
 .punctuation {
@@ -84,7 +84,7 @@ pre {
 .atrule,
 .attr-value,
 .function {
-  color: #1c72a0;
+  color: #025481;
 }
 
 .keyword {
