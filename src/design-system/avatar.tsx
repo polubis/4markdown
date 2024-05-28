@@ -40,7 +40,12 @@ const Avatar = ({ className, size, src, char, alt, title }: AvatarProps) => {
       )}
     >
       {src && (
-        <img className="rounded-full h-full w-full" src={src} alt={alt} />
+        <img
+          referrerPolicy="no-referrer"
+          className="rounded-full h-full w-full"
+          src={src}
+          alt={alt}
+        />
       )}
       {!src && char && (
         <span
