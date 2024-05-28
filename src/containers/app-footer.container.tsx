@@ -15,9 +15,7 @@ const Column = ({
 }) => {
   return (
     <div className={c(`flex flex-col`, className)}>
-      <h5 className="font-bold text-sm uppercase mb-2 text-gray-700">
-        {title}
-      </h5>
+      <p className="font-bold text-sm uppercase mb-2">{title}</p>
       <div className="flex flex-wrap gap-x-3 gap-y-2 md:flex-col md:space-y-1 md:gap-x-0 md:gap-y-0">
         {children}
       </div>
@@ -41,7 +39,7 @@ const AppFooterContainer = () => {
                 alt={meta.appName}
                 title={meta.title}
               />
-              <h4 className="font-bold mb-1 text-gray-700">{meta.appName}</h4>
+              <p className="font-bold mb-1">{meta.appName}</p>
             </div>
 
             <p className="text-sm flex flex-col">
