@@ -39,7 +39,7 @@ const Navigation = ({ className, children }: NavigationProps) => {
               disabled={theme === null}
               onClick={() => set(theme === `light` ? `dark` : `light`)}
             >
-              {theme === `light` ? <BiMoon /> : <BiSun />}
+              {theme === `dark` ? <BiSun /> : <BiMoon />}
             </Button>
           )}
         </ThemeProvider>
