@@ -1,5 +1,4 @@
 import { isClient } from 'development-kit/ssr-csr';
-import { useIsomorphicLayoutEffect } from 'framer-motion';
 import React, { useEffect } from 'react';
 
 const themes = [`light`, `dark`] as const;
@@ -21,7 +20,7 @@ const readThemeFromLS = (): Theme =>
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = React.useState<Theme | null>(null);
 
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     (window as any).__onThemeChange = () => {
       setTheme((window as any).__theme);
     };
