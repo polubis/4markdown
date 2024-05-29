@@ -1,7 +1,7 @@
 import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
-import { BiMoon, BiSun } from 'react-icons/bi';
+import { BiLoader, BiMoon, BiSun } from 'react-icons/bi';
 import MoreNav from './more-nav';
 import UserPopover from './user-popover';
 import { ThemeProvider } from 'design-system/theme-provider';
@@ -38,7 +38,9 @@ const Navigation = ({ className, children }: NavigationProps) => {
               className="ml-auto"
               onClick={() => set(theme === `light` ? `dark` : `light`)}
             >
-              {theme === `light` ? <BiMoon /> : <BiSun />}
+              {theme === null && <BiLoader />}
+              {theme === `light` && <BiMoon />}
+              {theme === `dark` && <BiSun />}
             </Button>
           )}
         </ThemeProvider>

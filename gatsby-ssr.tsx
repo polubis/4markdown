@@ -7,7 +7,8 @@ export const onRenderBody: GatsbySSR['onRenderBody'] = ({
 }) => {
   setPreBodyComponents([
     <script
-      key="gatsby-plugin-dark-mode"
+      id="dark-mode"
+      key="dark-mode"
       dangerouslySetInnerHTML={{
         __html: `
         void function() {
