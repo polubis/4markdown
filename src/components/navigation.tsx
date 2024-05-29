@@ -30,13 +30,13 @@ const Navigation = ({ className, children }: NavigationProps) => {
       <nav className="flex gap-3 w-full items-center">
         {children}
         <ThemeProvider>
-          {({ theme, change }) => (
+          {({ theme, setTheme }) => (
             <Button
               i={1}
               s={2}
               title="Change theme"
               className="ml-auto"
-              onClick={() => change(theme === `light` ? `dark` : `light`)}
+              onClick={() => setTheme(theme === `light` ? `dark` : `light`)}
             >
               {theme === `light` ? <BiMoon /> : <BiSun />}
             </Button>
