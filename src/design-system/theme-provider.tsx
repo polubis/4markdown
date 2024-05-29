@@ -1,59 +1,50 @@
-import { isServer } from 'development-kit/ssr-csr';
-import { useIsomorphicLayoutEffect } from 'development-kit/use-isomorphic-layout-effect';
 import React from 'react';
+import { isClient } from 'development-kit/ssr-csr';
 
 const themes = [`light`, `dark`] as const;
 
 type Theme = (typeof themes)[number];
+type NullableTheme = Theme | null;
+
+declare global {
+  interface Window {
+    __theme: Theme;
+    __setPreferredTheme(theme: Theme): void;
+    __onThemeChange(theme: Theme): void;
+  }
+}
 
 interface ThemeContext {
-  theme: Theme;
-  setTheme(theme: Theme): void;
+  theme: NullableTheme;
+  set(theme: Theme): void;
 }
 
 interface ThemeProviderProps {
-  children: (context: ThemeContext) => React.ReactNode;
+  children(context: ThemeContext): React.ReactNode;
 }
 
-const isTheme = (theme: string | null): theme is Theme =>
-  theme !== null && themes.includes(theme as Theme);
-
-const readThemeFromLS = (): Theme => {
-  if (isServer()) {
-    return `light`;
-  }
-
-  const theme = localStorage.getItem(`theme`);
-
-  if (!isTheme(theme)) return `light`;
-
-  return theme;
-};
+const getInitialTheme = (): NullableTheme =>
+  isClient() ? window.__theme : null;
 
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = React.useState(readThemeFromLS);
+  const [theme, setTheme] = React.useState<NullableTheme>(null);
 
-  useIsomorphicLayoutEffect(() => {
-    localStorage.setItem(`theme`, theme);
+  const set: ThemeContext['set'] = React.useCallback((theme) => {
+    window.__setPreferredTheme(theme);
+  }, []);
 
-    if (document.body.classList.contains(`light`)) {
-      document.body.classList.replace(`light`, theme);
-      return;
-    }
+  React.useEffect(() => {
+    window.__onThemeChange = () => {
+      setTheme(window.__theme);
+    };
 
-    if (document.body.classList.contains(`dark`)) {
-      document.body.classList.replace(`dark`, theme);
-      return;
-    }
-
-    document.body.classList.add(theme);
-  }, [theme]);
+    setTheme(getInitialTheme());
+  }, []);
 
   return children({
     theme,
-    setTheme,
+    set,
   });
 };
 
-export type { ThemeProviderProps };
 export { ThemeProvider };
