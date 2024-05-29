@@ -14,7 +14,6 @@ const config: GatsbyConfig = {
   plugins: [
     `gatsby-plugin-root-import`,
     `gatsby-plugin-postcss`,
-    `gatsby-plugin-dark-mode`,
     `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-plugin-manifest`,

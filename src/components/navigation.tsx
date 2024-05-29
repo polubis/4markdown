@@ -1,10 +1,10 @@
 import React from 'react';
 import c from 'classnames';
-import { ThemeToggler } from 'gatsby-plugin-dark-mode';
 import { Button } from 'design-system/button';
 import { BiMoon, BiSun } from 'react-icons/bi';
 import MoreNav from './more-nav';
 import UserPopover from './user-popover';
+import { ThemeProvider } from 'design-system/theme-provider';
 
 interface NavigationProps {
   className?: string;
@@ -29,19 +29,19 @@ const Navigation = ({ className, children }: NavigationProps) => {
       </picture>
       <nav className="flex gap-3 w-full items-center">
         {children}
-        <ThemeToggler>
-          {({ theme, toggleTheme }) => (
+        <ThemeProvider>
+          {({ theme, setTheme }) => (
             <Button
               i={1}
               s={2}
               title="Change theme"
               className="ml-auto"
-              onClick={() => toggleTheme(theme === `light` ? `dark` : `light`)}
+              onClick={() => setTheme(theme === `light` ? `dark` : `light`)}
             >
               {theme === `light` ? <BiMoon /> : <BiSun />}
             </Button>
           )}
-        </ThemeToggler>
+        </ThemeProvider>
         <UserPopover />
         <MoreNav />
         <div className="h-1 w-2 shrink-0 block sm:hidden" />
