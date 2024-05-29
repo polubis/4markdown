@@ -1,6 +1,6 @@
 import { isClient } from 'development-kit/ssr-csr';
-import { useIsomorphicLayoutEffect } from 'development-kit/use-isomorphic-layout-effect';
-import React from 'react';
+import { useIsomorphicLayoutEffect } from 'framer-motion';
+import React, { useEffect } from 'react';
 
 const themes = [`light`, `dark`] as const;
 
@@ -19,12 +19,14 @@ const readThemeFromLS = (): Theme =>
   isClient() ? (window as any).__theme : null;
 
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = React.useState(readThemeFromLS);
+  const [theme, setTheme] = React.useState<Theme | null>(null);
 
   useIsomorphicLayoutEffect(() => {
     (window as any).__onThemeChange = () => {
       setTheme((window as any).__theme);
     };
+
+    setTheme(readThemeFromLS());
   }, []);
 
   const set: ThemeContext['set'] = React.useCallback((theme) => {
