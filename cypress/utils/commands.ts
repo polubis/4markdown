@@ -178,9 +178,13 @@ const BASE_COMMANDS = {
       cy.contains(text, { matchCase: true }).should(`not.exist`);
     });
   },
-  'Im on page': (name: 'home') => {
+  'Im on page': (name: 'home' | `education-zone`) => {
     if (name === `home`) {
       cy.visit(`/`);
+    }
+
+    if (name === `education-zone`) {
+      cy.visit(`/docs/browse/`);
     }
   },
 } as const;
