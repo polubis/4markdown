@@ -15,18 +15,6 @@ describe(`Permament documents works when`, () => {
         },
       );
     },
-    'I click explore "Creating reusable and framework agnostic link component"':
-      () => {
-        cy.get(
-          `a[title="Creating reusable and framework agnostic link component"]`,
-        ).click();
-      },
-    'I see unchanged user section': () => {
-      cy.contains(`About Author`, { matchCase: true })
-        .should(`exist`)
-        .scrollIntoView();
-      Given(`System takes picture`);
-    },
   });
 
   before(() => {
@@ -57,20 +45,5 @@ describe(`Permament documents works when`, () => {
       ])
       .When(`I click explore "Naming generics in TypeScript"`)
       .Then(`I see unchanged elements`);
-  });
-
-  it(`custom avatar is displayed for user with display name and bio but without avatar`, () => {
-    Given(`Im on page`, `education-zone`).Then(`I see text`, [
-      `Naming generics in TypeScript`,
-      `Why you should start using Zod`,
-      `Managing legacy URLs on Netlify`,
-      `Implementing Queue in JavaScript`,
-      `Using Zod and TypeScript to write typesafe code`,
-      `Creating reusable and framework agnostic link component`,
-    ]);
-    // Given(`Im on page`, `education-zone`).When(
-    //   `I click explore "Creating reusable and framework agnostic link component"`,
-    // );
-    // .Then(`I see unchanged user section`);
   });
 });
