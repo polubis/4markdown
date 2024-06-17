@@ -6,7 +6,6 @@ import { Badge } from 'design-system/badge';
 import { DocAuthor } from 'models/doc';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
-import { Image } from 'design-system/image';
 
 interface DocumentLayoutProps {
   children: string;
@@ -40,15 +39,34 @@ const image = {
 const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
-      <Image
-        className="mb-4 w-full h-[160px] tn:h-[240px] md:h-[320px]"
-        placeholder="data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEDAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB5FitzAYn/8QAGRAAAgMBAAAAAAAAAAAAAAAAASEAAhIR/9oACAEBAAEFAquYdkQeTQl2f//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABkQAAMAAwAAAAAAAAAAAAAAAAEQIQAxkf/aAAgBAQAGPwLQ5ldK/8QAHhABAAICAQUAAAAAAAAAAAAAAQARIUFRMWFxgfH/2gAIAQEAAT8hSKMJBTZ9horiazXqGLqdvJEAnE//2gAMAwEAAgADAAAAEPMf/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQMBAT8QV//EABYRAQEBAAAAAAAAAAAAAAAAAAABIf/aAAgBAgEBPxDUf//EABwQAQEAAgIDAAAAAAAAAAAAAAERACFBUWFxwf/aAAgBAQABPxAsTLbS+8KbAgk1wPuGQwS949xaBWrm3FOlCap14cVmgDP/2Q=="
-        src={image.sm.src}
-        xl={image.xl}
-        lg={image.lg}
-        md={image.md}
-        sm={image.sm}
-      />
+      <figure className="relative w-full mb-4 h-[160px] tn:h-[240px] md:h-[320px]">
+        <img
+          className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
+          src="data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEDAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB5FitzAYn/8QAGRAAAgMBAAAAAAAAAAAAAAAAASEAAhIR/9oACAEBAAEFAquYdkQeTQl2f//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABkQAAMAAwAAAAAAAAAAAAAAAAEQIQAxkf/aAAgBAQAGPwLQ5ldK/8QAHhABAAICAQUAAAAAAAAAAAAAAQARIUFRMWFxgfH/2gAIAQEAAT8hSKMJBTZ9horiazXqGLqdvJEAnE//2gAMAwEAAgADAAAAEPMf/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQMBAT8QV//EABYRAQEBAAAAAAAAAAAAAAAAAAABIf/aAAgBAgEBPxDUf//EABwQAQEAAgIDAAAAAAAAAAAAAAERACFBUWFxwf/aAAgBAQABPxAsTLbS+8KbAgk1wPuGQwS949xaBWrm3FOlCap14cVmgDP/2Q=="
+        />
+        <picture>
+          <source
+            srcSet={image.xl.src}
+            media={`(min-width: ${image.xl.w}px)`}
+          />
+          <source
+            srcSet={image.lg.src}
+            media={`(min-width: ${image.lg.w}px)`}
+          />
+          <source
+            srcSet={image.md.src}
+            media={`(min-width: ${image.md.w}px)`}
+          />
+          <source
+            srcSet={image.sm.src}
+            media={`(min-width: ${image.sm.w}px)`}
+          />
+          <img
+            className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
+            src={image.sm.src}
+          />
+        </picture>
+      </figure>
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
