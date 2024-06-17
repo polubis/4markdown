@@ -14,7 +14,7 @@ type ImageProps = {
 
 const Image = ({ className, placeholder, alt, src, ...srcSet }: ImageProps) => {
   return (
-    <figure className={c(`relative`, className)}>
+    <figure className={c(`relative w-full`, className)}>
       {placeholder && (
         <img
           className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
