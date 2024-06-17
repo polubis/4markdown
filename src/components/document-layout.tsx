@@ -6,6 +6,7 @@ import { Badge } from 'design-system/badge';
 import { DocAuthor } from 'models/doc';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
+import { Image } from 'design-system/image';
 
 interface DocumentLayoutProps {
   children: string;
@@ -13,9 +14,60 @@ interface DocumentLayoutProps {
   author: DocAuthor;
 }
 
+const image = {
+  xl: {
+    h: 320,
+    w: 864,
+    src: `https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
+  },
+  lg: {
+    w: 690,
+    h: 240,
+    src: `https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
+  },
+  md: {
+    w: 460,
+    h: 160,
+    src: `https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
+  },
+  sm: {
+    w: 230,
+    h: 80,
+    src: `https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
+  },
+};
+
 const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
+      <Image
+        className="mb-4 w-full h-[320px]"
+        placeholder={
+          <Image.Placeholder src="data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEDAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB5FitzAYn/8QAGRAAAgMBAAAAAAAAAAAAAAAAASEAAhIR/9oACAEBAAEFAquYdkQeTQl2f//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABkQAAMAAwAAAAAAAAAAAAAAAAEQIQAxkf/aAAgBAQAGPwLQ5ldK/8QAHhABAAICAQUAAAAAAAAAAAAAAQARIUFRMWFxgfH/2gAIAQEAAT8hSKMJBTZ9horiazXqGLqdvJEAnE//2gAMAwEAAgADAAAAEPMf/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQMBAT8QV//EABYRAQEBAAAAAAAAAAAAAAAAAAABIf/aAAgBAgEBPxDUf//EABwQAQEAAgIDAAAAAAAAAAAAAAERACFBUWFxwf/aAAgBAQABPxAsTLbS+8KbAgk1wPuGQwS949xaBWrm3FOlCap14cVmgDP/2Q==" />
+        }
+        content={
+          <Image.Content
+            src={image.sm.src}
+            xl={image.xl}
+            lg={image.lg}
+            md={image.md}
+            sm={image.sm}
+          />
+        }
+      />
+      {/* <picture>
+          {sizes.map((size) => (
+            <source
+              key={size}
+              srcSet={image[size].url}
+              media={`(min-width: ${image[size].w}px)`}
+            />
+          ))}
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1j24FzG-3_rUXMeFsYvO8YSHv6jpl9aRmnw&s"
+            alt="Image placeholder"
+          />
+        </picture> */}
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
