@@ -9,6 +9,7 @@ import { readFileAsBase64 } from 'development-kit/file-reading';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
 import { useToggle } from 'development-kit/use-toggle';
+import { DocThumbnailAction } from 'models/doc';
 import { Path } from 'models/general';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
@@ -28,6 +29,13 @@ const thumbnailRestrictions = {
   size: 2,
 };
 
+type PermanentDocFormData = {
+  name: string;
+  description: string;
+  tags: string;
+  thumbnail: DocThumbnailAction;
+};
+
 const PermamentDocFormContainer = ({
   onConfirm,
   onClose,
@@ -39,17 +47,20 @@ const PermamentDocFormContainer = ({
   const [thumbnailPreview, setThumbnailPreview] = React.useState<Path>(
     docStore.visibility === `permanent` ? docStore.thumbnail?.md.src ?? `` : ``,
   );
-  const [{ invalid, values, result, untouched }, { inject }] = useForm(
-    {
-      name: docStore.name,
-      description:
-        docStore.visibility === `permanent` ? docStore.description : ``,
-      tags: docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
-    },
-    makeDocPermamentSchema,
-  );
+  const [{ invalid, values, result, untouched }, { inject, set }] =
+    useForm<PermanentDocFormData>(
+      {
+        name: docStore.name,
+        description:
+          docStore.visibility === `permanent` ? docStore.description : ``,
+        tags:
+          docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
+        thumbnail: { type: `noop` },
+      },
+      makeDocPermamentSchema,
+    );
 
-  const { name, description, tags } = values;
+  const { name, description, tags, thumbnail } = values;
 
   const [uploadThumbnail] = useFileInput({
     accept: thumbnailRestrictions.type,
@@ -60,6 +71,12 @@ const PermamentDocFormContainer = ({
           try {
             const thumbnail = await readFileAsBase64(files[0]);
             setThumbnailPreview(thumbnail);
+            set({
+              thumbnail: {
+                type: `update`,
+                data: thumbnail,
+              },
+            });
           } catch {
             thumbnailErrorModal.open();
           }
@@ -79,13 +96,18 @@ const PermamentDocFormContainer = ({
     try {
       await authStoreSelectors
         .authorized()
-        .makeDocPermanent(name, description, tags.split(`,`));
+        .makeDocPermanent(name, description, tags.split(`,`), thumbnail);
       onConfirm();
     } catch {}
   };
 
   const removeThumbnail = (): void => {
     setThumbnailPreview(``);
+    set({
+      thumbnail: {
+        type: `remove`,
+      },
+    });
   };
 
   if (thumbnailErrorModal.opened) {

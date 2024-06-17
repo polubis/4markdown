@@ -1,4 +1,13 @@
-import type { Id, Name, Code, Date, Path, Tags, ImageNode } from './general';
+import type {
+  Id,
+  Name,
+  Code,
+  Date,
+  Path,
+  Tags,
+  ImageNode,
+  Base64,
+} from './general';
 import type { UserAvatarVariantObj, UserProfile } from './user';
 
 interface DocBase {
@@ -10,6 +19,11 @@ interface DocBase {
 }
 
 type DocAuthor = UserProfile | null;
+
+type DocThumbnailAction =
+  | { type: `noop` }
+  | { type: `remove` }
+  | { type: `update`; data: Base64 };
 
 type DocThumbnail =
   | (Record<'xl' | 'lg' | 'md' | 'sm' | 'tn', ImageNode> & {
@@ -92,4 +106,5 @@ export type {
   PermamentSlimDoc,
   DocAuthor,
   DocThumbnail,
+  DocThumbnailAction,
 };
