@@ -1,9 +1,15 @@
+import c from 'classnames';
+import ErrorModal from 'components/error-modal';
 import { makeDocPermamentSchema } from 'core/validators/doc-validators';
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
+import { readFileAsBase64 } from 'development-kit/file-reading';
+import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
+import { useToggle } from 'development-kit/use-toggle';
+import { Path } from 'models/general';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
@@ -16,13 +22,23 @@ interface PermamentDocFormContainerProps {
   onBack(): void;
 }
 
+const thumbnailFormats = [`png`, `jpeg`, `jpg`, `webp`] as const;
+const thumbnailRestrictions = {
+  type: thumbnailFormats.map((extension) => `image/${extension}`).join(`, `),
+  size: 2,
+};
+
 const PermamentDocFormContainer = ({
   onConfirm,
   onClose,
   onBack,
 }: PermamentDocFormContainerProps) => {
   const docStore = docStoreSelectors.active();
+  const thumbnailErrorModal = useToggle();
   const docManagementStore = useDocManagementStore();
+  const [thumbnailPreview, setThumbnailPreview] = React.useState<Path>(
+    docStore.visibility === `permanent` ? docStore.thumbnail?.md.src ?? `` : ``,
+  );
   const [{ invalid, values, result, untouched }, { inject }] = useForm(
     {
       name: docStore.name,
@@ -34,6 +50,26 @@ const PermamentDocFormContainer = ({
   );
 
   const { name, description, tags } = values;
+
+  const [uploadThumbnail] = useFileInput({
+    accept: thumbnailRestrictions.type,
+    maxSize: thumbnailRestrictions.size,
+    onChange: ({ target: { files } }) => {
+      const uploadAndOpen = async (): Promise<void> => {
+        if (!!files && files.length === 1) {
+          try {
+            const thumbnail = await readFileAsBase64(files[0]);
+            setThumbnailPreview(thumbnail);
+          } catch {
+            thumbnailErrorModal.open();
+          }
+        }
+      };
+
+      uploadAndOpen();
+    },
+    onError: thumbnailErrorModal.open,
+  });
 
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -47,6 +83,27 @@ const PermamentDocFormContainer = ({
       onConfirm();
     } catch {}
   };
+
+  const removeThumbnail = (): void => {
+    setThumbnailPreview(``);
+  };
+
+  if (thumbnailErrorModal.opened) {
+    return (
+      <ErrorModal.Content
+        heading="Invalid thumbnail"
+        message={
+          <>
+            Please ensure that the thumbnail format is valid. Supported formats
+            include <strong>{thumbnailFormats.join(`, `)}</strong>, with a
+            maximum file size of{` `}
+            <strong>{thumbnailRestrictions.size} megabytes</strong>
+          </>
+        }
+        onClose={thumbnailErrorModal.close}
+      />
+    );
+  }
 
   return (
     <form className="flex flex-col" onSubmit={handleConfirm}>
@@ -63,17 +120,39 @@ const PermamentDocFormContainer = ({
           <BiX />
         </Button>
       </header>
-      <Field label="Thumbnail*" className="mt-2">
+      <Field label="Thumbnail" className="mt-2">
         <Button
-          className="p-6"
+          className={c({
+            'p-6': !thumbnailPreview,
+          })}
           type="button"
           i={2}
           s="auto"
           auto
-          title="Upload thumbnail"
+          title="Thumbnail field"
+          onClick={uploadThumbnail}
         >
-          Upload thumbnail
+          {thumbnailPreview ? (
+            <img
+              className="rounded-md max-h-[160px] w-full object-cover"
+              src={thumbnailPreview}
+            />
+          ) : (
+            `Add thumbnail`
+          )}
         </Button>
+        {thumbnailPreview && (
+          <Button
+            type="button"
+            auto
+            className="mt-2 mb-2 ml-auto"
+            s={1}
+            i={2}
+            onClick={removeThumbnail}
+          >
+            Remove
+          </Button>
+        )}
       </Field>
       <Field label={`Name (${name.length})*`} className="mt-2">
         <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
