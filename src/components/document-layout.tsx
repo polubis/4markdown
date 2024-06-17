@@ -55,19 +55,6 @@ const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
           />
         }
       />
-      {/* <picture>
-          {sizes.map((size) => (
-            <source
-              key={size}
-              srcSet={image[size].url}
-              media={`(min-width: ${image[size].w}px)`}
-            />
-          ))}
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1j24FzG-3_rUXMeFsYvO8YSHv6jpl9aRmnw&s"
-            alt="Image placeholder"
-          />
-        </picture> */}
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
