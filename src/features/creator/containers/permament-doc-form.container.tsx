@@ -63,6 +63,18 @@ const PermamentDocFormContainer = ({
           <BiX />
         </Button>
       </header>
+      <Field label="Thumbnail*" className="mt-2">
+        <Button
+          className="p-6"
+          type="button"
+          i={2}
+          s="auto"
+          auto
+          title="Upload thumbnail"
+        >
+          Upload thumbnail
+        </Button>
+      </Field>
       <Field label={`Name (${name.length})*`} className="mt-2">
         <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
       </Field>
