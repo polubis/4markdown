@@ -40,6 +40,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <DocumentLayout
+        thumbnail={pageContext.doc.thumbnail}
         tags={pageContext.doc.tags}
         author={pageContext.doc.author}
       >

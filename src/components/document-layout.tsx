@@ -3,7 +3,7 @@ import Markdown from './markdown';
 import { Tags } from 'models/general';
 import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
-import { DocAuthor } from 'models/doc';
+import { DocAuthor, DocThumbnail } from 'models/doc';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 
@@ -11,62 +11,77 @@ interface DocumentLayoutProps {
   children: string;
   tags: Tags;
   author: DocAuthor;
+  thumbnail: DocThumbnail;
 }
 
-const image = {
-  xl: {
-    h: 320,
-    w: 864,
-    src: `https://images.pexels.com/photos/1054218/pexels-photo-1054218.jpeg?cs=srgb&dl=pexels-stywo-1054218.jpg&fm=jpg`,
-  },
-  lg: {
-    w: 690,
-    h: 240,
-    src: `https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
-  },
-  md: {
-    w: 460,
-    h: 160,
-    src: `https://c4.wallpaperflare.com/wallpaper/243/911/816/cool-pictures-of-mountains-1920x1080-wallpaper-preview.jpg`,
-  },
-  sm: {
-    w: 230,
-    h: 80,
-    src: `https://media.istockphoto.com/id/1341288649/photo/75mpix-panorama-of-beautiful-mount-ama-dablam-in-himalayas-nepal.jpg?s=612x612&w=0&k=20&c=0xb_bb-NBIxjiJL_kqY-o3dCjv2PmKFZfRjHcVEijDc=`,
-  },
-};
+// const image: DocThumbnail = {
+//   xl: {
+//     h: 320,
+//     w: 864,
+//     src: `https://images.pexels.com/photos/1054218/pexels-photo-1054218.jpeg?cs=srgb&dl=pexels-stywo-1054218.jpg&fm=jpg`,
+//   },
+//   lg: {
+//     w: 690,
+//     h: 240,
+//     src: `https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`,
+//   },
+//   md: {
+//     w: 460,
+//     h: 160,
+//     src: `https://c4.wallpaperflare.com/wallpaper/243/911/816/cool-pictures-of-mountains-1920x1080-wallpaper-preview.jpg`,
+//   },
+//   sm: {
+//     w: 230,
+//     h: 80,
+//     src: `https://media.istockphoto.com/id/1341288649/photo/75mpix-panorama-of-beautiful-mount-ama-dablam-in-himalayas-nepal.jpg?s=612x612&w=0&k=20&c=0xb_bb-NBIxjiJL_kqY-o3dCjv2PmKFZfRjHcVEijDc=`,
+//   },
+//   tn: {
+//     w: 92,
+//     h: 32,
+//     src: `https://media.istockphoto.com/id/1341288649/photo/75mpix-panorama-of-beautiful-mount-ama-dablam-in-himalayas-nepal.jpg?s=612x612&w=0&k=20&c=0xb_bb-NBIxjiJL_kqY-o3dCjv2PmKFZfRjHcVEijDc=`,
+//   },
+//   placeholder: `data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEDAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB5FitzAYn/8QAGRAAAgMBAAAAAAAAAAAAAAAAASEAAhIR/9oACAEBAAEFAquYdkQeTQl2f//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABkQAAMAAwAAAAAAAAAAAAAAAAEQIQAxkf/aAAgBAQAGPwLQ5ldK/8QAHhABAAICAQUAAAAAAAAAAAAAAQARIUFRMWFxgfH/2gAIAQEAAT8hSKMJBTZ9horiazXqGLqdvJEAnE//2gAMAwEAAgADAAAAEPMf/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQMBAT8QV//EABYRAQEBAAAAAAAAAAAAAAAAAAABIf/aAAgBAgEBPxDUf//EABwQAQEAAgIDAAAAAAAAAAAAAAERACFBUWFxwf/aAAgBAQABPxAsTLbS+8KbAgk1wPuGQwS949xaBWrm3FOlCap14cVmgDP/2Q==`,
+// };
 
-const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
+const DocumentLayout = ({
+  children,
+  author,
+  tags,
+  thumbnail,
+}: DocumentLayoutProps) => {
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
-      <figure className="relative w-full mb-4 h-[160px] tn:h-[240px] md:h-[320px]">
-        <img
-          className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
-          src="data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAAPABQDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEDAgT/xAAVAQEBAAAAAAAAAAAAAAAAAAABAv/aAAwDAQACEAMQAAAB5FitzAYn/8QAGRAAAgMBAAAAAAAAAAAAAAAAASEAAhIR/9oACAEBAAEFAquYdkQeTQl2f//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAABD/2gAIAQIBAT8BP//EABkQAAMAAwAAAAAAAAAAAAAAAAEQIQAxkf/aAAgBAQAGPwLQ5ldK/8QAHhABAAICAQUAAAAAAAAAAAAAAQARIUFRMWFxgfH/2gAIAQEAAT8hSKMJBTZ9horiazXqGLqdvJEAnE//2gAMAwEAAgADAAAAEPMf/8QAFREBAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQMBAT8QV//EABYRAQEBAAAAAAAAAAAAAAAAAAABIf/aAAgBAgEBPxDUf//EABwQAQEAAgIDAAAAAAAAAAAAAAERACFBUWFxwf/aAAgBAQABPxAsTLbS+8KbAgk1wPuGQwS949xaBWrm3FOlCap14cVmgDP/2Q=="
-        />
-        <picture>
-          <source
-            srcSet={image.xl.src}
-            media={`(min-width: ${image.xl.w}px)`}
-          />
-          <source
-            srcSet={image.lg.src}
-            media={`(min-width: ${image.lg.w}px)`}
-          />
-          <source
-            srcSet={image.md.src}
-            media={`(min-width: ${image.md.w}px)`}
-          />
-          <source
-            srcSet={image.sm.src}
-            media={`(min-width: ${image.sm.w}px)`}
-          />
+      {thumbnail && (
+        <figure className="relative w-full mb-4 h-[160px] tn:h-[240px] md:h-[320px]">
           <img
             className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
-            src={image.sm.src}
+            src={thumbnail.placeholder}
           />
-        </picture>
-      </figure>
+          <picture>
+            <source
+              srcSet={thumbnail.xl.src}
+              media={`(min-width: ${thumbnail.xl.w}px)`}
+            />
+            <source
+              srcSet={thumbnail.lg.src}
+              media={`(min-width: ${thumbnail.lg.w}px)`}
+            />
+            <source
+              srcSet={thumbnail.md.src}
+              media={`(min-width: ${thumbnail.md.w}px)`}
+            />
+            <source
+              srcSet={thumbnail.sm.src}
+              media={`(min-width: ${thumbnail.sm.w}px)`}
+            />
+            <img
+              className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
+              src={thumbnail.sm.src}
+            />
+          </picture>
+        </figure>
+      )}
+
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
