@@ -7,8 +7,8 @@ import {
   onAuthStateChanged,
   setPersistence,
   signInWithEmailAndPassword,
-  signInWithRedirect,
   signOut,
+  signInWithPopup,
 } from 'firebase/auth';
 import React from 'react';
 import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
@@ -400,7 +400,7 @@ const WithAuth = () => {
               return;
             }
 
-            await signInWithRedirect(auth, provider);
+            await signInWithPopup(auth, provider);
           } catch (error: unknown) {}
         },
       });
