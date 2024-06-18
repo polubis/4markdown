@@ -68,7 +68,7 @@ type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate' | 'author'>;
 type UpdateDocPermanentPayload = Omit<
   PermanentDoc,
   'cdate' | 'path' | 'author' | 'thumbnail'
->;
+> & { thumbnail: DocThumbnailAction };
 
 type UpdateDocPayload =
   | UpdateDocPrivatePayload

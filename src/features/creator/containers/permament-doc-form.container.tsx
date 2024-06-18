@@ -104,9 +104,12 @@ const PermamentDocFormContainer = ({
   const removeThumbnail = (): void => {
     setThumbnailPreview(``);
     set({
-      thumbnail: {
-        type: `remove`,
-      },
+      thumbnail:
+        docStore.visibility === `permanent` && docStore.thumbnail
+          ? {
+              type: `remove`,
+            }
+          : { type: `noop` },
     });
   };
 
@@ -156,7 +159,7 @@ const PermamentDocFormContainer = ({
         >
           {thumbnailPreview ? (
             <img
-              className="rounded-md max-h-[160px] w-full object-cover"
+              className="rounded-md h-[160px] w-full object-cover"
               src={thumbnailPreview}
             />
           ) : (
@@ -168,6 +171,7 @@ const PermamentDocFormContainer = ({
             type="button"
             auto
             className="mt-2 mb-2 ml-auto"
+            disabled={docManagementStore.is === `busy`}
             s={1}
             i={2}
             onClick={removeThumbnail}

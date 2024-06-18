@@ -216,6 +216,7 @@ const WithAuth = () => {
       name,
       description,
       tags,
+      thumbnail,
     ) => {
       const { id, mdate } = docStoreSelectors.active();
       const { code } = creatorStoreSelectors.ready();
@@ -228,6 +229,7 @@ const WithAuth = () => {
         visibility: `permanent`,
         description,
         tags,
+        thumbnail,
       });
     };
 
@@ -263,6 +265,7 @@ const WithAuth = () => {
         id: doc.id,
         mdate: doc.mdate,
         visibility: `permanent`,
+        thumbnail: { type: `noop` },
       });
     };
 
@@ -364,8 +367,25 @@ const WithAuth = () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
 
+            if (doc.visibility === `permanent`) {
+              await updateDoc({
+                name: doc.name,
+                description: doc.description,
+                id: doc.id,
+                mdate: doc.mdate,
+                tags: doc.tags,
+                visibility: doc.visibility,
+                code,
+                thumbnail: { type: `noop` },
+              });
+              return;
+            }
+
             await updateDoc({
-              ...doc,
+              name: doc.name,
+              visibility: doc.visibility,
+              id: doc.id,
+              mdate: doc.mdate,
               code,
             });
           },
