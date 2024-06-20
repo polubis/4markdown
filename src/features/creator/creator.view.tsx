@@ -85,7 +85,7 @@ const CreatorView: React.FC = () => {
     if (creatorField) {
       creatorField.value = code;
     }
-  }, [code]);
+  }, [code, divideMode]);
 
   React.useEffect(() => {
     const timeout = timeoutRef.current;
