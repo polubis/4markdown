@@ -28,6 +28,8 @@ const CreatorView: React.FC = () => {
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 
   const clearConfirm = useConfirm(() => creatorStoreActions.change(``));
   const resetConfirm = useConfirm(() =>
@@ -66,6 +68,32 @@ const CreatorView: React.FC = () => {
 
     target.selectionStart = target.selectionEnd = start + 1;
   };
+
+  const changeCode: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+    const timeout = timeoutRef.current;
+
+    timeout && clearTimeout(timeout);
+
+    timeoutRef.current = setTimeout(() => {
+      creatorStoreActions.change(e.target.value);
+    }, 750);
+  };
+
+  React.useEffect(() => {
+    const creatorField = creatorRef.current;
+
+    if (creatorField) {
+      creatorField.value = code;
+    }
+  }, [code]);
+
+  React.useEffect(() => {
+    const timeout = timeoutRef.current;
+
+    return () => {
+      timeout && clearTimeout(timeout);
+    };
+  }, []);
 
   return (
     <>
@@ -137,31 +165,34 @@ const CreatorView: React.FC = () => {
           <label className="hidden" htmlFor="creator" id="creator">
             Creator
           </label>
-          <textarea
-            aria-labelledby="creator"
-            aria-label="creator"
-            spellCheck="false"
-            className={c(
-              `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
-              { hidden: divideMode === `preview` },
-            )}
-            value={code}
-            onChange={(e) => creatorStoreActions.change(e.target.value)}
-            onKeyDown={maintainTabs}
-          />
-          <div
-            className={c(
-              `p-4 overflow-auto w-full h-full border-zinc-300 dark:border-zinc-800`,
-              { hidden: divideMode === `code` },
-              { 'max-w-4xl mx-auto': divideMode === `preview` },
-              {
-                'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
-                  divideMode === `both`,
-              },
-            )}
-          >
-            <Markdown>{code}</Markdown>
-          </div>
+          {divideMode === `preview` || (
+            <textarea
+              ref={creatorRef}
+              aria-labelledby="creator"
+              aria-label="creator"
+              spellCheck="false"
+              className={c(
+                `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
+              )}
+              onChange={changeCode}
+              onKeyDown={maintainTabs}
+            />
+          )}
+
+          {divideMode === `code` || (
+            <div
+              className={c(
+                `p-4 overflow-auto w-full h-full border-zinc-300 dark:border-zinc-800`,
+                { 'max-w-4xl mx-auto': divideMode === `preview` },
+                {
+                  'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
+                    divideMode === `both`,
+                },
+              )}
+            >
+              <Markdown>{code}</Markdown>
+            </div>
+          )}
         </section>
       </main>
     </>
