@@ -1,0 +1,28 @@
+name: Outdated Deps
+
+on:
+  pull_request:
+    branches: ['develop']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run Tests
+        run: |
+          OUTDATED=$(npm outdated)
+          if [ ! -z "$OUTDATED" ]; then
+            echo "Outdated packages found:"
+            echo "$OUTDATED"
+            exit 1
+          fi
