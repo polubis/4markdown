@@ -1,5 +1,6 @@
 import React from 'react';
 import c from 'classnames';
+import { Hint } from './hint';
 
 interface FieldProps {
   className?: string;
@@ -13,7 +14,7 @@ const Field = ({ children, className, label, hint }: FieldProps) => {
     <fieldset className={c(`flex flex-col gap-1.5`, className)}>
       {label && <label className="text-sm font-medium">{label}</label>}
       {children}
-      {hint && <i className="px-0.5 text-sm">{hint}</i>}
+      {hint && <Hint className="px-0.5" trigger={() => hint} />}
     </fieldset>
   );
 };

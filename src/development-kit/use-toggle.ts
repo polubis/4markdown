@@ -45,4 +45,5 @@ const useToggle = <T = null>(
   );
 };
 
+export type { ToggleReturn };
 export { useToggle };
