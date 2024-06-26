@@ -6,16 +6,16 @@ import c from 'classnames';
 interface HintProps {
   className?: string;
   content?: React.ComponentType<ToggleReturn>;
-  trigger: ((props: ToggleReturn) => React.ReactNode) | React.ReactNode;
+  trigger: React.ComponentType<ToggleReturn> | React.ReactNode;
 }
 
-const Hint = ({ className, trigger, content: Content }: HintProps) => {
+const Hint = ({ className, trigger: Trigger, content: Content }: HintProps) => {
   const toggler = useToggle();
 
   return (
     <>
       <i className={c(`text-sm`, className)}>
-        {typeof trigger === `function` ? trigger(toggler) : trigger}
+        {typeof Trigger === `function` ? <Trigger {...toggler} /> : Trigger}
       </i>
       {toggler.opened && Content && (
         <Modal onEscape={toggler.close}>
