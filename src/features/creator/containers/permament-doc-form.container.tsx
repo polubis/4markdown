@@ -66,7 +66,11 @@ const PermamentDocFormContainer = ({
       <Field label={`Name (${name.length})*`} className="mt-2">
         <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
       </Field>
-      <Field label={`Description (${description.length})*`} className="mt-3">
+      <Field
+        label={`Description (${description.length})*`}
+        className="mt-3"
+        hint={<span>The best description is between 110-160 characters</span>}
+      >
         <Textarea
           placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
           {...inject(`description`)}
