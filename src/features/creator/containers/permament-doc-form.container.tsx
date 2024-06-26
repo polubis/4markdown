@@ -1,6 +1,7 @@
 import { makeDocPermamentSchema } from 'core/validators/doc-validators';
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
+import { Hint } from 'design-system/hint';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { useForm } from 'development-kit/use-form';
@@ -9,6 +10,7 @@ import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
+import { SeoFriendlyDescriptionHint } from '../components/seo-friendly-description-hint';
 
 interface PermamentDocFormContainerProps {
   onConfirm(): void;
@@ -66,7 +68,11 @@ const PermamentDocFormContainer = ({
       <Field label={`Name (${name.length})*`} className="mt-2">
         <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
       </Field>
-      <Field label={`Description (${description.length})*`} className="mt-3">
+      <Field
+        label={`Description (${description.length})*`}
+        className="mt-3"
+        hint={<SeoFriendlyDescriptionHint />}
+      >
         <Textarea
           placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
           {...inject(`description`)}
@@ -75,7 +81,7 @@ const PermamentDocFormContainer = ({
       <Field
         label={result.tags ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
         className="mt-2"
-        hint="It may be React, Angular, Vue and others..."
+        hint={<Hint trigger="It may be React, Angular, Vue and others..." />}
       >
         <Input placeholder="Separate tags with a comma" {...inject(`tags`)} />
       </Field>
