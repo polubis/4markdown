@@ -29,14 +29,6 @@ td code {
   background: #e0e0e0;
 }
 
-pre {
-  overflow: auto;
-}
-
-:not(pre) > code {
-  white-space: normal;
-}
-
 .comment,
 .prolog,
 .doctype,

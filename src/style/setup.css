@@ -67,6 +67,15 @@
   margin-left: 16px;
 }
 
+.markdown pre {
+  overflow: auto;
+}
+
+.markdown :not(pre) > code {
+  white-space: normal;
+}
+
+
 .loader {
   animation: lrotate 1s infinite linear;
 }

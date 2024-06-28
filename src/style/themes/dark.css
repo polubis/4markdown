@@ -30,14 +30,6 @@ body.dark pre {
   hyphens: none;
 }
 
-body.dark pre {
-  overflow: auto;
-}
-
-body.dark :not(pre) > code {
-  white-space: normal;
-}
-
 body.dark .comment,
 body.dark .prolog,
 body.dark .doctype,
