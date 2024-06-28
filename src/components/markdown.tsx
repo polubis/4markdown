@@ -58,7 +58,7 @@ const SnippetCopyButton = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Button
-      className="absolute right-4 top-4"
+      className="absolute right-3 top-3"
       i={2}
       s={1}
       title="Copy snippet"
