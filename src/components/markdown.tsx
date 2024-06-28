@@ -106,7 +106,7 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
       <blockquote className="px-3 py-2 border-l-4">{children}</blockquote>
     ),
     pre: ({ children }) => (
-      <pre className="p-3 border-zinc-300 bg-zinc-100 border-2 rounded-md">
+      <pre className="p-4 border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md">
         {children}
       </pre>
     ),
