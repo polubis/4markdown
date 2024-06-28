@@ -1,41 +1,14 @@
 body.dark {
-  -webkit-font-smoothing: antialiased;
   background: var(--black);
 }
 
-body.dark :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i) {
+body.dark :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i, code, pre) {
   color: var(--white);
 }
 
 body.dark p code,
 body.dark td code {
   background: #151515;
-}
-
-body.dark code,
-body.dark pre {
-  color: var(--white);
-  background: transparent;
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  line-height: 1.5;
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-}
-
-body.dark pre {
-  overflow: auto;
-}
-
-body.dark :not(pre) > code {
-  white-space: normal;
 }
 
 body.dark .comment,
@@ -95,18 +68,6 @@ body.dark .keyword {
 body.dark .regex,
 body.dark .important {
   color: #ce9178;
-}
-
-body.dark .bold {
-  font-weight: bold;
-}
-
-body.dark .italic {
-  font-style: italic;
-}
-
-body.dark .entity {
-  cursor: help;
 }
 
 body.dark .markdown table tr {
