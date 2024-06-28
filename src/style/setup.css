@@ -3,6 +3,10 @@
   --black: #000;
 }
 
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -65,6 +69,14 @@
 .markdown li ol,
 .markdown li ul {
   margin-left: 16px;
+}
+
+.markdown pre {
+  overflow: auto;
+}
+
+.markdown :not(pre) > code {
+  white-space: normal;
 }
 
 .loader {
