@@ -3,6 +3,8 @@ import Md, { MarkdownToJSX } from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import { Components } from '@mdx-js/react/lib';
 import c from 'classnames';
+import { Button } from 'design-system/button';
+import { BiCopyAlt } from 'react-icons/bi';
 
 const Code = ({
   children,
@@ -106,9 +108,14 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
       <blockquote className="px-3 py-2 border-l-4">{children}</blockquote>
     ),
     pre: ({ children }) => (
-      <pre className="p-4 border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md">
-        {children}
-      </pre>
+      <div className="relative border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md">
+        <div className="absolute right-2 top-2">
+          <Button i={2} s={1} title="Copy snippet">
+            <BiCopyAlt />
+          </Button>
+        </div>
+        <pre className="px-4 py-3">{children}</pre>
+      </div>
     ),
   },
 };
