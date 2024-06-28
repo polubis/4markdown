@@ -3,9 +3,11 @@ import Md, { MarkdownToJSX } from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import { Components } from '@mdx-js/react/lib';
 import c from 'classnames';
+import { Button } from 'design-system/button';
+import { BiCheck, BiCopyAlt } from 'react-icons/bi';
+import { useCopy } from 'development-kit/use-copy';
 
 const Code = ({
-  className = `language-javascript`,
   children,
 }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
@@ -16,10 +18,10 @@ const Code = ({
     }
 
     highlightElement(ref.current);
-  }, [children, className]);
+  }, [children]);
 
   return (
-    <code ref={ref} className={className}>
+    <code ref={ref} className="language-javascript">
       {children}
     </code>
   );
@@ -45,6 +47,30 @@ const isDescribedImage = (nodes: React.ReactNode): boolean => {
   }
 
   return img.type.name === `img` && em.type.name === `em`;
+};
+
+const SnippetCopyButton = ({ children }: { children: React.ReactNode }) => {
+  const [state, save] = useCopy();
+
+  const copy = () => {
+    save((children as React.ReactElement<{ children: string }>).props.children);
+  };
+
+  return (
+    <Button
+      className="absolute right-3 top-3"
+      i={2}
+      s={1}
+      title="Copy snippet"
+      onClick={copy}
+    >
+      {state.is === `copied` ? (
+        <BiCheck className="text-green-700" />
+      ) : (
+        <BiCopyAlt />
+      )}
+    </Button>
+  );
 };
 
 const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
@@ -106,7 +132,12 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     blockquote: ({ children }) => (
       <blockquote className="px-3 py-2 border-l-4">{children}</blockquote>
     ),
-    pre: ({ children }) => <pre className="px-3 py-4">{children}</pre>,
+    pre: ({ children }) => (
+      <div className="relative border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md">
+        <SnippetCopyButton>{children}</SnippetCopyButton>
+        <pre className="p-4">{children}</pre>
+      </div>
+    ),
   },
 };
 /* @TODO: Try to improve this typings here. */
