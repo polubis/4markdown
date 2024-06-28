@@ -105,7 +105,11 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     blockquote: ({ children }) => (
       <blockquote className="px-3 py-2 border-l-4">{children}</blockquote>
     ),
-    pre: ({ children }) => <pre className="px-3 py-4">{children}</pre>,
+    pre: ({ children }) => (
+      <pre className="p-3 border-zinc-300 bg-zinc-100 border-2 rounded-md">
+        {children}
+      </pre>
+    ),
   },
 };
 /* @TODO: Try to improve this typings here. */
