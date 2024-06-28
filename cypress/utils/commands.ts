@@ -57,6 +57,8 @@ type Element =
   | `Your LinkedIn link`
   | `Check privacy policy`;
 
+type Endpoint = `getYourUserProfile` | `getDocs`;
+
 let acc = 1;
 let folder: string | undefined;
 
@@ -127,6 +129,32 @@ const BASE_COMMANDS = {
         });
       }
     });
+  },
+  'System mocks api': (config: {
+    endpoint: Endpoint;
+    code: number;
+    response: Record<string | number | symbol, unknown>;
+    delay?: number;
+  }) => {
+    cy.intercept(
+      {
+        method: `POST`,
+        url: `**/**cloudfunctions.net/${config.endpoint}`,
+      },
+      (req) => {
+        // Optionally, modify the request here - need
+        // req.headers['authorization'] = `Bearer ${Cypress.env('FIREBASE_TOKEN')}`;
+
+        req.reply({
+          delay: config.delay ?? 1000,
+          statusCode: config.code,
+          body: config.response,
+        });
+      },
+    ).as(config.endpoint);
+  },
+  'I wait for api': (endpoint: Endpoint, code: number) => {
+    cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);
   },
   'System takes picture': () => {
     if (!folder) {
