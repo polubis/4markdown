@@ -2,26 +2,8 @@ body {
   background: var(--white);
 }
 
-body :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i) {
+body :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i, code, pre) {
   color: var(--black);
-}
-
-code,
-pre {
-  color: var(--black);
-  background: var(--white);
-  text-align: left;
-  white-space: pre;
-  word-spacing: normal;
-  word-break: normal;
-  line-height: 1.5;
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
 }
 
 p code,
@@ -86,18 +68,6 @@ td code {
 .regex,
 .important {
   color: #ce9178;
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.italic {
-  font-style: italic;
-}
-
-.entity {
-  cursor: help;
 }
 
 .markdown table tr {
