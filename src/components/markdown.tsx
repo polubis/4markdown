@@ -5,7 +5,6 @@ import { Components } from '@mdx-js/react/lib';
 import c from 'classnames';
 
 const Code = ({
-  className = `language-javascript`,
   children,
 }: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
@@ -16,10 +15,10 @@ const Code = ({
     }
 
     highlightElement(ref.current);
-  }, [children, className]);
+  }, [children]);
 
   return (
-    <code ref={ref} className={className}>
+    <code ref={ref} className="language-javascript">
       {children}
     </code>
   );
