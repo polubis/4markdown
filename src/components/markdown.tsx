@@ -4,7 +4,8 @@ import { highlightElement } from 'prismjs';
 import { Components } from '@mdx-js/react/lib';
 import c from 'classnames';
 import { Button } from 'design-system/button';
-import { BiCopyAlt } from 'react-icons/bi';
+import { BiCheck, BiCopyAlt } from 'react-icons/bi';
+import { useCopy } from 'development-kit/use-copy';
 
 const Code = ({
   children,
@@ -46,6 +47,30 @@ const isDescribedImage = (nodes: React.ReactNode): boolean => {
   }
 
   return img.type.name === `img` && em.type.name === `em`;
+};
+
+const SnippetCopyButton = ({ children }: { children: React.ReactNode }) => {
+  const [state, save] = useCopy();
+
+  const copy = () => {
+    save((children as React.ReactElement<{ children: string }>).props.children);
+  };
+
+  return (
+    <Button
+      className="absolute right-4 top-4"
+      i={2}
+      s={1}
+      title="Copy snippet"
+      onClick={copy}
+    >
+      {state.is === `copied` ? (
+        <BiCheck className="text-green-700" />
+      ) : (
+        <BiCopyAlt />
+      )}
+    </Button>
+  );
 };
 
 const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
@@ -109,12 +134,8 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     ),
     pre: ({ children }) => (
       <div className="relative border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md">
-        <div className="absolute right-2 top-2">
-          <Button i={2} s={1} title="Copy snippet">
-            <BiCopyAlt />
-          </Button>
-        </div>
-        <pre className="px-4 py-3">{children}</pre>
+        <SnippetCopyButton>{children}</SnippetCopyButton>
+        <pre className="p-4">{children}</pre>
       </div>
     ),
   },
