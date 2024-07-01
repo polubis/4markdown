@@ -5,10 +5,15 @@ import c from 'classnames';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
+import { analyze, parse, toTabs } from 'development-kit/md-code-commands';
 
 const Code = ({
+  className: rawCommand,
   children,
-}: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
+}: {
+  className?: string;
+  children: string;
+}) => {
   const ref = React.useRef<HTMLElement | null>(null);
 
   React.useLayoutEffect(() => {
@@ -19,6 +24,8 @@ const Code = ({
     highlightElement(ref.current);
   }, [children]);
 
+  const commands = analyze(rawCommand);
+  const snippet = toTabs(children, commands);
   return (
     <code ref={ref} className="language-javascript">
       {children}
