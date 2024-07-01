@@ -1,7 +1,6 @@
 import React from 'react';
 import Md, { MarkdownToJSX } from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
-import { Components } from '@mdx-js/react/lib';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
@@ -73,7 +72,7 @@ const SnippetCopyButton = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
+const OPTIONS: MarkdownToJSX.Options = {
   disableParsingRawHTML: true,
   overrides: {
     h1: ({ children }) => (
@@ -140,7 +139,6 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
     ),
   },
 };
-/* @TODO: Try to improve this typings here. */
 
 interface MarkdownProps {
   children: string;
@@ -149,7 +147,7 @@ interface MarkdownProps {
 const Markdown: React.FC<MarkdownProps> = ({ children }) => {
   return (
     <div className="markdown">
-      <Md options={OPTIONS as MarkdownToJSX.Options}>{children}</Md>
+      <Md options={OPTIONS}>{children}</Md>
     </div>
   );
 };
