@@ -378,7 +378,7 @@ const WithAuth = () => {
                 UpdateDocumentCodeResponse
               >(
                 functions,
-                `updateDoc`,
+                `updateDocumentCode`,
               )({ id: newDoc.id, code: newDoc.code, mdate: newDoc.mdate });
               docManagementStoreActions.ok();
               docsStoreActions.updateDoc({
@@ -389,11 +389,6 @@ const WithAuth = () => {
             } catch (error: unknown) {
               docManagementStoreActions.fail(error);
             }
-
-            await updateDoc({
-              ...doc,
-              code,
-            });
           },
           makeDocPrivate,
           makeDocPublic,
