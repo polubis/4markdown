@@ -24,6 +24,8 @@ import type {
   GetDocPayload,
   UpdateDocDto,
   UpdateDocPayload,
+  UpdateDocumentCodePayload,
+  UpdateDocumentCodeResponse,
 } from 'models/doc';
 import {
   creatorStoreActions,
@@ -360,9 +362,33 @@ const WithAuth = () => {
             docManagementStoreActions.idle();
             reloadDocs();
           },
-          saveDocCode: async () => {
+          updateDocumentCode: async () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
+
+            const newDoc = {
+              ...doc,
+              code,
+            };
+
+            try {
+              docManagementStoreActions.busy();
+              const response = await httpsCallable<
+                UpdateDocumentCodePayload,
+                UpdateDocumentCodeResponse
+              >(
+                functions,
+                `updateDoc`,
+              )({ id: newDoc.id, code: newDoc.code, mdate: newDoc.mdate });
+              docManagementStoreActions.ok();
+              docsStoreActions.updateDoc({
+                ...newDoc,
+                mdate: response.data.mdate,
+              });
+              creatorStoreActions.asUnchanged();
+            } catch (error: unknown) {
+              docManagementStoreActions.fail(error);
+            }
 
             await updateDoc({
               ...doc,

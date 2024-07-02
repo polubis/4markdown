@@ -60,6 +60,8 @@ type DeleteDocDto = Pick<Doc, 'id'>;
 type GetDocDto = Doc;
 
 type GetPermanentDocsDto = PermanentDoc[];
+type UpdateDocumentCodePayload = Pick<Doc, 'mdate' | 'id' | 'code'>;
+type UpdateDocumentCodeResponse = Pick<Doc, 'mdate'>;
 
 export type {
   Doc,
@@ -81,4 +83,6 @@ export type {
   PermanentDoc,
   PermamentSlimDoc,
   DocAuthor,
+  UpdateDocumentCodePayload,
+  UpdateDocumentCodeResponse,
 };

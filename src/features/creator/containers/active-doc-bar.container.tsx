@@ -50,9 +50,7 @@ const ActiveDocBarContainer = () => {
   };
 
   const handleSaveCodeConfirm = async (): Promise<void> => {
-    try {
-      await authStoreSelectors.authorized().saveDocCode();
-    } catch {}
+    await authStoreSelectors.authorized().updateDocumentCode();
   };
 
   const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
