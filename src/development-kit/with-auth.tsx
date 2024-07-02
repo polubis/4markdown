@@ -380,11 +380,14 @@ const WithAuth = () => {
                 functions,
                 `updateDocumentCode`,
               )({ id: newDoc.id, code: newDoc.code, mdate: newDoc.mdate });
-              docManagementStoreActions.ok();
-              docsStoreActions.updateDoc({
+              const updatedDoc = {
                 ...newDoc,
                 mdate: response.data.mdate,
-              });
+              };
+
+              docManagementStoreActions.ok();
+              docsStoreActions.updateDoc(updatedDoc);
+              docStoreActions.setActive(updatedDoc);
               creatorStoreActions.asUnchanged();
             } catch (error: unknown) {
               docManagementStoreActions.fail(error);
