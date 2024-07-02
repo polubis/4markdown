@@ -59,11 +59,15 @@ const parseErrorV2 = (error: unknown): ParsedError => {
     return unknownError;
   }
 
-  const result = schema.safeParse(JSON.parse(error));
+  try {
+    const result = schema.safeParse(JSON.parse(error));
 
-  if (!result.success) return unknownError;
+    if (!result.success) return unknownError;
 
-  return result.data;
+    return result.data;
+  } catch {
+    return unknownError;
+  }
 };
 
 export type { ParsedError };

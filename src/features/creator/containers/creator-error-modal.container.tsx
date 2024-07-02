@@ -39,9 +39,7 @@ const parseMessage = (message: string): { symbol: string; message: string } => {
 const CreatorErrorModalContainer = () => {
   const docManagementStore = docManagementStoreSelectors.useFail();
   const authStore = authStoreSelectors.useAuthorized();
-  const parsed = React.useMemo(() => {
-    return parseMessage(docManagementStore.error);
-  }, [docManagementStore.error]);
+  const parsed = parseMessage(docManagementStore.error);
 
   return (
     <ErrorModal
