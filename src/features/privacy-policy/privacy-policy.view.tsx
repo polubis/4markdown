@@ -85,9 +85,8 @@ const PrivacyPolicyView = () => {
           </li>
           <li>
             Device: any internet connected device such as a phone, tablet,
-            computer or any other device that can be used to visit{` `}
-            <strong>{siteMetadataStore.appName}</strong>
-            and use the services.
+            computer or any other device that can be used to visit{`  `}
+            <strong>{siteMetadataStore.appName}</strong> and use the services.
           </li>
           <li>
             IP address: Every device connected to the Internet is assigned a
