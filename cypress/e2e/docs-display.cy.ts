@@ -3,6 +3,7 @@ import { Doc, GetDocDto } from 'models/doc';
 import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
+import { GetYourProfileDto } from 'models/user';
 
 const now = new Date();
 
@@ -22,6 +23,19 @@ const getDocsResponse: { result: Doc[] } = {
 
 const getPublicDocResponse: { result: GetDocDto } = {
   result: getDocsResponse.result[0],
+};
+
+const getUserProfileResponse: { result: GetYourProfileDto } = {
+  result: {
+    avatar: null,
+    displayName: null,
+    bio: null,
+    blogUrl: null,
+    fbUrl: null,
+    githubUrl: null,
+    twitterUrl: null,
+    linkedInUrl: null,
+  },
 };
 
 describe(`Docs display works when`, () => {
@@ -53,11 +67,17 @@ describe(`Docs display works when`, () => {
       endpoint: `getDocs`,
       code: 200,
       response: getDocsResponse,
-    }).And(`System mocks api`, {
-      endpoint: `getPublicDoc`,
-      code: 200,
-      response: getPublicDocResponse,
-    });
+    })
+      .And(`System mocks api`, {
+        endpoint: `getPublicDoc`,
+        code: 200,
+        response: getPublicDocResponse,
+      })
+      .And(`System mocks api`, {
+        endpoint: `getYourUserProfile`,
+        code: 200,
+        response: getUserProfileResponse,
+      });
 
     LOG_IN_OUT_SCENARIOS[`I log in`]()
       .When(`I click button`, [`Close your account panel`])
