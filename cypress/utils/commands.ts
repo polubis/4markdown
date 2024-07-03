@@ -142,9 +142,6 @@ const BASE_COMMANDS = {
         url: `**/**cloudfunctions.net/${config.endpoint}`,
       },
       (req) => {
-        // Optionally, modify the request here - need
-        // req.headers['authorization'] = `Bearer ${Cypress.env('FIREBASE_TOKEN')}`;
-
         req.reply({
           delay: config.delay ?? 1000,
           statusCode: config.code,
