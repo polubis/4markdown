@@ -47,9 +47,9 @@ type ClickableControls =
   | `Back to user profile`
   | `Save user profile`
   | `Add your avatar`
-  | `Show "Recent" documents`
-  | `Show "Old" documents`
-  | `Show "Really Old" documents`;
+  | `Recent documents`
+  | `Old documents`
+  | `Really Old documents`;
 
 type Element =
   | `Go to creator`

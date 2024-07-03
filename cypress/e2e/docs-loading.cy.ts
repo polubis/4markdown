@@ -106,6 +106,12 @@ describe(`Documents loading works when`, () => {
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [`Mediator pattern in TypeScript`])
       .And(`I wait`, 1500)
+      .And(`System takes picture`)
+      .When(`I click button`, [`Old documents`])
+      .Then(`I wait`, 500)
+      .And(`System takes picture`)
+      .When(`I click button`, [`Really Old documents`])
+      .Then(`I wait`, 500)
       .And(`System takes picture`);
   });
 });

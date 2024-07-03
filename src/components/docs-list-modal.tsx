@@ -101,7 +101,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             {rangeFilters.map((range) => (
               <Tabs.Item
                 key={range}
-                title={`Show "${range}" documents`}
+                title={`${range} documents`}
                 active={range === activeRange}
                 onClick={() => setActiveRange(range)}
               >
