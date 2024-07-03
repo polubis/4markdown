@@ -46,7 +46,10 @@ type ClickableControls =
   | `Close your profile form`
   | `Back to user profile`
   | `Save user profile`
-  | `Add your avatar`;
+  | `Add your avatar`
+  | `Show "Recent" documents`
+  | `Show "Old" documents`
+  | `Show "Really Old" documents`;
 
 type Element =
   | `Go to creator`

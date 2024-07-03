@@ -14,14 +14,14 @@ interface DocsListModalProps {
   onClose?(): void;
 }
 
-const rangeFilters = [`Recent`, `Old`, `Really old`] as const;
+const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
 
 type RangeFilter = (typeof rangeFilters)[number];
 
 const rangeLookup: Record<RangeFilter, [number, number]> = {
   Recent: [0, 7],
   Old: [7, 30],
-  'Really old': [30, Number.MAX_VALUE],
+  'Really Old': [30, Number.MAX_VALUE],
 };
 
 const DocsListModal = ({ onClose }: DocsListModalProps) => {
@@ -101,6 +101,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             {rangeFilters.map((range) => (
               <Tabs.Item
                 key={range}
+                title={`Show "${range}" documents`}
                 active={range === activeRange}
                 onClick={() => setActiveRange(range)}
               >
