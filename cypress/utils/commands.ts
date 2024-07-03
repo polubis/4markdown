@@ -46,7 +46,10 @@ type ClickableControls =
   | `Close your profile form`
   | `Back to user profile`
   | `Save user profile`
-  | `Add your avatar`;
+  | `Add your avatar`
+  | `Recent documents`
+  | `Old documents`
+  | `Really Old documents`;
 
 type Element =
   | `Go to creator`
@@ -57,7 +60,7 @@ type Element =
   | `Your LinkedIn link`
   | `Check privacy policy`;
 
-type Endpoint = `getYourUserProfile` | `getDocs`;
+type Endpoint = `getYourUserProfile` | `getDocs` | `getPublicDoc`;
 
 let acc = 1;
 let folder: string | undefined;
@@ -142,9 +145,6 @@ const BASE_COMMANDS = {
         url: `**/**cloudfunctions.net/${config.endpoint}`,
       },
       (req) => {
-        // Optionally, modify the request here - need
-        // req.headers['authorization'] = `Bearer ${Cypress.env('FIREBASE_TOKEN')}`;
-
         req.reply({
           delay: config.delay ?? 1000,
           statusCode: config.code,
