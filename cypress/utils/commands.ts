@@ -60,7 +60,7 @@ type Element =
   | `Your LinkedIn link`
   | `Check privacy policy`;
 
-type Endpoint = `getYourUserProfile` | `getDocs`;
+type Endpoint = `getYourUserProfile` | `getDocs` | `getPublicDoc`;
 
 let acc = 1;
 let folder: string | undefined;
