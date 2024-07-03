@@ -112,6 +112,11 @@ describe(`Documents loading works when`, () => {
       .And(`System takes picture`)
       .When(`I click button`, [`Really Old documents`])
       .Then(`I wait`, 500)
+      .And(`System takes picture`)
+      .When(`I click button`, [`Sync documents`])
+      .Then(`I see text`, [`Just a second`])
+      .And(`System takes picture`)
+      .Then(`I see button`, [`Really Old documents`])
       .And(`System takes picture`);
   });
 });
