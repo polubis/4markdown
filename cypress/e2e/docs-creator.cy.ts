@@ -46,7 +46,8 @@ describe(`Docs creator works when`, () => {
       .And(`I see not disabled button`, [`Sign in`])
       .When(`I clear creator`)
       .And(`I type in creator`, sample)
-      .Then(`System takes picture`)
+      .Then(`I wait`, 2000)
+      .And(`System takes picture`)
       .When(`I click button`, [`Change theme`])
       .Then(`System takes picture`);
   });

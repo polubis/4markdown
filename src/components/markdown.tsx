@@ -95,11 +95,11 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
         {children}
       </p>
     ),
-    em: ({ children }) => <em className="font-thin">{children}</em>,
-    strong: ({ children }) => <strong className="font-bold">{children}</strong>,
+    em: ({ children }) => <em>{children}</em>,
+    strong: ({ children }) => <strong>{children}</strong>,
     ul: ({ children }) => <ul>{children}</ul>,
     ol: ({ children }) => <ol>{children}</ol>,
-    li: ({ children }) => <li className="text-md">{children}</li>,
+    li: ({ children }) => <li>{children}</li>,
     del: ({ children }) => <del>{children}</del>,
     a: ({ children, href }) => (
       <a
@@ -123,12 +123,8 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
       </table>
     ),
     code: Code,
-    td: ({ children }) => (
-      <td className="text-base text-center px-2 py-2">{children}</td>
-    ),
-    th: ({ children }) => (
-      <th className="text-base text-center px-2 py-2">{children}</th>
-    ),
+    td: ({ children }) => <td className="text-center px-2 py-2">{children}</td>,
+    th: ({ children }) => <th className="px-2 py-2">{children}</th>,
     blockquote: ({ children }) => (
       <blockquote className="px-3 py-2 border-l-4">{children}</blockquote>
     ),
