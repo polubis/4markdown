@@ -1,29 +1,14 @@
 import React from 'react';
 import { HeadFC } from 'gatsby';
-import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
-import {
-  siteMetadataStoreSelectors,
-  useSiteMetadataStore,
-} from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
+import { appMetadata } from 'core/constants';
 
 const NotFoundPage = () => {
-  const synced = React.useRef(false);
-  const siteMetadata = useSiteMetadataQuery();
-
-  if (!synced.current) {
-    useSiteMetadataStore.setState({
-      is: `ready`,
-      ...siteMetadata,
-    });
-    synced.current = true;
-  }
-
   return (
     <>
       <AppNavigation>
@@ -48,15 +33,13 @@ const NotFoundPage = () => {
 export default NotFoundPage;
 
 export const Head: HeadFC = () => {
-  const meta = siteMetadataStoreSelectors.useReady();
-
   return (
     <Meta
-      appName={meta.appName}
-      title={meta.title}
-      description={meta.description}
-      url={meta.siteUrl}
-      lang={meta.lang}
+      appName={appMetadata.appName}
+      title={appMetadata.title}
+      description={appMetadata.description}
+      url={appMetadata.siteUrl}
+      lang={appMetadata.lang}
       image={LogoThumbnail}
       robots="noindex, nofollow"
     />
