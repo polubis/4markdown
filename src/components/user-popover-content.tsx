@@ -39,7 +39,7 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
   const yourProfileStore = yourProfileStoreSelectors.useState();
   const userProfileForm = useToggle();
 
-  const signOutConfirmation = useConfirm(async () => {
+  const signOutConfirmation = useConfirm(() => {
     authStoreSelectors.authorized().logOut();
     onClose();
   });

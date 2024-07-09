@@ -169,14 +169,17 @@ const WithAuth = () => {
     };
 
     const getYourProfile = async () => {
-      try {
-        if (
-          yourProfileStoreSelectors.state().is === `ok` ||
-          yourProfileStoreSelectors.state().is === `busy`
-        )
-          return;
+      yourProfileStoreActions.sync();
 
+      if (
+        yourProfileStoreSelectors.state().is === `ok` ||
+        yourProfileStoreSelectors.state().is === `busy`
+      )
+        return;
+
+      try {
         yourProfileStoreActions.busy();
+
         const { data: profile } = await httpsCallable<
           undefined,
           GetYourProfileDto
@@ -347,6 +350,7 @@ const WithAuth = () => {
           logOut: async () => {
             try {
               await signOut(auth);
+              yourProfileStoreActions.idle();
             } catch {}
           },
           uploadImage,
@@ -409,6 +413,7 @@ const WithAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
+      yourProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
         getPublicDoc,
