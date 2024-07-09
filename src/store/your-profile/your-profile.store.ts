@@ -61,20 +61,6 @@ const yourProfileStoreSelectors = {
   useState: () => useYourProfileStore(),
   ok: () => isOk(getState()),
   useOk: () => useYourProfileStore(isOk),
-  persistedState: () => {
-    const defaultState: YourProfileStoreState = { is: `idle` };
-    const state = localStorage.getItem(`your-profile`) as string | null;
-
-    if (state === null) {
-      return defaultState;
-    }
-
-    try {
-      return JSON.parse(state) as YourProfileStoreState;
-    } catch {
-      return defaultState;
-    }
-  },
 };
 
 export type { YourProfileStoreState, YourProfileStoreOkState };
