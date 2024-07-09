@@ -37,7 +37,11 @@ const yourProfileStoreActions = {
       return;
     }
 
-    set(JSON.parse(state) as YourProfileStoreOkState);
+    try {
+      set(JSON.parse(state) as YourProfileStoreOkState);
+    } catch {
+      set({ is: `idle` });
+    }
   },
 };
 

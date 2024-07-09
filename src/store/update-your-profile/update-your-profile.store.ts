@@ -1,9 +1,10 @@
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'models/transaction';
 import { UpdateYourProfileDto } from 'models/user';
+import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { create } from 'zustand';
 
-type UpdateYourProfileStoreState = Transaction<UpdateYourProfileDto>;
+type UpdateYourProfileStoreState = Transaction;
 
 const useUpdateYourProfileStore = create<UpdateYourProfileStoreState>(() => ({
   is: `idle`,
@@ -18,7 +19,10 @@ const set = (state: UpdateYourProfileStoreState, replace = true): void => {
 const updateYourProfileStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
-  ok: (data: UpdateYourProfileDto) => set({ is: `ok`, ...data }),
+  ok: (dto: UpdateYourProfileDto) => {
+    set({ is: `ok` });
+    yourProfileStoreActions.ok(dto);
+  },
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 };
 

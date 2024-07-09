@@ -169,6 +169,8 @@ const WithAuth = () => {
     };
 
     const getYourProfile = async () => {
+      yourProfileStoreActions.sync();
+
       if (
         yourProfileStoreSelectors.state().is === `ok` ||
         yourProfileStoreSelectors.state().is === `busy`
