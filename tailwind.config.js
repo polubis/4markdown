@@ -20,9 +20,19 @@ module.exports = {
         '0%': { opacity: 0 },
         '100%': { opacity: 1 },
       },
+      'slide-in-sidebar': {
+        '0%': { transform: `translateX(280px)` },
+        '100%': { transform: `translateX(0px)` },
+      },
+      'slide-out-sidebar': {
+        '0%': { transform: `translateX(0px)`, opacity: 1 },
+        '100%': { transform: `translateX(280px)`, opacity: 0 },
+      },
     },
     animation: {
       'fade-in': `fade-in 0.3s ease-in-out`,
+      'slide-in-sidebar': `slide-in-sidebar 0.3s ease-in-out`,
+      'slide-out-sidebar': `slide-out-sidebar 0.3s ease-in-out`,
     },
   },
   plugins: [],
