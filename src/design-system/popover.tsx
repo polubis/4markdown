@@ -1,7 +1,6 @@
 import React from 'react';
 import c from 'classnames';
 import Backdrop from './backdrop';
-import { AnimationProps, motion } from 'framer-motion';
 
 interface PopoverProps {
   className: string;
@@ -9,23 +8,17 @@ interface PopoverProps {
   onBackdropClick?(): void;
 }
 
-const props: AnimationProps = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-};
-
 const Popover = ({ className, children, onBackdropClick }: PopoverProps) => {
   return (
     <>
-      <motion.div
+      <div
         className={c(
-          `fixed rounded-xl bg-zinc-200 dark:bg-gray-950 shadow-lg z-30 p-4`,
+          `fixed rounded-xl bg-zinc-200 dark:bg-gray-950 shadow-lg z-30 p-4 animate-fade-in`,
           className,
         )}
-        {...props}
       >
         {children}
-      </motion.div>
+      </div>
       <Backdrop onClick={onBackdropClick} />
     </>
   );
