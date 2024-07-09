@@ -19,7 +19,10 @@ const set = (state: YourProfileStoreState, replace = true): void => {
 const YOUR_PROFILE_STORE_LS_KEY = `your-profile`;
 
 const yourProfileStoreActions = {
-  idle: () => set({ is: `idle` }),
+  idle: () => {
+    localStorage.removeItem(YOUR_PROFILE_STORE_LS_KEY);
+    set({ is: `idle` });
+  },
   busy: () => set({ is: `busy` }),
   ok: (user: GetYourProfileDto) => {
     const state: YourProfileStoreOkState = { is: `ok`, user };
