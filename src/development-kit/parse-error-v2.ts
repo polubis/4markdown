@@ -67,18 +67,18 @@ const parseErrorV2 = (error: unknown): ParsedError => {
       return unknownError;
     }
 
-    // if (
-    //   symbol === `invalid-schema` &&
-    //   (!Array.isArray(content) ||
-    //     content.length === 0 ||
-    //     content.some(
-    //       (reason) =>
-    //         typeof reason.key !== `string` ||
-    //         typeof reason.message !== `string`,
-    //     ))
-    // ) {
-    //   return unknownError;
-    // }
+    if (
+      symbol === `invalid-schema` &&
+      (!Array.isArray(content) ||
+        content.length === 0 ||
+        content.some(
+          (reason) =>
+            typeof reason.key !== `string` ||
+            typeof reason.message !== `string`,
+        ))
+    ) {
+      return unknownError;
+    }
 
     return { symbol, content } as ParsedError;
   } catch {

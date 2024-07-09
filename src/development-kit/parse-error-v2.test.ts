@@ -38,12 +38,12 @@ describe(`Error parsing works when`, () => {
   it(`parses invalid-schema error correctly`, () => {
     const errorString = JSON.stringify({
       symbol: `invalid-schema`,
-      content: { key: `key1`, message: `Some message` },
+      content: [{ key: `key1`, message: `Some message` }],
     });
     const result = parseErrorV2(errorString);
     expect(result).toEqual({
       symbol: `invalid-schema`,
-      content: { key: `key1`, message: `Some message` },
+      content: [{ key: `key1`, message: `Some message` }],
     });
   });
 
@@ -178,6 +178,38 @@ describe(`Error parsing works when`, () => {
         JSON.stringify({
           symbol: `invalid-schema`,
           content: [],
+        }),
+      ),
+    ).toEqual({
+      symbol: `unknown`,
+      content: `Unknown error occured`,
+    });
+    expect(
+      parseErrorV2(
+        JSON.stringify({
+          symbol: `invalid-schema`,
+          content: [
+            {
+              key: undefined,
+              content: `Something went wrong`,
+            },
+          ],
+        }),
+      ),
+    ).toEqual({
+      symbol: `unknown`,
+      content: `Unknown error occured`,
+    });
+    expect(
+      parseErrorV2(
+        JSON.stringify({
+          symbol: `invalid-schema`,
+          content: [
+            {
+              key: `error`,
+              content: undefined,
+            },
+          ],
         }),
       ),
     ).toEqual({
