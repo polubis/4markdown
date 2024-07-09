@@ -67,6 +67,11 @@ const ActiveDocBarContainer = () => {
     reconfigure({ name: docStore.name }, getSchema(docStore));
   }, [docStore, reconfigure]);
 
+  const nonInteractive =
+    authStore.is !== `authorized` ||
+    docManagementStore.is === `busy` ||
+    docsStore.is === `busy`;
+
   return (
     <>
       {edition.opened ? (
@@ -104,7 +109,7 @@ const ActiveDocBarContainer = () => {
             i={1}
             s={1}
             title="Change document name"
-            disabled={authStore.is !== `authorized`}
+            disabled={nonInteractive}
             onClick={handleEditOpen}
           >
             <BiEdit />
@@ -112,11 +117,7 @@ const ActiveDocBarContainer = () => {
           <Button
             i={1}
             s={1}
-            disabled={
-              docManagementStore.is === `busy` ||
-              !creatorStore.changed ||
-              authStore.is !== `authorized`
-            }
+            disabled={nonInteractive || !creatorStore.changed}
             title="Save changes"
             onClick={handleSaveCodeConfirm}
           >
@@ -126,11 +127,7 @@ const ActiveDocBarContainer = () => {
           <Button
             i={1}
             s={1}
-            disabled={
-              docManagementStore.is === `busy` ||
-              authStore.is !== `authorized` ||
-              docsStore.is === `busy`
-            }
+            disabled={nonInteractive}
             title="More document options"
             onClick={morePopover.open}
           >
