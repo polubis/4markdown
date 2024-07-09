@@ -6,7 +6,6 @@ import {
   useOnEscapePress,
   type EscapePressHandler,
 } from 'development-kit/use-on-escape-press';
-import { AnimationProps, motion } from 'framer-motion';
 
 interface ModalProps {
   className?: string;
@@ -14,21 +13,13 @@ interface ModalProps {
   onEscape?: EscapePressHandler;
 }
 
-const props: AnimationProps = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-};
-
 const Modal = ({ className, children, onEscape }: ModalProps) => {
   useScrollHide();
   useOnEscapePress(onEscape);
   const { render } = usePortal();
 
   return render(
-    <motion.div
-      className="bg-black/40 dark:bg-white/20 fixed items-center justify-center flex p-4 z-20 h-[100svh] w-[100svw] left-0 top-0 overflow-y-auto"
-      {...props}
-    >
+    <div className="bg-black/40 dark:bg-white/20 fixed items-center justify-center flex p-4 z-20 h-[100svh] w-[100svw] left-0 top-0 overflow-y-auto animate-fade-in">
       <div
         className={c(
           `bg-white m-auto w-[100%] tn:w-[380px] dark:bg-black rounded-lg shadow-xl p-4`,
@@ -37,7 +28,7 @@ const Modal = ({ className, children, onEscape }: ModalProps) => {
       >
         {children}
       </div>
-    </motion.div>,
+    </div>,
   );
 };
 
