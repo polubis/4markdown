@@ -6,7 +6,6 @@ import Backdrop from 'design-system/backdrop';
 import { Link } from 'gatsby';
 import { ButtonLink } from 'design-system/button-link';
 import c from 'classnames';
-import { Variants, motion } from 'framer-motion';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
 import { CompanyLogo } from './company-logo';
 
@@ -14,18 +13,6 @@ interface MenuNavSidebarProps {
   onClose(): void;
   opened?: boolean;
 }
-
-const variants: Variants = {
-  initial: {
-    transform: `translateX(280px)`,
-  },
-  open: {
-    transform: `translateX(0)`,
-  },
-  close: {
-    transform: `translateX(280px)`,
-  },
-};
 
 const ScrollHide = ({ children }: { children: React.ReactNode }) => {
   useScrollHide();
@@ -44,13 +31,11 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
         </ScrollHide>
       )}
 
-      <motion.aside
+      <aside
         className={c(
-          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[280px] overflow-y-auto`,
+          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[280px] overflow-y-auto transition-transform duration-300`,
+          opened ? `-translate-x-0` : `translate-x-full`,
         )}
-        initial="initial"
-        animate={opened ? `open` : `close`}
-        variants={variants}
       >
         <div className="p-4 flex items-center h-[72px]">
           <picture>
@@ -194,7 +179,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             <CompanyLogo size={32} className="ml-3" />
           </a>
         </div>
-      </motion.aside>
+      </aside>
     </>
   );
 };
