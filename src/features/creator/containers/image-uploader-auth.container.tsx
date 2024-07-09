@@ -55,8 +55,8 @@ const ImageUploaderAuthContainer = () => {
 
   return (
     <>
-      <Status open={copyState.is === `copied`}>Image copied</Status>
-      <Status open={imagesStore.is === `busy`}>Uploading image...</Status>
+      {copyState.is === `copied` && <Status>Image copied</Status>}
+      {imagesStore.is === `busy` && <Status>Uploading image...</Status>}
 
       <UploadImageButton
         disabled={docsStore.is === `busy` || imagesStore.is === `busy`}

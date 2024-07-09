@@ -280,9 +280,9 @@ const UserProfileFormModalContainer = ({
         </Modal>
       )}
 
-      <Status open={updateYourProfileStore.is === `busy`}>
-        Updating your profile...
-      </Status>
+      {updateYourProfileStore.is === `busy` && (
+        <Status>Updating your profile...</Status>
+      )}
 
       {updateYourProfileStore.is === `fail` && (
         <ErrorModal
