@@ -16,11 +16,29 @@ const set = (state: YourProfileStoreState, replace = true): void => {
   setState(state, replace);
 };
 
+const YOUR_PROFILE_STORE_LS_KEY = `your-profile`;
+
 const yourProfileStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
-  ok: (user: GetYourProfileDto) => set({ is: `ok`, user }),
+  ok: (user: GetYourProfileDto) => {
+    const state: YourProfileStoreOkState = { is: `ok`, user };
+    localStorage.setItem(YOUR_PROFILE_STORE_LS_KEY, JSON.stringify(state));
+    set(state);
+  },
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
+  sync: (): void => {
+    const state = localStorage.getItem(YOUR_PROFILE_STORE_LS_KEY) as
+      | string
+      | null;
+
+    if (state === null) {
+      set({ is: `idle` });
+      return;
+    }
+
+    set(JSON.parse(state) as YourProfileStoreOkState);
+  },
 };
 
 const isOk = (state: YourProfileStoreState): YourProfileStoreOkState => {
@@ -36,6 +54,20 @@ const yourProfileStoreSelectors = {
   useState: () => useYourProfileStore(),
   ok: () => isOk(getState()),
   useOk: () => useYourProfileStore(isOk),
+  persistedState: () => {
+    const defaultState: YourProfileStoreState = { is: `idle` };
+    const state = localStorage.getItem(`your-profile`) as string | null;
+
+    if (state === null) {
+      return defaultState;
+    }
+
+    try {
+      return JSON.parse(state) as YourProfileStoreState;
+    } catch {
+      return defaultState;
+    }
+  },
 };
 
 export type { YourProfileStoreState, YourProfileStoreOkState };

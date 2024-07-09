@@ -169,14 +169,15 @@ const WithAuth = () => {
     };
 
     const getYourProfile = async () => {
-      try {
-        if (
-          yourProfileStoreSelectors.state().is === `ok` ||
-          yourProfileStoreSelectors.state().is === `busy`
-        )
-          return;
+      if (
+        yourProfileStoreSelectors.state().is === `ok` ||
+        yourProfileStoreSelectors.state().is === `busy`
+      )
+        return;
 
+      try {
         yourProfileStoreActions.busy();
+
         const { data: profile } = await httpsCallable<
           undefined,
           GetYourProfileDto
