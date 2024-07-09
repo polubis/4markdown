@@ -171,4 +171,18 @@ describe(`Error parsing works when`, () => {
       content: `Unknown error occured`,
     });
   });
+
+  it(`returns unknown error when schema error has invalid shape`, () => {
+    expect(
+      parseErrorV2(
+        JSON.stringify({
+          symbol: `invalid-schema`,
+          content: [],
+        }),
+      ),
+    ).toEqual({
+      symbol: `unknown`,
+      content: `Unknown error occured`,
+    });
+  });
 });
