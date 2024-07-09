@@ -1,6 +1,6 @@
 import ErrorModal from 'components/error-modal';
 import { Button } from 'design-system/button';
-import { parseErrorV2 } from 'development-kit/parse-error';
+import { parseErrorV2 } from 'development-kit/parse-error-v2';
 import React from 'react';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import {
