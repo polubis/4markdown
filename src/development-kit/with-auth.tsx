@@ -347,6 +347,7 @@ const WithAuth = () => {
           logOut: async () => {
             try {
               await signOut(auth);
+              yourProfileStoreActions.idle();
             } catch {}
           },
           uploadImage,
@@ -409,6 +410,7 @@ const WithAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
+      yourProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
         getPublicDoc,
