@@ -1,12 +1,11 @@
+import { meta } from 'core/meta';
 import type { GatsbyConfig } from 'gatsby';
-import { siteMetadata } from './site-metadata';
 
 require(`dotenv`).config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
 const config: GatsbyConfig = {
-  siteMetadata,
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
   // Learn more at: https://gatsby.dev/graphql-typegen
@@ -19,9 +18,9 @@ const config: GatsbyConfig = {
       resolve: `gatsby-plugin-manifest`,
       options: {
         icon: `src/images/icon.png`,
-        name: siteMetadata.appName,
-        short_name: siteMetadata.appName,
-        description: siteMetadata.description,
+        name: meta.appName,
+        short_name: meta.appName,
+        description: meta.description,
         start_url: `/`,
         background_color: `#fff`,
         lang: `en-US`,
@@ -32,16 +31,13 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-plugin-robots-txt`,
       options: {
-        host: siteMetadata.siteUrl,
-        sitemap: `${siteMetadata.siteUrl}sitemap-index.xml`,
+        host: meta.siteUrl,
+        sitemap: `${meta.siteUrl}sitemap-index.xml`,
         policy: [
           {
             userAgent: `*`,
             allow: [`/`],
-            disallow: [
-              siteMetadata.routes.docs.preview,
-              siteMetadata.routes.notFound,
-            ],
+            disallow: [meta.routes.docs.preview, meta.routes.notFound],
           },
         ],
       },

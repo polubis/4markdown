@@ -6,7 +6,7 @@ import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.cont
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
-import { appMetadata } from 'core/constants';
+import { meta } from 'core/meta';
 
 const NotFoundPage = () => {
   return (
@@ -35,11 +35,11 @@ export default NotFoundPage;
 export const Head: HeadFC = () => {
   return (
     <Meta
-      appName={appMetadata.appName}
-      title={appMetadata.title}
-      description={appMetadata.description}
-      url={appMetadata.siteUrl}
-      lang={appMetadata.lang}
+      appName={meta.appName}
+      title={meta.title}
+      description={meta.description}
+      url={meta.siteUrl}
+      lang={meta.lang}
       image={LogoThumbnail}
       robots="noindex, nofollow"
     />
