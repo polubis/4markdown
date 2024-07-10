@@ -3,7 +3,7 @@ import { HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
 import { PrivacyPolicyView } from 'features/privacy-policy/privacy-policy.view';
-import { meta } from '../../meta';
+import  from '../../meta';
 
 const PrivacyPolicyPage = () => {
   return <PrivacyPolicyView />;
