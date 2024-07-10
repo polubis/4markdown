@@ -3,11 +3,9 @@ import { AppFooterContainer } from 'containers/app-footer.container';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import React from 'react';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { meta } from '../../../meta';
 
 const PrivacyPolicyView = () => {
-  const siteMetadataStore = siteMetadataStoreSelectors.useReady();
-
   return (
     <>
       <AppNavigation>
@@ -20,20 +18,20 @@ const PrivacyPolicyView = () => {
         </p>
         <h1>Privacy Policy</h1>
         <p>
-          <strong>{siteMetadataStore.appName}</strong> (“we,” “our,” or “us”) is
-          committed to protecting your privacy. This Privacy Policy explains how
-          your personal information is collected, used, and disclosed by{` `}
-          <strong>{siteMetadataStore.appName}</strong>.
+          <strong>{meta.appName}</strong> (“we,” “our,” or “us”) is committed to
+          protecting your privacy. This Privacy Policy explains how your
+          personal information is collected, used, and disclosed by{` `}
+          <strong>{meta.appName}</strong>.
         </p>
         <p>
           This Privacy Policy applies to our website, and its associated
           subdomains (collectively, our “Service”) alongside our application,
           {` `}
-          <strong>{siteMetadataStore.appName}</strong>. By accessing or using
-          our Service, you signify that you have read, understood, and agree to
-          our collection, storage, use, and disclosure of your personal
-          information as described in this Privacy Policy and our Terms of
-          Service. This Privacy Policy was created with
+          <strong>{meta.appName}</strong>. By accessing or using our Service,
+          you signify that you have read, understood, and agree to our
+          collection, storage, use, and disclosure of your personal information
+          as described in this Privacy Policy and our Terms of Service. This
+          Privacy Policy was created with
           {` `}
           <a
             className="underline underline-offset-2"
@@ -62,31 +60,30 @@ const PrivacyPolicyView = () => {
             it refers to{` `}
             <a
               className="underline underline-offset-2"
-              href={siteMetadataStore.companyUrl}
+              href={meta.companyUrl}
               target="_blank"
               rel="noreferrer"
             >
-              {siteMetadataStore.company} Adrian Połubiński, Olsztyn, Pileckiego
-              6/19 10-693
+              {meta.company} Adrian Połubiński, Olsztyn, Pileckiego 6/19 10-693
             </a>
             {` `}
             that is responsible for your information under this Privacy Policy.
           </li>
           <li>
-            Country: Where <strong>{siteMetadataStore.appName}</strong> or the
-            owners/founders of <strong>{siteMetadataStore.appName}</strong>
+            Country: Where <strong>{meta.appName}</strong> or the
+            owners/founders of <strong>{meta.appName}</strong>
             {` `}
             are based, in this case is Poland
           </li>
           <li>
             Customer: refers to the company, organization or person that signs
-            up to use the <strong>{siteMetadataStore.appName}</strong> Service
-            to manage the relationships with your consumers or service users.
+            up to use the <strong>{meta.appName}</strong> Service to manage the
+            relationships with your consumers or service users.
           </li>
           <li>
             Device: any internet connected device such as a phone, tablet,
             computer or any other device that can be used to visit{`  `}
-            <strong>{siteMetadataStore.appName}</strong> and use the services.
+            <strong>{meta.appName}</strong> and use the services.
           </li>
           <li>
             IP address: Every device connected to the Internet is assigned a
@@ -97,8 +94,8 @@ const PrivacyPolicyView = () => {
           </li>
           <li>
             Personnel: refers to those individuals who are employed by{` `}
-            <strong>{siteMetadataStore.appName}</strong> or are under contract
-            to perform a service on behalf of one of the parties.
+            <strong>{meta.appName}</strong> or are under contract to perform a
+            service on behalf of one of the parties.
           </li>
           <li>
             Personal Data: any information that directly, indirectly, or in
@@ -108,8 +105,8 @@ const PrivacyPolicyView = () => {
           </li>
           <li>
             Service: refers to the service provided by{` `}
-            <strong>{siteMetadataStore.appName}</strong> as described in the
-            relative terms (if available) and on this platform.
+            <strong>{meta.appName}</strong> as described in the relative terms
+            (if available) and on this platform.
           </li>
           <li>
             Third-party service: refers to advertisers, contest sponsors,
@@ -117,13 +114,13 @@ const PrivacyPolicyView = () => {
             content or whose products or services we think may interest you.
           </li>
           <li>
-            Website: <strong>{siteMetadataStore.appName}</strong>&apos;s site,
-            which can be accessed via this URL:{` `}
-            <strong>{siteMetadataStore.siteUrl}</strong>
+            Website: <strong>{meta.appName}</strong>&apos;s site, which can be
+            accessed via this URL:{` `}
+            <strong>{meta.siteUrl}</strong>
           </li>
           <li>
             You: a person or entity that is registered with{` `}
-            <strong>{siteMetadataStore.appName}</strong> to use the Services.
+            <strong>{meta.appName}</strong> to use the Services.
           </li>
         </ul>
         <h2>What Information Do We Collect?</h2>
@@ -165,14 +162,13 @@ const PrivacyPolicyView = () => {
           <li>To send periodic emails</li>
         </ul>
         <h2>
-          When does <strong>{siteMetadataStore.appName}</strong> use end user
-          information from third parties?
+          When does <strong>{meta.appName}</strong> use end user information
+          from third parties?
         </h2>
         <p>
-          <strong>{siteMetadataStore.appName}</strong> will collect End User
-          Data necessary to provide the{` `}
-          <strong>{siteMetadataStore.appName}</strong> services to our
-          customers.
+          <strong>{meta.appName}</strong> will collect End User Data necessary
+          to provide the{` `}
+          <strong>{meta.appName}</strong> services to our customers.
         </p>
         <p>
           End users may voluntarily provide us with information they have made
@@ -183,21 +179,21 @@ const PrivacyPolicyView = () => {
           websites and changing your privacy settings.
         </p>
         <h2>
-          When does <strong>{siteMetadataStore.appName}</strong> use customer
-          information from third parties?
+          When does <strong>{meta.appName}</strong> use customer information
+          from third parties?
         </h2>
         <p>
           We receive some information from the third parties when you contact
           us. For example, when you submit your email address to us to show
-          interest in becoming a <strong>{siteMetadataStore.appName}</strong>
+          interest in becoming a <strong>{meta.appName}</strong>
           {` `}
           customer, we receive information from a third party that provides
           automated fraud detection services to{` `}
-          <strong>{siteMetadataStore.appName}</strong>. We also occasionally
-          collect information that is made publicly available on social media
-          websites. You can control how much of your information social media
-          websites make public by visiting these websites and changing your
-          privacy settings.
+          <strong>{meta.appName}</strong>. We also occasionally collect
+          information that is made publicly available on social media websites.
+          You can control how much of your information social media websites
+          make public by visiting these websites and changing your privacy
+          settings.
         </p>
         <h2>Do we share the information we collect with third parties?</h2>
         <p>
@@ -244,9 +240,9 @@ const PrivacyPolicyView = () => {
           Where and when is information collected from customers and end users?
         </h2>
         <p>
-          <strong>{siteMetadataStore.appName}</strong> will collect personal
-          information that you submit to us. We may also receive personal
-          information about you from third parties as described above.
+          <strong>{meta.appName}</strong> will collect personal information that
+          you submit to us. We may also receive personal information about you
+          from third parties as described above.
         </p>
         <h2>How Do We Use Your Email Address?</h2>
         <p>
@@ -272,11 +268,11 @@ const PrivacyPolicyView = () => {
         <h2>How Long Do We Keep Your Information?</h2>
         <p>
           We keep your information only so long as we need it to provide{` `}
-          <strong>{siteMetadataStore.appName}</strong> to you and fulfill the
-          purposes described in this policy. This is also the case for anyone
-          that we share your information with and who carries out services on
-          our behalf. When we no longer need to use your information and there
-          is no need for us to keep it to comply with our legal or regulatory
+          <strong>{meta.appName}</strong> to you and fulfill the purposes
+          described in this policy. This is also the case for anyone that we
+          share your information with and who carries out services on our
+          behalf. When we no longer need to use your information and there is no
+          need for us to keep it to comply with our legal or regulatory
           obligations, we’ll either remove it from our systems or depersonalize
           it so that we can&apos;t identify you.
         </p>
@@ -293,27 +289,25 @@ const PrivacyPolicyView = () => {
           information (credit cards, social security numbers, financials, etc.)
           is never kept on file. We cannot, however, ensure or warrant the
           absolute security of any information you transmit to{` `}
-          <strong>{siteMetadataStore.appName}</strong> or guarantee that your
-          information on the Service may not be accessed, disclosed, altered, or
-          destroyed by a breach of any of our physical, technical, or managerial
-          safeguards.
+          <strong>{meta.appName}</strong> or guarantee that your information on
+          the Service may not be accessed, disclosed, altered, or destroyed by a
+          breach of any of our physical, technical, or managerial safeguards.
         </p>
         <h2>Could my information be transferred to other countries?</h2>
         <p>
-          <strong>{siteMetadataStore.appName}</strong> is incorporated in
-          Poland. Information collected via our website, through direct
-          interactions with you, or from use of our help services may be
-          transferred from time to time to our offices or personnel, or to third
-          parties, located throughout the world, and may be viewed and hosted
-          anywhere in the world, including countries that may not have laws of
-          general applicability regulating the use and transfer of such data. To
-          the fullest extent allowed by applicable law, by using any of the
-          above, you voluntarily consent to the trans-border transfer and
-          hosting of such information.
+          <strong>{meta.appName}</strong> is incorporated in Poland. Information
+          collected via our website, through direct interactions with you, or
+          from use of our help services may be transferred from time to time to
+          our offices or personnel, or to third parties, located throughout the
+          world, and may be viewed and hosted anywhere in the world, including
+          countries that may not have laws of general applicability regulating
+          the use and transfer of such data. To the fullest extent allowed by
+          applicable law, by using any of the above, you voluntarily consent to
+          the trans-border transfer and hosting of such information.
         </p>
         <h2>
           Is the information collected through the{` `}
-          <strong>{siteMetadataStore.appName}</strong> Service secure?
+          <strong>{meta.appName}</strong> Service secure?
         </h2>
         <p>
           We take precautions to protect the security of your information. We
@@ -331,11 +325,10 @@ const PrivacyPolicyView = () => {
         <h2>Can I update or correct my information?</h2>
         <p>
           The rights you have to request updates or corrections to the
-          information <strong>{siteMetadataStore.appName}</strong> collects
-          depend on your relationship with{` `}
-          <strong>{siteMetadataStore.appName}</strong>. Personnel may update or
-          correct their information as detailed in our internal company
-          employment policies.
+          information <strong>{meta.appName}</strong> collects depend on your
+          relationship with{` `}
+          <strong>{meta.appName}</strong>. Personnel may update or correct their
+          information as detailed in our internal company employment policies.
         </p>
         <p>
           Customers have the right to request the restriction of certain uses
@@ -373,9 +366,9 @@ const PrivacyPolicyView = () => {
         </p>
         <h2>Personnel</h2>
         <p>
-          If you are a <strong>{siteMetadataStore.appName}</strong> worker or
-          applicant, we collect information you voluntarily provide to us. We
-          use the information collected for Human Resources purposes in order to
+          If you are a <strong>{meta.appName}</strong> worker or applicant, we
+          collect information you voluntarily provide to us. We use the
+          information collected for Human Resources purposes in order to
           administer benefits to workers and screen applicants.
         </p>
         <p>
@@ -392,15 +385,14 @@ const PrivacyPolicyView = () => {
         <p>
           We reserve the right to transfer information to a third party in the
           event of a sale, merger or other transfer of all or substantially all
-          of the assets of <strong>{siteMetadataStore.appName}</strong> or any
-          of its Corporate Affiliates (as defined herein), or that portion of
+          of the assets of <strong>{meta.appName}</strong> or any of its
+          Corporate Affiliates (as defined herein), or that portion of
           {` `}
-          <strong>{siteMetadataStore.appName}</strong> or any of its Corporate
-          Affiliates to which the Service relates, or in the event that we
-          discontinue our business or file a petition or have filed against us a
-          petition in bankruptcy, reorganization or similar proceeding, provided
-          that the third party agrees to adhere to the terms of this Privacy
-          Policy.
+          <strong>{meta.appName}</strong> or any of its Corporate Affiliates to
+          which the Service relates, or in the event that we discontinue our
+          business or file a petition or have filed against us a petition in
+          bankruptcy, reorganization or similar proceeding, provided that the
+          third party agrees to adhere to the terms of this Privacy Policy.
         </p>
         <h2>Affiliates</h2>
         <p>
@@ -408,10 +400,10 @@ const PrivacyPolicyView = () => {
           to our Corporate Affiliates. For purposes of this Privacy Policy,
           &quot;Corporate Affiliate&quot; means any person or entity which
           directly or indirectly controls, is controlled by or is under common
-          control with <strong>{siteMetadataStore.appName}</strong>, whether by
-          ownership or otherwise. Any information relating to you that we
-          provide to our Corporate Affiliates will be treated by those Corporate
-          Affiliates in accordance with the terms of this Privacy Policy.
+          control with <strong>{meta.appName}</strong>, whether by ownership or
+          otherwise. Any information relating to you that we provide to our
+          Corporate Affiliates will be treated by those Corporate Affiliates in
+          accordance with the terms of this Privacy Policy.
         </p>
         <h2>Governing Law</h2>
         <p>
@@ -429,13 +421,13 @@ const PrivacyPolicyView = () => {
           laws.
         </p>
         <p>
-          By using <strong>{siteMetadataStore.appName}</strong> or contacting us
-          directly, you signify your acceptance of this Privacy Policy. If you
-          do not agree to this Privacy Policy, you should not engage with our
-          website, or use our services. Continued use of the website, direct
-          engagement with us, or following the posting of changes to this
-          Privacy Policy that do not significantly affect the use or disclosure
-          of your personal information will mean that you accept those changes.
+          By using <strong>{meta.appName}</strong> or contacting us directly,
+          you signify your acceptance of this Privacy Policy. If you do not
+          agree to this Privacy Policy, you should not engage with our website,
+          or use our services. Continued use of the website, direct engagement
+          with us, or following the posting of changes to this Privacy Policy
+          that do not significantly affect the use or disclosure of your
+          personal information will mean that you accept those changes.
         </p>
         <h2>Your Consent</h2>
         <p>
@@ -449,10 +441,10 @@ const PrivacyPolicyView = () => {
         <p>
           This Privacy Policy applies only to the Services. The Services may
           contain links to other websites not operated or controlled by{` `}
-          <strong>{siteMetadataStore.appName}</strong>. We are not responsible
-          for the content, accuracy or opinions expressed in such websites, and
-          such websites are not investigated, monitored or checked for accuracy
-          or completeness by us. Please remember that when you use a link to go
+          <strong>{meta.appName}</strong>. We are not responsible for the
+          content, accuracy or opinions expressed in such websites, and such
+          websites are not investigated, monitored or checked for accuracy or
+          completeness by us. Please remember that when you use a link to go
           from the Services to another website, our Privacy Policy is no longer
           in effect. Your browsing and interaction on any other website,
           including those that have a link on our platform, is subject to that
@@ -462,27 +454,26 @@ const PrivacyPolicyView = () => {
         <h2>Advertising</h2>
         <p>
           This website may contain third party advertisements and links to third
-          party sites. <strong>{siteMetadataStore.appName}</strong> does not
-          make any representation as to the accuracy or suitability of any of
-          the information contained in those advertisements or sites and does
-          not accept any responsibility or liability for the conduct or content
-          of those advertisements and sites and the offerings made by the third
+          party sites. <strong>{meta.appName}</strong> does not make any
+          representation as to the accuracy or suitability of any of the
+          information contained in those advertisements or sites and does not
+          accept any responsibility or liability for the conduct or content of
+          those advertisements and sites and the offerings made by the third
           parties.
         </p>
         <p>
-          Advertising keeps <strong>{siteMetadataStore.appName}</strong> and
-          many of the websites and services you use free of charge. We work hard
-          to make sure that ads are safe, unobtrusive, and as relevant as
-          possible.
+          Advertising keeps <strong>{meta.appName}</strong> and many of the
+          websites and services you use free of charge. We work hard to make
+          sure that ads are safe, unobtrusive, and as relevant as possible.
         </p>
         <p>
           Third party advertisements and links to other sites where goods or
           services are advertised are not endorsements or recommendations by
           {` `}
-          <strong>{siteMetadataStore.appName}</strong> of the third party sites,
-          goods or services. <strong>{siteMetadataStore.appName}</strong> takes
-          no responsibility for the content of any of the ads, promises made, or
-          the quality/reliability of the products or services offered in all
+          <strong>{meta.appName}</strong> of the third party sites, goods or
+          services. <strong>{meta.appName}</strong> takes no responsibility for
+          the content of any of the ads, promises made, or the
+          quality/reliability of the products or services offered in all
           advertisements.
         </p>
         <h2>Cookies for Advertising</h2>
@@ -498,19 +489,18 @@ const PrivacyPolicyView = () => {
         </p>
         <h2>Cookies</h2>
         <p>
-          <strong>{siteMetadataStore.appName}</strong> uses &quot;Cookies&quot;
-          to identify the areas of our website that you have visited. A Cookie
-          is a small piece of data stored on your computer or mobile device by
-          your web browser. We use Cookies to enhance the performance and
-          functionality of our website but are non-essential to their use.
-          However, without these cookies, certain functionality like videos may
-          become unavailable or you would be required to enter your login
-          details every time you visit the website as we would not be able to
-          remember that you had logged in previously. Most web browsers can be
-          set to disable the use of Cookies. However, if you disable Cookies,
-          you may not be able to access functionality on our website correctly
-          or at all. We never place Personally Identifiable Information in
-          Cookies.
+          <strong>{meta.appName}</strong> uses &quot;Cookies&quot; to identify
+          the areas of our website that you have visited. A Cookie is a small
+          piece of data stored on your computer or mobile device by your web
+          browser. We use Cookies to enhance the performance and functionality
+          of our website but are non-essential to their use. However, without
+          these cookies, certain functionality like videos may become
+          unavailable or you would be required to enter your login details every
+          time you visit the website as we would not be able to remember that
+          you had logged in previously. Most web browsers can be set to disable
+          the use of Cookies. However, if you disable Cookies, you may not be
+          able to access functionality on our website correctly or at all. We
+          never place Personally Identifiable Information in Cookies.
         </p>
         <h2>Blocking and disabling cookies and similar technologies</h2>
         <p>
@@ -564,13 +554,13 @@ const PrivacyPolicyView = () => {
         </p>
         <p>
           You acknowledge and agree that{` `}
-          <strong>{siteMetadataStore.appName}</strong> shall not be responsible
-          for any Third-Party Services, including their accuracy, completeness,
+          <strong>{meta.appName}</strong> shall not be responsible for any
+          Third-Party Services, including their accuracy, completeness,
           timeliness, validity, copyright compliance, legality, decency, quality
           or any other aspect thereof.{` `}
-          <strong>{siteMetadataStore.appName}</strong> does not assume and shall
-          not have any liability or responsibility to you or any other person or
-          entity for any Third-Party Services.
+          <strong>{meta.appName}</strong> does not assume and shall not have any
+          liability or responsibility to you or any other person or entity for
+          any Third-Party Services.
         </p>
         <p>
           Third-Party Services and links thereto are provided solely as a
@@ -661,7 +651,7 @@ const PrivacyPolicyView = () => {
           individuals&apos; personal data that they collect and process. It also
           raises the stakes for compliance by increasing enforcement and
           imposing greater fines for breach. Beyond these facts it&apos;s simply
-          the right thing to do. At <strong>{siteMetadataStore.appName}</strong>
+          the right thing to do. At <strong>{meta.appName}</strong>
           {` `}
           we strongly believe that your data privacy is very important and we
           already have solid security and privacy practices in place that go
@@ -673,7 +663,7 @@ const PrivacyPolicyView = () => {
         </h2>
         <p>
           We are committed to helping our customers meet the data subject rights
-          requirements of GDPR. <strong>{siteMetadataStore.appName}</strong>
+          requirements of GDPR. <strong>{meta.appName}</strong>
           {` `}
           processes or stores all personal data in fully vetted, DPA compliant
           vendors. We do store all conversation and personal data for up to 6
@@ -772,7 +762,7 @@ const PrivacyPolicyView = () => {
         <p>Don&apos;t hesitate to contact us if you have any questions.</p>
         <ul>
           <li>
-            Via Email: <strong>{siteMetadataStore.contactEmail}</strong>
+            Via Email: <strong>{meta.contactEmail}</strong>
           </li>
         </ul>
       </main>

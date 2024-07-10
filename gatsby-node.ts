@@ -4,7 +4,7 @@ import { type GatsbyNode } from 'gatsby';
 import { GetPermanentDocsDto, PermamentSlimDoc } from 'models/doc';
 import path from 'path';
 import { DocsBrowsePageContext } from 'models/pages-contexts';
-import { siteMetadata } from './site-metadata';
+import { meta } from './meta';
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,
@@ -36,7 +36,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   actions.createPage<DocsBrowsePageContext>({
-    path: siteMetadata.routes.docs.browse,
+    path: meta.routes.docs.browse,
     component: path.resolve(`./src/dynamic-pages/docs-browse.page.tsx`),
     context: {
       docs: docs.map(
