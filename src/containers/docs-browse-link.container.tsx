@@ -8,7 +8,7 @@ const DocsBrowseLinkContainer = () => {
     <AppNavLink
       title="Go to education zone"
       className="hidden md:flex"
-      to={meta.routes.docs.browse}
+      to={meta.routes.docs.educationZone}
     >
       <BiBook size={20} className="mr-2 shrink-0" />
       <span className="text-md font-semibold">Education Zone</span>

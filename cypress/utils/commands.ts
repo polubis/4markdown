@@ -215,7 +215,7 @@ const BASE_COMMANDS = {
     }
 
     if (name === `education-zone`) {
-      cy.visit(`/docs/browse/`);
+      cy.visit(`/education-zone/`);
     }
   },
 } as const;

@@ -1,7 +1,7 @@
 import { PermamentSlimDoc } from './doc';
 
-interface DocsBrowsePageContext {
+interface EducationZonePageContext {
   docs: PermamentSlimDoc[];
 }
 
-export type { DocsBrowsePageContext };
+export type { EducationZonePageContext };
