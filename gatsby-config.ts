@@ -33,7 +33,7 @@ const config: GatsbyConfig = {
       resolve: `gatsby-plugin-robots-txt`,
       options: {
         host: meta.siteUrl,
-        sitemap: `${meta.siteUrl}sitemap-index.xml`,
+        sitemap: `${meta.siteUrl}/sitemap-index.xml`,
         policy: [
           {
             userAgent: `*`,
