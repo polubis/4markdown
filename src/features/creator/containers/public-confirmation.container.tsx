@@ -4,7 +4,7 @@ import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Link } from 'gatsby';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { meta } from '../../../../meta';
 
 interface PublicConfirmationContainerProps {
   onClose(): void;
@@ -18,7 +18,6 @@ const PublicConfirmationContainer = ({
   onConfirm,
 }: PublicConfirmationContainerProps) => {
   const docManagementStore = useDocManagementStore();
-  const siteMetadataStore = siteMetadataStoreSelectors.useReady();
 
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -56,7 +55,7 @@ const PublicConfirmationContainer = ({
         The document will not appear in <strong>Google</strong> and in the{` `}
         <Link
           className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-          to={siteMetadataStore.routes.docs.browse}
+          to={meta.routes.docs.browse}
         >
           Education Zone
         </Link>

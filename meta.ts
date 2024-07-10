@@ -1,4 +1,4 @@
-export const siteMetadata = {
+export const meta = {
   appName: `4Markdown`,
   lang: `en`,
   contactEmail: `greenonsoftware@gmail.com`,
