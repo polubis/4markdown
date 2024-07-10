@@ -1,10 +1,6 @@
 import React from 'react';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
-import {
-  DocsBrowseProvider,
-  useDocsBrowseCtx,
-} from './providers/docs-browse.provider';
-import { DocsBrowsePageContext } from 'models/pages-contexts';
+import { EducationZonePageContext } from 'models/pages-contexts';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { Link } from 'gatsby';
 import { Badges } from 'design-system/badges';
@@ -15,13 +11,11 @@ import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
 
-interface DocsBrowseViewProps {
-  context: DocsBrowsePageContext;
+interface EducationZoneViewProps {
+  context: EducationZonePageContext;
 }
 
-const DocsBrowseView = () => {
-  const docsBrowse = useDocsBrowseCtx();
-
+const EducationZoneView = ({ context }: EducationZoneViewProps) => {
   return (
     <>
       <AppNavigation>
@@ -30,7 +24,7 @@ const DocsBrowseView = () => {
       </AppNavigation>
       <main className="max-w-2xl mx-auto my-6 p-4">
         <ul className="flex flex-col space-y-10">
-          {docsBrowse.docs.map((doc) => (
+          {context.docs.map((doc) => (
             <li className="flex flex-col" key={doc.name}>
               <Badges className="mb-3">
                 {doc.tags.map((tag) => (
@@ -87,10 +81,4 @@ const DocsBrowseView = () => {
   );
 };
 
-const ConnectedDocsBrowseView = ({ context }: DocsBrowseViewProps) => (
-  <DocsBrowseProvider context={context}>
-    <DocsBrowseView />
-  </DocsBrowseProvider>
-);
-
-export { ConnectedDocsBrowseView as DocsBrowseView };
+export { EducationZoneView };

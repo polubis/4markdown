@@ -2,19 +2,19 @@ import React from 'react';
 import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import { DocsBrowseView } from 'features/docs-browse/docs-browse.view';
-import { DocsBrowsePageContext } from 'models/pages-contexts';
+import { EducationZonePageContext } from 'models/pages-contexts';
 import { meta } from '../../meta';
+import { EducationZoneView } from 'features/education-zone/education-zone.view';
 
-interface DocsBrowsePageProps {
-  pageContext: DocsBrowsePageContext;
+interface EducationZonePageProps {
+  pageContext: EducationZonePageContext;
 }
 
-const DocsBrowsePage = ({ pageContext }: DocsBrowsePageProps) => {
-  return <DocsBrowseView context={pageContext} />;
+const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
+  return <EducationZoneView context={pageContext} />;
 };
 
-export default DocsBrowsePage;
+export default EducationZonePage;
 
 export const Head: HeadFC = () => {
   return (
@@ -22,7 +22,7 @@ export const Head: HeadFC = () => {
       appName={meta.appName}
       title="Explore a Wealth of Knowledge: Articles About Everything"
       description="Embark on a diverse journey through our extensive collection of articles about programming, mathematics, medicine, and more!"
-      url={meta.siteUrl + meta.routes.docs.browse}
+      url={meta.siteUrl + meta.routes.docs.educationZone}
       lang={meta.lang}
       image={LogoThumbnail}
     />
