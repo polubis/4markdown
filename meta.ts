@@ -28,8 +28,8 @@ export const meta = {
   },
   legacyRoutes: {
     docs: {
-      preview: `/docs/preview/`,
-      browse: `/docs/browse/`,
+      preview: `/docs/preview/`, // Now "/document/preview/""
+      browse: `/docs/browse/`, // Now "/education-zone/"
     },
   },
 } as const;
