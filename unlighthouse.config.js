@@ -1,6 +1,5 @@
 module.exports = {
   // Production clone environment
-  site: `https://soft-pithivier-093469.netlify.app`,
   ci: {
     budget: {
       performance: 90,
@@ -14,5 +13,3 @@ module.exports = {
     device: `mobile`,
   },
 };
-
-//  run: unlighthouse --site "https://deploy-preview-${{ github.event.pull_request.number }}--soft-pithivier-093469.netlify.app"
