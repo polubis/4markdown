@@ -1,8 +1,8 @@
 import c from 'classnames';
 import { CompanyLogo } from 'components/company-logo';
+import { meta } from 'core/consts/meta';
 import { Link } from 'gatsby';
 import React from 'react';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 
 const Column = ({
   className,
@@ -24,8 +24,6 @@ const Column = ({
 };
 
 const AppFooterContainer = () => {
-  const meta = siteMetadataStoreSelectors.useReady();
-
   return (
     <footer className="bg-zinc-200 dark:bg-gray-950">
       <div className="border-t-2 border-zinc-300 dark:border-zinc-800">

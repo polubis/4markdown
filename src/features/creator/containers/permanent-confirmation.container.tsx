@@ -5,7 +5,7 @@ import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { Link } from 'gatsby';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
+import { meta } from 'core/consts/meta';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;
@@ -20,7 +20,6 @@ const PermanentConfirmationContainer = ({
 }: PermanentConfirmationContainerProps) => {
   const docManagementStore = useDocManagementStore();
   const formSection = useToggle();
-  const siteMetadataStore = siteMetadataStoreSelectors.useReady();
 
   const openFormSection: React.FormEventHandler<HTMLFormElement> = async (
     e,
@@ -59,7 +58,7 @@ const PermanentConfirmationContainer = ({
         document available in <strong>Google</strong> and{` `}
         <Link
           className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-          to={siteMetadataStore.routes.docs.browse}
+          to={meta.routes.docs.browse}
         >
           Education Zone
         </Link>
@@ -73,7 +72,7 @@ const PermanentConfirmationContainer = ({
           <strong>Google</strong> and{` `}
           <Link
             className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-            to={siteMetadataStore.routes.docs.browse}
+            to={meta.routes.docs.browse}
           >
             Education Zone
           </Link>
