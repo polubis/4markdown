@@ -13,7 +13,7 @@ const HomePage = () => {
   const synced = React.useRef(false);
 
   if (!synced.current) {
-    const code = createInitialCode(meta);
+    const code = createInitialCode();
 
     useCreatorStore.setState({
       is: `ready`,

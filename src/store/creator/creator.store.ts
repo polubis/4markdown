@@ -1,8 +1,8 @@
-import type { SiteMetadata } from 'models/queries';
 import { create } from 'zustand';
 import LogoThumbnail from 'images/logo-thumbnail.png';
+import { meta } from '../../../meta';
 
-const createInitialCode = (meta: SiteMetadata): string => `# Markdown Cheatsheet
+const createInitialCode = (): string => `# Markdown Cheatsheet
 
 Separate every paragraph/section of text with \`enter\`. Suppose you want to create bolding use **bolding**. The _italic_ text requires a "_" symbol. 
 
