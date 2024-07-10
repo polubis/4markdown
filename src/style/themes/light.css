@@ -1,9 +1,9 @@
 body {
-  background: var(--white);
+  background: #fff;
 }
 
 body :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i, code, pre) {
-  color: var(--black);
+  color: #000;
 }
 
 p code,
