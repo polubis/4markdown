@@ -38,7 +38,11 @@ const config: GatsbyConfig = {
           {
             userAgent: `*`,
             allow: [`/`],
-            disallow: [meta.routes.docs.preview, meta.routes.notFound],
+            disallow: [
+              meta.routes.docs.preview,
+              meta.routes.notFound,
+              meta.legacyRoutes.docs.preview,
+            ],
           },
         ],
       },

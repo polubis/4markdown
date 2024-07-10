@@ -3,13 +3,13 @@ import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import DocPreviewView from 'features/doc-preview/doc-preview.view';
-import { meta } from '../../../meta';
+import { meta } from '../../meta';
 
-const DocsPreviewPage = () => {
+const DocumentPreviewPage = () => {
   return <DocPreviewView />;
 };
 
-export default DocsPreviewPage;
+export default DocumentPreviewPage;
 
 export const Head: HeadFC = () => {
   return (
