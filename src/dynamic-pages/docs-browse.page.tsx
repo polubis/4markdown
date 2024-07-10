@@ -22,7 +22,7 @@ export const Head: HeadFC = () => {
       appName={meta.appName}
       title="Explore a Wealth of Knowledge: Articles About Everything"
       description="Embark on a diverse journey through our extensive collection of articles about programming, mathematics, medicine, and more!"
-      url={meta.siteUrl + meta.routes.docs.browse}
+      url={meta.siteUrl + meta.routes.docs.educationZone}
       lang={meta.lang}
       image={LogoThumbnail}
     />

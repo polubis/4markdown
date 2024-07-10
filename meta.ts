@@ -20,10 +20,16 @@ export const meta = {
   routes: {
     home: `/`,
     docs: {
-      preview: `/docs/preview/`,
-      browse: `/docs/browse/`,
+      preview: `/doc/`,
+      educationZone: `/education-zone/`,
     },
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
+  },
+  legacyRoutes: {
+    docs: {
+      preview: `/docs/preview/`,
+      browse: `/docs/browse/`,
+    },
   },
 } as const;

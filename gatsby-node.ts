@@ -36,7 +36,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   actions.createPage<DocsBrowsePageContext>({
-    path: meta.routes.docs.browse,
+    path: meta.routes.docs.educationZone,
     component: path.resolve(`./src/dynamic-pages/docs-browse.page.tsx`),
     context: {
       docs: docs.map(
