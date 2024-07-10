@@ -107,7 +107,6 @@
       "views/*": ["./src/views/*"],
       "features/*": ["./src/features/*"],
       "models/*": ["./src/models/*"],
-      "queries/*": ["./src/queries/*"],
       "components/*": ["./src/components/*"],
       "core/*": ["./src/core/*"],
       "containers/*": ["./src/containers/*"],
