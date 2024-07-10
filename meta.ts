@@ -20,7 +20,7 @@ export const meta = {
   routes: {
     home: `/`,
     docs: {
-      preview: `/doc/`,
+      preview: `/document-preview/`,
       educationZone: `/education-zone/`,
     },
     notFound: `/404/`,

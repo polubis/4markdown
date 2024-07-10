@@ -4,7 +4,7 @@ import {
   DocsBrowseProvider,
   useDocsBrowseCtx,
 } from './providers/docs-browse.provider';
-import { DocsBrowsePageContext } from 'models/pages-contexts';
+import { EducationZonePageContext } from 'models/pages-contexts';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { Link } from 'gatsby';
 import { Badges } from 'design-system/badges';
@@ -16,7 +16,7 @@ import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
 
 interface DocsBrowseViewProps {
-  context: DocsBrowsePageContext;
+  context: EducationZonePageContext;
 }
 
 const DocsBrowseView = () => {

@@ -3,7 +3,7 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
 import { GetPermanentDocsDto, PermamentSlimDoc } from 'models/doc';
 import path from 'path';
-import { DocsBrowsePageContext } from 'models/pages-contexts';
+import { EducationZonePageContext } from 'models/pages-contexts';
 import { meta } from './meta';
 
 const config: FirebaseOptions = {
@@ -35,9 +35,9 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  actions.createPage<DocsBrowsePageContext>({
+  actions.createPage<EducationZonePageContext>({
     path: meta.routes.docs.educationZone,
-    component: path.resolve(`./src/dynamic-pages/docs-browse.page.tsx`),
+    component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
     context: {
       docs: docs.map(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

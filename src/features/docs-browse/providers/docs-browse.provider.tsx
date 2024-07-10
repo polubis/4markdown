@@ -1,14 +1,14 @@
-import { DocsBrowsePageContext } from 'models/pages-contexts';
+import { EducationZonePageContext } from 'models/pages-contexts';
 import React from 'react';
 import { StoreApi, UseBoundStore, create } from 'zustand';
 
-interface DocsBrowseProviderContext extends DocsBrowsePageContext {
+interface DocsBrowseProviderContext extends EducationZonePageContext {
   set: UseBoundStore<StoreApi<DocsBrowseProviderContext>>['setState'];
 }
 
 interface DocsBrowseProviderProps {
   children: React.ReactNode;
-  context: DocsBrowsePageContext;
+  context: EducationZonePageContext;
 }
 
 const Context = React.createContext<DocsBrowseProviderContext | null>(null);
