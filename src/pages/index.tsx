@@ -2,28 +2,18 @@ import React from 'react';
 import { type HeadFC } from 'gatsby';
 import CreatorView from 'features/creator/creator.view';
 import Meta from 'components/meta';
-import {
-  siteMetadataStoreSelectors,
-  useSiteMetadataStore,
-} from 'store/site-metadata/site-metadata.store';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import { useSiteMetadataQuery } from 'queries/use-site-metadata-query';
 import {
   createInitialCode,
   useCreatorStore,
 } from 'store/creator/creator.store';
+import { meta } from 'core/consts/meta';
 
 const HomePage = () => {
   const synced = React.useRef(false);
-  const siteMetadata = useSiteMetadataQuery();
 
   if (!synced.current) {
-    useSiteMetadataStore.setState({
-      is: `ready`,
-      ...siteMetadata,
-    });
-
-    const code = createInitialCode(siteMetadata);
+    const code = createInitialCode(meta);
 
     useCreatorStore.setState({
       is: `ready`,
@@ -41,8 +31,6 @@ const HomePage = () => {
 export default HomePage;
 
 export const Head: HeadFC = () => {
-  const meta = siteMetadataStoreSelectors.useReady();
-
   return (
     <Meta
       appName={meta.appName}
