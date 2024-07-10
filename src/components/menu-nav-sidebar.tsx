@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import Backdrop from 'design-system/backdrop';
 import { Link } from 'gatsby';
 import { ButtonLink } from 'design-system/button-link';
 import c from 'classnames';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
 import { CompanyLogo } from './company-logo';
+import { meta } from '../../meta';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -21,8 +21,6 @@ const ScrollHide = ({ children }: { children: React.ReactNode }) => {
 };
 
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
-  const meta = siteMetadataStoreSelectors.useReady();
-
   return (
     <>
       {opened && (

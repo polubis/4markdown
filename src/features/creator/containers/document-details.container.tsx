@@ -6,7 +6,6 @@ import { docStoreSelectors } from 'store/doc/doc.store';
 import c from 'classnames';
 import { formatDistance } from 'date-fns';
 import { navigate } from 'gatsby';
-import { siteMetadataStoreSelectors } from 'store/site-metadata/site-metadata.store';
 import { Tabs } from 'design-system/tabs';
 import { useToggle } from 'development-kit/use-toggle';
 import { PublicConfirmationContainer } from 'features/creator/containers/public-confirmation.container';
@@ -14,6 +13,7 @@ import { PrivateConfirmationContainer } from 'features/creator/containers/privat
 import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
 import Modal from 'design-system/modal';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
+import { meta } from '../../../../meta';
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
@@ -29,7 +29,6 @@ const DocumentDetailsContainer = ({
   const publicConfirmation = useToggle();
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
-  const siteMetaDataStore = siteMetadataStoreSelectors.useReady();
   const permamentDocumentEdition = useToggle();
 
   return (
@@ -162,9 +161,7 @@ const DocumentDetailsContainer = ({
                 className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
                 title="Document preview"
                 onClick={() =>
-                  navigate(
-                    `${siteMetaDataStore.routes.docs.preview}?id=${docStore.id}`,
-                  )
+                  navigate(`${meta.routes.docs.preview}?id=${docStore.id}`)
                 }
               >
                 <strong>Preview</strong>
