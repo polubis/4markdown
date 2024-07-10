@@ -1,7 +1,7 @@
 import { AppNavLink } from 'components/app-nav-link';
-import { meta } from 'core/consts/meta';
 import React from 'react';
 import { BiBook } from 'react-icons/bi';
+import { meta } from '../../meta';
 
 const DocsBrowseLinkContainer = () => {
   return (

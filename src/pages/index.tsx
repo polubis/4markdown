@@ -7,7 +7,7 @@ import {
   createInitialCode,
   useCreatorStore,
 } from 'store/creator/creator.store';
-import { meta } from 'core/consts/meta';
+import { meta } from '../../meta';
 
 const HomePage = () => {
   const synced = React.useRef(false);

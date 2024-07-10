@@ -7,7 +7,7 @@ import { ButtonLink } from 'design-system/button-link';
 import c from 'classnames';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
 import { CompanyLogo } from './company-logo';
-import { meta } from 'core/consts/meta';
+import { meta } from '../../meta';
 
 interface MenuNavSidebarProps {
   onClose(): void;

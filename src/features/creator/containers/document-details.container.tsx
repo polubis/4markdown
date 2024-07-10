@@ -13,7 +13,7 @@ import { PrivateConfirmationContainer } from 'features/creator/containers/privat
 import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
 import Modal from 'design-system/modal';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
-import { meta } from 'core/consts/meta';
+import { meta } from '../../../../meta';
 
 interface DocumentDetailsContainerProps {
   onClose(): void;

@@ -1,5 +1,5 @@
 import type { GatsbyConfig } from 'gatsby';
-import { meta } from './src/core/consts/meta';
+import { meta } from './meta';
 
 require(`dotenv`).config({
   path: `.env.${process.env.NODE_ENV}`,

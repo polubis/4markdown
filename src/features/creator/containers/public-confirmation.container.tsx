@@ -4,7 +4,7 @@ import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Link } from 'gatsby';
-import { meta } from 'core/consts/meta';
+import { meta } from '../../../../meta';
 
 interface PublicConfirmationContainerProps {
   onClose(): void;

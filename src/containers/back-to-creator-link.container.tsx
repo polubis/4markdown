@@ -1,7 +1,7 @@
 import React from 'react';
 import { BiCodeBlock } from 'react-icons/bi';
 import { AppNavLink } from 'components/app-nav-link';
-import { meta } from 'core/consts/meta';
+import { meta } from '../../meta';
 
 const BackToCreatorLinkContainer = () => {
   return (

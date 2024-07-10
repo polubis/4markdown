@@ -2,8 +2,8 @@ import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
-import { meta } from 'core/consts/meta';
 import React from 'react';
+import { meta } from '../../../meta';
 
 const PrivacyPolicyView = () => {
   return (

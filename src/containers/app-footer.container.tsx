@@ -1,8 +1,8 @@
 import c from 'classnames';
 import { CompanyLogo } from 'components/company-logo';
-import { meta } from 'core/consts/meta';
 import { Link } from 'gatsby';
 import React from 'react';
+import { meta } from '../../meta';
 
 const Column = ({
   className,

@@ -6,7 +6,7 @@ import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.cont
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
-import { meta } from 'core/consts/meta';
+import { meta } from '../../meta';
 
 const NotFoundPage = () => {
   return (

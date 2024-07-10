@@ -4,7 +4,7 @@ import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { DocsBrowseView } from 'features/docs-browse/docs-browse.view';
 import { DocsBrowsePageContext } from 'models/pages-contexts';
-import { meta } from 'core/consts/meta';
+import { meta } from '../../meta';
 
 interface DocsBrowsePageProps {
   pageContext: DocsBrowsePageContext;
