@@ -58,7 +58,7 @@ const SnippetCopyButton = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Button
-      className="absolute right-3 top-3"
+      className="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity"
       i={2}
       s={1}
       title="Copy snippet"
@@ -129,7 +129,7 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
       <blockquote className="px-3 py-2 border-l-4">{children}</blockquote>
     ),
     pre: ({ children }) => (
-      <div className="relative border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md">
+      <div className="relative border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md group">
         <SnippetCopyButton>{children}</SnippetCopyButton>
         <pre className="p-4">{children}</pre>
       </div>
