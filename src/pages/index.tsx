@@ -13,7 +13,7 @@ const HomePage = () => {
   const synced = React.useRef(false);
 
   if (!synced.current) {
-    const code = createInitialCode(meta);
+    const code = createInitialCode();
 
     useCreatorStore.setState({
       is: `ready`,
@@ -36,7 +36,7 @@ export const Head: HeadFC = () => {
       appName={meta.appName}
       title={meta.title}
       description={meta.description}
-      url={meta.siteUrl}
+      url={meta.siteUrl + meta.routes.home}
       keywords={`${meta.appName}, Editor, Github markdown editor online, ${meta.company}, Programming articles, Markdown preview, Online markdown editor`}
       lang={meta.lang}
       image={LogoThumbnail}

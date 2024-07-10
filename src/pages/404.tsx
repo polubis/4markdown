@@ -38,7 +38,7 @@ export const Head: HeadFC = () => {
       appName={meta.appName}
       title={meta.title}
       description={meta.description}
-      url={meta.siteUrl}
+      url={meta.siteUrl + meta.routes.notFound}
       lang={meta.lang}
       image={LogoThumbnail}
       robots="noindex, nofollow"
