@@ -19,7 +19,7 @@ jobs:
         run: npm install -g @unlighthouse/cli puppeteer
 
       - name: Run Tests
-        run: unlighthouse-ci
+        run:  unlighthouse-ci --site https://soft-pithivier-093469.netlify.app
 
       - name: Read Result
         run: cat ./.unlighthouse/ci-result.json

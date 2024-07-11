@@ -40,26 +40,35 @@ jobs:
         run: |
           timeout 60s bash -c 'until echo > /dev/tcp/localhost/9000; do sleep 1; done'
 
-  unlighthouse:
-    name: Run Unlighthouse CI
-    runs-on: ubuntu-latest
-    needs: build-and-serve
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-
-      - name: Install dependencies
-        run: npm install --legacy-peer-deps
-
       - name: Run Unlighthouse CI
-        run: unlighthouse ci
+        run: unlighthouse-ci --site http://localhost:9000
 
       - name: Read Result
         run: cat ./.unlighthouse/ci-result.json
 
       - name: Terminate Serve Process
         run: pkill -f "npm run serve"
+
+  # unlighthouse:
+  #   name: Run Unlighthouse CI
+  #   runs-on: ubuntu-latest
+  #   needs: build-and-serve
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Set up Node.js
+  #       uses: actions/setup-node@v2
+
+  #     - name: Install dependencies
+  #       run: npm install --legacy-peer-deps
+
+  #     - name: Run Unlighthouse CI
+  #       run: unlighthouse ci
+
+  #     - name: Read Result
+  #       run: cat ./.unlighthouse/ci-result.json
+
+  #     - name: Terminate Serve Process
+  #       run: pkill -f "npm run serve"
