@@ -1,9 +1,8 @@
 name: CI/CD with Unlighthouse
 
 on:
-  push:
-    branches:
-      - main  # or the branch you want this action to run on
+  pull_request:
+    branches: ['develop']
 
 jobs:
   build-and-serve:
@@ -30,13 +29,6 @@ jobs:
         run: |
           timeout 60s bash -c 'until echo > /dev/tcp/localhost/9000; do sleep 1; done'
 
-      - name: Upload CI results
-        uses: actions/upload-artifact@v2
-        with:
-          name: serve-process
-          path: .unlighthouse/ci-result.json
-          if-no-files-found: error
-
   unlighthouse:
     name: Run Unlighthouse CI
     runs-on: ubuntu-latest
@@ -52,20 +44,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: serve-process
-
       - name: Run Unlighthouse CI
         run: unlighthouse ci
 
       - name: Read Result
         run: cat ./.unlighthouse/ci-result.json
 
-      - name: Upload Unlighthouse results
-        uses: actions/upload-artifact@v2
-        with:
-          name: unlighthouse-results
-          path: .unlighthouse/ci-result.json
-          if-no-files-found: error
+      - name: Terminate Serve Process
+        run: pkill -f "npm run serve"
