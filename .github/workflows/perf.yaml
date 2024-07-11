@@ -1,0 +1,71 @@
+name: CI/CD with Unlighthouse
+
+on:
+  push:
+    branches:
+      - main  # or the branch you want this action to run on
+
+jobs:
+  build-and-serve:
+    name: Build and Serve
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run build
+
+      - name: Serve the project
+        run: npm run serve &
+
+      - name: Wait for the server to be ready
+        run: |
+          timeout 60s bash -c 'until echo > /dev/tcp/localhost/9000; do sleep 1; done'
+
+      - name: Upload CI results
+        uses: actions/upload-artifact@v2
+        with:
+          name: serve-process
+          path: .unlighthouse/ci-result.json
+          if-no-files-found: error
+
+  unlighthouse:
+    name: Run Unlighthouse CI
+    runs-on: ubuntu-latest
+    needs: build-and-serve
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: serve-process
+
+      - name: Run Unlighthouse CI
+        run: unlighthouse ci
+
+      - name: Read Result
+        run: cat ./.unlighthouse/ci-result.json
+
+      - name: Upload Unlighthouse results
+        uses: actions/upload-artifact@v2
+        with:
+          name: unlighthouse-results
+          path: .unlighthouse/ci-result.json
+          if-no-files-found: error
