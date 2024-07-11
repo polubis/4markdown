@@ -41,7 +41,7 @@ jobs:
           timeout 60s bash -c 'until echo > /dev/tcp/localhost/9000; do sleep 1; done'
 
       - name: Run Unlighthouse CI
-        run: unlighthouse-ci --site http://localhost:9000
+        run: unlighthouse-ci --site "http://localhost:9000"
 
       - name: Read Result
         run: cat ./.unlighthouse/ci-result.json
