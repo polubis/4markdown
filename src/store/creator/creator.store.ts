@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../../meta';
 
-const createInitialCode = (): string => `# Markdown Cheatsheet
+const initialCode = `# Markdown Cheatsheet
 
 Separate every paragraph/section of text with \`enter\`. Suppose you want to create bolding use **bolding**. The _italic_ text requires a "_" symbol. 
 
@@ -94,12 +94,10 @@ const set = (state: CreatorStoreState): void => {
 
 const creatorStoreActions = {
   init: (): void => {
-    const code = createInitialCode();
-
     const newState: CreatorStoreStateReady = {
       is: `ready`,
-      initialCode: code,
-      code,
+      initialCode,
+      code: initialCode,
       changed: false,
     };
 
