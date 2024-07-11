@@ -11,3 +11,5 @@ cypress/downloads/
 cypress/snapshots/**/
 cypress/screenshots/
 .unlighthouse
+
+test-results/*
