@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build the project
         run: npm run build
@@ -42,7 +42,7 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Run Unlighthouse CI
         run: unlighthouse ci
