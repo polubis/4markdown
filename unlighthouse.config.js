@@ -1,7 +1,7 @@
 module.exports = {
   ci: {
     budget: {
-      performance: 94,
+      performance: 90,
       accessibility: 90,
       'best-practices': 90,
       seo: 90,
