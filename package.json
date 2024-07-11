@@ -31,7 +31,8 @@
     "test:e2e-run-dev": "start-server-and-test develop http://localhost:8000 cy:run-dev",
     "test:e2e-run-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
-    "lint:ci": "npm run lint"
+    "lint:ci": "npm run lint",
+    "pw:test": "npx playwright test"
   },
   "dependencies": {
     "@mdx-js/react": "^2.3.0",
@@ -58,6 +59,7 @@
     "@babel/preset-typescript": "^7.23.2",
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
+    "@playwright/test": "^1.45.1",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.0.0",
