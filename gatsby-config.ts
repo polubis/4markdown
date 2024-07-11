@@ -1,5 +1,6 @@
 import type { GatsbyConfig } from 'gatsby';
 import { meta } from './meta';
+import { seoPlugins } from './seo-plugins';
 
 require(`dotenv`).config({
   path: `.env.${process.env.NODE_ENV}`,
@@ -14,7 +15,6 @@ const config: GatsbyConfig = {
   plugins: [
     `gatsby-plugin-root-import`,
     `gatsby-plugin-postcss`,
-    `gatsby-plugin-sitemap`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -29,24 +29,7 @@ const config: GatsbyConfig = {
         display: `standalone`,
       },
     },
-    {
-      resolve: `gatsby-plugin-robots-txt`,
-      options: {
-        host: meta.siteUrl,
-        sitemap: `${meta.siteUrl}/sitemap-index.xml`,
-        policy: [
-          {
-            userAgent: `*`,
-            allow: [`/`],
-            disallow: [
-              meta.routes.docs.preview,
-              meta.routes.notFound,
-              meta.legacyRoutes.docs.preview,
-            ],
-          },
-        ],
-      },
-    },
+    ...seoPlugins(),
     `gatsby-plugin-image`,
     `gatsby-plugin-mdx`,
     `gatsby-plugin-sharp`,
