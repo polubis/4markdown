@@ -5,21 +5,49 @@ on:
     branches: ['develop']
 
 jobs:
-  build:
+  build-and-serve:
+    name: Build and Serve
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
 
-      - name: Install Dependencies
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build the project
+        env: 
+          GATSBY_API_URL: ${{ secrets.GATSBY_API_URL }}
+          GATSBY_API_KEY: ${{ secrets.GATSBY_API_KEY }}
+          GATSBY_AUTH_DOMAIN: ${{ secrets.GATSBY_AUTH_DOMAIN }}
+          GATSBY_PROJECT_ID: ${{ secrets.GATSBY_PROJECT_ID }}
+          GATSBY_STORAGE_BUCKET: ${{ secrets.GATSBY_STORAGE_BUCKET }}
+          GATSBY_MESSAGING_SENDER_ID: ${{ secrets.GATSBY_MESSAGING_SENDER_ID }}
+          GATSBY_APP_ID: ${{ secrets.GATSBY_APP_ID }}
+          GATSBY_MEASURMENT_ID: ${{ secrets.GATSBY_MEASURMENT_ID }}
+          GATSBY_TEST_USER_EMAIL: ${{ secrets.GATSBY_TEST_USER_EMAIL }}
+          GATSBY_TEST_USER_PASSWORD: ${{ secrets.GATSBY_TEST_USER_PASSWORD }}
+        run: npm run build
+
+      - name: Serve the project
+        run: npm run serve &
+
+      - name: Wait for the server to be ready
+        run: |
+          timeout 60s bash -c 'until echo > /dev/tcp/localhost/9000; do sleep 1; done'
+
+      - name: Install Unlighthouse
         run: npm install -g @unlighthouse/cli puppeteer
 
-      - name: Run Tests
-        run: unlighthouse-ci
+      - name: Run Unlighthouse CI
+        run: unlighthouse-ci --site "http://localhost:9000"
 
       - name: Read Result
         run: cat ./.unlighthouse/ci-result.json
+
+      - name: Terminate Serve Process
+        run: pkill -f "npm run serve"
