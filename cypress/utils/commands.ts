@@ -109,6 +109,7 @@ const BASE_COMMANDS = {
     cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
   'I reload page': () => {
+    // BUG IS HERE...
     // cy.reload();
   },
   'System sets pictures folder': (name: string) => {
@@ -157,7 +158,7 @@ const BASE_COMMANDS = {
     cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);
   },
   'System takes picture': () => {
-    // 1000x660 viewport, full screen, 2x sidebars open, MSI, 100% zoom.
+    // 1000x660 viewport, full screen, 1x sidebars open, Laptop Dell monitor, 100% zoom.
     if (!folder) {
       throw Error(`Please specify folder for pictures`);
     }

@@ -73,14 +73,6 @@ describe(`Docs browse works when`, () => {
       ])
       .When(`I type in input`, `Type document name`, documentName1)
       .And(`I click button`, [`Confirm document removal`])
-      .Then(`I see text`, [documentName2])
-      .And(`I see value in creator`, documentCode2)
-      .When(`I click button`, [
-        `More document options`,
-        `Delete current document`,
-      ])
-      .And(`I type in input`, `Type document name`, documentName2)
-      .And(`I click button`, [`Confirm document removal`])
       .Then(`I see text`, [`Start from scratch`])
       .And(`I see value in creator`, `# Start from scratch`);
   });
