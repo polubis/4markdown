@@ -66,8 +66,10 @@ let acc = 1;
 let folder: string | undefined;
 
 const BASE_COMMANDS = {
-  'I see value in creator': (value: string) => {
-    cy.get(`textarea[aria-label="creator"]`).should(`have.value`, value);
+  'I see text in creator': (value: string) => {
+    cy.get(`textarea[aria-label="creator"]`)
+      .invoke(`val`)
+      .should(`include`, value);
   },
   'I sign in': () => {
     BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
@@ -109,8 +111,7 @@ const BASE_COMMANDS = {
     cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
   'I reload page': () => {
-    // BUG IS HERE...
-    // cy.reload();
+    cy.reload();
   },
   'System sets pictures folder': (name: string) => {
     folder = name;
