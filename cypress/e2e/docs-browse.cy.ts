@@ -73,7 +73,7 @@ describe(`Docs browse works when`, () => {
       ])
       .When(`I type in input`, `Type document name`, documentName1)
       .And(`I click button`, [`Confirm document removal`])
-      .Then(`I see text`, [`Start from scratch`])
-      .And(`I see value in creator`, `# Start from scratch`);
+      .Then(`I see text`, [`Markdown Cheatsheet`])
+      .And(`I see value in creator`, `# Markdown Cheatsheet`);
   });
 });

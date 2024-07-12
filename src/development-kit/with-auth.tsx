@@ -316,8 +316,7 @@ const WithAuth = () => {
         docManagementStoreActions.ok();
         docsStoreActions.deleteDoc(id);
         docStoreActions.reset();
-        creatorStoreActions.change(`# Start from scratch`);
-        creatorStoreActions.asUnchanged();
+        creatorStoreActions.init();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;
