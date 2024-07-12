@@ -31,11 +31,7 @@ import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
-import {
-  docsStoreActions,
-  docsStoreSelectors,
-  useDocsStore,
-} from 'store/docs/docs.store';
+import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from './file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
@@ -319,21 +315,8 @@ const WithAuth = () => {
 
         docManagementStoreActions.ok();
         docsStoreActions.deleteDoc(id);
-
-        const { docs } = docsStoreSelectors.ok();
-        const lastDoc = docs[docs.length - 1];
-
-        if (lastDoc) {
-          docStoreActions.setActive(lastDoc);
-          creatorStoreActions.change(lastDoc.code);
-          creatorStoreActions.asUnchanged();
-          return;
-        }
-
-        const code = `# Start from scratch`;
         docStoreActions.reset();
-        creatorStoreActions.change(code);
-        creatorStoreActions.asUnchanged();
+        creatorStoreActions.init();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
         throw error;

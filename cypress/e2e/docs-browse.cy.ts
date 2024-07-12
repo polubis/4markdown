@@ -30,13 +30,13 @@ describe(`Docs browse works when`, () => {
       .And(`I clear creator`)
       .And(`I type in creator`, documentCode1)
       .Then(`I see text`, [`This is my heading`])
-      .And(`I see value in creator`, documentCode1)
+      .And(`I see text in creator`, documentCode1)
       .And(`I see button`, [`Your documents`])
       .When(`I click button`, [`Create new document`])
       .And(`I type in input`, `Type document name`, documentName1)
       .And(`I click button`, [`Confirm document creation`])
       .Then(`I see text`, [documentName1])
-      .And(`I see value in creator`, documentCode1)
+      .And(`I see text in creator`, documentCode1)
       .And(`I not see button`, [`Confirm document creation`])
       .And(`I see button`, [`Your documents`])
       .When(`I click button`, [`Your documents`])
@@ -47,7 +47,7 @@ describe(`Docs browse works when`, () => {
       .When(`I reload page`)
       .Then(`I see not disabled button`, [`User details and options`])
       .And(`I see text`, [documentName1])
-      .And(`I see value in creator`, documentCode1)
+      .And(`I see text in creator`, documentCode1)
       .And(`I see button`, [`Your documents`])
       .When(`I clear creator`)
       .And(`I type in creator`, documentCode2)
@@ -55,12 +55,12 @@ describe(`Docs browse works when`, () => {
       .When(`I reload page`)
       .Then(`I see not disabled button`, [`User details and options`])
       .And(`I see text`, [documentName1])
-      .And(`I see value in creator`, documentCode2)
+      .And(`I see text in creator`, documentCode2)
       .When(`I click button`, [`Create new document`])
       .And(`I type in input`, `Type document name`, documentName2)
       .And(`I click button`, [`Confirm document creation`])
       .Then(`I see text`, [documentName2])
-      .And(`I see value in creator`, documentCode2)
+      .And(`I see text in creator`, documentCode2)
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [documentName1, documentName2, `Your Documents`])
       .When(`I select document`, documentName1)
@@ -73,15 +73,7 @@ describe(`Docs browse works when`, () => {
       ])
       .When(`I type in input`, `Type document name`, documentName1)
       .And(`I click button`, [`Confirm document removal`])
-      .Then(`I see text`, [documentName2])
-      .And(`I see value in creator`, documentCode2)
-      .When(`I click button`, [
-        `More document options`,
-        `Delete current document`,
-      ])
-      .And(`I type in input`, `Type document name`, documentName2)
-      .And(`I click button`, [`Confirm document removal`])
-      .Then(`I see text`, [`Start from scratch`])
-      .And(`I see value in creator`, `# Start from scratch`);
+      .Then(`I see text`, [`Markdown Cheatsheet`])
+      .And(`I see text in creator`, `# Markdown Cheatsheet`);
   });
 });
