@@ -3,7 +3,7 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: `./e2e/specs`,
   use: {
-    baseURL: `http://localhost:8000`,
+    baseURL: process.env.BASE_URL,
     browserName: `chromium`,
     headless: false,
     viewport: { width: 1280, height: 720 },
