@@ -19,7 +19,6 @@
     "typecheck": "tsc --noEmit",
     "prepare:husky": "husky install",
     "postinstall": "npm run prepare:husky",
-    "test": "jest",
     "test:watch": "jest --watch",
     "cy:open-dev": "cypress open --browser chrome --e2e --config baseUrl=http://localhost:8000",
     "cy:open-prod": "cypress open --browser chrome --e2e --config baseUrl=http://localhost:9000",
@@ -32,7 +31,8 @@
     "test:e2e-run-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "lint:ci": "npm run lint",
-    "pw:test": "cross-env BASE_URL=http://localhost:8000 npx playwright test"
+    "pw:test": "cross-env BASE_URL=http://localhost:9000 npx playwright test",
+    "pw:test:ci": "npm run build && start-server-and-test serve http://localhost:9000 npm run pw:test"
   },
   "dependencies": {
     "@mdx-js/react": "^2.3.0",
