@@ -93,6 +93,20 @@ const set = (state: CreatorStoreState): void => {
 };
 
 const creatorStoreActions = {
+  init: (): void => {
+    const initialCode = createInitialCode();
+    const { is } = creatorStoreSelectors.ready();
+
+    const newState: CreatorStoreStateReady = {
+      is,
+      code: initialCode,
+      initialCode,
+      changed: false,
+    };
+
+    set(newState);
+    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
+  },
   change: (code: string): void => {
     const { is, initialCode } = creatorStoreSelectors.ready();
     const newState: CreatorStoreStateReady = {

@@ -116,8 +116,8 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .When(`I click button`, [`Close additional options`]);
 
     DOCS_MANAGEMENT_SCENARIOS[`I delete document`](editedDocumentName)
-      .Then(`I see text`, [`Start from scratch`])
-      .And(`I see value in creator`, `# Start from scratch`);
+      .Then(`I see text`, [`Markdown Cheatsheet`])
+      .And(`I see text in creator`, `# Markdown Cheatsheet`);
   },
   'I create, edit and delete document': () => {
     const documentName = `Test document`;
@@ -191,11 +191,11 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Close document removal`,
       ])
       .And(`I not see text`, [`Delete current document`, documentNameEdited])
-      .And(`I see text`, [`Start from scratch`])
-      .And(`I see value in creator`, `# Start from scratch`)
+      .And(`I see text`, [`Markdown Cheatsheet`])
+      .And(`I see text in creator`, `# Markdown Cheatsheet`)
       .When(`I reload page`)
-      .Then(`I see text`, [`Start from scratch`])
-      .And(`I see value in creator`, `# Start from scratch`)
+      .Then(`I see text`, [`Markdown Cheatsheet`])
+      .And(`I see text in creator`, `# Markdown Cheatsheet`)
       .And(`I see button`, [`User details and options`]);
   },
 } as const;

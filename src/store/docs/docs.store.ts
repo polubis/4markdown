@@ -28,7 +28,6 @@ const DOCS_STORE_LS_KEY = `docs`;
 
 const docsStoreSelectors = {
   ok: () => getOkState(useDocsStore.getState()),
-  useOk: () => useDocsStore(getOkState),
 };
 
 const docsStoreActions = {
