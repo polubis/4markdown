@@ -27,8 +27,8 @@ test(`theme is persisted and used after page refresh`, async ({ page }) => {
 
   await page.reload();
 
-  // expect(beforeThemeChange).toMatchSnapshot(`before-theme-change.png`);
-  // expect(afterThemeChange).toMatchSnapshot(`after-theme-change.png`);
+  expect(beforeThemeChange).toMatchSnapshot(`before-theme-change.png`);
+  expect(afterThemeChange).toMatchSnapshot(`after-theme-change.png`);
 });
 
 // test(`creator and theme are persisted in storage after page refresh`, async ({
