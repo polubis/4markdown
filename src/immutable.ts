@@ -17,3 +17,6 @@ const item = tuple.getAt(2);
 tuple.map((item) => {
   // The "item" is number | string | { hi: boolean } type of.
 });
+
+// Error 💢.
+items.pop();
