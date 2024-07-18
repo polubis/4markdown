@@ -2,7 +2,7 @@ import { Tuple } from './tuples';
 
 const tuple = Tuple([1, `eda`, { hi: true }], { mutable: false });
 
-// Error 💢.
+// Error 💢. No option to change once defined tuple.
 tuple.set(`1`, `now`);
 
 // readonly [1, `sema`, { hi: true }]
