@@ -12,3 +12,7 @@ items[1] = `eda2`;
 
 // { hi: true }
 const item = tuple.getAt(2);
+
+tuple.map((item) => {
+  // The "item" is number | string | { hi: boolean } type of.
+});

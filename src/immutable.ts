@@ -13,3 +13,7 @@ items[1] = `dasad`;
 
 // Readonly<{ hi: true }>
 const item = tuple.getAt(2);
+
+tuple.map((item) => {
+  // The "item" is number | string | { hi: boolean } type of.
+});
