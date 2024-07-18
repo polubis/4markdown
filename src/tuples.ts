@@ -7,13 +7,13 @@ type TupleBase<T extends unknown[]> = {
 };
 
 type ImmutableTuple<T extends unknown[]> = TupleBase<T> & {
-  read(): Readonly<T>;
+  read(): Readonly<[...T]>;
   getAt<K extends keyof T>(index: K): Readonly<T[K]>;
 };
 
 type MutableTuple<T extends unknown[]> = TupleBase<T> & {
   set<K extends keyof T>(index: K, value: T[K]): void;
-  read(): Readonly<T>;
+  read(): Readonly<[...T]>;
   getAt<K extends keyof T>(index: K): Readonly<T[K]>;
 };
 
@@ -29,7 +29,7 @@ const Tuple = <T extends unknown[], O extends TupleOptions>(
   if (options.mutable) {
     const mutableTuple: MutableTuple<T> = {
       read() {
-        return Object.freeze([...elements]) as Readonly<T>;
+        return Object.freeze([...elements]);
       },
       getAt(index) {
         return Object.freeze(elements[index]);
