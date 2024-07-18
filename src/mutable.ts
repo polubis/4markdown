@@ -9,3 +9,6 @@ const items = tuple.read();
 
 // Possible 💚.
 items[1] = `eda2`;
+
+// { hi: true }
+const item = tuple.getAt(2);

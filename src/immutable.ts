@@ -10,3 +10,6 @@ const items = tuple.read();
 
 // Error 💢.
 items[1] = `dasad`;
+
+// Readonly<{ hi: true }>
+const item = tuple.getAt(2);
