@@ -1,4 +1,4 @@
-import { Tuple } from './tuples';
+import { Tuple } from '../tuples';
 
 const tuple = Tuple([1, `eda`, { hi: true }], { mutable: true });
 
