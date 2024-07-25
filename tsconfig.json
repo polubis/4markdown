@@ -111,7 +111,7 @@
       "core/*": ["./src/core/*"],
       "services/*": ["./src/services/*"],
       "containers/*": ["./src/containers/*"],
-      "4markdown-api/*": ["./src/4markdown-api/*"],
+      "api-4markdown": ["./src/api-4markdown"],
     },
     "types": ["jest", "node", "cypress"]
   },

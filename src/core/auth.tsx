@@ -36,10 +36,10 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { use4MarkdownAPI } from '4markdown-api/use-4markdown-api';
+import { useAPI } from 'api-4markdown';
 
 const useAuth = () => {
-  const api = use4MarkdownAPI();
+  const api = useAPI();
 
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
