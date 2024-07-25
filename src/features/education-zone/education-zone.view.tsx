@@ -1,6 +1,5 @@
 import React from 'react';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
-import { EducationZonePageContext } from 'models/pages-contexts';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { Link } from 'gatsby';
 import { Badges } from 'design-system/badges';
@@ -10,12 +9,13 @@ import { AppNavigation } from 'components/app-navigation';
 import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
+import { EducationZoneViewModel } from 'models/view-models';
 
-interface EducationZoneViewProps {
-  context: EducationZonePageContext;
-}
-
-const EducationZoneView = ({ context }: EducationZoneViewProps) => {
+const EducationZoneView = ({
+  documents,
+}: {
+  documents: EducationZoneViewModel['documents'];
+}) => {
   return (
     <>
       <AppNavigation>
@@ -24,7 +24,7 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
       </AppNavigation>
       <main className="max-w-2xl mx-auto my-6 p-4">
         <ul className="flex flex-col space-y-10">
-          {context.docs.map((doc) => (
+          {documents.map((doc) => (
             <li className="flex flex-col" key={doc.name}>
               <Badges className="mb-3">
                 {doc.tags.map((tag) => (

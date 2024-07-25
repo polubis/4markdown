@@ -1,10 +1,10 @@
 import { initializeApp, type FirebaseOptions } from 'firebase/app';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
-import { GetPermanentDocsDto, PermamentSlimDoc } from 'models/doc';
+import { type GetPermanentDocsDto } from 'models/doc';
 import path from 'path';
-import { EducationZonePageContext } from 'models/pages-contexts';
 import { meta } from './meta';
+import { type EducationZoneViewModel } from 'models/view-models';
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,
@@ -35,13 +35,13 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  actions.createPage<EducationZonePageContext>({
+  actions.createPage<EducationZoneViewModel>({
     path: meta.routes.docs.educationZone,
     component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
     context: {
-      docs: docs.map(
+      documents: docs.map<EducationZoneViewModel['documents'][number]>(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        ({ code, visibility, author, ...doc }): PermamentSlimDoc => ({
+        ({ code, visibility, author, ...doc }) => ({
           ...doc,
           author:
             author?.displayName && author?.bio
