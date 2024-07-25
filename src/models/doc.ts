@@ -4,17 +4,6 @@ import type {
   PrivateDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown';
-import type { UserAvatarVariantObj, UserProfile } from './user';
-
-type PermamentSlimDoc = Omit<
-  PermanentDocumentDto,
-  'visibility' | 'code' | 'author'
-> & {
-  author: {
-    displayName: NonNullable<UserProfile['displayName']>;
-    avatar: UserAvatarVariantObj | null;
-  } | null;
-};
 
 type CreateDocPayload = Pick<DocumentDto, 'name' | 'code'>;
 
@@ -55,7 +44,6 @@ export type {
   DeleteDocPayload,
   GetPermanentDocsDto,
   DeleteDocDto,
-  PermamentSlimDoc,
   UpdateDocumentCodePayload,
   UpdateDocumentCodeResponse,
 };
