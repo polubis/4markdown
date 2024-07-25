@@ -1,34 +1,43 @@
-import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
-import { UploadImageDto } from 'models/image';
+import type {
+  DocumentDto,
+  PermanentDocumentDto,
+  PublicDocumentDto,
+} from 'api-4markdown';
+import type { GetDocPayload } from 'models/doc';
+import type { UploadImageDto } from 'models/image';
 import type { UpdateYourProfilePayload, User } from 'models/user';
 import { create } from 'zustand';
 
 interface AuthorizedData {
   user: User;
   logOut(): void;
-  createDoc(name: Doc['name']): Promise<void>;
+  createDoc(name: DocumentDto['name']): Promise<void>;
   resyncDocuments(): Promise<void>;
   updateDocumentCode(): Promise<void>;
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
-  updateDocName(name: Doc['name']): Promise<void>;
+  updateDocName(name: DocumentDto['name']): Promise<void>;
   uploadImage(image: File): Promise<UploadImageDto>;
   makeDocPermanent(
-    name: Doc['name'],
-    description: PermanentDoc['description'],
-    tags: PermanentDoc['tags'],
+    name: PermanentDocumentDto['name'],
+    description: PermanentDocumentDto['description'],
+    tags: PermanentDocumentDto['tags'],
   ): Promise<void>;
   getDocs(): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
-  getPublicDoc(payload: GetDocPayload): Promise<Doc>;
+  getPublicDoc(
+    payload: GetDocPayload,
+  ): Promise<PublicDocumentDto | PermanentDocumentDto>;
   getYourProfile(): Promise<void>;
   updateYourProfile(payload: UpdateYourProfilePayload): Promise<void>;
 }
 
 interface UnauthrorizedData {
   logIn(): void;
-  getPublicDoc(payload: GetDocPayload): Promise<Doc>;
+  getPublicDoc(
+    payload: GetDocPayload,
+  ): Promise<PublicDocumentDto | PermanentDocumentDto>;
 }
 
 interface AuthStoreActions {

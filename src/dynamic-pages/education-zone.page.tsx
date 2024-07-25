@@ -2,16 +2,16 @@ import React from 'react';
 import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import { EducationZonePageContext } from 'models/pages-contexts';
 import { meta } from '../../meta';
 import { EducationZoneView } from 'features/education-zone/education-zone.view';
+import { EducationZoneViewModel } from 'models/view-models';
 
-interface EducationZonePageProps {
-  pageContext: EducationZonePageContext;
-}
-
-const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
-  return <EducationZoneView context={pageContext} />;
+const EducationZonePage = ({
+  pageContext: { documents },
+}: {
+  pageContext: EducationZoneViewModel;
+}) => {
+  return <EducationZoneView documents={documents} />;
 };
 
 export default EducationZonePage;

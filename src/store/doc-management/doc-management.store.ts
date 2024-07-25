@@ -1,5 +1,5 @@
 import { parseError } from 'development-kit/parse-error';
-import type { Transaction } from 'development-kit/transaction';
+import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
 type DocManagementStoreState = Transaction;

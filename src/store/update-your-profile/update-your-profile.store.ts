@@ -1,5 +1,5 @@
 import { parseError } from 'development-kit/parse-error';
-import type { Transaction } from 'development-kit/transaction';
+import type { Transaction } from 'development-kit/utility-types';
 import type { UpdateYourProfileDto } from 'models/user';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { create } from 'zustand';
