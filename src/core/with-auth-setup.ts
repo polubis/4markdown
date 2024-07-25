@@ -36,6 +36,8 @@ interface FirebaseInstance {
   ): Unsubscribe;
 }
 
+let instance: FirebaseInstance | null = null;
+
 const initializeInstance = (): FirebaseInstance => {
   const config: FirebaseOptions = {
     apiKey: process.env.GATSBY_API_KEY,
@@ -51,36 +53,36 @@ const initializeInstance = (): FirebaseInstance => {
   const functions = getFunctions(app);
   const provider = new GoogleAuthProvider();
 
-  return {
-    call: (name, options) => httpsCallable(functions, name, options),
-    logIn: async () => {
-      await setPersistence(auth, browserLocalPersistence);
+  if (!instance) {
+    instance = {
+      call: (name, options) => httpsCallable(functions, name, options),
+      logIn: async () => {
+        await setPersistence(auth, browserLocalPersistence);
 
-      const email = process.env.GATSBY_TEST_USER_EMAIL;
-      const password = process.env.GATSBY_TEST_USER_PASSWORD;
+        const email = process.env.GATSBY_TEST_USER_EMAIL;
+        const password = process.env.GATSBY_TEST_USER_PASSWORD;
 
-      if (email !== undefined && password !== undefined) {
-        await signInWithEmailAndPassword(auth, email, password);
-        return;
-      }
+        if (email !== undefined && password !== undefined) {
+          await signInWithEmailAndPassword(auth, email, password);
+          return;
+        }
 
-      await signInWithPopup(auth, provider);
-    },
-    logOut: async () => {
-      await signOut(auth);
-    },
-    onAuthChange: (
-      nextOrObserver: NextOrObserver<User>,
-      error?: ErrorFn,
-      completed?: CompleteFn,
-    ) => onAuthStateChanged(auth, nextOrObserver, error, completed),
-  };
-};
-
-const useFirebase = () => {
-  const [instance] = React.useState(initializeInstance);
+        await signInWithPopup(auth, provider);
+      },
+      logOut: async () => {
+        await signOut(auth);
+      },
+      onAuthChange: (
+        nextOrObserver: NextOrObserver<User>,
+        error?: ErrorFn,
+        completed?: CompleteFn,
+      ) => onAuthStateChanged(auth, nextOrObserver, error, completed),
+    };
+  }
 
   return instance;
 };
+
+const useFirebase = () => React.useState(initializeInstance)[0];
 
 export { useFirebase };
