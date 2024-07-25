@@ -36,7 +36,7 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { use4MarkdownAPI } from 'core/use-4markdown-api';
+import { use4MarkdownAPI } from '4markdown-api/use-4markdown-api';
 
 const WithAuth = () => {
   const api = use4MarkdownAPI();

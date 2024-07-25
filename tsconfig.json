@@ -110,7 +110,8 @@
       "components/*": ["./src/components/*"],
       "core/*": ["./src/core/*"],
       "services/*": ["./src/services/*"],
-      "containers/*": ["./src/containers/*"]
+      "containers/*": ["./src/containers/*"],
+      "4markdown-api/*": ["./src/4markdown-api/*"],
     },
     "types": ["jest", "node", "cypress"]
   },
