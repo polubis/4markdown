@@ -39,9 +39,11 @@ import {
 import { use4MarkdownAPI } from 'core/use-4markdown-api';
 
 const WithAuth = () => {
-  const { call, logOut, logIn, onAuthChange } = use4MarkdownAPI();
+  const api = use4MarkdownAPI();
 
   React.useEffect(() => {
+    const { call, logOut, logIn, onAuthChange } = api;
+
     const getPublicDoc = async (payload: GetDocPayload) => {
       const { data: doc } = await call<GetDocPayload, GetDocDto>(
         `getPublicDoc`,
@@ -362,8 +364,7 @@ const WithAuth = () => {
     return () => {
       unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [api]);
 
   return null;
 };

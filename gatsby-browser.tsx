@@ -20,12 +20,12 @@ export const wrapPageElement = ({ element }) => {
 
   return (
     <ErrorBoundary fallback={SafeExceptionScreen}>
-      {element}
       {interacted && (
         <React.Suspense>
           <WithAuth />
         </React.Suspense>
       )}
+      {element}
     </ErrorBoundary>
   );
 };
