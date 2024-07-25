@@ -14,10 +14,10 @@ type UpdateYourProfileAvatarAction =
     }
   | { type: `remove` }
   | { type: `update`; data: Base64 };
-type UpdateYourProfilePayload = Omit<UserProfileDto, 'avatar'> & {
+type UpdateYourProfilePayload = Omit<NonNullable<UserProfileDto>, 'avatar'> & {
   avatar: UpdateYourProfileAvatarAction;
 };
-type UpdateYourProfileDto = UserProfileDto;
+type UpdateYourProfileDto = NonNullable<UserProfileDto>;
 
 export type {
   User,
