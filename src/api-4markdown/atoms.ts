@@ -5,3 +5,4 @@ export type Date = string;
 export type Tags = string[];
 export type Path = string;
 export type Description = string;
+export type Base64 = string;

@@ -1,48 +1,27 @@
-import type { Id, Name, Code, Date, Path, Tags } from './general';
+import type {
+  DocumentDto,
+  PermanentDocumentDto,
+  PrivateDocumentDto,
+  PublicDocumentDto,
+} from 'api-4markdown';
 import type { UserAvatarVariantObj, UserProfile } from './user';
 
-interface DocBase {
-  id: Id;
-  name: Name;
-  code: Code;
-  mdate: Date;
-  cdate: Date;
-}
-
-type DocAuthor = UserProfile | null;
-
-interface PrivateDoc extends DocBase {
-  visibility: 'private';
-}
-
-interface PublicDoc extends DocBase {
-  visibility: 'public';
-  author: DocAuthor;
-}
-
-interface PermanentDoc extends DocBase {
-  visibility: `permanent`;
-  description: string;
-  path: Path;
-  tags: Tags;
-  author: DocAuthor;
-}
-
-type PermamentSlimDoc = Omit<PermanentDoc, 'visibility' | 'code' | 'author'> & {
+type PermamentSlimDoc = Omit<
+  PermanentDocumentDto,
+  'visibility' | 'code' | 'author'
+> & {
   author: {
     displayName: NonNullable<UserProfile['displayName']>;
     avatar: UserAvatarVariantObj | null;
   } | null;
 };
 
-type Doc = PrivateDoc | PublicDoc | PermanentDoc;
+type CreateDocPayload = Pick<DocumentDto, 'name' | 'code'>;
 
-type CreateDocPayload = Pick<Doc, 'name' | 'code'>;
-
-type UpdateDocPrivatePayload = Omit<PrivateDoc, 'cdate'>;
-type UpdateDocPublicPayload = Omit<PublicDoc, 'cdate' | 'author'>;
+type UpdateDocPrivatePayload = Omit<PrivateDocumentDto, 'cdate'>;
+type UpdateDocPublicPayload = Omit<PublicDocumentDto, 'cdate' | 'author'>;
 type UpdateDocPermanentPayload = Omit<
-  PermanentDoc,
+  PermanentDocumentDto,
   'cdate' | 'path' | 'author'
 >;
 
@@ -51,20 +30,19 @@ type UpdateDocPayload =
   | UpdateDocPublicPayload
   | UpdateDocPermanentPayload;
 
-type DeleteDocPayload = Pick<Doc, 'id'>;
+type DeleteDocPayload = Pick<DocumentDto, 'id'>;
 
-type GetDocPayload = Pick<Doc, 'id'>;
-type CreateDocDto = Doc;
-type UpdateDocDto = Doc;
-type DeleteDocDto = Pick<Doc, 'id'>;
-type GetDocDto = Doc;
+type GetDocPayload = Pick<DocumentDto, 'id'>;
+type CreateDocDto = DocumentDto;
+type UpdateDocDto = DocumentDto;
+type DeleteDocDto = Pick<DocumentDto, 'id'>;
+type GetDocDto = DocumentDto;
 
-type GetPermanentDocsDto = PermanentDoc[];
-type UpdateDocumentCodePayload = Pick<Doc, 'mdate' | 'id' | 'code'>;
-type UpdateDocumentCodeResponse = Pick<Doc, 'mdate'>;
+type GetPermanentDocsDto = PermanentDocumentDto[];
+type UpdateDocumentCodePayload = Pick<DocumentDto, 'mdate' | 'id' | 'code'>;
+type UpdateDocumentCodeResponse = Pick<DocumentDto, 'mdate'>;
 
 export type {
-  Doc,
   CreateDocPayload,
   UpdateDocPayload,
   CreateDocDto,
@@ -77,12 +55,7 @@ export type {
   DeleteDocPayload,
   GetPermanentDocsDto,
   DeleteDocDto,
-  DocBase,
-  PrivateDoc,
-  PublicDoc,
-  PermanentDoc,
   PermamentSlimDoc,
-  DocAuthor,
   UpdateDocumentCodePayload,
   UpdateDocumentCodeResponse,
 };
