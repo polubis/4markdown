@@ -44,11 +44,8 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    const getPublicDoc = async (payload: GetDocPayload) => {
-      const doc = await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
-
-      return doc;
-    };
+    const getPublicDoc = async (payload: GetDocPayload) =>
+      await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
 
     const createDoc = async (name: Doc['name']) => {
       const { code } = creatorStoreSelectors.ready();
