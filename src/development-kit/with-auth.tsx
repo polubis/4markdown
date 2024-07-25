@@ -36,10 +36,10 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { useFirebase } from 'core/with-auth-setup';
+import { use4MarkdownAPI } from 'core/use-4markdown-api';
 
 const WithAuth = () => {
-  const { call, logOut, logIn, onAuthChange } = useFirebase();
+  const { call, logOut, logIn, onAuthChange } = use4MarkdownAPI();
 
   React.useEffect(() => {
     const getPublicDoc = async (payload: GetDocPayload) => {
