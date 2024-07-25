@@ -104,7 +104,6 @@
       "design-system/*": ["./src/design-system/*"],
       "development-kit/*": ["./src/development-kit/*"],
       "store/*": ["./src/store/*"],
-      "views/*": ["./src/views/*"],
       "features/*": ["./src/features/*"],
       "models/*": ["./src/models/*"],
       "components/*": ["./src/components/*"],
