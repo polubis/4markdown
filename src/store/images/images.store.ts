@@ -1,6 +1,6 @@
 import { parseError } from 'development-kit/parse-error';
+import type { Transaction } from 'development-kit/transaction';
 import { imageExtensions } from 'models/image';
-import type { Transaction } from 'models/transaction';
 import { create } from 'zustand';
 
 type ImagesStoreState = Transaction;

@@ -1,6 +1,6 @@
 import { parseError } from 'development-kit/parse-error';
-import type { Transaction } from 'models/transaction';
-import { GetYourProfileDto } from 'models/user';
+import type { Transaction } from 'development-kit/transaction';
+import type { GetYourProfileDto } from 'models/user';
 import { create } from 'zustand';
 
 type YourProfileStoreState = Transaction<{ user: GetYourProfileDto }>;
