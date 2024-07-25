@@ -7,7 +7,6 @@ import type {
   CreateDocPayload,
   DeleteDocDto,
   DeleteDocPayload,
-  Doc,
   GetDocDto,
   GetDocPayload,
   UpdateDocDto,
@@ -36,7 +35,7 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { useAPI } from 'api-4markdown';
+import { DocumentDto, useAPI } from 'api-4markdown';
 
 const useAuth = () => {
   const api = useAPI();
@@ -47,7 +46,7 @@ const useAuth = () => {
     const getPublicDoc = async (payload: GetDocPayload) =>
       await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
 
-    const createDoc = async (name: Doc['name']) => {
+    const createDoc = async (name: DocumentDto['name']) => {
       const { code } = creatorStoreSelectors.ready();
 
       const doc: CreateDocPayload = { name, code };
@@ -231,7 +230,7 @@ const useAuth = () => {
         docsStoreActions.idle();
         docsStoreActions.busy();
 
-        const docs = await call<undefined, Doc[]>(`getDocs`);
+        const docs = await call<undefined, DocumentDto[]>(`getDocs`);
 
         docsStoreActions.ok(docs);
         docStoreActions.reset();
@@ -250,7 +249,7 @@ const useAuth = () => {
       try {
         docsStoreActions.busy();
 
-        const docs = await call<undefined, Doc[]>(`getDocs`);
+        const docs = await call<undefined, DocumentDto[]>(`getDocs`);
 
         docsStoreActions.ok(docs);
       } catch (error: unknown) {
@@ -258,7 +257,7 @@ const useAuth = () => {
       }
     };
 
-    const deleteDoc = async (id: Doc['id']): Promise<void> => {
+    const deleteDoc = async (id: DocumentDto['id']): Promise<void> => {
       try {
         docManagementStoreActions.busy();
         await call<DeleteDocPayload, DeleteDocDto>(`deleteDoc`, { id });

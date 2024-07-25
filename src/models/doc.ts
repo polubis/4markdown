@@ -25,7 +25,7 @@ type GetDocPayload = Pick<DocumentDto, 'id'>;
 type CreateDocDto = DocumentDto;
 type UpdateDocDto = DocumentDto;
 type DeleteDocDto = Pick<DocumentDto, 'id'>;
-type GetDocDto = DocumentDto;
+type GetDocDto = PublicDocumentDto | PermanentDocumentDto;
 
 type GetPermanentDocsDto = PermanentDocumentDto[];
 type UpdateDocumentCodePayload = Pick<DocumentDto, 'mdate' | 'id' | 'code'>;
