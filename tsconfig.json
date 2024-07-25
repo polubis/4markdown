@@ -109,6 +109,7 @@
       "models/*": ["./src/models/*"],
       "components/*": ["./src/components/*"],
       "core/*": ["./src/core/*"],
+      "services/*": ["./src/services/*"],
       "containers/*": ["./src/containers/*"]
     },
     "types": ["jest", "node", "cypress"]
