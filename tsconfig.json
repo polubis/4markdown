@@ -109,7 +109,6 @@
       "models/*": ["./src/models/*"],
       "components/*": ["./src/components/*"],
       "core/*": ["./src/core/*"],
-      "services/*": ["./src/services/*"],
       "containers/*": ["./src/containers/*"],
       "api-4markdown": ["./src/api-4markdown"],
     },
