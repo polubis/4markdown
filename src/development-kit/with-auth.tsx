@@ -45,9 +45,7 @@ const WithAuth = () => {
     const { call, logOut, logIn, onAuthChange } = api;
 
     const getPublicDoc = async (payload: GetDocPayload) => {
-      const { data: doc } = await call<GetDocPayload, GetDocDto>(
-        `getPublicDoc`,
-      )(payload);
+      const doc = await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
 
       return doc;
     };
@@ -59,9 +57,10 @@ const WithAuth = () => {
 
       try {
         docManagementStoreActions.busy();
-        const { data: createdDoc } = await call<CreateDocPayload, CreateDocDto>(
+        const createdDoc = await call<CreateDocPayload, CreateDocDto>(
           `createDoc`,
-        )(doc);
+          doc,
+        );
         docManagementStoreActions.ok();
         docStoreActions.setActive(createdDoc);
         docsStoreActions.addDoc(createdDoc);
@@ -75,9 +74,10 @@ const WithAuth = () => {
     const updateDoc = async (payload: UpdateDocPayload) => {
       try {
         docManagementStoreActions.busy();
-        const { data: updatedDoc } = await call<UpdateDocPayload, UpdateDocDto>(
+        const updatedDoc = await call<UpdateDocPayload, UpdateDocDto>(
           `updateDoc`,
-        )(payload);
+          payload,
+        );
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
         docsStoreActions.updateDoc(updatedDoc);
@@ -92,9 +92,10 @@ const WithAuth = () => {
       try {
         imagesStoreActions.busy();
 
-        const { data } = await call<UploadImagePayload, UploadImageDto>(
+        const data = await call<UploadImagePayload, UploadImageDto>(
           `uploadImage`,
-        )({ image: await readFileAsBase64(image) });
+          { image: await readFileAsBase64(image) },
+        );
 
         imagesStoreActions.ok();
 
@@ -113,10 +114,10 @@ const WithAuth = () => {
 
         updateYourProfileStoreActions.busy();
 
-        const { data } = await call<
-          UpdateYourProfilePayload,
-          UpdateYourProfileDto
-        >(`updateYourUserProfile`)(payload);
+        const data = await call<UpdateYourProfilePayload, UpdateYourProfileDto>(
+          `updateYourUserProfile`,
+          payload,
+        );
 
         updateYourProfileStoreActions.ok(data);
         yourProfileStoreActions.ok(data);
@@ -138,9 +139,9 @@ const WithAuth = () => {
       try {
         yourProfileStoreActions.busy();
 
-        const { data: profile } = await call<undefined, GetYourProfileDto>(
+        const profile = await call<undefined, GetYourProfileDto>(
           `getYourUserProfile`,
-        )();
+        );
 
         yourProfileStoreActions.ok(profile);
       } catch (error: unknown) {
@@ -233,7 +234,7 @@ const WithAuth = () => {
         docsStoreActions.idle();
         docsStoreActions.busy();
 
-        const { data: docs } = await call<undefined, Doc[]>(`getDocs`)();
+        const docs = await call<undefined, Doc[]>(`getDocs`);
 
         docsStoreActions.ok(docs);
         docStoreActions.reset();
@@ -252,7 +253,7 @@ const WithAuth = () => {
       try {
         docsStoreActions.busy();
 
-        const { data: docs } = await call<undefined, Doc[]>(`getDocs`)();
+        const docs = await call<undefined, Doc[]>(`getDocs`);
 
         docsStoreActions.ok(docs);
       } catch (error: unknown) {
@@ -263,7 +264,7 @@ const WithAuth = () => {
     const deleteDoc = async (id: Doc['id']): Promise<void> => {
       try {
         docManagementStoreActions.busy();
-        await call<DeleteDocPayload, DeleteDocDto>(`deleteDoc`)({ id });
+        await call<DeleteDocPayload, DeleteDocDto>(`deleteDoc`, { id });
 
         docManagementStoreActions.ok();
         docsStoreActions.deleteDoc(id);
@@ -312,17 +313,17 @@ const WithAuth = () => {
 
             try {
               docManagementStoreActions.busy();
-              const response = await call<
+              const data = await call<
                 UpdateDocumentCodePayload,
                 UpdateDocumentCodeResponse
-              >(`updateDocumentCode`)({
+              >(`updateDocumentCode`, {
                 id: newDoc.id,
                 code: newDoc.code,
                 mdate: newDoc.mdate,
               });
               const updatedDoc = {
                 ...newDoc,
-                mdate: response.data.mdate,
+                mdate: data.mdate,
               };
 
               docManagementStoreActions.ok();

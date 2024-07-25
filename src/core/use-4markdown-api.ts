@@ -1,9 +1,3 @@
-import {
-  getFunctions,
-  HttpsCallable,
-  httpsCallable,
-  HttpsCallableOptions,
-} from 'firebase/functions';
 import { FirebaseOptions, initializeApp } from 'firebase/app';
 import {
   CompleteFn,
@@ -24,9 +18,9 @@ import React from 'react';
 
 interface API4Markdown {
   call<TPayload, TResponse>(
-    name: string,
-    options?: HttpsCallableOptions,
-  ): HttpsCallable<TPayload, TResponse>;
+    key: string,
+    payload?: TPayload | null,
+  ): Promise<TResponse>;
   logIn(): Promise<void>;
   logOut(): Promise<void>;
   onAuthChange(
@@ -50,12 +44,18 @@ const initialize = (): API4Markdown => {
   };
   const app = initializeApp(config);
   const auth = getAuth(app);
-  const functions = getFunctions(app);
   const provider = new GoogleAuthProvider();
 
   if (!instance) {
     instance = {
-      call: (name, options) => httpsCallable(functions, name, options),
+      call: async (key, payload) => {
+        const { getFunctions, httpsCallable } = await import(
+          `firebase/functions`
+        );
+
+        return (await httpsCallable(getFunctions(app), key)(payload))
+          .data as any;
+      },
       logIn: async () => {
         await setPersistence(auth, browserLocalPersistence);
 
