@@ -39,7 +39,7 @@ import {
 import { useFirebase } from 'core/with-auth-setup';
 
 const WithAuth = () => {
-  const { call, logOut, logIn, onAuthStateChanged } = useFirebase();
+  const { call, logOut, logIn, onAuthChange } = useFirebase();
 
   React.useEffect(() => {
     const getPublicDoc = async (payload: GetDocPayload) => {
@@ -273,7 +273,7 @@ const WithAuth = () => {
       }
     };
 
-    const unsubscribe = onAuthStateChanged(async (user) => {
+    const unsubscribe = onAuthChange(async (user) => {
       if (user) {
         authStoreActions.authorize({
           user: {
