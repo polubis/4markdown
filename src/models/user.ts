@@ -1,4 +1,4 @@
-import { UserProfileDto } from 'api-4markdown';
+import type { UserProfileDto } from 'api-4markdown';
 import { Base64 } from './general';
 
 interface User {
@@ -6,7 +6,7 @@ interface User {
   avatar: string | null;
 }
 
-type GetYourProfileDto = UserProfileDto | null;
+type GetYourProfileDto = UserProfileDto;
 
 type UpdateYourProfileAvatarAction =
   | {

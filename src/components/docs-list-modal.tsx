@@ -1,6 +1,5 @@
 import { Button } from 'design-system/button';
 import Modal from 'design-system/modal';
-import type { Doc } from 'models/doc';
 import React from 'react';
 import { BiLowVision, BiRefresh, BiShow, BiWorld, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
@@ -9,6 +8,7 @@ import { type DocsStoreOkState, useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
 import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
+import type { DocumentDto } from 'api-4markdown';
 
 interface DocsListModalProps {
   onClose?(): void;
@@ -36,7 +36,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     authStoreSelectors.authorized().getDocs();
   }, []);
 
-  const selectDoc = (doc: Doc): void => {
+  const selectDoc = (doc: DocumentDto): void => {
     docStoreActions.setActive(doc);
     onClose?.();
   };

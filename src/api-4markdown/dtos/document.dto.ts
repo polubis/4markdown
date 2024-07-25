@@ -7,9 +7,7 @@ import type {
   Tags,
   Path,
 } from '../atoms';
-import { UserProfileDto } from './user-profile.dto';
-
-type Author = UserProfileDto | null;
+import type { UserProfileDto } from './user-profile.dto';
 
 type Base = {
   id: Id;
@@ -25,7 +23,7 @@ type PrivateDocumentDto = Base & {
 
 type PublicDocumentDto = Base & {
   visibility: 'public';
-  author: Author;
+  author: UserProfileDto;
 };
 
 type PermanentDocumentDto = Base & {
@@ -33,7 +31,7 @@ type PermanentDocumentDto = Base & {
   description: Description;
   path: Path;
   tags: Tags;
-  author: Author;
+  author: UserProfileDto;
 };
 
 type DocumentDto =

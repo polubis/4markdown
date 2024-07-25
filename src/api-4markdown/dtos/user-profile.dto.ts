@@ -23,4 +23,4 @@ export type UserProfileDto = {
   twitterUrl: string | null;
   fbUrl: string | null;
   blogUrl: string | null;
-};
+} | null;

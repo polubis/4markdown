@@ -1,16 +1,15 @@
 import React from 'react';
 import Markdown from './markdown';
-import { Tags } from 'models/general';
 import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
-import { DocAuthor } from 'models/doc';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
+import type { Tags, UserProfileDto } from 'api-4markdown';
 
 interface DocumentLayoutProps {
   children: string;
   tags: Tags;
-  author: DocAuthor;
+  author: UserProfileDto;
 }
 
 const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
