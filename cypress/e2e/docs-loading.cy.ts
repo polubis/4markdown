@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import { Doc } from 'models/doc';
+import type { DocumentDto } from 'api-4markdown-contracts';
 import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
@@ -7,7 +7,7 @@ import { subDays } from 'date-fns';
 
 const now = new Date();
 
-const getDocsResponse: { result: Doc[] } = {
+const getDocsResponse: { result: DocumentDto[] } = {
   result: [
     {
       id: `e9799f7b-013e-4231-88fe-e2072514f96a`,

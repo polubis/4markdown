@@ -1,6 +1,5 @@
 import React from 'react';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
-import { EducationZonePageContext } from 'models/pages-contexts';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { Link } from 'gatsby';
 import { Badges } from 'design-system/badges';
@@ -10,9 +9,10 @@ import { AppNavigation } from 'components/app-navigation';
 import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
+import type { EducationZoneViewModel } from 'models/view-models';
 
 interface EducationZoneViewProps {
-  context: EducationZonePageContext;
+  context: EducationZoneViewModel;
 }
 
 const EducationZoneView = ({ context }: EducationZoneViewProps) => {

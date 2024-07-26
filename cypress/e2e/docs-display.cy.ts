@@ -1,13 +1,15 @@
 /* eslint-disable no-template-curly-in-string */
-import { Doc, GetDocDto } from 'models/doc';
+import type {
+  PublicDocumentDto,
+  UserProfileDto,
+} from 'api-4markdown-contracts';
 import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
-import { GetYourProfileDto } from 'models/user';
 
 const now = new Date();
 
-const getDocsResponse: { result: Doc[] } = {
+const getDocsResponse: { result: PublicDocumentDto[] } = {
   result: [
     {
       id: `e9799f7b-013e-4231-88fe-e2072514f96a`,
@@ -21,11 +23,11 @@ const getDocsResponse: { result: Doc[] } = {
   ],
 };
 
-const getPublicDocResponse: { result: GetDocDto } = {
+const getPublicDocResponse: { result: PublicDocumentDto } = {
   result: getDocsResponse.result[0],
 };
 
-const getUserProfileResponse: { result: GetYourProfileDto } = {
+const getUserProfileResponse: { result: UserProfileDto } = {
   result: {
     avatar: null,
     displayName: null,

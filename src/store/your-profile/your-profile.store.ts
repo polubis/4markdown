@@ -1,9 +1,9 @@
+import type { UserProfileDto } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
-import { GetYourProfileDto } from 'models/user';
 import { create } from 'zustand';
 
-type YourProfileStoreState = Transaction<{ user: GetYourProfileDto }>;
+type YourProfileStoreState = Transaction<{ user: UserProfileDto | null }>;
 type YourProfileStoreOkState = Extract<YourProfileStoreState, { is: 'ok' }>;
 
 const useYourProfileStore = create<YourProfileStoreState>(() => ({
@@ -24,7 +24,7 @@ const yourProfileStoreActions = {
     set({ is: `idle` });
   },
   busy: () => set({ is: `busy` }),
-  ok: (user: GetYourProfileDto) => {
+  ok: (user: UserProfileDto | null) => {
     const state: YourProfileStoreOkState = { is: `ok`, user };
     localStorage.setItem(YOUR_PROFILE_STORE_LS_KEY, JSON.stringify(state));
     set(state);

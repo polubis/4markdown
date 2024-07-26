@@ -1,4 +1,4 @@
-import { type Doc } from 'models/doc';
+import type { DocumentDto } from 'api-4markdown-contracts';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 import { uid } from '../utils/uid';
@@ -15,7 +15,7 @@ const { When, Given } = Gherkin({
 });
 
 const DOCS_MANAGEMENT_SCENARIOS = {
-  'I delete document': (name: Doc['name']) => {
+  'I delete document': (name: DocumentDto['name']) => {
     return When(`I click button`, [
       `More document options`,
       `Delete current document`,
