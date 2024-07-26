@@ -2,9 +2,8 @@
 import React from 'react';
 import './src/style/index.css';
 import ErrorBoundary from './src/development-kit/error-boundary';
-import { useOnInteraction } from './src/development-kit/use-on-interaction';
+import { useAuth } from './src/core/use-auth';
 
-const WithAuth = React.lazy(() => import(`./src/development-kit/with-auth`));
 const ExceptionScreen = React.lazy(
   () => import(`./src/components/exception-screen`),
 );
@@ -16,16 +15,9 @@ const SafeExceptionScreen = () => (
 );
 
 export const wrapPageElement = ({ element }) => {
-  const interacted = useOnInteraction();
+  useAuth();
 
   return (
-    <ErrorBoundary fallback={SafeExceptionScreen}>
-      {element}
-      {interacted && (
-        <React.Suspense>
-          <WithAuth />
-        </React.Suspense>
-      )}
-    </ErrorBoundary>
+    <ErrorBoundary fallback={SafeExceptionScreen}>{element}</ErrorBoundary>
   );
 };
