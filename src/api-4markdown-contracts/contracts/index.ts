@@ -1,8 +1,11 @@
+import type { Base64 } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
   PrivateDocumentDto,
   PublicDocumentDto,
+  ImageDto,
+  UserProfileDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -44,6 +47,29 @@ type UpdateDocContract = Contract<
   | Omit<PermanentDocumentDto, 'cdate' | 'path' | 'author'>
 >;
 
+type UploadImageContract = Contract<
+  `uploadImage`,
+  ImageDto,
+  { image: FileReader['result'] }
+>;
+
+type GetYourUserProfileContract = Contract<
+  `getYourUserProfile`,
+  UserProfileDto | null
+>;
+type UpdateYourUserProfileContract = Contract<
+  `updateYourUserProfile`,
+  UserProfileDto,
+  Omit<UserProfileDto, 'avatar'> & {
+    avatar:
+      | {
+          type: `noop`;
+        }
+      | { type: `remove` }
+      | { type: `update`; data: Base64 };
+  }
+>;
+
 type API4MarkdownContracts =
   | GetDocsContract
   | GetPublicDocContract
@@ -51,6 +77,9 @@ type API4MarkdownContracts =
   | DeleteDocContract
   | UpdateDocumentCodeContract
   | CreateDocContract
-  | UpdateDocContract;
+  | UpdateDocContract
+  | UploadImageContract
+  | GetYourUserProfileContract
+  | UpdateYourUserProfileContract;
 
 export type { API4MarkdownContracts };
