@@ -14,7 +14,7 @@ type Avatar = {
   lg: AvatarVariant;
 };
 
-export type UserProfileDto = {
+type UserProfileDto = {
   displayName: string | null;
   bio: string | null;
   avatar: Avatar | null;
@@ -24,3 +24,5 @@ export type UserProfileDto = {
   fbUrl: string | null;
   blogUrl: string | null;
 };
+
+export type { UserProfileDto };

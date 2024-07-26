@@ -39,7 +39,7 @@ type DocumentDto =
   | PublicDocumentDto
   | PermanentDocumentDto;
 
-export {
+export type {
   PrivateDocumentDto,
   PublicDocumentDto,
   PermanentDocumentDto,
