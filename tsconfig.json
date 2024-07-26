@@ -109,7 +109,8 @@
       "models/*": ["./src/models/*"],
       "components/*": ["./src/components/*"],
       "core/*": ["./src/core/*"],
-      "containers/*": ["./src/containers/*"]
+      "containers/*": ["./src/containers/*"],
+      "api-4markdown": ["./src/api-4markdown"]
     },
     "types": ["jest", "node", "cypress"]
   },

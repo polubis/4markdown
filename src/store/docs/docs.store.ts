@@ -1,6 +1,6 @@
 import { parseError } from 'development-kit/parse-error';
 import type { Doc } from 'models/doc';
-import type { Transaction } from 'models/transaction';
+import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
 type DocsStoreState = Transaction<{ docs: Doc[] }>;
