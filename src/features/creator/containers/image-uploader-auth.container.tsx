@@ -14,10 +14,10 @@ import {
 } from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import { UploadImageDto } from 'models/image';
+import type { ImageDto } from 'api-4markdown-contracts';
 
 const ImageUploaderAuthContainer = () => {
-  const imageModal = useToggle<UploadImageDto | null>();
+  const imageModal = useToggle<ImageDto | null>();
   const errorModal = useToggle();
   const docsStore = useDocsStore();
   const imagesStore = useImagesStore();

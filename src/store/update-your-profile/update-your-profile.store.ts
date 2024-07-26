@@ -1,6 +1,6 @@
+import { UserProfileDto } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
-import { UpdateYourProfileDto } from 'models/user';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { create } from 'zustand';
 
@@ -19,7 +19,7 @@ const set = (state: UpdateYourProfileStoreState, replace = true): void => {
 const updateYourProfileStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
-  ok: (dto: UpdateYourProfileDto) => {
+  ok: (dto: UserProfileDto) => {
     set({ is: `ok` });
     yourProfileStoreActions.ok(dto);
   },

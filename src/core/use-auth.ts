@@ -2,7 +2,6 @@ import React from 'react';
 import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import type { UpdateDocPayload } from 'models/doc';
 import {
   creatorStoreActions,
   creatorStoreSelectors,
@@ -19,6 +18,7 @@ import {
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI } from 'api-4markdown';
+import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 
 const useAuth = () => {
   const api = useAPI();
@@ -26,7 +26,9 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    const updateDoc = async (payload: UpdateDocPayload): Promise<void> => {
+    const updateDoc = async (
+      payload: API4MarkdownPayload<'updateDoc'>,
+    ): Promise<void> => {
       try {
         docManagementStoreActions.busy();
         const updatedDoc = await call(`updateDoc`)(payload);
