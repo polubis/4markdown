@@ -1,8 +1,9 @@
 import type {
   API4MarkdownContract,
   API4MarkdownPayload,
+  DocumentDto,
+  PermanentDocumentDto,
 } from 'api-4markdown-contracts';
-import type { Doc, PermanentDoc } from 'models/doc';
 import type { UploadImageDto } from 'models/image';
 import { create } from 'zustand';
 // API4Markdown<'getDocs'>
@@ -12,23 +13,23 @@ interface AuthorizedData {
     avatar: string | null;
   };
   logOut(): void;
-  createDoc(name: Doc['name']): Promise<void>;
+  createDoc(name: DocumentDto['name']): Promise<void>;
   resyncDocuments(): Promise<void>;
   updateDocumentCode(): Promise<void>;
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
-  updateDocName(name: Doc['name']): Promise<void>;
+  updateDocName(name: DocumentDto['name']): Promise<void>;
   uploadImage(image: File): Promise<UploadImageDto>;
   makeDocPermanent(
-    name: Doc['name'],
-    description: PermanentDoc['description'],
-    tags: PermanentDoc['tags'],
+    name: DocumentDto['name'],
+    description: PermanentDocumentDto['description'],
+    tags: PermanentDocumentDto['tags'],
   ): Promise<void>;
   getDocs(): Promise<void>;
   reloadDocs(): Promise<void>;
-  deleteDoc: API4MarkdownContract<`deleteDoc`>;
+  deleteDoc(payload: API4MarkdownPayload<`deleteDoc`>['id']): Promise<void>;
   getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
-  getYourProfile: API4MarkdownContract<`getYourUserProfile`>;
+  getYourProfile(): Promise<void>;
   updateYourProfile(
     payload: API4MarkdownPayload<'updateYourUserProfile'>,
   ): Promise<void>;

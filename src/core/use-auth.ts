@@ -2,7 +2,7 @@ import React from 'react';
 import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import type { CreateDocPayload, Doc, UpdateDocPayload } from 'models/doc';
+import type { CreateDocPayload, UpdateDocPayload } from 'models/doc';
 import {
   creatorStoreActions,
   creatorStoreSelectors,
@@ -25,24 +25,6 @@ const useAuth = () => {
 
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
-
-    const createDoc = async (name: Doc['name']) => {
-      const { code } = creatorStoreSelectors.ready();
-
-      const doc: CreateDocPayload = { name, code };
-
-      try {
-        docManagementStoreActions.busy();
-        const createdDoc = await call(`createDoc`)(doc);
-        docManagementStoreActions.ok();
-        docStoreActions.setActive(createdDoc);
-        docsStoreActions.addDoc(createdDoc);
-        creatorStoreActions.asUnchanged();
-      } catch (error: unknown) {
-        docManagementStoreActions.fail(error);
-        throw error;
-      }
-    };
 
     const updateDoc = async (payload: UpdateDocPayload) => {
       try {
@@ -175,7 +157,7 @@ const useAuth = () => {
       });
     };
 
-    const getDocs = async (): Promise<void> => {
+    const getDocs: AuthorizedData['getDocs'] = async () => {
       const state = useDocsStore.getState();
 
       if (state.is === `ok` || state.is === `busy`) {
@@ -193,7 +175,7 @@ const useAuth = () => {
       }
     };
 
-    const deleteDoc = async (id: Doc['id']): Promise<void> => {
+    const deleteDoc: AuthorizedData['deleteDoc'] = async (id) => {
       try {
         docManagementStoreActions.busy();
         await call(`deleteDoc`)({ id });
@@ -245,7 +227,23 @@ const useAuth = () => {
           getDocs,
           reloadDocs,
           getYourProfile,
-          createDoc,
+          createDoc: async (name) => {
+            const { code } = creatorStoreSelectors.ready();
+
+            const doc: CreateDocPayload = { name, code };
+
+            try {
+              docManagementStoreActions.busy();
+              const createdDoc = await call(`createDoc`)(doc);
+              docManagementStoreActions.ok();
+              docStoreActions.setActive(createdDoc);
+              docsStoreActions.addDoc(createdDoc);
+              creatorStoreActions.asUnchanged();
+            } catch (error: unknown) {
+              docManagementStoreActions.fail(error);
+              throw error;
+            }
+          },
           resyncDocuments: async () => {
             docManagementStoreActions.idle();
             reloadDocs();
