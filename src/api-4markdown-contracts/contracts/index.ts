@@ -82,4 +82,16 @@ type API4MarkdownContracts =
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract;
 
-export type { API4MarkdownContracts };
+export type {
+  API4MarkdownContracts,
+  GetDocsContract,
+  GetPublicDocContract,
+  GetPermanentDocsContract,
+  DeleteDocContract,
+  UpdateDocumentCodeContract,
+  CreateDocContract,
+  UpdateDocContract,
+  UploadImageContract,
+  GetYourUserProfileContract,
+  UpdateYourUserProfileContract,
+};
