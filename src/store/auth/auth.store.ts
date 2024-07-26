@@ -25,8 +25,8 @@ interface AuthorizedData {
     tags: PermanentDoc['tags'],
   ): Promise<void>;
   getDocs(): Promise<void>;
+  reloadDocs(): Promise<void>;
   deleteDoc: API4MarkdownContract<`deleteDoc`>;
-  reloadDocs: API4MarkdownContract<'getPublicDoc'>;
   getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
   getYourProfile: API4MarkdownContract<`getYourUserProfile`>;
   updateYourProfile(

@@ -175,20 +175,6 @@ const useAuth = () => {
       });
     };
 
-    const reloadDocs = async (): Promise<void> => {
-      try {
-        docsStoreActions.idle();
-        docsStoreActions.busy();
-
-        const docs = await call(`getDocs`)();
-
-        docsStoreActions.ok(docs);
-        docStoreActions.reset();
-      } catch (error: unknown) {
-        docsStoreActions.fail(error);
-      }
-    };
-
     const getDocs = async (): Promise<void> => {
       const state = useDocsStore.getState();
 
@@ -223,6 +209,20 @@ const useAuth = () => {
     };
 
     const getPublicDoc = call(`getPublicDoc`);
+
+    const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
+      try {
+        docsStoreActions.idle();
+        docsStoreActions.busy();
+
+        const docs = await call(`getDocs`)();
+
+        docsStoreActions.ok(docs);
+        docStoreActions.reset();
+      } catch (error: unknown) {
+        docsStoreActions.fail(error);
+      }
+    };
 
     const unsubscribe = onAuthChange(async (user) => {
       if (user) {
