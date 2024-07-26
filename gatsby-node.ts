@@ -4,7 +4,7 @@ import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
 import { type EducationZoneViewModel } from 'models/view-models';
-import { PermanentDocumentDto } from 'api-4markdown-contracts';
+import { type PermanentDocumentDto } from 'api-4markdown-contracts';
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,

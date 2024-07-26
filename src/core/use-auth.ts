@@ -1,5 +1,5 @@
 import React from 'react';
-import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
+import { type AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import {

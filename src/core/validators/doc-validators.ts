@@ -1,6 +1,6 @@
-import { PermanentDocumentDto } from 'api-4markdown-contracts';
+import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import {
-  ValidatorsSetup,
+  type ValidatorsSetup,
   isString,
   maxLength,
   minLength,

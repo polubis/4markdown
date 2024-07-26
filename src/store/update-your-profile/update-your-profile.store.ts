@@ -1,4 +1,4 @@
-import { UserProfileDto } from 'api-4markdown-contracts';
+import type { UserProfileDto } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';

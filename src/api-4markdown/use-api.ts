@@ -23,7 +23,7 @@ import {
 import React from 'react';
 // @TODO: Decouple interfaces from Firebase and try to lazy load firebase/auth.
 
-interface API4Markdown {
+type API4Markdown = {
   call<TKey extends API4MarkdownContractKey>(
     key: TKey,
   ): API4MarkdownPayload<TKey> extends undefined
@@ -36,7 +36,7 @@ interface API4Markdown {
     error?: ErrorFn,
     completed?: CompleteFn,
   ): Unsubscribe;
-}
+};
 
 let instance: API4Markdown | null = null;
 
@@ -95,5 +95,4 @@ const initialize = (): API4Markdown => {
 
 const useAPI = () => React.useState(initialize)[0];
 
-export type { API4Markdown };
 export { useAPI };

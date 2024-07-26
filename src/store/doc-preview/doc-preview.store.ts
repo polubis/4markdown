@@ -1,4 +1,4 @@
-import { API4MarkdownPayload, DocumentDto } from 'api-4markdown-contracts';
+import type { API4MarkdownPayload, DocumentDto } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import { useAuthStore } from 'store/auth/auth.store';
