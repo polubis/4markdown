@@ -1,10 +1,10 @@
+import type { API4MarkdownPayload, DocumentDto } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
-import type { Doc, GetDocPayload } from 'models/doc';
 import type { Transaction } from 'development-kit/utility-types';
 import { useAuthStore } from 'store/auth/auth.store';
 import { create } from 'zustand';
 
-type DocPreviewStoreState = Transaction<{ doc: Doc }>;
+type DocPreviewStoreState = Transaction<{ doc: DocumentDto }>;
 
 const useDocPreviewStore = create<DocPreviewStoreState>(() => ({
   is: `idle`,
@@ -17,7 +17,7 @@ const set = (state: DocPreviewStoreState): void => {
 };
 
 const docPreviewStoreActions = {
-  load: async (payload: GetDocPayload) => {
+  load: async (payload: API4MarkdownPayload<'getPublicDoc'>): Promise<void> => {
     const authStore = useAuthStore.getState();
 
     if (authStore.is === `idle`)

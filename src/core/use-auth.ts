@@ -1,20 +1,7 @@
 import React from 'react';
-import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
+import { type AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import type {
-  CreateDocDto,
-  CreateDocPayload,
-  DeleteDocDto,
-  DeleteDocPayload,
-  Doc,
-  GetDocDto,
-  GetDocPayload,
-  UpdateDocDto,
-  UpdateDocPayload,
-  UpdateDocumentCodePayload,
-  UpdateDocumentCodeResponse,
-} from 'models/doc';
 import {
   creatorStoreActions,
   creatorStoreSelectors,
@@ -22,12 +9,6 @@ import {
 import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
-import { UploadImageDto, UploadImagePayload } from 'models/image';
-import {
-  GetYourProfileDto,
-  UpdateYourProfileDto,
-  UpdateYourProfilePayload,
-} from 'models/user';
 import {
   yourProfileStoreActions,
   yourProfileStoreSelectors,
@@ -37,6 +18,7 @@ import {
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI } from 'api-4markdown';
+import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 
 const useAuth = () => {
   const api = useAPI();
@@ -44,37 +26,12 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    const getPublicDoc = async (payload: GetDocPayload) =>
-      await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
-
-    const createDoc = async (name: Doc['name']) => {
-      const { code } = creatorStoreSelectors.ready();
-
-      const doc: CreateDocPayload = { name, code };
-
+    const updateDoc = async (
+      payload: API4MarkdownPayload<'updateDoc'>,
+    ): Promise<void> => {
       try {
         docManagementStoreActions.busy();
-        const createdDoc = await call<CreateDocPayload, CreateDocDto>(
-          `createDoc`,
-          doc,
-        );
-        docManagementStoreActions.ok();
-        docStoreActions.setActive(createdDoc);
-        docsStoreActions.addDoc(createdDoc);
-        creatorStoreActions.asUnchanged();
-      } catch (error: unknown) {
-        docManagementStoreActions.fail(error);
-        throw error;
-      }
-    };
-
-    const updateDoc = async (payload: UpdateDocPayload) => {
-      try {
-        docManagementStoreActions.busy();
-        const updatedDoc = await call<UpdateDocPayload, UpdateDocDto>(
-          `updateDoc`,
-          payload,
-        );
+        const updatedDoc = await call(`updateDoc`)(payload);
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
         docsStoreActions.updateDoc(updatedDoc);
@@ -85,46 +42,7 @@ const useAuth = () => {
       }
     };
 
-    const uploadImage: AuthorizedData['uploadImage'] = async (image) => {
-      try {
-        imagesStoreActions.busy();
-
-        const data = await call<UploadImagePayload, UploadImageDto>(
-          `uploadImage`,
-          { image: await readFileAsBase64(image) },
-        );
-
-        imagesStoreActions.ok();
-
-        return data;
-      } catch (error: unknown) {
-        imagesStoreActions.fail(error);
-        throw error;
-      }
-    };
-
-    const updateYourProfile: AuthorizedData['updateYourProfile'] = async (
-      payload,
-    ) => {
-      try {
-        if (updateYourProfileStoreSelectors.state().is === `ok`) return;
-
-        updateYourProfileStoreActions.busy();
-
-        const data = await call<UpdateYourProfilePayload, UpdateYourProfileDto>(
-          `updateYourUserProfile`,
-          payload,
-        );
-
-        updateYourProfileStoreActions.ok(data);
-        yourProfileStoreActions.ok(data);
-      } catch (error: unknown) {
-        updateYourProfileStoreActions.fail(error);
-        throw error;
-      }
-    };
-
-    const getYourProfile = async () => {
+    const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
       yourProfileStoreActions.sync();
 
       if (
@@ -136,9 +54,7 @@ const useAuth = () => {
       try {
         yourProfileStoreActions.busy();
 
-        const profile = await call<undefined, GetYourProfileDto>(
-          `getYourUserProfile`,
-        );
+        const profile = await call(`getYourUserProfile`)();
 
         yourProfileStoreActions.ok(profile);
       } catch (error: unknown) {
@@ -146,101 +62,7 @@ const useAuth = () => {
       }
     };
 
-    const makeDocPrivate: AuthorizedData['makeDocPrivate'] = async () => {
-      const { id, name, mdate } = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-
-      await updateDoc({
-        id,
-        mdate,
-        name,
-        code,
-        visibility: `private`,
-      });
-    };
-
-    const makeDocPublic: AuthorizedData['makeDocPublic'] = async () => {
-      const { id, name, mdate } = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-
-      await updateDoc({
-        id,
-        mdate,
-        name,
-        code,
-        visibility: `public`,
-      });
-    };
-
-    const makeDocPermanent: AuthorizedData['makeDocPermanent'] = async (
-      name,
-      description,
-      tags,
-    ) => {
-      const { id, mdate } = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-
-      await updateDoc({
-        mdate,
-        id,
-        name,
-        code,
-        visibility: `permanent`,
-        description,
-        tags,
-      });
-    };
-
-    const updateDocName: AuthorizedData['updateDocName'] = async (name) => {
-      const doc = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-
-      if (doc.visibility === `private`) {
-        return await updateDoc({
-          code,
-          name,
-          id: doc.id,
-          mdate: doc.mdate,
-          visibility: `private`,
-        });
-      }
-
-      if (doc.visibility === `public`) {
-        return await updateDoc({
-          code,
-          name,
-          id: doc.id,
-          mdate: doc.mdate,
-          visibility: `public`,
-        });
-      }
-
-      return await updateDoc({
-        code,
-        name,
-        tags: doc.tags,
-        description: doc.description,
-        id: doc.id,
-        mdate: doc.mdate,
-        visibility: `permanent`,
-      });
-    };
-
-    const reloadDocs = async (): Promise<void> => {
-      try {
-        docsStoreActions.idle();
-        docsStoreActions.busy();
-
-        const docs = await call<undefined, Doc[]>(`getDocs`);
-
-        docsStoreActions.ok(docs);
-        docStoreActions.reset();
-      } catch (error: unknown) {
-        docsStoreActions.fail(error);
-      }
-    };
-
-    const getDocs = async (): Promise<void> => {
+    const getDocs: AuthorizedData['getDocs'] = async () => {
       const state = useDocsStore.getState();
 
       if (state.is === `ok` || state.is === `busy`) {
@@ -250,7 +72,7 @@ const useAuth = () => {
       try {
         docsStoreActions.busy();
 
-        const docs = await call<undefined, Doc[]>(`getDocs`);
+        const docs = await call(`getDocs`)();
 
         docsStoreActions.ok(docs);
       } catch (error: unknown) {
@@ -258,18 +80,19 @@ const useAuth = () => {
       }
     };
 
-    const deleteDoc = async (id: Doc['id']): Promise<void> => {
-      try {
-        docManagementStoreActions.busy();
-        await call<DeleteDocPayload, DeleteDocDto>(`deleteDoc`, { id });
+    const getPublicDoc = call(`getPublicDoc`);
 
-        docManagementStoreActions.ok();
-        docsStoreActions.deleteDoc(id);
+    const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
+      try {
+        docsStoreActions.idle();
+        docsStoreActions.busy();
+
+        const docs = await call(`getDocs`)();
+
+        docsStoreActions.ok(docs);
         docStoreActions.reset();
-        creatorStoreActions.init();
       } catch (error: unknown) {
-        docManagementStoreActions.fail(error);
-        throw error;
+        docsStoreActions.fail(error);
       }
     };
 
@@ -286,15 +109,57 @@ const useAuth = () => {
               yourProfileStoreActions.idle();
             } catch {}
           },
-          uploadImage,
+          uploadImage: async (image) => {
+            try {
+              imagesStoreActions.busy();
+
+              const data = await call(`uploadImage`)({
+                image: await readFileAsBase64(image),
+              });
+
+              imagesStoreActions.ok();
+
+              return data;
+            } catch (error: unknown) {
+              imagesStoreActions.fail(error);
+              throw error;
+            }
+          },
           getPublicDoc,
           deleteDoc: async () => {
-            await deleteDoc(docStoreSelectors.active().id);
+            const id = docStoreSelectors.active().id;
+
+            try {
+              docManagementStoreActions.busy();
+              await call(`deleteDoc`)({ id });
+
+              docManagementStoreActions.ok();
+              docsStoreActions.deleteDoc(id);
+              docStoreActions.reset();
+              creatorStoreActions.init();
+            } catch (error: unknown) {
+              docManagementStoreActions.fail(error);
+              throw error;
+            }
           },
           getDocs,
           reloadDocs,
           getYourProfile,
-          createDoc,
+          createDoc: async (name) => {
+            const { code } = creatorStoreSelectors.ready();
+
+            try {
+              docManagementStoreActions.busy();
+              const createdDoc = await call(`createDoc`)({ name, code });
+              docManagementStoreActions.ok();
+              docStoreActions.setActive(createdDoc);
+              docsStoreActions.addDoc(createdDoc);
+              creatorStoreActions.asUnchanged();
+            } catch (error: unknown) {
+              docManagementStoreActions.fail(error);
+              throw error;
+            }
+          },
           resyncDocuments: async () => {
             docManagementStoreActions.idle();
             reloadDocs();
@@ -310,10 +175,7 @@ const useAuth = () => {
 
             try {
               docManagementStoreActions.busy();
-              const data = await call<
-                UpdateDocumentCodePayload,
-                UpdateDocumentCodeResponse
-              >(`updateDocumentCode`, {
+              const data = await call(`updateDocumentCode`)({
                 id: newDoc.id,
                 code: newDoc.code,
                 mdate: newDoc.mdate,
@@ -331,11 +193,93 @@ const useAuth = () => {
               docManagementStoreActions.fail(error);
             }
           },
-          makeDocPrivate,
-          makeDocPublic,
-          makeDocPermanent,
-          updateDocName,
-          updateYourProfile,
+          makeDocPrivate: async () => {
+            const { id, name, mdate } = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            await updateDoc({
+              id,
+              mdate,
+              name,
+              code,
+              visibility: `private`,
+            });
+          },
+          makeDocPublic: async () => {
+            const { id, name, mdate } = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            await updateDoc({
+              id,
+              mdate,
+              name,
+              code,
+              visibility: `public`,
+            });
+          },
+          makeDocPermanent: async (name, description, tags) => {
+            const { id, mdate } = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            await updateDoc({
+              mdate,
+              id,
+              name,
+              code,
+              visibility: `permanent`,
+              description,
+              tags,
+            });
+          },
+          updateDocName: async (name) => {
+            const doc = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            if (doc.visibility === `private`) {
+              return await updateDoc({
+                code,
+                name,
+                id: doc.id,
+                mdate: doc.mdate,
+                visibility: `private`,
+              });
+            }
+
+            if (doc.visibility === `public`) {
+              return await updateDoc({
+                code,
+                name,
+                id: doc.id,
+                mdate: doc.mdate,
+                visibility: `public`,
+              });
+            }
+
+            return await updateDoc({
+              code,
+              name,
+              tags: doc.tags,
+              description: doc.description,
+              id: doc.id,
+              mdate: doc.mdate,
+              visibility: `permanent`,
+            });
+          },
+          updateYourProfile: async (payload) => {
+            try {
+              if (updateYourProfileStoreSelectors.state().is === `ok`) return;
+
+              updateYourProfileStoreActions.busy();
+
+              const data = await call(`updateYourUserProfile`)(payload);
+
+              updateYourProfileStoreActions.ok(data);
+              yourProfileStoreActions.ok(data);
+            } catch (error: unknown) {
+              updateYourProfileStoreActions.fail(error);
+              throw error;
+            }
+          },
         });
 
         getDocs();

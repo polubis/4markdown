@@ -1,34 +1,43 @@
-import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
-import { UploadImageDto } from 'models/image';
-import type { UpdateYourProfilePayload, User } from 'models/user';
+import type {
+  API4MarkdownContract,
+  API4MarkdownPayload,
+  API4MarkdownDto,
+  DocumentDto,
+  PermanentDocumentDto,
+} from 'api-4markdown-contracts';
 import { create } from 'zustand';
 
 interface AuthorizedData {
-  user: User;
+  user: {
+    name: string | null;
+    avatar: string | null;
+  };
   logOut(): void;
-  createDoc(name: Doc['name']): Promise<void>;
+  createDoc(name: DocumentDto['name']): Promise<void>;
   resyncDocuments(): Promise<void>;
   updateDocumentCode(): Promise<void>;
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
-  updateDocName(name: Doc['name']): Promise<void>;
-  uploadImage(image: File): Promise<UploadImageDto>;
+  updateDocName(name: DocumentDto['name']): Promise<void>;
+  uploadImage(image: File): API4MarkdownDto<'uploadImage'>;
   makeDocPermanent(
-    name: Doc['name'],
-    description: PermanentDoc['description'],
-    tags: PermanentDoc['tags'],
+    name: DocumentDto['name'],
+    description: PermanentDocumentDto['description'],
+    tags: PermanentDocumentDto['tags'],
   ): Promise<void>;
   getDocs(): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
-  getPublicDoc(payload: GetDocPayload): Promise<Doc>;
+  getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
   getYourProfile(): Promise<void>;
-  updateYourProfile(payload: UpdateYourProfilePayload): Promise<void>;
+  updateYourProfile(
+    payload: API4MarkdownPayload<'updateYourUserProfile'>,
+  ): Promise<void>;
 }
 
 interface UnauthrorizedData {
-  logIn(): void;
-  getPublicDoc(payload: GetDocPayload): Promise<Doc>;
+  logIn(): Promise<void>;
+  getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
 }
 
 interface AuthStoreActions {
