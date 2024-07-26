@@ -1,3 +1,4 @@
+import type { API4MarkdownContracts } from 'api-4markdown-contracts';
 import { FirebaseOptions, initializeApp } from 'firebase/app';
 import {
   CompleteFn,
@@ -15,7 +16,6 @@ import {
   signOut,
 } from 'firebase/auth';
 import React from 'react';
-import { API4MarkdownContracts } from '../api-4markdown-contracts/contracts';
 // @TODO: Decouple interfaces from Firebase and try to lazy load firebase/auth.
 
 type ContractsKey = API4MarkdownContracts['key'];
@@ -99,4 +99,5 @@ const initialize = (): API4Markdown => {
 
 const useAPI = () => React.useState(initialize)[0];
 
+export type { API4Markdown };
 export { useAPI };

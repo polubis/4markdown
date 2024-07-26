@@ -1,5 +1,5 @@
 import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
-import { UploadImageDto } from 'models/image';
+import type { UploadImageDto } from 'models/image';
 import type { UpdateYourProfilePayload, User } from 'models/user';
 import { create } from 'zustand';
 
