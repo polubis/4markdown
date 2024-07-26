@@ -44,6 +44,8 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
+    // await call(`getDocs`)(undefined);
+
     const getPublicDoc = async (payload: GetDocPayload) =>
       await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
 
@@ -231,7 +233,7 @@ const useAuth = () => {
         docsStoreActions.idle();
         docsStoreActions.busy();
 
-        const docs = await call<undefined, Doc[]>(`getDocs`);
+        const docs = await call(`getDocs`);
 
         docsStoreActions.ok(docs);
         docStoreActions.reset();

@@ -15,12 +15,23 @@ import {
   signOut,
 } from 'firebase/auth';
 import React from 'react';
+import { API4MarkdownContracts } from '../api-4markdown-contracts/contracts';
 // @TODO: Decouple interfaces from Firebase and try to lazy load firebase/auth.
+
+type ContractsKey = API4MarkdownContracts['key'];
+type SpecificDto<TKey extends ContractsKey> = Promise<
+  Extract<API4MarkdownContracts, { key: TKey }>['dto']
+>;
+type SpecificPayload<TKey extends ContractsKey> = Extract<
+  API4MarkdownContracts,
+  { key: TKey }
+>['payload'];
+
 interface API4Markdown {
-  call<TPayload, TResponse>(
-    key: string,
-    payload?: TPayload | null,
-  ): Promise<TResponse>;
+  call: <TKey extends ContractsKey>(
+    key: TKey,
+  ) => (payload: SpecificPayload<TKey>) => SpecificDto<TKey>;
+
   logIn(): Promise<void>;
   logOut(): Promise<void>;
   onAuthChange(
@@ -48,14 +59,16 @@ const initialize = (): API4Markdown => {
 
   if (!instance) {
     instance = {
-      call: async (key, payload) => {
-        const { getFunctions, httpsCallable } = await import(
-          `firebase/functions`
-        );
+      call:
+        <TKey extends API4MarkdownContracts['key']>(key: TKey) =>
+        async (payload) => {
+          const { getFunctions, httpsCallable } = await import(
+            `firebase/functions`
+          );
 
-        return (await httpsCallable(getFunctions(app), key)(payload))
-          .data as any;
-      },
+          return (await httpsCallable(getFunctions(app), key)(payload))
+            .data as SpecificDto<TKey>;
+        },
       logIn: async () => {
         await setPersistence(auth, browserLocalPersistence);
 
