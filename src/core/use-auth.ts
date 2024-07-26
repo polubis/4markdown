@@ -1,15 +1,3 @@
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import { FirebaseOptions, initializeApp } from 'firebase/app';
-import {
-  GoogleAuthProvider,
-  browserLocalPersistence,
-  getAuth,
-  onAuthStateChanged,
-  setPersistence,
-  signInWithEmailAndPassword,
-  signOut,
-  signInWithPopup,
-} from 'firebase/auth';
 import React from 'react';
 import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
@@ -33,7 +21,7 @@ import {
 } from 'store/creator/creator.store';
 import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
-import { readFileAsBase64 } from './file-reading';
+import { readFileAsBase64 } from '../development-kit/file-reading';
 import { UploadImageDto, UploadImagePayload } from 'models/image';
 import {
   GetYourProfileDto,
@@ -48,32 +36,16 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
+import { useAPI } from 'api-4markdown';
 
-const WithAuth = () => {
+const useAuth = () => {
+  const api = useAPI();
+
   React.useEffect(() => {
-    const config: FirebaseOptions = {
-      apiKey: process.env.GATSBY_API_KEY,
-      authDomain: process.env.GATSBY_AUTH_DOMAIN,
-      projectId: process.env.GATSBY_PROJECT_ID,
-      storageBucket: process.env.GATSBY_STORAGE_BUCKET,
-      messagingSenderId: process.env.GATSBY_MESSAGING_SENDER_ID,
-      appId: process.env.GATSBY_APP_ID,
-      measurementId: process.env.GATSBY_MEASURMENT_ID,
-    };
+    const { call, logOut, logIn, onAuthChange } = api;
 
-    const app = initializeApp(config);
-    const auth = getAuth(app);
-    const functions = getFunctions(app);
-    const provider = new GoogleAuthProvider();
-
-    const getPublicDoc = async (payload: GetDocPayload) => {
-      const { data: doc } = await httpsCallable<GetDocPayload, GetDocDto>(
-        functions,
-        `getPublicDoc`,
-      )(payload);
-
-      return doc;
-    };
+    const getPublicDoc = async (payload: GetDocPayload) =>
+      await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
 
     const createDoc = async (name: Doc['name']) => {
       const { code } = creatorStoreSelectors.ready();
@@ -82,13 +54,10 @@ const WithAuth = () => {
 
       try {
         docManagementStoreActions.busy();
-        const { data: createdDoc } = await httpsCallable<
-          CreateDocPayload,
-          CreateDocDto
-        >(
-          functions,
+        const createdDoc = await call<CreateDocPayload, CreateDocDto>(
           `createDoc`,
-        )(doc);
+          doc,
+        );
         docManagementStoreActions.ok();
         docStoreActions.setActive(createdDoc);
         docsStoreActions.addDoc(createdDoc);
@@ -102,13 +71,10 @@ const WithAuth = () => {
     const updateDoc = async (payload: UpdateDocPayload) => {
       try {
         docManagementStoreActions.busy();
-        const { data: updatedDoc } = await httpsCallable<
-          UpdateDocPayload,
-          UpdateDocDto
-        >(
-          functions,
+        const updatedDoc = await call<UpdateDocPayload, UpdateDocDto>(
           `updateDoc`,
-        )(payload);
+          payload,
+        );
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
         docsStoreActions.updateDoc(updatedDoc);
@@ -123,13 +89,10 @@ const WithAuth = () => {
       try {
         imagesStoreActions.busy();
 
-        const { data } = await httpsCallable<
-          UploadImagePayload,
-          UploadImageDto
-        >(
-          functions,
+        const data = await call<UploadImagePayload, UploadImageDto>(
           `uploadImage`,
-        )({ image: await readFileAsBase64(image) });
+          { image: await readFileAsBase64(image) },
+        );
 
         imagesStoreActions.ok();
 
@@ -148,13 +111,10 @@ const WithAuth = () => {
 
         updateYourProfileStoreActions.busy();
 
-        const { data } = await httpsCallable<
-          UpdateYourProfilePayload,
-          UpdateYourProfileDto
-        >(
-          functions,
+        const data = await call<UpdateYourProfilePayload, UpdateYourProfileDto>(
           `updateYourUserProfile`,
-        )(payload);
+          payload,
+        );
 
         updateYourProfileStoreActions.ok(data);
         yourProfileStoreActions.ok(data);
@@ -176,10 +136,9 @@ const WithAuth = () => {
       try {
         yourProfileStoreActions.busy();
 
-        const { data: profile } = await httpsCallable<
-          undefined,
-          GetYourProfileDto
-        >(functions, `getYourUserProfile`)();
+        const profile = await call<undefined, GetYourProfileDto>(
+          `getYourUserProfile`,
+        );
 
         yourProfileStoreActions.ok(profile);
       } catch (error: unknown) {
@@ -272,10 +231,7 @@ const WithAuth = () => {
         docsStoreActions.idle();
         docsStoreActions.busy();
 
-        const { data: docs } = await httpsCallable<undefined, Doc[]>(
-          functions,
-          `getDocs`,
-        )();
+        const docs = await call<undefined, Doc[]>(`getDocs`);
 
         docsStoreActions.ok(docs);
         docStoreActions.reset();
@@ -294,10 +250,7 @@ const WithAuth = () => {
       try {
         docsStoreActions.busy();
 
-        const { data: docs } = await httpsCallable<undefined, Doc[]>(
-          functions,
-          `getDocs`,
-        )();
+        const docs = await call<undefined, Doc[]>(`getDocs`);
 
         docsStoreActions.ok(docs);
       } catch (error: unknown) {
@@ -308,10 +261,7 @@ const WithAuth = () => {
     const deleteDoc = async (id: Doc['id']): Promise<void> => {
       try {
         docManagementStoreActions.busy();
-        await httpsCallable<DeleteDocPayload, DeleteDocDto>(
-          functions,
-          `deleteDoc`,
-        )({ id });
+        await call<DeleteDocPayload, DeleteDocDto>(`deleteDoc`, { id });
 
         docManagementStoreActions.ok();
         docsStoreActions.deleteDoc(id);
@@ -323,7 +273,7 @@ const WithAuth = () => {
       }
     };
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const unsubscribe = onAuthChange(async (user) => {
       if (user) {
         authStoreActions.authorize({
           user: {
@@ -332,7 +282,7 @@ const WithAuth = () => {
           },
           logOut: async () => {
             try {
-              await signOut(auth);
+              await logOut();
               yourProfileStoreActions.idle();
             } catch {}
           },
@@ -360,16 +310,17 @@ const WithAuth = () => {
 
             try {
               docManagementStoreActions.busy();
-              const response = await httpsCallable<
+              const data = await call<
                 UpdateDocumentCodePayload,
                 UpdateDocumentCodeResponse
-              >(
-                functions,
-                `updateDocumentCode`,
-              )({ id: newDoc.id, code: newDoc.code, mdate: newDoc.mdate });
+              >(`updateDocumentCode`, {
+                id: newDoc.id,
+                code: newDoc.code,
+                mdate: newDoc.mdate,
+              });
               const updatedDoc = {
                 ...newDoc,
-                mdate: response.data.mdate,
+                mdate: data.mdate,
               };
 
               docManagementStoreActions.ok();
@@ -402,17 +353,7 @@ const WithAuth = () => {
         getPublicDoc,
         logIn: async () => {
           try {
-            await setPersistence(auth, browserLocalPersistence);
-
-            const email = process.env.GATSBY_TEST_USER_EMAIL;
-            const password = process.env.GATSBY_TEST_USER_PASSWORD;
-
-            if (email !== undefined && password !== undefined) {
-              await signInWithEmailAndPassword(auth, email, password);
-              return;
-            }
-
-            await signInWithPopup(auth, provider);
+            await logIn();
           } catch (error: unknown) {}
         },
       });
@@ -421,9 +362,7 @@ const WithAuth = () => {
     return () => {
       unsubscribe();
     };
-  }, []);
-
-  return null;
+  }, [api]);
 };
 
-export default WithAuth;
+export { useAuth };

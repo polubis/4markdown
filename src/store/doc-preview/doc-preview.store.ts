@@ -1,6 +1,6 @@
 import { parseError } from 'development-kit/parse-error';
 import type { Doc, GetDocPayload } from 'models/doc';
-import type { Transaction } from 'models/transaction';
+import type { Transaction } from 'development-kit/utility-types';
 import { useAuthStore } from 'store/auth/auth.store';
 import { create } from 'zustand';
 
