@@ -2,7 +2,7 @@ import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
 import type { UploadImageDto } from 'models/image';
 import type { UpdateYourProfilePayload, User } from 'models/user';
 import { create } from 'zustand';
-
+// API4Markdown<'getDocs'>
 interface AuthorizedData {
   user: User;
   logOut(): void;

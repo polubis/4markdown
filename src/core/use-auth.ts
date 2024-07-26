@@ -3,17 +3,10 @@ import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import type {
-  CreateDocDto,
   CreateDocPayload,
-  DeleteDocDto,
-  DeleteDocPayload,
   Doc,
-  GetDocDto,
   GetDocPayload,
-  UpdateDocDto,
   UpdateDocPayload,
-  UpdateDocumentCodePayload,
-  UpdateDocumentCodeResponse,
 } from 'models/doc';
 import {
   creatorStoreActions,
@@ -22,12 +15,6 @@ import {
 import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
-import { UploadImageDto, UploadImagePayload } from 'models/image';
-import {
-  GetYourProfileDto,
-  UpdateYourProfileDto,
-  UpdateYourProfilePayload,
-} from 'models/user';
 import {
   yourProfileStoreActions,
   yourProfileStoreSelectors,
@@ -45,7 +32,7 @@ const useAuth = () => {
     const { call, logOut, logIn, onAuthChange } = api;
 
     const getPublicDoc = async (payload: GetDocPayload) =>
-      await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
+      await call(`getPublicDoc`)(payload);
 
     const createDoc = async (name: Doc['name']) => {
       const { code } = creatorStoreSelectors.ready();
@@ -54,10 +41,7 @@ const useAuth = () => {
 
       try {
         docManagementStoreActions.busy();
-        const createdDoc = await call<CreateDocPayload, CreateDocDto>(
-          `createDoc`,
-          doc,
-        );
+        const createdDoc = await call(`createDoc`)(doc);
         docManagementStoreActions.ok();
         docStoreActions.setActive(createdDoc);
         docsStoreActions.addDoc(createdDoc);
@@ -71,10 +55,7 @@ const useAuth = () => {
     const updateDoc = async (payload: UpdateDocPayload) => {
       try {
         docManagementStoreActions.busy();
-        const updatedDoc = await call<UpdateDocPayload, UpdateDocDto>(
-          `updateDoc`,
-          payload,
-        );
+        const updatedDoc = await call(`updateDoc`)(payload);
         docManagementStoreActions.ok();
         docStoreActions.setActive(updatedDoc);
         docsStoreActions.updateDoc(updatedDoc);
@@ -89,10 +70,9 @@ const useAuth = () => {
       try {
         imagesStoreActions.busy();
 
-        const data = await call<UploadImagePayload, UploadImageDto>(
-          `uploadImage`,
-          { image: await readFileAsBase64(image) },
-        );
+        const data = await call(`uploadImage`)({
+          image: await readFileAsBase64(image),
+        });
 
         imagesStoreActions.ok();
 
@@ -111,10 +91,7 @@ const useAuth = () => {
 
         updateYourProfileStoreActions.busy();
 
-        const data = await call<UpdateYourProfilePayload, UpdateYourProfileDto>(
-          `updateYourUserProfile`,
-          payload,
-        );
+        const data = await call(`updateYourUserProfile`)(payload);
 
         updateYourProfileStoreActions.ok(data);
         yourProfileStoreActions.ok(data);
@@ -136,9 +113,7 @@ const useAuth = () => {
       try {
         yourProfileStoreActions.busy();
 
-        const profile = await call<undefined, GetYourProfileDto>(
-          `getYourUserProfile`,
-        );
+        const profile = await call(`getYourUserProfile`)();
 
         yourProfileStoreActions.ok(profile);
       } catch (error: unknown) {
@@ -231,7 +206,7 @@ const useAuth = () => {
         docsStoreActions.idle();
         docsStoreActions.busy();
 
-        const docs = await call(`getDocs`);
+        const docs = await call(`getDocs`)();
 
         docsStoreActions.ok(docs);
         docStoreActions.reset();
@@ -250,7 +225,7 @@ const useAuth = () => {
       try {
         docsStoreActions.busy();
 
-        const docs = await call<undefined, Doc[]>(`getDocs`);
+        const docs = await call(`getDocs`)();
 
         docsStoreActions.ok(docs);
       } catch (error: unknown) {
@@ -261,7 +236,7 @@ const useAuth = () => {
     const deleteDoc = async (id: Doc['id']): Promise<void> => {
       try {
         docManagementStoreActions.busy();
-        await call<DeleteDocPayload, DeleteDocDto>(`deleteDoc`, { id });
+        await call(`deleteDoc`)({ id });
 
         docManagementStoreActions.ok();
         docsStoreActions.deleteDoc(id);
@@ -310,10 +285,7 @@ const useAuth = () => {
 
             try {
               docManagementStoreActions.busy();
-              const data = await call<
-                UpdateDocumentCodePayload,
-                UpdateDocumentCodeResponse
-              >(`updateDocumentCode`, {
+              const data = await call(`updateDocumentCode`)({
                 id: newDoc.id,
                 code: newDoc.code,
                 mdate: newDoc.mdate,
