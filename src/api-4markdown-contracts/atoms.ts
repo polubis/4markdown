@@ -7,4 +7,4 @@ type Path = string;
 type Description = string;
 type Base64 = string;
 
-export { Id, Name, MarkdownCode, Date, Tags, Path, Description, Base64 };
+export type { Id, Name, MarkdownCode, Date, Tags, Path, Description, Base64 };
