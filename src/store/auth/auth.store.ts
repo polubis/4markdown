@@ -1,10 +1,16 @@
-import type { Doc, GetDocPayload, PermanentDoc } from 'models/doc';
+import type {
+  API4MarkdownContract,
+  API4MarkdownPayload,
+} from 'api-4markdown-contracts';
+import type { Doc, PermanentDoc } from 'models/doc';
 import type { UploadImageDto } from 'models/image';
-import type { UpdateYourProfilePayload, User } from 'models/user';
 import { create } from 'zustand';
 // API4Markdown<'getDocs'>
 interface AuthorizedData {
-  user: User;
+  user: {
+    name: string | null;
+    avatar: string | null;
+  };
   logOut(): void;
   createDoc(name: Doc['name']): Promise<void>;
   resyncDocuments(): Promise<void>;
@@ -19,16 +25,18 @@ interface AuthorizedData {
     tags: PermanentDoc['tags'],
   ): Promise<void>;
   getDocs(): Promise<void>;
-  reloadDocs(): Promise<void>;
-  deleteDoc(): Promise<void>;
-  getPublicDoc(payload: GetDocPayload): Promise<Doc>;
-  getYourProfile(): Promise<void>;
-  updateYourProfile(payload: UpdateYourProfilePayload): Promise<void>;
+  deleteDoc: API4MarkdownContract<`deleteDoc`>;
+  reloadDocs: API4MarkdownContract<'getPublicDoc'>;
+  getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
+  getYourProfile: API4MarkdownContract<`getYourUserProfile`>;
+  updateYourProfile(
+    payload: API4MarkdownPayload<'updateYourUserProfile'>,
+  ): Promise<void>;
 }
 
 interface UnauthrorizedData {
-  logIn(): void;
-  getPublicDoc(payload: GetDocPayload): Promise<Doc>;
+  logIn(): Promise<void>;
+  getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
 }
 
 interface AuthStoreActions {

@@ -2,12 +2,7 @@ import React from 'react';
 import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import type {
-  CreateDocPayload,
-  Doc,
-  GetDocPayload,
-  UpdateDocPayload,
-} from 'models/doc';
+import type { CreateDocPayload, Doc, UpdateDocPayload } from 'models/doc';
 import {
   creatorStoreActions,
   creatorStoreSelectors,
@@ -30,9 +25,6 @@ const useAuth = () => {
 
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
-
-    const getPublicDoc = async (payload: GetDocPayload) =>
-      await call(`getPublicDoc`)(payload);
 
     const createDoc = async (name: Doc['name']) => {
       const { code } = creatorStoreSelectors.ready();
@@ -79,24 +71,6 @@ const useAuth = () => {
         return data;
       } catch (error: unknown) {
         imagesStoreActions.fail(error);
-        throw error;
-      }
-    };
-
-    const updateYourProfile: AuthorizedData['updateYourProfile'] = async (
-      payload,
-    ) => {
-      try {
-        if (updateYourProfileStoreSelectors.state().is === `ok`) return;
-
-        updateYourProfileStoreActions.busy();
-
-        const data = await call(`updateYourUserProfile`)(payload);
-
-        updateYourProfileStoreActions.ok(data);
-        yourProfileStoreActions.ok(data);
-      } catch (error: unknown) {
-        updateYourProfileStoreActions.fail(error);
         throw error;
       }
     };
@@ -248,6 +222,8 @@ const useAuth = () => {
       }
     };
 
+    const getPublicDoc = call(`getPublicDoc`);
+
     const unsubscribe = onAuthChange(async (user) => {
       if (user) {
         authStoreActions.authorize({
@@ -307,7 +283,21 @@ const useAuth = () => {
           makeDocPublic,
           makeDocPermanent,
           updateDocName,
-          updateYourProfile,
+          updateYourProfile: async (payload) => {
+            try {
+              if (updateYourProfileStoreSelectors.state().is === `ok`) return;
+
+              updateYourProfileStoreActions.busy();
+
+              const data = await call(`updateYourUserProfile`)(payload);
+
+              updateYourProfileStoreActions.ok(data);
+              yourProfileStoreActions.ok(data);
+            } catch (error: unknown) {
+              updateYourProfileStoreActions.fail(error);
+              throw error;
+            }
+          },
         });
 
         getDocs();
