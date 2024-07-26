@@ -27,7 +27,7 @@ interface AuthorizedData {
   ): Promise<void>;
   getDocs(): Promise<void>;
   reloadDocs(): Promise<void>;
-  deleteDoc(payload: API4MarkdownPayload<`deleteDoc`>['id']): Promise<void>;
+  deleteDoc(): Promise<void>;
   getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
   getYourProfile(): Promise<void>;
   updateYourProfile(

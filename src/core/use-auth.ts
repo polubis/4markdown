@@ -78,21 +78,6 @@ const useAuth = () => {
       }
     };
 
-    const deleteDoc: AuthorizedData['deleteDoc'] = async (id) => {
-      try {
-        docManagementStoreActions.busy();
-        await call(`deleteDoc`)({ id });
-
-        docManagementStoreActions.ok();
-        docsStoreActions.deleteDoc(id);
-        docStoreActions.reset();
-        creatorStoreActions.init();
-      } catch (error: unknown) {
-        docManagementStoreActions.fail(error);
-        throw error;
-      }
-    };
-
     const getPublicDoc = call(`getPublicDoc`);
 
     const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
@@ -140,7 +125,20 @@ const useAuth = () => {
           },
           getPublicDoc,
           deleteDoc: async () => {
-            await deleteDoc(docStoreSelectors.active().id);
+            const id = docStoreSelectors.active().id;
+
+            try {
+              docManagementStoreActions.busy();
+              await call(`deleteDoc`)({ id });
+
+              docManagementStoreActions.ok();
+              docsStoreActions.deleteDoc(id);
+              docStoreActions.reset();
+              creatorStoreActions.init();
+            } catch (error: unknown) {
+              docManagementStoreActions.fail(error);
+              throw error;
+            }
           },
           getDocs,
           reloadDocs,
