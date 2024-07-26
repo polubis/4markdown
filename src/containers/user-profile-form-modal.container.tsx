@@ -1,3 +1,4 @@
+import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import ErrorModal from 'components/error-modal';
 import { Avatar } from 'design-system/avatar';
 import { Button } from 'design-system/button';
@@ -21,8 +22,6 @@ import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
 import { useToggle } from 'development-kit/use-toggle';
 import { NonNullableProperties } from 'development-kit/utility-types';
-import { Path } from 'models/general';
-import { UpdateYourProfilePayload } from 'models/user';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
@@ -40,7 +39,9 @@ interface UserProfileFormModalContainerProps {
   onBack(): void;
 }
 
-type UserProfileFormValues = NonNullableProperties<UpdateYourProfilePayload>;
+type UserProfileFormValues = NonNullableProperties<
+  API4MarkdownPayload<'updateYourUserProfile'>
+>;
 
 const avatarFormats = [`png`, `jpeg`, `jpg`, `webp`] as const;
 const avatarRestrictions = {
@@ -80,7 +81,7 @@ const UserProfileFormModalContainer = ({
 }: UserProfileFormModalContainerProps) => {
   const yourProfileStore = yourProfileStoreSelectors.useOk();
   const updateYourProfileStore = updateYourProfileStoreSelectors.useState();
-  const [avatarPreview, setAvatarPreview] = React.useState<Path>(
+  const [avatarPreview, setAvatarPreview] = React.useState(
     yourProfileStore.user?.avatar?.lg.src ?? ``,
   );
   const avatarErrorModal = useToggle();

@@ -1,12 +1,12 @@
 import type {
   API4MarkdownContract,
   API4MarkdownPayload,
+  API4MarkdownDto,
   DocumentDto,
   PermanentDocumentDto,
 } from 'api-4markdown-contracts';
-import type { UploadImageDto } from 'models/image';
 import { create } from 'zustand';
-// API4Markdown<'getDocs'>
+
 interface AuthorizedData {
   user: {
     name: string | null;
@@ -19,7 +19,7 @@ interface AuthorizedData {
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
   updateDocName(name: DocumentDto['name']): Promise<void>;
-  uploadImage(image: File): Promise<UploadImageDto>;
+  uploadImage(image: File): API4MarkdownDto<'uploadImage'>;
   makeDocPermanent(
     name: DocumentDto['name'],
     description: PermanentDocumentDto['description'],
