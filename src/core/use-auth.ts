@@ -44,8 +44,6 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    // await call(`getDocs`)(undefined);
-
     const getPublicDoc = async (payload: GetDocPayload) =>
       await call<GetDocPayload, GetDocDto>(`getPublicDoc`, payload);
 

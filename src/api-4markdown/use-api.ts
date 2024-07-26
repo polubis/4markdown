@@ -28,10 +28,11 @@ type SpecificPayload<TKey extends ContractsKey> = Extract<
 >['payload'];
 
 interface API4Markdown {
-  call: <TKey extends ContractsKey>(
+  call<TKey extends ContractsKey>(
     key: TKey,
-  ) => (payload: SpecificPayload<TKey>) => SpecificDto<TKey>;
-
+  ): SpecificPayload<TKey> extends undefined
+    ? () => SpecificDto<TKey>
+    : (payload: SpecificPayload<TKey>) => SpecificDto<TKey>;
   logIn(): Promise<void>;
   logOut(): Promise<void>;
   onAuthChange(
