@@ -5,7 +5,7 @@ import type {
 import type { Prettify } from 'development-kit/utility-types';
 
 type EducationZoneViewModel = {
-  documents: Prettify<
+  docs: Prettify<
     Omit<PermanentDocumentDto, `visibility` | 'code' | 'author'> & {
       author: {
         avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;

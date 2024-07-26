@@ -23,7 +23,7 @@ type PrivateDocumentDto = Base & {
 
 type PublicDocumentDto = Base & {
   visibility: 'public';
-  author: UserProfileDto;
+  author: UserProfileDto | null;
 };
 
 type PermanentDocumentDto = Base & {
@@ -31,7 +31,7 @@ type PermanentDocumentDto = Base & {
   description: Description;
   path: Path;
   tags: Tags;
-  author: UserProfileDto;
+  author: UserProfileDto | null;
 };
 
 type DocumentDto =
