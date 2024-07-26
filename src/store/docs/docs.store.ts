@@ -1,9 +1,9 @@
+import type { DocumentDto } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
-import type { Doc } from 'models/doc';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
-type DocsStoreState = Transaction<{ docs: Doc[] }>;
+type DocsStoreState = Transaction<{ docs: DocumentDto[] }>;
 type DocsStoreOkState = Extract<DocsStoreState, { is: 'ok' }>;
 
 const useDocsStore = create<DocsStoreState>(() => ({
@@ -36,7 +36,7 @@ const docsStoreActions = {
     localStorage.removeItem(DOCS_STORE_LS_KEY);
   },
   busy: () => set({ is: `busy` }),
-  ok: (docs: Doc[]) => {
+  ok: (docs: DocumentDto[]) => {
     const newState: DocsStoreOkState = { is: `ok`, docs };
 
     set(newState);
@@ -53,7 +53,7 @@ const docsStoreActions = {
 
     set(JSON.parse(state) as DocsStoreOkState);
   },
-  updateDoc: (doc: Doc) => {
+  updateDoc: (doc: DocumentDto) => {
     const state = docsStoreSelectors.ok();
     const newState: DocsStoreOkState = {
       ...state,
@@ -68,7 +68,7 @@ const docsStoreActions = {
     set(newState);
     localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
   },
-  addDoc: (doc: Doc) => {
+  addDoc: (doc: DocumentDto) => {
     const state = docsStoreSelectors.ok();
     const newState: DocsStoreOkState = {
       ...state,
@@ -77,7 +77,7 @@ const docsStoreActions = {
     set(newState);
     localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
   },
-  deleteDoc: (id: Doc['id']) => {
+  deleteDoc: (id: DocumentDto['id']) => {
     const state = docsStoreSelectors.ok();
     const newState: DocsStoreOkState = {
       ...state,

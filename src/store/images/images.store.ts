@@ -1,5 +1,5 @@
+import { IMAGE_EXTENSIONS } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
-import { imageExtensions } from 'models/image';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
@@ -16,7 +16,7 @@ const set = (state: ImagesStoreState): void => {
 };
 
 const imagesStoreRestrictions = {
-  type: imageExtensions.map((extension) => `image/${extension}`).join(`, `),
+  type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
   size: 4,
 } as const;
 
