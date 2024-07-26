@@ -2,7 +2,7 @@ import React from 'react';
 import { AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import type { CreateDocPayload, UpdateDocPayload } from 'models/doc';
+import type { UpdateDocPayload } from 'models/doc';
 import {
   creatorStoreActions,
   creatorStoreSelectors,
@@ -26,7 +26,7 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    const updateDoc = async (payload: UpdateDocPayload) => {
+    const updateDoc = async (payload: UpdateDocPayload): Promise<void> => {
       try {
         docManagementStoreActions.busy();
         const updatedDoc = await call(`updateDoc`)(payload);
@@ -40,24 +40,7 @@ const useAuth = () => {
       }
     };
 
-    const uploadImage: AuthorizedData['uploadImage'] = async (image) => {
-      try {
-        imagesStoreActions.busy();
-
-        const data = await call(`uploadImage`)({
-          image: await readFileAsBase64(image),
-        });
-
-        imagesStoreActions.ok();
-
-        return data;
-      } catch (error: unknown) {
-        imagesStoreActions.fail(error);
-        throw error;
-      }
-    };
-
-    const getYourProfile = async () => {
+    const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
       yourProfileStoreActions.sync();
 
       if (
@@ -75,86 +58,6 @@ const useAuth = () => {
       } catch (error: unknown) {
         yourProfileStoreActions.fail(error);
       }
-    };
-
-    const makeDocPrivate: AuthorizedData['makeDocPrivate'] = async () => {
-      const { id, name, mdate } = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-
-      await updateDoc({
-        id,
-        mdate,
-        name,
-        code,
-        visibility: `private`,
-      });
-    };
-
-    const makeDocPublic: AuthorizedData['makeDocPublic'] = async () => {
-      const { id, name, mdate } = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-
-      await updateDoc({
-        id,
-        mdate,
-        name,
-        code,
-        visibility: `public`,
-      });
-    };
-
-    const makeDocPermanent: AuthorizedData['makeDocPermanent'] = async (
-      name,
-      description,
-      tags,
-    ) => {
-      const { id, mdate } = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-
-      await updateDoc({
-        mdate,
-        id,
-        name,
-        code,
-        visibility: `permanent`,
-        description,
-        tags,
-      });
-    };
-
-    const updateDocName: AuthorizedData['updateDocName'] = async (name) => {
-      const doc = docStoreSelectors.active();
-      const { code } = creatorStoreSelectors.ready();
-
-      if (doc.visibility === `private`) {
-        return await updateDoc({
-          code,
-          name,
-          id: doc.id,
-          mdate: doc.mdate,
-          visibility: `private`,
-        });
-      }
-
-      if (doc.visibility === `public`) {
-        return await updateDoc({
-          code,
-          name,
-          id: doc.id,
-          mdate: doc.mdate,
-          visibility: `public`,
-        });
-      }
-
-      return await updateDoc({
-        code,
-        name,
-        tags: doc.tags,
-        description: doc.description,
-        id: doc.id,
-        mdate: doc.mdate,
-        visibility: `permanent`,
-      });
     };
 
     const getDocs: AuthorizedData['getDocs'] = async () => {
@@ -219,7 +122,22 @@ const useAuth = () => {
               yourProfileStoreActions.idle();
             } catch {}
           },
-          uploadImage,
+          uploadImage: async (image) => {
+            try {
+              imagesStoreActions.busy();
+
+              const data = await call(`uploadImage`)({
+                image: await readFileAsBase64(image),
+              });
+
+              imagesStoreActions.ok();
+
+              return data;
+            } catch (error: unknown) {
+              imagesStoreActions.fail(error);
+              throw error;
+            }
+          },
           getPublicDoc,
           deleteDoc: async () => {
             await deleteDoc(docStoreSelectors.active().id);
@@ -230,11 +148,9 @@ const useAuth = () => {
           createDoc: async (name) => {
             const { code } = creatorStoreSelectors.ready();
 
-            const doc: CreateDocPayload = { name, code };
-
             try {
               docManagementStoreActions.busy();
-              const createdDoc = await call(`createDoc`)(doc);
+              const createdDoc = await call(`createDoc`)({ name, code });
               docManagementStoreActions.ok();
               docStoreActions.setActive(createdDoc);
               docsStoreActions.addDoc(createdDoc);
@@ -277,10 +193,78 @@ const useAuth = () => {
               docManagementStoreActions.fail(error);
             }
           },
-          makeDocPrivate,
-          makeDocPublic,
-          makeDocPermanent,
-          updateDocName,
+          makeDocPrivate: async () => {
+            const { id, name, mdate } = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            await updateDoc({
+              id,
+              mdate,
+              name,
+              code,
+              visibility: `private`,
+            });
+          },
+          makeDocPublic: async () => {
+            const { id, name, mdate } = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            await updateDoc({
+              id,
+              mdate,
+              name,
+              code,
+              visibility: `public`,
+            });
+          },
+          makeDocPermanent: async (name, description, tags) => {
+            const { id, mdate } = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            await updateDoc({
+              mdate,
+              id,
+              name,
+              code,
+              visibility: `permanent`,
+              description,
+              tags,
+            });
+          },
+          updateDocName: async (name) => {
+            const doc = docStoreSelectors.active();
+            const { code } = creatorStoreSelectors.ready();
+
+            if (doc.visibility === `private`) {
+              return await updateDoc({
+                code,
+                name,
+                id: doc.id,
+                mdate: doc.mdate,
+                visibility: `private`,
+              });
+            }
+
+            if (doc.visibility === `public`) {
+              return await updateDoc({
+                code,
+                name,
+                id: doc.id,
+                mdate: doc.mdate,
+                visibility: `public`,
+              });
+            }
+
+            return await updateDoc({
+              code,
+              name,
+              tags: doc.tags,
+              description: doc.description,
+              id: doc.id,
+              mdate: doc.mdate,
+              visibility: `permanent`,
+            });
+          },
           updateYourProfile: async (payload) => {
             try {
               if (updateYourProfileStoreSelectors.state().is === `ok`) return;
