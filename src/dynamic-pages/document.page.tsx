@@ -14,6 +14,7 @@ import type {
 } from 'api-4markdown-contracts';
 import { DocumentRatingStatic } from 'components/document-rating-static';
 import { DocumentRatingInteractive } from 'components/document-rating-interactive';
+import { useAuthStore } from 'store/auth/auth.store';
 
 interface DocumentPageProps {
   pageContext: {
@@ -22,6 +23,7 @@ interface DocumentPageProps {
 }
 
 const DocumentPage = ({ pageContext }: DocumentPageProps) => {
+  const authStore = useAuthStore();
   const [rating, setRating] = React.useState(pageContext.doc.rating);
 
   const updateRating = (category: DocumentRatingCategory): void => {
@@ -39,7 +41,9 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         author={pageContext.doc.author}
         ratingTop={<DocumentRatingStatic rating={rating} />}
         ratingBottom={
-          <DocumentRatingInteractive rating={rating} onChange={updateRating} />
+          authStore.is === `authorized` && (
+            <DocumentRatingInteractive onChange={updateRating} />
+          )
         }
       >
         {pageContext.doc.code}

@@ -27,7 +27,9 @@ const DocumentLayout = ({
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
       {ratingTop && (
-        <section className="justify-end flex mb-4 pr-1">{ratingTop}</section>
+        <section className="justify-end items-center flex mb-4 pr-1 h-10">
+          {ratingTop}
+        </section>
       )}
       {tags.length > 0 && (
         <Badges className="mb-4">
@@ -68,7 +70,7 @@ const DocumentLayout = ({
         </section>
       )}
       {ratingBottom && (
-        <section className="tn:justify-end justify-center flex mt-12">
+        <section className="tn:justify-end justify-center flex mt-12 h-10">
           {ratingBottom}
         </section>
       )}

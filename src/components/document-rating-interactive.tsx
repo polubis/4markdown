@@ -1,14 +1,10 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import type {
-  DocumentRatingCategory,
-  DocumentRatingDto,
-} from 'api-4markdown-contracts';
+import type { DocumentRatingCategory } from 'api-4markdown-contracts';
 import { DOCUMENT_RATING_ICONS } from './document-rating-config';
 import { useToggle } from 'development-kit/use-toggle';
 
 interface DocumentRatingProps {
-  rating: DocumentRatingDto;
   onChange(category: DocumentRatingCategory): void;
 }
 
@@ -36,10 +32,7 @@ const RatedSection = ({ activeCategory, onReset }: RatedSectionProps) => {
   );
 };
 
-const DocumentRatingInteractive = ({
-  rating,
-  onChange,
-}: DocumentRatingProps) => {
+const DocumentRatingInteractive = ({ onChange }: DocumentRatingProps) => {
   const voted = useToggle<DocumentRatingCategory>();
 
   const handleClick = async (
@@ -62,25 +55,21 @@ const DocumentRatingInteractive = ({
     onChange(category);
   };
 
-  return (
-    <div className="h-10">
-      {voted.data ? (
-        <RatedSection activeCategory={voted.data} onReset={voted.close} />
-      ) : (
-        <div className="animate-fade-in flex space-x-2">
-          {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
-            <Button
-              i={2}
-              s={2}
-              key={category}
-              title={`Rate as ${category}`}
-              onClick={() => handleClick(category, idx)}
-            >
-              <Icon />
-            </Button>
-          ))}
-        </div>
-      )}
+  return voted.data ? (
+    <RatedSection activeCategory={voted.data} onReset={voted.close} />
+  ) : (
+    <div className="animate-fade-in flex space-x-2">
+      {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
+        <Button
+          i={2}
+          s={2}
+          key={category}
+          title={`Rate as ${category}`}
+          onClick={() => handleClick(category, idx)}
+        >
+          <Icon />
+        </Button>
+      ))}
     </div>
   );
 };
