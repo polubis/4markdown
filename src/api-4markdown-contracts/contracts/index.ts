@@ -6,6 +6,8 @@ import type {
   PublicDocumentDto,
   ImageDto,
   UserProfileDto,
+  DocumentRatingCategory,
+  DocumentRatingDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -70,6 +72,15 @@ type UpdateYourUserProfileContract = Contract<
   }
 >;
 
+type RateDocumentContract = Contract<
+  `rateDocument`,
+  DocumentRatingDto,
+  {
+    documentId: Pick<DocumentDto, 'id'>;
+    category: DocumentRatingCategory;
+  }
+>;
+
 type API4MarkdownContracts =
   | GetDocsContract
   | GetPublicDocContract
@@ -80,7 +91,8 @@ type API4MarkdownContracts =
   | UpdateDocContract
   | UploadImageContract
   | GetYourUserProfileContract
-  | UpdateYourUserProfileContract;
+  | UpdateYourUserProfileContract
+  | RateDocumentContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Promise<
@@ -112,4 +124,5 @@ export type {
   UploadImageContract,
   GetYourUserProfileContract,
   UpdateYourUserProfileContract,
+  RateDocumentContract,
 };
