@@ -45,8 +45,8 @@ type UpdateDocContract = Contract<
   `updateDoc`,
   DocumentDto,
   | Omit<PrivateDocumentDto, 'cdate'>
-  | Omit<PublicDocumentDto, 'cdate' | 'author'>
-  | Omit<PermanentDocumentDto, 'cdate' | 'path' | 'author'>
+  | Omit<PublicDocumentDto, 'cdate' | 'author' | 'rating'>
+  | Omit<PermanentDocumentDto, 'cdate' | 'path' | 'author' | 'rating'>
 >;
 
 type UploadImageContract = Contract<

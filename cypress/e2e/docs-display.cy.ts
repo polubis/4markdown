@@ -19,6 +19,13 @@ const getDocsResponse: { result: PublicDocumentDto[] } = {
       mdate: now.toISOString(),
       visibility: `public`,
       author: null,
+      rating: {
+        bad: 1,
+        ugly: 2,
+        good: 1,
+        decent: 0,
+        perfect: 1,
+      },
     },
   ],
 };
