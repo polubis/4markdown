@@ -10,6 +10,7 @@ import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import { DocumentRatingStatic } from 'components/document-rating/document-rating-static';
+import { DocumentRatingInteractive } from 'components/document-rating/document-rating-interactive';
 
 interface DocumentPageProps {
   pageContext: {
@@ -28,6 +29,9 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         tags={pageContext.doc.tags}
         author={pageContext.doc.author}
         ratingTop={<DocumentRatingStatic rating={pageContext.doc.rating} />}
+        ratingBottom={
+          <DocumentRatingInteractive rating={pageContext.doc.rating} />
+        }
       >
         {pageContext.doc.code}
       </DocumentLayout>
