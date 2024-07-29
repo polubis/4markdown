@@ -6,8 +6,8 @@ const DOCUMENT_RATING_ICONS: [IconType, DocumentRatingCategory][] = [
   [BiHeart, `perfect`],
   [BiBulb, `good`],
   [BiLike, `decent`],
-  [BiLaugh, `bad`],
-  [BiDislike, `ugly`],
+  [BiDislike, `bad`],
+  [BiLaugh, `ugly`],
 ];
 
 export { DOCUMENT_RATING_ICONS };

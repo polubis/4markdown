@@ -11,52 +11,39 @@ interface DocumentRatingProps {
   rating: DocumentRatingDto;
 }
 
-interface VotedSectionProps {
+interface RatedSectionProps {
   activeCategory: DocumentRatingCategory;
   onReset(): void;
 }
 
-const playNote = (frequency: number): void => {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-  if (!audioContext) return;
-
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-
-  oscillator.type = `sine`;
-  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  oscillator.start();
-  gainNode.gain.exponentialRampToValueAtTime(
-    0.00001,
-    audioContext.currentTime + 1,
-  );
-  oscillator.stop(audioContext.currentTime + 1);
-};
-
-const VotedSection = ({ activeCategory, onReset }: VotedSectionProps) => {
+const RatedSection = ({ activeCategory, onReset }: RatedSectionProps) => {
   const [Icon] = DOCUMENT_RATING_ICONS.find(
     ([_, category]) => category === activeCategory,
   )!;
 
   return (
-    <div className="animate-fade-in flex items-center text-md dark:text-white text-black">
-      <span>You&apos;ve already voted: </span>
-      <Icon className="mr-4 ml-2" size={24} />
-      <Button i={2} s={2} auto onClick={onReset}>
-        Change
-      </Button>
-    </div>
+    <Button
+      className="animate-fade-in"
+      i={2}
+      s={2}
+      auto
+      onClick={onReset}
+      title="Change document rate"
+    >
+      Change Vote <Icon className="mr-4 ml-2" size={24} />
+    </Button>
   );
 };
 
 const DocumentRatingInteractive = ({ rating }: DocumentRatingProps) => {
   const voted = useToggle<DocumentRatingCategory>();
 
-  const handleClick = (category: DocumentRatingCategory, idx: number): void => {
+  const handleClick = async (
+    category: DocumentRatingCategory,
+    idx: number,
+  ): Promise<void> => {
+    const { playNote } = await import(`development-kit/play-note`);
+
     const notes = [
       { name: `C4`, frequency: 261.63 },
       { name: `D4`, frequency: 293.66 },
@@ -73,7 +60,7 @@ const DocumentRatingInteractive = ({ rating }: DocumentRatingProps) => {
   return (
     <div className="h-10">
       {voted.data ? (
-        <VotedSection activeCategory={voted.data} onReset={voted.close} />
+        <RatedSection activeCategory={voted.data} onReset={voted.close} />
       ) : (
         <div className="animate-fade-in flex space-x-2">
           {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
@@ -81,6 +68,7 @@ const DocumentRatingInteractive = ({ rating }: DocumentRatingProps) => {
               i={2}
               s={2}
               key={category}
+              title={`Rate as ${category}`}
               onClick={() => handleClick(category, idx)}
             >
               <Icon />
