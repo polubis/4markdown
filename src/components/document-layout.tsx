@@ -5,6 +5,7 @@ import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import { PermanentDocumentDto, UserProfileDto } from 'api-4markdown-contracts';
+import { DocumentRating } from './document-rating';
 
 interface DocumentLayoutProps {
   children: string;
@@ -15,6 +16,9 @@ interface DocumentLayoutProps {
 const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
+      <section className="tn:justify-end justify-center flex">
+        <DocumentRating mode="static" />
+      </section>
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
@@ -53,6 +57,9 @@ const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
           </div>
         </section>
       )}
+      <section className="tn:justify-end justify-center flex mt-12">
+        <DocumentRating mode="interactive" />
+      </section>
     </main>
   );
 };
