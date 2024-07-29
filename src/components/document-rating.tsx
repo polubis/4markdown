@@ -8,12 +8,50 @@ interface DocumentRatingProps {
 
 const ICONS = [BiHeart, BiBulb, BiLike, BiLaugh, BiDislike] as const;
 
+const playNote = (idx: number) => {
+  const notes = [
+    { name: `C4`, frequency: 261.63 },
+    { name: `D4`, frequency: 293.66 },
+    { name: `E4`, frequency: 329.63 },
+    { name: `F4`, frequency: 349.23 },
+    { name: `G4`, frequency: 392.0 },
+  ];
+  const frequency = notes[idx].frequency;
+  const audioContext = new (window.AudioContext ||
+    (window as { webkitAudioContext: typeof window.AudioContext })
+      .webkitAudioContext)();
+
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.type = `sine`;
+  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.start();
+  gainNode.gain.exponentialRampToValueAtTime(
+    0.00001,
+    audioContext.currentTime + 1,
+  );
+  oscillator.stop(audioContext.currentTime + 1);
+};
+
 const DocumentRating = ({ mode }: DocumentRatingProps) => {
+  const handleClick = (idx: number): void => {
+    playNote(idx);
+  };
+
   return (
     <div className="flex space-x-2">
       {mode === `interactive`
-        ? ICONS.map((Icon) => (
-            <Button i={2} s={2} key={Icon.name}>
+        ? ICONS.map((Icon, idx) => (
+            <Button
+              i={2}
+              s={2}
+              key={Icon.name}
+              onClick={() => handleClick(idx)}
+            >
               <Icon />
             </Button>
           ))
