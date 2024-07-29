@@ -30,7 +30,7 @@ const RatedSection = ({ activeCategory, onReset }: RatedSectionProps) => {
       onClick={onReset}
       title="Change document rate"
     >
-      Change Rate <Icon className="ml-1" size={24} />
+      Change Rate <Icon className="ml-1 animate-shake" size={24} />
     </Button>
   );
 };
