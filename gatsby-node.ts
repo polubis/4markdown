@@ -44,6 +44,13 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ code, visibility, author, ...doc }) => ({
           ...doc,
+          rating: {
+            decent: 1,
+            ugly: 0,
+            bad: 0,
+            good: 1,
+            perfect: 1,
+          },
           author:
             author?.displayName && author?.bio
               ? {
