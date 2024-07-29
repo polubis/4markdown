@@ -29,11 +29,13 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
   const updateRating = async (
     category: DocumentRatingCategory,
   ): Promise<void> => {
-    const rating = await authStoreSelectors.authorized().rateDocument({
-      category,
-      documentId: pageContext.doc.id,
-    });
-    setRating(rating);
+    try {
+      const rating = await authStoreSelectors.authorized().rateDocument({
+        category,
+        documentId: pageContext.doc.id,
+      });
+      setRating(rating);
+    } catch {}
   };
 
   return (
