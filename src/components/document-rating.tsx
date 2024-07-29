@@ -1,12 +1,12 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { BiBulb, BiAngry, BiHeart, BiLaugh, BiLike } from 'react-icons/bi';
+import { BiBulb, BiHeart, BiLaugh, BiLike, BiDislike } from 'react-icons/bi';
 
 interface DocumentRatingProps {
   mode: 'interactive' | 'static';
 }
 
-const ICONS = [BiHeart, BiBulb, BiLike, BiLaugh, BiAngry] as const;
+const ICONS = [BiHeart, BiBulb, BiLike, BiLaugh, BiDislike] as const;
 
 const DocumentRating = ({ mode }: DocumentRatingProps) => {
   return (
