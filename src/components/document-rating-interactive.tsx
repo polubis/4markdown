@@ -30,7 +30,7 @@ const RatedSection = ({ activeCategory, onReset }: RatedSectionProps) => {
       onClick={onReset}
       title="Change document rate"
     >
-      Change Vote <Icon className="mr-4 ml-2" size={24} />
+      Change Rate <Icon className="ml-1" size={24} />
     </Button>
   );
 };
