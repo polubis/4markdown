@@ -4,11 +4,17 @@ import { BiBulb, BiHeart, BiLaugh, BiLike, BiDislike } from 'react-icons/bi';
 
 interface DocumentRatingProps {
   mode: 'interactive' | 'static';
+  active?: number;
+  onRate(): void;
 }
 
 const ICONS = [BiHeart, BiBulb, BiLike, BiLaugh, BiDislike] as const;
 
-const playNote = (idx: number) => {
+const playNote = (idx: number): void => {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  if (!audioContext) return;
+
   const notes = [
     { name: `C4`, frequency: 261.63 },
     { name: `D4`, frequency: 293.66 },
@@ -17,9 +23,6 @@ const playNote = (idx: number) => {
     { name: `G4`, frequency: 392.0 },
   ];
   const frequency = notes[idx].frequency;
-  const audioContext = new (window.AudioContext ||
-    (window as { webkitAudioContext: typeof window.AudioContext })
-      .webkitAudioContext)();
 
   const oscillator = audioContext.createOscillator();
   const gainNode = audioContext.createGain();
@@ -37,7 +40,7 @@ const playNote = (idx: number) => {
   oscillator.stop(audioContext.currentTime + 1);
 };
 
-const DocumentRating = ({ mode }: DocumentRatingProps) => {
+const DocumentRating = ({ mode, active }: DocumentRatingProps) => {
   const handleClick = (idx: number): void => {
     playNote(idx);
   };
@@ -49,6 +52,7 @@ const DocumentRating = ({ mode }: DocumentRatingProps) => {
             <Button
               i={2}
               s={2}
+              className={active === idx ? `fade-in` : ``}
               key={Icon.name}
               onClick={() => handleClick(idx)}
             >
