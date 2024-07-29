@@ -33,7 +33,7 @@ interface AuthorizedData {
   updateYourProfile(
     payload: API4MarkdownPayload<'updateYourUserProfile'>,
   ): Promise<void>;
-  rateDocument(payload: API4MarkdownPayload<'rateDocument'>): Promise<void>;
+  rateDocument: API4MarkdownContract<'rateDocument'>;
 }
 
 interface UnauthrorizedData {
