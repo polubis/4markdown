@@ -9,8 +9,8 @@ import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
-import { DocumentRatingStatic } from 'components/document-rating/document-rating-static';
-import { DocumentRatingInteractive } from 'components/document-rating/document-rating-interactive';
+import { DocumentRatingStatic } from 'components/document-rating-static';
+import { DocumentRatingInteractive } from 'components/document-rating-interactive';
 
 interface DocumentPageProps {
   pageContext: {
