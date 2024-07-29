@@ -9,6 +9,7 @@ import { useToggle } from 'development-kit/use-toggle';
 
 interface DocumentRatingProps {
   rating: DocumentRatingDto;
+  onChange(category: DocumentRatingCategory): void;
 }
 
 interface RatedSectionProps {
@@ -35,7 +36,10 @@ const RatedSection = ({ activeCategory, onReset }: RatedSectionProps) => {
   );
 };
 
-const DocumentRatingInteractive = ({ rating }: DocumentRatingProps) => {
+const DocumentRatingInteractive = ({
+  rating,
+  onChange,
+}: DocumentRatingProps) => {
   const voted = useToggle<DocumentRatingCategory>();
 
   const handleClick = async (
@@ -55,6 +59,7 @@ const DocumentRatingInteractive = ({ rating }: DocumentRatingProps) => {
 
     playNote(frequency);
     voted.openWithData(category);
+    onChange(category);
   };
 
   return (

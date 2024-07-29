@@ -8,7 +8,10 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
-import type { PermanentDocumentDto } from 'api-4markdown-contracts';
+import type {
+  DocumentRatingCategory,
+  PermanentDocumentDto,
+} from 'api-4markdown-contracts';
 import { DocumentRatingStatic } from 'components/document-rating-static';
 import { DocumentRatingInteractive } from 'components/document-rating-interactive';
 
@@ -19,6 +22,15 @@ interface DocumentPageProps {
 }
 
 const DocumentPage = ({ pageContext }: DocumentPageProps) => {
+  const [rating, setRating] = React.useState(pageContext.doc.rating);
+
+  const updateRating = (category: DocumentRatingCategory): void => {
+    setRating((prev) => ({
+      ...prev,
+      [category]: prev[category] + 1,
+    }));
+  };
+
   return (
     <>
       <AppNavigation>
@@ -28,9 +40,9 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
       <DocumentLayout
         tags={pageContext.doc.tags}
         author={pageContext.doc.author}
-        ratingTop={<DocumentRatingStatic rating={pageContext.doc.rating} />}
+        ratingTop={<DocumentRatingStatic rating={rating} />}
         ratingBottom={
-          <DocumentRatingInteractive rating={pageContext.doc.rating} />
+          <DocumentRatingInteractive rating={rating} onChange={updateRating} />
         }
       >
         {pageContext.doc.code}
