@@ -25,10 +25,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
   const [rating, setRating] = React.useState(pageContext.doc.rating);
 
   const updateRating = (category: DocumentRatingCategory): void => {
-    setRating((prev) => ({
-      ...prev,
-      [category]: prev[category] + 1,
-    }));
+    // Call BE.
   };
 
   return (
