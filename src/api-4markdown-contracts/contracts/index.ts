@@ -76,7 +76,7 @@ type RateDocumentContract = Contract<
   `rateDocument`,
   DocumentRatingDto,
   {
-    documentId: Pick<DocumentDto, 'id'>;
+    documentId: DocumentDto['id'];
     category: DocumentRatingCategory;
   }
 >;
