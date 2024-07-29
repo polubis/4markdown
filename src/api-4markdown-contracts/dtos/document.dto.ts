@@ -25,7 +25,7 @@ type PrivateDocumentDto = Base & {
 type PublicDocumentDto = Base & {
   visibility: 'public';
   author: UserProfileDto | null;
-  rating?: DocumentRatingDto;
+  rating: DocumentRatingDto;
 };
 
 type PermanentDocumentDto = Base & {
@@ -34,7 +34,7 @@ type PermanentDocumentDto = Base & {
   path: Path;
   tags: Tags;
   author: UserProfileDto | null;
-  rating?: DocumentRatingDto;
+  rating: DocumentRatingDto;
 };
 
 type DocumentDto =

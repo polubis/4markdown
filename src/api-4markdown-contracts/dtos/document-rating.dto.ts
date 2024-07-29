@@ -6,10 +6,9 @@ const DOCUMENT_RATING_CATEGORIES = [
   `perfect`,
 ] as const;
 
-type DocumentRatingDto = Record<
-  (typeof DOCUMENT_RATING_CATEGORIES)[number],
-  number
->;
+type DocumentRatingCategory = (typeof DOCUMENT_RATING_CATEGORIES)[number];
+
+type DocumentRatingDto = Record<DocumentRatingCategory, number>;
 
 export { DOCUMENT_RATING_CATEGORIES };
-export type { DocumentRatingDto };
+export type { DocumentRatingDto, DocumentRatingCategory };
