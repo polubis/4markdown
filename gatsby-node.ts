@@ -31,7 +31,16 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       path: doc.path,
       component: path.resolve(`./src/dynamic-pages/document.page.tsx`),
       context: {
-        doc,
+        doc: {
+          ...doc,
+          rating: {
+            decent: 1,
+            ugly: 0,
+            bad: 0,
+            good: 1,
+            perfect: 1,
+          },
+        },
       },
     });
   });
