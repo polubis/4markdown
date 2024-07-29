@@ -12,7 +12,7 @@ const PrivacyPolicyView = () => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="max-w-4xl p-4 my-6 mx-auto [&>h1]:pb-3 [&>h2]:pb-1 markdown [&>h1]:text-5xl [&>h2]:text-4xl [&>*]:mb-3">
+      <main className="max-w-4xl p-4 my-2 mx-auto [&>h1]:pb-3 [&>h2]:pb-1 markdown [&>h1]:text-5xl [&>h2]:text-4xl [&>*]:mb-3">
         <p>
           <i>Updated at 2024-05-17</i>
         </p>

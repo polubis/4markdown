@@ -15,8 +15,8 @@ interface DocumentLayoutProps {
 
 const DocumentLayout = ({ children, author, tags }: DocumentLayoutProps) => {
   return (
-    <main className="max-w-4xl p-4 my-6 mx-auto">
-      <section className="tn:justify-end justify-center flex">
+    <main className="max-w-4xl p-4 my-2 mx-auto">
+      <section className="tn:justify-end justify-center flex mb-4">
         <DocumentRating mode="static" />
       </section>
       {tags.length > 0 && (
