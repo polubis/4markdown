@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 type NotFunction<TSignature> = TSignature extends (
   ...args: unknown[]
 ) => unknown
