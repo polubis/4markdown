@@ -28,6 +28,7 @@ const useDocLoad = () => {
 };
 
 // 3. Make sure that the footer is displayed only when authorized, if not the text is displayed.
+// 4. Make sure that rating is working on public document when loading it's data.
 
 const DocumentContent = () => {
   const docPreviewStore = docPreviewStoreSelectors.useOk();

@@ -13,6 +13,27 @@ interface RatedSectionProps {
   onReset(): void;
 }
 
+const playNote = (frequency: number): void => {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  if (!audioContext) return;
+
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.type = `sine`;
+  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.start();
+  gainNode.gain.exponentialRampToValueAtTime(
+    0.00001,
+    audioContext.currentTime + 1,
+  );
+  oscillator.stop(audioContext.currentTime + 1);
+};
+
 const RatedSection = ({ activeCategory, onReset }: RatedSectionProps) => {
   const [Icon] = DOCUMENT_RATING_ICONS.find(
     ([_, category]) => category === activeCategory,
@@ -39,8 +60,6 @@ const DocumentRatingInteractive = ({ onChange }: DocumentRatingProps) => {
     category: DocumentRatingCategory,
     idx: number,
   ): Promise<void> => {
-    const { playNote } = await import(`development-kit/play-note`);
-
     const notes = [
       { name: `C4`, frequency: 261.63 },
       { name: `D4`, frequency: 293.66 },
