@@ -34,7 +34,7 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
               </Badges>
               <h6 className="mb-2 text-2xl">{doc.name}</h6>
               <p className="break-words">{doc.description}</p>
-              <p className="flex space-x-1 mt-2 italic text-sm capitalize">
+              <p className="flex space-x-1 mt-2 text-sm capitalize">
                 Created{` `}
                 {formatDistance(new Date(), doc.cdate, {
                   addSuffix: true,
