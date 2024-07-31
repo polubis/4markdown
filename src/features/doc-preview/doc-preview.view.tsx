@@ -27,6 +27,10 @@ const useDocLoad = () => {
   }, [authStore]);
 };
 
+// 1. Add debounce.
+// 2. Fix avatars.
+// 3. Make sure that the footer is displayed only when authorized, if not the text is displayed.
+
 const DocumentContent = () => {
   const docPreviewStore = docPreviewStoreSelectors.useOk();
   const { rating, updateRating } = useDocumentRateUpdate(docPreviewStore.doc);
