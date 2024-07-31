@@ -23,7 +23,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   // @TODO: Find a way to call it statically from library.
   const { data: docs } = await httpsCallable<unknown, PermanentDocumentDto[]>(
     functions,
-    `gerPermanentDocuments`,
+    `getPermanentDocuments`,
   )();
 
   docs.forEach((doc) => {
@@ -31,16 +31,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       path: doc.path,
       component: path.resolve(`./src/dynamic-pages/document.page.tsx`),
       context: {
-        doc: {
-          ...doc,
-          rating: {
-            decent: 1,
-            ugly: 0,
-            bad: 0,
-            good: 1,
-            perfect: 1,
-          },
-        },
+        doc,
       },
     });
   });
@@ -53,13 +44,6 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ({ code, visibility, author, ...doc }) => ({
           ...doc,
-          rating: {
-            decent: 1,
-            ugly: 0,
-            bad: 0,
-            good: 1,
-            perfect: 1,
-          },
           author:
             author?.displayName && author?.bio
               ? {
