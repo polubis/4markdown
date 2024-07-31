@@ -26,8 +26,8 @@ type GetPermanentDocsContract = Contract<
   `getPermanentDocs`,
   PermanentDocumentDto[]
 >;
-type DeleteDocContract = Contract<
-  `deleteDoc`,
+type DeleteDocumentContract = Contract<
+  `deleteDocument`,
   Pick<DocumentDto, 'id'>,
   Pick<DocumentDto, 'id'>
 >;
@@ -85,7 +85,7 @@ type API4MarkdownContracts =
   | GetDocsContract
   | GetPublicDocContract
   | GetPermanentDocsContract
-  | DeleteDocContract
+  | DeleteDocumentContract
   | UpdateDocumentCodeContract
   | CreateDocContract
   | UpdateDocContract
@@ -117,7 +117,7 @@ export type {
   GetDocsContract,
   GetPublicDocContract,
   GetPermanentDocsContract,
-  DeleteDocContract,
+  DeleteDocumentContract,
   UpdateDocumentCodeContract,
   CreateDocContract,
   UpdateDocContract,

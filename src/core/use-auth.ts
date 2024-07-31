@@ -134,7 +134,7 @@ const useAuth = () => {
 
             try {
               docManagementStoreActions.busy();
-              await call(`deleteDoc`)({ id });
+              await call(`deleteDocument`)({ id });
 
               docManagementStoreActions.ok();
               docsStoreActions.deleteDoc(id);
