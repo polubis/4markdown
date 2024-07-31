@@ -69,11 +69,7 @@ const DocumentLayout = ({
           </div>
         </section>
       )}
-      {ratingBottom && (
-        <section className="tn:justify-end justify-center flex mt-12 h-10">
-          {ratingBottom}
-        </section>
-      )}
+      {ratingBottom}
     </main>
   );
 };

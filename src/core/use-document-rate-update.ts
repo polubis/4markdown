@@ -26,7 +26,7 @@ const useDocumentRateUpdate = (
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const updateRating = React.useCallback(debounce(rateDocument, 5000), [
+  const updateRating = React.useCallback(debounce(rateDocument, 1500), [
     rateDocument,
   ]);
 

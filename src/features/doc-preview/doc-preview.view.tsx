@@ -12,7 +12,7 @@ import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
 import { DocumentRatingStatic } from 'components/document-rating-static';
-import { DocumentRatingInteractive } from 'components/document-rating-interactive';
+import { DocumentRatingContainer } from 'containers/document-rating.container';
 
 const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
 
@@ -27,7 +27,6 @@ const useDocLoad = () => {
   }, [authStore]);
 };
 
-// 3. Make sure that the footer is displayed only when authorized, if not the text is displayed.
 // 4. Make sure that rating is working on public document when loading it's data.
 // 5. Prevent to rate the same document if user already rated that.
 // 6. Updat ee2e snapshots
@@ -45,7 +44,7 @@ const DocumentContent = () => {
       }
       author={docPreviewStore.doc.author}
       ratingTop={<DocumentRatingStatic rating={rating} />}
-      ratingBottom={<DocumentRatingInteractive onChange={updateRating} />}
+      ratingBottom={<DocumentRatingContainer onChange={updateRating} />}
     >
       {docPreviewStore.doc.code}
     </DocumentLayout>
