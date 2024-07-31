@@ -4,12 +4,15 @@ import React from 'react';
 import { useAuthStore } from 'store/auth/auth.store';
 import {
   docPreviewStoreActions,
-  useDocPreviewStore,
+  docPreviewStoreSelectors,
 } from 'store/doc-preview/doc-preview.store';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
+import { useDocumentRateUpdate } from 'core/use-document-rate-update';
+import { DocumentRatingStatic } from 'components/document-rating-static';
+import { DocumentRatingInteractive } from 'components/document-rating-interactive';
 
 const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
 
@@ -24,10 +27,30 @@ const useDocLoad = () => {
   }, [authStore]);
 };
 
+const DocumentContent = () => {
+  const docPreviewStore = docPreviewStoreSelectors.useOk();
+  const { rating, updateRating } = useDocumentRateUpdate(docPreviewStore.doc);
+
+  return (
+    <DocumentLayout
+      tags={
+        docPreviewStore.doc.visibility === `permanent`
+          ? docPreviewStore.doc.tags
+          : []
+      }
+      author={docPreviewStore.doc.author}
+      ratingTop={<DocumentRatingStatic rating={rating} />}
+      ratingBottom={<DocumentRatingInteractive onChange={updateRating} />}
+    >
+      {docPreviewStore.doc.code}
+    </DocumentLayout>
+  );
+};
+
 const DocPreviewView = () => {
   useDocLoad();
 
-  const docPreviewStore = useDocPreviewStore();
+  const docPreviewStore = docPreviewStoreSelectors.useState();
 
   return (
     <>
@@ -43,22 +66,7 @@ const DocPreviewView = () => {
           <ErrorScreen />
         </React.Suspense>
       )}
-      {docPreviewStore.is === `ok` && (
-        <DocumentLayout
-          tags={
-            docPreviewStore.doc.visibility === `permanent`
-              ? docPreviewStore.doc.tags
-              : []
-          }
-          author={
-            docPreviewStore.doc.visibility === `private`
-              ? null
-              : docPreviewStore.doc.author
-          }
-        >
-          {docPreviewStore.doc.code}
-        </DocumentLayout>
-      )}
+      {docPreviewStore.is === `ok` && <DocumentContent />}
       <AppFooterContainer />
     </>
   );
