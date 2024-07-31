@@ -32,7 +32,7 @@ const isOk = (state: DocPreviewStoreState): DocPreviewStoreOkState => {
 };
 
 const docPreviewStoreSelectors = {
-  useState: useDocPreviewStore.getState,
+  useState: () => useDocPreviewStore(),
   useOk: () => useDocPreviewStore(isOk),
 } as const;
 
