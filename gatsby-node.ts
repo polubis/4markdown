@@ -23,7 +23,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   // @TODO: Find a way to call it statically from library.
   const { data: docs } = await httpsCallable<unknown, PermanentDocumentDto[]>(
     functions,
-    `getPermanentDocs`,
+    `gerPermanentDocuments`,
   )();
 
   docs.forEach((doc) => {
