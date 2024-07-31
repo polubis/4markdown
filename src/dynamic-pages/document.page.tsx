@@ -8,13 +8,10 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
-import type {
-  DocumentRatingCategory,
-  PermanentDocumentDto,
-} from 'api-4markdown-contracts';
+import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import { DocumentRatingStatic } from 'components/document-rating-static';
 import { DocumentRatingInteractive } from 'components/document-rating-interactive';
-import { authStoreSelectors } from 'store/auth/auth.store';
+import { useDocumentRateUpdate } from 'core/use-document-rate-update';
 
 interface DocumentPageProps {
   pageContext: {
@@ -23,19 +20,7 @@ interface DocumentPageProps {
 }
 
 const DocumentPage = ({ pageContext }: DocumentPageProps) => {
-  const [rating, setRating] = React.useState(pageContext.doc.rating);
-
-  const updateRating = async (
-    category: DocumentRatingCategory,
-  ): Promise<void> => {
-    try {
-      const rating = await authStoreSelectors.authorized().rateDocument({
-        category,
-        documentId: pageContext.doc.id,
-      });
-      setRating(rating);
-    } catch {}
-  };
+  const { rating, updateRating } = useDocumentRateUpdate(pageContext.doc);
 
   return (
     <>
