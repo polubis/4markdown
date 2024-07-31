@@ -55,4 +55,4 @@ const docPreviewStoreActions = {
   },
 } as const;
 
-export { useDocPreviewStore, docPreviewStoreActions, docPreviewStoreSelectors };
+export { docPreviewStoreActions, docPreviewStoreSelectors };
