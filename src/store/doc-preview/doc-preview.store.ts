@@ -37,7 +37,9 @@ const docPreviewStoreSelectors = {
 } as const;
 
 const docPreviewStoreActions = {
-  load: async (payload: API4MarkdownPayload<'getPublicDoc'>): Promise<void> => {
+  load: async (
+    payload: API4MarkdownPayload<`getAccessibleDocument`>,
+  ): Promise<void> => {
     const authStore = useAuthStore.getState();
 
     if (authStore.is === `idle`)
@@ -46,7 +48,7 @@ const docPreviewStoreActions = {
     try {
       set({ is: `busy` });
 
-      const doc = await authStore.getPublicDoc(payload);
+      const doc = await authStore.getAccessibleDocument(payload);
 
       set({ is: `ok`, doc });
     } catch (error: unknown) {
