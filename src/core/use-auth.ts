@@ -80,7 +80,7 @@ const useAuth = () => {
       }
     };
 
-    const getPublicDoc = call(`getPublicDoc`);
+    const getAccessibleDocument = call(`getAccessibleDocument`);
 
     const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
       try {
@@ -128,7 +128,7 @@ const useAuth = () => {
               throw error;
             }
           },
-          getPublicDoc,
+          getAccessibleDocument,
           deleteDoc: async () => {
             const id = docStoreSelectors.active().id;
 
@@ -297,7 +297,7 @@ const useAuth = () => {
       yourProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
-        getPublicDoc,
+        getAccessibleDocument,
         logIn: async () => {
           try {
             await logIn();

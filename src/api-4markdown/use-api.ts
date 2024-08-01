@@ -5,6 +5,7 @@ import type {
   API4MarkdownPayload,
 } from 'api-4markdown-contracts';
 import { FirebaseOptions, initializeApp } from 'firebase/app';
+import type { Functions } from 'firebase/functions';
 import {
   CompleteFn,
   ErrorFn,
@@ -39,6 +40,7 @@ type API4Markdown = {
 };
 
 let instance: API4Markdown | null = null;
+let functions: Functions | null = null;
 
 const initialize = (): API4Markdown => {
   const config: FirebaseOptions = {
@@ -63,7 +65,11 @@ const initialize = (): API4Markdown => {
             `firebase/functions`
           );
 
-          return (await httpsCallable(getFunctions(app), key)(payload))
+          if (!functions) {
+            functions = getFunctions(app);
+          }
+
+          return (await httpsCallable(functions, key)(payload))
             .data as API4MarkdownDto<TKey>;
         },
       logIn: async () => {
