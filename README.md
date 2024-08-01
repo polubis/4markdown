@@ -112,5 +112,6 @@ The architecture graph looks as follows when we include hierarchies:
 
 ## Conventions
 
+// 4. Reduce the problem with wringly applied rates
 // 5. Prevent to rate the same document if user already rated that.
 // 6. Updat ee2e snapshots
