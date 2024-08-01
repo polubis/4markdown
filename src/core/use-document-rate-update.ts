@@ -5,14 +5,13 @@ import type {
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
 import { authStoreSelectors } from 'store/auth/auth.store';
-import { debounce } from 'lodash';
 
 const useDocumentRateUpdate = (
   document: PublicDocumentDto | PermanentDocumentDto,
 ) => {
   const [rating, setRating] = React.useState(document.rating);
 
-  const rateDocument = React.useCallback(
+  const updateRating = React.useCallback(
     async (category: DocumentRatingCategory) => {
       try {
         const rating = await authStoreSelectors.authorized().rateDocument({
@@ -24,17 +23,6 @@ const useDocumentRateUpdate = (
     },
     [document.id],
   );
-  // @TODO: Check option what to do with that.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const updateRating = React.useCallback(debounce(rateDocument, 1500), [
-    rateDocument,
-  ]);
-
-  React.useEffect(() => {
-    return () => {
-      updateRating.cancel();
-    };
-  }, [updateRating]);
 
   return {
     rating,
