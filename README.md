@@ -112,6 +112,5 @@ The architecture graph looks as follows when we include hierarchies:
 
 ## Conventions
 
-// 4. Make sure that rating is working on public document when loading it's data.
 // 5. Prevent to rate the same document if user already rated that.
 // 6. Updat ee2e snapshots
