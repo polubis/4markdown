@@ -119,6 +119,12 @@ type API4MarkdownContract<TKey extends API4MarkdownContractKey> =
     ? () => API4MarkdownDto<TKey>
     : (payload: API4MarkdownPayload<TKey>) => API4MarkdownDto<TKey>;
 
+type API4MarkdownContractCall = <TKey extends API4MarkdownContractKey>(
+  key: TKey,
+) => API4MarkdownPayload<TKey> extends undefined
+  ? () => API4MarkdownDto<TKey>
+  : (payload: API4MarkdownPayload<TKey>) => API4MarkdownDto<TKey>;
+
 export type {
   API4MarkdownContracts,
   API4MarkdownContractKey,
@@ -136,4 +142,5 @@ export type {
   GetYourUserProfileContract,
   UpdateYourUserProfileContract,
   RateDocumentContract,
+  API4MarkdownContractCall,
 };

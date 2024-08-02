@@ -1,18 +1,17 @@
 import type {
-  API4MarkdownContractKey,
+  API4MarkdownContractCall,
   API4MarkdownContracts,
   API4MarkdownDto,
-  API4MarkdownPayload,
 } from 'api-4markdown-contracts';
-import { FirebaseOptions, initializeApp } from 'firebase/app';
+import { type FirebaseOptions, initializeApp } from 'firebase/app';
 import type { Functions } from 'firebase/functions';
 import {
-  CompleteFn,
-  ErrorFn,
+  type CompleteFn,
+  type ErrorFn,
   GoogleAuthProvider,
-  NextOrObserver,
-  Unsubscribe,
-  User,
+  type NextOrObserver,
+  type Unsubscribe,
+  type User,
   browserLocalPersistence,
   getAuth,
   onAuthStateChanged,
@@ -25,11 +24,7 @@ import React from 'react';
 // @TODO: Decouple interfaces from Firebase and try to lazy load firebase/auth.
 
 type API4Markdown = {
-  call<TKey extends API4MarkdownContractKey>(
-    key: TKey,
-  ): API4MarkdownPayload<TKey> extends undefined
-    ? () => API4MarkdownDto<TKey>
-    : (payload: API4MarkdownPayload<TKey>) => API4MarkdownDto<TKey>;
+  call: API4MarkdownContractCall;
   logIn(): Promise<void>;
   logOut(): Promise<void>;
   onAuthChange(
