@@ -19,6 +19,7 @@ import {
 } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI } from 'api-4markdown';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
+import { yourInfoStoreActions } from 'store/your-info/your-info.store';
 
 const useAuth = () => {
   const api = useAPI();
@@ -80,7 +81,16 @@ const useAuth = () => {
       }
     };
 
-    const getPublicDoc = call(`getPublicDoc`);
+    const getAccessibleDocument = call(`getAccessibleDocument`);
+
+    const getYourInfo = async () => {
+      try {
+        yourInfoStoreActions.busy();
+        yourInfoStoreActions.ok(await call(`getYourInfo`)());
+      } catch (error: unknown) {
+        yourInfoStoreActions.fail(error);
+      }
+    };
 
     const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
       try {
@@ -96,6 +106,8 @@ const useAuth = () => {
       }
     };
 
+    const rateDocument = call(`rateDocument`);
+
     const unsubscribe = onAuthChange(async (user) => {
       if (user) {
         authStoreActions.authorize({
@@ -109,6 +121,7 @@ const useAuth = () => {
               yourProfileStoreActions.idle();
             } catch {}
           },
+          rateDocument,
           uploadImage: async (image) => {
             try {
               imagesStoreActions.busy();
@@ -125,13 +138,13 @@ const useAuth = () => {
               throw error;
             }
           },
-          getPublicDoc,
+          getAccessibleDocument,
           deleteDoc: async () => {
             const id = docStoreSelectors.active().id;
 
             try {
               docManagementStoreActions.busy();
-              await call(`deleteDoc`)({ id });
+              await call(`deleteDocument`)({ id });
 
               docManagementStoreActions.ok();
               docsStoreActions.deleteDoc(id);
@@ -164,6 +177,7 @@ const useAuth = () => {
             docManagementStoreActions.idle();
             reloadDocs();
           },
+          getYourInfo,
           updateDocumentCode: async () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
@@ -294,7 +308,7 @@ const useAuth = () => {
       yourProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
-        getPublicDoc,
+        getAccessibleDocument,
         logIn: async () => {
           try {
             await logIn();

@@ -28,6 +28,13 @@ const getDocsResponse: { result: DocumentDto[] } = {
         `relationships`,
         `refactors`,
       ],
+      rating: {
+        bad: 1,
+        ugly: 2,
+        good: 1,
+        decent: 0,
+        perfect: 1,
+      },
     },
     {
       id: `8548ede2-5eb7-43b1-83ff-ecf0c75c6f18`,
@@ -56,6 +63,13 @@ const getDocsResponse: { result: DocumentDto[] } = {
         `theory`,
         `full-guide`,
       ],
+      rating: {
+        bad: 1,
+        ugly: 2,
+        good: 1,
+        decent: 0,
+        perfect: 1,
+      },
     },
     {
       id: `1d8a4011-28a8-4720-b8df-9eb72819a181`,
@@ -75,6 +89,13 @@ const getDocsResponse: { result: DocumentDto[] } = {
         `backend`,
         `typescript`,
       ],
+      rating: {
+        bad: 1,
+        ugly: 2,
+        good: 1,
+        decent: 0,
+        perfect: 1,
+      },
     },
   ],
 };

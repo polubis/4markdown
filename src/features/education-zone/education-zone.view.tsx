@@ -10,6 +10,7 @@ import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
 import type { EducationZoneViewModel } from 'models/view-models';
+import { DocumentRatingStatic } from 'components/document-rating-static';
 
 interface EducationZoneViewProps {
   context: EducationZoneViewModel;
@@ -22,7 +23,7 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="max-w-2xl mx-auto my-6 p-4">
+      <main className="max-w-lg mx-auto my-6 p-4">
         <ul className="flex flex-col space-y-10">
           {context.docs.map((doc) => (
             <li className="flex flex-col" key={doc.name}>
@@ -33,6 +34,19 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
               </Badges>
               <h6 className="mb-2 text-2xl">{doc.name}</h6>
               <p className="break-words">{doc.description}</p>
+              <p className="flex space-x-1 mt-2 text-sm capitalize">
+                Created{` `}
+                {formatDistance(new Date(), doc.cdate, {
+                  addSuffix: true,
+                })}
+                {` `}
+                ago / Edited{` `}
+                {formatDistance(new Date(), doc.mdate, {
+                  addSuffix: true,
+                })}
+                {` `}
+                ago
+              </p>
               <div className="flex items-center mt-3 py-2">
                 {doc.author && (
                   <Avatar
@@ -44,27 +58,12 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
                     src={doc.author?.avatar?.src}
                   />
                 )}
-                <div className="flex flex-col space-y-1">
-                  <span className="text-sm capitalize">
-                    Created{` `}
-                    {formatDistance(new Date(), doc.cdate, {
-                      addSuffix: true,
-                    })}
-                    {` `}
-                    ago
-                  </span>
-                  <span className="text-sm capitalize">
-                    Edited{` `}
-                    {formatDistance(new Date(), doc.mdate, {
-                      addSuffix: true,
-                    })}
-                    {` `}
-                    ago
-                  </span>
+                <div className="ml-auto">
+                  <DocumentRatingStatic rating={doc.rating} iconSize={20} />
                 </div>
               </div>
               <Link
-                className="mt-5"
+                className="mt-5 mr-auto"
                 to={doc.path}
                 title={`Explore ${doc.name}`}
               >
