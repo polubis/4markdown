@@ -6,6 +6,9 @@ import type {
   PublicDocumentDto,
   ImageDto,
   UserProfileDto,
+  DocumentRatingCategory,
+  DocumentRatingDto,
+  UserDocumentsVotesDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -15,17 +18,17 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
 };
 
 type GetDocsContract = Contract<`getDocs`, DocumentDto[]>;
-type GetPublicDocContract = Contract<
-  `getPublicDoc`,
+type GetAccessibleDocumentContract = Contract<
+  `getAccessibleDocument`,
   PublicDocumentDto | PermanentDocumentDto,
   Pick<DocumentDto, 'id'>
 >;
-type GetPermanentDocsContract = Contract<
-  `getPermanentDocs`,
+type GetPermanentDocumentsContract = Contract<
+  `gerPermanentDocuments`,
   PermanentDocumentDto[]
 >;
-type DeleteDocContract = Contract<
-  `deleteDoc`,
+type DeleteDocumentContract = Contract<
+  `deleteDocument`,
   Pick<DocumentDto, 'id'>,
   Pick<DocumentDto, 'id'>
 >;
@@ -43,8 +46,8 @@ type UpdateDocContract = Contract<
   `updateDoc`,
   DocumentDto,
   | Omit<PrivateDocumentDto, 'cdate'>
-  | Omit<PublicDocumentDto, 'cdate' | 'author'>
-  | Omit<PermanentDocumentDto, 'cdate' | 'path' | 'author'>
+  | Omit<PublicDocumentDto, 'cdate' | 'author' | 'rating'>
+  | Omit<PermanentDocumentDto, 'cdate' | 'path' | 'author' | 'rating'>
 >;
 
 type UploadImageContract = Contract<
@@ -70,17 +73,37 @@ type UpdateYourUserProfileContract = Contract<
   }
 >;
 
+type RateDocumentContract = Contract<
+  `rateDocument`,
+  DocumentRatingDto,
+  {
+    documentId: DocumentDto['id'];
+    category: DocumentRatingCategory;
+  }
+>;
+
+type GetYourInfoContract = Contract<
+  `getYourInfo`,
+  {
+    documents: DocumentDto[];
+    profile: UserProfileDto | null;
+    documentsVotes: UserDocumentsVotesDto;
+  }
+>;
+
 type API4MarkdownContracts =
   | GetDocsContract
-  | GetPublicDocContract
-  | GetPermanentDocsContract
-  | DeleteDocContract
+  | GetAccessibleDocumentContract
+  | GetPermanentDocumentsContract
+  | DeleteDocumentContract
   | UpdateDocumentCodeContract
   | CreateDocContract
   | UpdateDocContract
   | UploadImageContract
   | GetYourUserProfileContract
-  | UpdateYourUserProfileContract;
+  | UpdateYourUserProfileContract
+  | RateDocumentContract
+  | GetYourInfoContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Promise<
@@ -96,6 +119,12 @@ type API4MarkdownContract<TKey extends API4MarkdownContractKey> =
     ? () => API4MarkdownDto<TKey>
     : (payload: API4MarkdownPayload<TKey>) => API4MarkdownDto<TKey>;
 
+type API4MarkdownContractCall = <TKey extends API4MarkdownContractKey>(
+  key: TKey,
+) => API4MarkdownPayload<TKey> extends undefined
+  ? () => API4MarkdownDto<TKey>
+  : (payload: API4MarkdownPayload<TKey>) => API4MarkdownDto<TKey>;
+
 export type {
   API4MarkdownContracts,
   API4MarkdownContractKey,
@@ -103,13 +132,15 @@ export type {
   API4MarkdownDto,
   API4MarkdownPayload,
   GetDocsContract,
-  GetPublicDocContract,
-  GetPermanentDocsContract,
-  DeleteDocContract,
+  GetAccessibleDocumentContract,
+  GetPermanentDocumentsContract,
+  DeleteDocumentContract,
   UpdateDocumentCodeContract,
   CreateDocContract,
   UpdateDocContract,
   UploadImageContract,
   GetYourUserProfileContract,
   UpdateYourUserProfileContract,
+  RateDocumentContract,
+  API4MarkdownContractCall,
 };
