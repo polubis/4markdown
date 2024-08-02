@@ -1,7 +1,8 @@
-import React from 'react';
-import Md, { MarkdownToJSX } from 'markdown-to-jsx';
+import React, { type ReactNode } from 'react';
+import type { MarkdownToJSX } from 'markdown-to-jsx';
+import Md from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
-import { Components } from '@mdx-js/react/lib';
+import type { Components } from '@mdx-js/react/lib';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
@@ -29,12 +30,12 @@ const Code = ({
 
 const isReactElement = (
   node: unknown,
-): node is React.ReactElement<unknown, () => React.ReactNode> =>
+): node is React.ReactElement<unknown, () => ReactNode> =>
   typeof node === `object` &&
   node !== null &&
   !!(node as React.ReactElement).type;
 
-const isDescribedImage = (nodes: React.ReactNode): boolean => {
+const isDescribedImage = (nodes: ReactNode): boolean => {
   if (!Array.isArray(nodes)) {
     return false;
   }
@@ -49,7 +50,7 @@ const isDescribedImage = (nodes: React.ReactNode): boolean => {
   return img.type.name === `img` && em.type.name === `em`;
 };
 
-const SnippetCopyButton = ({ children }: { children: React.ReactNode }) => {
+const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   const [state, save] = useCopy();
 
   const copy = () => {

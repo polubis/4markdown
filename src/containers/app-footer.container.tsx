@@ -1,7 +1,7 @@
 import c from 'classnames';
 import { CompanyLogo } from 'components/company-logo';
 import { Link } from 'gatsby';
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { meta } from '../../meta';
 
 const Column = ({
@@ -11,7 +11,7 @@ const Column = ({
 }: {
   className?: string;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   return (
     <div className={c(`flex flex-col`, className)}>

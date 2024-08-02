@@ -1,5 +1,5 @@
 import React from 'react';
-import { HeadFC } from 'gatsby';
+import type { HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
 import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';

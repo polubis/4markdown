@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import Backdrop from 'design-system/backdrop';
@@ -14,7 +14,7 @@ interface MenuNavSidebarProps {
   opened?: boolean;
 }
 
-const ScrollHide = ({ children }: { children: React.ReactNode }) => {
+const ScrollHide = ({ children }: { children: ReactNode }) => {
   useScrollHide();
 
   return <>{children}</>;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
@@ -19,7 +19,7 @@ const PublicConfirmationContainer = ({
 }: PublicConfirmationContainerProps) => {
   const docManagementStore = useDocManagementStore();
 
-  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (
+  const handleConfirm: FormEventHandler<HTMLFormElement> = async (
     e,
   ): Promise<void> => {
     e.preventDefault();

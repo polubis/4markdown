@@ -8,8 +8,8 @@ import Modal from 'design-system/modal';
 import { Status } from 'design-system/status';
 import { Textarea } from 'design-system/textarea';
 import { readFileAsBase64 } from 'development-kit/file-reading';
+import type { ValidatorsSetup } from 'development-kit/form';
 import {
-  ValidatorsSetup,
   base64,
   maxLength,
   minLength,
@@ -21,7 +21,7 @@ import {
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
 import { useToggle } from 'development-kit/use-toggle';
-import { NonNullableProperties } from 'development-kit/utility-types';
+import type { NonNullableProperties } from 'development-kit/utility-types';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
@@ -29,10 +29,8 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import {
-  YourProfileStoreOkState,
-  yourProfileStoreSelectors,
-} from 'store/your-profile/your-profile.store';
+import type { YourProfileStoreOkState } from 'store/your-profile/your-profile.store';
+import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
 interface UserProfileFormModalContainerProps {
   onClose(): void;

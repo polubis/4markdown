@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { type ReactNode } from 'react';
 import c from 'classnames';
 
 interface ButtonLinkProps {
@@ -7,9 +6,9 @@ interface ButtonLinkProps {
   to: string;
   title: string;
   rel?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   target?: string;
-  component?: (props: Omit<ButtonLinkProps, 'component'>) => React.ReactNode;
+  component?: (props: Omit<ButtonLinkProps, 'component'>) => ReactNode;
 }
 
 const ButtonLink = ({

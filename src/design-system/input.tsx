@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { type DetailedHTMLProps, type InputHTMLAttributes } from 'react';
 import c from 'classnames';
 
 interface InputProps
-  extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
+  extends DetailedHTMLProps<
+    InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {}
 

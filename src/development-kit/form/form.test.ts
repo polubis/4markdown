@@ -1,4 +1,4 @@
-import { FormSubscriber, FormSubscriberAction } from './defs';
+import type { FormSubscriber, FormSubscriberAction } from './defs';
 import { expect } from '@jest/globals';
 import { form } from './form';
 import { minLength, maxLength } from './validators';

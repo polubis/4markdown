@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { isClient } from 'development-kit/ssr-csr';
 
 const themes = [`light`, `dark`] as const;
@@ -20,7 +20,7 @@ interface ThemeContext {
 }
 
 interface ThemeProviderProps {
-  children(context: ThemeContext): React.ReactNode;
+  children(context: ThemeContext): ReactNode;
 }
 
 const getInitialTheme = (): NullableTheme =>

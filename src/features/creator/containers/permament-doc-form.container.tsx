@@ -5,7 +5,7 @@ import { Hint } from 'design-system/hint';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { useForm } from 'development-kit/use-form';
-import React from 'react';
+import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
@@ -37,7 +37,7 @@ const PermamentDocFormContainer = ({
 
   const { name, description, tags } = values;
 
-  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (
+  const handleConfirm: FormEventHandler<HTMLFormElement> = async (
     e,
   ): Promise<void> => {
     e.preventDefault();

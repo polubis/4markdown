@@ -1,4 +1,4 @@
-import { ValidatorFn, ValidatorResult } from './defs';
+import type { ValidatorFn, ValidatorResult } from './defs';
 
 export const chain =
   (...validators: ValidatorFn<any, string>[]) =>

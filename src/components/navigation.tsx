@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { BiMoon, BiSun } from 'react-icons/bi';
@@ -8,7 +8,7 @@ import { ThemeProvider } from 'design-system/theme-provider';
 
 interface NavigationProps {
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Navigation = ({ className, children }: NavigationProps) => {

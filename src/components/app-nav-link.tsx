@@ -1,4 +1,5 @@
-import { GatsbyLinkProps, Link } from 'gatsby';
+import type { GatsbyLinkProps } from 'gatsby';
+import { Link } from 'gatsby';
 import React from 'react';
 import c from 'classnames';
 

@@ -1,4 +1,5 @@
-import { Avatar, AvatarSize } from 'design-system/avatar';
+import type { AvatarSize } from 'design-system/avatar';
+import { Avatar } from 'design-system/avatar';
 import React from 'react';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
