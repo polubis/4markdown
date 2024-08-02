@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiPlusCircle, BiX } from 'react-icons/bi';
 import Popover from 'design-system/popover';
@@ -12,16 +12,14 @@ interface AddDocPopoverContentProps {
   onClose(): void;
 }
 
-const AddDocPopoverContent: React.FC<AddDocPopoverContentProps> = ({
-  onClose,
-}) => {
+const AddDocPopoverContent = ({ onClose }: AddDocPopoverContentProps) => {
   const docManagementStore = useDocManagementStore();
   const [{ invalid, values, untouched }, { inject }] = useForm(
     { name: `` },
     createDocSchema,
   );
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
       await authStoreSelectors.authorized().createDoc(values.name);

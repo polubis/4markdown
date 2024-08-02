@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
-import React from 'react';
+import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
@@ -21,7 +21,7 @@ const PermanentConfirmationContainer = ({
   const docManagementStore = useDocManagementStore();
   const formSection = useToggle();
 
-  const openFormSection: React.FormEventHandler<HTMLFormElement> = async (
+  const openFormSection: FormEventHandler<HTMLFormElement> = async (
     e,
   ): Promise<void> => {
     e.preventDefault();

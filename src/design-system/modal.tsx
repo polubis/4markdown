@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { usePortal } from 'development-kit/use-portal';
 import c from 'classnames';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
@@ -9,7 +9,7 @@ import {
 
 interface ModalProps {
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   onEscape?: EscapePressHandler;
 }
 

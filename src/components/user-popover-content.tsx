@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { Button } from 'design-system/button';
 import { BiEdit, BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
@@ -15,13 +15,7 @@ interface UserPopoverContentProps {
   onClose(): void;
 }
 
-const Detail = ({
-  label,
-  value,
-}: {
-  label: React.ReactNode;
-  value: React.ReactNode;
-}) => (
+const Detail = ({ label, value }: { label: ReactNode; value: ReactNode }) => (
   <p>
     {label}: <strong>{value}</strong>
   </p>
