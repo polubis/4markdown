@@ -14,17 +14,11 @@ describe(`Docs management works when`, () => {
     Given(`System cleans pictures setup`).And(`System cleans local storage`);
   });
 
-  it(`user may create, edit and delete document`, () => {
+  it(`user may create, edit, delete document and change its visibility`, () => {
     LOG_IN_OUT_SCENARIOS[`I log in`]().When(`I click button`, [
       `Close your account panel`,
     ]);
     DOCS_MANAGEMENT_SCENARIOS[`I create, edit and delete document`]();
-  });
-
-  it(`user may change document visiblity`, () => {
-    LOG_IN_OUT_SCENARIOS[`I log in`]().When(`I click button`, [
-      `Close your account panel`,
-    ]);
     DOCS_MANAGEMENT_SCENARIOS[`I change document visiblity`]();
   });
 });

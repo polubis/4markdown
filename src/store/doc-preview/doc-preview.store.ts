@@ -1,10 +1,17 @@
-import type { API4MarkdownPayload, DocumentDto } from 'api-4markdown-contracts';
+import type {
+  API4MarkdownPayload,
+  PermanentDocumentDto,
+  PublicDocumentDto,
+} from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import { useAuthStore } from 'store/auth/auth.store';
 import { create } from 'zustand';
 
-type DocPreviewStoreState = Transaction<{ doc: DocumentDto }>;
+type DocPreviewStoreState = Transaction<{
+  doc: PublicDocumentDto | PermanentDocumentDto;
+}>;
+type DocPreviewStoreOkState = Extract<DocPreviewStoreState, { is: 'ok' }>;
 
 const useDocPreviewStore = create<DocPreviewStoreState>(() => ({
   is: `idle`,
@@ -16,8 +23,23 @@ const set = (state: DocPreviewStoreState): void => {
   setState(state, true);
 };
 
+const isOk = (state: DocPreviewStoreState): DocPreviewStoreOkState => {
+  if (state.is !== `ok`) {
+    throw Error(`Tried to read state when not allowed`);
+  }
+
+  return state;
+};
+
+const docPreviewStoreSelectors = {
+  useState: () => useDocPreviewStore(),
+  useOk: () => useDocPreviewStore(isOk),
+} as const;
+
 const docPreviewStoreActions = {
-  load: async (payload: API4MarkdownPayload<'getPublicDoc'>): Promise<void> => {
+  load: async (
+    payload: API4MarkdownPayload<`getAccessibleDocument`>,
+  ): Promise<void> => {
     const authStore = useAuthStore.getState();
 
     if (authStore.is === `idle`)
@@ -26,7 +48,7 @@ const docPreviewStoreActions = {
     try {
       set({ is: `busy` });
 
-      const doc = await authStore.getPublicDoc(payload);
+      const doc = await authStore.getAccessibleDocument(payload);
 
       set({ is: `ok`, doc });
     } catch (error: unknown) {
@@ -35,4 +57,4 @@ const docPreviewStoreActions = {
   },
 } as const;
 
-export { useDocPreviewStore, docPreviewStoreActions };
+export { docPreviewStoreActions, docPreviewStoreSelectors };

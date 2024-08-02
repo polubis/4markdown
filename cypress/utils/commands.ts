@@ -60,7 +60,7 @@ type Element =
   | `Your LinkedIn link`
   | `Check privacy policy`;
 
-type Endpoint = `getYourUserProfile` | `getDocs` | `getPublicDoc`;
+type Endpoint = `getYourUserProfile` | `getDocs` | `getAccessibleDocument`;
 
 let acc = 1;
 let folder: string | undefined;
@@ -111,7 +111,7 @@ const BASE_COMMANDS = {
     cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
   'I reload page': () => {
-    cy.reload();
+    // cy.reload();
   },
   'System sets pictures folder': (name: string) => {
     folder = name;

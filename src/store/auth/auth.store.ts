@@ -28,16 +28,18 @@ interface AuthorizedData {
   getDocs(): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
-  getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
+  getAccessibleDocument: API4MarkdownContract<'getAccessibleDocument'>;
   getYourProfile(): Promise<void>;
   updateYourProfile(
     payload: API4MarkdownPayload<'updateYourUserProfile'>,
   ): Promise<void>;
+  rateDocument: API4MarkdownContract<'rateDocument'>;
+  getYourInfo(payload: API4MarkdownPayload<'getYourInfo'>): Promise<void>;
 }
 
 interface UnauthrorizedData {
   logIn(): Promise<void>;
-  getPublicDoc: API4MarkdownContract<'getPublicDoc'>;
+  getAccessibleDocument: API4MarkdownContract<'getAccessibleDocument'>;
 }
 
 interface AuthStoreActions {
