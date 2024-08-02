@@ -82,12 +82,12 @@ const useAuth = () => {
 
     const getAccessibleDocument = call(`getAccessibleDocument`);
 
-    const getYourInfo = async () => {
-      try {
-        const { documents, documentsVotes, profile } =
-          await call(`getYourInfo`)();
-      } catch (error: unknown) {}
-    };
+    // const getYourInfo = async () => {
+    //   try {
+    //     const { documents, documentsVotes, profile } =
+    //       await call(`getYourInfo`)();
+    //   } catch (error: unknown) {}
+    // };
 
     const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
       try {
