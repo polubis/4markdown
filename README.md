@@ -111,6 +111,3 @@ The architecture graph looks as follows when we include hierarchies:
 <!-- TOC --><a name="conventions"></a>
 
 ## Conventions
-
-// 5. Prevent to rate the same document if user already rated that.
-// 6. Updat ee2e snapshots
