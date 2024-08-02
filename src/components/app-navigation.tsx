@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { Navigation } from './navigation';
 
 interface AppNavigationProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const AppNavigation = ({ children }: AppNavigationProps) => {

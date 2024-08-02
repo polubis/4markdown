@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { type ReactNode, type ReactPortal } from 'react';
 import { createPortal } from 'react-dom';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
 import { isServer } from './ssr-csr';
 
-type RenderPortal = (children: React.ReactNode) => React.ReactPortal | null;
+type RenderPortal = (children: ReactNode) => ReactPortal | null;
 
 type UsePortal = () => {
   render: RenderPortal;

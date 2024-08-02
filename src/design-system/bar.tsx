@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import c from 'classnames';
 
 interface BarProps {
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Bar = ({ className, children }: BarProps) => {

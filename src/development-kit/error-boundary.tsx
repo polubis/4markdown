@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { type ReactNode, type FunctionComponent } from 'react';
 
 interface ErrorBoundaryProps {
-  children: React.ReactNode;
-  fallback: React.FunctionComponent;
+  children: ReactNode;
+  fallback: FunctionComponent;
   onError?(): void;
 }
 

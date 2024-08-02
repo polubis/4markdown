@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import c from 'classnames';
 
 interface BadgesProps {
   className?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 const Badges = ({ className, children }: BadgesProps) => {

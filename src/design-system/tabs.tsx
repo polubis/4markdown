@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {
+  type DetailedHTMLProps,
+  type ButtonHTMLAttributes,
+  type ReactElement,
+} from 'react';
 import c from 'classnames';
 
 interface TabsItemProps
-  extends React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
   active?: boolean;
@@ -11,7 +15,7 @@ interface TabsItemProps
 
 interface TabsProps {
   className?: string;
-  children: React.ReactElement | React.ReactElement[];
+  children: ReactElement | ReactElement[];
   fit?: boolean;
 }
 

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import c from 'classnames';
 
 interface FieldProps {
   className?: string;
-  children: React.ReactNode;
-  label?: React.ReactNode;
-  hint?: React.ReactNode;
+  children: ReactNode;
+  label?: ReactNode;
+  hint?: ReactNode;
 }
 
 const Field = ({ children, className, label, hint }: FieldProps) => {

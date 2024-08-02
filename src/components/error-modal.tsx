@@ -1,12 +1,12 @@
 import { Button } from 'design-system/button';
 import Modal from 'design-system/modal';
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { BiX } from 'react-icons/bi';
 
 interface ErrorModalProps {
   heading: string;
-  message: React.ReactNode;
-  footer?: React.ReactNode;
+  message: ReactNode;
+  footer?: ReactNode;
   onClose(): void;
 }
 

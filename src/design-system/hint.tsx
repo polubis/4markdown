@@ -1,12 +1,13 @@
-import { ToggleReturn, useToggle } from 'development-kit/use-toggle';
-import React from 'react';
+import React, { type ReactNode, type ComponentType } from 'react';
+import type { ToggleReturn } from 'development-kit/use-toggle';
+import { useToggle } from 'development-kit/use-toggle';
 import Modal from './modal';
 import c from 'classnames';
 
 interface HintProps {
   className?: string;
-  content?: React.ComponentType<ToggleReturn>;
-  trigger: React.ComponentType<ToggleReturn> | React.ReactNode;
+  content?: ComponentType<ToggleReturn>;
+  trigger: ComponentType<ToggleReturn> | ReactNode;
 }
 
 const Hint = ({ className, trigger: Trigger, content: Content }: HintProps) => {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Formable, ValidatorsSetup, form } from './form';
+import type { Formable, ValidatorsSetup } from './form';
+import { form } from './form';
 
 const useForm = <Values extends Record<string, any>>(
   values: Values,
