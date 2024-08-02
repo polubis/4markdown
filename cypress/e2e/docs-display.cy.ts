@@ -78,7 +78,7 @@ describe(`Docs display works when`, () => {
       response: getDocsResponse,
     })
       .And(`System mocks api`, {
-        endpoint: `getPublicDoc`,
+        endpoint: `getAccessibleDocument`,
         code: 200,
         response: getPublicDocResponse,
       })
