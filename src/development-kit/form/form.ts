@@ -1,5 +1,5 @@
 import { chain } from './core';
-import {
+import type {
   ValidatorsSetup,
   ValuesBase,
   FormState,

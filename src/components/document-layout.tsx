@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import Markdown from './markdown';
 import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
@@ -13,8 +13,8 @@ interface DocumentLayoutProps {
   children: string;
   tags: PermanentDocumentDto['tags'];
   author: UserProfileDto | null;
-  ratingTop?: React.ReactNode;
-  ratingBottom?: React.ReactNode;
+  ratingTop?: ReactNode;
+  ratingBottom?: ReactNode;
 }
 
 const DocumentLayout = ({

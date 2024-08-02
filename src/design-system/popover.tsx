@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import c from 'classnames';
 import Backdrop from './backdrop';
 
 interface PopoverProps {
   className: string;
-  children: React.ReactNode;
+  children: ReactNode;
   onBackdropClick?(): void;
 }
 

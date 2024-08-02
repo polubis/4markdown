@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 interface DocBarRowProps {
   title: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
 const DocBarRow = ({ title, children }: DocBarRowProps) => {
