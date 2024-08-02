@@ -64,8 +64,9 @@ const initialize = (): API4Markdown => {
             functions = getFunctions(app);
           }
 
-          return (await httpsCallable(functions, key)(payload))
-            .data as API4MarkdownDto<TKey>;
+          return (await httpsCallable(functions, key)(payload)).data as Promise<
+            API4MarkdownDto<TKey>
+          >;
         },
       logIn: async () => {
         await setPersistence(auth, browserLocalPersistence);
