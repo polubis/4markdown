@@ -19,7 +19,7 @@ const useDocPreviewStore = create<DocPreviewStoreState>(() => ({
 
 const { setState } = useDocPreviewStore;
 
-const set = (state: DocPreviewStoreState): void => {
+const set = (state: number): void => {
   setState(state, true);
 };
 
