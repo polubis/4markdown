@@ -111,7 +111,6 @@ const BASE_COMMANDS = {
     cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
   'I reload page': () => {
-    // @TODO[PRIO=1]: Reload is breaking up test continue.
     // cy.reload();
   },
   'System sets pictures folder': (name: string) => {
