@@ -19,13 +19,10 @@ const set = (state: YourInfoStoreState): void => {
 const yourInfoStoreSelectors = {} as const;
 
 const yourInfoStoreActions = {
-  idle: () => {
-    set({ is: `idle` });
-  },
+  idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
-  ok: (data: Awaited<API4MarkdownDto<'getYourInfo'>>) => {
-    set({ is: `ok`, ...data });
-  },
+  ok: (data: Awaited<API4MarkdownDto<'getYourInfo'>>) =>
+    set({ ...data, is: `ok` }),
   fail: (error: unknown) => set({ is: `fail`, error: parseErrorV2(error) }),
 } as const;
 
