@@ -12,16 +12,21 @@ const DocumentRatingStatic = ({
   iconSize = 24,
 }: DocumentRatingStaticProps) => {
   return (
-    <div className="flex space-x-2">
-      {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
-        <div className="relative p-1 text-black dark:text-white" key={category}>
-          <Icon size={iconSize} />
-          <strong className="absolute text-md -top-2 -right-1">
-            {rating[category]}
-          </strong>
-        </div>
-      ))}
-    </div>
+    <section className="justify-end items-center flex mb-4 pr-1 h-10">
+      <div className="flex space-x-2">
+        {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+          <div
+            className="relative p-1 text-black dark:text-white"
+            key={category}
+          >
+            <Icon size={iconSize} />
+            <strong className="absolute text-md -top-2 -right-1">
+              {rating[category]}
+            </strong>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 

@@ -26,11 +26,8 @@ const DocumentLayout = ({
 }: DocumentLayoutProps) => {
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
-      {ratingTop && (
-        <section className="justify-end items-center flex mb-4 pr-1 h-10">
-          {ratingTop}
-        </section>
-      )}
+      {ratingTop}
+
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
