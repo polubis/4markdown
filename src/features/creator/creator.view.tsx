@@ -41,10 +41,11 @@ const CreatorView: React.FC = () => {
       return;
     }
 
-    (await import(`./utils/scroll-to-creator-preview`)).scrollToCreatorPreview(
-      input.value,
-      input.selectionStart,
+    const { scrollToCreatorPreview } = await import(
+      `./utils/scroll-to-creator-preview`
     );
+
+    scrollToCreatorPreview(input);
   };
 
   const divide = (): void => {
