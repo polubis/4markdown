@@ -52,7 +52,7 @@ const CreatorView: React.FC = () => {
   };
 
   const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    scrollToCreatorPreview(e.target as HTMLTextAreaElement);
+    setTimeout(() => scrollToCreatorPreview(e.target as HTMLTextAreaElement));
 
     if (e.key !== `Tab`) {
       return;
