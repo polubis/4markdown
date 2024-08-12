@@ -10,38 +10,18 @@ import c from 'classnames';
 import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from './components/templates-popover';
 import AddDocPopover from 'components/add-doc-popover';
-import { useLsSync } from 'development-kit/use-ls-sync';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
+import { useLsSync } from './utils/use-ls-sync';
+import { scrollToCreatorPreview } from './utils/scroll-to-creator-preview';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
 
 type DivideMode = 'both' | 'preview' | 'code';
-
-const scrollToPreview = (input: HTMLTextAreaElement): number => {
-  const cursor = input.value
-    .substring(0, input.selectionStart)
-    .split(`\n`).length;
-  const lines = input.value.split(`\n`);
-  const content = lines[cursor - 1].trim();
-
-  const elements = Array.from(
-    document.querySelectorAll(`.markdown > div > *:is(h1,h2,h3,h4,h5,h6)`),
-  );
-
-  for (const element of elements) {
-    if (element.textContent && content.includes(element.textContent.trim())) {
-      element.scrollIntoView({ behavior: `smooth` });
-      break;
-    }
-  }
-
-  return lines.length;
-};
 
 const CreatorView: React.FC = () => {
   useLsSync();
@@ -72,6 +52,8 @@ const CreatorView: React.FC = () => {
   };
 
   const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    scrollToCreatorPreview(e.target as HTMLTextAreaElement);
+
     if (e.key !== `Tab`) {
       return;
     }
@@ -198,7 +180,7 @@ const CreatorView: React.FC = () => {
             onChange={changeCode}
             onKeyDown={maintainTabs}
             onClick={(e) => {
-              scrollToPreview(e.target as HTMLTextAreaElement);
+              scrollToCreatorPreview(e.target as HTMLTextAreaElement);
             }}
           />
           <div
