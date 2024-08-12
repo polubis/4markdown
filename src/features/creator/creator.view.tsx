@@ -37,7 +37,9 @@ const CreatorView: React.FC = () => {
   );
 
   const loadAndScroll = async (input: HTMLTextAreaElement): Promise<void> => {
-    if (divideMode !== `both`) {
+    const DESKTOP_WIDTH = 1024;
+
+    if (divideMode !== `both` || window.innerWidth < DESKTOP_WIDTH) {
       return;
     }
 

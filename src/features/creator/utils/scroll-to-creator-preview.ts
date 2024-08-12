@@ -1,4 +1,4 @@
-import debounce from 'lodash-es/debounce';
+import debounce from 'lodash.debounce';
 
 const scrollToCreatorPreview = debounce((input: HTMLTextAreaElement): void => {
   const cursor = input.value
