@@ -20,14 +20,6 @@ const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
 
-const loadAndScroll = async (input: HTMLTextAreaElement): Promise<void> => {
-  const { scrollToCreatorPreview } = await import(
-    `./utils/scroll-to-creator-preview`
-  );
-
-  scrollToCreatorPreview(input);
-};
-
 type DivideMode = 'both' | 'preview' | 'code';
 
 const CreatorView: React.FC = () => {
@@ -43,6 +35,18 @@ const CreatorView: React.FC = () => {
   const resetConfirm = useConfirm(() =>
     creatorStoreActions.change(initialCode),
   );
+
+  const loadAndScroll = async (input: HTMLTextAreaElement): Promise<void> => {
+    if (divideMode !== `both`) {
+      return;
+    }
+
+    const { scrollToCreatorPreview } = await import(
+      `./utils/scroll-to-creator-preview`
+    );
+
+    scrollToCreatorPreview(input);
+  };
 
   const divide = (): void => {
     if (divideMode === `both`) {
