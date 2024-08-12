@@ -1,4 +1,6 @@
-const scrollToCreatorPreview = (input: HTMLTextAreaElement): number => {
+import debounce from 'lodash-es/debounce';
+
+const scrollToCreatorPreview = debounce((input: HTMLTextAreaElement) => {
   const cursor = input.value
     .substring(0, input.selectionStart)
     .split(`\n`).length;
@@ -15,8 +17,6 @@ const scrollToCreatorPreview = (input: HTMLTextAreaElement): number => {
       break;
     }
   }
-
-  return lines.length;
-};
+}, 750);
 
 export { scrollToCreatorPreview };

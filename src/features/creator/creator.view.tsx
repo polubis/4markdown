@@ -15,11 +15,18 @@ import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
 import { useLsSync } from './utils/use-ls-sync';
-import { scrollToCreatorPreview } from './utils/scroll-to-creator-preview';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
+
+const loadAndScroll = async (input: HTMLTextAreaElement): Promise<void> => {
+  const { scrollToCreatorPreview } = await import(
+    `./utils/scroll-to-creator-preview`
+  );
+
+  scrollToCreatorPreview(input);
+};
 
 type DivideMode = 'both' | 'preview' | 'code';
 
@@ -52,7 +59,9 @@ const CreatorView: React.FC = () => {
   };
 
   const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    setTimeout(() => scrollToCreatorPreview(e.target as HTMLTextAreaElement));
+    const target = e.target as HTMLTextAreaElement;
+
+    loadAndScroll(target);
 
     if (e.key !== `Tab`) {
       return;
@@ -60,7 +69,6 @@ const CreatorView: React.FC = () => {
 
     e.preventDefault();
 
-    const target = e.target as HTMLTextAreaElement;
     const start = target.selectionStart;
     const end = target.selectionEnd;
 
@@ -180,7 +188,7 @@ const CreatorView: React.FC = () => {
             onChange={changeCode}
             onKeyDown={maintainTabs}
             onClick={(e) => {
-              scrollToCreatorPreview(e.target as HTMLTextAreaElement);
+              loadAndScroll(e.target as HTMLTextAreaElement);
             }}
           />
           <div
