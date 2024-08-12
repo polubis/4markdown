@@ -4,7 +4,7 @@ import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
 type YourInfoStoreState = Transaction<
-  Awaited<API4MarkdownDto<'getYourInfo'>>,
+  API4MarkdownDto<'getYourInfo'>,
   { error: ParsedError }
 >;
 
@@ -21,8 +21,7 @@ const yourInfoStoreSelectors = {} as const;
 const yourInfoStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
-  ok: (data: Awaited<API4MarkdownDto<'getYourInfo'>>) =>
-    set({ ...data, is: `ok` }),
+  ok: (data: API4MarkdownDto<'getYourInfo'>) => set({ ...data, is: `ok` }),
   fail: (error: unknown) => set({ is: `fail`, error: parseErrorV2(error) }),
 } as const;
 

@@ -106,9 +106,11 @@ type API4MarkdownContracts =
   | GetYourInfoContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
-type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Promise<
-  Extract<API4MarkdownContracts, { key: TKey }>['dto']
->;
+type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
+  API4MarkdownContracts,
+  { key: TKey }
+>['dto'];
+
 type API4MarkdownPayload<TKey extends API4MarkdownContractKey> = Extract<
   API4MarkdownContracts,
   { key: TKey }
@@ -116,14 +118,14 @@ type API4MarkdownPayload<TKey extends API4MarkdownContractKey> = Extract<
 
 type API4MarkdownContract<TKey extends API4MarkdownContractKey> =
   API4MarkdownPayload<TKey> extends undefined
-    ? () => API4MarkdownDto<TKey>
-    : (payload: API4MarkdownPayload<TKey>) => API4MarkdownDto<TKey>;
+    ? () => Promise<API4MarkdownDto<TKey>>
+    : (payload: API4MarkdownPayload<TKey>) => Promise<API4MarkdownDto<TKey>>;
 
 type API4MarkdownContractCall = <TKey extends API4MarkdownContractKey>(
   key: TKey,
 ) => API4MarkdownPayload<TKey> extends undefined
-  ? () => API4MarkdownDto<TKey>
-  : (payload: API4MarkdownPayload<TKey>) => API4MarkdownDto<TKey>;
+  ? () => Promise<API4MarkdownDto<TKey>>
+  : (payload: API4MarkdownPayload<TKey>) => Promise<API4MarkdownDto<TKey>>;
 
 export type {
   API4MarkdownContracts,
