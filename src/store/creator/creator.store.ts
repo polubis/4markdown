@@ -12,7 +12,7 @@ To dive deeper through editor features watch the following [Video](${meta.ytVide
 
 ## How to add inline code?
 
-To add inline code use the"\`" symbol to wrap concrete text. For example:
+To add inline code use the "\`" symbol to wrap concrete text. For example:
 
 \`const a = 5\`. Remember to use escape characters like *"/"* to type symbols that are used for markdown creation. 
 

@@ -10,11 +10,11 @@ import c from 'classnames';
 import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from './components/templates-popover';
 import AddDocPopover from 'components/add-doc-popover';
-import { useLsSync } from 'development-kit/use-ls-sync';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
+import { useLsSync } from './utils/use-ls-sync';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -36,6 +36,20 @@ const CreatorView: React.FC = () => {
     creatorStoreActions.change(initialCode),
   );
 
+  const loadAndScroll = async (input: HTMLTextAreaElement): Promise<void> => {
+    const DESKTOP_WIDTH = 1024;
+
+    if (divideMode !== `both` || window.innerWidth < DESKTOP_WIDTH) {
+      return;
+    }
+
+    const { scrollToCreatorPreview } = await import(
+      `./utils/scroll-to-creator-preview`
+    );
+
+    scrollToCreatorPreview(input);
+  };
+
   const divide = (): void => {
     if (divideMode === `both`) {
       setDivideMode(`code`);
@@ -51,13 +65,16 @@ const CreatorView: React.FC = () => {
   };
 
   const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    const target = e.target as HTMLTextAreaElement;
+
+    loadAndScroll(target);
+
     if (e.key !== `Tab`) {
       return;
     }
 
     e.preventDefault();
 
-    const target = e.target as HTMLTextAreaElement;
     const start = target.selectionStart;
     const end = target.selectionEnd;
 
@@ -176,6 +193,9 @@ const CreatorView: React.FC = () => {
             )}
             onChange={changeCode}
             onKeyDown={maintainTabs}
+            onClick={(e) => {
+              loadAndScroll(e.target as HTMLTextAreaElement);
+            }}
           />
           <div
             className={c(
