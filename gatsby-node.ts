@@ -3,8 +3,12 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
-import { type EducationZoneViewModel } from 'models/view-models';
+import {
+  type HomeViewModel,
+  type EducationZoneViewModel,
+} from 'models/view-models';
 import { type PermanentDocumentDto } from 'api-4markdown-contracts';
+import { createInitialCode } from './create-initial-code';
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,
@@ -25,6 +29,14 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     functions,
     `getPermanentDocuments`,
   )();
+
+  actions.createPage<HomeViewModel>({
+    path: meta.routes.home,
+    component: path.resolve(`./src/dynamic-pages/home.page.tsx`),
+    context: {
+      initialCode: createInitialCode(),
+    },
+  });
 
   docs.forEach((doc) => {
     actions.createPage({
