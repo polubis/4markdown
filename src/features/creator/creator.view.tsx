@@ -14,7 +14,8 @@ import { useDocManagementStore } from 'store/doc-management/doc-management.store
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
-import { useLsSync } from './utils/use-ls-sync';
+import { meta } from '../../../meta';
+import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -23,7 +24,7 @@ const CreatorErrorModalContainer = React.lazy(
 type DivideMode = 'both' | 'preview' | 'code';
 
 const CreatorView: React.FC = () => {
-  useLsSync();
+  useCreatorLocalStorageSync();
 
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
@@ -96,6 +97,15 @@ const CreatorView: React.FC = () => {
     }, 750);
   };
 
+  const openNewWindow = (): void => {
+    setDivideMode(`code`);
+    window.open(
+      meta.routes.creator.preview,
+      `_blank`,
+      `width=${screen.availWidth},height=${screen.availHeight}`,
+    );
+  };
+
   React.useEffect(() => {
     const creatorField = creatorRef.current;
 
@@ -139,13 +149,7 @@ const CreatorView: React.FC = () => {
             title="Open in separate window"
             i={1}
             s={2}
-            onClick={() => {
-              window.open(
-                window.location.href,
-                `_blank`,
-                `width=${screen.availWidth},height=${screen.availHeight}`,
-              );
-            }}
+            onClick={openNewWindow}
           >
             <BiWindows />
           </Button>
