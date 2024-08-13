@@ -18,6 +18,9 @@ export const meta = {
   ytVideoTutorialUrl: `https://www.youtube.com/watch?v=t3Ve0em65rY`,
   mdCheatsheet: `https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet`,
   routes: {
+    creator: {
+      preview: `/creator-preview/`,
+    },
     home: `/`,
     docs: {
       preview: `/document-preview/`,
