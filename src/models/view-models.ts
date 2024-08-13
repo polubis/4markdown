@@ -15,4 +15,8 @@ type EducationZoneViewModel = {
   >[];
 };
 
-export type { EducationZoneViewModel };
+type HomeViewModel = {
+  initialCode: string;
+};
+
+export type { EducationZoneViewModel, HomeViewModel };
