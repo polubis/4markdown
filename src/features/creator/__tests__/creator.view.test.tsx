@@ -9,7 +9,6 @@ import { storeFixture } from 'development-kit/store-fixture';
 describe(`Creator view works when: `, () => {
   it(`during typing in creator tabs are replaced with 4 spaces`, async () => {
     const creatorStore = storeFixture(useCreatorStore, {
-      is: `ready`,
       initialCode: ``,
       code: ``,
       changed: false,

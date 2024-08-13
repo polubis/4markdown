@@ -159,7 +159,7 @@ const useAuth = () => {
           reloadDocs,
           getYourProfile,
           createDoc: async (name) => {
-            const { code } = creatorStoreSelectors.ready();
+            const { code } = creatorStoreSelectors.state();
 
             try {
               docManagementStoreActions.busy();
@@ -180,7 +180,7 @@ const useAuth = () => {
           getYourInfo,
           updateDocumentCode: async () => {
             const doc = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
+            const { code } = creatorStoreSelectors.state();
 
             const newDoc = {
               ...doc,
@@ -209,7 +209,7 @@ const useAuth = () => {
           },
           makeDocPrivate: async () => {
             const { id, name, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
+            const { code } = creatorStoreSelectors.state();
 
             await updateDoc({
               id,
@@ -221,7 +221,7 @@ const useAuth = () => {
           },
           makeDocPublic: async () => {
             const { id, name, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
+            const { code } = creatorStoreSelectors.state();
 
             await updateDoc({
               id,
@@ -233,7 +233,7 @@ const useAuth = () => {
           },
           makeDocPermanent: async (name, description, tags) => {
             const { id, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
+            const { code } = creatorStoreSelectors.state();
 
             await updateDoc({
               mdate,
@@ -247,7 +247,7 @@ const useAuth = () => {
           },
           updateDocName: async (name) => {
             const doc = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
+            const { code } = creatorStoreSelectors.state();
 
             if (doc.visibility === `private`) {
               return await updateDoc({

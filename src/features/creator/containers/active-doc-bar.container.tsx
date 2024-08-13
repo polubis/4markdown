@@ -33,7 +33,7 @@ const ActiveDocBarContainer = () => {
   const docStore = docStoreSelectors.useActive();
   const docsStore = useDocsStore();
   const authStore = useAuthStore();
-  const creatorStore = creatorStoreSelectors.useReady();
+  const creatorStore = creatorStoreSelectors.useState();
   const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
     useForm({ name: docStore.name }, getSchema(docStore));
   const edition = useToggle();
