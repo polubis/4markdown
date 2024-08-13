@@ -12,7 +12,7 @@ const useDocsStore = create<DocsStoreState>(() => ({
 
 const { setState } = useDocsStore;
 
-const set = (state: DocsStoreState): void => {
+const set = (state: DocsStoreState) => {
   setState(state, true);
 };
 

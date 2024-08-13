@@ -18,7 +18,7 @@ const useDocStore = create<DocStoreState>(() => ({
 
 const { setState } = useDocStore;
 
-const set = (state: DocStoreState): void => {
+const set = (state: DocStoreState) => {
   setState(state, true);
 };
 
@@ -34,7 +34,7 @@ const docStoreSelectors = {
 };
 
 const docStoreActions = {
-  setActive: (doc: DocumentDto): void => {
+  setActive: (doc: DocumentDto) => {
     const newState: DocStoreActiveState = {
       is: `active`,
       ...doc,
@@ -43,9 +43,7 @@ const docStoreActions = {
     creatorStoreActions.change(doc.code);
     creatorStoreActions.asUnchanged();
   },
-  reset: (): void => {
-    set({ is: `idle` });
-  },
+  reset: () => set({ is: `idle` }),
 };
 
 export type { DocStoreState, DocStoreActiveState };
