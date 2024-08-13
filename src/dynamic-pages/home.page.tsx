@@ -3,27 +3,16 @@ import { type HeadFC } from 'gatsby';
 import CreatorView from 'features/creator/creator.view';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import {
-  createInitialCode,
-  useCreatorStore,
-} from 'store/creator/creator.store';
 import { meta } from '../../meta';
+import type { HomeViewModel } from 'models/view-models';
+import { creatorStoreActions } from 'store/creator/creator.store';
 
-const HomePage = () => {
-  const synced = React.useRef(false);
+interface HomePageProps {
+  pageContext: HomeViewModel;
+}
 
-  if (!synced.current) {
-    const code = createInitialCode();
-
-    useCreatorStore.setState({
-      is: `ready`,
-      initialCode: code,
-      code,
-      changed: false,
-    });
-
-    synced.current = true;
-  }
+const HomePage = ({ pageContext: { initialCode } }: HomePageProps) => {
+  creatorStoreActions.hydrate(initialCode);
 
   return <CreatorView />;
 };
