@@ -27,9 +27,7 @@ const docsStoreSelectors = {
 };
 
 const docsStoreActions = {
-  idle: () => {
-    set({ is: `idle` });
-  },
+  idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
   ok: (docs: DocumentDto[]) => set({ is: `ok`, docs }),
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
@@ -63,7 +61,7 @@ const docsStoreActions = {
       docs: state.docs.filter((doc) => doc.id !== id),
     });
   },
-} as const;
+};
 
 export type { DocsStoreOkState };
 export { useDocsStore, docsStoreActions, docsStoreSelectors };
