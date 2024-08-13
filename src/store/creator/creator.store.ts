@@ -26,6 +26,7 @@ const isReadyState = (state: CreatorStoreState): CreatorStoreStateReady => {
 };
 
 const creatorStoreSelectors = {
+  useState: () => useCreatorStore(),
   state: get,
   useReady: () => useCreatorStore(isReadyState),
   ready: () => isReadyState(get()),
@@ -82,10 +83,7 @@ const creatorStoreActions = {
   sync: () => {
     const state = localStorage.getItem(CREATOR_STORE_LS_KEY) as string | null;
 
-    if (state === null) {
-      set(creatorStoreSelectors.ready());
-      return;
-    }
+    if (state === null) return;
 
     set(JSON.parse(state) as CreatorStoreStateReady);
   },

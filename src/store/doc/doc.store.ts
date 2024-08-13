@@ -17,16 +17,13 @@ const useDocStore = create<DocStoreState>(() => ({
 }));
 
 const { setState } = useDocStore;
-const DOC_STORE_LS_KEY = `doc`;
 
-const set = (state: DocStoreState): void => {
+const set = (state: DocStoreState) => {
   setState(state, true);
 };
 
 const getActiveState = (state: DocStoreState): DocStoreActiveState => {
-  if (state.is === `idle`) {
-    throw Error(`Tried to read in not allowed state`);
-  }
+  if (state.is === `idle`) throw Error(`Tried to read in not allowed state`);
 
   return state;
 };
@@ -34,10 +31,10 @@ const getActiveState = (state: DocStoreState): DocStoreActiveState => {
 const docStoreSelectors = {
   active: () => getActiveState(useDocStore.getState()),
   useActive: () => useDocStore(getActiveState),
-} as const;
+};
 
 const docStoreActions = {
-  setActive: (doc: DocumentDto): void => {
+  setActive: (doc: DocumentDto) => {
     const newState: DocStoreActiveState = {
       is: `active`,
       ...doc,
@@ -45,23 +42,9 @@ const docStoreActions = {
     set(newState);
     creatorStoreActions.change(doc.code);
     creatorStoreActions.asUnchanged();
-    localStorage.setItem(DOC_STORE_LS_KEY, JSON.stringify(newState));
   },
-  sync: (): void => {
-    const state = localStorage.getItem(DOC_STORE_LS_KEY) as string | null;
-
-    if (state === null) {
-      docStoreActions.reset();
-      return;
-    }
-
-    set(JSON.parse(state) as DocStoreState);
-  },
-  reset: (): void => {
-    set({ is: `idle` });
-    localStorage.removeItem(DOC_STORE_LS_KEY);
-  },
-} as const;
+  reset: () => set({ is: `idle` }),
+};
 
 export type { DocStoreState, DocStoreActiveState };
-export { useDocStore, docStoreActions, DOC_STORE_LS_KEY, docStoreSelectors };
+export { useDocStore, docStoreActions, docStoreSelectors };
