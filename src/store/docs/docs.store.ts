@@ -17,14 +17,10 @@ const set = (state: DocsStoreState): void => {
 };
 
 const getOkState = (state: DocsStoreState): DocsStoreOkState => {
-  if (state.is !== `ok`) {
-    throw Error(`Tried to read state when not allowed`);
-  }
+  if (state.is !== `ok`) throw Error(`Tried to read state when not allowed`);
 
   return state;
 };
-
-const DOCS_STORE_LS_KEY = `docs`;
 
 const docsStoreSelectors = {
   ok: () => getOkState(useDocsStore.getState()),
@@ -33,29 +29,14 @@ const docsStoreSelectors = {
 const docsStoreActions = {
   idle: () => {
     set({ is: `idle` });
-    localStorage.removeItem(DOCS_STORE_LS_KEY);
   },
   busy: () => set({ is: `busy` }),
-  ok: (docs: DocumentDto[]) => {
-    const newState: DocsStoreOkState = { is: `ok`, docs };
-
-    set(newState);
-    localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
-  },
+  ok: (docs: DocumentDto[]) => set({ is: `ok`, docs }),
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
-  sync: () => {
-    const state = localStorage.getItem(DOCS_STORE_LS_KEY) as string | null;
-
-    if (state === null) {
-      docsStoreActions.idle();
-      return;
-    }
-
-    set(JSON.parse(state) as DocsStoreOkState);
-  },
   updateDoc: (doc: DocumentDto) => {
     const state = docsStoreSelectors.ok();
-    const newState: DocsStoreOkState = {
+
+    set({
       ...state,
       docs: state.docs
         .map((d) => (d.id === doc.id ? doc : d))
@@ -64,34 +45,25 @@ const docsStoreActions = {
           if (prev.mdate === curr.mdate) return 0;
           return 1;
         }),
-    };
-    set(newState);
-    localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
+    });
   },
   addDoc: (doc: DocumentDto) => {
     const state = docsStoreSelectors.ok();
-    const newState: DocsStoreOkState = {
+
+    set({
       ...state,
       docs: [doc, ...state.docs],
-    };
-    set(newState);
-    localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
+    });
   },
   deleteDoc: (id: DocumentDto['id']) => {
     const state = docsStoreSelectors.ok();
-    const newState: DocsStoreOkState = {
+
+    set({
       ...state,
       docs: state.docs.filter((doc) => doc.id !== id),
-    };
-    set(newState);
-    localStorage.setItem(DOCS_STORE_LS_KEY, JSON.stringify(newState));
+    });
   },
 } as const;
 
 export type { DocsStoreOkState };
-export {
-  useDocsStore,
-  docsStoreActions,
-  DOCS_STORE_LS_KEY,
-  docsStoreSelectors,
-};
+export { useDocsStore, docsStoreActions, docsStoreSelectors };
