@@ -90,7 +90,6 @@
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "gatsby-cypress": "^3.12.0",
     "gatsby-plugin-postcss": "^6.12.0",
     "gatsby-plugin-robots-txt": "^1.8.0",
     "gatsby-plugin-root-import": "^2.0.9",
