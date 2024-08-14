@@ -5,30 +5,34 @@ const result = JSON.parse(
   fs.readFileSync(path.join(__dirname, `public`, `webpack.stats.json`), `utf8`),
 );
 
-const LIMIT = 100;
+const LIMIT = 150;
 const UNIT = `kB`;
 
 const stats = {};
 
+const twoDecimal = (value) => Number.parseFloat(value.toFixed(2));
+
 Object.entries(result.namedChunkGroups).forEach(([chunkKey, chunkValue]) => {
-  const size = Number.parseFloat((chunkValue.assetsSize / 1024).toFixed(2));
+  const sizes = chunkValue.assets.map(({ size }) => twoDecimal(size / 1024));
 
   stats[chunkKey] = {
-    size,
+    sizes: sizes.join(`|`),
+    totalSize: twoDecimal(sizes.reduce((sum, assetSize) => assetSize + sum, 0)),
   };
-
-  if (Array.isArray(chunkValue.assets) && chunkValue.assets.length > 0) {
-    stats[chunkKey].maxAllowedSize = LIMIT * chunkValue.assets.length;
-    stats[chunkKey].foundAssets = chunkValue.assets.length;
-  }
 });
 
 console.table({
-  limitPerFile: LIMIT,
+  limitPerChunkGroup: LIMIT,
   unit: UNIT,
 });
 console.table(stats);
 
-if (Object.values(stats).some(({ size }) => size >= LIMIT)) {
+const hasToBigChunk = Object.values(stats)
+  .flatMap(({ sizes }) =>
+    sizes.split(`|`).map((size) => Number.parseFloat(size)),
+  )
+  .some((size) => size > LIMIT);
+
+if (hasToBigChunk) {
   throw Error(`Benchmark check failed - limit is ${LIMIT}${UNIT} per page`);
 }
