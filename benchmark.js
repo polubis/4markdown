@@ -20,7 +20,6 @@ try {
   Object.entries(result.namedChunkGroups).forEach(([chunkKey, chunkValue]) => {
     const size = Number.parseFloat((chunkValue.assetsSize / 1024).toFixed(2));
     const oldSize = Number.parseFloat(currentStats[chunkKey]?.size);
-    console.log(oldSize);
 
     stats[chunkKey] = {
       unit: `kB`,
