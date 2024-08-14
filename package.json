@@ -31,7 +31,8 @@
     "test:e2e-run-dev": "start-server-and-test develop http://localhost:8000 cy:run-dev",
     "test:e2e-run-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
-    "lint:ci": "npm run lint"
+    "lint:ci": "npm run lint",
+    "benchmark": "node benchmark.js"
   },
   "dependencies": {
     "@mdx-js/react": "^2.3.0",
