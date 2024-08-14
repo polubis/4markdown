@@ -1,0 +1,34 @@
+{
+  "app": {
+    "unit": "kB",
+    "size": 29.27
+  },
+  "component---src-dynamic-pages-document-page-tsx": {
+    "unit": "kB",
+    "size": 79.91
+  },
+  "component---src-dynamic-pages-education-zone-page-tsx": {
+    "unit": "kB",
+    "size": 52.36
+  },
+  "component---src-dynamic-pages-home-page-tsx": {
+    "unit": "kB",
+    "size": 77.31
+  },
+  "component---src-pages-404-tsx": {
+    "unit": "kB",
+    "size": 40.49
+  },
+  "component---src-pages-creator-preview-tsx": {
+    "unit": "kB",
+    "size": 60.71
+  },
+  "component---src-pages-document-preview-tsx": {
+    "unit": "kB",
+    "size": 81.12
+  },
+  "component---src-pages-privacy-policy-tsx": {
+    "unit": "kB",
+    "size": 75.48
+  }
+}
