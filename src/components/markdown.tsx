@@ -2,7 +2,6 @@ import React, { type ReactNode } from 'react';
 import type { MarkdownToJSX } from 'markdown-to-jsx';
 import Md from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
-import type { Components } from '@mdx-js/react/lib';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
@@ -74,7 +73,7 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
+const OPTIONS: MarkdownToJSX.Options = {
   disableParsingRawHTML: true,
   overrides: {
     h1: ({ children }) => (
