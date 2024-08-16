@@ -17,8 +17,6 @@
     "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
     "lint:fix": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --fix",
     "typecheck": "tsc --noEmit",
-    "prepare:husky": "husky install",
-    "postinstall": "npm run prepare:husky",
     "test": "jest",
     "test:watch": "jest --watch",
     "cy:open-dev": "cypress open --browser chrome --e2e --config baseUrl=http://localhost:8000",
