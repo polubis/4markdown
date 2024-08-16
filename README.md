@@ -39,7 +39,7 @@ Make sure you have the following versions installed:
 - `node 18.18.0`
 - `npm 8.11.0`
 
-Once you have the required versions, execute `npm i --legacy-peer-deps`.
+Once you have the required versions, execute `npm i`.
 
 Before diving into **development**, you'll need to populate the `.env.development` file with necessary variables to facilitate project functionality:
 

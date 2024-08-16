@@ -16,7 +16,7 @@
 #         uses: actions/setup-node@v2
 
 #       - name: Install Dependencies
-#         run: npm install --legacy-peer-deps
+#         run: npm install
 #       - name: Run e2e
 #         env: 
 #           GATSBY_API_URL: ${{ secrets.GATSBY_API_URL }}

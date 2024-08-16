@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Install Dependencies
-        run: npm install --legacy-peer-deps
+        run: npm install
 
       - name: Run Type Checking
         run: npm run typecheck
