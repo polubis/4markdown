@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
 import './src/style/index.css';
 import ErrorBoundary from './src/development-kit/error-boundary';

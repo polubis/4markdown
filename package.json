@@ -14,7 +14,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "lint": "eslint",
-    "format": "prettier --write",
+    "format": "prettier --ignore-path .gitignore \"*.+(ts|js|tsx|mjs)\" --write",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest",
