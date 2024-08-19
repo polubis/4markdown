@@ -26,6 +26,13 @@ console.table({
   unit: UNIT,
 });
 console.table(stats);
+console.table({
+  sum: twoDecimal(
+    Object.values(stats)
+      .flatMap(({ totalSize }) => totalSize)
+      .reduce((sum, size) => sum + size, 0),
+  ),
+});
 
 const hasToBigChunk = Object.values(stats)
   .flatMap(({ sizes }) =>
