@@ -47,10 +47,11 @@ jobs:
         run: npm install -g @unlighthouse/cli puppeteer
 
       - name: Run Unlighthouse CI
-        run: unlighthouse-ci --site "http://localhost:9000"
+        run: unlighthouse-ci --site="http://localhost:9000" --config='{"ci":{"budget":{"performance":90,"accessibility":90,"best-practices":90,"seo":90}},"reporter":"jsonExpanded","scanner":{"device":"mobile"}}'
 
       - name: Read Lighthouse Result
         run: cat ./.unlighthouse/ci-result.json
 
       - name: Terminate Serve Process
         run: pkill -f "npm run serve"
+
