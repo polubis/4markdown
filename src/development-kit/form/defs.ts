@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export type ValidatorResult<Identifier extends string> = Identifier | null;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+ 
 export type ValuesBase = Record<string | number, any>;
 
 export type ValidatorFn<Value, Result extends string> = (

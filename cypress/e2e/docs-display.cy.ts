@@ -1,4 +1,4 @@
-/* eslint-disable no-template-curly-in-string */
+ 
 import type {
   PublicDocumentDto,
   UserProfileDto,

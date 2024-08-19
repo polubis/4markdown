@@ -1,4 +1,4 @@
-/* eslint-disable no-template-curly-in-string */
+ 
 import type { DocumentDto } from 'api-4markdown-contracts';
 import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
