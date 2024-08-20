@@ -25,7 +25,10 @@ jobs:
           if [ -z "$OUTDATED_DEPS" ]; then
             echo "No outdated dependencies found."
           else
-            OUTDATED_COUNT=$(echo "$OUTDATED_DEPS" | grep -c '^')
+            echo "Outdated dependencies found:"
+            echo "$OUTDATED_DEPS"
+
+            OUTDATED_COUNT=$(grep -c '^' <<< "$OUTDATED_DEPS")
 
             if [ "$OUTDATED_COUNT" -ge 10 ]; then
               echo "Error: There are $OUTDATED_COUNT outdated dependencies, which is too many. Update some of them in separate PR"
