@@ -22,7 +22,7 @@ jobs:
         run: |
           ncu > ncu-output.txt
           cat ncu-output.txt
-          if grep -q "Major" ncu-output.txt || grep -q "Minor" ncu-output.txt || grep -q "Patch" ncu-output.txt; then
+          if grep -q -E "Major|Minor|Patch" ncu-output.txt; then
             echo "Outdated dependencies found"
             exit 1
           else
