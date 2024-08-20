@@ -1,11 +1,11 @@
-name: Check for Outdated Dependencies
+name: Check For Outdated Dependencies
 
 on:
   pull_request:
     branches: ['develop']
 
 jobs:
-  check-outdated-deps:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +18,7 @@ jobs:
       - name: Install npm-check-updates
         run: npm install -g npm-check-updates
 
-      - name: Check outdated dependencies with ncu
+      - name: Check
         run: |
           OUTDATED_DEPS=$(ncu)
 
@@ -27,5 +27,14 @@ jobs:
           else
             echo "Outdated dependencies found:"
             echo "$OUTDATED_DEPS"
+
+            # Count the number of outdated dependencies
+            OUTDATED_COUNT=$(echo "$OUTDATED_DEPS" | grep -c '^')
+
+            if [ "$OUTDATED_COUNT" -ge 10 ]; then
+              echo "Error: There are $OUTDATED_COUNT outdated dependencies, which is too many. Update some of them in separate PR"
+              exit 1
+            fi
+
             echo "$OUTDATED_DEPS" > outdated-deps.txt
           fi
