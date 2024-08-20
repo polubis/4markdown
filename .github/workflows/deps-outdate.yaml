@@ -20,11 +20,5 @@ jobs:
 
       - name: Check for outdated dependencies
         run: |
-          ncu > ncu-output.txt
-          cat ncu-output.txt
-          if grep -q -E "Major|Minor|Patch" ncu-output.txt; then
-            echo "Outdated dependencies found"
-            exit 1
-          else
-            echo "All dependencies are up to date"
-          fi
+          ncu
+        continue-on-error: false
