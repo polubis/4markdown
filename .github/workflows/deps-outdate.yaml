@@ -1,32 +1,30 @@
-name: Outdated Dependencies
+name: Check Outdated Packages
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
-    branches: ['develop']
 
 jobs:
-  check:
+  check-outdated-packages:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
 
-      - name: Check for Outdated Dependencies
-        id: npm_outdated
+      - name: Check for outdated packages
         run: |
-          npm outdated --json > outdated.json
-          MAJOR_UPDATES=$(jq -r 'to_entries[] | select(.value.latest | split(".")[0] | tonumber > .value.current | split(".")[0] | tonumber) | .key' outdated.json)
-          if [ -n "$MAJOR_UPDATES" ]; then
-            echo "Breaking changes detected in the following dependencies: $MAJOR_UPDATES"
+          OUTDATED=$(npm outdated --json)
+          echo $OUTDATED | jq .
+          if [ "$OUTDATED" != "{}" ]; then
+            echo "Error: Some packages are outdated."
             exit 1
+          else
+            echo "All packages are up to date."
           fi
-
-      - name: Handle Breaking Changes
-        if: ${{ steps.npm_outdated.outcome == 'failure' }}
-        run: |
-          echo "Breaking changes detected. Please update the dependencies in a separate branch."
-          exit 1
+        shell: bash
