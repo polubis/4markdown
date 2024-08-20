@@ -17,9 +17,7 @@ jobs:
 
       - name: Log All Vulnerabilities
         run: |
-          echo "Running full npm audit to log all vulnerabilities..."
-          npm audit --json > audit-report.json
-          cat audit-report.json
+          npm audit
 
       - name: Audit for Critical Vulnerabilities
         run: npm audit --audit-level=critical
