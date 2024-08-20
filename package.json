@@ -14,7 +14,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
-    "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
+    "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx|json)\" --write",
     "lint:fix": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --fix",
     "typecheck": "tsc --noEmit",
     "test": "jest",
