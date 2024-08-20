@@ -20,7 +20,7 @@ jobs:
 
       - name: Check outdated dependencies with ncu
         run: |
-          ncu --json > outdated-deps.json || true
+          ncu --jsonAll > outdated-deps.json || true
 
           OUTDATED_DEPS=$(cat outdated-deps.json)
 
