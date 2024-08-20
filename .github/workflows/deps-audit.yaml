@@ -15,18 +15,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
 
-      - name: Log All Vulnerabilities
-        run: |
-          npm audit
+      - name: Audit
+        run: npm audit --audit-level=low
         continue-on-error: true
 
-      - name: Audit for Critical Vulnerabilities
-        run: npm audit --audit-level=high
-        continue-on-error: true
-
-      - name: Check for Critical Vulnerabilities
+      - name: Check
         run: |
-          critical_count=$(npm audit --audit-level=critical --json | jq '.metadata.vulnerabilities.critical')
+          critical_count=$(npm audit --audit-level=hight --json | jq '.metadata.vulnerabilities.critical')
 
           if [ "$critical_count" -gt 0 ]; then
             echo "::error::Critical vulnerabilities detected: $critical_count vulnerabilities found."
