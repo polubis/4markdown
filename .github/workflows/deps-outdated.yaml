@@ -1,4 +1,4 @@
-name: Check for Outdated Dependencies
+name: Outdated Dependencies Check
 
 on:
   pull_request:
@@ -15,9 +15,12 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
 
-      - name: Check outdated dependencies
+      - name: Install npm-check-updates
+        run: npm i -g npm-check-updates
+
+      - name: Check outdated dependencies with ncu
         run: |
-          npm outdated --json > outdated-deps.json || true
+          ncu --json > outdated-deps.json || true
 
           OUTDATED_DEPS=$(cat outdated-deps.json)
 
