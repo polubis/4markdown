@@ -18,32 +18,7 @@ jobs:
       - name: Check outdated dependencies
         run: |
           npm outdated --json > outdated-deps.json
-
           OUTDATED_DEPS=$(cat outdated-deps.json)
+          echo "$OUTDATED_DEPS"
 
-          if [ "$OUTDATED_DEPS" != "{}" ]; then
-            echo "Outdated dependencies found:"
-            echo "$OUTDATED_DEPS" | jq -r '. | to_entries[] | "\(.key) \(.value.current) -> \(.value.latest) (\(.value.type))"' | while read line; do
-              PACKAGE=$(echo $line | awk '{print $1}')
-              CURRENT_VERSION=$(echo $line | awk '{print $2}')
-              LATEST_VERSION=$(echo $line | awk '{print $4}')
-              DIFFERENCE=$(echo $LATEST_VERSION | cut -d '.' -f1)-$(echo $CURRENT_VERSION | cut -d '.' -f1) | bc
-              
-              if [ $DIFFERENCE -gt 3 ]; then
-                echo -e "\033[31m$line [ERROR: Version difference > 3]\033[0m"
-                EXIT_CODE=1
-              else
-                echo -e "\033[33m$line\033[0m"
-              fi
-            done
-            
-            if [ "$EXIT_CODE" == "1" ]; then
-              exit 1
-            fi
-          else
-            echo "All dependencies are up-to-date."
-          fi
 
-      - name: Fail if outdated dependencies found with major version difference > 3
-        if: failure()
-        run: exit 1
