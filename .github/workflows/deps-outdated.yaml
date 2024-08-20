@@ -5,7 +5,7 @@ on:
     branches: ['develop']
 
 jobs:
-  check-outdated-deps:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,10 +15,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
 
-      - name: Install npm-check-updates
-        run: npm install -g npm-check-updates
+      - name: Install
+        run: npm i -g npm-check-updates
 
-      - name: Check outdated dependencies with ncu
+      - name: Check
         run: |
           OUTDATED_DEPS=$(ncu)
 
@@ -34,7 +34,7 @@ jobs:
             echo "$OUTDATED_COUNT"
 
             if [ "$OUTDATED_COUNT" -ge 10 ]; then
-              echo "Error: There are $OUTDATED_COUNT outdated dependencies, which is too many."
+              echo "Error: There are $OUTDATED_COUNT outdated dependencies, which is too many. Raise a separate PR to fix it."
               exit 1
             fi
           fi
