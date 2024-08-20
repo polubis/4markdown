@@ -1,4 +1,4 @@
-name: Check Outdated Packages
+name: Check Outdated Dependencies
 
 on:
   pull_request:
@@ -9,30 +9,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
 
-      - name: Check for outdated packages
-        id: check_outdated
-        run: |
-          OUTDATED=$(npm outdated --json)
-          echo $OUTDATED | jq . > outdated-packages.json
-          echo "::set-output name=outdated::$OUTDATED"
+      - name: Install npm-check-updates
+        run: npm install -g npm-check-updates
 
-      - name: Log outdated packages
-        if: ${{ steps.check_outdated.outputs.outdated != '{}' }}
+      - name: Check for outdated dependencies
         run: |
-          echo "Outdated packages found:"
-          cat outdated-packages.json
-
-      - name: Fail if outdated packages found
-        run: |
-          if [ "${{ steps.check_outdated.outputs.outdated }}" != "{}" ]; then
-            echo "Error: Some packages are outdated."
+          ncu > ncu-output.txt
+          cat ncu-output.txt
+          if grep -q "Major" ncu-output.txt || grep -q "Minor" ncu-output.txt || grep -q "Patch" ncu-output.txt; then
+            echo "Outdated dependencies found"
             exit 1
           else
-            echo "All packages are up to date."
+            echo "All dependencies are up to date"
           fi
