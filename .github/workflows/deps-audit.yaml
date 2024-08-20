@@ -19,11 +19,25 @@ jobs:
         run: npm audit --audit-level=low
         continue-on-error: true
 
-      - name: Check for Vulnerabilities and Show Warning
+      - name: Check for Critical Vulnerabilities and Handle Ignored List
         run: |
-          vulnerabilities=$(npm audit --audit-level=low --json | jq '.metadata.vulnerabilities.total')
-          if [ "$vulnerabilities" -gt 0 ]; then
-            echo "::warning::Vulnerabilities detected: $vulnerabilities vulnerabilities found."
+          # Define the vulnerabilities to ignore
+          IGNORE_LIST=( "CVE-XXXX-XXXX" "CVE-YYYY-YYYY" )
+
+          # Run npm audit and filter the report
+          critical_vulnerabilities=$(npm audit --audit-level=critical --json | jq '[.advisories[] | select(.severity == "critical")]')
+
+          # Filter out ignored vulnerabilities
+          for ignore in "${IGNORE_LIST[@]}"; do
+            critical_vulnerabilities=$(echo $critical_vulnerabilities | jq "del(.[] | select(.cves[] | contains(\"$ignore\")))")
+          done
+
+          # Check if any critical vulnerabilities remain
+          critical_count=$(echo $critical_vulnerabilities | jq 'length')
+
+          if [ "$critical_count" -gt 0 ]; then
+            echo "::error::Critical vulnerabilities detected: $critical_count vulnerabilities found."
+            exit 1
           else
-            echo "No vulnerabilities detected."
+            echo "No critical vulnerabilities detected, or all critical vulnerabilities are ignored."
           fi
