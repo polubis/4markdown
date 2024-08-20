@@ -15,24 +15,18 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
 
-      - name: Install npm-check-updates
-        run: npm install -g npm-check-updates
-
-      - name: Log All Dependencies
-        run: ncu
-
-      - name: Check for Breaking Changes
-        id: ncu_check
+      - name: Check for Outdated Dependencies
+        id: npm_outdated
         run: |
-          ncu --jsonUpgraded > ncu-result.json
-          MAJOR_UPDATES=$(jq 'to_entries[] | select(.value | contains("major")) | .key' ncu-result.json)
+          npm outdated --json > outdated.json
+          MAJOR_UPDATES=$(jq -r 'to_entries[] | select(.value.latest | split(".")[0] | tonumber > .value.current | split(".")[0] | tonumber) | .key' outdated.json)
           if [ -n "$MAJOR_UPDATES" ]; then
             echo "Breaking changes detected in the following dependencies: $MAJOR_UPDATES"
             exit 1
           fi
 
       - name: Handle Breaking Changes
-        if: ${{ steps.ncu_check.outcome == 'failure' }}
+        if: ${{ steps.npm_outdated.outcome == 'failure' }}
         run: |
           echo "Breaking changes detected. Please update the dependencies in a separate branch."
           exit 1

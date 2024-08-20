@@ -21,8 +21,7 @@ jobs:
 
       - name: Vulnerabilities Spotted Out
         run: |
-          VULNERABLE_PACKAGES=$(npm audit --json | jq -r '.advisories | to_entries[] | .value.module_name' | sort -u | paste -sd "," -)
           if [ $(npm audit --audit-level=low --json | jq '.metadata.vulnerabilities.total') -gt 0 ]; then
-            echo "Vulnerabilities detected in the following packages: $VULNERABLE_PACKAGES"
+            echo "Vulnerabilities detected!"
             exit 1
           fi
