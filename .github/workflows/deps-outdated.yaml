@@ -25,8 +25,8 @@ jobs:
           if [ -z "$OUTDATED_DEPS" ]; then
             echo "No outdated dependencies found."
           else
-            # Count lines that contain a package name (start of each outdated dependency)
-            OUTDATED_COUNT=$(echo "$OUTDATED_DEPS" | grep -cE '^[a-zA-Z0-9_-]+')
+            # Count the number of occurrences of the "→" symbol
+            OUTDATED_COUNT=$(echo "$OUTDATED_DEPS" | grep -o '→' | wc -l)
 
             echo "Outdated dependencies found:"
             echo "$OUTDATED_DEPS"
