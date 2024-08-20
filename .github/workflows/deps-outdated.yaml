@@ -22,9 +22,6 @@ jobs:
         run: |
           OUTDATED_DEPS=$(ncu)
 
-          echo "Raw ncu output:"
-          echo "$OUTDATED_DEPS"
-
           if [ -z "$OUTDATED_DEPS" ]; then
             echo "No outdated dependencies found."
           else
@@ -40,6 +37,4 @@ jobs:
               echo "Error: There are $OUTDATED_COUNT outdated dependencies, which is too many."
               exit 1
             fi
-
-            echo "$OUTDATED_DEPS" > outdated-deps.txt
           fi
