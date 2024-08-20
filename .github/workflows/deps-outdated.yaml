@@ -1,4 +1,4 @@
-name: Check for Outdated Dependencies
+name: Check For Outdated Dependencies
 
 on:
   pull_request:
