@@ -20,13 +20,12 @@ jobs:
 
       - name: Check outdated dependencies with ncu
         run: |
-          ncu --json > outdated-deps.json
+          OUTDATED_DEPS=$(ncu)
 
-          OUTDATED_DEPS=$(cat outdated-deps.json)
-
-          if [ "$OUTDATED_DEPS" = "{}" ]; then
+          if [ -z "$OUTDATED_DEPS" ]; then
             echo "No outdated dependencies found."
           else
-            echo "Outdated dependencies:"
+            echo "Outdated dependencies found:"
             echo "$OUTDATED_DEPS"
+            echo "$OUTDATED_DEPS" > outdated-deps.txt
           fi
