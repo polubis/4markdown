@@ -25,10 +25,6 @@ jobs:
           if [ -z "$OUTDATED_DEPS" ]; then
             echo "No outdated dependencies found."
           else
-            echo "Outdated dependencies found:"
-            echo "$OUTDATED_DEPS"
-
-            # Count the number of outdated dependencies
             OUTDATED_COUNT=$(echo "$OUTDATED_DEPS" | grep -c '^')
 
             if [ "$OUTDATED_COUNT" -ge 10 ]; then
