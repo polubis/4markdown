@@ -16,12 +16,12 @@ jobs:
         uses: actions/setup-node@v2
 
       - name: Audit
-        run: npm audit --audit-level=low
+        run: npm audit
         continue-on-error: true
 
       - name: Check
         run: |
-          critical_count=$(npm audit --audit-level=hight --json | jq '.metadata.vulnerabilities.high')
+          critical_count=$(npm audit --audit-level=high --json | jq '.metadata.vulnerabilities.high')
 
           if [ "$critical_count" -gt 0 ]; then
             echo "::error::Critical vulnerabilities detected: $critical_count vulnerabilities found."
