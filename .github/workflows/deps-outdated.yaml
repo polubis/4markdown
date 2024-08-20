@@ -1,0 +1,40 @@
+name: Check For Outdated Dependencies
+
+on:
+  pull_request:
+    branches: ['develop']
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+
+      - name: Install
+        run: npm i -g npm-check-updates
+
+      - name: Check
+        run: |
+          OUTDATED_DEPS=$(ncu)
+
+          if [ -z "$OUTDATED_DEPS" ]; then
+            echo "No outdated dependencies found."
+          else
+            # Count the number of occurrences of the "→" symbol
+            OUTDATED_COUNT=$(echo "$OUTDATED_DEPS" | grep -o '→' | wc -l)
+
+            echo "Outdated dependencies found:"
+            echo "$OUTDATED_DEPS"
+            echo "Total:"
+            echo "$OUTDATED_COUNT"
+
+            if [ "$OUTDATED_COUNT" -ge 10 ]; then
+              echo "Error: There are $OUTDATED_COUNT outdated dependencies, which is too many. Raise a separate PR to fix it."
+              exit 1
+            fi
+          fi
