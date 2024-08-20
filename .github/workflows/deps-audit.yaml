@@ -21,7 +21,7 @@ jobs:
 
       - name: Check
         run: |
-          critical_count=$(npm audit --audit-level=hight --json | jq '.metadata.vulnerabilities.critical')
+          critical_count=$(npm audit --audit-level=hight --json | jq '.metadata.vulnerabilities.high')
 
           if [ "$critical_count" -gt 0 ]; then
             echo "::error::Critical vulnerabilities detected: $critical_count vulnerabilities found."
