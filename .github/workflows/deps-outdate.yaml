@@ -1,0 +1,34 @@
+name: Checking For Outdated Dependencies
+
+on:
+  pull_request:
+    branches: ['develop']
+
+jobs:
+  check-breaking-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+
+      - name: Install Dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Install npm-check-updates
+        run: npm install -g npm-check-updates
+
+      - name: Log All Dependencies
+        run: ncu
+
+      - name: Check for Breaking Changes
+        run: ncu --error-level 2
+
+      - name: Handle Breaking Changes
+        if: failure()
+        run: |
+          echo "Breaking changes detected in dependencies. Please update them in separate branch."
+          exit 1
