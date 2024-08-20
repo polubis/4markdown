@@ -17,13 +17,10 @@ jobs:
 
       - name: Check outdated dependencies
         run: |
-          # Run npm outdated and capture output
           npm outdated --json > outdated-deps.json || true
 
-          # Load the JSON content into a variable
-          OUTDATED_DEPS=$(cat outdated-deps.json) && echo "$OUTDATED_DEPS"
+          OUTDATED_DEPS=$(cat outdated-deps.json)
 
-          # Optional: Check if the JSON is empty (no outdated dependencies)
           if [ -z "$OUTDATED_DEPS" ]; then
             echo "No outdated dependencies found."
           else
