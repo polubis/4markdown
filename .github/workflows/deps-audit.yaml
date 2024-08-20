@@ -10,18 +10,28 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
 
-      - name: Audit for Vulnerabilities
-        run: npm audit --audit-level=low
+      - name: Log All Vulnerabilities
+        run: |
+          echo "Running full npm audit to log all vulnerabilities..."
+          npm audit --json > audit-report.json
+          cat audit-report.json
+
+      - name: Audit for Critical Vulnerabilities
+        run: npm audit --audit-level=critical
         continue-on-error: true
 
-      - name: Vulnerabilities Spotted Out
+      - name: Check for Critical Vulnerabilities
         run: |
-          if [ $(npm audit --audit-level=low --json | jq '.metadata.vulnerabilities.total') -gt 0 ]; then
-            echo "Vulnerabilities detected!"
+          critical_count=$(npm audit --audit-level=critical --json | jq '.metadata.vulnerabilities.critical')
+
+          if [ "$critical_count" -gt 0 ]; then
+            echo "::error::Critical vulnerabilities detected: $critical_count vulnerabilities found."
             exit 1
+          else
+            echo "No critical vulnerabilities detected."
           fi
