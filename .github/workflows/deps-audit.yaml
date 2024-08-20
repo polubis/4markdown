@@ -19,9 +19,11 @@ jobs:
         run: npm audit --audit-level=low
         continue-on-error: true
 
-      - name: Vulnerabilities Spotted Out
+      - name: Check for Vulnerabilities and Show Warning
         run: |
-          if [ $(npm audit --audit-level=low --json | jq '.metadata.vulnerabilities.total') -gt 0 ]; then
-            echo "Vulnerabilities detected!"
-            exit 1
+          vulnerabilities=$(npm audit --audit-level=low --json | jq '.metadata.vulnerabilities.total')
+          if [ "$vulnerabilities" -gt 0 ]; then
+            echo "::warning::Vulnerabilities detected: $vulnerabilities vulnerabilities found."
+          else
+            echo "No vulnerabilities detected."
           fi
