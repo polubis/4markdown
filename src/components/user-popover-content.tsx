@@ -28,7 +28,7 @@ const DetailLoader = () => (
   </div>
 );
 
-const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
+const UserPopoverContent = ({ onClose }: UserPopoverContentProps) => {
   const docsStore = useDocsStore();
   const yourProfileStore = yourProfileStoreSelectors.useState();
   const userProfileForm = useToggle();
@@ -41,8 +41,6 @@ const UserPopoverContent: React.FC<UserPopoverContentProps> = ({ onClose }) => {
   const reloadYourProfile = React.useCallback((): void => {
     authStoreSelectors.authorized().getYourProfile();
   }, []);
-
-  React.useEffect(reloadYourProfile, [reloadYourProfile]);
 
   if (userProfileForm.opened) {
     return (
