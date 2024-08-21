@@ -1,4 +1,12 @@
-import React from 'react';
+import React, {
+  type ChangeEventHandler,
+  type KeyboardEventHandler,
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Markdown from 'components/markdown';
 import { BiBookContent, BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Button } from 'design-system/button';
@@ -17,20 +25,20 @@ import { CreatorNavigation } from './components/creator-navigation';
 import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
 
-const CreatorErrorModalContainer = React.lazy(
+const CreatorErrorModalContainer = lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
 
 type DivideMode = 'both' | 'preview' | 'code';
 
-const CreatorView: React.FC = () => {
+const CreatorView = () => {
   useCreatorLocalStorageSync();
 
   const docManagementStore = useDocManagementStore();
-  const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
+  const [divideMode, setDivideMode] = useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
-  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
-  const creatorRef = React.useRef<HTMLTextAreaElement>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const creatorRef = useRef<HTMLTextAreaElement>(null);
 
   const clearConfirm = useConfirm(() => creatorStoreActions.change(``));
   const resetConfirm = useConfirm(() =>
@@ -65,7 +73,7 @@ const CreatorView: React.FC = () => {
     setDivideMode(`both`);
   };
 
-  const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+  const maintainTabs: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     const target = e.target as HTMLTextAreaElement;
 
     loadAndScroll(target);
@@ -87,7 +95,7 @@ const CreatorView: React.FC = () => {
     target.selectionStart = target.selectionEnd = start + 1;
   };
 
-  const changeCode: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+  const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     const timeout = timeoutRef.current;
 
     timeout && clearTimeout(timeout);
@@ -106,7 +114,7 @@ const CreatorView: React.FC = () => {
     );
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const creatorField = creatorRef.current;
 
     if (creatorField) {
@@ -114,7 +122,7 @@ const CreatorView: React.FC = () => {
     }
   }, [code, divideMode]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timeout = timeoutRef.current;
 
     return () => {
@@ -125,9 +133,9 @@ const CreatorView: React.FC = () => {
   return (
     <>
       {docManagementStore.is === `fail` && (
-        <React.Suspense>
+        <Suspense>
           <CreatorErrorModalContainer />
-        </React.Suspense>
+        </Suspense>
       )}
       <main className="flex h-full md:flex-col flex-col-reverse">
         <CreatorNavigation>

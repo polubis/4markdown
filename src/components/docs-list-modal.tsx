@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import Modal from 'design-system/modal';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { BiLowVision, BiRefresh, BiShow, BiWorld, BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { docStoreActions, useDocStore } from 'store/doc/doc.store';
@@ -28,11 +28,9 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
   const docsStore = useDocsStore();
   const docStore = useDocStore();
   const authStore = authStoreSelectors.useAuthorized();
-  const [activeRange, setActiveRange] = React.useState<RangeFilter>(
-    rangeFilters[0],
-  );
+  const [activeRange, setActiveRange] = useState<RangeFilter>(rangeFilters[0]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     authStoreSelectors.authorized().getDocs();
   }, []);
 
@@ -47,7 +45,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     onClose?.();
   };
 
-  const docs = React.useMemo((): DocsStoreOkState['docs'] => {
+  const docs = useMemo((): DocsStoreOkState['docs'] => {
     if (docsStore.is !== `ok`) return [];
 
     const now = new Date();

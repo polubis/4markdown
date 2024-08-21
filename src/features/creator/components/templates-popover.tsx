@@ -1,14 +1,14 @@
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 
-const TemplatesPopoverContent = React.lazy(
+const TemplatesPopoverContent = lazy(
   () => import(`./templates-popover-content`),
 );
 
-const TemplatesPopover: React.FC = () => {
+const TemplatesPopover = () => {
   const menu = useToggle();
   const [copyState, copy] = useCopy();
 
@@ -27,9 +27,9 @@ const TemplatesPopover: React.FC = () => {
         )}
       </Button>
       {menu.opened && (
-        <React.Suspense>
+        <Suspense>
           <TemplatesPopoverContent onCopy={copyAndClose} onClose={menu.close} />
-        </React.Suspense>
+        </Suspense>
       )}
     </>
   );

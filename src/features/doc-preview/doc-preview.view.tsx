@@ -1,6 +1,6 @@
 import { DocumentLayout } from 'components/document-layout';
 import LoadingScreen from 'components/loading-screen';
-import React from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { useAuthStore } from 'store/auth/auth.store';
 import {
   docPreviewStoreActions,
@@ -14,12 +14,12 @@ import { useDocumentRateUpdate } from 'core/use-document-rate-update';
 import { DocumentRatingStatic } from 'components/document-rating-static';
 import { DocumentRatingContainer } from 'containers/document-rating.container';
 
-const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
+const ErrorScreen = lazy(() => import(`../../components/error-screen`));
 
 const useDocLoad = () => {
   const authStore = useAuthStore();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (authStore.is === `authorized` || authStore.is === `unauthorized`) {
       const searchParams = new URLSearchParams(window.location.search);
       docPreviewStoreActions.load({ id: searchParams.get(`id`) ?? `` });
@@ -62,9 +62,9 @@ const DocPreviewView = () => {
         <LoadingScreen />
       )}
       {docPreviewStore.is === `fail` && (
-        <React.Suspense fallback={<LoadingScreen />}>
+        <Suspense fallback={<LoadingScreen />}>
           <ErrorScreen />
-        </React.Suspense>
+        </Suspense>
       )}
       {docPreviewStore.is === `ok` && <DocumentContent />}
       <AppFooterContainer />

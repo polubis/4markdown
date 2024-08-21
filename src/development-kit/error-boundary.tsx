@@ -1,4 +1,8 @@
-import React, { type ReactNode, type FunctionComponent } from 'react';
+import React, {
+  type ReactNode,
+  type FunctionComponent,
+  Component,
+} from 'react';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -6,7 +10,7 @@ interface ErrorBoundaryProps {
   onError?(): void;
 }
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
+class ErrorBoundary extends Component<ErrorBoundaryProps> {
   state = { hasError: false } as const;
 
   static getDerivedStateFromError() {

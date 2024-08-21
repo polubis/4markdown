@@ -1,9 +1,9 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import { useToggle } from './use-toggle';
 
 const useConfirm = (action: () => void) => {
   const toggler = useToggle();
-  const timeout = React.useRef<null | any>(null);
+  const timeout = useRef<null | any>(null);
 
   const cleanTimeouts = (): void => {
     const t = timeout.current;
@@ -27,7 +27,7 @@ const useConfirm = (action: () => void) => {
     }, 4000);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       cleanTimeouts();
     };

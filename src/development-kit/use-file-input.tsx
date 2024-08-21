@@ -1,10 +1,16 @@
-import React from 'react';
+import {
+  type ChangeEventHandler,
+  type ChangeEvent,
+  useRef,
+  useCallback,
+  useEffect,
+} from 'react';
 
 interface UseFileInputConfig {
   accept?: string;
   multiple?: boolean;
   maxSize?: number;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange: ChangeEventHandler<HTMLInputElement>;
   onError?(): void;
 }
 
@@ -15,12 +21,12 @@ const useFileInput = ({
   onChange,
   onError,
 }: UseFileInputConfig) => {
-  const ref = React.useRef<HTMLInputElement | null>(null);
+  const ref = useRef<HTMLInputElement | null>(null);
 
-  const handleChange = React.useCallback(
+  const handleChange = useCallback(
     (e: Event): void => {
       const input = ref.current;
-      const event = e as unknown as React.ChangeEvent<HTMLInputElement>;
+      const event = e as unknown as ChangeEvent<HTMLInputElement>;
 
       if (input) {
         const { files } = event.target;
@@ -52,7 +58,7 @@ const useFileInput = ({
     [accept, maxSize, onError, onChange],
   );
 
-  const upload = React.useCallback((): void => {
+  const upload = useCallback((): void => {
     ref.current = document.createElement(`input`);
     const input = ref.current;
     input.type = `file`;
@@ -63,7 +69,7 @@ const useFileInput = ({
     input.click();
   }, [handleChange, multiple, accept]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const input = ref.current;
 
     return () => {

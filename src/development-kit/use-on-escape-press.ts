@@ -1,9 +1,9 @@
-import React from 'react';
+import { useEffect } from 'react';
 
 type EscapePressHandler = () => void;
 
 const useOnEscapePress = (handler?: EscapePressHandler): void => {
-  React.useEffect(() => {
+  useEffect(() => {
     if (!handler) return;
 
     const handleKeyDown = (event: KeyboardEvent): void => {

@@ -1,5 +1,5 @@
 import { Button } from 'design-system/button';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useToggle } from 'development-kit/use-toggle';
@@ -7,7 +7,7 @@ import { useDocsStore } from 'store/docs/docs.store';
 import { YourAvatarContainer } from '../containers/your-avatar.container';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
-const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
+const UserPopoverContent = lazy(() => import(`./user-popover-content`));
 
 const UserPopover = () => {
   const menu = useToggle();
@@ -47,9 +47,9 @@ const UserPopover = () => {
         )}
       </Button>
       {menu.opened && (
-        <React.Suspense>
+        <Suspense>
           <UserPopoverContent onClose={menu.close} />
-        </React.Suspense>
+        </Suspense>
       )}
     </>
   );

@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {
+  type DetailedHTMLProps,
+  type ButtonHTMLAttributes,
+  useMemo,
+} from 'react';
 import c from 'classnames';
 
 interface ButtonProps
-  extends React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
   s: 1 | 2 | 'auto';
@@ -12,7 +16,7 @@ interface ButtonProps
   rounded?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   className,
   children,
   s,
@@ -20,8 +24,8 @@ const Button: React.FC<ButtonProps> = ({
   rounded,
   auto,
   ...props
-}) => {
-  const classes = React.useMemo(() => {
+}: ButtonProps) => {
+  const classes = useMemo(() => {
     return c(
       className,
       `flex gap-1 justify-center items-center shrink-0 enabled:focus:outline dark:outline-2 outline-2.5 outline-black font-medium font-sans disabled:cursor-not-allowed dark:outline-white`,

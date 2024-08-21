@@ -1,4 +1,4 @@
-import React, { type ReactNode, type ReactPortal } from 'react';
+import { useMemo, type ReactNode, type ReactPortal } from 'react';
 import { createPortal } from 'react-dom';
 import { useIsomorphicLayoutEffect } from './use-isomorphic-layout-effect';
 import { isServer } from './ssr-csr';
@@ -10,7 +10,7 @@ type UsePortal = () => {
 };
 
 const usePortal: UsePortal = () => {
-  const wrapper = React.useMemo(
+  const wrapper = useMemo(
     () => (isServer() ? null : document.createElement(`div`)),
     [],
   );

@@ -1,4 +1,12 @@
-import React, { type ReactNode } from 'react';
+import React, {
+  type ReactElement,
+  type ReactNode,
+  type DetailedHTMLProps,
+  type HTMLAttributes,
+  useLayoutEffect,
+  useRef,
+} from 'react';
+
 import type { MarkdownToJSX } from 'markdown-to-jsx';
 import Md from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
@@ -9,10 +17,10 @@ import { useCopy } from 'development-kit/use-copy';
 
 const Code = ({
   children,
-}: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
-  const ref = React.useRef<HTMLElement | null>(null);
+}: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
+  const ref = useRef<HTMLElement | null>(null);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!ref.current) {
       throw Error(`Cannot highlight because there is a missing wrapper.`);
     }
@@ -29,10 +37,8 @@ const Code = ({
 
 const isReactElement = (
   node: unknown,
-): node is React.ReactElement<unknown, () => ReactNode> =>
-  typeof node === `object` &&
-  node !== null &&
-  !!(node as React.ReactElement).type;
+): node is ReactElement<unknown, () => ReactNode> =>
+  typeof node === `object` && node !== null && !!(node as ReactElement).type;
 
 const isDescribedImage = (nodes: ReactNode): boolean => {
   if (!Array.isArray(nodes)) {
@@ -53,7 +59,7 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   const [state, save] = useCopy();
 
   const copy = () => {
-    save((children as React.ReactElement<{ children: string }>).props.children);
+    save((children as ReactElement<{ children: string }>).props.children);
   };
 
   return (
@@ -142,7 +148,7 @@ interface MarkdownProps {
   children: string;
 }
 
-const Markdown: React.FC<MarkdownProps> = ({ children }) => {
+const Markdown = ({ children }: MarkdownProps) => {
   return (
     <div className="markdown">
       <Md options={OPTIONS as MarkdownToJSX.Options}>{children}</Md>

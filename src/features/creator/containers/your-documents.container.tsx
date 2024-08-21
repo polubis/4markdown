@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Button } from 'design-system/button';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { BiGridAlt } from 'react-icons/bi';
 import { useToggle } from 'development-kit/use-toggle';
 
-const DocsListModal = React.lazy(
-  () => import(`../../../components/docs-list-modal`),
-);
+const DocsListModal = lazy(() => import(`../../../components/docs-list-modal`));
 
 const YourDocumentsContainer = () => {
   const docManagementStore = useDocManagementStore();
@@ -27,9 +25,9 @@ const YourDocumentsContainer = () => {
       </Button>
 
       {modal.opened && (
-        <React.Suspense>
+        <Suspense>
           <DocsListModal onClose={modal.close} />
-        </React.Suspense>
+        </Suspense>
       )}
     </>
   );

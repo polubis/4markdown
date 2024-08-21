@@ -1,17 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import './src/style/index.css';
 import ErrorBoundary from './src/development-kit/error-boundary';
 import { useAuth } from './src/core/use-auth';
 
-const ExceptionScreen = React.lazy(
-  () => import(`./src/components/exception-screen`),
-);
+const ExceptionScreen = lazy(() => import(`./src/components/exception-screen`));
 
 const SafeExceptionScreen = () => (
-  <React.Suspense>
+  <Suspense>
     <ExceptionScreen />
-  </React.Suspense>
+  </Suspense>
 );
 
 export const wrapPageElement = ({ element }) => {

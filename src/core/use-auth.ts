@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { type AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
@@ -17,7 +17,7 @@ import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 const useAuth = () => {
   const api = useAPI();
 
-  React.useEffect(() => {
+  useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
     const updateDoc = async (

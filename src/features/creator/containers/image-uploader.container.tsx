@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useAuthStore } from 'store/auth/auth.store';
 
-const ImageUploaderAuthContainer = React.lazy(
+const ImageUploaderAuthContainer = lazy(
   () => import(`./image-uploader-auth.container`),
 );
 
@@ -10,9 +10,9 @@ const ImageUploaderContainer = () => {
 
   if (authStore.is === `authorized`) {
     return (
-      <React.Suspense>
+      <Suspense>
         <ImageUploaderAuthContainer />
-      </React.Suspense>
+      </Suspense>
     );
   }
 

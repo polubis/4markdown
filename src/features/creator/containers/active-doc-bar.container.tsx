@@ -1,6 +1,12 @@
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
-import React from 'react';
+import React, {
+  type FormEventHandler,
+  lazy,
+  type MouseEventHandler,
+  Suspense,
+  useEffect,
+} from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
@@ -16,10 +22,10 @@ import {
   updatePermamentDocNameSchema,
 } from 'core/validators/doc-validators';
 
-const DocumentDetailsContainer = React.lazy(
+const DocumentDetailsContainer = lazy(
   () => import(`./document-details.container`),
 );
-const DeleteDocModal = React.lazy(
+const DeleteDocModal = lazy(
   () => import(`../../../components/delete-doc-modal`),
 );
 
@@ -40,9 +46,9 @@ const ActiveDocBarContainer = () => {
   const morePopover = useToggle();
   const deleteModal = useToggle();
 
-  const handleNameChangeConfirm: React.FormEventHandler<
-    HTMLFormElement
-  > = async (e) => {
+  const handleNameChangeConfirm: FormEventHandler<HTMLFormElement> = async (
+    e,
+  ) => {
     e.preventDefault();
     try {
       await authStoreSelectors.authorized().updateDocName(values.name);
@@ -54,17 +60,17 @@ const ActiveDocBarContainer = () => {
     await authStoreSelectors.authorized().updateDocumentCode();
   };
 
-  const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const handleEditOpen: MouseEventHandler<HTMLButtonElement> = () => {
     set({ name: docStore.name });
     edition.open();
   };
 
-  const handleEditClose: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const handleEditClose: MouseEventHandler<HTMLButtonElement> = () => {
     edition.close();
     set({ name: `` });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     reconfigure({ name: docStore.name }, getSchema(docStore));
   }, [docStore, reconfigure]);
 
@@ -138,7 +144,7 @@ const ActiveDocBarContainer = () => {
       )}
 
       {morePopover.opened && (
-        <React.Suspense>
+        <Suspense>
           <DocumentDetailsContainer
             onOpen={() => {
               deleteModal.open();
@@ -146,13 +152,13 @@ const ActiveDocBarContainer = () => {
             }}
             onClose={morePopover.close}
           />
-        </React.Suspense>
+        </Suspense>
       )}
 
       {deleteModal.opened && (
-        <React.Suspense>
+        <Suspense>
           <DeleteDocModal onClose={deleteModal.close} />
-        </React.Suspense>
+        </Suspense>
       )}
     </>
   );

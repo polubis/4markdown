@@ -1,7 +1,7 @@
 import { Button } from 'design-system/button';
 import { Input } from 'design-system/input';
 import Modal from 'design-system/modal';
-import React from 'react';
+import React, { type FormEventHandler, useState } from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
@@ -14,7 +14,7 @@ interface DeleteDocModalProps {
 const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
-  const [name, setName] = React.useState(``);
+  const [name, setName] = useState(``);
 
   const disabled = docManagementStore.is === `busy`;
 
@@ -24,7 +24,7 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
     onClose?.();
   };
 
-  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  const handleConfirm: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
       await authStoreSelectors.authorized().deleteDoc();

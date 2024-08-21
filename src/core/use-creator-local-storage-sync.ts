@@ -1,11 +1,11 @@
-import React from 'react';
+import { useEffect } from 'react';
 import {
   CREATOR_STORE_LS_KEY,
   creatorStoreActions,
 } from 'store/creator/creator.store';
 
 const useCreatorLocalStorageSync = () => {
-  React.useEffect(() => {
+  useEffect(() => {
     creatorStoreActions.sync();
 
     const listener = (event: StorageEvent) => {

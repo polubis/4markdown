@@ -20,7 +20,7 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import React from 'react';
+import { useState } from 'react';
 // @TODO: Decouple interfaces from Firebase and try to lazy load firebase/auth.
 
 type API4Markdown = {
@@ -95,6 +95,6 @@ const initialize = (): API4Markdown => {
   return instance;
 };
 
-const useAPI = () => React.useState(initialize)[0];
+const useAPI = () => useState(initialize)[0];
 
 export { useAPI };

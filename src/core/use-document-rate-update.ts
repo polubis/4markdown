@@ -1,17 +1,17 @@
-import React from 'react';
 import type {
   DocumentRatingCategory,
   PermanentDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
+import { useCallback, useState } from 'react';
 import { authStoreSelectors } from 'store/auth/auth.store';
 
 const useDocumentRateUpdate = (
   document: PublicDocumentDto | PermanentDocumentDto,
 ) => {
-  const [rating, setRating] = React.useState(document.rating);
+  const [rating, setRating] = useState(document.rating);
 
-  const updateRating = React.useCallback(
+  const updateRating = useCallback(
     async (category: DocumentRatingCategory) => {
       try {
         const rating = await authStoreSelectors.authorized().rateDocument({

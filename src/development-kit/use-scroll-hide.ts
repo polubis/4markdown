@@ -1,18 +1,23 @@
-import React from 'react';
+import {
+  type CSSProperties,
+  type MutableRefObject,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 
-type ScrollHideStyle = Required<Pick<React.CSSProperties, 'overflow'>>;
+type ScrollHideStyle = Required<Pick<CSSProperties, 'overflow'>>;
 type HideScroll = () => void;
 type ShowScroll = () => void;
 
 type ScrollHideReturn<T extends HTMLElement> = [
-  React.MutableRefObject<T | null>,
+  MutableRefObject<T | null>,
   HideScroll,
   ShowScroll,
 ];
 
 const useScrollHide = <T extends HTMLElement>(): ScrollHideReturn<T> => {
-  const ref = React.useRef<T>(null);
-  const initialStyle = React.useRef<ScrollHideStyle>({
+  const ref = useRef<T>(null);
+  const initialStyle = useRef<ScrollHideStyle>({
     overflow: `auto`,
   });
 
@@ -32,7 +37,7 @@ const useScrollHide = <T extends HTMLElement>(): ScrollHideReturn<T> => {
     element.style.overflow = `hidden`;
   };
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     hide();
 
     return show;

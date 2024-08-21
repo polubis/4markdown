@@ -1,9 +1,9 @@
 import type { DocumentRatingCategory } from 'api-4markdown-contracts';
 import { Button } from 'design-system/button';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useAuthStore } from 'store/auth/auth.store';
 
-const DocumentRatingInteractive = React.lazy(() =>
+const DocumentRatingInteractive = lazy(() =>
   import(`../components/document-rating-interactive`).then((module) => ({
     default: module.DocumentRatingInteractive,
   })),
@@ -26,9 +26,9 @@ const DocumentRatingContainer = ({
     <section className="tn:justify-end justify-center flex mt-12 h-10">
       {authStore.is === `idle` && <Placeholer />}
       {authStore.is === `authorized` && (
-        <React.Suspense fallback={<Placeholer />}>
+        <Suspense fallback={<Placeholer />}>
           <DocumentRatingInteractive onChange={onChange} />
-        </React.Suspense>
+        </Suspense>
       )}
       {authStore.is === `unauthorized` && (
         <Button i={2} s={2} auto onClick={authStore.logIn}>

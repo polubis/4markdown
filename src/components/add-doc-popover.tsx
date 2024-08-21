@@ -1,22 +1,25 @@
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
-import React from 'react';
+import React, {
+  lazy,
+  Suspense,
+  useEffect,
+  type MouseEventHandler,
+} from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 
-const AddDocPopoverContent = React.lazy(
-  () => import(`./add-doc-popover-content`),
-);
+const AddDocPopoverContent = lazy(() => import(`./add-doc-popover-content`));
 
 const SS_ADD_REQUESTED_KEY = `addRequested`;
 
-const AddDocPopover: React.FC = () => {
+const AddDocPopover = () => {
   const docManagementStore = useDocManagementStore();
   const authStore = useAuthStore();
   const menu = useToggle();
 
-  const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
+  const handleClick: MouseEventHandler<HTMLButtonElement> = () => {
     if (authStore.is === `idle`) return;
 
     if (authStore.is === `authorized`) {
@@ -28,7 +31,7 @@ const AddDocPopover: React.FC = () => {
     authStore.logIn();
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const openRequested = !Number.isNaN(
       Number.parseInt(localStorage.getItem(SS_ADD_REQUESTED_KEY) ?? ``),
     );
@@ -40,7 +43,7 @@ const AddDocPopover: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (docManagementStore.is === `fail`) {
       menu.close();
     }
@@ -53,9 +56,9 @@ const AddDocPopover: React.FC = () => {
         <BiPlus />
       </Button>
       {menu.opened && (
-        <React.Suspense>
+        <Suspense>
           <AddDocPopoverContent onClose={menu.close} />
-        </React.Suspense>
+        </Suspense>
       )}
     </>
   );

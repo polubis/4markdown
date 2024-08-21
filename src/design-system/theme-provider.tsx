@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { isClient } from 'development-kit/ssr-csr';
 
 const themes = [`light`, `dark`] as const;
@@ -27,13 +27,13 @@ const getInitialTheme = (): NullableTheme =>
   isClient() ? window.__theme : null;
 
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = React.useState<NullableTheme>(null);
+  const [theme, setTheme] = useState<NullableTheme>(null);
 
-  const set: ThemeContext['set'] = React.useCallback((theme) => {
+  const set: ThemeContext['set'] = useCallback((theme) => {
     window.__setPreferredTheme(theme);
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.__onThemeChange = () => {
       setTheme(window.__theme);
     };

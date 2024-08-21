@@ -1,3 +1,4 @@
+import React, { type FormEvent, useState } from 'react';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import ErrorModal from 'components/error-modal';
 import { Avatar } from 'design-system/avatar';
@@ -23,7 +24,6 @@ import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
 import { useToggle } from 'development-kit/use-toggle';
 import type { NonNullableProperties } from 'development-kit/utility-types';
-import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import {
@@ -122,7 +122,7 @@ const UserProfileFormModalContainer = ({
 }: UserProfileFormModalContainerProps) => {
   const yourProfileStore = yourProfileStoreSelectors.useOk();
   const updateYourProfileStore = updateYourProfileStoreSelectors.useState();
-  const [avatarPreview, setAvatarPreview] = React.useState(
+  const [avatarPreview, setAvatarPreview] = useState(
     yourProfileStore.user?.avatar?.lg.src ?? ``,
   );
   const avatarErrorModal = useToggle();
@@ -142,7 +142,7 @@ const UserProfileFormModalContainer = ({
     onBack();
   };
 
-  const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+  const save = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     try {
       await authStoreSelectors.authorized().updateYourProfile({
