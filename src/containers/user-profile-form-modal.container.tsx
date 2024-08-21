@@ -36,6 +36,7 @@ import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store
 interface UserProfileFormModalContainerProps {
   onClose(): void;
   onBack(): void;
+  onSync(): void;
 }
 
 type UserProfileFormValues = NonNullableProperties<
@@ -77,7 +78,11 @@ const validators: ValidatorsSetup<UserProfileFormValues> = {
   twitterUrl: urlValidator,
 };
 
-const UpdateErrorModal = () => {
+const UpdateErrorModal = ({
+  onSync,
+}: {
+  onSync: UserProfileFormModalContainerProps['onSync'];
+}) => {
   const updateYourProfileStore = updateYourProfileStoreSelectors.useState();
 
   if (updateYourProfileStore.is !== `fail`) return null;
@@ -98,7 +103,7 @@ const UpdateErrorModal = () => {
             title="Sync Your profile"
             onClick={() => {
               updateYourProfileStoreActions.idle();
-              authStoreSelectors.authorized().getYourProfile();
+              onSync();
             }}
           >
             Sync
@@ -113,6 +118,7 @@ const UpdateErrorModal = () => {
 const UserProfileFormModalContainer = ({
   onClose,
   onBack,
+  onSync,
 }: UserProfileFormModalContainerProps) => {
   const yourProfileStore = yourProfileStoreSelectors.useOk();
   const updateYourProfileStore = updateYourProfileStoreSelectors.useState();
@@ -321,7 +327,7 @@ const UserProfileFormModalContainer = ({
         <Status>Updating your profile...</Status>
       )}
 
-      <UpdateErrorModal />
+      <UpdateErrorModal onSync={onSync} />
 
       {avatarErrorModal.opened && (
         <ErrorModal

@@ -38,15 +38,19 @@ const UserPopoverContent = ({ onClose }: UserPopoverContentProps) => {
     onClose();
   });
 
-  const reloadYourProfile = React.useCallback((): void => {
+  const reloadYourProfile = () => {
     authStoreSelectors.authorized().getYourProfile();
-  }, []);
+  };
 
   if (userProfileForm.opened) {
     return (
       <UserProfileFormModalContainer
         onBack={userProfileForm.close}
         onClose={onClose}
+        onSync={() => {
+          userProfileForm.close();
+          reloadYourProfile();
+        }}
       />
     );
   }
