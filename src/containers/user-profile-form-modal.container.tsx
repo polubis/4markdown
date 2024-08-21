@@ -49,8 +49,10 @@ const avatarRestrictions = {
 
 const urlValidator = [optional(noEdgeSpaces, url)];
 
+// @TODO[PRIO=4]: [Simplify this component logic].
 const createInitialValues = ({
   user,
+  mdate,
 }: YourProfileStoreOkState): UserProfileFormValues => ({
   displayName: user?.displayName ?? ``,
   bio: user?.bio ?? ``,
@@ -60,6 +62,7 @@ const createInitialValues = ({
   fbUrl: user?.fbUrl ?? ``,
   twitterUrl: user?.twitterUrl ?? ``,
   blogUrl: user?.blogUrl ?? ``,
+  mdate,
 });
 
 const validators: ValidatorsSetup<UserProfileFormValues> = {
@@ -111,6 +114,7 @@ const UserProfileFormModalContainer = ({
         blogUrl: values.blogUrl || null,
         linkedInUrl: values.linkedInUrl || null,
         avatar: values.avatar,
+        mdate: values.mdate,
       });
       back();
     } catch {}

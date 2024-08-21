@@ -70,6 +70,7 @@ type UpdateYourUserProfileContract = Contract<
     mdate: Date;
   },
   Omit<UserProfileDto, 'avatar'> & {
+    mdate: Date;
     avatar:
       | {
           type: `noop`;
