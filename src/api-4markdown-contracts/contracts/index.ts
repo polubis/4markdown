@@ -1,4 +1,4 @@
-import type { Base64 } from '../atoms';
+import type { Base64, Date } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -58,11 +58,17 @@ type UploadImageContract = Contract<
 
 type GetYourUserProfileContract = Contract<
   `getYourUserProfile`,
-  UserProfileDto | null
+  {
+    profile: UserProfileDto | null;
+    mdate: Date;
+  }
 >;
 type UpdateYourUserProfileContract = Contract<
   `updateYourUserProfile`,
-  UserProfileDto,
+  {
+    profile: UserProfileDto;
+    mdate: Date;
+  },
   Omit<UserProfileDto, 'avatar'> & {
     avatar:
       | {
