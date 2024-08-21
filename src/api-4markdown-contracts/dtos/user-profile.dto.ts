@@ -1,4 +1,4 @@
-import type { Id, Path } from '../atoms';
+import type { Date, Id, Path } from '../atoms';
 
 type AvatarVariant = {
   w: number;
@@ -23,6 +23,7 @@ type UserProfileDto = {
   twitterUrl: string | null;
   fbUrl: string | null;
   blogUrl: string | null;
+  mdate: Date;
 };
 
 export type { UserProfileDto };

@@ -19,7 +19,6 @@ import {
 } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI } from 'api-4markdown';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
-import { yourInfoStoreActions } from 'store/your-info/your-info.store';
 
 const useAuth = () => {
   const api = useAPI();
@@ -82,15 +81,6 @@ const useAuth = () => {
     };
 
     const getAccessibleDocument = call(`getAccessibleDocument`);
-
-    const getYourInfo = async () => {
-      try {
-        yourInfoStoreActions.busy();
-        yourInfoStoreActions.ok(await call(`getYourInfo`)());
-      } catch (error: unknown) {
-        yourInfoStoreActions.fail(error);
-      }
-    };
 
     const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
       try {
@@ -177,7 +167,6 @@ const useAuth = () => {
             docManagementStoreActions.idle();
             reloadDocs();
           },
-          getYourInfo,
           updateDocumentCode: async () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
