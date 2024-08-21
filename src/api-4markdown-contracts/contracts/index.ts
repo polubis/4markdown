@@ -92,8 +92,6 @@ type RateDocumentContract = Contract<
 type GetYourInfoContract = Contract<
   `getYourInfo`,
   {
-    documents: DocumentDto[];
-    profile: UserProfileDto | null;
     documentsVotes: UserDocumentsVotesDto;
   }
 >;
