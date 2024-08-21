@@ -1,9 +1,12 @@
-import type { UserProfileDto } from 'api-4markdown-contracts';
+import type { Date, UserProfileDto } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
-type YourProfileStoreState = Transaction<{ user: UserProfileDto | null }>;
+type YourProfileStoreState = Transaction<{
+  user: UserProfileDto | null;
+  mdate: Date;
+}>;
 type YourProfileStoreOkState = Extract<YourProfileStoreState, { is: 'ok' }>;
 
 const useYourProfileStore = create<YourProfileStoreState>(() => ({
@@ -16,36 +19,15 @@ const set = (state: YourProfileStoreState, replace = true): void => {
   setState(state, replace);
 };
 
-const YOUR_PROFILE_STORE_LS_KEY = `your-profile`;
-
 const yourProfileStoreActions = {
   idle: () => {
-    localStorage.removeItem(YOUR_PROFILE_STORE_LS_KEY);
     set({ is: `idle` });
   },
   busy: () => set({ is: `busy` }),
-  ok: (user: UserProfileDto | null) => {
-    const state: YourProfileStoreOkState = { is: `ok`, user };
-    localStorage.setItem(YOUR_PROFILE_STORE_LS_KEY, JSON.stringify(state));
-    set(state);
+  ok: (mdate: Date, user: UserProfileDto | null) => {
+    set({ is: `ok`, user, mdate });
   },
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
-  sync: (): void => {
-    const state = localStorage.getItem(YOUR_PROFILE_STORE_LS_KEY) as
-      | string
-      | null;
-
-    if (state === null) {
-      set({ is: `idle` });
-      return;
-    }
-
-    try {
-      set(JSON.parse(state) as YourProfileStoreOkState);
-    } catch {
-      set({ is: `idle` });
-    }
-  },
 };
 
 const isOk = (state: YourProfileStoreState): YourProfileStoreOkState => {
