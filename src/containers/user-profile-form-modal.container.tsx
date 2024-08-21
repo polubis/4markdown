@@ -18,6 +18,7 @@ import {
   optional,
   url,
 } from 'development-kit/form';
+import { parseMessage } from 'development-kit/parse-message';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
 import { useToggle } from 'development-kit/use-toggle';
@@ -74,6 +75,39 @@ const validators: ValidatorsSetup<UserProfileFormValues> = {
   linkedInUrl: urlValidator,
   fbUrl: urlValidator,
   twitterUrl: urlValidator,
+};
+
+const UpdateErrorModal = () => {
+  const updateYourProfileStore = updateYourProfileStoreSelectors.useState();
+
+  if (updateYourProfileStore.is !== `fail`) return null;
+
+  const parsed = parseMessage(updateYourProfileStore.error);
+
+  return (
+    <ErrorModal
+      heading="Ups, something went wrong"
+      message={parsed.message}
+      footer={
+        parsed.symbol === `outOfDateEntry` && (
+          <Button
+            type="button"
+            i={2}
+            s={2}
+            auto
+            title="Sync Your profile"
+            onClick={() => {
+              updateYourProfileStoreActions.idle();
+              authStoreSelectors.authorized().getYourProfile();
+            }}
+          >
+            Sync
+          </Button>
+        )
+      }
+      onClose={updateYourProfileStoreActions.idle}
+    />
+  );
 };
 
 const UserProfileFormModalContainer = ({
@@ -287,13 +321,7 @@ const UserProfileFormModalContainer = ({
         <Status>Updating your profile...</Status>
       )}
 
-      {updateYourProfileStore.is === `fail` && (
-        <ErrorModal
-          heading="Ups, something went wrong"
-          message={updateYourProfileStore.error}
-          onClose={updateYourProfileStoreActions.idle}
-        />
-      )}
+      <UpdateErrorModal />
 
       {avatarErrorModal.opened && (
         <ErrorModal

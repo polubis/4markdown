@@ -18,8 +18,8 @@ const CreatorErrorModalContainer = () => {
       heading="Ups, something went wrong"
       message={parsed.message}
       footer={
-        parsed.symbol === `outOfDateEntry` ||
-        (parsed.symbol === `out-of-date` && (
+        (parsed.symbol === `outOfDateEntry` ||
+          parsed.symbol === `out-of-date`) && (
           <Button
             type="button"
             i={2}
@@ -30,7 +30,7 @@ const CreatorErrorModalContainer = () => {
           >
             Sync
           </Button>
-        ))
+        )
       }
       onClose={docManagementStoreActions.idle}
     />
