@@ -9,17 +9,10 @@ import {
 import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
-import {
-  yourProfileStoreActions,
-  yourProfileStoreSelectors,
-} from 'store/your-profile/your-profile.store';
-import {
-  updateYourProfileStoreActions,
-  updateYourProfileStoreSelectors,
-} from 'store/update-your-profile/update-your-profile.store';
+import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
+import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI } from 'api-4markdown';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
-import { yourInfoStoreActions } from 'store/your-info/your-info.store';
 
 const useAuth = () => {
   const api = useAPI();
@@ -44,20 +37,12 @@ const useAuth = () => {
     };
 
     const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
-      yourProfileStoreActions.sync();
-
-      if (
-        yourProfileStoreSelectors.state().is === `ok` ||
-        yourProfileStoreSelectors.state().is === `busy`
-      )
-        return;
-
       try {
         yourProfileStoreActions.busy();
 
-        const profile = await call(`getYourUserProfile`)();
+        const { mdate, profile } = await call(`getYourUserProfile`)();
 
-        yourProfileStoreActions.ok(profile);
+        yourProfileStoreActions.ok(mdate, profile);
       } catch (error: unknown) {
         yourProfileStoreActions.fail(error);
       }
@@ -82,15 +67,6 @@ const useAuth = () => {
     };
 
     const getAccessibleDocument = call(`getAccessibleDocument`);
-
-    const getYourInfo = async () => {
-      try {
-        yourInfoStoreActions.busy();
-        yourInfoStoreActions.ok(await call(`getYourInfo`)());
-      } catch (error: unknown) {
-        yourInfoStoreActions.fail(error);
-      }
-    };
 
     const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
       try {
@@ -177,7 +153,6 @@ const useAuth = () => {
             docManagementStoreActions.idle();
             reloadDocs();
           },
-          getYourInfo,
           updateDocumentCode: async () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
@@ -281,14 +256,14 @@ const useAuth = () => {
           },
           updateYourProfile: async (payload) => {
             try {
-              if (updateYourProfileStoreSelectors.state().is === `ok`) return;
-
               updateYourProfileStoreActions.busy();
 
-              const data = await call(`updateYourUserProfile`)(payload);
+              const { mdate, profile } = await call(`updateYourUserProfile`)(
+                payload,
+              );
 
-              updateYourProfileStoreActions.ok(data);
-              yourProfileStoreActions.ok(data);
+              updateYourProfileStoreActions.ok(mdate, profile);
+              yourProfileStoreActions.ok(mdate, profile);
             } catch (error: unknown) {
               updateYourProfileStoreActions.fail(error);
               throw error;
