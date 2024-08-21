@@ -1,5 +1,5 @@
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
-import { type ParsedError, parseErrorV2 } from 'development-kit/parse-error-v2';
+import { type ParsedError } from 'development-kit/parse-error-v2';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
@@ -12,17 +12,5 @@ const useYourInfoStore = create<YourInfoStoreState>(() => ({
   is: `idle`,
 }));
 
-const set = (state: YourInfoStoreState): void => {
-  useYourInfoStore.setState(state);
-};
-
-const yourInfoStoreSelectors = {} as const;
-
-const yourInfoStoreActions = {
-  idle: () => set({ is: `idle` }),
-  busy: () => set({ is: `busy` }),
-  ok: (data: API4MarkdownDto<'getYourInfo'>) => set({ ...data, is: `ok` }),
-  fail: (error: unknown) => set({ is: `fail`, error: parseErrorV2(error) }),
-} as const;
-
-export { yourInfoStoreActions, yourInfoStoreSelectors };
+export type { YourInfoStoreState };
+export { useYourInfoStore };

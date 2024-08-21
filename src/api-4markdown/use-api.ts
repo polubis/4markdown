@@ -95,6 +95,15 @@ const initialize = (): API4Markdown => {
   return instance;
 };
 
-const useAPI = () => React.useState(initialize)[0];
+const getAPI = (): API4Markdown => {
+  if (!instance)
+    throw Error(
+      `API instance is not ready yet. Did you forget to initialize it at the top of the app?`,
+    );
 
-export { useAPI };
+  return instance;
+};
+
+const useAPI = (): API4Markdown => React.useState(initialize)[0];
+
+export { useAPI, getAPI };
