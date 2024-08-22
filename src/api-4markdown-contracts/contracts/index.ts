@@ -17,7 +17,7 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   payload: TPayload;
 };
 
-type GetDocsContract = Contract<`getDocs`, DocumentDto[]>;
+type GetYourDocumentsContract = Contract<`getYourDocuments`, DocumentDto[]>;
 type GetAccessibleDocumentContract = Contract<
   `getAccessibleDocument`,
   PublicDocumentDto | PermanentDocumentDto,
@@ -97,7 +97,7 @@ type GetYourInfoContract = Contract<
 >;
 
 type API4MarkdownContracts =
-  | GetDocsContract
+  | GetYourDocumentsContract
   | GetAccessibleDocumentContract
   | GetPermanentDocumentsContract
   | DeleteDocumentContract
@@ -138,7 +138,7 @@ export type {
   API4MarkdownContract,
   API4MarkdownDto,
   API4MarkdownPayload,
-  GetDocsContract,
+  GetYourDocumentsContract,
   GetAccessibleDocumentContract,
   GetPermanentDocumentsContract,
   DeleteDocumentContract,
