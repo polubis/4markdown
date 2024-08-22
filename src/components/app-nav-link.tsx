@@ -2,7 +2,7 @@ import type { GatsbyLinkProps } from 'gatsby';
 import { Link } from 'gatsby';
 import React from 'react';
 import c from 'classnames';
-
+// @TODO[PRIO=4]: [This component has weird type definitions].
 interface AppNavLinkProps {
   className?: string;
   to: GatsbyLinkProps<unknown>['to'];
