@@ -1,9 +1,80 @@
-import React from 'react';
+import React, { type ComponentType } from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiPlus } from 'react-icons/bi';
+import {
+  BiArrowBack,
+  BiLowVision,
+  BiPlus,
+  BiShow,
+  BiWorld,
+} from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
+import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
+import ReactFlow, {
+  Background,
+  Controls,
+  Handle,
+  MiniMap,
+  Position,
+  type NodeProps,
+} from 'reactflow';
+import type {
+  MindmapInternalNode,
+  MindmapNodeType,
+} from 'api-4markdown-contracts';
+import {
+  connectMindmap,
+  updateMindmapEdges,
+  updateMindmapNodes,
+} from 'store/mindmaps-creator/mindmaps-creator.actions';
+
+const InternalNode = ({ data }: NodeProps<MindmapInternalNode['data']>) => {
+  return (
+    <>
+      <Handle type="target" position={Position.Top} />
+      <div className="rounded-md bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 border-2 p-4">
+        <div>
+          <strong className="text-md">{data.name}</strong>
+          <p>
+            {data.document.visibility === `private` && (
+              <BiLowVision size="20" title="This document is private" />
+            )}
+            {data.document.visibility === `public` && (
+              <BiShow size="20" title="This document is public" />
+            )}
+            {data.document.visibility === `permanent` && (
+              <BiWorld size="20" title="This document is permanent" />
+            )}
+          </p>
+        </div>
+        <p>{data.description}</p>
+      </div>
+      <Handle type="source" position={Position.Bottom} />
+    </>
+  );
+};
+
+const ExternalNode = () => {
+  return (
+    <>
+      <Handle type="target" position={Position.Top} />
+      <div>
+        <label htmlFor="text">ExternalNode</label>
+        <input id="text" name="text" className="nodrag" />
+      </div>
+      <Handle type="source" position={Position.Bottom} />
+      <Handle type="source" position={Position.Bottom} />
+    </>
+  );
+};
+
+const nodeTypes: Record<MindmapNodeType, ComponentType<NodeProps>> = {
+  internal: InternalNode,
+  external: ExternalNode,
+};
 
 const MindmapsCreatorView = () => {
+  const { nodes, edges } = useMindmapsCreatorStore();
+
   return (
     <>
       <header className="flex px-4 py-3.5 border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
@@ -18,7 +89,19 @@ const MindmapsCreatorView = () => {
             <BiPlus />
           </Button>
         </aside>
-        <section>Content</section>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={updateMindmapNodes}
+          onEdgesChange={updateMindmapEdges}
+          onConnect={connectMindmap}
+          nodeTypes={nodeTypes}
+          fitView
+        >
+          <MiniMap />
+          <Controls />
+          <Background />
+        </ReactFlow>
       </main>
     </>
   );
