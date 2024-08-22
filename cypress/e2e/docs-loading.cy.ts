@@ -115,7 +115,7 @@ describe(`Documents loading works when`, () => {
 
   it(`documents are grouped by dates`, () => {
     Given(`System mocks api`, {
-      endpoint: `getDocs`,
+      endpoint: `getYourDocuments`,
       code: 200,
       response: getDocsResponse,
     });

@@ -26,7 +26,10 @@ const CreatorErrorModalContainer = () => {
             s={2}
             auto
             title="Sync out of date document"
-            onClick={authStore.resyncDocuments}
+            onClick={() => {
+              docManagementStoreActions.idle();
+              authStore.reloadDocs();
+            }}
           >
             Sync
           </Button>
