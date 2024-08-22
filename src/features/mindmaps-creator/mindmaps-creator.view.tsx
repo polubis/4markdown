@@ -26,27 +26,30 @@ import {
   updateMindmapEdges,
   updateMindmapNodes,
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
+import 'reactflow/dist/style.css';
 
-const InternalNode = ({ data }: NodeProps<MindmapInternalNode['data']>) => {
+const InternalNode = ({
+  data: { document, name, description },
+}: NodeProps<MindmapInternalNode['data']>) => {
   return (
     <>
       <Handle type="target" position={Position.Top} />
       <div className="rounded-md bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 border-2 p-4">
         <div>
-          <strong className="text-md">{data.name}</strong>
+          <strong className="text-md">{name}</strong>
           <p>
-            {data.document.visibility === `private` && (
+            {document.visibility === `private` && (
               <BiLowVision size="20" title="This document is private" />
             )}
-            {data.document.visibility === `public` && (
+            {document.visibility === `public` && (
               <BiShow size="20" title="This document is public" />
             )}
-            {data.document.visibility === `permanent` && (
+            {document.visibility === `permanent` && (
               <BiWorld size="20" title="This document is permanent" />
             )}
           </p>
         </div>
-        <p>{data.description}</p>
+        <p>{description}</p>
       </div>
       <Handle type="source" position={Position.Bottom} />
     </>
