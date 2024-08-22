@@ -127,7 +127,10 @@ const MindmapsCreatorView = () => {
         <React.Suspense>
           <NodeFormModal
             onClose={nodeFormModal.close}
-            onConfirm={(_, data) => addInternalMindmapNode(data)}
+            onConfirm={(_, data) => {
+              addInternalMindmapNode(data);
+              nodeFormModal.close();
+            }}
           />
         </React.Suspense>
       )}
