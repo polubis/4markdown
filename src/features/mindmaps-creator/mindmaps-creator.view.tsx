@@ -27,6 +27,13 @@ import {
   updateMindmapNodes,
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
 import 'reactflow/dist/style.css';
+import { useToggle } from 'development-kit/use-toggle';
+
+const NodeFormModal = React.lazy(() =>
+  import(`./components/node-form-modal`).then((m) => ({
+    default: m.NodeFormModal,
+  })),
+);
 
 const InternalNode = ({
   data: { document, name, description },
@@ -79,6 +86,7 @@ const MindmapsCreatorView = () => {
   const {
     mindmap: { nodes, edges },
   } = useMindmapsCreatorStore();
+  const nodeFormModal = useToggle();
 
   return (
     <>
@@ -90,7 +98,12 @@ const MindmapsCreatorView = () => {
       </header>
       <main className="flex h-[calc(100svh-70px)]">
         <aside className="flex flex-col space-y-4 shrink-0 px-4 py-3.5 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-          <Button i={1} s={2} title="Create new mindmap node">
+          <Button
+            i={1}
+            s={2}
+            title="Create new mindmap node"
+            onClick={nodeFormModal.open}
+          >
             <BiPlus />
           </Button>
         </aside>
@@ -108,6 +121,7 @@ const MindmapsCreatorView = () => {
           <Background />
         </ReactFlow>
       </main>
+      {nodeFormModal.opened && <NodeFormModal onClose={nodeFormModal.close} />}
     </>
   );
 };
