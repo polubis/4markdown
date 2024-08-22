@@ -24,6 +24,7 @@ const getOkState = (state: DocsStoreState): DocsStoreOkState => {
 
 const docsStoreSelectors = {
   ok: () => getOkState(useDocsStore.getState()),
+  useOk: () => useDocsStore(getOkState),
 };
 
 const docsStoreActions = {

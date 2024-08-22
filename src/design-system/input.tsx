@@ -1,21 +1,38 @@
-import React, { type DetailedHTMLProps, type InputHTMLAttributes } from 'react';
+import React, {
+  type ReactNode,
+  type DetailedHTMLProps,
+  type InputHTMLAttributes,
+} from 'react';
 import c from 'classnames';
 
 interface InputProps
   extends DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
-  > {}
+  > {
+  rightIcon?: ReactNode;
+}
 
-const Input = ({ className, ...props }: InputProps) => {
+const Input = ({ className, rightIcon, ...props }: InputProps) => {
   return (
-    <div className={c(`w-full`, className)}>
+    <div className={c(`w-full relative`, className)}>
       <input
-        className="w-full px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
+        className={c(
+          `w-full px-3 py-2 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none`,
+          {
+            'pr-10': !!rightIcon,
+          },
+        )}
         {...props}
       />
+      {rightIcon && (
+        <div className="flex items-center absolute top-0 bottom-0 right-4 my-auto text-black dark:text-white">
+          {rightIcon}
+        </div>
+      )}
     </div>
   );
 };
 
+export type { InputProps };
 export { Input };

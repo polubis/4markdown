@@ -3,12 +3,17 @@ import Modal from 'design-system/modal';
 import { Tabs } from 'design-system/tabs';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
+import {
+  InternalNodeForm,
+  type InternalNodeFormProps,
+} from './internal-node-form';
 
 type NodeFormModalProps = {
   onClose(): void;
+  onConfirm: InternalNodeFormProps['onConfirm'];
 };
 
-const NodeFormModal = ({ onClose }: NodeFormModalProps) => {
+const NodeFormModal = ({ onClose, onConfirm }: NodeFormModalProps) => {
   const [type, setType] = React.useState<`internal` | `external`>(`internal`);
 
   return (
@@ -39,7 +44,9 @@ const NodeFormModal = ({ onClose }: NodeFormModalProps) => {
           External
         </Tabs.Item>
       </Tabs>
-      {type === `internal` && <div>Internal</div>}
+      {type === `internal` && (
+        <InternalNodeForm onClose={onClose} onConfirm={onConfirm} />
+      )}
       {type === `external` && <div>External</div>}
     </Modal>
   );

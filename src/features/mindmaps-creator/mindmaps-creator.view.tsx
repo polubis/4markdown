@@ -22,6 +22,7 @@ import type {
   MindmapNodeType,
 } from 'api-4markdown-contracts';
 import {
+  addInternalMindmapNode,
   connectMindmap,
   updateMindmapEdges,
   updateMindmapNodes,
@@ -126,7 +127,10 @@ const MindmapsCreatorView = () => {
       </main>
       {nodeFormModal.opened && (
         <React.Suspense>
-          <NodeFormModal onClose={nodeFormModal.close} />
+          <NodeFormModal
+            onClose={nodeFormModal.close}
+            onConfirm={(_, data) => addInternalMindmapNode(data)}
+          />
         </React.Suspense>
       )}
     </>

@@ -8,7 +8,7 @@ import {
   type Node,
 } from 'reactflow';
 import { useMindmapsCreatorStore } from './mindmaps-creator.store';
-import type { MindmapNode } from 'api-4markdown-contracts';
+import type { MindmapInternalNode, MindmapNode } from 'api-4markdown-contracts';
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
 
@@ -48,4 +48,30 @@ const updateMindmapEdges = (changes: EdgeChange[]): void => {
   });
 };
 
-export { connectMindmap, updateMindmapNodes, updateMindmapEdges };
+const addInternalMindmapNode = (data: MindmapInternalNode['data']) => {
+  const { mindmap } = get();
+
+  set({
+    mindmap: {
+      ...mindmap,
+      nodes: [
+        ...mindmap.nodes,
+        {
+          id: new Date().toISOString(),
+          position: { x: 0, y: 0 },
+          height: null,
+          width: null,
+          data,
+          type: `internal`,
+        },
+      ],
+    },
+  });
+};
+
+export {
+  connectMindmap,
+  updateMindmapNodes,
+  updateMindmapEdges,
+  addInternalMindmapNode,
+};
