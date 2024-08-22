@@ -139,7 +139,7 @@ const useAuth = () => {
 
             try {
               docManagementStoreActions.busy();
-              const createdDoc = await call(`createDoc`)({ name, code });
+              const createdDoc = await call(`createDocument`)({ name, code });
               docManagementStoreActions.ok();
               docStoreActions.setActive(createdDoc);
               docsStoreActions.addDoc(createdDoc);
