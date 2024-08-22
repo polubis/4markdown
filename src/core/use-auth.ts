@@ -6,7 +6,7 @@ import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
-import { docsStoreActions, useDocsStore } from 'store/docs/docs.store';
+import { docsStoreActions } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
@@ -48,19 +48,15 @@ const useAuth = () => {
       }
     };
 
-    const getDocs: AuthorizedData['getDocs'] = async () => {
-      const state = useDocsStore.getState();
-
-      if (state.is === `ok` || state.is === `busy`) {
-        return;
-      }
-
+    const getYourDocuments = async (onSuccess?: () => void): Promise<void> => {
       try {
         docsStoreActions.busy();
 
-        const docs = await call(`getDocs`)();
+        const docs = await call(`getYourDocuments`)();
 
         docsStoreActions.ok(docs);
+
+        onSuccess?.();
       } catch (error: unknown) {
         docsStoreActions.fail(error);
       }
@@ -69,17 +65,8 @@ const useAuth = () => {
     const getAccessibleDocument = call(`getAccessibleDocument`);
 
     const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
-      try {
-        docsStoreActions.idle();
-        docsStoreActions.busy();
-
-        const docs = await call(`getDocs`)();
-
-        docsStoreActions.ok(docs);
-        docStoreActions.reset();
-      } catch (error: unknown) {
-        docsStoreActions.fail(error);
-      }
+      docsStoreActions.idle();
+      await getYourDocuments(() => docStoreActions.reset());
     };
 
     const rateDocument = call(`rateDocument`);
@@ -131,7 +118,6 @@ const useAuth = () => {
               throw error;
             }
           },
-          getDocs,
           reloadDocs,
           getYourProfile,
           createDoc: async (name) => {
@@ -271,7 +257,7 @@ const useAuth = () => {
           },
         });
 
-        getDocs();
+        getYourDocuments();
         getYourProfile();
 
         return;

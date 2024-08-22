@@ -25,7 +25,6 @@ interface AuthorizedData {
     description: PermanentDocumentDto['description'],
     tags: PermanentDocumentDto['tags'],
   ): Promise<void>;
-  getDocs(): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
   getAccessibleDocument: API4MarkdownContract<'getAccessibleDocument'>;
