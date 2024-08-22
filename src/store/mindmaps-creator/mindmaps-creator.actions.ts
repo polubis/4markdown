@@ -13,20 +13,38 @@ import type { MindmapNode } from 'api-4markdown-contracts';
 const { getState: get, setState: set } = useMindmapsCreatorStore;
 
 const connectMindmap = (connection: Connection): void => {
+  const { mindmap } = get();
+
   set({
-    edges: addEdge(connection, get().edges),
+    mindmap: {
+      ...mindmap,
+      edges: addEdge(connection, mindmap.edges),
+    },
   });
 };
 
 const updateMindmapNodes = (changes: NodeChange[]): void => {
+  const { mindmap } = get();
+
   set({
-    nodes: applyNodeChanges(changes, get().nodes as Node[]) as MindmapNode[],
+    mindmap: {
+      ...mindmap,
+      nodes: applyNodeChanges(
+        changes,
+        mindmap.nodes as Node[],
+      ) as MindmapNode[],
+    },
   });
 };
 
 const updateMindmapEdges = (changes: EdgeChange[]): void => {
+  const { mindmap } = get();
+
   set({
-    edges: applyEdgeChanges(changes, get().edges),
+    mindmap: {
+      ...mindmap,
+      edges: applyEdgeChanges(changes, mindmap.edges),
+    },
   });
 };
 

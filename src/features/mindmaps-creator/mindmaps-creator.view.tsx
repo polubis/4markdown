@@ -76,7 +76,9 @@ const nodeTypes: Record<MindmapNodeType, ComponentType<NodeProps>> = {
 };
 
 const MindmapsCreatorView = () => {
-  const { nodes, edges } = useMindmapsCreatorStore();
+  const {
+    mindmap: { nodes, edges },
+  } = useMindmapsCreatorStore();
 
   return (
     <>
