@@ -93,7 +93,7 @@ const MindmapsCreatorView = () => {
   const { fitView } = useReactFlow();
 
   React.useLayoutEffect(() => {
-    fitView({ padding: 24, includeHiddenNodes: false, duration: 0.3 });
+    fitView({ padding: 24 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes.length]);
 
