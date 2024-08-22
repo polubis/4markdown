@@ -13,7 +13,6 @@ import ReactFlow, {
   Background,
   Controls,
   Handle,
-  MiniMap,
   Position,
   type NodeProps,
 } from 'reactflow';
@@ -117,7 +116,6 @@ const MindmapsCreatorView = () => {
           nodeTypes={nodeTypes}
           fitView
         >
-          <MiniMap />
           <Controls />
           <Background />
         </ReactFlow>
