@@ -68,7 +68,6 @@ const useAuth = () => {
     };
 
     const getAccessibleDocument = call(`getAccessibleDocument`);
-
     const rateDocument = call(`rateDocument`);
 
     const unsubscribe = onAuthChange(async (user) => {
