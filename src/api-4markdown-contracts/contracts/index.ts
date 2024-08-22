@@ -37,8 +37,8 @@ type UpdateDocumentCodeContract = Contract<
   Pick<DocumentDto, 'mdate'>,
   Pick<DocumentDto, 'mdate' | 'id' | 'code'>
 >;
-type CreateDocContract = Contract<
-  `createDoc`,
+type CreateDocumentContract = Contract<
+  `createDocument`,
   PrivateDocumentDto,
   Pick<PrivateDocumentDto, 'name' | 'code'>
 >;
@@ -102,7 +102,7 @@ type API4MarkdownContracts =
   | GetPermanentDocumentsContract
   | DeleteDocumentContract
   | UpdateDocumentCodeContract
-  | CreateDocContract
+  | CreateDocumentContract
   | UpdateDocContract
   | UploadImageContract
   | GetYourUserProfileContract
@@ -143,7 +143,7 @@ export type {
   GetPermanentDocumentsContract,
   DeleteDocumentContract,
   UpdateDocumentCodeContract,
-  CreateDocContract,
+  CreateDocumentContract,
   UpdateDocContract,
   UploadImageContract,
   GetYourUserProfileContract,
