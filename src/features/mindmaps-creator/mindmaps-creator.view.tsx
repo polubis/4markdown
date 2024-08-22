@@ -47,13 +47,13 @@ const InternalNode = ({
         <div className="flex">
           <strong className="text-md">{name}</strong>
           {document.visibility === `private` && (
-            <BiLowVision size="20" title="This document is private" />
+            <BiLowVision title="This document is private" />
           )}
           {document.visibility === `public` && (
-            <BiShow size="20" title="This document is public" />
+            <BiShow title="This document is public" />
           )}
           {document.visibility === `permanent` && (
-            <BiWorld size="20" title="This document is permanent" />
+            <BiWorld title="This document is permanent" />
           )}
         </div>
         <p>{description}</p>
