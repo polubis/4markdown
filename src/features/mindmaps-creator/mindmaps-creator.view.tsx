@@ -14,6 +14,8 @@ import ReactFlow, {
   Controls,
   Handle,
   Position,
+  ReactFlowProvider,
+  useReactFlow,
   type NodeProps,
 } from 'reactflow';
 import type {
@@ -34,6 +36,8 @@ const NodeFormModal = React.lazy(() =>
     default: m.NodeFormModal,
   })),
 );
+
+// https://reactflow.dev/learn/tutorials/mind-map-app-with-react-flow
 
 const InternalNode = ({
   data: { document, name, description },
@@ -86,6 +90,15 @@ const MindmapsCreatorView = () => {
     nodeForm,
   } = useMindmapsCreatorStore();
 
+  const { fitView } = useReactFlow();
+
+  React.useEffect(() => {
+    fitView({ padding: 24, includeHiddenNodes: false, duration: 0.3 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodes.length]);
+
+  console.log(nodes);
+
   return (
     <>
       <header className="flex px-4 py-3.5 border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
@@ -129,4 +142,10 @@ const MindmapsCreatorView = () => {
   );
 };
 
-export { MindmapsCreatorView };
+const MindmapsCreatorConnectedView = () => (
+  <ReactFlowProvider>
+    <MindmapsCreatorView />
+  </ReactFlowProvider>
+);
+
+export { MindmapsCreatorConnectedView as MindmapsCreatorView };
