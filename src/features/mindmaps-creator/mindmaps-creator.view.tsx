@@ -43,7 +43,7 @@ const InternalNode = ({
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <div className="rounded-md bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 border-2 p-4">
+      <div className="rounded-md bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 border-2 p-4 max-w-[252px]">
         <div className="flex">
           <strong className="text-md">{name}</strong>
           {document.visibility === `private` && (
