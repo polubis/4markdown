@@ -62,12 +62,12 @@ const useAuth = () => {
       }
     };
 
-    const getAccessibleDocument = call(`getAccessibleDocument`);
-
     const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
       docsStoreActions.idle();
       await getYourDocuments(() => docStoreActions.reset());
     };
+
+    const getAccessibleDocument = call(`getAccessibleDocument`);
 
     const rateDocument = call(`rateDocument`);
 
@@ -134,10 +134,6 @@ const useAuth = () => {
               docManagementStoreActions.fail(error);
               throw error;
             }
-          },
-          resyncDocuments: async () => {
-            docManagementStoreActions.idle();
-            reloadDocs();
           },
           updateDocumentCode: async () => {
             const doc = docStoreSelectors.active();

@@ -14,7 +14,6 @@ interface AuthorizedData {
   };
   logOut(): void;
   createDoc(name: DocumentDto['name']): Promise<void>;
-  resyncDocuments(): Promise<void>;
   updateDocumentCode(): Promise<void>;
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
