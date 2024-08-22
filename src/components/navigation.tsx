@@ -1,10 +1,8 @@
 import React, { type ReactNode } from 'react';
 import c from 'classnames';
-import { Button } from 'design-system/button';
-import { BiMoon, BiSun } from 'react-icons/bi';
 import MoreNav from './more-nav';
 import UserPopover from './user-popover';
-import { ThemeProvider } from 'design-system/theme-provider';
+import { ThemeSwitcher } from 'design-system/theme-switcher';
 
 interface NavigationProps {
   className?: string;
@@ -29,20 +27,7 @@ const Navigation = ({ className, children }: NavigationProps) => {
       </picture>
       <nav className="flex gap-3 w-full items-center">
         {children}
-        <ThemeProvider>
-          {({ theme, set }) => (
-            <Button
-              i={1}
-              s={2}
-              title="Change theme"
-              className="ml-auto"
-              disabled={theme === null}
-              onClick={() => set(theme === `light` ? `dark` : `light`)}
-            >
-              {theme === `dark` ? <BiSun /> : <BiMoon />}
-            </Button>
-          )}
-        </ThemeProvider>
+        <ThemeSwitcher className="ml-auto" />
         <UserPopover />
         <MoreNav />
         <div className="h-1 w-2 shrink-0 block sm:hidden" />
