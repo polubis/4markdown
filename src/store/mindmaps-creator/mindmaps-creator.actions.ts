@@ -48,7 +48,15 @@ const updateMindmapEdges = (changes: EdgeChange[]): void => {
   });
 };
 
-const addInternalMindmapNode = (data: MindmapInternalNode['data']) => {
+const cancelAddingNode = (): void => {
+  set({
+    nodeForm: {
+      opened: false,
+    },
+  });
+};
+
+const addInternalMindmapNode = (data: MindmapInternalNode['data']): void => {
   const { mindmap } = get();
 
   set({
@@ -66,6 +74,17 @@ const addInternalMindmapNode = (data: MindmapInternalNode['data']) => {
         },
       ],
     },
+    nodeForm: {
+      opened: false,
+    },
+  });
+};
+
+const startAddingNode = (): void => {
+  set({
+    nodeForm: {
+      opened: true,
+    },
   });
 };
 
@@ -74,4 +93,6 @@ export {
   updateMindmapNodes,
   updateMindmapEdges,
   addInternalMindmapNode,
+  startAddingNode,
+  cancelAddingNode,
 };

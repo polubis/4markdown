@@ -3,17 +3,10 @@ import Modal from 'design-system/modal';
 import { Tabs } from 'design-system/tabs';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
-import {
-  InternalNodeForm,
-  type InternalNodeFormProps,
-} from './internal-node-form';
+import { InternalNodeForm } from './internal-node-form';
+import { cancelAddingNode } from 'store/mindmaps-creator/mindmaps-creator.actions';
 
-type NodeFormModalProps = {
-  onClose(): void;
-  onConfirm: InternalNodeFormProps['onConfirm'];
-};
-
-const NodeFormModal = ({ onClose, onConfirm }: NodeFormModalProps) => {
+const NodeFormModal = () => {
   const [type, setType] = React.useState<`internal` | `external`>(`internal`);
 
   return (
@@ -25,7 +18,7 @@ const NodeFormModal = ({ onClose, onConfirm }: NodeFormModalProps) => {
           i={2}
           s={1}
           title="Close mindmap node adding"
-          onClick={onClose}
+          onClick={cancelAddingNode}
         >
           <BiX />
         </Button>
@@ -44,9 +37,7 @@ const NodeFormModal = ({ onClose, onConfirm }: NodeFormModalProps) => {
           External
         </Tabs.Item>
       </Tabs>
-      {type === `internal` && (
-        <InternalNodeForm onClose={onClose} onConfirm={onConfirm} />
-      )}
+      {type === `internal` && <InternalNodeForm />}
       {type === `external` && <div>External</div>}
     </Modal>
   );

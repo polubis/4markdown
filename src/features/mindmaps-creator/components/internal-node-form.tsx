@@ -3,17 +3,12 @@ import { Field } from 'design-system/field';
 import { Button } from 'design-system/button';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
-import type {
-  DocumentDto,
-  MindmapInternalNode,
-  MindmapNodeType,
-} from 'api-4markdown-contracts';
+import type { DocumentDto } from 'api-4markdown-contracts';
 import { YourDocumentsSearchContainer } from '../containers/your-documents-search.container';
-
-interface InternalNodeFormProps {
-  onConfirm(type: MindmapNodeType, data: MindmapInternalNode['data']): void;
-  onClose(): void;
-}
+import {
+  addInternalMindmapNode,
+  cancelAddingNode,
+} from 'store/mindmaps-creator/mindmaps-creator.actions';
 
 const validators = {
   name: (name: string): boolean =>
@@ -29,7 +24,7 @@ const validators = {
     description.length <= 250,
 };
 
-const InternalNodeForm = ({ onClose, onConfirm }: InternalNodeFormProps) => {
+const InternalNodeForm = () => {
   const [selectedDoc, setSelectedDoc] = React.useState<DocumentDto | null>(
     null,
   );
@@ -39,7 +34,11 @@ const InternalNodeForm = ({ onClose, onConfirm }: InternalNodeFormProps) => {
   const confirm: React.FormEventHandler<HTMLFormElement> = (e): void => {
     e.preventDefault();
 
-    onConfirm(`internal`, { name, description, document: selectedDoc! });
+    addInternalMindmapNode({
+      name,
+      description,
+      document: selectedDoc!,
+    });
   };
 
   const selectDoc = (doc: DocumentDto): void => {
@@ -93,7 +92,7 @@ const InternalNodeForm = ({ onClose, onConfirm }: InternalNodeFormProps) => {
           s={2}
           auto
           title="Cancel node creation"
-          onClick={onClose}
+          onClick={cancelAddingNode}
         >
           Cancel
         </Button>
@@ -112,5 +111,4 @@ const InternalNodeForm = ({ onClose, onConfirm }: InternalNodeFormProps) => {
   );
 };
 
-export type { InternalNodeFormProps };
 export { InternalNodeForm };

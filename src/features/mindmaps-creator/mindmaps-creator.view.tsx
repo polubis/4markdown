@@ -22,13 +22,12 @@ import type {
   MindmapNodeType,
 } from 'api-4markdown-contracts';
 import {
-  addInternalMindmapNode,
   connectMindmap,
+  startAddingNode,
   updateMindmapEdges,
   updateMindmapNodes,
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
 import 'reactflow/dist/style.css';
-import { useToggle } from 'development-kit/use-toggle';
 import { AppNavLink } from 'components/app-nav-link';
 
 const NodeFormModal = React.lazy(() =>
@@ -85,8 +84,8 @@ const nodeTypes: Record<MindmapNodeType, ComponentType<NodeProps>> = {
 const MindmapsCreatorView = () => {
   const {
     mindmap: { nodes, edges },
+    nodeForm,
   } = useMindmapsCreatorStore();
-  const nodeFormModal = useToggle();
 
   return (
     <>
@@ -104,7 +103,7 @@ const MindmapsCreatorView = () => {
             i={1}
             s={2}
             title="Create new mindmap node"
-            onClick={nodeFormModal.open}
+            onClick={startAddingNode}
           >
             <BiPlus />
           </Button>
@@ -123,15 +122,9 @@ const MindmapsCreatorView = () => {
           <Background />
         </ReactFlow>
       </main>
-      {nodeFormModal.opened && (
+      {nodeForm.opened && (
         <React.Suspense>
-          <NodeFormModal
-            onClose={nodeFormModal.close}
-            onConfirm={(_, data) => {
-              addInternalMindmapNode(data);
-              nodeFormModal.close();
-            }}
-          />
+          <NodeFormModal />
         </React.Suspense>
       )}
     </>

@@ -4,11 +4,10 @@ import type { MindmapDto, MindmapNode } from 'api-4markdown-contracts';
 type NodeFormData = Pick<MindmapNode, 'type' | 'data'>;
 
 type MindmapsCreatorStoreState = {
-  nodeForm:
-    | {
-        opened: false;
-      }
-    | ({ opened: true } & NodeFormData);
+  nodeForm: {
+    opened: boolean;
+    data?: NodeFormData;
+  };
   mindmap: MindmapDto;
 };
 
