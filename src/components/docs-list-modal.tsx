@@ -32,10 +32,6 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     rangeFilters[0],
   );
 
-  React.useEffect(() => {
-    authStoreSelectors.authorized().getDocs();
-  }, []);
-
   const selectDoc = (doc: DocumentDto): void => {
     docStoreActions.setActive(doc);
     onClose?.();

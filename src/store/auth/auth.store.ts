@@ -14,7 +14,6 @@ interface AuthorizedData {
   };
   logOut(): void;
   createDoc(name: DocumentDto['name']): Promise<void>;
-  resyncDocuments(): Promise<void>;
   updateDocumentCode(): Promise<void>;
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
@@ -25,7 +24,6 @@ interface AuthorizedData {
     description: PermanentDocumentDto['description'],
     tags: PermanentDocumentDto['tags'],
   ): Promise<void>;
-  getDocs(): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
   getAccessibleDocument: API4MarkdownContract<'getAccessibleDocument'>;
