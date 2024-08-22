@@ -10,6 +10,7 @@ import {
   validator,
 } from 'development-kit/form';
 
+// @TODO[PRIO=3]: [It's overcomplicated af and should be simplified].
 const baseSchemas = {
   name: [isString, name, minLength(2), maxLength(100), noEdgeSpaces],
   description: [isString, noEdgeSpaces, minLength(50), maxLength(250)],
