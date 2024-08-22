@@ -3,11 +3,12 @@ import Modal from 'design-system/modal';
 import { Tabs } from 'design-system/tabs';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
-import { InternalNodeForm } from './internal-node-form';
+import { InternalNodeFormContainer } from '../containers/internal-node-form.container';
 import { cancelAddingNode } from 'store/mindmaps-creator/mindmaps-creator.actions';
+import type { MindmapNodeType } from 'api-4markdown-contracts';
 
 const NodeFormModal = () => {
-  const [type, setType] = React.useState<`internal` | `external`>(`internal`);
+  const [type, setType] = React.useState<MindmapNodeType>(`internal`);
 
   return (
     <Modal>
@@ -37,7 +38,7 @@ const NodeFormModal = () => {
           External
         </Tabs.Item>
       </Tabs>
-      {type === `internal` && <InternalNodeForm />}
+      {type === `internal` && <InternalNodeFormContainer />}
       {type === `external` && <div>External</div>}
     </Modal>
   );
