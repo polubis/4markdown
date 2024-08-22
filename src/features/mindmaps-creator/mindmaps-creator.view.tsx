@@ -44,19 +44,17 @@ const InternalNode = ({
     <>
       <Handle type="target" position={Position.Top} />
       <div className="rounded-md bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 border-2 p-4">
-        <div>
+        <div className="flex">
           <strong className="text-md">{name}</strong>
-          <p>
-            {document.visibility === `private` && (
-              <BiLowVision size="20" title="This document is private" />
-            )}
-            {document.visibility === `public` && (
-              <BiShow size="20" title="This document is public" />
-            )}
-            {document.visibility === `permanent` && (
-              <BiWorld size="20" title="This document is permanent" />
-            )}
-          </p>
+          {document.visibility === `private` && (
+            <BiLowVision size="20" title="This document is private" />
+          )}
+          {document.visibility === `public` && (
+            <BiShow size="20" title="This document is public" />
+          )}
+          {document.visibility === `permanent` && (
+            <BiWorld size="20" title="This document is permanent" />
+          )}
         </div>
         <p>{description}</p>
       </div>
