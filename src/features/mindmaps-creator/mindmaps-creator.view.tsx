@@ -2,6 +2,7 @@ import React, { type ComponentType } from 'react';
 import { Button } from 'design-system/button';
 import {
   BiArrowBack,
+  BiChevronDown,
   BiLowVision,
   BiPlus,
   BiShow,
@@ -38,8 +39,6 @@ const NodeFormModal = React.lazy(() =>
   })),
 );
 
-// https://reactflow.dev/learn/tutorials/mind-map-app-with-react-flow
-
 const InternalNode = ({
   data: { document, name, description },
 }: NodeProps<MindmapInternalNode['data']>) => {
@@ -74,7 +73,13 @@ const InternalNode = ({
         <h6 className="font-bold">{name}</h6>
         {description && <p className="mt-1">{description}</p>}
       </div>
-      <Handle type="source" position={Position.Bottom} />
+      <Handle
+        className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-bottom-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
+        type="source"
+        position={Position.Bottom}
+      >
+        <BiChevronDown className="pointer-events-none text-zinc-700 dark:text-zinc-200" />
+      </Handle>
     </>
   );
 };
