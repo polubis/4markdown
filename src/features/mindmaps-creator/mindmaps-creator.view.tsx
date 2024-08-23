@@ -72,7 +72,7 @@ const InternalNode = ({
           </strong>
         </div>
         <h6 className="font-bold">{name}</h6>
-        <p className="mt-1">{description}</p>
+        {description && <p className="mt-1">{description}</p>}
       </div>
       <Handle type="source" position={Position.Bottom} />
     </>

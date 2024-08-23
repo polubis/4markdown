@@ -3,59 +3,62 @@ import { Field } from 'design-system/field';
 import { Button } from 'design-system/button';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
-import type { DocumentDto } from 'api-4markdown-contracts';
+import type { DocumentDto, MindmapInternalNode } from 'api-4markdown-contracts';
 import { YourDocumentsSearchContainer } from './your-documents-search.container';
 import {
   addInternalMindmapNode,
   cancelAddingNode,
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
+import { useForm } from 'development-kit/use-form';
+import {
+  maxLength,
+  minLength,
+  name,
+  noEdgeSpaces,
+  optional,
+} from 'development-kit/form';
 
-const validators = {
-  name: (name: string): boolean =>
-    typeof name === `string` &&
-    name.length === name.trim().length &&
-    name.length >= 2 &&
-    name.length <= 100 &&
-    /^[a-zA-Z0-9]+(?:\s[a-zA-Z0-9]+)*$/.test(name.trim()),
-  description: (description: string): boolean =>
-    typeof description === `string` &&
-    description.length === description.trim().length &&
-    description.length >= 10 &&
-    description.length <= 250,
-};
+type InternalNodeFormValues = Pick<
+  MindmapInternalNode['data'],
+  'name' | 'description'
+>;
 
 const InternalNodeFormContainer = () => {
   const [selectedDoc, setSelectedDoc] = React.useState<DocumentDto | null>(
     null,
   );
-  const [name, setName] = React.useState(``);
-  const [description, setDescription] = React.useState(``);
+
+  const [{ values, invalid }, { set, inject }] =
+    useForm<InternalNodeFormValues>(
+      {
+        name: ``,
+        description: ``,
+      },
+      {
+        name: [noEdgeSpaces, minLength(2), maxLength(100), name],
+        description: [optional(noEdgeSpaces, maxLength(250))],
+      },
+    );
 
   const confirm: React.FormEventHandler<HTMLFormElement> = (e): void => {
     e.preventDefault();
 
     addInternalMindmapNode({
-      name,
-      description,
+      name: values.name,
+      description: values.name,
       document: selectedDoc!,
     });
   };
 
   const selectDoc = (doc: DocumentDto): void => {
     setSelectedDoc(doc);
-    setName(doc.name);
-    doc.visibility === `permanent` && setDescription(doc.visibility);
+    set({ name: doc.name });
+    doc.visibility === `permanent` && set({ description: doc.description });
   };
 
   const unselectDoc = (): void => {
     setSelectedDoc(null);
   };
-
-  const isNameValid = React.useMemo(() => validators.name(name), [name]);
-  const isDescriptionValid = React.useMemo(
-    () => validators.description(description),
-    [description],
-  );
 
   return (
     <form onSubmit={confirm}>
@@ -69,17 +72,12 @@ const InternalNodeFormContainer = () => {
         {selectedDoc && (
           <>
             <Field className="mb-2" label="Name*">
-              <Input
-                placeholder="Example: Pizza recipe"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
+              <Input placeholder="Example: Pizza recipe" {...inject(`name`)} />
             </Field>
-            <Field label="Description*">
+            <Field label="Description">
               <Textarea
                 placeholder="Example: All pizza dough starts with the same basic ingredients: flour, yeast, water, salt, and olive oil..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                {...inject(`description`)}
               />
             </Field>
           </>
@@ -97,7 +95,7 @@ const InternalNodeFormContainer = () => {
           Cancel
         </Button>
         <Button
-          disabled={!isNameValid || !isDescriptionValid}
+          disabled={invalid}
           type="submit"
           i={2}
           s={2}

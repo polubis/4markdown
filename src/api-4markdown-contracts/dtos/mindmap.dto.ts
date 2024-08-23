@@ -18,7 +18,7 @@ type MindmapInternalNode = Required<
       {
         document: DocumentDto;
         name: Name;
-        description: string;
+        description?: string;
       },
       'internal'
     >,
@@ -28,7 +28,7 @@ type MindmapInternalNode = Required<
 
 type MindmapExternalNode = Required<
   Pick<
-    Node<{ url: Path; name: Name; description: string }, 'external'>,
+    Node<{ url: Path; name: Name; description?: string }, 'external'>,
     NodeNativeProperties
   >
 >;
@@ -40,7 +40,7 @@ type MindmapNode = MindmapInternalNode | MindmapExternalNode;
 type MindmapDto = {
   id: Id;
   name: Name;
-  description: string;
+  description?: string;
   cdate: Date;
   mdate: Date;
   nodes: MindmapNode[];
