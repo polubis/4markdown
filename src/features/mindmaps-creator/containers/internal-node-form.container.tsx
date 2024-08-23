@@ -45,7 +45,7 @@ const InternalNodeFormContainer = () => {
 
     addInternalMindmapNode({
       name: values.name,
-      description: values.name,
+      description: values.description,
       document: selectedDoc!,
     });
   };

@@ -3,6 +3,7 @@ import { Button } from 'design-system/button';
 import {
   BiArrowBack,
   BiChevronDown,
+  BiChevronRight,
   BiLowVision,
   BiPlus,
   BiShow,
@@ -44,7 +45,18 @@ const InternalNode = ({
 }: NodeProps<MindmapInternalNode['data']>) => {
   return (
     <>
-      <Handle type="target" position={Position.Top} />
+      <Handle
+        className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-top-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
+        type="target"
+        id="target-handle-top"
+        position={Position.Top}
+      />
+      <Handle
+        className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-left-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
+        type="target"
+        id="target-handle-left"
+        position={Position.Left}
+      />
       <div
         className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 min-w-[240px]`}
         title={name}
@@ -76,9 +88,18 @@ const InternalNode = ({
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-bottom-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
         type="source"
+        id="source-handle-bottom"
         position={Position.Bottom}
       >
         <BiChevronDown className="pointer-events-none text-zinc-700 dark:text-zinc-200" />
+      </Handle>
+      <Handle
+        className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-right-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
+        type="source"
+        id="source-handle-right"
+        position={Position.Right}
+      >
+        <BiChevronRight className="pointer-events-none text-zinc-700 dark:text-zinc-200" />
       </Handle>
     </>
   );
