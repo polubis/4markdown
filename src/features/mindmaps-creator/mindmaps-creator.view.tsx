@@ -30,6 +30,7 @@ import {
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
 import 'reactflow/dist/style.css';
 import { AppNavLink } from 'components/app-nav-link';
+import { formatDistance } from 'date-fns';
 
 const NodeFormModal = React.lazy(() =>
   import(`./components/node-form-modal`).then((m) => ({
@@ -45,20 +46,33 @@ const InternalNode = ({
   return (
     <>
       <Handle type="target" position={Position.Top} />
-      <div className="rounded-md bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 border-2 p-4 max-w-[252px]">
-        <div className="flex">
-          <strong className="text-md">{name}</strong>
-          {document.visibility === `private` && (
-            <BiLowVision title="This document is private" />
-          )}
-          {document.visibility === `public` && (
-            <BiShow title="This document is public" />
-          )}
-          {document.visibility === `permanent` && (
-            <BiWorld title="This document is permanent" />
-          )}
+      <div
+        className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 min-w-[240px]`}
+        title={name}
+      >
+        <div className="flex justify-between mb-0.5">
+          <p className="text-sm capitalize">
+            Edited{` `}
+            {formatDistance(new Date(), document.mdate, {
+              addSuffix: true,
+            })}
+            {` `}
+            ago
+          </p>
+          <strong className="ml-4">
+            {document.visibility === `private` && (
+              <BiLowVision size={20} title="This document is private" />
+            )}
+            {document.visibility === `public` && (
+              <BiShow size={20} title="This document is public" />
+            )}
+            {document.visibility === `permanent` && (
+              <BiWorld size={20} title="This document is permanent" />
+            )}
+          </strong>
         </div>
-        <p>{description}</p>
+        <h6 className="font-bold">{name}</h6>
+        <p className="mt-1">{description}</p>
       </div>
       <Handle type="source" position={Position.Bottom} />
     </>
