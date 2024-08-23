@@ -4,10 +4,7 @@ import {
   BiArrowBack,
   BiChevronDown,
   BiChevronRight,
-  BiLowVision,
   BiPlus,
-  BiShow,
-  BiWorld,
 } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
@@ -70,17 +67,6 @@ const InternalNode = ({
             {` `}
             ago
           </p>
-          <strong className="ml-4">
-            {document.visibility === `private` && (
-              <BiLowVision size={20} title="This document is private" />
-            )}
-            {document.visibility === `public` && (
-              <BiShow size={20} title="This document is public" />
-            )}
-            {document.visibility === `permanent` && (
-              <BiWorld size={20} title="This document is permanent" />
-            )}
-          </strong>
         </div>
         <h6 className="font-bold">{name}</h6>
         {description && <p className="mt-1">{description}</p>}
