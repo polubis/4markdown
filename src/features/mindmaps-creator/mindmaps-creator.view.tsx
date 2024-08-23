@@ -36,7 +36,7 @@ const NodeFormModal = React.lazy(() =>
     default: m.NodeFormModal,
   })),
 );
-
+// https://www.npmjs.com/package/@xyflow/react
 const InternalNode = ({
   data: { document, name, description },
 }: NodeProps<MindmapInternalNode['data']>) => {
