@@ -9,6 +9,7 @@ import {
 import { Checkbox } from 'design-system/checkbox';
 import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
 import { Field } from 'design-system/field';
+import { Hint } from 'design-system/hint';
 
 const MindmapSettingsModalContainer = () => {
   const { settings } = useMindmapsCreatorStore();
@@ -28,7 +29,11 @@ const MindmapSettingsModalContainer = () => {
         </Button>
       </div>
 
-      <Field hint="After a node is changed, the application will zoom out to display all nodes.">
+      <Field
+        hint={
+          <Hint trigger="After a node is changed, the application will zoom out to display all nodes." />
+        }
+      >
         <Checkbox
           label="Auto Zoom"
           checked={settings.autoFit}
