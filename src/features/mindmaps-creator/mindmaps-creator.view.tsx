@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ComponentType } from 'react';
 import { Button } from 'design-system/button';
 import { BiArrowBack, BiCog, BiPlus } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
@@ -13,9 +13,11 @@ import {
   useReactFlow,
   type NodeProps,
   type Node,
-  type NodeTypes,
 } from '@xyflow/react';
-import type { MindmapInternalNode } from 'api-4markdown-contracts';
+import type {
+  MindmapInternalNode,
+  MindmapNodeType,
+} from 'api-4markdown-contracts';
 import {
   connectMindmap,
   openMindmapSettings,
@@ -95,7 +97,15 @@ const ExternalNode = () => {
   return null;
 };
 
-const nodeTypes: NodeTypes = {
+const nodeTypes: Record<
+  MindmapNodeType,
+  ComponentType<
+    NodeProps & {
+      data: any;
+      type: any;
+    }
+  >
+> = {
   internal: InternalNode,
   external: ExternalNode,
 };
