@@ -14,10 +14,7 @@ import {
   type NodeProps,
   type Node,
 } from '@xyflow/react';
-import type {
-  MindmapInternalNode,
-  MindmapNodeType,
-} from 'api-4markdown-contracts';
+import type { MindmapNode, MindmapNodeType } from 'api-4markdown-contracts';
 import {
   connectMindmap,
   openMindmapSettings,
@@ -28,6 +25,12 @@ import {
 import { AppNavLink } from 'components/app-nav-link';
 import { formatDistance } from 'date-fns';
 import '@xyflow/react/dist/base.css';
+
+type MindmapNodeTypes = {
+  [Key in MindmapNodeType]: ComponentType<
+    NodeProps<Node<Extract<MindmapNode, { type: MindmapNodeType }>['data']>>
+  >;
+};
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -40,11 +43,9 @@ const MindmapSettingsModalContainer = React.lazy(() =>
   })),
 );
 
-const InternalNode = ({
+const InternalNode: MindmapNodeTypes['internal'] = ({
   data: { document, name, description },
-  ...rest
-}: NodeProps<Node<MindmapInternalNode['data']>>) => {
-  console.log(rest);
+}) => {
   return (
     <>
       <Handle
@@ -96,15 +97,7 @@ const ExternalNode = () => {
   return null;
 };
 
-const nodeTypes: Record<
-  MindmapNodeType,
-  ComponentType<
-    NodeProps & {
-      data: any;
-      type: any;
-    }
-  >
-> = {
+const nodeTypes: MindmapNodeTypes = {
   internal: InternalNode,
   external: ExternalNode,
 };
