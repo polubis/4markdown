@@ -3,8 +3,8 @@ import Modal from 'design-system/modal';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import {
-  changeMindmapSettings,
   closeMindmapSettings,
+  toggleMindmapAutoFit,
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
 import { Checkbox } from 'design-system/checkbox';
 import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
@@ -37,11 +37,7 @@ const MindmapSettingsModalContainer = () => {
         <Checkbox
           label="Auto Zoom"
           checked={settings.autoFit}
-          onClick={() =>
-            changeMindmapSettings((settings) => ({
-              autoFit: !settings.autoFit,
-            }))
-          }
+          onClick={toggleMindmapAutoFit}
         />
       </Field>
     </Modal>

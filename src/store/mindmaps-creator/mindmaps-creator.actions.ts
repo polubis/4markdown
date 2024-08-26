@@ -6,10 +6,7 @@ import {
   type Connection,
   type NodeChange,
 } from '@xyflow/react';
-import {
-  type MindmapsCreatorStoreState,
-  useMindmapsCreatorStore,
-} from './mindmaps-creator.store';
+import { useMindmapsCreatorStore } from './mindmaps-creator.store';
 import type { MindmapInternalNode, MindmapNode } from 'api-4markdown-contracts';
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
@@ -88,29 +85,37 @@ const startAddingNode = (): void => {
   });
 };
 
-const changeMindmapSettings = (
-  setter:
-    | ((
-        settings: MindmapsCreatorStoreState['settings'],
-      ) => Partial<MindmapsCreatorStoreState['settings']>)
-    | Partial<MindmapsCreatorStoreState['settings']>,
-): void => {
+const openMindmapSettings = (): void => {
   const { settings } = get();
 
   set({
     settings: {
       ...settings,
-      ...(typeof setter === `function` ? setter(settings) : setter),
+      opened: true,
     },
   });
 };
 
-const openMindmapSettings = (): void => {
-  changeMindmapSettings({ opened: true });
+const closeMindmapSettings = (): void => {
+  const { settings } = get();
+
+  set({
+    settings: {
+      ...settings,
+      opened: false,
+    },
+  });
 };
 
-const closeMindmapSettings = (): void => {
-  changeMindmapSettings({ opened: false });
+const toggleMindmapAutoFit = (): void => {
+  const { settings } = get();
+
+  set({
+    settings: {
+      ...settings,
+      autoFit: !settings.autoFit,
+    },
+  });
 };
 
 export {
@@ -122,5 +127,5 @@ export {
   cancelAddingNode,
   openMindmapSettings,
   closeMindmapSettings,
-  changeMindmapSettings,
+  toggleMindmapAutoFit,
 };
