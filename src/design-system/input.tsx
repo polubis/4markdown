@@ -26,7 +26,7 @@ const Input = ({ className, rightIcon, ...props }: InputProps) => {
         {...props}
       />
       {rightIcon && (
-        <div className="flex items-center absolute top-0 bottom-0 right-4 my-auto text-black dark:text-white">
+        <div className="flex items-center absolute top-0 bottom-0 right-3 h-5 w-5 my-auto text-black dark:text-white shrink-0">
           {rightIcon}
         </div>
       )}

@@ -2,7 +2,7 @@ import type { DocumentDto } from 'api-4markdown-contracts';
 import { Input, type InputProps } from 'design-system/input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
-import { BiSearch } from 'react-icons/bi';
+import { BiSearch, BiX } from 'react-icons/bi';
 import { docsStoreSelectors } from 'store/docs/docs.store';
 
 interface YourDocumentsSearchContainerProps {
@@ -58,6 +58,11 @@ const YourDocumentsSearchContainer = ({
     onChange(e.target.value);
   };
 
+  const clearSearch = (): void => {
+    setText(``);
+    onChange(``);
+  };
+
   React.useEffect(() => {
     return () => {
       clearBlurTimeout();
@@ -68,7 +73,15 @@ const YourDocumentsSearchContainer = ({
     <div className="relative">
       <Input
         placeholder="Type to search"
-        rightIcon={<BiSearch />}
+        rightIcon={
+          text ? (
+            <button onClick={clearSearch} title="Clear documents search">
+              <BiX size={20} />
+            </button>
+          ) : (
+            <BiSearch />
+          )
+        }
         value={text}
         onFocus={menu.open}
         onBlur={closeMenu}
