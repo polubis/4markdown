@@ -40,7 +40,6 @@ const MindmapSettingsModalContainer = React.lazy(() =>
   })),
 );
 
-// https://www.npmjs.com/package/@xyflow/react
 const InternalNode = ({
   data: { document, name, description },
   ...rest
