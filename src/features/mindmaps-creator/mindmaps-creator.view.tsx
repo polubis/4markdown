@@ -37,6 +37,7 @@ const NodeFormModalContainer = React.lazy(() =>
     default: m.NodeFormModalContainer,
   })),
 );
+
 const MindmapSettingsModalContainer = React.lazy(() =>
   import(`./containers/mindmap-settings-modal.container`).then((m) => ({
     default: m.MindmapSettingsModalContainer,
@@ -108,7 +109,6 @@ const MindmapsCreatorView = () => {
     settings,
     nodeForm,
   } = useMindmapsCreatorStore();
-
   const { fitView } = useReactFlow();
 
   React.useLayoutEffect(() => {

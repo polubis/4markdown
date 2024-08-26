@@ -5,7 +5,6 @@ import {
   type EdgeChange,
   type Connection,
   type NodeChange,
-  type Node,
 } from '@xyflow/react';
 import {
   type MindmapsCreatorStoreState,
@@ -25,17 +24,14 @@ const connectMindmap = (connection: Connection): void => {
     },
   });
 };
-
+// @TODO[PRIO=4]: [Make it better typed].
 const updateMindmapNodes = (changes: NodeChange[]): void => {
   const { mindmap } = get();
 
   set({
     mindmap: {
       ...mindmap,
-      nodes: applyNodeChanges(
-        changes,
-        mindmap.nodes as Node[],
-      ) as MindmapNode[],
+      nodes: applyNodeChanges(changes, mindmap.nodes) as MindmapNode[],
     },
   });
 };
