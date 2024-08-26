@@ -5,6 +5,7 @@ type NodeFormData = Pick<MindmapNode, 'type' | 'data'>;
 
 type MindmapsCreatorStoreState = {
   settings: {
+    opened: boolean;
     autoFit: boolean;
   };
   nodeForm: {
@@ -16,6 +17,7 @@ type MindmapsCreatorStoreState = {
 
 const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
   settings: {
+    opened: false,
     autoFit: false,
   },
   nodeForm: {

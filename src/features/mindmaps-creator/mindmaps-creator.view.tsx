@@ -1,6 +1,6 @@
 import React, { type ComponentType } from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiPlus } from 'react-icons/bi';
+import { BiArrowBack, BiCog, BiPlus } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
 import ReactFlow, {
@@ -18,6 +18,7 @@ import type {
 } from 'api-4markdown-contracts';
 import {
   connectMindmap,
+  openMindmapSettings,
   startAddingNode,
   updateMindmapEdges,
   updateMindmapNodes,
@@ -31,6 +32,12 @@ const NodeFormModal = React.lazy(() =>
     default: m.NodeFormModal,
   })),
 );
+const MindmapSettingsModalContainer = React.lazy(() =>
+  import(`./containers/mindmap-settings-modal.container`).then((m) => ({
+    default: m.MindmapSettingsModalContainer,
+  })),
+);
+
 // https://www.npmjs.com/package/@xyflow/react
 const InternalNode = ({
   data: { document, name, description },
@@ -135,6 +142,14 @@ const MindmapsCreatorView = () => {
           >
             <BiPlus />
           </Button>
+          <Button
+            i={1}
+            s={2}
+            title="Open mindmap settings"
+            onClick={openMindmapSettings}
+          >
+            <BiCog />
+          </Button>
         </aside>
         <ReactFlow
           nodes={nodes}
@@ -152,6 +167,11 @@ const MindmapsCreatorView = () => {
       {nodeForm.opened && (
         <React.Suspense>
           <NodeFormModal />
+        </React.Suspense>
+      )}
+      {settings.opened && (
+        <React.Suspense>
+          <MindmapSettingsModalContainer />
         </React.Suspense>
       )}
     </>

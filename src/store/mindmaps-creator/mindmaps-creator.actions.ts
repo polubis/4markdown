@@ -88,6 +88,28 @@ const startAddingNode = (): void => {
   });
 };
 
+const openMindmapSettings = (): void => {
+  const { settings } = get();
+
+  set({
+    settings: {
+      ...settings,
+      opened: true,
+    },
+  });
+};
+
+const closeMindmapSettings = (): void => {
+  const { settings } = get();
+
+  set({
+    settings: {
+      ...settings,
+      opened: false,
+    },
+  });
+};
+
 export {
   connectMindmap,
   updateMindmapNodes,
@@ -95,4 +117,6 @@ export {
   addInternalMindmapNode,
   startAddingNode,
   cancelAddingNode,
+  openMindmapSettings,
+  closeMindmapSettings,
 };
