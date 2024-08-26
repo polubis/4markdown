@@ -1,9 +1,10 @@
-import React, { type ComponentType } from 'react';
+import React from 'react';
 import { Button } from 'design-system/button';
 import { BiArrowBack, BiCog, BiPlus } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
-import ReactFlow, {
+import {
+  ReactFlow,
   Background,
   Controls,
   Handle,
@@ -11,11 +12,10 @@ import ReactFlow, {
   ReactFlowProvider,
   useReactFlow,
   type NodeProps,
-} from 'reactflow';
-import type {
-  MindmapInternalNode,
-  MindmapNodeType,
-} from 'api-4markdown-contracts';
+  type Node,
+  type NodeTypes,
+} from '@xyflow/react';
+import type { MindmapInternalNode } from 'api-4markdown-contracts';
 import {
   connectMindmap,
   openMindmapSettings,
@@ -23,9 +23,9 @@ import {
   updateMindmapEdges,
   updateMindmapNodes,
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
-import 'reactflow/dist/style.css';
 import { AppNavLink } from 'components/app-nav-link';
 import { formatDistance } from 'date-fns';
+import '@xyflow/react/dist/base.css';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -41,17 +41,19 @@ const MindmapSettingsModalContainer = React.lazy(() =>
 // https://www.npmjs.com/package/@xyflow/react
 const InternalNode = ({
   data: { document, name, description },
-}: NodeProps<MindmapInternalNode['data']>) => {
+  ...rest
+}: NodeProps<Node<MindmapInternalNode['data']>>) => {
+  console.log(rest);
   return (
     <>
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !w-8 !h-2.5 !-top-[5px] !rounded-md"
+        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !w-8 !h-2.5 !rounded-md"
         type="target"
         id="target-handle-top"
         position={Position.Top}
       />
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !h-8 !w-2.5 !-left-[4.5px] !rounded-md"
+        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !h-8 !w-2.5 !left-[1px] !rounded-md"
         type="target"
         id="target-handle-left"
         position={Position.Left}
@@ -74,13 +76,13 @@ const InternalNode = ({
         {description && <p className="mt-1">{description}</p>}
       </div>
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !-bottom-[7px] !w-4 !h-4"
+        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !w-4 !h-4 rounded-full"
         type="source"
         id="source-handle-bottom"
         position={Position.Bottom}
       />
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !-right-[7px] !w-4 !h-4"
+        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !-right-[-0.5px] !w-4 !h-4 rounded-full"
         type="source"
         id="source-handle-right"
         position={Position.Right}
@@ -93,7 +95,7 @@ const ExternalNode = () => {
   return null;
 };
 
-const nodeTypes: Record<MindmapNodeType, ComponentType<NodeProps>> = {
+const nodeTypes: NodeTypes = {
   internal: InternalNode,
   external: ExternalNode,
 };

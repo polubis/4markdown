@@ -1,36 +1,28 @@
-import type { Edge, Node } from 'reactflow';
+import type { Edge, Node } from '@xyflow/react';
 import type { Date, Id, Name, Path } from '../atoms';
 import type { DocumentDto } from './document.dto';
 
 const MINDMAP_NODE_TYPES = [`internal`, `external`] as const;
 
-type NodeNativeProperties =
-  | 'id'
-  | 'data'
-  | 'height'
-  | 'width'
-  | 'position'
-  | 'type';
+type NodeNativeProperties = 'id' | 'data' | 'position' | 'type';
 
-type MindmapInternalNode = Required<
-  Pick<
-    Node<
-      {
-        document: DocumentDto;
-        name: Name;
-        description?: string;
-      },
-      'internal'
-    >,
-    NodeNativeProperties
-  >
->;
+type MindmapInternalNode = {
+  id: string;
+  data: {
+    document: DocumentDto;
+    name: Name;
+    description?: string;
+  };
+  type: `internal`;
+  position: {
+    x: number;
+    y: number;
+  };
+};
 
-type MindmapExternalNode = Required<
-  Pick<
-    Node<{ url: Path; name: Name; description?: string }, 'external'>,
-    NodeNativeProperties
-  >
+type MindmapExternalNode = Pick<
+  Node<{ url: Path; name: Name; description?: string }, 'external'>,
+  NodeNativeProperties
 >;
 
 type MindmapNodeType = (typeof MINDMAP_NODE_TYPES)[number];

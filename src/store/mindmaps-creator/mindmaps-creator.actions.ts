@@ -6,7 +6,7 @@ import {
   type Connection,
   type NodeChange,
   type Node,
-} from 'reactflow';
+} from '@xyflow/react';
 import {
   type MindmapsCreatorStoreState,
   useMindmapsCreatorStore,
@@ -69,9 +69,10 @@ const addInternalMindmapNode = (data: MindmapInternalNode['data']): void => {
         ...mindmap.nodes,
         {
           id: new Date().toISOString(),
-          position: { x: 0, y: 0 },
-          height: null,
-          width: null,
+          position: {
+            x: 0,
+            y: 0,
+          },
           data,
           type: `internal`,
         },
