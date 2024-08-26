@@ -7,7 +7,10 @@ import {
   type NodeChange,
   type Node,
 } from 'reactflow';
-import { useMindmapsCreatorStore } from './mindmaps-creator.store';
+import {
+  type MindmapsCreatorStoreState,
+  useMindmapsCreatorStore,
+} from './mindmaps-creator.store';
 import type { MindmapInternalNode, MindmapNode } from 'api-4markdown-contracts';
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
@@ -88,26 +91,29 @@ const startAddingNode = (): void => {
   });
 };
 
-const openMindmapSettings = (): void => {
+const changeMindmapSettings = (
+  setter:
+    | ((
+        settings: MindmapsCreatorStoreState['settings'],
+      ) => Partial<MindmapsCreatorStoreState['settings']>)
+    | Partial<MindmapsCreatorStoreState['settings']>,
+): void => {
   const { settings } = get();
 
   set({
     settings: {
       ...settings,
-      opened: true,
+      ...(typeof setter === `function` ? setter(settings) : setter),
     },
   });
 };
 
-const closeMindmapSettings = (): void => {
-  const { settings } = get();
+const openMindmapSettings = (): void => {
+  changeMindmapSettings({ opened: true });
+};
 
-  set({
-    settings: {
-      ...settings,
-      opened: false,
-    },
-  });
+const closeMindmapSettings = (): void => {
+  changeMindmapSettings({ opened: false });
 };
 
 export {
@@ -119,4 +125,5 @@ export {
   cancelAddingNode,
   openMindmapSettings,
   closeMindmapSettings,
+  changeMindmapSettings,
 };

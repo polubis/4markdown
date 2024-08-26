@@ -90,17 +90,7 @@ const InternalNode = ({
 };
 
 const ExternalNode = () => {
-  return (
-    <>
-      <Handle type="target" position={Position.Top} />
-      <div>
-        <label htmlFor="text">ExternalNode</label>
-        <input id="text" name="text" className="nodrag" />
-      </div>
-      <Handle type="source" position={Position.Bottom} />
-      <Handle type="source" position={Position.Bottom} />
-    </>
-  );
+  return null;
 };
 
 const nodeTypes: Record<MindmapNodeType, ComponentType<NodeProps>> = {

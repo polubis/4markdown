@@ -34,4 +34,5 @@ const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
   },
 }));
 
+export type { MindmapsCreatorStoreState };
 export { useMindmapsCreatorStore };
