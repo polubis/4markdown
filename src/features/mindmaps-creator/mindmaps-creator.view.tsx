@@ -49,13 +49,13 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
   return (
     <>
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !w-8 !h-2.5 !rounded-md"
+        className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-8 h-2.5 !top-[1px] rounded-md"
         type="target"
         id="target-handle-top"
         position={Position.Top}
       />
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !h-8 !w-2.5 !left-[1px] !rounded-md"
+        className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 h-8 w-2.5 !left-[1px] rounded-md"
         type="target"
         id="target-handle-left"
         position={Position.Left}
@@ -78,13 +78,13 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
         {description && <p className="mt-1">{description}</p>}
       </div>
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !w-4 !h-4 rounded-full"
+        className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
         type="source"
         id="source-handle-bottom"
         position={Position.Bottom}
       />
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !-right-[-0.5px] !w-4 !h-4 rounded-full"
+        className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 !right-[1px] w-4 h-4 rounded-full"
         type="source"
         id="source-handle-right"
         position={Position.Right}
