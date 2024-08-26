@@ -4,6 +4,9 @@ import type { MindmapDto, MindmapNode } from 'api-4markdown-contracts';
 type NodeFormData = Pick<MindmapNode, 'type' | 'data'>;
 
 type MindmapsCreatorStoreState = {
+  settings: {
+    autoFit: boolean;
+  };
   nodeForm: {
     opened: boolean;
     data?: NodeFormData;
@@ -12,6 +15,9 @@ type MindmapsCreatorStoreState = {
 };
 
 const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
+  settings: {
+    autoFit: false,
+  },
   nodeForm: {
     opened: false,
   },

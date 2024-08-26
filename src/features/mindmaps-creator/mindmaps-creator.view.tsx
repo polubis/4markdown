@@ -1,11 +1,6 @@
 import React, { type ComponentType } from 'react';
 import { Button } from 'design-system/button';
-import {
-  BiArrowBack,
-  BiChevronDown,
-  BiChevronRight,
-  BiPlus,
-} from 'react-icons/bi';
+import { BiArrowBack, BiPlus } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
 import ReactFlow, {
@@ -43,13 +38,13 @@ const InternalNode = ({
   return (
     <>
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-top-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
+        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !w-8 !h-2.5 !-top-[5px] !rounded-md"
         type="target"
         id="target-handle-top"
         position={Position.Top}
       />
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-left-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
+        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !h-8 !w-2.5 !-left-[4.5px] !rounded-md"
         type="target"
         id="target-handle-left"
         position={Position.Left}
@@ -72,21 +67,17 @@ const InternalNode = ({
         {description && <p className="mt-1">{description}</p>}
       </div>
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-bottom-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
+        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !-bottom-[7px] !w-4 !h-4"
         type="source"
         id="source-handle-bottom"
         position={Position.Bottom}
-      >
-        <BiChevronDown className="pointer-events-none text-zinc-700 dark:text-zinc-200" />
-      </Handle>
+      />
       <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 !w-5 !h-5 !-right-2.5 !border-2 !border-zinc-700 dark:!border-zinc-200 flex items-center justify-center"
+        className="!bg-zinc-200 dark:!bg-gray-950 !border-zinc-400 dark:!border-zinc-700 !border-2 !-right-[7px] !w-4 !h-4"
         type="source"
         id="source-handle-right"
         position={Position.Right}
-      >
-        <BiChevronRight className="pointer-events-none text-zinc-700 dark:text-zinc-200" />
-      </Handle>
+      />
     </>
   );
 };
@@ -113,15 +104,16 @@ const nodeTypes: Record<MindmapNodeType, ComponentType<NodeProps>> = {
 const MindmapsCreatorView = () => {
   const {
     mindmap: { nodes, edges },
+    settings,
     nodeForm,
   } = useMindmapsCreatorStore();
 
   const { fitView } = useReactFlow();
 
   React.useLayoutEffect(() => {
-    fitView({ padding: 24 });
+    settings.autoFit && fitView({ padding: 24 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodes.length]);
+  }, [settings.autoFit, nodes.length]);
 
   return (
     <>
