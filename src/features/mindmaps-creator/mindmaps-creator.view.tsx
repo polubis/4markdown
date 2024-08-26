@@ -27,9 +27,9 @@ import 'reactflow/dist/style.css';
 import { AppNavLink } from 'components/app-nav-link';
 import { formatDistance } from 'date-fns';
 
-const NodeFormModal = React.lazy(() =>
-  import(`./components/node-form-modal`).then((m) => ({
-    default: m.NodeFormModal,
+const NodeFormModalContainer = React.lazy(() =>
+  import(`./containers/node-form-modal.container`).then((m) => ({
+    default: m.NodeFormModalContainer,
   })),
 );
 const MindmapSettingsModalContainer = React.lazy(() =>
@@ -166,7 +166,7 @@ const MindmapsCreatorView = () => {
       </main>
       {nodeForm.opened && (
         <React.Suspense>
-          <NodeFormModal />
+          <NodeFormModalContainer />
         </React.Suspense>
       )}
       {settings.opened && (
