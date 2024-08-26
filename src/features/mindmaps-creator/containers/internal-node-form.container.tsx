@@ -17,6 +17,8 @@ import {
   noEdgeSpaces,
   optional,
 } from 'development-kit/form';
+import { meta } from '../../../../meta';
+import { Hint } from 'design-system/hint';
 
 type InternalNodeFormValues = Pick<
   MindmapInternalNode['data'],
@@ -63,7 +65,13 @@ const InternalNodeFormContainer = () => {
   return (
     <form onSubmit={confirm}>
       <section>
-        <Field className="mb-2" label="Document*">
+        <Field
+          className="mb-2"
+          label="Document*"
+          hint={
+            <Hint trigger={`Find a non-private document in ${meta.appName}`} />
+          }
+        >
           <YourDocumentsSearchContainer
             onSelect={selectDoc}
             onChange={unselectDoc}
