@@ -93,7 +93,7 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
   );
 };
 
-const ExternalNode = () => {
+const ExternalNode: MindmapNodeTypes['external'] = () => {
   return null;
 };
 
