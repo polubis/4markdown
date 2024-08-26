@@ -94,7 +94,7 @@ const YourDocumentsSearchContainer = ({
             filteredDocs.map((doc, idx) => (
               <li
                 tabIndex={idx}
-                className="px-3 text-sm py-2 font-semibold cursor-pointer hover:bg-gray-400/70 bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-900/50"
+                className="px-3 text-sm py-2 font-semibold cursor-pointer hover:bg-gray-400/20 bg-gray-300 dark:bg-slate-800 dark:hover:bg-slate-900/50"
                 key={doc.id}
                 onClick={() => {
                   select(doc);
