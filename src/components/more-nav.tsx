@@ -4,12 +4,22 @@ import React from 'react';
 import { BiMenu } from 'react-icons/bi';
 import MenuNavSidebar from './menu-nav-sidebar';
 
-const MoreNav = () => {
+interface MoreNavProps {
+  className?: string;
+}
+
+const MoreNav = ({ className }: MoreNavProps) => {
   const menu = useToggle();
 
   return (
     <>
-      <Button i={1} s={2} title="Navigation" onClick={menu.toggle}>
+      <Button
+        className={className}
+        i={1}
+        s={2}
+        title="Navigation"
+        onClick={menu.toggle}
+      >
         <BiMenu />
       </Button>
       <MenuNavSidebar opened={menu.opened} onClose={menu.close} />
