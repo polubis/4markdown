@@ -1,0 +1,7 @@
+.react-flow__panel {
+  @apply m-3 space-y-2;
+}
+
+.react-flow__controls-button {
+  @apply h-7 w-7 outline-2 outline-black enabled:focus:outline rounded-full bg-gray-300 dark:bg-slate-800 dark:text-white;
+}
