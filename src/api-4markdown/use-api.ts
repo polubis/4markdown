@@ -95,6 +95,6 @@ const initialize = (): API4Markdown => {
   return instance;
 };
 
-const useAPI = () => React.useState(initialize)[0];
+const useAPI = (): API4Markdown => React.useState(initialize)[0];
 
 export { useAPI };
