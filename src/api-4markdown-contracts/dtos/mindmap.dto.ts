@@ -1,13 +1,8 @@
-import type { Edge, Node } from '@xyflow/react';
-import type { Date, Id, Name, Path } from '../atoms';
+import type { Date, Id, Name } from '../atoms';
 import type { DocumentDto } from './document.dto';
 
-const MINDMAP_NODE_TYPES = [`internal`, `external`] as const;
-
-type NodeNativeProperties = 'id' | 'data' | 'position' | 'type';
-
 type MindmapInternalNode = {
-  id: string;
+  id: Id;
   data: {
     document: DocumentDto;
     name: Name;
@@ -20,14 +15,18 @@ type MindmapInternalNode = {
   };
 };
 
-type MindmapExternalNode = Pick<
-  Node<{ url: Path; name: Name; description?: string }, 'external'>,
-  NodeNativeProperties
->;
+type MindmapBasicEdge = {
+  id: Id;
+  type: `basic`;
+  source: string;
+  target: string;
+};
 
-type MindmapNodeType = (typeof MINDMAP_NODE_TYPES)[number];
+type MindmapEdge = MindmapBasicEdge;
+type MindmapNode = MindmapInternalNode;
 
-type MindmapNode = MindmapInternalNode | MindmapExternalNode;
+type MindmapNodeType = MindmapNode['type'];
+type MindmapEdgeType = MindmapEdge['type'];
 
 type MindmapDto = {
   id: Id;
@@ -36,13 +35,14 @@ type MindmapDto = {
   cdate: Date;
   mdate: Date;
   nodes: MindmapNode[];
-  edges: Edge[];
+  edges: MindmapEdge[];
 };
 
 export type {
   MindmapDto,
   MindmapNodeType,
+  MindmapBasicEdge,
   MindmapNode,
   MindmapInternalNode,
-  MindmapExternalNode,
+  MindmapEdgeType,
 };
