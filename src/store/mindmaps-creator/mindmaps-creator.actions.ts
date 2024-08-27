@@ -72,6 +72,7 @@ const addInternalMindmapNode = (data: MindmapInternalNode['data']): void => {
       nodes: [
         ...mindmap.nodes,
         {
+          // @TODO[PRIO=5]: [Create a function for random ID generation].
           id: new Date().toISOString(),
           position: {
             x: 0,

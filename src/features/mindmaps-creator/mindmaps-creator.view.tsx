@@ -139,8 +139,6 @@ const MindmapsCreatorView = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings.autoFit, nodes.length]);
 
-  console.log(edges);
-
   return (
     <>
       <header className="flex px-4 py-3.5 border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
