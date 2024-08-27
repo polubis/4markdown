@@ -15,7 +15,7 @@ const MindmapSettingsModalContainer = () => {
   const { settings } = useMindmapsCreatorStore();
 
   return (
-    <Modal>
+    <Modal onEscape={closeMindmapSettings}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Settings</h6>
         <Button

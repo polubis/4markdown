@@ -18,6 +18,7 @@ import {
   BaseEdge,
   getBezierPath,
   EdgeLabelRenderer,
+  useKeyPress,
 } from '@xyflow/react';
 import type {
   MindmapEdgeType,
@@ -75,7 +76,7 @@ const BasicEdge: MindmapEdgeTypes['basic'] = ({
   return (
     <>
       <BaseEdge
-        className="!stroke-zinc-400 dark:!stroke-zinc-700 !stroke-2"
+        className="stroke-zinc-400 dark:stroke-zinc-700"
         id={id}
         path={edgePath}
       />
@@ -164,10 +165,16 @@ const MindmapsCreatorView = () => {
   } = useMindmapsCreatorStore();
   const { fitView } = useReactFlow();
 
+  const newNodePressed = useKeyPress(`n`);
+
   React.useLayoutEffect(() => {
     settings.autoFit && fitView({ padding: 24 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings.autoFit, nodes.length]);
+
+  React.useEffect(() => {
+    newNodePressed && startAddingNode();
+  }, [newNodePressed]);
 
   return (
     <>

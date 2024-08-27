@@ -11,7 +11,7 @@ const NodeFormModalContainer = () => {
   const [type, setType] = React.useState<MindmapNodeType>(`internal`);
 
   return (
-    <Modal>
+    <Modal onEscape={cancelAddingNode}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Add Node</h6>
         <Button
@@ -31,15 +31,8 @@ const NodeFormModalContainer = () => {
         >
           Internal
         </Tabs.Item>
-        <Tabs.Item
-          active={type === `external`}
-          onClick={() => setType(`external`)}
-        >
-          External
-        </Tabs.Item>
       </Tabs>
       {type === `internal` && <InternalNodeFormContainer />}
-      {type === `external` && <div>External</div>}
     </Modal>
   );
 };
