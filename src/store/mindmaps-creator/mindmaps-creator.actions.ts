@@ -14,7 +14,7 @@ import type {
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
 
-const connectMindmap = ({ source, target }: Connection): void => {
+const connectMindmapNodes = ({ source, target }: Connection): void => {
   const { mindmap } = get();
 
   set({
@@ -32,6 +32,18 @@ const connectMindmap = ({ source, target }: Connection): void => {
     },
   });
 };
+
+const removeMindmapNodesConnection = (id: MindmapEdge['id']): void => {
+  const { mindmap } = get();
+
+  set({
+    mindmap: {
+      ...mindmap,
+      edges: mindmap.edges.filter((edge) => edge.id !== id),
+    },
+  });
+};
+
 // @TODO[PRIO=4]: [Make it better typed].
 const updateMindmapNodes = (changes: NodeChange[]): void => {
   const { mindmap } = get();
@@ -131,7 +143,7 @@ const toggleMindmapAutoFit = (): void => {
 };
 
 export {
-  connectMindmap,
+  connectMindmapNodes,
   updateMindmapNodes,
   updateMindmapEdges,
   addInternalMindmapNode,
@@ -140,4 +152,5 @@ export {
   openMindmapSettings,
   closeMindmapSettings,
   toggleMindmapAutoFit,
+  removeMindmapNodesConnection,
 };

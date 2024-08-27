@@ -1,6 +1,6 @@
 import React, { type ComponentType } from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiCog, BiPlus } from 'react-icons/bi';
+import { BiArrowBack, BiCog, BiPlus, BiX } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
 import {
@@ -17,6 +17,7 @@ import {
   type Edge,
   BaseEdge,
   getBezierPath,
+  EdgeLabelRenderer,
 } from '@xyflow/react';
 import type {
   MindmapEdgeType,
@@ -24,8 +25,9 @@ import type {
   MindmapNodeType,
 } from 'api-4markdown-contracts';
 import {
-  connectMindmap,
+  connectMindmapNodes,
   openMindmapSettings,
+  removeMindmapNodesConnection,
   startAddingNode,
   updateMindmapEdges,
   updateMindmapNodes,
@@ -63,9 +65,37 @@ const BasicEdge: MindmapEdgeTypes['basic'] = ({
   targetX,
   targetY,
 }) => {
-  const [edgePath] = getBezierPath({ sourceX, sourceY, targetX, targetY });
+  const [edgePath, labelX, labelY] = getBezierPath({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+  });
 
-  return <BaseEdge id={id} path={edgePath} />;
+  return (
+    <>
+      <BaseEdge
+        className="!stroke-zinc-400 dark:!stroke-zinc-700 !stroke-2"
+        id={id}
+        path={edgePath}
+      />
+      <EdgeLabelRenderer>
+        <Button
+          i={2}
+          s="auto"
+          rounded
+          style={{
+            transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
+            pointerEvents: `all`,
+          }}
+          className="nodrag nopan absolute h-5 w-5"
+          onClick={() => removeMindmapNodesConnection(id)}
+        >
+          <BiX />
+        </Button>
+      </EdgeLabelRenderer>
+    </>
+  );
 };
 
 const InternalNode: MindmapNodeTypes['internal'] = ({
@@ -173,7 +203,7 @@ const MindmapsCreatorView = () => {
           edges={edges}
           onNodesChange={updateMindmapNodes}
           onEdgesChange={updateMindmapEdges}
-          onConnect={connectMindmap}
+          onConnect={connectMindmapNodes}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
           fitView
