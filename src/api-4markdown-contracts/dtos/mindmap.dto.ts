@@ -17,7 +17,7 @@ type MindmapInternalNode = {
 
 type MindmapBasicEdge = {
   id: Id;
-  type: `basic`;
+  type: `curved`;
   source: Id;
   target: Id;
 };

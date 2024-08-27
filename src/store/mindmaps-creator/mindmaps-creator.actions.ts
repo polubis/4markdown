@@ -24,7 +24,7 @@ const connectMindmapNodes = ({ source, target }: Connection): void => {
         ...mindmap.edges,
         {
           id: new Date().toISOString(),
-          type: `basic`,
+          type: `curved`,
           source,
           target,
         },

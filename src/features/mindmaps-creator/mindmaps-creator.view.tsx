@@ -14,7 +14,6 @@ import {
   type NodeProps,
   type Node,
   type EdgeProps,
-  type Edge,
   BaseEdge,
   getBezierPath,
   EdgeLabelRenderer,
@@ -44,7 +43,12 @@ type MindmapNodeTypes = {
 };
 
 type MindmapEdgeTypes = {
-  [Key in MindmapEdgeType]: ComponentType<EdgeProps<Edge<{}, MindmapEdgeType>>>;
+  [Key in MindmapEdgeType]: ComponentType<
+    EdgeProps & {
+      data: {};
+      type: MindmapEdgeType;
+    }
+  >;
 };
 
 const NodeFormModalContainer = React.lazy(() =>
@@ -59,7 +63,7 @@ const MindmapSettingsModalContainer = React.lazy(() =>
   })),
 );
 
-const BasicEdge: MindmapEdgeTypes['basic'] = ({
+const CurvedEdge: MindmapEdgeTypes['curved'] = ({
   id,
   sourceX,
   sourceY,
@@ -139,8 +143,8 @@ const nodeTypes: MindmapNodeTypes = {
   internal: InternalNode,
 };
 
-const edgeTypes = {
-  basic: BasicEdge,
+const edgeTypes: MindmapEdgeTypes = {
+  curved: CurvedEdge,
 };
 
 const MindmapsCreatorView = () => {
