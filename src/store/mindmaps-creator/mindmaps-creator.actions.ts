@@ -6,15 +6,22 @@ import {
   type NodeChange,
 } from '@xyflow/react';
 import { useMindmapsCreatorStore } from './mindmaps-creator.store';
-import type {
-  MindmapEdge,
-  MindmapInternalNode,
-  MindmapNode,
+import {
+  type MindmapNodeSourceHandler,
+  type MindmapEdge,
+  type MindmapInternalNode,
+  type MindmapNode,
+  type MindmapNodeTargetHandler,
 } from 'api-4markdown-contracts';
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
 
-const connectMindmapNodes = ({ source, target }: Connection): void => {
+const connectMindmapNodes = ({
+  source,
+  target,
+  sourceHandle,
+  targetHandle,
+}: Connection): void => {
   const { mindmap } = get();
 
   set({
@@ -23,10 +30,12 @@ const connectMindmapNodes = ({ source, target }: Connection): void => {
       edges: [
         ...mindmap.edges,
         {
-          id: `e${source}-${target}`,
+          id: new Date().toISOString(),
+          type: `basic`,
           source,
           target,
-          type: `basic`,
+          sourceHandle: sourceHandle as MindmapNodeSourceHandler,
+          targetHandle: targetHandle as MindmapNodeTargetHandler,
         },
       ],
     },

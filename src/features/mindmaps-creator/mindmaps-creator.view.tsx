@@ -20,10 +20,12 @@ import {
   EdgeLabelRenderer,
   useKeyPress,
 } from '@xyflow/react';
-import type {
-  MindmapEdgeType,
-  MindmapNode,
-  MindmapNodeType,
+import {
+  MINDMAP_NODE_SOURCE_HANDLERS,
+  MINDMAP_NODE_TARGET_HANDLERS,
+  type MindmapEdgeType,
+  type MindmapNode,
+  type MindmapNodeType,
 } from 'api-4markdown-contracts';
 import {
   connectMindmapNodes,
@@ -107,13 +109,13 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-8 h-2.5 !top-[1px] rounded-md"
         type="target"
-        id="target-handle-top"
+        id={MINDMAP_NODE_TARGET_HANDLERS.TOP}
         position={Position.Top}
       />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 h-8 w-2.5 !left-[1px] rounded-md"
         type="target"
-        id="target-handle-left"
+        id={MINDMAP_NODE_TARGET_HANDLERS.LEFT}
         position={Position.Left}
       />
       <div
@@ -136,13 +138,13 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
         type="source"
-        id="source-handle-bottom"
+        id={MINDMAP_NODE_SOURCE_HANDLERS.BOTTOM}
         position={Position.Bottom}
       />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 !right-[1px] w-4 h-4 rounded-full"
         type="source"
-        id="source-handle-right"
+        id={MINDMAP_NODE_SOURCE_HANDLERS.RIGHT}
         position={Position.Right}
       />
     </>
