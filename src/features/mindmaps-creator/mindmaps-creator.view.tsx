@@ -13,8 +13,16 @@ import {
   useReactFlow,
   type NodeProps,
   type Node,
+  type EdgeProps,
+  type Edge,
+  BaseEdge,
+  getBezierPath,
 } from '@xyflow/react';
-import type { MindmapNode, MindmapNodeType } from 'api-4markdown-contracts';
+import type {
+  MindmapEdgeType,
+  MindmapNode,
+  MindmapNodeType,
+} from 'api-4markdown-contracts';
 import {
   connectMindmap,
   openMindmapSettings,
@@ -32,6 +40,10 @@ type MindmapNodeTypes = {
   >;
 };
 
+type MindmapEdgeTypes = {
+  [Key in MindmapEdgeType]: ComponentType<EdgeProps<Edge<{}, MindmapEdgeType>>>;
+};
+
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
     default: m.NodeFormModalContainer,
@@ -43,6 +55,18 @@ const MindmapSettingsModalContainer = React.lazy(() =>
     default: m.MindmapSettingsModalContainer,
   })),
 );
+
+const BasicEdge: MindmapEdgeTypes['basic'] = ({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+}) => {
+  const [edgePath] = getBezierPath({ sourceX, sourceY, targetX, targetY });
+
+  return <BaseEdge id={id} path={edgePath} />;
+};
 
 const InternalNode: MindmapNodeTypes['internal'] = ({
   data: { document, name, description },
@@ -98,6 +122,10 @@ const nodeTypes: MindmapNodeTypes = {
   internal: InternalNode,
 };
 
+const edgeTypes = {
+  basic: BasicEdge,
+};
+
 const MindmapsCreatorView = () => {
   const {
     mindmap: { nodes, edges },
@@ -110,6 +138,8 @@ const MindmapsCreatorView = () => {
     settings.autoFit && fitView({ padding: 24 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings.autoFit, nodes.length]);
+
+  console.log(edges);
 
   return (
     <>
@@ -147,6 +177,7 @@ const MindmapsCreatorView = () => {
           onEdgesChange={updateMindmapEdges}
           onConnect={connectMindmap}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           fitView
         >
           <Controls />

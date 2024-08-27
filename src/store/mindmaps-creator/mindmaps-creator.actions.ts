@@ -1,5 +1,4 @@
 import {
-  addEdge,
   applyEdgeChanges,
   applyNodeChanges,
   type EdgeChange,
@@ -7,17 +6,29 @@ import {
   type NodeChange,
 } from '@xyflow/react';
 import { useMindmapsCreatorStore } from './mindmaps-creator.store';
-import type { MindmapInternalNode, MindmapNode } from 'api-4markdown-contracts';
+import type {
+  MindmapEdge,
+  MindmapInternalNode,
+  MindmapNode,
+} from 'api-4markdown-contracts';
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
 
-const connectMindmap = (connection: Connection): void => {
+const connectMindmap = ({ source, target }: Connection): void => {
   const { mindmap } = get();
 
   set({
     mindmap: {
       ...mindmap,
-      edges: addEdge(connection, mindmap.edges),
+      edges: [
+        ...mindmap.edges,
+        {
+          id: `e${source}-${target}`,
+          source,
+          target,
+          type: `basic`,
+        },
+      ],
     },
   });
 };
@@ -39,7 +50,7 @@ const updateMindmapEdges = (changes: EdgeChange[]): void => {
   set({
     mindmap: {
       ...mindmap,
-      edges: applyEdgeChanges(changes, mindmap.edges),
+      edges: applyEdgeChanges(changes, mindmap.edges) as MindmapEdge[],
     },
   });
 };
