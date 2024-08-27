@@ -35,6 +35,7 @@ import {
 import { AppNavLink } from 'components/app-nav-link';
 import { formatDistance } from 'date-fns';
 import '@xyflow/react/dist/base.css';
+import './mindmaps-creator.css';
 
 type MindmapNodeTypes = {
   [Key in MindmapNodeType]: ComponentType<
