@@ -1,6 +1,6 @@
 import React, { type ComponentType } from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiCog, BiPlus, BiX } from 'react-icons/bi';
+import { BiArrowBack, BiCog, BiPlus, BiSave, BiX } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
 import {
@@ -181,6 +181,9 @@ const MindmapsCreatorView = () => {
       </header>
       <main className="flex h-[calc(100svh-72px)]">
         <aside className="flex flex-col items-center w-[72px] space-y-3 shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+          <Button i={1} s={2} title="Save mindmap" onClick={startAddingNode}>
+            <BiSave />
+          </Button>
           <Button
             i={1}
             s={2}
