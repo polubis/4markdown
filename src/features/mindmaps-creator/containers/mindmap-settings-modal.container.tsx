@@ -5,14 +5,14 @@ import { BiX } from 'react-icons/bi';
 import {
   closeMindmapSettings,
   toggleMindmapAutoFit,
-} from 'store/mindmap/mindmap.actions';
+} from 'store/mindmaps-creator/mindmaps-creator.actions';
 import { Checkbox } from 'design-system/checkbox';
-import { useMindmapStore } from 'store/mindmap/mindmap.store';
+import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 
 const MindmapSettingsModalContainer = () => {
-  const { settings } = useMindmapStore();
+  const { settings } = useMindmapsCreatorStore();
 
   return (
     <Modal onEscape={closeMindmapSettings}>
