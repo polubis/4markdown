@@ -9,6 +9,8 @@ import type {
   DocumentRatingCategory,
   DocumentRatingDto,
   UserDocumentsVotesDto,
+  MindmapDto,
+  MindmapSettingsDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -96,6 +98,15 @@ type GetYourInfoContract = Contract<
   }
 >;
 
+type GetMindmapContract = Contract<
+  `getMindmap`,
+  {
+    mindmap: MindmapDto;
+    settings: MindmapSettingsDto;
+  },
+  { id: MindmapDto['id'] }
+>;
+
 type API4MarkdownContracts =
   | GetYourDocumentsContract
   | GetAccessibleDocumentContract
@@ -108,7 +119,8 @@ type API4MarkdownContracts =
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract
   | RateDocumentContract
-  | GetYourInfoContract;
+  | GetYourInfoContract
+  | GetMindmapContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -150,4 +162,5 @@ export type {
   UpdateYourUserProfileContract,
   RateDocumentContract,
   API4MarkdownContractCall,
+  GetMindmapContract,
 };
