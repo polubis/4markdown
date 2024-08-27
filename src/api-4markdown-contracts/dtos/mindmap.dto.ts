@@ -1,21 +1,6 @@
 import type { Date, Id, Name } from '../atoms';
 import type { DocumentDto } from './document.dto';
 
-const MINDMAP_NODE_SOURCE_HANDLERS = {
-  BOTTOM: `source-handle-bottom`,
-  RIGHT: `source-handle-right`,
-} as const;
-
-const MINDMAP_NODE_TARGET_HANDLERS = {
-  TOP: `target-handle-top`,
-  LEFT: `target-handle-left`,
-} as const;
-
-type MindmapNodeSourceHandler =
-  (typeof MINDMAP_NODE_SOURCE_HANDLERS)[keyof typeof MINDMAP_NODE_SOURCE_HANDLERS];
-type MindmapNodeTargetHandler =
-  (typeof MINDMAP_NODE_TARGET_HANDLERS)[keyof typeof MINDMAP_NODE_TARGET_HANDLERS];
-
 type MindmapInternalNode = {
   id: Id;
   data: {
@@ -35,8 +20,6 @@ type MindmapBasicEdge = {
   type: `basic`;
   source: Id;
   target: Id;
-  sourceHandle: MindmapNodeSourceHandler | null;
-  targetHandle: MindmapNodeTargetHandler | null;
 };
 
 type MindmapEdge = MindmapBasicEdge;
@@ -55,8 +38,6 @@ type MindmapDto = {
   edges: MindmapEdge[];
 };
 
-export { MINDMAP_NODE_TARGET_HANDLERS, MINDMAP_NODE_SOURCE_HANDLERS };
-
 export type {
   MindmapDto,
   MindmapNodeType,
@@ -65,6 +46,4 @@ export type {
   MindmapInternalNode,
   MindmapEdgeType,
   MindmapEdge,
-  MindmapNodeSourceHandler,
-  MindmapNodeTargetHandler,
 };

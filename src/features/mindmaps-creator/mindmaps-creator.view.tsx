@@ -21,8 +21,6 @@ import {
   useKeyPress,
 } from '@xyflow/react';
 import {
-  MINDMAP_NODE_SOURCE_HANDLERS,
-  MINDMAP_NODE_TARGET_HANDLERS,
   type MindmapEdgeType,
   type MindmapNode,
   type MindmapNodeType,
@@ -109,14 +107,7 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-8 h-2.5 !top-[1px] rounded-md"
         type="target"
-        id={MINDMAP_NODE_TARGET_HANDLERS.TOP}
         position={Position.Top}
-      />
-      <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 h-8 w-2.5 !left-[1px] rounded-md"
-        type="target"
-        id={MINDMAP_NODE_TARGET_HANDLERS.LEFT}
-        position={Position.Left}
       />
       <div
         className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 min-w-[240px]`}
@@ -138,14 +129,7 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
         type="source"
-        id={MINDMAP_NODE_SOURCE_HANDLERS.BOTTOM}
         position={Position.Bottom}
-      />
-      <Handle
-        className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 !right-[1px] w-4 h-4 rounded-full"
-        type="source"
-        id={MINDMAP_NODE_SOURCE_HANDLERS.RIGHT}
-        position={Position.Right}
       />
     </>
   );
