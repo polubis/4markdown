@@ -170,7 +170,7 @@ const MindmapsCreatorView = () => {
 
   return (
     <>
-      <header className="flex px-4 py-3.5 border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+      <header className="flex items-center px-4 h-[72px] border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
         <AppNavLink to="/" title="Back to home page">
           <Button i={1} s={2}>
             <BiArrowBack />
@@ -179,8 +179,8 @@ const MindmapsCreatorView = () => {
         <ThemeSwitcher className="ml-auto" />
         <MoreNav className="ml-3" />
       </header>
-      <main className="flex h-[calc(100svh-70px)]">
-        <aside className="flex flex-col space-y-3 shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+      <main className="flex h-[calc(100svh-72px)]">
+        <aside className="flex flex-col items-center w-[72px] space-y-3 shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           <Button
             i={1}
             s={2}
