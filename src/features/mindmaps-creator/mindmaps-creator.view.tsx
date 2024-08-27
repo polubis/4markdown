@@ -2,7 +2,7 @@ import React, { type ComponentType } from 'react';
 import { Button } from 'design-system/button';
 import { BiArrowBack, BiCog, BiPlus, BiSave, BiX } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
-import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { useMindmapStore } from 'store/mindmap/mindmap.store';
 import {
   ReactFlow,
   Background,
@@ -31,7 +31,7 @@ import {
   startAddingNode,
   updateMindmapEdges,
   updateMindmapNodes,
-} from 'store/mindmaps-creator/mindmaps-creator.actions';
+} from 'store/mindmap/mindmap.actions';
 import { AppNavLink } from 'components/app-nav-link';
 import { formatDistance } from 'date-fns';
 import '@xyflow/react/dist/base.css';
@@ -154,7 +154,7 @@ const MindmapsCreatorView = () => {
     mindmap: { nodes, edges },
     settings,
     nodeForm,
-  } = useMindmapsCreatorStore();
+  } = useMindmapStore();
   const { fitView } = useReactFlow();
 
   const newNodePressed = useKeyPress(`n`);

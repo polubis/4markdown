@@ -8,7 +8,7 @@ import { YourDocumentsSearchContainer } from './your-documents-search.container'
 import {
   addInternalMindmapNode,
   cancelAddingNode,
-} from 'store/mindmaps-creator/mindmaps-creator.actions';
+} from 'store/mindmap/mindmap.actions';
 import { useForm } from 'development-kit/use-form';
 import {
   maxLength,

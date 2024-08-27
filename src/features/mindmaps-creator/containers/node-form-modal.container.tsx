@@ -4,7 +4,7 @@ import { Tabs } from 'design-system/tabs';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { InternalNodeFormContainer } from './internal-node-form.container';
-import { cancelAddingNode } from 'store/mindmaps-creator/mindmaps-creator.actions';
+import { cancelAddingNode } from 'store/mindmap/mindmap.actions';
 import type { MindmapNodeType } from 'api-4markdown-contracts';
 
 const NodeFormModalContainer = () => {
