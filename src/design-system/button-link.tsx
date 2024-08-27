@@ -19,7 +19,7 @@ const ButtonLink = ({
   return (
     <Component
       className={c(
-        `text-md shrink-0 cursor-pointer dark:outline-white focus:outline dark:outline-2 outline-2.5 outline-black text-center px-3 py-2 [&>svg]:text-2xl rounded-md font-medium font-sans bg-gray-300 text-black hover:bg-gray-400/70 dark:bg-slate-800 dark:hover:bg-slate-800/70 dark:text-white`,
+        `text-md shrink-0 cursor-pointer dark:outline-white focus:outline outline-2 outline-black text-center px-3 py-2 [&>svg]:text-2xl rounded-md font-medium font-sans bg-gray-300 text-black hover:bg-gray-400/70 dark:bg-slate-800 dark:hover:bg-slate-800/70 dark:text-white`,
         className,
       )}
       {...props}
