@@ -30,7 +30,7 @@ const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
     nodes: [],
     edges: [],
     description: ``,
-    name: ``,
+    name: `React Roadmap`,
   },
 }));
 

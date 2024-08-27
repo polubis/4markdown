@@ -150,11 +150,7 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapsCreatorView = () => {
-  const {
-    mindmap: { nodes, edges },
-    settings,
-    nodeForm,
-  } = useMindmapsCreatorStore();
+  const { mindmap, settings, nodeForm } = useMindmapsCreatorStore();
   const { fitView } = useReactFlow();
 
   const newNodePressed = useKeyPress(`n`);
@@ -162,7 +158,7 @@ const MindmapsCreatorView = () => {
   React.useLayoutEffect(() => {
     settings.autoFit && fitView({ padding: 24 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings.autoFit, nodes.length]);
+  }, [settings.autoFit, mindmap.nodes.length]);
 
   React.useEffect(() => {
     newNodePressed && startAddingNode();
@@ -176,6 +172,7 @@ const MindmapsCreatorView = () => {
             <BiArrowBack />
           </Button>
         </AppNavLink>
+        <h1 className="text-lg font-bold ml-9">{mindmap.name}</h1>
         <ThemeSwitcher className="ml-auto" />
         <MoreNav className="ml-3" />
       </header>
@@ -202,8 +199,8 @@ const MindmapsCreatorView = () => {
           </Button>
         </aside>
         <ReactFlow
-          nodes={nodes}
-          edges={edges}
+          nodes={mindmap.nodes}
+          edges={mindmap.edges}
           onNodesChange={updateMindmapNodes}
           onEdgesChange={updateMindmapEdges}
           onConnect={connectMindmapNodes}
