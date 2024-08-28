@@ -75,7 +75,11 @@ const YourDocumentsSearchContainer = ({
         placeholder="Type to search"
         rightIcon={
           text ? (
-            <button onClick={clearSearch} title="Clear documents search">
+            <button
+              type="button"
+              onClick={clearSearch}
+              title="Clear documents search"
+            >
               <BiX size={20} />
             </button>
           ) : (
