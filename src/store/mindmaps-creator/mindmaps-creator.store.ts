@@ -62,6 +62,7 @@ const mindmapsCreatorStoreActions = {
           edges: [],
           description: ``,
           name: `React Roadmap`,
+          orientation: `y`,
         },
         settings: {
           autoFit: false,
@@ -79,20 +80,3 @@ export {
   mindmapsCreatorStoreSelectors,
   mindmapsCreatorStoreActions,
 };
-
-// settings: {
-//   opened: false,
-//   autoFit: false,
-// },
-// nodeForm: {
-//   opened: false,
-// },
-// mindmap: {
-//   id: `1`,
-//   cdate: ``,
-//   mdate: ``,
-//   nodes: [],
-//   edges: [],
-//   description: ``,
-//   name: `React Roadmap`,
-// },

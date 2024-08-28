@@ -11,13 +11,14 @@ import {
   type Node,
   type EdgeProps,
   BaseEdge,
-  getBezierPath,
   EdgeLabelRenderer,
   useKeyPress,
   useReactFlow,
   ReactFlowProvider,
+  getSimpleBezierPath,
 } from '@xyflow/react';
 import {
+  type MindmapOrientation,
   type MindmapEdgeType,
   type MindmapNode,
   type MindmapNodeType,
@@ -56,7 +57,7 @@ const CurvedEdge: MindmapEdgeTypes['curved'] = ({
   targetX,
   targetY,
 }) => {
-  const [edgePath, labelX, labelY] = getBezierPath({
+  const [edgePath, labelX, labelY] = getSimpleBezierPath({
     sourceX,
     sourceY,
     targetX,
@@ -89,9 +90,49 @@ const CurvedEdge: MindmapEdgeTypes['curved'] = ({
   );
 };
 
-const InternalNode: MindmapNodeTypes['internal'] = ({
-  data: { document, name, description },
-}) => {
+const InternalNode = ({
+  document,
+  description,
+  name,
+}: Extract<MindmapNode, { type: `internal` }>['data']) => (
+  <div
+    className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 min-w-[240px]`}
+    title={name}
+  >
+    <div className="flex justify-between mb-0.5">
+      <p className="text-sm capitalize">
+        Edited{` `}
+        {formatDistance(new Date(), document.mdate, {
+          addSuffix: true,
+        })}
+        {` `}
+        ago
+      </p>
+    </div>
+    <h6 className="font-bold">{name}</h6>
+    {description && <p className="mt-1">{description}</p>}
+  </div>
+);
+
+const InternalNodeX: MindmapNodeTypes['internal'] = ({ data }) => {
+  return (
+    <>
+      <Handle
+        className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-2.5 h-8 !left-[1px] rounded-md"
+        type="target"
+        position={Position.Left}
+      />
+      <InternalNode {...data} />
+      <Handle
+        className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 !right-[1px] rounded-full"
+        type="source"
+        position={Position.Right}
+      />
+    </>
+  );
+};
+
+const InternalNodeY: MindmapNodeTypes['internal'] = ({ data }) => {
   return (
     <>
       <Handle
@@ -99,23 +140,7 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
         type="target"
         position={Position.Top}
       />
-      <div
-        className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 min-w-[240px]`}
-        title={name}
-      >
-        <div className="flex justify-between mb-0.5">
-          <p className="text-sm capitalize">
-            Edited{` `}
-            {formatDistance(new Date(), document.mdate, {
-              addSuffix: true,
-            })}
-            {` `}
-            ago
-          </p>
-        </div>
-        <h6 className="font-bold">{name}</h6>
-        {description && <p className="mt-1">{description}</p>}
-      </div>
+      <InternalNode {...data} />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
         type="source"
@@ -125,8 +150,13 @@ const InternalNode: MindmapNodeTypes['internal'] = ({
   );
 };
 
-const nodeTypes: MindmapNodeTypes = {
-  internal: InternalNode,
+const nodeTypes: Record<MindmapOrientation, MindmapNodeTypes> = {
+  x: {
+    internal: InternalNodeX,
+  },
+  y: {
+    internal: InternalNodeY,
+  },
 };
 
 const edgeTypes: MindmapEdgeTypes = {
@@ -153,12 +183,13 @@ const MindmapPreviewContainer = () => {
 
   return (
     <ReactFlow
+      key={mindmap.orientation}
       nodes={mindmap.nodes}
       edges={mindmap.edges}
       onNodesChange={updateMindmapNodes}
       onEdgesChange={updateMindmapEdges}
       onConnect={connectMindmapNodes}
-      nodeTypes={nodeTypes}
+      nodeTypes={nodeTypes[mindmap.orientation]}
       edgeTypes={edgeTypes}
       fitView
     >

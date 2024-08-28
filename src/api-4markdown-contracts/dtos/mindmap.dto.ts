@@ -28,6 +28,8 @@ type MindmapNode = MindmapInternalNode;
 type MindmapNodeType = MindmapNode['type'];
 type MindmapEdgeType = MindmapEdge['type'];
 
+type MindmapOrientation = 'x' | 'y';
+
 type MindmapDto = {
   id: Id;
   name: Name;
@@ -36,6 +38,7 @@ type MindmapDto = {
   mdate: Date;
   nodes: MindmapNode[];
   edges: MindmapEdge[];
+  orientation: MindmapOrientation;
 };
 
 export type {
@@ -46,4 +49,5 @@ export type {
   MindmapInternalNode,
   MindmapEdgeType,
   MindmapEdge,
+  MindmapOrientation,
 };

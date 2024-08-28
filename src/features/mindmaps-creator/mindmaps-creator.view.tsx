@@ -1,6 +1,12 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiCog, BiPlus, BiSave } from 'react-icons/bi';
+import {
+  BiArrowBack,
+  BiCog,
+  BiHorizontalRight,
+  BiPlus,
+  BiSave,
+} from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import {
   mindmapsCreatorStoreActions,
@@ -9,6 +15,7 @@ import {
 import {
   openMindmapSettings,
   startAddingNode,
+  toggleMindmapOrientation,
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
 import { AppNavLink } from 'components/app-nav-link';
 import '@xyflow/react/dist/base.css';
@@ -16,6 +23,8 @@ import './mindmaps-creator.css';
 import MoreNav from 'components/more-nav';
 import { ScreenLoader } from 'design-system/screen-loader';
 import { MindmapPreviewContainer } from './containers/mindmap-preview.container';
+// @TODO[PRIO=5]: [Add facade to classnames].
+import c from 'classnames';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -49,26 +58,48 @@ const MindmapsCreatorView = () => {
             {mindmapsCreatorStore.mindmap.name}
           </h1>
         )}
-
         <ThemeSwitcher className="ml-auto" />
         <MoreNav className="ml-3" />
       </header>
       <main className="flex h-[calc(100svh-72px)]">
-        <aside className="flex flex-col items-center w-[72px] space-y-3 shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-          <Button i={1} s={2} title="Save mindmap" onClick={startAddingNode}>
+        <aside className="flex flex-col items-center w-[72px] shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+          <Button
+            i={1}
+            s={2}
+            className="mb-3"
+            title="Save mindmap"
+            onClick={startAddingNode}
+          >
             <BiSave />
           </Button>
           <Button
             i={1}
+            className="mb-3"
             s={2}
             title="Create new mindmap node"
             onClick={startAddingNode}
           >
             <BiPlus />
           </Button>
+          {mindmapsCreatorStore.is === `ok` && (
+            <Button
+              i={1}
+              className="mb-3"
+              s={2}
+              title="Change mindmap orientation"
+              onClick={toggleMindmapOrientation}
+            >
+              <BiHorizontalRight
+                className={c({
+                  'rotate-90': mindmapsCreatorStore.mindmap.orientation === `y`,
+                })}
+              />
+            </Button>
+          )}
           <Button
             i={1}
             s={2}
+            className="mt-auto"
             title="Open mindmap settings"
             onClick={openMindmapSettings}
           >

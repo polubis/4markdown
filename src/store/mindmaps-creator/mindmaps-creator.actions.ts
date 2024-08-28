@@ -136,6 +136,17 @@ const toggleMindmapAutoFit = (): void => {
   });
 };
 
+const toggleMindmapOrientation = (): void => {
+  const { mindmap } = getOkState();
+
+  set({
+    mindmap: {
+      ...mindmap,
+      orientation: mindmap.orientation === `x` ? `y` : `x`,
+    },
+  });
+};
+
 export {
   connectMindmapNodes,
   updateMindmapNodes,
@@ -147,4 +158,5 @@ export {
   closeMindmapSettings,
   toggleMindmapAutoFit,
   removeMindmapNodesConnection,
+  toggleMindmapOrientation,
 };
