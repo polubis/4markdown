@@ -2,13 +2,20 @@ import { create } from 'zustand';
 import type {
   API4MarkdownDto,
   API4MarkdownPayload,
+  MindmapDto,
+  MindmapSettingsDto,
 } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 import type { ParsedError } from 'development-kit/parse-error-v2';
 import { mock } from 'development-kit/mock';
 
 type MindmapsCreatorStoreState = Transaction<
-  API4MarkdownDto<'getMindmap'>,
+  {
+    mindmap: Omit<MindmapDto, 'nodes'> & {
+      nodes: (MindmapDto['nodes'][number] & { selected?: boolean })[];
+    };
+    settings: MindmapSettingsDto;
+  },
   ParsedError
 > & {
   settingsOpened: boolean;
@@ -39,8 +46,13 @@ const { getState: get, setState: set } = useMindmapsCreatorStore;
 const getOkState = (): MindmapsCreatorStoreOkState => isOkState(get());
 
 const mindmapsCreatorStoreSelectors = {
+  useState: useMindmapsCreatorStore,
   ok: getOkState,
   useOk: (): MindmapsCreatorStoreOkState => useMindmapsCreatorStore(isOkState),
+  useSelectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
+    useMindmapsCreatorStore((state) =>
+      isOkState(state).mindmap.nodes.filter((node) => node.selected),
+    ),
 } as const;
 
 const mindmapsCreatorStoreActions = {

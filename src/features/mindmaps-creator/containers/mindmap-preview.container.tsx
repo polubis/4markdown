@@ -179,7 +179,9 @@ const MindmapPreviewContainer = () => {
 
   return (
     <ReactFlow
-      key={mindmap.orientation + settings.autoFit ? mindmap.nodes.length : ``}
+      key={`${mindmap.orientation}${
+        settings.autoFit ? mindmap.nodes.length : ``
+      }`}
       nodes={mindmap.nodes}
       edges={mindmap.edges}
       onNodesChange={updateMindmapNodes}

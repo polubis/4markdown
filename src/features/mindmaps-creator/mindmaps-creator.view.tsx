@@ -3,14 +3,16 @@ import { Button } from 'design-system/button';
 import {
   BiArrowBack,
   BiCog,
+  BiEdit,
   BiHorizontalRight,
   BiPlus,
   BiSave,
+  BiTrash,
 } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import {
   mindmapsCreatorStoreActions,
-  useMindmapsCreatorStore,
+  mindmapsCreatorStoreSelectors,
 } from 'store/mindmaps-creator/mindmaps-creator.store';
 import {
   openMindmapSettings,
@@ -38,8 +40,58 @@ const MindmapSettingsModalContainer = React.lazy(() =>
   })),
 );
 
+const SelectionControlsContainer = () => {
+  const selectedNodes = mindmapsCreatorStoreSelectors.useSelectedNodes();
+
+  return (
+    <>
+      {selectedNodes.length > 0 && (
+        <div className="bg-zinc-400 dark:border-zinc-800 w-6 h-0.5 mt-3 mb-6" />
+      )}
+      {selectedNodes.length === 1 && (
+        <Button
+          i={1}
+          className="mb-3"
+          s={2}
+          title="Edit selected node"
+          onClick={toggleMindmapOrientation}
+        >
+          <BiEdit />
+        </Button>
+      )}
+      {selectedNodes.length > 0 && (
+        <Button
+          i={1}
+          className="mb-3"
+          s={2}
+          title="Delete selected mindmap nodes"
+          onClick={toggleMindmapOrientation}
+        >
+          <BiTrash />
+        </Button>
+      )}
+    </>
+  );
+};
+
+/**
+ * @TODO
+ *
+ * 1. Better error screen for loading.
+ * 2. Connect edit form for select element.
+ * 3. Connect removal of nodes.
+ * 4. Add auto placing in free space.
+ * 5. Add grid alignments.
+ * 6. Add undo/redo.
+ * 7. Connect saving feature.
+ * 8. Migrate to old actions way - do not provide any refactors that are not needed.
+ * 9. Add support for external nodes.
+ * 10. Connect to real API's
+ * 11. Create abckend endpoints.
+ */
+
 const MindmapsCreatorView = () => {
-  const mindmapsCreatorStore = useMindmapsCreatorStore();
+  const mindmapsCreatorStore = mindmapsCreatorStoreSelectors.useState();
 
   React.useEffect(() => {
     mindmapsCreatorStoreActions.load();
@@ -82,19 +134,23 @@ const MindmapsCreatorView = () => {
             <BiPlus />
           </Button>
           {mindmapsCreatorStore.is === `ok` && (
-            <Button
-              i={1}
-              className="mb-3"
-              s={2}
-              title="Change mindmap orientation"
-              onClick={toggleMindmapOrientation}
-            >
-              <BiHorizontalRight
-                className={c({
-                  'rotate-90': mindmapsCreatorStore.mindmap.orientation === `y`,
-                })}
-              />
-            </Button>
+            <>
+              <Button
+                i={1}
+                className="mb-3"
+                s={2}
+                title="Change mindmap orientation"
+                onClick={toggleMindmapOrientation}
+              >
+                <BiHorizontalRight
+                  className={c({
+                    'rotate-90':
+                      mindmapsCreatorStore.mindmap.orientation === `y`,
+                  })}
+                />
+              </Button>
+              <SelectionControlsContainer />
+            </>
           )}
           <Button
             i={1}
@@ -109,6 +165,7 @@ const MindmapsCreatorView = () => {
         {(mindmapsCreatorStore.is === `idle` ||
           mindmapsCreatorStore.is === `busy`) && <ScreenLoader />}
         {mindmapsCreatorStore.is === `ok` && <MindmapPreviewContainer />}
+        {mindmapsCreatorStore.is === `fail` && <div>error</div>}
       </main>
       {mindmapsCreatorStore.nodeFormOpened && (
         <React.Suspense>
