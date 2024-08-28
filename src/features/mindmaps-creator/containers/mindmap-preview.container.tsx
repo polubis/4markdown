@@ -34,6 +34,7 @@ import { formatDistance } from 'date-fns';
 import '@xyflow/react/dist/base.css';
 import '../mindmaps-creator.css';
 import { mindmapsCreatorStoreSelectors } from 'store/mindmaps-creator/mindmaps-creator.store';
+import c from 'classnames';
 
 type MindmapNodeTypes = {
   [Key in MindmapNodeType]: ComponentType<
@@ -94,9 +95,15 @@ const InternalNode = ({
   document,
   description,
   name,
-}: Extract<MindmapNode, { type: `internal` }>['data']) => (
+  selected,
+}: Extract<MindmapNode, { type: `internal` }>['data'] & {
+  selected?: boolean;
+}) => (
   <div
-    className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 min-w-[240px]`}
+    className={c(
+      `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 min-w-[240px]`,
+      { 'border-black dark:border-white': selected },
+    )}
     title={name}
   >
     <div className="flex justify-between mb-0.5">
@@ -114,7 +121,7 @@ const InternalNode = ({
   </div>
 );
 
-const InternalNodeX: MindmapNodeTypes['internal'] = ({ data }) => {
+const InternalNodeX: MindmapNodeTypes['internal'] = ({ data, selected }) => {
   return (
     <>
       <Handle
@@ -122,7 +129,7 @@ const InternalNodeX: MindmapNodeTypes['internal'] = ({ data }) => {
         type="target"
         position={Position.Left}
       />
-      <InternalNode {...data} />
+      <InternalNode {...data} selected={selected} />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 !right-[1px] rounded-full"
         type="source"
@@ -132,7 +139,7 @@ const InternalNodeX: MindmapNodeTypes['internal'] = ({ data }) => {
   );
 };
 
-const InternalNodeY: MindmapNodeTypes['internal'] = ({ data }) => {
+const InternalNodeY: MindmapNodeTypes['internal'] = ({ data, selected }) => {
   return (
     <>
       <Handle
@@ -140,7 +147,7 @@ const InternalNodeY: MindmapNodeTypes['internal'] = ({ data }) => {
         type="target"
         position={Position.Top}
       />
-      <InternalNode {...data} />
+      <InternalNode {...data} selected={selected} />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
         type="source"
