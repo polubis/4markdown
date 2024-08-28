@@ -101,7 +101,7 @@ const InternalNode = ({
 }) => (
   <div
     className={c(
-      `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 min-w-[240px]`,
+      `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 w-[280px]`,
       { 'border-black dark:border-white': selected },
     )}
     title={name}
@@ -116,7 +116,7 @@ const InternalNode = ({
         ago
       </p>
     </div>
-    <h6 className="font-bold">{name}</h6>
+    <h6 className="font-bold line-clamp-2">{name}</h6>
     {description && <p className="mt-1">{description}</p>}
   </div>
 );
