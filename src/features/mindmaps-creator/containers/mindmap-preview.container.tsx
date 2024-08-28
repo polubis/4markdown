@@ -13,8 +13,6 @@ import {
   BaseEdge,
   EdgeLabelRenderer,
   useKeyPress,
-  useReactFlow,
-  ReactFlowProvider,
   getSimpleBezierPath,
 } from '@xyflow/react';
 import {
@@ -173,16 +171,7 @@ const edgeTypes: MindmapEdgeTypes = {
 const MindmapPreviewContainer = () => {
   const { mindmap, settings } = mindmapsCreatorStoreSelectors.useOk();
 
-  const { fitView } = useReactFlow();
-
   const newNodePressed = useKeyPress(`n`);
-
-  React.useLayoutEffect(() => {
-    if (settings.autoFit) {
-      fitView({ padding: 24 });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings]);
 
   React.useEffect(() => {
     newNodePressed && startAddingNode();
@@ -190,7 +179,7 @@ const MindmapPreviewContainer = () => {
 
   return (
     <ReactFlow
-      key={mindmap.orientation}
+      key={mindmap.orientation + settings.autoFit ? mindmap.nodes.length : ``}
       nodes={mindmap.nodes}
       edges={mindmap.edges}
       onNodesChange={updateMindmapNodes}
@@ -206,10 +195,4 @@ const MindmapPreviewContainer = () => {
   );
 };
 
-const MindmapPreviewConnectedContainer = () => (
-  <ReactFlowProvider>
-    <MindmapPreviewContainer />
-  </ReactFlowProvider>
-);
-
-export { MindmapPreviewConnectedContainer as MindmapPreviewContainer };
+export { MindmapPreviewContainer };
