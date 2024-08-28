@@ -5,7 +5,10 @@ import {
   type Connection,
   type NodeChange,
 } from '@xyflow/react';
-import { useMindmapsCreatorStore } from './mindmaps-creator.store';
+import {
+  type MindmapsCreatorStoreState,
+  useMindmapsCreatorStore,
+} from './mindmaps-creator.store';
 import {
   type MindmapEdge,
   type MindmapInternalNode,
@@ -14,8 +17,23 @@ import {
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
 
+type MindmapsCreatorStoreOkState = Extract<
+  MindmapsCreatorStoreState,
+  { is: `ok` }
+>;
+
+const isOkState = (
+  state: MindmapsCreatorStoreState,
+): MindmapsCreatorStoreOkState => {
+  if (state.is !== `ok`) throw Error(`State is not ready to work with`);
+
+  return state;
+};
+
+const getOkState = (): MindmapsCreatorStoreOkState => isOkState(get());
+
 const connectMindmapNodes = ({ source, target }: Connection): void => {
-  const { mindmap } = get();
+  const { mindmap } = getOkState();
 
   set({
     mindmap: {
@@ -34,7 +52,7 @@ const connectMindmapNodes = ({ source, target }: Connection): void => {
 };
 
 const removeMindmapNodesConnection = (id: MindmapEdge['id']): void => {
-  const { mindmap } = get();
+  const { mindmap } = getOkState();
 
   set({
     mindmap: {
@@ -46,7 +64,7 @@ const removeMindmapNodesConnection = (id: MindmapEdge['id']): void => {
 
 // @TODO[PRIO=4]: [Make it better typed].
 const updateMindmapNodes = (changes: NodeChange[]): void => {
-  const { mindmap } = get();
+  const { mindmap } = getOkState();
 
   set({
     mindmap: {
@@ -57,7 +75,7 @@ const updateMindmapNodes = (changes: NodeChange[]): void => {
 };
 
 const updateMindmapEdges = (changes: EdgeChange[]): void => {
-  const { mindmap } = get();
+  const { mindmap } = getOkState();
 
   set({
     mindmap: {
@@ -68,15 +86,11 @@ const updateMindmapEdges = (changes: EdgeChange[]): void => {
 };
 
 const cancelAddingNode = (): void => {
-  set({
-    nodeForm: {
-      opened: false,
-    },
-  });
+  set({ nodeFormOpened: false });
 };
 
 const addInternalMindmapNode = (data: MindmapInternalNode['data']): void => {
-  const { mindmap } = get();
+  const { mindmap } = getOkState();
 
   set({
     mindmap: {
@@ -95,44 +109,24 @@ const addInternalMindmapNode = (data: MindmapInternalNode['data']): void => {
         },
       ],
     },
-    nodeForm: {
-      opened: false,
-    },
+    nodeFormOpened: false,
   });
 };
 
 const startAddingNode = (): void => {
-  set({
-    nodeForm: {
-      opened: true,
-    },
-  });
+  set({ nodeFormOpened: true });
 };
 
 const openMindmapSettings = (): void => {
-  const { settings } = get();
-
-  set({
-    settings: {
-      ...settings,
-      opened: true,
-    },
-  });
+  set({ settingsOpened: true });
 };
 
 const closeMindmapSettings = (): void => {
-  const { settings } = get();
-
-  set({
-    settings: {
-      ...settings,
-      opened: false,
-    },
-  });
+  set({ settingsOpened: false });
 };
 
 const toggleMindmapAutoFit = (): void => {
-  const { settings } = get();
+  const { settings } = getOkState();
 
   set({
     settings: {

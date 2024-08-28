@@ -7,12 +7,12 @@ import {
   toggleMindmapAutoFit,
 } from 'store/mindmaps-creator/mindmaps-creator.actions';
 import { Checkbox } from 'design-system/checkbox';
-import { useMindmapsCreatorStore } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { mindmapsCreatorStoreSelectors } from 'store/mindmaps-creator/mindmaps-creator.store';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 
 const MindmapSettingsModalContainer = () => {
-  const { settings } = useMindmapsCreatorStore();
+  const { settings } = mindmapsCreatorStoreSelectors.useOk();
 
   return (
     <Modal onEscape={closeMindmapSettings}>
