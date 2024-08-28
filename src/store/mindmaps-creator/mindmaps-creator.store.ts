@@ -47,6 +47,7 @@ const getOkState = (): MindmapsCreatorStoreOkState => isOkState(get());
 
 const mindmapsCreatorStoreSelectors = {
   useState: useMindmapsCreatorStore,
+  state: useMindmapsCreatorStore.getState,
   ok: getOkState,
   useOk: (): MindmapsCreatorStoreOkState => useMindmapsCreatorStore(isOkState),
   useSelectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
@@ -57,6 +58,10 @@ const mindmapsCreatorStoreSelectors = {
 
 const mindmapsCreatorStoreActions = {
   load: async (): Promise<void> => {
+    const state = mindmapsCreatorStoreSelectors.state();
+
+    if (state.is === `ok`) return;
+
     try {
       const searchParams = new URLSearchParams(window.location.search);
       const id = searchParams.get(`id`) ?? ``;

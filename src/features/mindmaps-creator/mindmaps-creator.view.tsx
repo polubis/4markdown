@@ -88,6 +88,9 @@ const SelectionControlsContainer = () => {
  * 9. Add support for external nodes.
  * 10. Connect to real API's
  * 11. Create abckend endpoints.
+ * 12. Create search docs endpont.
+ * 13. Connect search docs to endpoint.
+ * 14. Align validation rules.
  */
 
 const MindmapsCreatorView = () => {
