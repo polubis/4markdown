@@ -14,11 +14,6 @@ import {
   mindmapsCreatorStoreActions,
   mindmapsCreatorStoreSelectors,
 } from 'store/mindmaps-creator/mindmaps-creator.store';
-import {
-  openMindmapSettings,
-  startAddingNode,
-  toggleMindmapOrientation,
-} from 'store/mindmaps-creator/mindmaps-creator.actions';
 import { AppNavLink } from 'components/app-nav-link';
 import '@xyflow/react/dist/base.css';
 import './mindmaps-creator.css';
@@ -54,7 +49,7 @@ const SelectionControlsContainer = () => {
           className="mb-3"
           s={2}
           title="Edit selected node"
-          onClick={toggleMindmapOrientation}
+          onClick={() => {}}
         >
           <BiEdit />
         </Button>
@@ -65,7 +60,7 @@ const SelectionControlsContainer = () => {
           className="mb-3"
           s={2}
           title="Delete selected mindmap nodes"
-          onClick={toggleMindmapOrientation}
+          onClick={() => {}}
         >
           <BiTrash />
         </Button>
@@ -84,7 +79,6 @@ const SelectionControlsContainer = () => {
  * 5. Add grid alignments.
  * 6. Add undo/redo.
  * 7. Connect saving feature.
- * 8. Migrate to old actions way - do not provide any refactors that are not needed.
  * 9. Add support for external nodes.
  * 10. Connect to real API's
  * 11. Create abckend endpoints.
@@ -123,7 +117,7 @@ const MindmapsCreatorView = () => {
             s={2}
             className="mb-3"
             title="Save mindmap"
-            onClick={startAddingNode}
+            onClick={() => {}}
           >
             <BiSave />
           </Button>
@@ -132,7 +126,7 @@ const MindmapsCreatorView = () => {
             className="mb-3"
             s={2}
             title="Create new mindmap node"
-            onClick={startAddingNode}
+            onClick={mindmapsCreatorStoreActions.startAddingNode}
           >
             <BiPlus />
           </Button>
@@ -143,7 +137,7 @@ const MindmapsCreatorView = () => {
                 className="mb-3"
                 s={2}
                 title="Change mindmap orientation"
-                onClick={toggleMindmapOrientation}
+                onClick={mindmapsCreatorStoreActions.toggleOrientation}
               >
                 <BiHorizontalRight
                   className={c({
@@ -160,7 +154,7 @@ const MindmapsCreatorView = () => {
             s={2}
             className="mt-auto"
             title="Open mindmap settings"
-            onClick={openMindmapSettings}
+            onClick={mindmapsCreatorStoreActions.openSettings}
           >
             <BiCog />
           </Button>

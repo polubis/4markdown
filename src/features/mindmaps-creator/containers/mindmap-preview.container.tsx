@@ -21,17 +21,13 @@ import {
   type MindmapNode,
   type MindmapNodeType,
 } from 'api-4markdown-contracts';
-import {
-  connectMindmapNodes,
-  removeMindmapNodesConnection,
-  startAddingNode,
-  updateMindmapEdges,
-  updateMindmapNodes,
-} from 'store/mindmaps-creator/mindmaps-creator.actions';
 import { formatDistance } from 'date-fns';
 import '@xyflow/react/dist/base.css';
 import '../mindmaps-creator.css';
-import { mindmapsCreatorStoreSelectors } from 'store/mindmaps-creator/mindmaps-creator.store';
+import {
+  mindmapsCreatorStoreActions,
+  mindmapsCreatorStoreSelectors,
+} from 'store/mindmaps-creator/mindmaps-creator.store';
 import c from 'classnames';
 
 type MindmapNodeTypes = {
@@ -80,7 +76,7 @@ const CurvedEdge: MindmapEdgeTypes['curved'] = ({
             pointerEvents: `all`,
           }}
           className="nodrag nopan absolute h-5 w-5"
-          onClick={() => removeMindmapNodesConnection(id)}
+          onClick={() => mindmapsCreatorStoreActions.removeNodesConnection(id)}
         >
           <BiX />
         </Button>
@@ -174,7 +170,7 @@ const MindmapPreviewContainer = () => {
   const newNodePressed = useKeyPress(`n`);
 
   React.useEffect(() => {
-    newNodePressed && startAddingNode();
+    newNodePressed && mindmapsCreatorStoreActions.startAddingNode();
   }, [newNodePressed]);
 
   return (
@@ -184,9 +180,9 @@ const MindmapPreviewContainer = () => {
       }`}
       nodes={mindmap.nodes}
       edges={mindmap.edges}
-      onNodesChange={updateMindmapNodes}
-      onEdgesChange={updateMindmapEdges}
-      onConnect={connectMindmapNodes}
+      onNodesChange={mindmapsCreatorStoreActions.updateNodes}
+      onEdgesChange={mindmapsCreatorStoreActions.updateEdges}
+      onConnect={mindmapsCreatorStoreActions.connectNodes}
       nodeTypes={nodeTypes[mindmap.orientation]}
       edgeTypes={edgeTypes}
       fitView

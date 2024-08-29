@@ -2,12 +2,11 @@ import React from 'react';
 import Modal from 'design-system/modal';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import {
-  closeMindmapSettings,
-  toggleMindmapAutoFit,
-} from 'store/mindmaps-creator/mindmaps-creator.actions';
 import { Checkbox } from 'design-system/checkbox';
-import { mindmapsCreatorStoreSelectors } from 'store/mindmaps-creator/mindmaps-creator.store';
+import {
+  mindmapsCreatorStoreActions,
+  mindmapsCreatorStoreSelectors,
+} from 'store/mindmaps-creator/mindmaps-creator.store';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 
@@ -15,7 +14,7 @@ const MindmapSettingsModalContainer = () => {
   const { settings } = mindmapsCreatorStoreSelectors.useOk();
 
   return (
-    <Modal onEscape={closeMindmapSettings}>
+    <Modal onEscape={mindmapsCreatorStoreActions.closeSettings}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Settings</h6>
         <Button
@@ -23,7 +22,7 @@ const MindmapSettingsModalContainer = () => {
           i={2}
           s={1}
           title="Close mindmap settings"
-          onClick={closeMindmapSettings}
+          onClick={mindmapsCreatorStoreActions.closeSettings}
         >
           <BiX />
         </Button>
@@ -37,7 +36,7 @@ const MindmapSettingsModalContainer = () => {
         <Checkbox
           label="Auto Zoom"
           checked={settings.autoFit}
-          onClick={toggleMindmapAutoFit}
+          onClick={mindmapsCreatorStoreActions.toggleAutoFit}
         />
       </Field>
     </Modal>

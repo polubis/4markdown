@@ -5,10 +5,6 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import type { DocumentDto, MindmapInternalNode } from 'api-4markdown-contracts';
 import { YourDocumentsSearchContainer } from './your-documents-search.container';
-import {
-  addInternalMindmapNode,
-  cancelAddingNode,
-} from 'store/mindmaps-creator/mindmaps-creator.actions';
 import { useForm } from 'development-kit/use-form';
 import {
   maxLength,
@@ -19,6 +15,7 @@ import {
 } from 'development-kit/form';
 import { meta } from '../../../../meta';
 import { Hint } from 'design-system/hint';
+import { mindmapsCreatorStoreActions } from 'store/mindmaps-creator/mindmaps-creator.store';
 
 type InternalNodeFormValues = Pick<
   MindmapInternalNode['data'],
@@ -45,7 +42,7 @@ const InternalNodeFormContainer = () => {
   const confirm: React.FormEventHandler<HTMLFormElement> = (e): void => {
     e.preventDefault();
 
-    addInternalMindmapNode({
+    mindmapsCreatorStoreActions.addInternalNode({
       name: values.name,
       description: values.description,
       document: selectedDoc!,
@@ -98,7 +95,7 @@ const InternalNodeFormContainer = () => {
           s={2}
           auto
           title="Cancel node creation"
-          onClick={cancelAddingNode}
+          onClick={mindmapsCreatorStoreActions.cancelAddingNode}
         >
           Cancel
         </Button>
