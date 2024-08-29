@@ -35,6 +35,12 @@ const MindmapSettingsModalContainer = React.lazy(() =>
   })),
 );
 
+const NodesRemovalConfirmationContainer = React.lazy(() =>
+  import(`./containers/nodes-removal-confirmation.container`).then((m) => ({
+    default: m.NodesRemovalConfirmationContainer,
+  })),
+);
+
 const SelectionControlsContainer = () => {
   const selectedNodes = mindmapsCreatorStoreSelectors.useSelectedNodes();
 
@@ -60,7 +66,7 @@ const SelectionControlsContainer = () => {
           className="mb-3"
           s={2}
           title="Delete selected mindmap nodes"
-          onClick={() => {}}
+          onClick={mindmapsCreatorStoreActions.startNodesRemoval}
         >
           <BiTrash />
         </Button>
@@ -74,7 +80,6 @@ const SelectionControlsContainer = () => {
  *
  * 1. Better error screen for loading.
  * 2. Connect edit form for select element.
- * 3. Connect removal of nodes.
  * 4. Add auto placing in free space.
  * 5. Add grid alignments.
  * 6. Add undo/redo.
@@ -85,6 +90,9 @@ const SelectionControlsContainer = () => {
  * 12. Create search docs endpont.
  * 13. Connect search docs to endpoint.
  * 14. Align validation rules.
+ * 15. add external nodes handling
+ * 16. Think about directions
+ * 17. Think about tracking progress
  */
 
 const MindmapsCreatorView = () => {
@@ -172,6 +180,11 @@ const MindmapsCreatorView = () => {
       {mindmapsCreatorStore.settingsOpened && (
         <React.Suspense>
           <MindmapSettingsModalContainer />
+        </React.Suspense>
+      )}
+      {mindmapsCreatorStore.removalConfirmationOpened && (
+        <React.Suspense>
+          <NodesRemovalConfirmationContainer />
         </React.Suspense>
       )}
     </>

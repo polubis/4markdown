@@ -9,7 +9,7 @@ import type {
   MindmapSettingsDto,
 } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
-import type { ParsedError } from 'development-kit/parse-error-v2';
+import { parseErrorV2, type ParsedError } from 'development-kit/parse-error-v2';
 import { mock } from 'development-kit/mock';
 import {
   applyEdgeChanges,
@@ -24,12 +24,16 @@ type MindmapsCreatorStoreState = Transaction<
     mindmap: Omit<MindmapDto, 'nodes'> & {
       nodes: (MindmapDto['nodes'][number] & { selected?: boolean })[];
     };
+    edges: Omit<MindmapDto, 'edges'> & {
+      nodes: (MindmapDto['edges'][number] & { selected?: boolean })[];
+    };
     settings: MindmapSettingsDto;
   },
-  ParsedError
+  { error: ParsedError }
 > & {
   settingsOpened: boolean;
   nodeFormOpened: boolean;
+  removalConfirmationOpened: boolean;
 };
 
 type MindmapsCreatorStoreOkState = Extract<
@@ -49,20 +53,19 @@ const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
   is: `idle`,
   nodeFormOpened: false,
   settingsOpened: false,
+  removalConfirmationOpened: false,
 }));
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
 
-const getOkState = (): MindmapsCreatorStoreOkState => isOkState(get());
-
 const mindmapsCreatorStoreSelectors = {
-  useState: useMindmapsCreatorStore,
-  state: useMindmapsCreatorStore.getState,
-  ok: getOkState,
+  useState: (): MindmapsCreatorStoreState => useMindmapsCreatorStore(),
+  state: (): MindmapsCreatorStoreState => useMindmapsCreatorStore.getState(),
+  ok: (): MindmapsCreatorStoreOkState => isOkState(get()),
   useOk: (): MindmapsCreatorStoreOkState => useMindmapsCreatorStore(isOkState),
   useSelectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
     useMindmapsCreatorStore((state) =>
-      isOkState(state).mindmap.nodes.filter((node) => node.selected),
+      isOkState(state).mindmap.nodes.filter(({ selected }) => selected),
     ),
 } as const;
 
@@ -97,7 +100,9 @@ const mindmapsCreatorStoreActions = {
       })<API4MarkdownPayload<'getMindmap'>>({ id });
 
       set({ is: `ok`, settings, mindmap });
-    } catch (error: unknown) {}
+    } catch (error: unknown) {
+      set({ is: `fail`, error: parseErrorV2(error) });
+    }
   },
   connectNodes: ({ source, target }: Connection): void => {
     const { mindmap } = mindmapsCreatorStoreSelectors.ok();
@@ -200,6 +205,37 @@ const mindmapsCreatorStoreActions = {
         ...mindmap,
         nodes: applyNodeChanges(changes, mindmap.nodes) as MindmapNode[],
       },
+    });
+  },
+  startNodesRemoval: (): void => {
+    set({
+      removalConfirmationOpened: true,
+    });
+  },
+  cancelNodesRemoval: (): void => {
+    set({
+      removalConfirmationOpened: false,
+    });
+  },
+  removeSelectedNodes: (): void => {
+    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+
+    const nodesToRemove = mindmap.nodes
+      .filter(({ selected }) => selected)
+      .reduce<Record<MindmapNode['id'], boolean>>((acc, node) => {
+        acc[node.id] = true;
+        return acc;
+      }, {});
+
+    set({
+      mindmap: {
+        ...mindmap,
+        nodes: mindmap.nodes.filter(({ id }) => !nodesToRemove[id]),
+        edges: mindmap.edges.filter(
+          (edge) => !nodesToRemove[edge.source] && !nodesToRemove[edge.target],
+        ),
+      },
+      removalConfirmationOpened: false,
     });
   },
 } as const;
