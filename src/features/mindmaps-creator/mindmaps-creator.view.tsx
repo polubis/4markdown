@@ -93,6 +93,7 @@ const SelectionControlsContainer = () => {
  * 15. add external nodes handling
  * 16. Think about directions
  * 17. Think about tracking progress
+ * 18. Show loaded details of document and preview in some section
  */
 
 const MindmapsCreatorView = () => {
@@ -120,26 +121,27 @@ const MindmapsCreatorView = () => {
       </header>
       <main className="flex h-[calc(100svh-72px)]">
         <aside className="flex flex-col items-center w-[72px] shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-          <Button
-            i={1}
-            s={2}
-            className="mb-3"
-            title="Save mindmap"
-            onClick={() => {}}
-          >
-            <BiSave />
-          </Button>
-          <Button
-            i={1}
-            className="mb-3"
-            s={2}
-            title="Create new mindmap node"
-            onClick={mindmapsCreatorStoreActions.startAddingNode}
-          >
-            <BiPlus />
-          </Button>
           {mindmapsCreatorStore.is === `ok` && (
             <>
+              <Button
+                i={1}
+                s={2}
+                className="mb-3"
+                title="Save mindmap"
+                onClick={() => {}}
+              >
+                <BiSave />
+              </Button>
+              <Button
+                i={1}
+                className="mb-3"
+                s={2}
+                title="Create new mindmap node"
+                onClick={mindmapsCreatorStoreActions.startAddingNode}
+              >
+                <BiPlus />
+              </Button>
+              <div className="bg-zinc-400 dark:border-zinc-800 w-6 h-0.5 mt-3 mb-6" />
               <Button
                 i={1}
                 className="mb-3"
@@ -155,17 +157,17 @@ const MindmapsCreatorView = () => {
                 />
               </Button>
               <SelectionControlsContainer />
+              <Button
+                i={1}
+                s={2}
+                className="mt-auto"
+                title="Open mindmap settings"
+                onClick={mindmapsCreatorStoreActions.openSettings}
+              >
+                <BiCog />
+              </Button>
             </>
           )}
-          <Button
-            i={1}
-            s={2}
-            className="mt-auto"
-            title="Open mindmap settings"
-            onClick={mindmapsCreatorStoreActions.openSettings}
-          >
-            <BiCog />
-          </Button>
         </aside>
         {(mindmapsCreatorStore.is === `idle` ||
           mindmapsCreatorStore.is === `busy`) && <ScreenLoader />}
