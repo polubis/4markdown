@@ -31,9 +31,10 @@ type MindmapsCreatorStoreState = Transaction<
   },
   { error: ParsedError }
 > & {
-  settingsOpened: boolean;
-  nodeFormOpened: boolean;
-  removalConfirmationOpened: boolean;
+  settingsOpened?: boolean;
+  nodeFormOpened?: boolean;
+  nodeToEditId?: number;
+  removalConfirmationOpened?: boolean;
 };
 
 type MindmapsCreatorStoreOkState = Extract<
@@ -51,9 +52,6 @@ const isOkState = (
 
 const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
   is: `idle`,
-  nodeFormOpened: false,
-  settingsOpened: false,
-  removalConfirmationOpened: false,
 }));
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
