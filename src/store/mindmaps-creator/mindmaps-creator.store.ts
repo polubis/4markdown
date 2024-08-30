@@ -184,6 +184,7 @@ const mindmapsCreatorStoreActions = {
             },
             data,
             type: `internal`,
+            selected: true,
           },
         ],
       },

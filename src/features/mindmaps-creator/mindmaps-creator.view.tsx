@@ -81,7 +81,6 @@ const SelectionControlsContainer = () => {
  * @TODO
  *
  * 1. Better error screen for loading.
- * 4. Add auto placing in free space.
  * 5. Add grid alignments.
  * 6. Add undo/redo.
  * 7. Connect saving feature.
