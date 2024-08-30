@@ -4,6 +4,7 @@ import type {
   API4MarkdownPayload,
   MindmapDto,
   MindmapEdge,
+  MindmapExternalNode,
   MindmapInternalNode,
   MindmapNode,
   MindmapSettingsDto,
@@ -65,13 +66,33 @@ const mindmapsCreatorStoreSelectors = {
   useState: (): MindmapsCreatorStoreState => useMindmapsCreatorStore(),
   state: (): MindmapsCreatorStoreState => useMindmapsCreatorStore.getState(),
   ok: (): MindmapsCreatorStoreOkState => isOkState(get()),
-  useInternalNodeToEdit: (): MindmapNode | undefined =>
+  useInternalNodeToEdit: (): MindmapInternalNode | undefined =>
     useMindmapsCreatorStore((state) => {
       const { mindmap, nodeToEditId } = isOkState(state);
 
       if (nodeToEditId === undefined) return undefined;
 
-      return mindmap.nodes.find(({ id }) => id === nodeToEditId);
+      const foundNode = mindmap.nodes.find(({ id }) => id === nodeToEditId);
+
+      if (foundNode?.type !== `internal`) {
+        return undefined;
+      }
+
+      return foundNode;
+    }),
+  useExternalNodeToEdit: (): MindmapExternalNode | undefined =>
+    useMindmapsCreatorStore((state) => {
+      const { mindmap, nodeToEditId } = isOkState(state);
+
+      if (nodeToEditId === undefined) return undefined;
+
+      const foundNode = mindmap.nodes.find(({ id }) => id === nodeToEditId);
+
+      if (foundNode?.type !== `external`) {
+        return undefined;
+      }
+
+      return foundNode;
     }),
   useOk: (): MindmapsCreatorStoreOkState => useMindmapsCreatorStore(isOkState),
   selectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
@@ -270,7 +291,49 @@ const mindmapsCreatorStoreActions = {
       mindmap: {
         ...mindmap,
         nodes: mindmap.nodes.map((node) =>
-          node.id === id ? { ...node, data } : node,
+          node.id === id && node.type === `internal` ? { ...node, data } : node,
+        ),
+      },
+    });
+  },
+  addExternalNode: (data: MindmapExternalNode['data']): void => {
+    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+
+    set({
+      nodeToEditId: undefined,
+      nodeFormOpened: false,
+      mindmap: {
+        ...mindmap,
+        nodes: [
+          ...mindmap.nodes,
+          {
+            // @TODO[PRIO=5]: [Create a function for random ID generation].
+            id: new Date().toISOString(),
+            position: {
+              x: 0,
+              y: 0,
+            },
+            data,
+            type: `external`,
+            selected: true,
+          },
+        ],
+      },
+    });
+  },
+  editExternalNode: (
+    id: MindmapNode['id'],
+    data: MindmapExternalNode['data'],
+  ): void => {
+    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+
+    set({
+      nodeToEditId: undefined,
+      nodeFormOpened: false,
+      mindmap: {
+        ...mindmap,
+        nodes: mindmap.nodes.map((node) =>
+          node.id === id && node.type === `external` ? { ...node, data } : node,
         ),
       },
     });

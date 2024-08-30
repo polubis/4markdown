@@ -9,6 +9,7 @@ import {
   mindmapsCreatorStoreActions,
   mindmapsCreatorStoreSelectors,
 } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { ExternalNodeFormContainer } from './external-node-form.container';
 
 const NodeFormModalContainer = () => {
   const nodeToEdit = mindmapsCreatorStoreSelectors.useInternalNodeToEdit();
@@ -36,10 +37,17 @@ const NodeFormModalContainer = () => {
           >
             Internal
           </Tabs.Item>
+          <Tabs.Item
+            active={type === `external`}
+            onClick={() => setType(`external`)}
+          >
+            External
+          </Tabs.Item>
         </Tabs>
       )}
 
       {type === `internal` && <InternalNodeFormContainer />}
+      {type === `external` && <ExternalNodeFormContainer />}
     </Modal>
   );
 };

@@ -1,14 +1,28 @@
-import type { Date, Id, Name } from '../atoms';
-import type { DocumentDto } from './document.dto';
+import type { Date, Id, Name, Path } from '../atoms';
+import type { PermanentDocumentDto, PublicDocumentDto } from './document.dto';
 
 type MindmapInternalNode = {
   id: Id;
   data: {
-    document: DocumentDto;
+    document: PublicDocumentDto | PermanentDocumentDto;
     name: Name;
     description?: string;
   };
   type: `internal`;
+  position: {
+    x: number;
+    y: number;
+  };
+};
+
+type MindmapExternalNode = {
+  id: Id;
+  data: {
+    name: Name;
+    url: Path;
+    description?: string;
+  };
+  type: `external`;
   position: {
     x: number;
     y: number;
@@ -23,7 +37,7 @@ type MindmapBasicEdge = {
 };
 
 type MindmapEdge = MindmapBasicEdge;
-type MindmapNode = MindmapInternalNode;
+type MindmapNode = MindmapInternalNode | MindmapExternalNode;
 
 type MindmapNodeType = MindmapNode['type'];
 type MindmapEdgeType = MindmapEdge['type'];
@@ -49,5 +63,6 @@ export type {
   MindmapInternalNode,
   MindmapEdgeType,
   MindmapEdge,
+  MindmapExternalNode,
   MindmapOrientation,
 };

@@ -3,7 +3,7 @@ import { Field } from 'design-system/field';
 import { Button } from 'design-system/button';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
-import type { DocumentDto, MindmapInternalNode } from 'api-4markdown-contracts';
+import type { MindmapInternalNode } from 'api-4markdown-contracts';
 import { YourDocumentsSearchContainer } from './your-documents-search.container';
 import { useForm } from 'development-kit/use-form';
 import {
@@ -27,9 +27,9 @@ type InternalNodeFormValues = Pick<
 
 const InternalNodeFormContainer = () => {
   const nodeToEdit = mindmapsCreatorStoreSelectors.useInternalNodeToEdit();
-  const [selectedDoc, setSelectedDoc] = React.useState<DocumentDto | undefined>(
-    nodeToEdit?.data.document,
-  );
+  const [selectedDoc, setSelectedDoc] = React.useState<
+    MindmapInternalNode['data']['document'] | undefined
+  >(nodeToEdit?.data.document);
 
   const [{ values, invalid }, { set, inject }] =
     useForm<InternalNodeFormValues>(
@@ -62,7 +62,7 @@ const InternalNodeFormContainer = () => {
     });
   };
 
-  const selectDoc = (doc: DocumentDto): void => {
+  const selectDoc = (doc: MindmapInternalNode['data']['document']): void => {
     setSelectedDoc(doc);
     set({ name: doc.name });
     doc.visibility === `permanent` && set({ description: doc.description });

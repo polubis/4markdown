@@ -84,7 +84,6 @@ const SelectionControlsContainer = () => {
  * 5. Add grid alignments.
  * 6. Add undo/redo.
  * 7. Connect saving feature.
- * 9. Add support for external nodes.
  * 10. Connect to real API's
  * 11. Tab Index in modals - something is weird
  * 11. Create abckend endpoints.
