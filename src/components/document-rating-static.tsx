@@ -12,7 +12,10 @@ const DocumentRatingStatic = ({
   iconSize = 24,
 }: DocumentRatingStaticProps) => {
   return (
-    <section className="justify-end items-center flex mb-4 pr-1 h-10">
+    <section
+      className="justify-end items-center flex mb-4 pr-1 h-10"
+      data-testid="[document-rating]:container"
+    >
       <div className="flex space-x-2">
         {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
           <div

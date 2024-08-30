@@ -49,7 +49,14 @@ type ClickableControls =
   | `Add your avatar`
   | `Recent documents`
   | `Old documents`
-  | `Really Old documents`;
+  | `Really Old documents`
+  | `Sign in to rate`
+  | `Rate as good`
+  | `Rate as decent`
+  | `Rate as perfect`
+  | `Rate as bad`
+  | `Rate as ugly`
+  | `Change document rate`;
 
 type Element =
   | `Go to creator`

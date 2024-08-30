@@ -31,7 +31,13 @@ const DocumentRatingContainer = ({
         </React.Suspense>
       )}
       {authStore.is === `unauthorized` && (
-        <Button i={2} s={2} auto onClick={authStore.logIn}>
+        <Button
+          i={2}
+          s={2}
+          title="Sign in to rate"
+          auto
+          onClick={authStore.logIn}
+        >
           Sign In To Rate
         </Button>
       )}
