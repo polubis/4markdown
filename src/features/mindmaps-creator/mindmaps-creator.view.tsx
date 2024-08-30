@@ -89,8 +89,6 @@ const SelectionControlsContainer = () => {
  * 11. Create abckend endpoints.
  * 12. Create search docs endpont.
  * 13. Connect search docs to endpoint.
- * 14. Align validation rules.
- * 15. add external nodes handling
  * 16. Think about directions
  * 17. Think about tracking progress
  * 18. Show loaded details of document and preview in some section
