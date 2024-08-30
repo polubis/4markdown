@@ -108,6 +108,7 @@ const InternalNode = ({
 );
 
 const ExternalNode = ({
+  description,
   name,
   selected,
 }: Extract<MindmapNode, { type: `external` }>['data'] & {
@@ -124,6 +125,7 @@ const ExternalNode = ({
   >
     <p className="text-sm capitalize mb-0.5 italic">External Resource</p>
     <h6 className="font-bold line-clamp-2">{name}</h6>
+    {description && <p className="mt-1">{description}</p>}
   </div>
 );
 
