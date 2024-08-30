@@ -83,13 +83,11 @@ const SelectionControlsContainer = () => {
  * 1. Better error screen for loading.
  * 5. Add grid alignments.
  * 6. Add undo/redo.
- * 7. Connect saving feature.
  * 10. Connect to real API's
  * 11. Tab Index in modals - something is weird
  * 11. Create abckend endpoints.
  * 12. Create search docs endpont.
  * 13. Connect search docs to endpoint.
- * 16. Think about directions
  * 17. Think about tracking progress
  * 18. Show loaded details of document and preview in some section
  * 19 Connect addinew new mindmap (new modal an doption to choose).
