@@ -23,7 +23,10 @@ import {
 type MindmapsCreatorStoreState = Transaction<
   {
     mindmap: Omit<MindmapDto, 'nodes'> & {
-      nodes: (MindmapDto['nodes'][number] & { selected?: boolean })[];
+      nodes: (MindmapDto['nodes'][number] & {
+        selected?: boolean;
+        measured?: { width: number; height: number };
+      })[];
     };
     edges: Omit<MindmapDto, 'edges'> & {
       nodes: (MindmapDto['edges'][number] & { selected?: boolean })[];
