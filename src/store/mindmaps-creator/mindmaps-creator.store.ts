@@ -74,6 +74,8 @@ const mindmapsCreatorStoreSelectors = {
       return mindmap.nodes.find(({ id }) => id === nodeToEditId);
     }),
   useOk: (): MindmapsCreatorStoreOkState => useMindmapsCreatorStore(isOkState),
+  selectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
+    getSelectedNodes(isOkState(get()).mindmap.nodes),
   useSelectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
     useMindmapsCreatorStore((state) =>
       getSelectedNodes(isOkState(state).mindmap.nodes),

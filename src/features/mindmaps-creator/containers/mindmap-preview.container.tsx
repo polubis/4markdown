@@ -170,10 +170,28 @@ const MindmapPreviewContainer = () => {
   const { mindmap, settings } = mindmapsCreatorStoreSelectors.useOk();
 
   const newNodePressed = useKeyPress(`n`);
+  const nodeToEditPressed = useKeyPress(`e`);
+  const nodesRemovedPressed = useKeyPress(`d`);
 
   React.useEffect(() => {
     newNodePressed && mindmapsCreatorStoreActions.startAddingNode();
   }, [newNodePressed]);
+
+  React.useEffect(() => {
+    const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
+
+    if (nodeToEditPressed && selectedNodes.length === 1) {
+      mindmapsCreatorStoreActions.beginNodeEdition(selectedNodes[0].id);
+    }
+  }, [nodeToEditPressed]);
+
+  React.useEffect(() => {
+    const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
+
+    if (nodesRemovedPressed && selectedNodes.length > 0) {
+      mindmapsCreatorStoreActions.startNodesRemoval();
+    }
+  }, [nodesRemovedPressed]);
 
   return (
     <ReactFlow
