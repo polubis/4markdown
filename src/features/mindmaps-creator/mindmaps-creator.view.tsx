@@ -128,7 +128,8 @@ const MindmapsCreatorView = () => {
                 s={2}
                 className="mb-3"
                 title="Save mindmap"
-                onClick={() => {}}
+                disabled={mindmapsCreatorStore.saving.is === `busy`}
+                onClick={mindmapsCreatorStoreActions.save}
               >
                 <BiSave />
               </Button>
@@ -170,7 +171,8 @@ const MindmapsCreatorView = () => {
           )}
         </aside>
         {(mindmapsCreatorStore.is === `idle` ||
-          mindmapsCreatorStore.is === `busy`) && <ScreenLoader />}
+          mindmapsCreatorStore.is === `busy` ||
+          mindmapsCreatorStore.saving.is === `busy`) && <ScreenLoader />}
         {mindmapsCreatorStore.is === `ok` && <MindmapPreviewContainer />}
         {mindmapsCreatorStore.is === `fail` && <div>error</div>}
       </main>

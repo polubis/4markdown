@@ -36,6 +36,7 @@ type MindmapsCreatorStoreState = Transaction<
   nodeFormOpened?: boolean;
   nodeToEditId?: MindmapNode['id'];
   removalConfirmationOpened?: boolean;
+  saving: Transaction<undefined, { error: ParsedError }>;
 };
 
 type MindmapsCreatorStoreOkState = Extract<
@@ -58,6 +59,7 @@ const getSelectedNodes = (
 
 const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
   is: `idle`,
+  saving: { is: `idle` },
 }));
 
 const { getState: get, setState: set } = useMindmapsCreatorStore;
@@ -104,11 +106,30 @@ const mindmapsCreatorStoreSelectors = {
 } as const;
 
 const mindmapsCreatorStoreActions = {
+  save: async (): Promise<void> => {
+    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+
+    try {
+      set({ saving: { is: `busy` } });
+
+      const { mdate } = await mock({ delay: 1 })<
+        API4MarkdownDto<'updateMindmap'>
+      >({
+        mdate: new Date().toISOString(),
+      })<API4MarkdownPayload<'updateMindmap'>>({ mindmap });
+
+      set({
+        saving: { is: `ok` },
+        mindmap: {
+          ...mindmap,
+          mdate,
+        },
+      });
+    } catch (error: unknown) {
+      set({ saving: { is: `fail`, error: parseErrorV2(error) } });
+    }
+  },
   load: async (): Promise<void> => {
-    const state = mindmapsCreatorStoreSelectors.state();
-
-    if (state.is === `ok`) return;
-
     try {
       const searchParams = new URLSearchParams(window.location.search);
       const id = searchParams.get(`id`) ?? ``;
@@ -180,9 +201,17 @@ const mindmapsCreatorStoreActions = {
     set({ settingsOpened: false });
   },
   openSettings: (): void => {
+    const { saving } = mindmapsCreatorStoreSelectors.ok();
+
+    if (saving.is === `busy`) return;
+
     set({ settingsOpened: true });
   },
   startAddingNode: (): void => {
+    const { saving } = mindmapsCreatorStoreSelectors.ok();
+
+    if (saving.is === `busy`) return;
+
     set({ nodeFormOpened: true });
   },
   cancelAddingNode: (): void => {
@@ -243,6 +272,10 @@ const mindmapsCreatorStoreActions = {
     });
   },
   startNodesRemoval: (): void => {
+    const { saving } = mindmapsCreatorStoreSelectors.ok();
+
+    if (saving.is === `busy`) return;
+
     set({
       removalConfirmationOpened: true,
     });
@@ -274,6 +307,10 @@ const mindmapsCreatorStoreActions = {
     });
   },
   beginNodeEdition: (id: MindmapNode['id']): void => {
+    const { saving } = mindmapsCreatorStoreSelectors.ok();
+
+    if (saving.is === `busy`) return;
+
     set({
       nodeToEditId: id,
       nodeFormOpened: true,

@@ -107,6 +107,16 @@ type GetMindmapContract = Contract<
   { id: MindmapDto['id'] }
 >;
 
+type UpdateMindmapContract = Contract<
+  `updateMindmap`,
+  {
+    mdate: Date;
+  },
+  {
+    mindmap: MindmapDto;
+  }
+>;
+
 type API4MarkdownContracts =
   | GetYourDocumentsContract
   | GetAccessibleDocumentContract
@@ -120,7 +130,8 @@ type API4MarkdownContracts =
   | UpdateYourUserProfileContract
   | RateDocumentContract
   | GetYourInfoContract
-  | GetMindmapContract;
+  | GetMindmapContract
+  | UpdateMindmapContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
