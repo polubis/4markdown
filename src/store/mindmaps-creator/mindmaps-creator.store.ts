@@ -33,7 +33,7 @@ type MindmapsCreatorStoreState = Transaction<
 > & {
   settingsOpened?: boolean;
   nodeFormOpened?: boolean;
-  nodeToEditId?: number;
+  nodeToEditId?: MindmapNode['id'];
   removalConfirmationOpened?: boolean;
 };
 
@@ -50,6 +50,11 @@ const isOkState = (
   return state;
 };
 
+const getSelectedNodes = (
+  nodes: MindmapsCreatorStoreOkState['mindmap']['nodes'],
+): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
+  nodes.filter(({ selected }) => selected);
+
 const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
   is: `idle`,
 }));
@@ -60,10 +65,18 @@ const mindmapsCreatorStoreSelectors = {
   useState: (): MindmapsCreatorStoreState => useMindmapsCreatorStore(),
   state: (): MindmapsCreatorStoreState => useMindmapsCreatorStore.getState(),
   ok: (): MindmapsCreatorStoreOkState => isOkState(get()),
+  useInternalNodeToEdit: (): MindmapNode | undefined =>
+    useMindmapsCreatorStore((state) => {
+      const { mindmap, nodeToEditId } = isOkState(state);
+
+      if (nodeToEditId === undefined) return undefined;
+
+      return mindmap.nodes.find(({ id }) => id === nodeToEditId);
+    }),
   useOk: (): MindmapsCreatorStoreOkState => useMindmapsCreatorStore(isOkState),
   useSelectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
     useMindmapsCreatorStore((state) =>
-      isOkState(state).mindmap.nodes.filter(({ selected }) => selected),
+      getSelectedNodes(isOkState(state).mindmap.nodes),
     ),
 } as const;
 
@@ -150,7 +163,7 @@ const mindmapsCreatorStoreActions = {
     set({ nodeFormOpened: true });
   },
   cancelAddingNode: (): void => {
-    set({ nodeFormOpened: false });
+    set({ nodeFormOpened: false, nodeToEditId: undefined });
   },
   addInternalNode: (data: MindmapInternalNode['data']): void => {
     const { mindmap } = mindmapsCreatorStoreSelectors.ok();
@@ -218,12 +231,12 @@ const mindmapsCreatorStoreActions = {
   removeSelectedNodes: (): void => {
     const { mindmap } = mindmapsCreatorStoreSelectors.ok();
 
-    const nodesToRemove = mindmap.nodes
-      .filter(({ selected }) => selected)
-      .reduce<Record<MindmapNode['id'], boolean>>((acc, node) => {
-        acc[node.id] = true;
-        return acc;
-      }, {});
+    const nodesToRemove = getSelectedNodes(mindmap.nodes).reduce<
+      Record<MindmapNode['id'], boolean>
+    >((acc, node) => {
+      acc[node.id] = true;
+      return acc;
+    }, {});
 
     set({
       mindmap: {
@@ -234,6 +247,29 @@ const mindmapsCreatorStoreActions = {
         ),
       },
       removalConfirmationOpened: false,
+    });
+  },
+  beginNodeEdition: (id: MindmapNode['id']): void => {
+    set({
+      nodeToEditId: id,
+      nodeFormOpened: true,
+    });
+  },
+  editInternalNode: (
+    id: MindmapNode['id'],
+    data: MindmapInternalNode['data'],
+  ): void => {
+    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+
+    set({
+      nodeToEditId: undefined,
+      nodeFormOpened: false,
+      mindmap: {
+        ...mindmap,
+        nodes: mindmap.nodes.map((node) =>
+          node.id === id ? { ...node, data } : node,
+        ),
+      },
     });
   },
 } as const;

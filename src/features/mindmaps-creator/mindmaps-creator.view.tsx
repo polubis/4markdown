@@ -55,7 +55,9 @@ const SelectionControlsContainer = () => {
           className="mb-3"
           s={2}
           title="Edit selected node"
-          onClick={() => {}}
+          onClick={() =>
+            mindmapsCreatorStoreActions.beginNodeEdition(selectedNodes[0].id)
+          }
         >
           <BiEdit />
         </Button>
@@ -79,7 +81,6 @@ const SelectionControlsContainer = () => {
  * @TODO
  *
  * 1. Better error screen for loading.
- * 2. Connect edit form for select element.
  * 4. Add auto placing in free space.
  * 5. Add grid alignments.
  * 6. Add undo/redo.

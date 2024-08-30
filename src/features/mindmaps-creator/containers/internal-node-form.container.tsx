@@ -15,7 +15,10 @@ import {
 } from 'development-kit/form';
 import { meta } from '../../../../meta';
 import { Hint } from 'design-system/hint';
-import { mindmapsCreatorStoreActions } from 'store/mindmaps-creator/mindmaps-creator.store';
+import {
+  mindmapsCreatorStoreActions,
+  mindmapsCreatorStoreSelectors,
+} from 'store/mindmaps-creator/mindmaps-creator.store';
 
 type InternalNodeFormValues = Pick<
   MindmapInternalNode['data'],
@@ -23,15 +26,16 @@ type InternalNodeFormValues = Pick<
 >;
 
 const InternalNodeFormContainer = () => {
-  const [selectedDoc, setSelectedDoc] = React.useState<DocumentDto | null>(
-    null,
+  const nodeToEdit = mindmapsCreatorStoreSelectors.useInternalNodeToEdit();
+  const [selectedDoc, setSelectedDoc] = React.useState<DocumentDto | undefined>(
+    nodeToEdit?.data.document,
   );
 
   const [{ values, invalid }, { set, inject }] =
     useForm<InternalNodeFormValues>(
       {
-        name: ``,
-        description: ``,
+        name: nodeToEdit?.data.name ?? ``,
+        description: nodeToEdit?.data.description ?? ``,
       },
       {
         name: [noEdgeSpaces, minLength(2), maxLength(100), name],
@@ -41,6 +45,15 @@ const InternalNodeFormContainer = () => {
 
   const confirm: React.FormEventHandler<HTMLFormElement> = (e): void => {
     e.preventDefault();
+
+    if (nodeToEdit) {
+      mindmapsCreatorStoreActions.editInternalNode(nodeToEdit.id, {
+        name: values.name,
+        description: values.description,
+        document: selectedDoc!,
+      });
+      return;
+    }
 
     mindmapsCreatorStoreActions.addInternalNode({
       name: values.name,
@@ -56,24 +69,28 @@ const InternalNodeFormContainer = () => {
   };
 
   const unselectDoc = (): void => {
-    setSelectedDoc(null);
+    setSelectedDoc(undefined);
   };
 
   return (
     <form onSubmit={confirm}>
       <section>
-        <Field
-          className="mb-2"
-          label="Document*"
-          hint={
-            <Hint trigger={`Find a non-private document in ${meta.appName}`} />
-          }
-        >
-          <YourDocumentsSearchContainer
-            onSelect={selectDoc}
-            onChange={unselectDoc}
-          />
-        </Field>
+        {nodeToEdit ? null : (
+          <Field
+            className="mb-2"
+            label="Document*"
+            hint={
+              <Hint
+                trigger={`Find a non-private document in ${meta.appName}`}
+              />
+            }
+          >
+            <YourDocumentsSearchContainer
+              onSelect={selectDoc}
+              onChange={unselectDoc}
+            />
+          </Field>
+        )}
         {selectedDoc && (
           <>
             <Field className="mb-2" label="Name*">
