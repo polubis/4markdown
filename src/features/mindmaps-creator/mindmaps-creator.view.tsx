@@ -92,6 +92,7 @@ const SelectionControlsContainer = () => {
  * 16. Think about directions
  * 17. Think about tracking progress
  * 18. Show loaded details of document and preview in some section
+ * 19 Connect addinew new mindmap (new modal an doption to choose).
  */
 
 const MindmapsCreatorView = () => {
