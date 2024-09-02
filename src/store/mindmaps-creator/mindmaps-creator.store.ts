@@ -413,13 +413,11 @@ const mindmapsCreatorStoreActions = {
 
     nodes.forEach((node) => {
       const childrenIds = edges
-        .filter((edge) => edge.source === node.id && edge.target === node.id)
+        .filter((edge) => edge.source === node.id)
         .map((edge) => edge.target);
 
-      nodesChildren[node.id].concat(...childrenIds);
+      nodesChildren[node.id].push(...childrenIds);
     });
-
-    console.log(nodes, edges);
 
     console.log(nodesChildren);
 
