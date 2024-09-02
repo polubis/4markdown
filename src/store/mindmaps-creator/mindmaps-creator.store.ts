@@ -381,17 +381,18 @@ const mindmapsCreatorStoreActions = {
   },
   alignNodes: () => {
     const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { nodes, edges } = mindmap;
 
     const [GAP_X, GAP_Y] = [24, 100] as const;
     const [maxWidth, maxHeight] = [
-      mindmap.nodes.reduce((max, node) => {
+      nodes.reduce((max, node) => {
         if (node.measured === undefined) return max;
 
         const { width } = node.measured;
 
         return width > max ? width : max;
       }, 0),
-      mindmap.nodes.reduce((max, node) => {
+      nodes.reduce((max, node) => {
         if (node.measured === undefined) return max;
 
         const { height } = node.measured;
@@ -400,7 +401,37 @@ const mindmapsCreatorStoreActions = {
       }, 0),
     ] as const;
 
-    console.log(maxWidth, maxHeight);
+    const nodesChildren = nodes.reduce<
+      Record<MindmapNode['id'], MindmapNode['id'][]>
+    >(
+      (record, node) => {
+        record[node.id] = [];
+        return record;
+      },
+      {} as Record<MindmapNode['id'], MindmapNode['id'][]>,
+    );
+
+    nodes.forEach((node) => {
+      const childrenIds = edges
+        .filter((edge) => edge.source === node.id && edge.target === node.id)
+        .map((edge) => edge.target);
+
+      nodesChildren[node.id].concat(...childrenIds);
+    });
+
+    console.log(nodes, edges);
+
+    console.log(nodesChildren);
+
+    // set({
+    //   mindmap: {
+    //     ...mindmap,
+    //     nodes: mindmap.nodes.map((node) => ({
+    //       ...node,
+    //       position: {},
+    //     })),
+    //   },
+    // });
   },
 } as const;
 

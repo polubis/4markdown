@@ -247,8 +247,6 @@ const MindmapPreviewContainer = () => {
     }
   }, [nodesRemovedPressed]);
 
-  console.log(mindmap.nodes, mindmap.edges);
-
   return (
     <ReactFlow
       key={`${mindmap.orientation}${
