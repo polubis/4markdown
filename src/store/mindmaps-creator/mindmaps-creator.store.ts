@@ -19,6 +19,7 @@ import {
   type NodeChange,
   type Connection,
 } from '@xyflow/react';
+import { edges, nodes } from './mock';
 
 type MindmapsCreatorStoreState = Transaction<
   {
@@ -146,8 +147,8 @@ const mindmapsCreatorStoreActions = {
           id: `1`,
           cdate: ``,
           mdate: ``,
-          nodes: [],
-          edges: [],
+          nodes: nodes,
+          edges: edges,
           description: ``,
           name: `React Roadmap`,
           orientation: `y`,
@@ -377,6 +378,29 @@ const mindmapsCreatorStoreActions = {
         ),
       },
     });
+  },
+  alignNodes: () => {
+    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+
+    const [GAP_X, GAP_Y] = [24, 100] as const;
+    const [maxWidth, maxHeight] = [
+      mindmap.nodes.reduce((max, node) => {
+        if (node.measured === undefined) return max;
+
+        const { width } = node.measured;
+
+        return width > max ? width : max;
+      }, 0),
+      mindmap.nodes.reduce((max, node) => {
+        if (node.measured === undefined) return max;
+
+        const { height } = node.measured;
+
+        return height > max ? height : max;
+      }, 0),
+    ] as const;
+
+    console.log(maxWidth, maxHeight);
   },
 } as const;
 

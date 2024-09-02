@@ -101,7 +101,9 @@ const InternalNode = ({
     )}
     title={name}
   >
-    <p className="text-sm capitalize mb-0.5 italic">{meta.appName} Document</p>
+    <p className="text-sm capitalize mb-0.5 italic line-clamp-4">
+      {meta.appName} Document
+    </p>
     <h6 className="font-bold line-clamp-2">{name}</h6>
     {description && <p className="mt-1">{description}</p>}
   </div>
@@ -123,7 +125,9 @@ const ExternalNode = ({
     )}
     title={name}
   >
-    <p className="text-sm capitalize mb-0.5 italic">External Resource</p>
+    <p className="text-sm capitalize mb-0.5 italic line-clamp-4">
+      External Resource
+    </p>
     <h6 className="font-bold line-clamp-2">{name}</h6>
     {description && <p className="mt-1">{description}</p>}
   </div>
@@ -242,6 +246,8 @@ const MindmapPreviewContainer = () => {
       mindmapsCreatorStoreActions.startNodesRemoval();
     }
   }, [nodesRemovedPressed]);
+
+  console.log(mindmap.nodes, mindmap.edges);
 
   return (
     <ReactFlow

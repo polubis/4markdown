@@ -7,6 +7,7 @@ import {
   BiHorizontalRight,
   BiPlus,
   BiSave,
+  BiSolidGrid,
   BiTrash,
 } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
@@ -91,6 +92,8 @@ const SelectionControlsContainer = () => {
  * 17. Think about tracking progress
  * 18. Show loaded details of document and preview in some section
  * 19 Connect addinew new mindmap (new modal an doption to choose).
+ * 20. Add line hightliht where alement sare positioned
+ * 21. Allow rectangle selection with pressed button.
  */
 
 const MindmapsCreatorView = () => {
@@ -153,6 +156,15 @@ const MindmapsCreatorView = () => {
                       mindmapsCreatorStore.mindmap.orientation === `y`,
                   })}
                 />
+              </Button>
+              <Button
+                i={1}
+                className="mb-3"
+                s={2}
+                title="Align items"
+                onClick={mindmapsCreatorStoreActions.alignNodes}
+              >
+                <BiSolidGrid />
               </Button>
               <SelectionControlsContainer />
               <Button
