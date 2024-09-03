@@ -1,0 +1,86 @@
+type Token = string;
+
+class DIContainer {
+  // eslint-disable-next-line prettier/prettier
+  private instances = new Map<Token, { instance: any; params: any[] }>();
+
+  register<TInstance>(
+    token: Token,
+    constructor: { new (...args: any[]): TInstance },
+    ...args: any[]
+  ): void {
+    const instance = new constructor(...args);
+    this.instances.set(token, { instance, params: args });
+  }
+
+  get<TInstance>(token: Token): TInstance {
+    const entry = this.instances.get(token);
+
+    if (!entry) {
+      throw new Error(`No dependency registered with token: ${token}`);
+    }
+
+    return entry.instance as TInstance;
+  }
+
+  getParams(token: Token): any[] {
+    const entry = this.instances.get(token);
+
+    if (!entry) {
+      throw new Error(`No dependency registered with token: ${token}`);
+    }
+
+    return entry.params;
+  }
+}
+
+class Logger {
+  private logLevel: string;
+
+  constructor(logLevel: string) {
+    this.logLevel = logLevel;
+  }
+
+  log(message: string): void {
+    console.log(`[${this.logLevel}] ${message}`);
+  }
+}
+
+class ApiService {
+  private logger: Logger;
+  private apiUrl: string;
+
+  constructor(logger: Logger, apiUrl: string) {
+    this.logger = logger;
+    this.apiUrl = apiUrl;
+  }
+
+  fetchData(): void {
+    this.logger.log(`Fetching data from ${this.apiUrl}`);
+  }
+}
+
+// Create a new DI container
+const container = new DIContainer();
+
+// Register dependencies with parameters
+container.register(`logger`, Logger, `DEBUG`);
+container.register(
+  `apiService`,
+  ApiService,
+  container.get<Logger>(`logger`),
+  `https://api.example.com`,
+);
+
+// Resolve dependencies
+const apiService = container.get<ApiService>(`apiService`);
+
+// Use the resolved service
+apiService.fetchData(); // Outputs: [DEBUG] Fetching data from https://api.example.com
+
+// Retrieve constructor parameters used
+const loggerParams = container.getParams(`logger`);
+console.log(loggerParams); // Outputs: ['DEBUG']
+
+const apiServiceParams = container.getParams(`apiService`);
+console.log(apiServiceParams); // Outputs: [Logger instance, 'https://api.example.com']
