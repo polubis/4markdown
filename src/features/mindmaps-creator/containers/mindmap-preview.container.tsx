@@ -29,6 +29,7 @@ import {
 } from 'store/mindmaps-creator/mindmaps-creator.store';
 import c from 'classnames';
 import { meta } from '../../../../meta';
+import { useViewCenter } from '../core/use-view-center';
 
 type MindmapNodeTypes = {
   [Key in MindmapNodeType]: ComponentType<
@@ -222,10 +223,15 @@ const edgeTypes: MindmapEdgeTypes = {
 
 const MindmapPreviewContainer = () => {
   const { mindmap, settings } = mindmapsCreatorStoreSelectors.useOk();
+  const { centerView } = useViewCenter();
 
   const newNodePressed = useKeyPress(`n`);
   const nodeToEditPressed = useKeyPress(`e`);
   const nodesRemovedPressed = useKeyPress(`d`);
+  const itemsAligned = useKeyPress(`a`);
+  const layoutCentered = useKeyPress(`c`);
+  const orientationChangePressed = useKeyPress(`o`);
+  const savePressed = useKeyPress(`s`);
 
   React.useEffect(() => {
     newNodePressed && mindmapsCreatorStoreActions.startAddingNode();
@@ -247,11 +253,39 @@ const MindmapPreviewContainer = () => {
     }
   }, [nodesRemovedPressed]);
 
+  React.useEffect(() => {
+    if (itemsAligned) {
+      mindmapsCreatorStoreActions.alignNodes();
+      centerView();
+    }
+  }, [itemsAligned, centerView]);
+
+  React.useEffect(() => {
+    if (layoutCentered) {
+      centerView();
+    }
+  }, [layoutCentered, centerView]);
+
+  React.useEffect(() => {
+    if (orientationChangePressed) {
+      mindmapsCreatorStoreActions.toggleOrientation();
+      centerView();
+    }
+  }, [orientationChangePressed, centerView]);
+
+  React.useEffect(() => {
+    centerView();
+  }, [centerView, mindmap.nodes.length]);
+
+  React.useEffect(() => {
+    if (savePressed) {
+      mindmapsCreatorStoreActions.save();
+    }
+  }, [savePressed]);
+
   return (
     <ReactFlow
-      key={`${mindmap.orientation}${
-        settings.autoFit ? mindmap.nodes.length : ``
-      }`}
+      key={mindmap.orientation}
       nodes={mindmap.nodes}
       edges={mindmap.edges}
       onNodesChange={mindmapsCreatorStoreActions.updateNodes}
@@ -259,7 +293,7 @@ const MindmapPreviewContainer = () => {
       onConnect={mindmapsCreatorStoreActions.connectNodes}
       nodeTypes={nodeTypes[mindmap.orientation]}
       edgeTypes={edgeTypes}
-      fitView
+      fitView={settings.autoFit}
     >
       <Controls />
       <Background />

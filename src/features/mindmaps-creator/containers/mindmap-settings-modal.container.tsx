@@ -30,11 +30,11 @@ const MindmapSettingsModalContainer = () => {
 
       <Field
         hint={
-          <Hint trigger="After a node is changed, the application will zoom out to display all nodes." />
+          <Hint trigger="When important interactions, such as adding a new node or changing the orientation, are performed, the view will be automatically aligned." />
         }
       >
         <Checkbox
-          label="Auto Zoom"
+          label="Auto Fit View"
           checked={settings.autoFit}
           onClick={mindmapsCreatorStoreActions.toggleAutoFit}
         />

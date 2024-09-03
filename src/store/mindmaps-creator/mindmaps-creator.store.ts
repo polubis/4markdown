@@ -182,7 +182,9 @@ const mindmapsCreatorStoreActions = {
     });
   },
   toggleOrientation: (): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap, saving } = mindmapsCreatorStoreSelectors.ok();
+
+    if (saving.is === `busy`) return;
 
     set({
       mindmap: {
@@ -190,6 +192,8 @@ const mindmapsCreatorStoreActions = {
         orientation: mindmap.orientation === `x` ? `y` : `x`,
       },
     });
+
+    mindmapsCreatorStoreActions.alignNodes();
   },
   toggleAutoFit: (): void => {
     const { settings } = mindmapsCreatorStoreSelectors.ok();
@@ -380,6 +384,10 @@ const mindmapsCreatorStoreActions = {
     });
   },
   alignNodes: async () => {
+    const { saving } = mindmapsCreatorStoreSelectors.ok();
+
+    if (saving.is === `busy`) return;
+
     try {
       const { getLayoutedElements } = await import(`./get-layouted-elements`);
 
@@ -391,8 +399,6 @@ const mindmapsCreatorStoreActions = {
           ...getLayoutedElements(),
         },
       });
-
-      getLayoutedElements();
     } catch {}
   },
 } as const;

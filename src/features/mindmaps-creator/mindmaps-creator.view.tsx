@@ -23,6 +23,7 @@ import { ScreenLoader } from 'design-system/screen-loader';
 import { MindmapPreviewContainer } from './containers/mindmap-preview.container';
 // @TODO[PRIO=5]: [Add facade to classnames].
 import c from 'classnames';
+import { ReactFlowProvider } from '@xyflow/react';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -55,7 +56,7 @@ const SelectionControlsContainer = () => {
           i={1}
           className="mb-3"
           s={2}
-          title="Edit selected node"
+          title="Edit selected node (e)"
           onClick={() =>
             mindmapsCreatorStoreActions.beginNodeEdition(selectedNodes[0].id)
           }
@@ -68,7 +69,7 @@ const SelectionControlsContainer = () => {
           i={1}
           className="mb-3"
           s={2}
-          title="Delete selected mindmap nodes"
+          title="Delete selected mindmap nodes (d)"
           onClick={mindmapsCreatorStoreActions.startNodesRemoval}
         >
           <BiTrash />
@@ -103,7 +104,7 @@ const MindmapsCreatorView = () => {
   }, []);
 
   return (
-    <>
+    <ReactFlowProvider>
       <header className="flex items-center px-4 h-[72px] border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
         <AppNavLink to="/" title="Back to home page">
           <Button i={1} s={2}>
@@ -126,7 +127,7 @@ const MindmapsCreatorView = () => {
                 i={1}
                 s={2}
                 className="mb-3"
-                title="Save mindmap"
+                title="Save mindmap (s)"
                 disabled={mindmapsCreatorStore.saving.is === `busy`}
                 onClick={mindmapsCreatorStoreActions.save}
               >
@@ -136,7 +137,7 @@ const MindmapsCreatorView = () => {
                 i={1}
                 className="mb-3"
                 s={2}
-                title="Create new mindmap node"
+                title="Create new mindmap node (n)"
                 onClick={mindmapsCreatorStoreActions.startAddingNode}
               >
                 <BiPlus />
@@ -146,7 +147,7 @@ const MindmapsCreatorView = () => {
                 i={1}
                 className="mb-3"
                 s={2}
-                title="Change mindmap orientation"
+                title="Change mindmap orientation (o)"
                 onClick={mindmapsCreatorStoreActions.toggleOrientation}
               >
                 <BiHorizontalRight
@@ -160,7 +161,7 @@ const MindmapsCreatorView = () => {
                 i={1}
                 className="mb-3"
                 s={2}
-                title="Align items"
+                title="Align items (a)"
                 onClick={mindmapsCreatorStoreActions.alignNodes}
               >
                 <BiSolidGrid />
@@ -199,7 +200,7 @@ const MindmapsCreatorView = () => {
           <NodesRemovalConfirmationContainer />
         </React.Suspense>
       )}
-    </>
+    </ReactFlowProvider>
   );
 };
 
