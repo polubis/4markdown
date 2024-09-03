@@ -82,6 +82,8 @@ const SelectionControlsContainer = () => {
 /**
  * @TODO
  *
+ * Refactor buttons actions and toggle/orientation actions
+ *
  * 1. Better error screen for loading.
  * 6. Add undo/redo.
  * 10. Connect to real API's
