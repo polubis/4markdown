@@ -19,7 +19,7 @@ import {
   type NodeChange,
   type Connection,
 } from '@xyflow/react';
-import { edges, nodes } from './mock';
+import * as mocks from './mock';
 
 type MindmapsCreatorStoreState = Transaction<
   {
@@ -147,8 +147,8 @@ const mindmapsCreatorStoreActions = {
           id: `1`,
           cdate: ``,
           mdate: ``,
-          nodes: nodes,
-          edges: edges,
+          nodes: mocks.nodes,
+          edges: mocks.edges,
           description: ``,
           name: `React Roadmap`,
           orientation: `y`,
@@ -379,61 +379,25 @@ const mindmapsCreatorStoreActions = {
       },
     });
   },
-  alignNodes: () => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
-    const { nodes, edges } = mindmap;
+  alignNodes: async () => {
+    try {
+      const { getLayoutedElements } = await import(`./get-layouted-elements`);
 
-    const [GAP_X, GAP_Y] = [24, 100] as const;
-    const [maxWidth, maxHeight] = [
-      nodes.reduce((max, node) => {
-        if (node.measured === undefined) return max;
+      const { mindmap } = mindmapsCreatorStoreSelectors.ok();
 
-        const { width } = node.measured;
+      set({
+        mindmap: {
+          ...mindmap,
+          ...getLayoutedElements(),
+        },
+      });
 
-        return width > max ? width : max;
-      }, 0),
-      nodes.reduce((max, node) => {
-        if (node.measured === undefined) return max;
-
-        const { height } = node.measured;
-
-        return height > max ? height : max;
-      }, 0),
-    ] as const;
-
-    const nodesChildren = nodes.reduce<
-      Record<MindmapNode['id'], MindmapNode['id'][]>
-    >(
-      (record, node) => {
-        record[node.id] = [];
-        return record;
-      },
-      {} as Record<MindmapNode['id'], MindmapNode['id'][]>,
-    );
-
-    nodes.forEach((node) => {
-      const childrenIds = edges
-        .filter((edge) => edge.source === node.id)
-        .map((edge) => edge.target);
-
-      nodesChildren[node.id].push(...childrenIds);
-    });
-
-    console.log(nodesChildren);
-
-    // set({
-    //   mindmap: {
-    //     ...mindmap,
-    //     nodes: mindmap.nodes.map((node) => ({
-    //       ...node,
-    //       position: {},
-    //     })),
-    //   },
-    // });
+      getLayoutedElements();
+    } catch {}
   },
 } as const;
 
-export type { MindmapsCreatorStoreState };
+export type { MindmapsCreatorStoreState, MindmapsCreatorStoreOkState };
 export {
   useMindmapsCreatorStore,
   mindmapsCreatorStoreSelectors,

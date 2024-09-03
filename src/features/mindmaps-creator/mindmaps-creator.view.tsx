@@ -82,7 +82,6 @@ const SelectionControlsContainer = () => {
  * @TODO
  *
  * 1. Better error screen for loading.
- * 5. Add grid alignments.
  * 6. Add undo/redo.
  * 10. Connect to real API's
  * 11. Tab Index in modals - something is weird
