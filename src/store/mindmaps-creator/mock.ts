@@ -1,4 +1,4 @@
-const nodes = [
+const nodes: any[] = [
   {
     id: `2024-09-02T07:27:37.297Z`,
     position: {
@@ -261,7 +261,7 @@ const nodes = [
   },
 ];
 
-const edges = [
+const edges: any[] = [
   {
     id: `2024-09-02T07:27:45.696Z`,
     type: `curved`,

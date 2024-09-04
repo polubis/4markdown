@@ -231,7 +231,6 @@ const MindmapPreviewContainer = () => {
   const itemsAligned = useKeyPress(`a`);
   const layoutCentered = useKeyPress(`c`);
   const orientationChangePressed = useKeyPress(`o`);
-  const savePressed = useKeyPress(`s`);
 
   React.useEffect(() => {
     newNodePressed && mindmapsCreatorStoreActions.startAddingNode();
@@ -276,12 +275,6 @@ const MindmapPreviewContainer = () => {
   React.useEffect(() => {
     centerView();
   }, [centerView, mindmap.nodes.length]);
-
-  React.useEffect(() => {
-    if (savePressed) {
-      mindmapsCreatorStoreActions.save();
-    }
-  }, [savePressed]);
 
   return (
     <ReactFlow

@@ -111,7 +111,9 @@ const mindmapsCreatorStoreSelectors = {
 
 const mindmapsCreatorStoreActions = {
   save: async (): Promise<void> => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap, saving } = mindmapsCreatorStoreSelectors.ok();
+
+    if (saving.is === `busy`) return;
 
     try {
       set({ saving: { is: `busy` } });
