@@ -225,17 +225,8 @@ const MindmapPreviewContainer = () => {
   const { mindmap, settings } = mindmapsCreatorStoreSelectors.useOk();
   const { centerViewWhenSafe, centerView } = useViewCenter();
 
-  const nodeToEditPressed = useKeyPress(`e`);
   const nodesRemovedPressed = useKeyPress(`d`);
   const layoutCentered = useKeyPress(`c`);
-
-  React.useEffect(() => {
-    const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
-
-    if (nodeToEditPressed && selectedNodes.length === 1) {
-      mindmapsCreatorStoreActions.beginNodeEdition(selectedNodes[0].id);
-    }
-  }, [nodeToEditPressed]);
 
   React.useEffect(() => {
     const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();

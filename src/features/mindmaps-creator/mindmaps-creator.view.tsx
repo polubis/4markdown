@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiEdit, BiTrash } from 'react-icons/bi';
+import { BiArrowBack, BiTrash } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import {
   mindmapsCreatorStoreActions,
@@ -18,6 +18,7 @@ import { NewNodeButtonContainer } from './containers/new-node-button.container';
 import { OrientationButtonContainer } from './containers/orientation-button.container';
 import { AlignButtonContainer } from './containers/align-button.container';
 import { SettingsButtonContainer } from './containers/settings-button.container';
+import { EditNodeButtonContainer } from './containers/edit-node-button.container';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -45,19 +46,7 @@ const SelectionControlsContainer = () => {
       {selectedNodes.length > 0 && (
         <div className="bg-zinc-400 dark:border-zinc-800 w-6 h-0.5 mt-3 mb-6" />
       )}
-      {selectedNodes.length === 1 && (
-        <Button
-          i={1}
-          className="mb-3"
-          s={2}
-          title="Edit selected node (e)"
-          onClick={() =>
-            mindmapsCreatorStoreActions.beginNodeEdition(selectedNodes[0].id)
-          }
-        >
-          <BiEdit />
-        </Button>
-      )}
+      {selectedNodes.length === 1 && <EditNodeButtonContainer />}
       {selectedNodes.length > 0 && (
         <Button
           i={1}
@@ -84,6 +73,8 @@ const SelectionControlsContainer = () => {
  * 11. Tab Index in modals - something is weird
  * 11. Create abckend endpoints.
  * 12. Create search docs endpont.
+ * Fix issue with external select when edit
+ * Improve auto selection - add animation after edit or smeth else.
  * 13. Connect search docs to endpoint.
  * 17. Think about tracking progress
  * 18. Show loaded details of document and preview in some section

@@ -316,13 +316,17 @@ const mindmapsCreatorStoreActions = {
       removalConfirmationOpened: false,
     });
   },
-  beginNodeEdition: (id: MindmapNode['id']): void => {
+  beginNodeEdition: (): void => {
     const { saving } = mindmapsCreatorStoreSelectors.ok();
 
     if (saving.is === `busy`) return;
 
+    const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
+
+    if (selectedNodes.length !== 1) return;
+
     set({
-      nodeToEditId: id,
+      nodeToEditId: selectedNodes[0].id,
       nodeFormOpened: true,
     });
   },
