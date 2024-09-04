@@ -12,8 +12,10 @@ import {
 import { ExternalNodeFormContainer } from './external-node-form.container';
 
 const NodeFormModalContainer = () => {
-  const nodeToEdit = mindmapsCreatorStoreSelectors.useInternalNodeToEdit();
-  const [type, setType] = React.useState<MindmapNodeType>(`internal`);
+  const nodeToEdit = mindmapsCreatorStoreSelectors.useNodeToEdit();
+  const [type, setType] = React.useState<MindmapNodeType>(
+    nodeToEdit?.type ?? `internal`,
+  );
 
   return (
     <Modal onEscape={mindmapsCreatorStoreActions.cancelAddingNode}>

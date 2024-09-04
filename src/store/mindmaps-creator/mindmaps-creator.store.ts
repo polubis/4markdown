@@ -69,6 +69,14 @@ const mindmapsCreatorStoreSelectors = {
   useState: (): MindmapsCreatorStoreState => useMindmapsCreatorStore(),
   state: (): MindmapsCreatorStoreState => useMindmapsCreatorStore.getState(),
   ok: (): MindmapsCreatorStoreOkState => isOkState(get()),
+  useNodeToEdit: (): MindmapNode | undefined =>
+    useMindmapsCreatorStore((state) => {
+      const { mindmap, nodeToEditId } = isOkState(state);
+
+      if (nodeToEditId === undefined) return undefined;
+
+      return mindmap.nodes.find(({ id }) => id === nodeToEditId);
+    }),
   useInternalNodeToEdit: (): MindmapInternalNode | undefined =>
     useMindmapsCreatorStore((state) => {
       const { mindmap, nodeToEditId } = isOkState(state);

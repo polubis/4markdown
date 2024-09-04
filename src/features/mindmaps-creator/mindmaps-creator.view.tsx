@@ -62,7 +62,6 @@ const SelectionControlsContainer = () => {
  * 11. Tab Index in modals - something is weird
  * 11. Create abckend endpoints.
  * 12. Create search docs endpont.
- * Fix issue with external select when edit
  * Improve auto selection - add animation after edit or smeth else.
  * 13. Connect search docs to endpoint.
  * 17. Think about tracking progress
@@ -71,6 +70,7 @@ const SelectionControlsContainer = () => {
  * 20. Add line hightliht where alement sare positioned
  * 21. Allow rectangle selection with pressed button.
  * 22. Vsibility of the documents
+ * 23. Block multiple modals apperance.
  */
 
 const MindmapsCreatorView = () => {
