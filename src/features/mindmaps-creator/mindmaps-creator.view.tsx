@@ -5,7 +5,6 @@ import {
   BiCog,
   BiEdit,
   BiHorizontalRight,
-  BiPlus,
   BiSolidGrid,
   BiTrash,
 } from 'react-icons/bi';
@@ -23,7 +22,8 @@ import { MindmapPreviewContainer } from './containers/mindmap-preview.container'
 // @TODO[PRIO=5]: [Add facade to classnames].
 import c from 'classnames';
 import { ReactFlowProvider } from '@xyflow/react';
-import { SaveMindmapButtonContainer } from './containers/save-mindmap-button.container';
+import { SaveButtonContainer } from './containers/save-button.container';
+import { NewNodeButtonContainer } from './containers/new-node-button.container';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -125,16 +125,8 @@ const MindmapsCreatorView = () => {
         <aside className="flex flex-col items-center w-[72px] shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           {mindmapsCreatorStore.is === `ok` && (
             <>
-              <SaveMindmapButtonContainer />
-              <Button
-                i={1}
-                className="mb-3"
-                s={2}
-                title="Create new mindmap node (n)"
-                onClick={mindmapsCreatorStoreActions.startAddingNode}
-              >
-                <BiPlus />
-              </Button>
+              <SaveButtonContainer />
+              <NewNodeButtonContainer />
               <div className="bg-zinc-400 dark:border-zinc-800 w-6 h-0.5 mt-3 mb-6" />
               <Button
                 i={1}

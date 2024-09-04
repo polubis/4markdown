@@ -225,16 +225,11 @@ const MindmapPreviewContainer = () => {
   const { mindmap, settings } = mindmapsCreatorStoreSelectors.useOk();
   const { centerView } = useViewCenter();
 
-  const newNodePressed = useKeyPress(`n`);
   const nodeToEditPressed = useKeyPress(`e`);
   const nodesRemovedPressed = useKeyPress(`d`);
   const itemsAligned = useKeyPress(`a`);
   const layoutCentered = useKeyPress(`c`);
   const orientationChangePressed = useKeyPress(`o`);
-
-  React.useEffect(() => {
-    newNodePressed && mindmapsCreatorStoreActions.startAddingNode();
-  }, [newNodePressed]);
 
   React.useEffect(() => {
     const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
