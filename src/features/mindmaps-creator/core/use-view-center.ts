@@ -6,6 +6,13 @@ const useViewCenter = () => {
   const { fitView } = useReactFlow();
 
   const centerView = React.useCallback(() => {
+    window.requestAnimationFrame(() => {
+      fitView();
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const centerViewWhenSafe = React.useCallback(() => {
     const {
       saving,
       settings: { autoFit },
@@ -13,13 +20,11 @@ const useViewCenter = () => {
 
     if (!autoFit || saving.is === `busy`) return;
 
-    window.requestAnimationFrame(() => {
-      fitView();
-    });
+    centerView();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [centerView]);
 
-  return { centerView };
+  return { centerViewWhenSafe, centerView };
 };
 
 export { useViewCenter };

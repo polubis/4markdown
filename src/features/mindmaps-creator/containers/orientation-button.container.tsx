@@ -12,15 +12,15 @@ import { useViewCenter } from '../core/use-view-center';
 
 const OrientationButtonContainer = () => {
   const orientationChangePressed = useKeyPress(`o`);
-  const { centerView } = useViewCenter();
+  const { centerViewWhenSafe } = useViewCenter();
   const mindmapsCreatorStore = mindmapsCreatorStoreSelectors.useOk();
 
   React.useEffect(() => {
     if (orientationChangePressed) {
       mindmapsCreatorStoreActions.toggleOrientation();
-      centerView();
+      centerViewWhenSafe();
     }
-  }, [orientationChangePressed, centerView]);
+  }, [orientationChangePressed, centerViewWhenSafe]);
 
   return (
     <Button

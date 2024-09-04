@@ -223,7 +223,7 @@ const edgeTypes: MindmapEdgeTypes = {
 
 const MindmapPreviewContainer = () => {
   const { mindmap, settings } = mindmapsCreatorStoreSelectors.useOk();
-  const { centerView } = useViewCenter();
+  const { centerViewWhenSafe, centerView } = useViewCenter();
 
   const nodeToEditPressed = useKeyPress(`e`);
   const nodesRemovedPressed = useKeyPress(`d`);
@@ -252,8 +252,8 @@ const MindmapPreviewContainer = () => {
   }, [layoutCentered, centerView]);
 
   React.useEffect(() => {
-    centerView();
-  }, [centerView, mindmap.nodes.length]);
+    centerViewWhenSafe();
+  }, [centerViewWhenSafe, mindmap.nodes.length]);
 
   return (
     <ReactFlow
