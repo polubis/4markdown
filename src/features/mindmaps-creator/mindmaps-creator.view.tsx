@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiCog, BiEdit, BiTrash } from 'react-icons/bi';
+import { BiArrowBack, BiEdit, BiTrash } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import {
   mindmapsCreatorStoreActions,
@@ -17,6 +17,7 @@ import { SaveButtonContainer } from './containers/save-button.container';
 import { NewNodeButtonContainer } from './containers/new-node-button.container';
 import { OrientationButtonContainer } from './containers/orientation-button.container';
 import { AlignButtonContainer } from './containers/align-button.container';
+import { SettingsButtonContainer } from './containers/settings-button.container';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -124,15 +125,7 @@ const MindmapsCreatorView = () => {
               <OrientationButtonContainer />
               <AlignButtonContainer />
               <SelectionControlsContainer />
-              <Button
-                i={1}
-                s={2}
-                className="mt-auto"
-                title="Open mindmap settings"
-                onClick={mindmapsCreatorStoreActions.openSettings}
-              >
-                <BiCog />
-              </Button>
+              <SettingsButtonContainer />
             </>
           )}
         </aside>
