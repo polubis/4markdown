@@ -29,9 +29,6 @@ type MindmapsCreatorStoreState = Transaction<
         measured?: { width: number; height: number };
       })[];
     };
-    edges: Omit<MindmapDto, 'edges'> & {
-      nodes: (MindmapDto['edges'][number] & { selected?: boolean })[];
-    };
     settings: MindmapSettingsDto;
   },
   { error: ParsedError }
