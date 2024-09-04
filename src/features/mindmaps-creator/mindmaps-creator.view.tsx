@@ -76,7 +76,8 @@ const SelectionControlsContainer = () => {
  * 21. Allow rectangle selection with pressed button.
  * 22. Vsibility of the documents
  * 23. Block multiple modals apperance.
- */
+Error screen for saving 
+*/
 
 const MindmapsCreatorView = () => {
   const mindmapsCreatorStore = mindmapsCreatorStoreSelectors.useState();
