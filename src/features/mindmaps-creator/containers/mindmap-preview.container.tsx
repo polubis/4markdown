@@ -14,6 +14,7 @@ import {
   EdgeLabelRenderer,
   useKeyPress,
   getSimpleBezierPath,
+  MiniMap,
 } from '@xyflow/react';
 import {
   type MindmapOrientation,
@@ -251,6 +252,7 @@ const MindmapPreviewContainer = () => {
     >
       <Controls />
       <Background />
+      <MiniMap />
     </ReactFlow>
   );
 };
