@@ -9,6 +9,7 @@ import {
 } from 'models/view-models';
 import { type PermanentDocumentDto } from 'api-4markdown-contracts';
 import { createInitialCode } from './create-initial-code';
+import { writeFileSync } from 'fs';
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,
@@ -18,6 +19,18 @@ const config: FirebaseOptions = {
   messagingSenderId: process.env.GATSBY_MESSAGING_SENDER_ID,
   appId: process.env.GATSBY_APP_ID,
   measurementId: process.env.GATSBY_MEASURMENT_ID,
+};
+
+export const onPostBuild: GatsbyNode['onPostBuild'] = async () => {
+  const indexNowKey = process.env.INDEX_NOW_KEY;
+
+  if (!indexNowKey) return;
+
+  const filePath = path.join(__dirname, `public`, `${indexNowKey}.txt`);
+
+  writeFileSync(filePath, indexNowKey);
+
+  console.log(`IndexNow verification file created at: ${filePath}`);
 };
 
 export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
