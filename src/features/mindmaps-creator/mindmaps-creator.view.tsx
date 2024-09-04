@@ -70,6 +70,7 @@ const SelectionControlsContainer = () => {
  * 19 Connect addinew new mindmap (new modal an doption to choose).
  * 20. Add line hightliht where alement sare positioned
  * 21. Allow rectangle selection with pressed button.
+ * 22. Vsibility of the documents
  */
 
 const MindmapsCreatorView = () => {
