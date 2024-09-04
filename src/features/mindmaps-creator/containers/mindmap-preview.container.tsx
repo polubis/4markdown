@@ -229,7 +229,6 @@ const MindmapPreviewContainer = () => {
   const nodesRemovedPressed = useKeyPress(`d`);
   const itemsAligned = useKeyPress(`a`);
   const layoutCentered = useKeyPress(`c`);
-  const orientationChangePressed = useKeyPress(`o`);
 
   React.useEffect(() => {
     const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
@@ -259,13 +258,6 @@ const MindmapPreviewContainer = () => {
       centerView();
     }
   }, [layoutCentered, centerView]);
-
-  React.useEffect(() => {
-    if (orientationChangePressed) {
-      mindmapsCreatorStoreActions.toggleOrientation();
-      centerView();
-    }
-  }, [orientationChangePressed, centerView]);
 
   React.useEffect(() => {
     centerView();

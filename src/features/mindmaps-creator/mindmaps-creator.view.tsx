@@ -4,7 +4,6 @@ import {
   BiArrowBack,
   BiCog,
   BiEdit,
-  BiHorizontalRight,
   BiSolidGrid,
   BiTrash,
 } from 'react-icons/bi';
@@ -19,11 +18,10 @@ import './mindmaps-creator.css';
 import MoreNav from 'components/more-nav';
 import { ScreenLoader } from 'design-system/screen-loader';
 import { MindmapPreviewContainer } from './containers/mindmap-preview.container';
-// @TODO[PRIO=5]: [Add facade to classnames].
-import c from 'classnames';
 import { ReactFlowProvider } from '@xyflow/react';
 import { SaveButtonContainer } from './containers/save-button.container';
 import { NewNodeButtonContainer } from './containers/new-node-button.container';
+import { OrientationButtonContainer } from './containers/orientation-button.container';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -128,20 +126,7 @@ const MindmapsCreatorView = () => {
               <SaveButtonContainer />
               <NewNodeButtonContainer />
               <div className="bg-zinc-400 dark:border-zinc-800 w-6 h-0.5 mt-3 mb-6" />
-              <Button
-                i={1}
-                className="mb-3"
-                s={2}
-                title="Change mindmap orientation (o)"
-                onClick={mindmapsCreatorStoreActions.toggleOrientation}
-              >
-                <BiHorizontalRight
-                  className={c({
-                    'rotate-90':
-                      mindmapsCreatorStore.mindmap.orientation === `y`,
-                  })}
-                />
-              </Button>
+              <OrientationButtonContainer />
               <Button
                 i={1}
                 className="mb-3"
