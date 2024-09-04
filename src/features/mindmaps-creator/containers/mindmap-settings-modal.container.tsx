@@ -30,7 +30,7 @@ const MindmapSettingsModalContainer = () => {
 
       <Field
         hint={
-          <Hint trigger="When important interactions, such as adding a new node or changing the orientation, are performed, the view will be automatically aligned." />
+          <Hint trigger="When important interactions, such as adding a new node or changing the orientation are performed, the view will be automatically aligned." />
         }
       >
         <Checkbox
