@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Md, { MarkdownToJSX } from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import { Components } from '@mdx-js/react/lib';
@@ -6,6 +6,7 @@ import c from 'classnames';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
+import { Tab, Tabs } from './tabs';
 
 const Code = ({
   children,
@@ -138,11 +139,77 @@ const OPTIONS: { overrides: Components; disableParsingRawHTML: boolean } = {
 };
 /* @TODO: Try to improve this typings here. */
 
+const parseTabs = (text: string) => {
+  const regex = /tab\[([^\]]+)\]\[([^\]]+)\]((?:.|[\r\n])*?)(?=(?:tab\[)|$)/g;
+  const lines = text.split(`\n`);
+  const tabs = [];
+  let lastLine = 0;
+  let match;
+
+  while ((match = regex.exec(text)) !== null) {
+    const label = match[1];
+    const range = match[2];
+
+    const [start, end] = range.split(`,`).map(Number);
+
+    const indexOfEndCodeMarkdown = lines.findIndex((line) => line === `\`\`\``);
+    const tabLines = lines.slice(0, indexOfEndCodeMarkdown);
+    const content = tabLines.slice(start, end);
+    tabs.push({
+      label,
+      content: `${
+        content.length > 0
+          ? `\`\`\`\n${content.join(`\n`)}\n\`\`\``
+          : `No Content`
+      }`,
+      range,
+    });
+
+    lastLine = indexOfEndCodeMarkdown + 1;
+    if (content.length === 0) return tabs;
+  }
+
+  if (lastLine < lines.length) {
+    const remainingLines = lines.slice(lastLine).join(`\n`).trim();
+    if (!tabs.length) return tabs;
+    if (remainingLines) {
+      tabs.push({
+        label: `rest`,
+        content: remainingLines,
+        range: null,
+      });
+    }
+  }
+
+  return tabs;
+};
 interface MarkdownProps {
   children: string;
 }
 
 const Markdown: React.FC<MarkdownProps> = ({ children }) => {
+  const [removedTabs, setRemovedTabs] = useState<string[]>([]);
+  const tabSections = parseTabs(children);
+  const filteredTabSections = tabSections.filter(
+    (tab) => !removedTabs.includes(tab.label),
+  );
+
+  if (filteredTabSections.length > 0) {
+    return (
+      <Tabs>
+        {filteredTabSections.map((tab, index) => (
+          <Tab key={index} label={tab.label} setRemovedTabs={setRemovedTabs}>
+            <div className="markdown">
+              <Md
+                options={OPTIONS as MarkdownToJSX.Options}
+              >{`${tab.content}`}</Md>
+            </div>
+          </Tab>
+        ))}
+      </Tabs>
+    );
+  }
+
   return (
     <div className="markdown">
       <Md options={OPTIONS as MarkdownToJSX.Options}>{children}</Md>
