@@ -69,7 +69,9 @@ const mindmapsCreatorStoreSelectors = {
   useState: (): MindmapsCreatorStoreState => useMindmapsCreatorStore(),
   state: (): MindmapsCreatorStoreState => useMindmapsCreatorStore.getState(),
   ok: (): MindmapsCreatorStoreOkState => isOkState(get()),
-  useNodeToEdit: (): MindmapNode | undefined =>
+  useNodeToEdit: ():
+    | MindmapsCreatorStoreOkState['mindmap']['nodes'][number]
+    | undefined =>
     useMindmapsCreatorStore((state) => {
       const { mindmap, nodeToEditId } = isOkState(state);
 
