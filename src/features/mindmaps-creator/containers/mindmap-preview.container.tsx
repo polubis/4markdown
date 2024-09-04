@@ -225,16 +225,7 @@ const MindmapPreviewContainer = () => {
   const { mindmap, settings } = mindmapsCreatorStoreSelectors.useOk();
   const { centerViewWhenSafe, centerView } = useViewCenter();
 
-  const nodesRemovedPressed = useKeyPress(`d`);
   const layoutCentered = useKeyPress(`c`);
-
-  React.useEffect(() => {
-    const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
-
-    if (nodesRemovedPressed && selectedNodes.length > 0) {
-      mindmapsCreatorStoreActions.startNodesRemoval();
-    }
-  }, [nodesRemovedPressed]);
 
   React.useEffect(() => {
     if (layoutCentered) {

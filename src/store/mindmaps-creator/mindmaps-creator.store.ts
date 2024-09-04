@@ -286,6 +286,10 @@ const mindmapsCreatorStoreActions = {
 
     if (saving.is === `busy`) return;
 
+    const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
+
+    if (selectedNodes.length === 0) return;
+
     set({
       removalConfirmationOpened: true,
     });
