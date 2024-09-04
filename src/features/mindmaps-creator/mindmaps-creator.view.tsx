@@ -1,12 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import {
-  BiArrowBack,
-  BiCog,
-  BiEdit,
-  BiSolidGrid,
-  BiTrash,
-} from 'react-icons/bi';
+import { BiArrowBack, BiCog, BiEdit, BiTrash } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import {
   mindmapsCreatorStoreActions,
@@ -22,6 +16,7 @@ import { ReactFlowProvider } from '@xyflow/react';
 import { SaveButtonContainer } from './containers/save-button.container';
 import { NewNodeButtonContainer } from './containers/new-node-button.container';
 import { OrientationButtonContainer } from './containers/orientation-button.container';
+import { AlignButtonContainer } from './containers/align-button.container';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -127,15 +122,7 @@ const MindmapsCreatorView = () => {
               <NewNodeButtonContainer />
               <div className="bg-zinc-400 dark:border-zinc-800 w-6 h-0.5 mt-3 mb-6" />
               <OrientationButtonContainer />
-              <Button
-                i={1}
-                className="mb-3"
-                s={2}
-                title="Align items (a)"
-                onClick={mindmapsCreatorStoreActions.alignNodes}
-              >
-                <BiSolidGrid />
-              </Button>
+              <AlignButtonContainer />
               <SelectionControlsContainer />
               <Button
                 i={1}

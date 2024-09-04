@@ -227,7 +227,6 @@ const MindmapPreviewContainer = () => {
 
   const nodeToEditPressed = useKeyPress(`e`);
   const nodesRemovedPressed = useKeyPress(`d`);
-  const itemsAligned = useKeyPress(`a`);
   const layoutCentered = useKeyPress(`c`);
 
   React.useEffect(() => {
@@ -245,13 +244,6 @@ const MindmapPreviewContainer = () => {
       mindmapsCreatorStoreActions.startNodesRemoval();
     }
   }, [nodesRemovedPressed]);
-
-  React.useEffect(() => {
-    if (itemsAligned) {
-      mindmapsCreatorStoreActions.alignNodes();
-      centerView();
-    }
-  }, [itemsAligned, centerView]);
 
   React.useEffect(() => {
     if (layoutCentered) {

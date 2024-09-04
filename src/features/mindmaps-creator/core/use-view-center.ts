@@ -7,14 +7,15 @@ const useViewCenter = () => {
 
   const centerView = React.useCallback(() => {
     const {
+      saving,
       settings: { autoFit },
     } = mindmapsCreatorStoreSelectors.ok();
 
-    if (autoFit) {
-      window.requestAnimationFrame(() => {
-        fitView();
-      });
-    }
+    if (!autoFit || saving.is === `busy`) return;
+
+    window.requestAnimationFrame(() => {
+      fitView();
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
