@@ -39,6 +39,12 @@ const NodesRemovalConfirmationContainer = React.lazy(() =>
   })),
 );
 
+const ErrorScreenContainer = React.lazy(() =>
+  import(`./containers/error-screen.container`).then((m) => ({
+    default: m.ErrorScreenContainer,
+  })),
+);
+
 const SelectionControlsContainer = () => {
   const selectedNodes = mindmapsCreatorStoreSelectors.useSelectedNodes();
 
@@ -56,7 +62,6 @@ const SelectionControlsContainer = () => {
 /**
  * @TODO
  *
- * 1. Better error screen for loading.
  * 6. Add undo/redo.
  * 10. Connect to real API's
  * 11. Tab Index in modals - something is weird
@@ -114,7 +119,11 @@ const MindmapsCreatorView = () => {
           mindmapsCreatorStore.is === `busy` ||
           mindmapsCreatorStore.saving.is === `busy`) && <ScreenLoader />}
         {mindmapsCreatorStore.is === `ok` && <MindmapPreviewContainer />}
-        {mindmapsCreatorStore.is === `fail` && <div>error</div>}
+        {mindmapsCreatorStore.is === `fail` && (
+          <React.Suspense>
+            <ErrorScreenContainer />
+          </React.Suspense>
+        )}
       </main>
       {mindmapsCreatorStore.nodeFormOpened && (
         <React.Suspense>

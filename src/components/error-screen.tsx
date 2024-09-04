@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import { navigate } from 'gatsby';
 import React from 'react';
 import { meta } from '../../meta';
-
+// @TODO[PRIO=4]: [No default exports in app - add maybe rule and fix every place where it's used].
 const ErrorScreen = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
