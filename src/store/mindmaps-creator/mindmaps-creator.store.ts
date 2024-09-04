@@ -156,7 +156,7 @@ const mindmapsCreatorStoreActions = {
           orientation: `y`,
         },
         settings: {
-          autoFit: true,
+          autoFit: false,
         },
       })<API4MarkdownPayload<'getMindmap'>>({ id });
 
