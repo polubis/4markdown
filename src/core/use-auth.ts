@@ -40,9 +40,12 @@ const useAuth = () => {
       try {
         yourProfileStoreActions.busy();
 
-        const { mdate, profile } = await call(`getYourUserProfile`)();
+        const response = await call(`getYourUserProfile`)();
 
-        yourProfileStoreActions.ok(mdate, profile);
+        yourProfileStoreActions.ok({
+          mdate: response?.mdate ?? null,
+          user: response?.profile ?? null,
+        });
       } catch (error: unknown) {
         yourProfileStoreActions.fail(error);
       }
@@ -243,8 +246,8 @@ const useAuth = () => {
                 payload,
               );
 
-              updateYourProfileStoreActions.ok(mdate, profile);
-              yourProfileStoreActions.ok(mdate, profile);
+              updateYourProfileStoreActions.ok();
+              yourProfileStoreActions.ok({ mdate, user: profile });
             } catch (error: unknown) {
               updateYourProfileStoreActions.fail(error);
               throw error;
