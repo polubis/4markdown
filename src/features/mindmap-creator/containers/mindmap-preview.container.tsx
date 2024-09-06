@@ -87,12 +87,9 @@ const CurvedEdge: MindmapEdgeTypes['curved'] = ({
   );
 };
 
-const InternalNode = ({
-  description,
-  name,
+const InternalNode: MindmapNodeTypes['internal'] = ({
+  data: { name, description },
   selected,
-}: Extract<MindmapNode, { type: `internal` }>['data'] & {
-  selected?: boolean;
 }) => (
   <div
     className={c(
@@ -111,12 +108,9 @@ const InternalNode = ({
   </div>
 );
 
-const ExternalNode = ({
-  description,
-  name,
+const ExternalNode: MindmapNodeTypes['external'] = ({
+  data: { name, description },
   selected,
-}: Extract<MindmapNode, { type: `external` }>['data'] & {
-  selected?: boolean;
 }) => (
   <div
     className={c(
@@ -135,7 +129,7 @@ const ExternalNode = ({
   </div>
 );
 
-const InternalNodeX: MindmapNodeTypes['internal'] = ({ data, selected }) => {
+const InternalNodeX: MindmapNodeTypes['internal'] = (props) => {
   return (
     <>
       <Handle
@@ -143,7 +137,7 @@ const InternalNodeX: MindmapNodeTypes['internal'] = ({ data, selected }) => {
         type="target"
         position={Position.Left}
       />
-      <InternalNode {...data} selected={selected} />
+      <InternalNode {...props} />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 !right-[1px] rounded-full"
         type="source"
@@ -153,7 +147,7 @@ const InternalNodeX: MindmapNodeTypes['internal'] = ({ data, selected }) => {
   );
 };
 
-const InternalNodeY: MindmapNodeTypes['internal'] = ({ data, selected }) => {
+const InternalNodeY: MindmapNodeTypes['internal'] = (props) => {
   return (
     <>
       <Handle
@@ -161,7 +155,7 @@ const InternalNodeY: MindmapNodeTypes['internal'] = ({ data, selected }) => {
         type="target"
         position={Position.Top}
       />
-      <InternalNode {...data} selected={selected} />
+      <InternalNode {...props} />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
         type="source"
@@ -171,7 +165,7 @@ const InternalNodeY: MindmapNodeTypes['internal'] = ({ data, selected }) => {
   );
 };
 
-const ExternalNodeX: MindmapNodeTypes['external'] = ({ data, selected }) => {
+const ExternalNodeX: MindmapNodeTypes['external'] = (props) => {
   return (
     <>
       <Handle
@@ -179,7 +173,7 @@ const ExternalNodeX: MindmapNodeTypes['external'] = ({ data, selected }) => {
         type="target"
         position={Position.Left}
       />
-      <ExternalNode {...data} selected={selected} />
+      <ExternalNode {...props} />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 !right-[1px] rounded-full"
         type="source"
@@ -189,7 +183,7 @@ const ExternalNodeX: MindmapNodeTypes['external'] = ({ data, selected }) => {
   );
 };
 
-const ExternalNodeY: MindmapNodeTypes['external'] = ({ data, selected }) => {
+const ExternalNodeY: MindmapNodeTypes['external'] = (props) => {
   return (
     <>
       <Handle
@@ -197,7 +191,7 @@ const ExternalNodeY: MindmapNodeTypes['external'] = ({ data, selected }) => {
         type="target"
         position={Position.Top}
       />
-      <ExternalNode {...data} selected={selected} />
+      <ExternalNode {...props} />
       <Handle
         className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
         type="source"
