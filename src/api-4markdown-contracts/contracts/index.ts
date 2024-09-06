@@ -61,9 +61,9 @@ type UploadImageContract = Contract<
 type GetYourUserProfileContract = Contract<
   `getYourUserProfile`,
   {
-    profile: UserProfileDto | null;
+    profile: UserProfileDto;
     mdate: Date;
-  }
+  } | null
 >;
 type UpdateYourUserProfileContract = Contract<
   `updateYourUserProfile`,
@@ -72,7 +72,7 @@ type UpdateYourUserProfileContract = Contract<
     mdate: Date;
   },
   Omit<UserProfileDto, 'avatar'> & {
-    mdate: Date;
+    mdate: Date | null;
     avatar:
       | {
           type: `noop`;

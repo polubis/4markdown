@@ -5,7 +5,7 @@ import { create } from 'zustand';
 
 type YourProfileStoreState = Transaction<{
   user: UserProfileDto | null;
-  mdate: Date;
+  mdate: Date | null;
 }>;
 type YourProfileStoreOkState = Extract<YourProfileStoreState, { is: 'ok' }>;
 
@@ -24,7 +24,7 @@ const yourProfileStoreActions = {
     set({ is: `idle` });
   },
   busy: () => set({ is: `busy` }),
-  ok: (mdate: Date, user: UserProfileDto | null) => {
+  ok: ({ mdate, user }: Pick<YourProfileStoreOkState, 'mdate' | 'user'>) => {
     set({ is: `ok`, user, mdate });
   },
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
