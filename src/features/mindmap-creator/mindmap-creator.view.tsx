@@ -62,7 +62,6 @@ const SelectionControlsContainer = () => {
 /**
  * @TODO
  *
- * Rename mindmaps to mindmap-creator
  * 6. Add undo/redo.
  * 10. Connect to real API's
  * 11. Tab Index in modals - something is weird
