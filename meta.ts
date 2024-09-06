@@ -28,8 +28,8 @@ export const meta = {
     },
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
-    mindmaps: {
-      creator: `/mindmaps-creator/`,
+    mindmap: {
+      creator: `/mindmap-creator/`,
     },
   },
   legacyRoutes: {

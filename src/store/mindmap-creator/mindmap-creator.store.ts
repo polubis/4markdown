@@ -21,7 +21,7 @@ import {
 } from '@xyflow/react';
 import * as mocks from './mock';
 
-type MindmapsCreatorStoreState = Transaction<
+type MindmapCreatorStoreState = Transaction<
   {
     mindmap: Omit<MindmapDto, 'nodes'> & {
       nodes: (MindmapDto['nodes'][number] & {
@@ -40,39 +40,39 @@ type MindmapsCreatorStoreState = Transaction<
   saving: Transaction<undefined, { error: ParsedError }>;
 };
 
-type MindmapsCreatorStoreOkState = Extract<
-  MindmapsCreatorStoreState,
+type MindmapCreatorStoreOkState = Extract<
+  MindmapCreatorStoreState,
   { is: `ok` }
 >;
 
 const isOkState = (
-  state: MindmapsCreatorStoreState,
-): MindmapsCreatorStoreOkState => {
+  state: MindmapCreatorStoreState,
+): MindmapCreatorStoreOkState => {
   if (state.is !== `ok`) throw Error(`State is not ready to work with`);
 
   return state;
 };
 
 const getSelectedNodes = (
-  nodes: MindmapsCreatorStoreOkState['mindmap']['nodes'],
-): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
+  nodes: MindmapCreatorStoreOkState['mindmap']['nodes'],
+): MindmapCreatorStoreOkState['mindmap']['nodes'] =>
   nodes.filter(({ selected }) => selected);
 
-const useMindmapsCreatorStore = create<MindmapsCreatorStoreState>(() => ({
+const useMindmapCreatorStore = create<MindmapCreatorStoreState>(() => ({
   is: `idle`,
   saving: { is: `idle` },
 }));
 
-const { getState: get, setState: set } = useMindmapsCreatorStore;
+const { getState: get, setState: set } = useMindmapCreatorStore;
 
-const mindmapsCreatorStoreSelectors = {
-  useState: (): MindmapsCreatorStoreState => useMindmapsCreatorStore(),
-  state: (): MindmapsCreatorStoreState => useMindmapsCreatorStore.getState(),
-  ok: (): MindmapsCreatorStoreOkState => isOkState(get()),
+const mindmapCreatorStoreSelectors = {
+  useState: (): MindmapCreatorStoreState => useMindmapCreatorStore(),
+  state: (): MindmapCreatorStoreState => useMindmapCreatorStore.getState(),
+  ok: (): MindmapCreatorStoreOkState => isOkState(get()),
   useNodeToEdit: ():
-    | MindmapsCreatorStoreOkState['mindmap']['nodes'][number]
+    | MindmapCreatorStoreOkState['mindmap']['nodes'][number]
     | undefined =>
-    useMindmapsCreatorStore((state) => {
+    useMindmapCreatorStore((state) => {
       const { mindmap, nodeToEditId } = isOkState(state);
 
       if (nodeToEditId === undefined) return undefined;
@@ -80,7 +80,7 @@ const mindmapsCreatorStoreSelectors = {
       return mindmap.nodes.find(({ id }) => id === nodeToEditId);
     }),
   useInternalNodeToEdit: (): MindmapInternalNode | undefined =>
-    useMindmapsCreatorStore((state) => {
+    useMindmapCreatorStore((state) => {
       const { mindmap, nodeToEditId } = isOkState(state);
 
       if (nodeToEditId === undefined) return undefined;
@@ -94,7 +94,7 @@ const mindmapsCreatorStoreSelectors = {
       return foundNode;
     }),
   useExternalNodeToEdit: (): MindmapExternalNode | undefined =>
-    useMindmapsCreatorStore((state) => {
+    useMindmapCreatorStore((state) => {
       const { mindmap, nodeToEditId } = isOkState(state);
 
       if (nodeToEditId === undefined) return undefined;
@@ -107,18 +107,18 @@ const mindmapsCreatorStoreSelectors = {
 
       return foundNode;
     }),
-  useOk: (): MindmapsCreatorStoreOkState => useMindmapsCreatorStore(isOkState),
-  selectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
+  useOk: (): MindmapCreatorStoreOkState => useMindmapCreatorStore(isOkState),
+  selectedNodes: (): MindmapCreatorStoreOkState['mindmap']['nodes'] =>
     getSelectedNodes(isOkState(get()).mindmap.nodes),
-  useSelectedNodes: (): MindmapsCreatorStoreOkState['mindmap']['nodes'] =>
-    useMindmapsCreatorStore((state) =>
+  useSelectedNodes: (): MindmapCreatorStoreOkState['mindmap']['nodes'] =>
+    useMindmapCreatorStore((state) =>
       getSelectedNodes(isOkState(state).mindmap.nodes),
     ),
 } as const;
 
-const mindmapsCreatorStoreActions = {
+const mindmapCreatorStoreActions = {
   save: async (): Promise<void> => {
-    const { mindmap, saving } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap, saving } = mindmapCreatorStoreSelectors.ok();
 
     if (saving.is === `busy`) return;
 
@@ -173,7 +173,7 @@ const mindmapsCreatorStoreActions = {
     }
   },
   connectNodes: ({ source, target }: Connection): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       mindmap: {
@@ -191,7 +191,7 @@ const mindmapsCreatorStoreActions = {
     });
   },
   toggleOrientation: (): void => {
-    const { mindmap, saving } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap, saving } = mindmapCreatorStoreSelectors.ok();
 
     if (saving.is === `busy`) return;
 
@@ -202,10 +202,10 @@ const mindmapsCreatorStoreActions = {
       },
     });
 
-    mindmapsCreatorStoreActions.alignNodes();
+    mindmapCreatorStoreActions.alignNodes();
   },
   toggleAutoFit: (): void => {
-    const { settings } = mindmapsCreatorStoreSelectors.ok();
+    const { settings } = mindmapCreatorStoreSelectors.ok();
 
     set({
       settings: {
@@ -218,14 +218,14 @@ const mindmapsCreatorStoreActions = {
     set({ settingsOpened: false });
   },
   openSettings: (): void => {
-    const { saving } = mindmapsCreatorStoreSelectors.ok();
+    const { saving } = mindmapCreatorStoreSelectors.ok();
 
     if (saving.is === `busy`) return;
 
     set({ settingsOpened: true });
   },
   startAddingNode: (): void => {
-    const { saving } = mindmapsCreatorStoreSelectors.ok();
+    const { saving } = mindmapCreatorStoreSelectors.ok();
 
     if (saving.is === `busy`) return;
 
@@ -235,7 +235,7 @@ const mindmapsCreatorStoreActions = {
     set({ nodeFormOpened: false, nodeToEditId: undefined });
   },
   addInternalNode: (data: MindmapInternalNode['data']): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       mindmap: {
@@ -259,7 +259,7 @@ const mindmapsCreatorStoreActions = {
     });
   },
   removeNodesConnection: (id: MindmapEdge['id']): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       mindmap: {
@@ -269,7 +269,7 @@ const mindmapsCreatorStoreActions = {
     });
   },
   updateEdges: (changes: EdgeChange[]): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       mindmap: {
@@ -279,7 +279,7 @@ const mindmapsCreatorStoreActions = {
     });
   },
   updateNodes: (changes: NodeChange[]): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       mindmap: {
@@ -289,11 +289,11 @@ const mindmapsCreatorStoreActions = {
     });
   },
   startNodesRemoval: (): void => {
-    const { saving } = mindmapsCreatorStoreSelectors.ok();
+    const { saving } = mindmapCreatorStoreSelectors.ok();
 
     if (saving.is === `busy`) return;
 
-    const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
+    const selectedNodes = mindmapCreatorStoreSelectors.selectedNodes();
 
     if (selectedNodes.length === 0) return;
 
@@ -307,7 +307,7 @@ const mindmapsCreatorStoreActions = {
     });
   },
   removeSelectedNodes: (): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     const nodesToRemove = getSelectedNodes(mindmap.nodes).reduce<
       Record<MindmapNode['id'], boolean>
@@ -328,11 +328,11 @@ const mindmapsCreatorStoreActions = {
     });
   },
   beginNodeEdition: (): void => {
-    const { saving } = mindmapsCreatorStoreSelectors.ok();
+    const { saving } = mindmapCreatorStoreSelectors.ok();
 
     if (saving.is === `busy`) return;
 
-    const selectedNodes = mindmapsCreatorStoreSelectors.selectedNodes();
+    const selectedNodes = mindmapCreatorStoreSelectors.selectedNodes();
 
     if (selectedNodes.length !== 1) return;
 
@@ -345,7 +345,7 @@ const mindmapsCreatorStoreActions = {
     id: MindmapNode['id'],
     data: MindmapInternalNode['data'],
   ): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       nodeToEditId: undefined,
@@ -359,7 +359,7 @@ const mindmapsCreatorStoreActions = {
     });
   },
   addExternalNode: (data: MindmapExternalNode['data']): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       nodeToEditId: undefined,
@@ -387,7 +387,7 @@ const mindmapsCreatorStoreActions = {
     id: MindmapNode['id'],
     data: MindmapExternalNode['data'],
   ): void => {
-    const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       nodeToEditId: undefined,
@@ -401,14 +401,14 @@ const mindmapsCreatorStoreActions = {
     });
   },
   alignNodes: async () => {
-    const { saving } = mindmapsCreatorStoreSelectors.ok();
+    const { saving } = mindmapCreatorStoreSelectors.ok();
 
     if (saving.is === `busy`) return;
 
     try {
       const { getLayoutedElements } = await import(`./get-layouted-elements`);
 
-      const { mindmap } = mindmapsCreatorStoreSelectors.ok();
+      const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
       set({
         mindmap: {
@@ -420,9 +420,9 @@ const mindmapsCreatorStoreActions = {
   },
 } as const;
 
-export type { MindmapsCreatorStoreState, MindmapsCreatorStoreOkState };
+export type { MindmapCreatorStoreState, MindmapCreatorStoreOkState };
 export {
-  useMindmapsCreatorStore,
-  mindmapsCreatorStoreSelectors,
-  mindmapsCreatorStoreActions,
+  useMindmapCreatorStore,
+  mindmapCreatorStoreSelectors,
+  mindmapCreatorStoreActions,
 };

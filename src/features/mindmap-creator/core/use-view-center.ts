@@ -1,6 +1,6 @@
 import { useReactFlow } from '@xyflow/react';
 import React from 'react';
-import { mindmapsCreatorStoreSelectors } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { mindmapCreatorStoreSelectors } from 'store/mindmap-creator/mindmap-creator.store';
 
 const useViewCenter = () => {
   const { fitView } = useReactFlow();
@@ -16,7 +16,7 @@ const useViewCenter = () => {
     const {
       saving,
       settings: { autoFit },
-    } = mindmapsCreatorStoreSelectors.ok();
+    } = mindmapCreatorStoreSelectors.ok();
 
     if (!autoFit || saving.is === `busy`) return;
 

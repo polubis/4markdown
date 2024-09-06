@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { mindmapsCreatorStoreActions } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { mindmapCreatorStoreActions } from 'store/mindmap-creator/mindmap-creator.store';
 import { useKeyPress } from '@xyflow/react';
 import { useViewCenter } from '../core/use-view-center';
 import { BiSolidGrid } from 'react-icons/bi';
@@ -11,7 +11,7 @@ const AlignButtonContainer = () => {
 
   React.useEffect(() => {
     if (itemsAligned) {
-      mindmapsCreatorStoreActions.alignNodes();
+      mindmapCreatorStoreActions.alignNodes();
       centerViewWhenSafe();
     }
   }, [itemsAligned, centerViewWhenSafe]);
@@ -22,7 +22,7 @@ const AlignButtonContainer = () => {
       className="mb-3"
       s={2}
       title="Align items (a)"
-      onClick={mindmapsCreatorStoreActions.alignNodes}
+      onClick={mindmapCreatorStoreActions.alignNodes}
     >
       <BiSolidGrid />
     </Button>

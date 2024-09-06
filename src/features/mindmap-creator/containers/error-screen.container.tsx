@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { mindmapsCreatorStoreActions } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { mindmapCreatorStoreActions } from 'store/mindmap-creator/mindmap-creator.store';
 // @TODO[PRIO=4]: [Add the same error screen component for every place].
 const ErrorScreenContainer = () => {
   return (
@@ -17,7 +17,7 @@ const ErrorScreenContainer = () => {
           auto
           s={2}
           i={2}
-          onClick={mindmapsCreatorStoreActions.load}
+          onClick={mindmapCreatorStoreActions.load}
         >
           Reload
         </Button>

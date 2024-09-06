@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiEdit } from 'react-icons/bi';
-import { mindmapsCreatorStoreActions } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { mindmapCreatorStoreActions } from 'store/mindmap-creator/mindmap-creator.store';
 import { useKeyPress } from '@xyflow/react';
 
 const EditNodeButtonContainer = () => {
@@ -9,7 +9,7 @@ const EditNodeButtonContainer = () => {
 
   React.useEffect(() => {
     if (nodeToEditPressed) {
-      mindmapsCreatorStoreActions.beginNodeEdition();
+      mindmapCreatorStoreActions.beginNodeEdition();
     }
   }, [nodeToEditPressed]);
 
@@ -19,7 +19,7 @@ const EditNodeButtonContainer = () => {
       className="mb-3"
       s={2}
       title="Edit selected node (e)"
-      onClick={mindmapsCreatorStoreActions.beginNodeEdition}
+      onClick={mindmapCreatorStoreActions.beginNodeEdition}
     >
       <BiEdit />
     </Button>

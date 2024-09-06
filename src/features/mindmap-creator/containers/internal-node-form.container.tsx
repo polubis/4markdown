@@ -16,9 +16,9 @@ import {
 import { meta } from '../../../../meta';
 import { Hint } from 'design-system/hint';
 import {
-  mindmapsCreatorStoreActions,
-  mindmapsCreatorStoreSelectors,
-} from 'store/mindmaps-creator/mindmaps-creator.store';
+  mindmapCreatorStoreActions,
+  mindmapCreatorStoreSelectors,
+} from 'store/mindmap-creator/mindmap-creator.store';
 
 type InternalNodeFormValues = Pick<
   MindmapInternalNode['data'],
@@ -26,7 +26,7 @@ type InternalNodeFormValues = Pick<
 >;
 
 const InternalNodeFormContainer = () => {
-  const nodeToEdit = mindmapsCreatorStoreSelectors.useInternalNodeToEdit();
+  const nodeToEdit = mindmapCreatorStoreSelectors.useInternalNodeToEdit();
   const [selectedDoc, setSelectedDoc] = React.useState<
     MindmapInternalNode['data']['document'] | undefined
   >(nodeToEdit?.data.document);
@@ -47,7 +47,7 @@ const InternalNodeFormContainer = () => {
     e.preventDefault();
 
     if (nodeToEdit) {
-      mindmapsCreatorStoreActions.editInternalNode(nodeToEdit.id, {
+      mindmapCreatorStoreActions.editInternalNode(nodeToEdit.id, {
         name: values.name,
         description: values.description,
         document: selectedDoc!,
@@ -55,7 +55,7 @@ const InternalNodeFormContainer = () => {
       return;
     }
 
-    mindmapsCreatorStoreActions.addInternalNode({
+    mindmapCreatorStoreActions.addInternalNode({
       name: values.name,
       description: values.description,
       document: selectedDoc!,
@@ -112,7 +112,7 @@ const InternalNodeFormContainer = () => {
           s={2}
           auto
           title="Cancel node creation"
-          onClick={mindmapsCreatorStoreActions.cancelAddingNode}
+          onClick={mindmapCreatorStoreActions.cancelAddingNode}
         >
           Cancel
         </Button>

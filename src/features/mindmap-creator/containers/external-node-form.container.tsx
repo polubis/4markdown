@@ -6,15 +6,15 @@ import { Textarea } from 'design-system/textarea';
 import type { MindmapExternalNode } from 'api-4markdown-contracts';
 import { useForm } from 'development-kit/use-form';
 import {
-  mindmapsCreatorStoreActions,
-  mindmapsCreatorStoreSelectors,
-} from 'store/mindmaps-creator/mindmaps-creator.store';
+  mindmapCreatorStoreActions,
+  mindmapCreatorStoreSelectors,
+} from 'store/mindmap-creator/mindmap-creator.store';
 import { nodeDescription, nodeName, nodeUrl } from '../core/validators';
 
 type ExternalNodeFormValues = MindmapExternalNode['data'];
 
 const ExternalNodeFormContainer = () => {
-  const nodeToEdit = mindmapsCreatorStoreSelectors.useExternalNodeToEdit();
+  const nodeToEdit = mindmapCreatorStoreSelectors.useExternalNodeToEdit();
 
   const [{ values, invalid }, { inject }] = useForm<ExternalNodeFormValues>(
     {
@@ -33,11 +33,11 @@ const ExternalNodeFormContainer = () => {
     e.preventDefault();
 
     if (nodeToEdit) {
-      mindmapsCreatorStoreActions.editExternalNode(nodeToEdit.id, values);
+      mindmapCreatorStoreActions.editExternalNode(nodeToEdit.id, values);
       return;
     }
 
-    mindmapsCreatorStoreActions.addExternalNode(values);
+    mindmapCreatorStoreActions.addExternalNode(values);
   };
 
   return (
@@ -66,7 +66,7 @@ const ExternalNodeFormContainer = () => {
           s={2}
           auto
           title="Cancel node creation"
-          onClick={mindmapsCreatorStoreActions.cancelAddingNode}
+          onClick={mindmapCreatorStoreActions.cancelAddingNode}
         >
           Cancel
         </Button>

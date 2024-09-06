@@ -23,11 +23,11 @@ import {
   type MindmapNodeType,
 } from 'api-4markdown-contracts';
 import '@xyflow/react/dist/base.css';
-import '../mindmaps-creator.css';
+import '../mindmap-creator.css';
 import {
-  mindmapsCreatorStoreActions,
-  mindmapsCreatorStoreSelectors,
-} from 'store/mindmaps-creator/mindmaps-creator.store';
+  mindmapCreatorStoreActions,
+  mindmapCreatorStoreSelectors,
+} from 'store/mindmap-creator/mindmap-creator.store';
 import c from 'classnames';
 import { meta } from '../../../../meta';
 import { useViewCenter } from '../core/use-view-center';
@@ -78,7 +78,7 @@ const CurvedEdge: MindmapEdgeTypes['curved'] = ({
             pointerEvents: `all`,
           }}
           className="nodrag nopan absolute h-5 w-5"
-          onClick={() => mindmapsCreatorStoreActions.removeNodesConnection(id)}
+          onClick={() => mindmapCreatorStoreActions.removeNodesConnection(id)}
         >
           <BiX />
         </Button>
@@ -223,7 +223,7 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
-  const { mindmap, settings } = mindmapsCreatorStoreSelectors.useOk();
+  const { mindmap, settings } = mindmapCreatorStoreSelectors.useOk();
   const { centerViewWhenSafe, centerView } = useViewCenter();
 
   const layoutCentered = useKeyPress(`c`);
@@ -243,9 +243,9 @@ const MindmapPreviewContainer = () => {
       key={mindmap.orientation}
       nodes={mindmap.nodes}
       edges={mindmap.edges}
-      onNodesChange={mindmapsCreatorStoreActions.updateNodes}
-      onEdgesChange={mindmapsCreatorStoreActions.updateEdges}
-      onConnect={mindmapsCreatorStoreActions.connectNodes}
+      onNodesChange={mindmapCreatorStoreActions.updateNodes}
+      onEdgesChange={mindmapCreatorStoreActions.updateEdges}
+      onConnect={mindmapCreatorStoreActions.connectNodes}
       nodeTypes={nodeTypes[mindmap.orientation]}
       edgeTypes={edgeTypes}
       fitView={settings.autoFit}

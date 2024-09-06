@@ -1,16 +1,16 @@
 import Dagre from '@dagrejs/dagre';
 import {
-  mindmapsCreatorStoreSelectors,
-  type MindmapsCreatorStoreOkState,
-} from './mindmaps-creator.store';
+  mindmapCreatorStoreSelectors,
+  type MindmapCreatorStoreOkState,
+} from './mindmap-creator.store';
 
 const getLayoutedElements = (): Pick<
-  MindmapsCreatorStoreOkState['mindmap'],
+  MindmapCreatorStoreOkState['mindmap'],
   'nodes' | 'edges'
 > => {
   const {
     mindmap: { nodes, edges, orientation },
-  } = mindmapsCreatorStoreSelectors.ok();
+  } = mindmapCreatorStoreSelectors.ok();
 
   const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
   g.setGraph({

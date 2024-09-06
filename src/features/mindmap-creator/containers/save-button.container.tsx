@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiSave } from 'react-icons/bi';
-import { mindmapsCreatorStoreActions } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { mindmapCreatorStoreActions } from 'store/mindmap-creator/mindmap-creator.store';
 import { useKeyPress } from '@xyflow/react';
 
 const SaveButtonContainer = () => {
   const savePressed = useKeyPress(`s`);
 
   React.useEffect(() => {
-    savePressed && mindmapsCreatorStoreActions.save();
+    savePressed && mindmapCreatorStoreActions.save();
   }, [savePressed]);
 
   return (
@@ -17,7 +17,7 @@ const SaveButtonContainer = () => {
       s={2}
       className="mb-3"
       title="Save mindmap (s)"
-      onClick={mindmapsCreatorStoreActions.save}
+      onClick={mindmapCreatorStoreActions.save}
     >
       <BiSave />
     </Button>

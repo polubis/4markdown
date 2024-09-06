@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiTrash } from 'react-icons/bi';
-import { mindmapsCreatorStoreActions } from 'store/mindmaps-creator/mindmaps-creator.store';
+import { mindmapCreatorStoreActions } from 'store/mindmap-creator/mindmap-creator.store';
 import { useKeyPress } from '@xyflow/react';
 
 const RemoveNodesButtonContainer = () => {
@@ -9,7 +9,7 @@ const RemoveNodesButtonContainer = () => {
 
   React.useEffect(() => {
     if (nodesRemovedPressed) {
-      mindmapsCreatorStoreActions.startNodesRemoval();
+      mindmapCreatorStoreActions.startNodesRemoval();
     }
   }, [nodesRemovedPressed]);
 
@@ -19,7 +19,7 @@ const RemoveNodesButtonContainer = () => {
       className="mb-3"
       s={2}
       title="Delete selected mindmap nodes (d)"
-      onClick={mindmapsCreatorStoreActions.startNodesRemoval}
+      onClick={mindmapCreatorStoreActions.startNodesRemoval}
     >
       <BiTrash />
     </Button>

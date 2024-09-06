@@ -3,12 +3,12 @@ import { Button } from 'design-system/button';
 import { BiArrowBack } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
 import {
-  mindmapsCreatorStoreActions,
-  mindmapsCreatorStoreSelectors,
-} from 'store/mindmaps-creator/mindmaps-creator.store';
+  mindmapCreatorStoreActions,
+  mindmapCreatorStoreSelectors,
+} from 'store/mindmap-creator/mindmap-creator.store';
 import { AppNavLink } from 'components/app-nav-link';
 import '@xyflow/react/dist/base.css';
-import './mindmaps-creator.css';
+import './mindmap-creator.css';
 import MoreNav from 'components/more-nav';
 import { ScreenLoader } from 'design-system/screen-loader';
 import { MindmapPreviewContainer } from './containers/mindmap-preview.container';
@@ -46,7 +46,7 @@ const ErrorScreenContainer = React.lazy(() =>
 );
 
 const SelectionControlsContainer = () => {
-  const selectedNodes = mindmapsCreatorStoreSelectors.useSelectedNodes();
+  const selectedNodes = mindmapCreatorStoreSelectors.useSelectedNodes();
 
   return (
     <>
@@ -62,6 +62,7 @@ const SelectionControlsContainer = () => {
 /**
  * @TODO
  *
+ * Rename mindmaps to mindmap-creator
  * 6. Add undo/redo.
  * 10. Connect to real API's
  * 11. Tab Index in modals - something is weird
@@ -80,11 +81,11 @@ Error screen for saving
 put element in the place where last interaction has been done
 */
 
-const MindmapsCreatorView = () => {
-  const mindmapsCreatorStore = mindmapsCreatorStoreSelectors.useState();
+const MindmapCreatorView = () => {
+  const mindmapCreatorStore = mindmapCreatorStoreSelectors.useState();
 
   React.useEffect(() => {
-    mindmapsCreatorStoreActions.load();
+    mindmapCreatorStoreActions.load();
   }, []);
 
   return (
@@ -95,9 +96,9 @@ const MindmapsCreatorView = () => {
             <BiArrowBack />
           </Button>
         </AppNavLink>
-        {mindmapsCreatorStore.is === `ok` && (
+        {mindmapCreatorStore.is === `ok` && (
           <h1 className="text-lg font-bold ml-9">
-            {mindmapsCreatorStore.mindmap.name}
+            {mindmapCreatorStore.mindmap.name}
           </h1>
         )}
         <ThemeSwitcher className="ml-auto" />
@@ -105,7 +106,7 @@ const MindmapsCreatorView = () => {
       </header>
       <main className="flex h-[calc(100svh-72px)]">
         <aside className="flex flex-col items-center w-[72px] shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-          {mindmapsCreatorStore.is === `ok` && (
+          {mindmapCreatorStore.is === `ok` && (
             <>
               <SaveButtonContainer />
               <NewNodeButtonContainer />
@@ -117,27 +118,27 @@ const MindmapsCreatorView = () => {
             </>
           )}
         </aside>
-        {(mindmapsCreatorStore.is === `idle` ||
-          mindmapsCreatorStore.is === `busy` ||
-          mindmapsCreatorStore.saving.is === `busy`) && <ScreenLoader />}
-        {mindmapsCreatorStore.is === `ok` && <MindmapPreviewContainer />}
-        {mindmapsCreatorStore.is === `fail` && (
+        {(mindmapCreatorStore.is === `idle` ||
+          mindmapCreatorStore.is === `busy` ||
+          mindmapCreatorStore.saving.is === `busy`) && <ScreenLoader />}
+        {mindmapCreatorStore.is === `ok` && <MindmapPreviewContainer />}
+        {mindmapCreatorStore.is === `fail` && (
           <React.Suspense>
             <ErrorScreenContainer />
           </React.Suspense>
         )}
       </main>
-      {mindmapsCreatorStore.nodeFormOpened && (
+      {mindmapCreatorStore.nodeFormOpened && (
         <React.Suspense>
           <NodeFormModalContainer />
         </React.Suspense>
       )}
-      {mindmapsCreatorStore.settingsOpened && (
+      {mindmapCreatorStore.settingsOpened && (
         <React.Suspense>
           <MindmapSettingsModalContainer />
         </React.Suspense>
       )}
-      {mindmapsCreatorStore.removalConfirmationOpened && (
+      {mindmapCreatorStore.removalConfirmationOpened && (
         <React.Suspense>
           <NodesRemovalConfirmationContainer />
         </React.Suspense>
@@ -146,4 +147,4 @@ const MindmapsCreatorView = () => {
   );
 };
 
-export { MindmapsCreatorView };
+export { MindmapCreatorView };
