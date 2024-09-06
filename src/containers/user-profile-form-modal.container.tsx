@@ -39,9 +39,10 @@ interface UserProfileFormModalContainerProps {
   onSync(): void;
 }
 
-type UserProfileFormValues = NonNullableProperties<
-  API4MarkdownPayload<'updateYourUserProfile'>
->;
+type UserProfileFormValues = Omit<
+  NonNullableProperties<API4MarkdownPayload<'updateYourUserProfile'>>,
+  'mdate'
+> & { mdate: API4MarkdownPayload<'updateYourUserProfile'>['mdate'] };
 
 const avatarFormats = [`png`, `jpeg`, `jpg`, `webp`] as const;
 const avatarRestrictions = {
