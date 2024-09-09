@@ -28,7 +28,7 @@ const useUsersStore = store<State>(
 // Read outside of components.
 const usersState = useUsersStore.get();
 const users = useUsersStore.get(`users`);
-const custom = useUsersStore((state) => state.users);
+const custom = useUsersStore.get((state) => state.users);
 
 // Read inside components.
 const UsersList = () => {
