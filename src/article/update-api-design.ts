@@ -9,7 +9,7 @@ const loadUsers = async (id: number) => {
   if (state.loading) return;
 
   try {
-    set({ loading: true, error: '' });
+    set({ loading: true, error: `` });
 
     const users = await getUsers(id);
 
