@@ -50,7 +50,14 @@ describe(`Voting for documents works when`, () => {
         `Rate as ugly`,
       ])
         .When(`I click button`, [`Rate as good`])
-        .Then(`I see button`, [`Change document rate`]);
+        .Then(`I see button`, [`Change document rate`])
+        .And(`I not see button`, [
+          `Rate as bad`,
+          `Rate as decent`,
+          `Rate as good`,
+          `Rate as perfect`,
+          `Rate as ugly`,
+        ]);
     },
   });
 
