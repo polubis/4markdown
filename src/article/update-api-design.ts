@@ -1,26 +1,22 @@
-import { action } from 'morph/action';
+import { useUsersStore } from 'store/users';
 import { getUsers } from 'services/users';
 
-// State snapshot is automatically injected by a given store name.
-const loadUsers = action<{ id: number }>(
-  `users`,
-  // Type is automatically detected by the used store name.
-  async ({ set, payload, get }) => {
-    // Other store state.
-    const { postsState } = get('posts');
+const loadUsers = async (id: number) => {
+  const { get, set } = useUsersStore;
 
-    if (state.loading) return;
+  const state = get();
 
-    try {
-      set({ loading: true; error: "" });
+  if (state.loading) return;
 
-      const users = await getUsers(payload.id);
+  try {
+    set({ loading: true, error: '' });
 
-      set({ users, loading: false });
-    } catch {
-      set({ loading: false, error: `Something went wrong` });
-    }
-  },
-);
+    const users = await getUsers(id);
+
+    set({ users, loading: false });
+  } catch {
+    set({ loading: false, error: `Something went wrong` });
+  }
+};
 
 export { loadUsers };
