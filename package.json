@@ -94,7 +94,7 @@
     "prettier": "^3.3.3",
     "start-server-and-test": "^2.0.5",
     "tailwindcss": "^3.4.10",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.2",
     "@types/cypress-image-snapshot": "^3.1.9",
     "cypress-image-snapshot": "^4.0.1"
   }
