@@ -204,16 +204,6 @@ const mindmapCreatorStoreActions = {
 
     mindmapCreatorStoreActions.alignNodes();
   },
-  toggleAutoFit: (): void => {
-    const { settings } = mindmapCreatorStoreSelectors.ok();
-
-    set({
-      settings: {
-        ...settings,
-        autoFit: !settings.autoFit,
-      },
-    });
-  },
   closeSettings: (): void => {
     set({ settingsOpened: false });
   },

@@ -6,15 +6,15 @@ import { useViewCenter } from '../core/use-view-center';
 import { BiSolidGrid } from 'react-icons/bi';
 
 const AlignButtonContainer = () => {
-  const { centerViewWhenSafe } = useViewCenter();
+  const { centerView } = useViewCenter();
   const itemsAligned = useKeyPress(`a`);
 
   React.useEffect(() => {
     if (itemsAligned) {
       mindmapCreatorStoreActions.alignNodes();
-      centerViewWhenSafe();
+      centerView();
     }
-  }, [itemsAligned, centerViewWhenSafe]);
+  }, [itemsAligned, centerView]);
 
   return (
     <Button

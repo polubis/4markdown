@@ -1,5 +1,3 @@
-type MindmapSettingsDto = {
-  autoFit: boolean;
-};
+type MindmapSettingsDto = {};
 
 export type { MindmapSettingsDto };

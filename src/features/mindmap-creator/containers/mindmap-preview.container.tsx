@@ -217,8 +217,8 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
-  const { mindmap, settings } = mindmapCreatorStoreSelectors.useOk();
-  const { centerViewWhenSafe, centerView } = useViewCenter();
+  const { mindmap } = mindmapCreatorStoreSelectors.useOk();
+  const { centerView } = useViewCenter();
 
   const layoutCentered = useKeyPress(`c`);
 
@@ -227,10 +227,6 @@ const MindmapPreviewContainer = () => {
       centerView();
     }
   }, [layoutCentered, centerView]);
-
-  React.useEffect(() => {
-    centerViewWhenSafe();
-  }, [centerViewWhenSafe, mindmap.nodes.length]);
 
   return (
     <ReactFlow
@@ -242,7 +238,7 @@ const MindmapPreviewContainer = () => {
       onConnect={mindmapCreatorStoreActions.connectNodes}
       nodeTypes={nodeTypes[mindmap.orientation]}
       edgeTypes={edgeTypes}
-      fitView={settings.autoFit}
+      fitView
     >
       <Controls />
       <Background />
