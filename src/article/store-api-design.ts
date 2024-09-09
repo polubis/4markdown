@@ -1,9 +1,5 @@
 import { store } from 'morph/store';
 
-// Usage in Components.
-
-import { useUsersStore } from 'store/users';
-
 type User = {
   id: string;
   name: string;
@@ -34,6 +30,10 @@ const { useUsersStore } = store<State>(
 );
 
 export { useUsersStore };
+
+// Usage in Components.
+
+import { useUsersStore } from 'store/users';
 
 const { usersState } = useUsersStore.get();
 // Or via selector.
