@@ -13,7 +13,7 @@ type State = {
 
 // Named API methods are returned.
 const useUsersStore = store<State>(
-  `users`,
+  `users`, // Identifier of the store.
   {
     loading: false,
     error: ``,
@@ -21,19 +21,18 @@ const useUsersStore = store<State>(
   },
   // Selectors.
   {
-    getUsers: (state) => state.users,
+    users: (state) => state.users,
   },
 );
 
-// Usage in components.
-
+// Read outside of components.
 const usersState = useUsersStore.get();
-// Or via selector.
-const users = useUsersStore.get(`getUsers`);
+const users = useUsersStore.get(`users`);
+const custom = useUsersStore((state) => state.users);
 
+// Read inside components.
 const UsersList = () => {
-  // Automatically handled by naming convention.
-  const { usersState } = useUsersStore();
-  // Using selectors.
-  const users = useUsersStore(`getUsers`);
+  const usersState = useUsersStore();
+  const users = useUsersStore(`users`);
+  const custom = useUsersStore((state) => state.users);
 };
