@@ -1,5 +1,9 @@
 import { store } from 'morph/store';
 
+// Usage in Components.
+
+import { useUsersStore } from 'store/users';
+
 type User = {
   id: string;
   name: string;
@@ -31,17 +35,13 @@ const { useUsersStore } = store<State>(
 
 export { useUsersStore };
 
-// Usage in Components.
-
-import { useUsersStore } from 'store/users';
-
-const outsideState = useUsersStore.get();
+const { usersState } = useUsersStore.get();
 // Or via selector.
-const outsideUsers = useUsersStore.get('getUsers');
+const users = useUsersStore.get(`getUsers`);
 
 const UsersList = () => {
   // Automatically handled by naming convention.
   const { usersState } = useUsersStore();
   // Using selectors.
-  const users = useUsersStore('getUsers');
+  const users = useUsersStore(`getUsers`);
 };
