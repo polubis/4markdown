@@ -12,7 +12,7 @@ type State = {
 };
 
 // Named API methods are returned.
-const { useUsersStore } = store<State>(
+const useUsersStore = store<State>(
   `users`,
   {
     loading: false,
@@ -21,21 +21,13 @@ const { useUsersStore } = store<State>(
   },
   // Selectors.
   {
-    getUsers: ({ usersState }) => usersState.users,
-  },
-  {
-    // Configuration options.
-    debug: process.env.NODE_ENV === `development`,
+    getUsers: (state) => state.users,
   },
 );
 
-export { useUsersStore };
+// Usage in components.
 
-// Usage in Components.
-
-import { useUsersStore } from 'store/users';
-
-const { usersState } = useUsersStore.get();
+const usersState = useUsersStore.get();
 // Or via selector.
 const users = useUsersStore.get(`getUsers`);
 
