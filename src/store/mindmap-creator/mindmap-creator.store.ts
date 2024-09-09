@@ -18,8 +18,11 @@ import {
   type EdgeChange,
   type NodeChange,
   type Connection,
+  type Viewport,
 } from '@xyflow/react';
 import * as mocks from './mock';
+
+type MousePosition = Omit<Viewport, 'zoom'>;
 
 type MindmapCreatorStoreState = Transaction<
   {
@@ -58,6 +61,11 @@ const getSelectedNodes = (
 ): MindmapCreatorStoreOkState['mindmap']['nodes'] =>
   nodes.filter(({ selected }) => selected);
 
+const mousePosition: MousePosition = {
+  x: 0,
+  y: 0,
+};
+
 const useMindmapCreatorStore = create<MindmapCreatorStoreState>(() => ({
   is: `idle`,
   saving: { is: `idle` },
@@ -69,6 +77,7 @@ const mindmapCreatorStoreSelectors = {
   useState: (): MindmapCreatorStoreState => useMindmapCreatorStore(),
   state: (): MindmapCreatorStoreState => useMindmapCreatorStore.getState(),
   ok: (): MindmapCreatorStoreOkState => isOkState(get()),
+  mousePosition: (): MousePosition => mousePosition,
   useNodeToEdit: ():
     | MindmapCreatorStoreOkState['mindmap']['nodes'][number]
     | undefined =>
@@ -204,6 +213,10 @@ const mindmapCreatorStoreActions = {
 
     mindmapCreatorStoreActions.alignNodes();
   },
+  updateMousePosition: ({ x, y }: MousePosition): void => {
+    mousePosition.x = x;
+    mousePosition.y = y;
+  },
   closeSettings: (): void => {
     set({ settingsOpened: false });
   },
@@ -235,10 +248,7 @@ const mindmapCreatorStoreActions = {
           {
             // @TODO[PRIO=5]: [Create a function for random ID generation].
             id: new Date().toISOString(),
-            position: {
-              x: 0,
-              y: 0,
-            },
+            position: mousePosition,
             data,
             type: `internal`,
             selected: true,
@@ -361,10 +371,7 @@ const mindmapCreatorStoreActions = {
           {
             // @TODO[PRIO=5]: [Create a function for random ID generation].
             id: new Date().toISOString(),
-            position: {
-              x: 0,
-              y: 0,
-            },
+            position: mousePosition,
             data,
             type: `external`,
             selected: true,

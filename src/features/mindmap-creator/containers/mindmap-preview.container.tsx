@@ -228,6 +228,21 @@ const MindmapPreviewContainer = () => {
     }
   }, [layoutCentered, centerView]);
 
+  React.useEffect(() => {
+    const handleMouseMove = (event: MouseEvent): void => {
+      mindmapCreatorStoreActions.updateMousePosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+    };
+
+    window.addEventListener(`mousemove`, handleMouseMove);
+
+    return () => {
+      window.removeEventListener(`mousemove`, handleMouseMove);
+    };
+  }, []);
+
   return (
     <ReactFlow
       key={mindmap.orientation}
