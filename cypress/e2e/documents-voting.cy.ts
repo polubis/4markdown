@@ -48,6 +48,22 @@ describe(`Voting for documents works when`, () => {
         `Rate as ugly`,
       ]);
     },
+    'I see incremented perfect rate': () => {
+      const initialVotes: string[] = [];
+
+      cy.get(`${parentSelector} strong`).each((element) => {
+        initialVotes.push(element.text().trim());
+      });
+
+      cy.wrap(initialVotes).then((elements) => {
+        const [perfectRateValue, ...restElements] = elements;
+        expect(perfectRateValue).to.equal(`1`);
+
+        restElements.forEach((element) => {
+          expect(element).to.equal(`0`);
+        });
+      });
+    },
     // 'I rate document': () => {
     //   // cy.get(parentSelector).should(`have.length`, 1);
     //   // cy.get(`${parentSelector} svg`).should(
@@ -58,9 +74,9 @@ describe(`Voting for documents works when`, () => {
     //   const initialVotes: string[] = [];
 
     //   cy.get(`${parentSelector} strong`).each((element) => {
-    //     const text = element.text().trim();
-    //     expect(text).to.match(/^\d+$/);
-    //     initialVotes.push(text);
+    // const text = element.text().trim();
+    // expect(text).to.match(/^\d+$/);
+    // initialVotes.push(text);
     //   });
 
     //   Given(`I click button`, [`Rate as ugly`]);
@@ -128,6 +144,13 @@ describe(`Voting for documents works when`, () => {
       .When(`I click button`, [`Document preview`])
       .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
       .And(`I see votes at the top of the document`)
+      .And(`System takes picture`)
+      // @TODO[PRIO=5]: [Scroll to update rating section].
       .And(`I see update rating section`);
+    // .And(`System takes picture`)
+    // .When(`I click button`, [`Rate as perfect`])
+    // .Then(`I see incremented perfect rate`)
+    // .And(`I see votes at the top of the document`)
+    // .And(`System takes picture`);
   });
 });
