@@ -19,10 +19,14 @@ const { useUsersStore } = store<State>(
     error: ``,
     users: [],
   },
+  // Selectors
+  {
+    getUsers: ({ usersState }) => usersState.users;
+  },
   {
     // Configuration options.
     debug: process.env.NODE_ENV === `development`,
-  },
+  }
 );
 
 export { useUsersStore };
@@ -31,9 +35,13 @@ export { useUsersStore };
 
 import { useUsersStore } from 'store/users';
 
-const outsideReading = useUsersStore.get();
+const outsiteState = useUsersStore.get();
+// or via selector.
+const outsiteUsers = useUsersStore.get('getUsers');
 
 const UsersList = () => {
   // Automatically handled by naming convention.
   const { usersState } = useUsersStore();
+  // Selectors.
+  const users = useUsersStore('getUsers');
 };
