@@ -74,7 +74,7 @@ const SelectionControlsContainer = () => {
  * 11. Tab Index in modals - something is weird
  * 11. Create abckend endpoints.
  * 12. Create search docs endpont.
- * Improve auto selection - add animation after edit or smeth else.
+ * Improve auto selection - add animation after add/edit or smeth else.
  * 13. Connect search docs to endpoint.
  * 17. Think about tracking progress
  * 18. Show loaded details of document and preview in some section
