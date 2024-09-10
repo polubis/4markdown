@@ -76,7 +76,6 @@ const SelectionControlsContainer = () => {
  * 22. Vsibility of the documents
  * 23. Block multiple modals apperance.
 Error screen for saving 
-put element in the place where last interaction has been done
 */
 
 const MindmapCreatorView = () => {

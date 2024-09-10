@@ -31,6 +31,7 @@ import {
 import c from 'classnames';
 import { meta } from '../../../../meta';
 import { useViewCenter } from '../core/use-view-center';
+import debounce from 'lodash.debounce';
 
 type MindmapNodeTypes = {
   [Key in MindmapNodeType]: ComponentType<
@@ -216,6 +217,31 @@ const edgeTypes: MindmapEdgeTypes = {
   curved: CurvedEdge,
 };
 
+const useMousePositionUpdate = (): void => {
+  React.useEffect(() => {
+    const handleMouseMove = debounce(
+      ({ clientX, clientY }: MouseEvent): void => {
+        const { nodeFormOpened } = mindmapCreatorStoreSelectors.ok();
+
+        if (nodeFormOpened) return;
+
+        mindmapCreatorStoreActions.updateMousePosition({
+          x: clientX,
+          y: clientY,
+        });
+      },
+      100,
+    );
+
+    window.addEventListener(`mousemove`, handleMouseMove);
+
+    return () => {
+      window.removeEventListener(`mousemove`, handleMouseMove);
+      handleMouseMove.cancel();
+    };
+  }, []);
+};
+
 const MindmapPreviewContainer = () => {
   const { mindmap } = mindmapCreatorStoreSelectors.useOk();
   const { centerView } = useViewCenter();
@@ -233,23 +259,8 @@ const MindmapPreviewContainer = () => {
   }, [layoutCentered, centerView]);
 
   React.useEffect(() => {
-    const handleMouseMove = (event: MouseEvent): void => {
-      mindmapCreatorStoreActions.updateMousePosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
-    };
-
-    window.addEventListener(`mousemove`, handleMouseMove);
-
-    return () => {
-      window.removeEventListener(`mousemove`, handleMouseMove);
-    };
-  }, []);
-
-  React.useLayoutEffect(() => {
     const measure = (): void => {
-      const container = document.querySelector(`.react-flow`);
+      const container = document.querySelector(`#mindmap-preview`);
 
       if (!container) return;
 
@@ -272,8 +283,11 @@ const MindmapPreviewContainer = () => {
     };
   }, []);
 
+  useMousePositionUpdate();
+
   return (
     <ReactFlow
+      id="mindmap-preview"
       key={mindmap.orientation}
       nodes={mindmap.nodes}
       edges={mindmap.edges}

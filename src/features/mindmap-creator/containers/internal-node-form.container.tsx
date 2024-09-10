@@ -19,6 +19,7 @@ import {
   mindmapCreatorStoreActions,
   mindmapCreatorStoreSelectors,
 } from 'store/mindmap-creator/mindmap-creator.store';
+import { useReactFlow } from '@xyflow/react';
 
 type InternalNodeFormValues = Pick<
   MindmapInternalNode['data'],
@@ -30,6 +31,8 @@ const InternalNodeFormContainer = () => {
   const [selectedDoc, setSelectedDoc] = React.useState<
     MindmapInternalNode['data']['document'] | undefined
   >(nodeToEdit?.data.document);
+
+  const { screenToFlowPosition } = useReactFlow();
 
   const [{ values, invalid }, { set, inject }] =
     useForm<InternalNodeFormValues>(
@@ -55,11 +58,14 @@ const InternalNodeFormContainer = () => {
       return;
     }
 
-    mindmapCreatorStoreActions.addInternalNode({
-      name: values.name,
-      description: values.description,
-      document: selectedDoc!,
-    });
+    mindmapCreatorStoreActions.addInternalNode(
+      {
+        name: values.name,
+        description: values.description,
+        document: selectedDoc!,
+      },
+      screenToFlowPosition(mindmapCreatorStoreSelectors.mousePosition()),
+    );
   };
 
   const selectDoc = (doc: MindmapInternalNode['data']['document']): void => {

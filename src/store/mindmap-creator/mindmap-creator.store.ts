@@ -257,7 +257,10 @@ const mindmapCreatorStoreActions = {
   cancelAddingNode: (): void => {
     set({ nodeFormOpened: false, nodeToEditId: undefined });
   },
-  addInternalNode: (data: MindmapInternalNode['data']): void => {
+  addInternalNode: (
+    data: MindmapInternalNode['data'],
+    position: MousePosition,
+  ): void => {
     const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
@@ -268,7 +271,7 @@ const mindmapCreatorStoreActions = {
           {
             // @TODO[PRIO=5]: [Create a function for random ID generation].
             id: new Date().toISOString(),
-            position: mousePosition,
+            position,
             data,
             type: `internal`,
             selected: true,
@@ -387,7 +390,10 @@ const mindmapCreatorStoreActions = {
       },
     });
   },
-  addExternalNode: (data: MindmapExternalNode['data']): void => {
+  addExternalNode: (
+    data: MindmapExternalNode['data'],
+    position: MousePosition,
+  ): void => {
     const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
@@ -400,7 +406,7 @@ const mindmapCreatorStoreActions = {
           {
             // @TODO[PRIO=5]: [Create a function for random ID generation].
             id: new Date().toISOString(),
-            position: mousePosition,
+            position,
             data,
             type: `external`,
             selected: true,

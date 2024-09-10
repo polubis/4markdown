@@ -10,11 +10,13 @@ import {
   mindmapCreatorStoreSelectors,
 } from 'store/mindmap-creator/mindmap-creator.store';
 import { nodeDescription, nodeName, nodeUrl } from '../core/validators';
+import { useReactFlow } from '@xyflow/react';
 
 type ExternalNodeFormValues = MindmapExternalNode['data'];
 
 const ExternalNodeFormContainer = () => {
   const nodeToEdit = mindmapCreatorStoreSelectors.useExternalNodeToEdit();
+  const { screenToFlowPosition } = useReactFlow();
 
   const [{ values, invalid }, { inject }] = useForm<ExternalNodeFormValues>(
     {
@@ -37,7 +39,10 @@ const ExternalNodeFormContainer = () => {
       return;
     }
 
-    mindmapCreatorStoreActions.addExternalNode(values);
+    mindmapCreatorStoreActions.addExternalNode(
+      values,
+      screenToFlowPosition(mindmapCreatorStoreSelectors.mousePosition()),
+    );
   };
 
   return (
