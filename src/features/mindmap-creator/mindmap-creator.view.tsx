@@ -81,6 +81,8 @@ const SelectionControlsContainer = () => {
  * 19 Connect addinew new mindmap (new modal an doption to choose).
  * 22. Vsibility of the documents
  * Show that something is saveable due to its changes - save icon.
+ * Create a settings that allows to put a more space between elements when auto alignning.
+ * Improve bezier curve behavior when rotated axis.
  */
 
 const MindmapCreatorView = () => {
