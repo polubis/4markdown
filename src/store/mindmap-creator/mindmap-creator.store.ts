@@ -106,6 +106,30 @@ const mindmapCreatorStoreSelectors = {
   state: (): MindmapCreatorStoreState => useMindmapCreatorStore.getState(),
   ok: (): MindmapCreatorStoreOkState => isOkState(get()),
   mousePosition: (): MousePosition => mousePosition,
+  isEnabled: (
+    exceptionKey?: keyof Pick<
+      MindmapCreatorStoreState,
+      'nodeFormOpened' | 'removalConfirmationOpened' | 'settingsOpened'
+    >,
+  ): boolean => {
+    const state = get();
+    const {
+      saving,
+      nodeFormOpened,
+      removalConfirmationOpened,
+      settingsOpened,
+    } = state;
+
+    if (
+      saving.is === `busy` ||
+      nodeFormOpened ||
+      removalConfirmationOpened ||
+      settingsOpened
+    )
+      return exceptionKey ? !!state[exceptionKey] : false;
+
+    return true;
+  },
   viewInformation: (): ViewInformation => viewInformation,
   useSavingFail: (): SavingFailState =>
     useMindmapCreatorStore((state) => {
@@ -168,14 +192,16 @@ const mindmapCreatorStoreActions = {
     mindmapCreatorStoreActions.load();
   },
   save: async (): Promise<void> => {
-    const { mindmap, saving } = mindmapCreatorStoreSelectors.ok();
+    if (!mindmapCreatorStoreSelectors.isEnabled()) {
+      return;
+    }
 
-    if (saving.is === `busy`) return;
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     try {
       set({ saving: { is: `busy` } });
 
-      const { mdate } = await mock({ delay: 1, errorFactor: 98 })<
+      const { mdate } = await mock({ delay: 1 })<
         API4MarkdownDto<'updateMindmap'>
       >({
         mdate: new Date().toISOString(),
@@ -240,10 +266,12 @@ const mindmapCreatorStoreActions = {
       },
     });
   },
-  toggleOrientation: (): void => {
-    const { mindmap, saving } = mindmapCreatorStoreSelectors.ok();
+  toggleOrientation: (onSuccess?: () => void) => {
+    if (!mindmapCreatorStoreSelectors.isEnabled()) {
+      return;
+    }
 
-    if (saving.is === `busy`) return;
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
     set({
       mindmap: {
@@ -252,7 +280,7 @@ const mindmapCreatorStoreActions = {
       },
     });
 
-    mindmapCreatorStoreActions.alignNodes();
+    mindmapCreatorStoreActions.alignNodes(onSuccess);
   },
   updateMousePosition: ({ x, y }: MousePosition): void => {
     mousePosition.x = x;
@@ -262,18 +290,12 @@ const mindmapCreatorStoreActions = {
     set({ settingsOpened: false });
   },
   openSettings: (): void => {
-    const { saving } = mindmapCreatorStoreSelectors.ok();
-
-    if (saving.is === `busy`) return;
-
-    set({ settingsOpened: true });
+    mindmapCreatorStoreSelectors.isEnabled(`settingsOpened`) &&
+      set({ settingsOpened: true });
   },
   startAddingNode: (): void => {
-    const { saving } = mindmapCreatorStoreSelectors.ok();
-
-    if (saving.is === `busy`) return;
-
-    set({ nodeFormOpened: true });
+    mindmapCreatorStoreSelectors.isEnabled(`nodeFormOpened`) &&
+      set({ nodeFormOpened: true });
   },
   cancelAddingNode: (): void => {
     set({ nodeFormOpened: false, nodeToEditId: undefined });
@@ -342,9 +364,9 @@ const mindmapCreatorStoreActions = {
     };
   },
   startNodesRemoval: (): void => {
-    const { saving } = mindmapCreatorStoreSelectors.ok();
-
-    if (saving.is === `busy`) return;
+    if (!mindmapCreatorStoreSelectors.isEnabled(`removalConfirmationOpened`)) {
+      return;
+    }
 
     const selectedNodes = mindmapCreatorStoreSelectors.selectedNodes();
 
@@ -381,9 +403,9 @@ const mindmapCreatorStoreActions = {
     });
   },
   beginNodeEdition: (): void => {
-    const { saving } = mindmapCreatorStoreSelectors.ok();
-
-    if (saving.is === `busy`) return;
+    if (!mindmapCreatorStoreSelectors.isEnabled(`nodeFormOpened`)) {
+      return;
+    }
 
     const selectedNodes = mindmapCreatorStoreSelectors.selectedNodes();
 
@@ -453,23 +475,23 @@ const mindmapCreatorStoreActions = {
       },
     });
   },
-  alignNodes: async () => {
-    const { saving } = mindmapCreatorStoreSelectors.ok();
+  alignNodes: async (onSuccess?: () => void) => {
+    if (!mindmapCreatorStoreSelectors.isEnabled()) {
+      return;
+    }
 
-    if (saving.is === `busy`) return;
+    const { getLayoutedElements } = await import(`./get-layouted-elements`);
 
-    try {
-      const { getLayoutedElements } = await import(`./get-layouted-elements`);
+    const { mindmap } = mindmapCreatorStoreSelectors.ok();
 
-      const { mindmap } = mindmapCreatorStoreSelectors.ok();
+    set({
+      mindmap: {
+        ...mindmap,
+        ...getLayoutedElements(),
+      },
+    });
 
-      set({
-        mindmap: {
-          ...mindmap,
-          ...getLayoutedElements(),
-        },
-      });
-    } catch {}
+    onSuccess?.();
   },
   resetSaving: (): void => {
     set({ saving: { is: `idle` } });

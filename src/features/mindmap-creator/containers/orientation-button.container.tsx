@@ -17,8 +17,7 @@ const OrientationButtonContainer = () => {
 
   React.useEffect(() => {
     if (orientationChangePressed) {
-      mindmapCreatorStoreActions.toggleOrientation();
-      centerView();
+      mindmapCreatorStoreActions.toggleOrientation(centerView);
     }
   }, [orientationChangePressed, centerView]);
 
@@ -28,7 +27,7 @@ const OrientationButtonContainer = () => {
       className="mb-3"
       s={2}
       title="Change mindmap orientation (o)"
-      onClick={mindmapCreatorStoreActions.toggleOrientation}
+      onClick={() => mindmapCreatorStoreActions.toggleOrientation(centerView)}
     >
       <BiHorizontalRight
         className={c({

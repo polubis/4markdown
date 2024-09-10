@@ -80,7 +80,6 @@ const SelectionControlsContainer = () => {
  * 18. Show loaded details of document and preview in some section
  * 19 Connect addinew new mindmap (new modal an doption to choose).
  * 22. Vsibility of the documents
- * 23. Block multiple modals apperance.
  * Show that something is saveable due to its changes - save icon.
  */
 

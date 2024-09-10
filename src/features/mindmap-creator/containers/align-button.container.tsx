@@ -11,8 +11,7 @@ const AlignButtonContainer = () => {
 
   React.useEffect(() => {
     if (itemsAligned) {
-      mindmapCreatorStoreActions.alignNodes();
-      centerView();
+      mindmapCreatorStoreActions.alignNodes(centerView);
     }
   }, [itemsAligned, centerView]);
 
@@ -22,7 +21,7 @@ const AlignButtonContainer = () => {
       className="mb-3"
       s={2}
       title="Align items (a)"
-      onClick={mindmapCreatorStoreActions.alignNodes}
+      onClick={() => mindmapCreatorStoreActions.alignNodes(centerView)}
     >
       <BiSolidGrid />
     </Button>
