@@ -219,7 +219,10 @@ const edgeTypes: MindmapEdgeTypes = {
 const MindmapPreviewContainer = () => {
   const { mindmap } = mindmapCreatorStoreSelectors.useOk();
   const { centerView } = useViewCenter();
-  const engineSettings = mindmapCreatorStoreSelectors.useEngineSettings();
+  const viewInformation = React.useMemo(
+    () => mindmapCreatorStoreSelectors.viewInformation(),
+    [],
+  );
 
   const layoutCentered = useKeyPress(`c`);
 
@@ -244,6 +247,31 @@ const MindmapPreviewContainer = () => {
     };
   }, []);
 
+  React.useLayoutEffect(() => {
+    const measure = (): void => {
+      const container = document.querySelector(`.react-flow`);
+
+      if (!container) return;
+
+      const { width, height, left, top } = container.getBoundingClientRect();
+
+      mindmapCreatorStoreActions.updateViewInformation({
+        width,
+        height,
+        left,
+        top,
+      });
+    };
+
+    window.addEventListener(`resize`, measure);
+
+    measure();
+
+    return () => {
+      window.removeEventListener(`resize`, measure);
+    };
+  }, []);
+
   return (
     <ReactFlow
       key={mindmap.orientation}
@@ -255,8 +283,8 @@ const MindmapPreviewContainer = () => {
       nodeTypes={nodeTypes[mindmap.orientation]}
       edgeTypes={edgeTypes}
       fitView
-      minZoom={engineSettings.minZoom}
-      maxZoom={engineSettings.maxZoom}
+      minZoom={viewInformation.minZoom}
+      maxZoom={viewInformation.maxZoom}
     >
       <Controls />
       <Background />

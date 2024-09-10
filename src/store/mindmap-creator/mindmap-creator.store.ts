@@ -24,15 +24,18 @@ import * as mocks from './mock';
 
 type MousePosition = Omit<Viewport, 'zoom'>;
 
-type EngineSettings =
+type ViewInformation =
   | { is: `not-ready`; minZoom: number; maxZoom: number }
   | {
       is: `ready`;
       minZoom: number;
       maxZoom: number;
       width: number;
+      top: number;
+      left: number;
       height: number;
     };
+type ReadyViewInformation = Extract<ViewInformation, { is: `ready` }>;
 
 type MindmapCreatorStoreState = Transaction<
   {
@@ -76,7 +79,7 @@ const mousePosition: MousePosition = {
   y: 0,
 };
 
-const engineSettings: EngineSettings = {
+let viewInformation: ViewInformation = {
   is: `not-ready`,
   minZoom: 0.4,
   maxZoom: 2.5,
@@ -94,8 +97,7 @@ const mindmapCreatorStoreSelectors = {
   state: (): MindmapCreatorStoreState => useMindmapCreatorStore.getState(),
   ok: (): MindmapCreatorStoreOkState => isOkState(get()),
   mousePosition: (): MousePosition => mousePosition,
-  useEngineSettings: (): EngineSettings => engineSettings,
-  engineSettings: (): EngineSettings => engineSettings,
+  viewInformation: (): ViewInformation => viewInformation,
   useNodeToEdit: ():
     | MindmapCreatorStoreOkState['mindmap']['nodes'][number]
     | undefined =>
@@ -305,6 +307,15 @@ const mindmapCreatorStoreActions = {
         nodes: applyNodeChanges(changes, mindmap.nodes) as MindmapNode[],
       },
     });
+  },
+  updateViewInformation: (
+    settings: Omit<ReadyViewInformation, 'is' | 'minZoom' | 'maxZoom'>,
+  ): void => {
+    viewInformation = {
+      ...viewInformation,
+      ...settings,
+      is: `ready`,
+    };
   },
   startNodesRemoval: (): void => {
     const { saving } = mindmapCreatorStoreSelectors.ok();
