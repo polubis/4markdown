@@ -24,6 +24,16 @@ import * as mocks from './mock';
 
 type MousePosition = Omit<Viewport, 'zoom'>;
 
+type EngineSettings =
+  | { is: `not-ready`; minZoom: number; maxZoom: number }
+  | {
+      is: `ready`;
+      minZoom: number;
+      maxZoom: number;
+      width: number;
+      height: number;
+    };
+
 type MindmapCreatorStoreState = Transaction<
   {
     mindmap: Omit<MindmapDto, 'nodes'> & {
@@ -66,6 +76,12 @@ const mousePosition: MousePosition = {
   y: 0,
 };
 
+const engineSettings: EngineSettings = {
+  is: `not-ready`,
+  minZoom: 0.4,
+  maxZoom: 2.5,
+};
+
 const useMindmapCreatorStore = create<MindmapCreatorStoreState>(() => ({
   is: `idle`,
   saving: { is: `idle` },
@@ -78,6 +94,8 @@ const mindmapCreatorStoreSelectors = {
   state: (): MindmapCreatorStoreState => useMindmapCreatorStore.getState(),
   ok: (): MindmapCreatorStoreOkState => isOkState(get()),
   mousePosition: (): MousePosition => mousePosition,
+  useEngineSettings: (): EngineSettings => engineSettings,
+  engineSettings: (): EngineSettings => engineSettings,
   useNodeToEdit: ():
     | MindmapCreatorStoreOkState['mindmap']['nodes'][number]
     | undefined =>

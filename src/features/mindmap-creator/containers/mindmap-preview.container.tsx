@@ -219,6 +219,7 @@ const edgeTypes: MindmapEdgeTypes = {
 const MindmapPreviewContainer = () => {
   const { mindmap } = mindmapCreatorStoreSelectors.useOk();
   const { centerView } = useViewCenter();
+  const engineSettings = mindmapCreatorStoreSelectors.useEngineSettings();
 
   const layoutCentered = useKeyPress(`c`);
 
@@ -254,6 +255,8 @@ const MindmapPreviewContainer = () => {
       nodeTypes={nodeTypes[mindmap.orientation]}
       edgeTypes={edgeTypes}
       fitView
+      minZoom={engineSettings.minZoom}
+      maxZoom={engineSettings.maxZoom}
     >
       <Controls />
       <Background />
