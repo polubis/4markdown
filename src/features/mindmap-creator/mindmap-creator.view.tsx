@@ -20,6 +20,7 @@ import { AlignButtonContainer } from './containers/align-button.container';
 import { SettingsButtonContainer } from './containers/settings-button.container';
 import { EditNodeButtonContainer } from './containers/edit-node-button.container';
 import { RemoveNodesButtonContainer } from './containers/remove-nodes-button.container';
+import UserPopover from 'components/user-popover';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
@@ -72,8 +73,6 @@ const SelectionControlsContainer = () => {
  * 17. Think about tracking progress
  * 18. Show loaded details of document and preview in some section
  * 19 Connect addinew new mindmap (new modal an doption to choose).
- * 20. Add line hightliht where alement sare positioned
- * 21. Allow rectangle selection with pressed button.
  * 22. Vsibility of the documents
  * 23. Block multiple modals apperance.
 Error screen for saving 
@@ -101,6 +100,7 @@ const MindmapCreatorView = () => {
           </h1>
         )}
         <ThemeSwitcher className="ml-auto" />
+        <UserPopover className="ml-3" />
         <MoreNav className="ml-3" />
       </header>
       <main className="flex h-[calc(100svh-72px)]">

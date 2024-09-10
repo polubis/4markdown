@@ -9,7 +9,11 @@ import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
-const UserPopover = () => {
+type UserPopoverProps = {
+  className?: string;
+};
+
+const UserPopover = ({ className }: UserPopoverProps) => {
   const menu = useToggle();
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
@@ -30,6 +34,7 @@ const UserPopover = () => {
     <>
       <Button
         i={1}
+        className={className}
         s={2}
         disabled={
           authStore.is === `idle` ||
