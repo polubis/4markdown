@@ -6,10 +6,7 @@ type StateSetter<TState> =
   | Partial<TState>
   | ((state: TState) => Partial<TState>);
 
-const store = <TState, TName extends string = string>(
-  state: TState,
-  name: TName,
-) => {
+const store = <TState>(state: TState) => {
   const listeners = new Set<Listener<TState>>();
 
   const get = (): TState => state;

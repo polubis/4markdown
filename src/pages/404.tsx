@@ -15,7 +15,7 @@ type StoreState = {
   users: { id: string; name: string }[];
 };
 
-const useUsersStore = store<StoreState>({ users: [], username: `` }, `users`);
+const useUsersStore = store<StoreState>({ users: [], username: `` });
 
 const setUsername = (username: string): void => {
   useUsersStore.set({ username });
