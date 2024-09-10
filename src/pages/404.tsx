@@ -7,24 +7,63 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
+import { store } from '../article/store';
+
+type StoreState = {
+  username: string;
+  users: { id: string; name: string }[];
+};
+
+const useUsersStore = store<StoreState>({ users: [], username: `` }, `users`);
+
+const setUsername =
+  () =>
+  (event: React.ChangeEvent<HTMLInputElement>): void => {
+    useUsersStore.set({ username: event.target.value });
+  };
+
+const addUser = (): void => {
+  useUsersStore.set(({ users, username }) => ({
+    users: [...users, { id: new Date().toISOString(), name: username }],
+    username: ``,
+  }));
+};
 
 const NotFoundPage = () => {
+  const { users, username } = useUsersStore();
+
+  React.useEffect(() => {
+    const unsubscribe = useUsersStore.subscribe((state) => {
+      console.log(state);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <>
       <AppNavigation>
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="max-w-2xl p-4 mx-auto h-screen flex flex-col justify-center">
-        <h1 className="text-2xl">
-          Resource Not Found at the Specified <strong>URL</strong>
-        </h1>
-        <p className="mt-2">
-          If this is a <strong>permanent document</strong>, please wait some
-          time for it to be available at the specified <strong>URL</strong>.
-          Typically, it takes several days.
-        </p>
-      </main>
+      <form onSubmit={addUser}>
+        <input
+          type="text"
+          name="name"
+          value={username}
+          onChange={setUsername}
+        />
+        <button type="submit">Add user</button>
+      </form>
+
+      {users.length === 0 && <p>No users added yet</p>}
+      {users.length > 0 && (
+        <ul>
+          {users.map((user) => (
+            <li key={user.id}>{user.name}</li>
+          ))}
+        </ul>
+      )}
       <AppFooterContainer />
     </>
   );
