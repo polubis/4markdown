@@ -56,6 +56,11 @@ type MindmapCreatorStoreState = Transaction<
   saving: Transaction<undefined, { error: ParsedError }>;
 };
 
+type SavingFailState = Extract<
+  MindmapCreatorStoreState['saving'],
+  { is: `fail` }
+>;
+
 type MindmapCreatorStoreOkState = Extract<
   MindmapCreatorStoreState,
   { is: `ok` }
@@ -85,10 +90,14 @@ let viewInformation: ViewInformation = {
   maxZoom: 2.5,
 };
 
-const useMindmapCreatorStore = create<MindmapCreatorStoreState>(() => ({
+const initialState: MindmapCreatorStoreState = {
   is: `idle`,
   saving: { is: `idle` },
-}));
+};
+
+const useMindmapCreatorStore = create<MindmapCreatorStoreState>(
+  () => initialState,
+);
 
 const { getState: get, setState: set } = useMindmapCreatorStore;
 
@@ -98,6 +107,14 @@ const mindmapCreatorStoreSelectors = {
   ok: (): MindmapCreatorStoreOkState => isOkState(get()),
   mousePosition: (): MousePosition => mousePosition,
   viewInformation: (): ViewInformation => viewInformation,
+  useSavingFail: (): SavingFailState =>
+    useMindmapCreatorStore((state) => {
+      const { saving } = state;
+
+      if (saving.is !== `fail`) throw Error(`State is not ready to work with`);
+
+      return saving;
+    }),
   useNodeToEdit: ():
     | MindmapCreatorStoreOkState['mindmap']['nodes'][number]
     | undefined =>
@@ -146,6 +163,10 @@ const mindmapCreatorStoreSelectors = {
 } as const;
 
 const mindmapCreatorStoreActions = {
+  reload: async (): Promise<void> => {
+    set(initialState);
+    mindmapCreatorStoreActions.load();
+  },
   save: async (): Promise<void> => {
     const { mindmap, saving } = mindmapCreatorStoreSelectors.ok();
 
@@ -154,7 +175,7 @@ const mindmapCreatorStoreActions = {
     try {
       set({ saving: { is: `busy` } });
 
-      const { mdate } = await mock({ delay: 1 })<
+      const { mdate } = await mock({ delay: 1, errorFactor: 98 })<
         API4MarkdownDto<'updateMindmap'>
       >({
         mdate: new Date().toISOString(),
@@ -449,6 +470,9 @@ const mindmapCreatorStoreActions = {
         },
       });
     } catch {}
+  },
+  resetSaving: (): void => {
+    set({ saving: { is: `idle` } });
   },
 } as const;
 

@@ -22,6 +22,12 @@ import { EditNodeButtonContainer } from './containers/edit-node-button.container
 import { RemoveNodesButtonContainer } from './containers/remove-nodes-button.container';
 import UserPopover from 'components/user-popover';
 
+const SaveErrorModalContainer = React.lazy(() =>
+  import(`./containers/save-error-modal.container`).then((m) => ({
+    default: m.SaveErrorModalContainer,
+  })),
+);
+
 const NodeFormModalContainer = React.lazy(() =>
   import(`./containers/node-form-modal.container`).then((m) => ({
     default: m.NodeFormModalContainer,
@@ -75,8 +81,7 @@ const SelectionControlsContainer = () => {
  * 19 Connect addinew new mindmap (new modal an doption to choose).
  * 22. Vsibility of the documents
  * 23. Block multiple modals apperance.
-Error screen for saving 
-*/
+ */
 
 const MindmapCreatorView = () => {
   const mindmapCreatorStore = mindmapCreatorStoreSelectors.useState();
@@ -139,6 +144,11 @@ const MindmapCreatorView = () => {
       {mindmapCreatorStore.removalConfirmationOpened && (
         <React.Suspense>
           <NodesRemovalConfirmationContainer />
+        </React.Suspense>
+      )}
+      {mindmapCreatorStore.saving.is === `fail` && (
+        <React.Suspense>
+          <SaveErrorModalContainer />
         </React.Suspense>
       )}
     </ReactFlowProvider>
