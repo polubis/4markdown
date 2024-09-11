@@ -1,4 +1,10 @@
-import React, { type ReactNode } from 'react';
+import React, {
+  type ReactNode,
+  type ReactElement,
+  type HTMLAttributes,
+  type DetailedHTMLProps,
+  type JSX,
+} from 'react';
 import type { MarkdownToJSX } from 'markdown-to-jsx';
 import Md from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
@@ -7,9 +13,23 @@ import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 
+type MarkdownProps = {
+  children: string;
+};
+
+type MarkdownOverrides = {
+  [Key in keyof JSX.IntrinsicElements]?: (
+    props: JSX.IntrinsicElements[Key],
+  ) => JSX.Element;
+} & Record<string, (props: any) => JSX.Element>;
+
+type MarkdownOptions = Omit<MarkdownToJSX.Options, 'overrides'> & {
+  overrides?: MarkdownOverrides;
+};
+
 const Code = ({
   children,
-}: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
+}: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
 
   React.useLayoutEffect(() => {
@@ -29,10 +49,8 @@ const Code = ({
 
 const isReactElement = (
   node: unknown,
-): node is React.ReactElement<unknown, () => ReactNode> =>
-  typeof node === `object` &&
-  node !== null &&
-  !!(node as React.ReactElement).type;
+): node is ReactElement<unknown, () => ReactNode> =>
+  typeof node === `object` && node !== null && !!(node as ReactElement).type;
 
 const isDescribedImage = (nodes: ReactNode): boolean => {
   if (!Array.isArray(nodes)) {
@@ -53,7 +71,7 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   const [state, save] = useCopy();
 
   const copy = () => {
-    save((children as React.ReactElement<{ children: string }>).props.children);
+    save((children as ReactElement<{ children: string }>).props.children);
   };
 
   return (
@@ -73,7 +91,7 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const OPTIONS: MarkdownToJSX.Options = {
+const options: MarkdownOptions = {
   disableParsingRawHTML: true,
   overrides: {
     h1: ({ children }) => (
@@ -136,16 +154,11 @@ const OPTIONS: MarkdownToJSX.Options = {
     ),
   },
 };
-/* @TODO: Try to improve this typings here. */
 
-interface MarkdownProps {
-  children: string;
-}
-
-const Markdown: React.FC<MarkdownProps> = ({ children }) => {
+const Markdown = ({ children }: MarkdownProps) => {
   return (
     <div className="markdown">
-      <Md options={OPTIONS as MarkdownToJSX.Options}>{children}</Md>
+      <Md options={options}>{children}</Md>
     </div>
   );
 };
