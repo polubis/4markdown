@@ -5,6 +5,9 @@ type Unsubscribe = () => void;
 type StateSetter<TState> =
   | Partial<TState>
   | ((state: TState) => Partial<TState>);
+type StateReplacer<TState> = TState extends any
+  ? TState | ((state: TState) => TState)
+  : never;
 
 const store = <TState>(state: TState) => {
   const listeners = new Set<Listener<TState>>();
@@ -28,8 +31,14 @@ const store = <TState>(state: TState) => {
     emit(state);
   };
 
+  const replace = (replacer: StateReplacer<TState>): void => {
+    state = typeof replacer === `function` ? replacer(get()) : replacer;
+    emit(state);
+  };
+
   const useStore = (): TState => useSyncExternalStore(subscribe, get);
 
+  useStore.replace = replace;
   useStore.get = get;
   useStore.set = set;
   useStore.subscribe = subscribe;
