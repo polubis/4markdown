@@ -23,7 +23,7 @@ const CreatorErrorModalContainer = React.lazy(
 
 type DivideMode = 'both' | 'preview' | 'code';
 
-const CreatorView: React.FC = () => {
+const CreatorView = () => {
   useCreatorLocalStorageSync();
 
   const docManagementStore = useDocManagementStore();
