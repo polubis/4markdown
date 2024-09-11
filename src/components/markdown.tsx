@@ -29,6 +29,7 @@ type MarkdownOptions = Omit<MarkdownToJSX.Options, 'overrides'> & {
 
 const Code = ({
   children,
+  className: command,
 }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
 
