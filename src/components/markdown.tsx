@@ -1,4 +1,6 @@
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'; // Line numbers plugin
+import 'prismjs/plugins/line-highlight/prism-line-highlight.css'; // Line highlight CSS
+import 'prismjs/themes/prism-tomorrow.css';
 import React, {
   type ReactNode,
   type ReactElement,
@@ -15,6 +17,7 @@ import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 import { interpret } from './interpret';
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
+import 'prismjs/plugins/line-highlight/prism-line-highlight';
 
 type MarkdownProps = {
   children: string;
@@ -196,7 +199,7 @@ const options: MarkdownOptions = {
     pre: ({ children }) => (
       <div className="relative">
         <SnippetCopyButton>{children}</SnippetCopyButton>
-        <pre className="p-4 line-numbers" data-line="1-4">
+        <pre className="p-4 line-numbers" data-line="1, 3-4">
           {children}
         </pre>
       </div>
@@ -213,3 +216,34 @@ const Markdown = ({ children }: MarkdownProps) => {
 };
 
 export default Markdown;
+
+
+// /* Custom highlight for green lines */
+// pre[data-line~="green"] .line-highlight {
+//   background-color: rgba(0, 255, 0, 0.2); /* Light green background */
+//   border-left: 4px solid green; /* Green border for distinction */
+// }
+
+// /* Custom highlight for red lines */
+// pre[data-line~="red"] .line-highlight {
+//   background-color: rgba(255, 0, 0, 0.2); /* Light red background */
+//   border-left: 4px solid red; /* Red border */
+// }
+
+// /* Custom highlight for blue lines */
+// pre[data-line~="blue"] .line-highlight {
+//   background-color: rgba(0, 0, 255, 0.2); /* Light blue background */
+//   border-left: 4px solid blue; /* Blue border */
+// }
+
+{/* <pre
+className="line-numbers"
+data-line={greenLines} // Default PrismJS line highlight
+data-line-green={greenLines} // Custom green highlight
+data-line-red={redLines} // Custom red highlight
+data-line-blue={blueLines} // Custom blue highlight
+>
+<code ref={codeRef} className="language-javascript">
+  {code}
+</code>
+</pre> */}
