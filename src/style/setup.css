@@ -84,10 +84,6 @@ body {
   white-space: normal;
 }
 
-.markdown pre > code {
-  line-height: 24px;
-}
-
 @keyframes lrotate {
   100% {
     transform: rotate(1turn);

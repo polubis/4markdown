@@ -1,3 +1,6 @@
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
+import 'prismjs/components/prism-javascript';
 import React, {
   type ReactNode,
   type ReactElement,
@@ -47,8 +50,10 @@ const Code = ({
     // 1. Remove the risk of overexceeding the code widget.
     return (
       <>
-        <div className="absolute -left-[1.5px] top-[0px] mb-2 h-[20px] w-[400px] rounded-lg bg-green-600/30" />
-        <div className="absolute -left-[1.5px] top-[26px] mb-2 h-[20px] w-[400px] rounded-lg bg-red-600/30" />
+        {/* <div className="absolute -left-[1.5px] top-[16px] h-[20px] w-[400px] rounded-lg bg-green-600/30" /> */}
+        {/* <div className="absolute -left-[1.5px] top-[26px] h-[20px] w-[400px] rounded-lg bg-red-600/30" />
+        <div className="absolute -left-[1.5px] top-[52px] h-[20px] w-[400px] rounded-lg bg-red-600/30" />
+        <div className="absolute -left-[1.5px] top-[78px]  h-[20px] w-[400px] rounded-lg bg-red-600/30" /> */}
 
         {/* {instructions.a.map((line) => (
           <div
@@ -192,7 +197,9 @@ const options: MarkdownOptions = {
     pre: ({ children }) => (
       <div className="relative">
         <SnippetCopyButton>{children}</SnippetCopyButton>
-        <pre>{children}</pre>
+        <pre className="p-4 line-numbers" data-line="1-4">
+          {children}
+        </pre>
       </div>
     ),
   },
