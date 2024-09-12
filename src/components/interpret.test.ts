@@ -9,6 +9,12 @@ describe(`Code interpretation works when`, () => {
       d: [1, 15],
       e: [1, 2, 3, 4, 19, 21, 24],
     });
+    expect(interpret(`(d,1,15)(a,1,2)(e,1-4,19,21,24)`)).toEqual({
+      is: `ok`,
+      a: [1, 2],
+      d: [1, 15],
+      e: [1, 2, 3, 4, 19, 21, 24],
+    });
   });
 
   it(`fails when uppsercase command is used`, () => {
