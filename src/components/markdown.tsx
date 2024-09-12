@@ -29,8 +29,8 @@ type MarkdownOptions = Omit<MarkdownToJSX.Options, 'overrides'> & {
 };
 
 const codeSettings = {
-  topOffset: 3,
-  lineHeight: 23,
+  topOffset: 4,
+  lineHeight: 18,
 };
 
 const Code = ({
@@ -39,10 +39,43 @@ const Code = ({
 }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
 
-  const instructions = React.useMemo(
-    () => interpret(command?.replace(`lang-`, ``)),
-    [command],
-  );
+  const instructionMarkers = React.useMemo(() => {
+    const instructions = interpret(command?.replace(`lang-`, ``));
+
+    if (instructions.is === `failed`) return null;
+
+    return (
+      <div className="absolute">
+        {instructions.a.map((line) => (
+          <div
+            key={`added(${line})`}
+            style={{
+              top: `${codeSettings.topOffset + (line - 1) * codeSettings.lineHeight}px`,
+            }}
+            className="absolute h-[18px] w-2.5 -left-[21.5px] bg-green-600 rounded-lg"
+          />
+        ))}
+        {instructions.d.map((line) => (
+          <div
+            key={`deleted(${line})`}
+            style={{
+              top: `${codeSettings.topOffset + (line - 1) * codeSettings.lineHeight}px`,
+            }}
+            className="absolute h-[18px] w-2.5 top-[3px] -left-[21.5px] bg-red-600 rounded-lg"
+          />
+        ))}
+        {instructions.e.map((line) => (
+          <div
+            key={`edited(${line})`}
+            style={{
+              top: `${codeSettings.topOffset + (line - 1) * codeSettings.lineHeight}px`,
+            }}
+            className="absolute h-[18px] w-2.5 top-[50px] -left-[21.5px] bg-yellow-600 rounded-lg"
+          />
+        ))}
+      </div>
+    );
+  }, [command]);
 
   React.useLayoutEffect(() => {
     if (!ref.current) {
@@ -54,37 +87,7 @@ const Code = ({
 
   return (
     <>
-      {instructions.is === `ok` && (
-        <div className="absolute">
-          {instructions.a.map((line) => (
-            <div
-              key={`added(${line})`}
-              style={{
-                top: `${codeSettings.topOffset + line * codeSettings.lineHeight}px`,
-              }}
-              className="absolute h-5 w-2.5 -left-[21.5px] bg-green-600 rounded-lg"
-            />
-          ))}
-          {instructions.d.map((line) => (
-            <div
-              key={`deleted(${line})`}
-              style={{
-                top: `${codeSettings.topOffset + line * codeSettings.lineHeight}px`,
-              }}
-              className="absolute h-5 w-2.5 top-[3px] -left-[21.5px] bg-red-600 rounded-lg"
-            />
-          ))}
-          {instructions.e.map((line) => (
-            <div
-              key={`edited(${line})`}
-              style={{
-                top: `${codeSettings.topOffset + line * codeSettings.lineHeight}px`,
-              }}
-              className="absolute h-5 w-2.5 top-[50px] -left-[21.5px] bg-yellow-600 rounded-lg"
-            />
-          ))}
-        </div>
-      )}
+      {instructionMarkers}
       <code ref={ref} className="language-javascript">
         {children}
       </code>

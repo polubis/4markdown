@@ -80,6 +80,10 @@ body {
   overflow: auto;
 }
 
+.markdown pre code {
+  font-size: 17px;
+}
+
 .markdown :not(pre) > code {
   white-space: normal;
 }
