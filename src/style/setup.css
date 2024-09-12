@@ -51,7 +51,7 @@ body {
   display: inline-block;
 }
 
-.markdown > div > * {
+.markdown > div > *:not(pre) {
   margin-bottom: 12px;
 }
 

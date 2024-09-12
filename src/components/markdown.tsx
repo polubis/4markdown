@@ -51,9 +51,9 @@ const Code = ({
     <>
       {instructions.is === `ok` && (
         <div className="absolute h-full w-2 flex flex-col">
-          <div className="absolute h-5 w-1 bg-red-600 z-20 top-[3px] -left-2.5 rounded-md" />
-          <div className="absolute h-5 w-1 bg-green-600 z-20 top-[26px] -left-2.5 rounded-md" />
-          <div className="absolute h-5 w-1 bg-yellow-600 z-20 top-[50px] -left-2.5 rounded-md" />
+          <div className="absolute h-5 w-2.5 top-[3px] -left-[21.5px] bg-red-600 rounded-lg" />
+          <div className="absolute h-5 w-2.5 top-[26px] -left-[21.5px] bg-green-600 rounded-lg" />
+          <div className="absolute h-5 w-2.5 top-[50px] -left-[21.5px] bg-yellow-600 rounded-lg" />
         </div>
       )}
       <code ref={ref} className="language-javascript">
