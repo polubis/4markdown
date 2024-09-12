@@ -1,6 +1,4 @@
-import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
-import 'prismjs/plugins/line-numbers/prism-line-numbers';
-import 'prismjs/components/prism-javascript';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.css'; // Line numbers plugin
 import React, {
   type ReactNode,
   type ReactElement,
@@ -16,6 +14,8 @@ import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 import { interpret } from './interpret';
+import 'prismjs/components/prism-javascript'; // Add more languages if needed
+import 'prismjs/plugins/line-numbers/prism-line-numbers';
 
 type MarkdownProps = {
   children: string;
