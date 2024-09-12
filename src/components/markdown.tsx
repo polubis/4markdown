@@ -14,7 +14,6 @@ import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 import { interpret } from './interpret';
-import 'prismjs/components/prism-javascript'; // Add more languages if needed
 import 'prismjs/plugins/line-numbers/prism-line-numbers';
 
 type MarkdownProps = {
