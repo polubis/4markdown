@@ -12,6 +12,7 @@ import c from 'classnames';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
+import { interpret } from './interpret';
 
 type MarkdownProps = {
   children: string;
@@ -33,6 +34,11 @@ const Code = ({
 }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
 
+  const instructions = React.useMemo(
+    () => interpret(command?.replace(`lang-`, ``)),
+    [command],
+  );
+
   React.useLayoutEffect(() => {
     if (!ref.current) {
       throw Error(`Cannot highlight because there is a missing wrapper.`);
@@ -42,9 +48,18 @@ const Code = ({
   }, [children]);
 
   return (
-    <code ref={ref} className="language-javascript">
-      {children}
-    </code>
+    <>
+      {instructions.is === `ok` && (
+        <div className="absolute h-full w-2 flex flex-col">
+          <div className="absolute h-[19px] w-2 bg-red-500/50 z-20 top-[19px] -left-2" />
+          {/* <div className="absolute h-[19px] w-2 bg-green-500/50 z-20 top-[38px] -left-2" />
+          <div className="absolute h-[19px] w-2 bg-yellow-500/50 z-20 top-[57px] -left-2" /> */}
+        </div>
+      )}
+      <code ref={ref} className="language-javascript">
+        {children}
+      </code>
+    </>
   );
 };
 

@@ -14,11 +14,24 @@ type FailedInstructions = {
   is: `failed`;
 };
 
-const interpret = (code: string): OkInstructions | FailedInstructions => {
-  try {
-    const commands = code.split(/\(|\)/).filter(Boolean);
+const pattern = /^(?!.*\(([a-z]).*\(\1)(\([a-e](?:,\d+(?:-\d+)?)+\))+$/;
 
-    const instructions: Instructions = {
+const interpret = (
+  rawCommand: unknown,
+): OkInstructions | FailedInstructions => {
+  const failed: FailedInstructions = {
+    is: `failed`,
+  };
+
+  if (typeof rawCommand !== `string` || !pattern.test(rawCommand)) {
+    return failed;
+  }
+
+  try {
+    const commands = rawCommand.split(/\(|\)/).filter(Boolean);
+
+    const instructions: OkInstructions = {
+      is: `ok`,
       a: [],
       d: [],
       e: [],
@@ -45,14 +58,9 @@ const interpret = (code: string): OkInstructions | FailedInstructions => {
       );
     });
 
-    return {
-      ...instructions,
-      is: `ok`,
-    };
+    return instructions;
   } catch {
-    return {
-      is: `failed`,
-    };
+    return failed;
   }
 };
 
