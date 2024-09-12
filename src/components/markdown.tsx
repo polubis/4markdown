@@ -29,8 +29,9 @@ type MarkdownOptions = Omit<MarkdownToJSX.Options, 'overrides'> & {
 };
 
 const codeSettings = {
+  padding: 16,
   topOffset: 4,
-  lineHeight: 18,
+  lineHeight: 20,
 };
 
 const Code = ({
@@ -43,37 +44,31 @@ const Code = ({
     const instructions = interpret(command?.replace(`lang-`, ``));
 
     if (instructions.is === `failed`) return null;
-
+    // 1. Remove the risk of overexceeding the code widget.
     return (
-      <div className="absolute">
-        {instructions.a.map((line) => (
+      <>
+        <div className="absolute -left-[1.5px] top-[0px] mb-2 h-[20px] w-[400px] rounded-lg bg-green-600/30" />
+        <div className="absolute -left-[1.5px] top-[26px] mb-2 h-[20px] w-[400px] rounded-lg bg-red-600/30" />
+
+        {/* {instructions.a.map((line) => (
           <div
             key={`added(${line})`}
-            style={{
-              top: `${codeSettings.topOffset + (line - 1) * codeSettings.lineHeight}px`,
-            }}
-            className="absolute h-[18px] w-2.5 -left-[21.5px] bg-green-600 rounded-lg"
+            className="absolute -left-[1.5px] mb-2 h-[18px] w-[100px] rounded-lg bg-green-600/300"
           />
-        ))}
-        {instructions.d.map((line) => (
+        ))} */}
+        {/* {instructions.d.map((line) => (
           <div
             key={`deleted(${line})`}
-            style={{
-              top: `${codeSettings.topOffset + (line - 1) * codeSettings.lineHeight}px`,
-            }}
-            className="absolute h-[18px] w-2.5 top-[3px] -left-[21.5px] bg-red-600 rounded-lg"
+            className="mb-2 h-[18px] w-2.5 rounded-lg bg-red-600"
           />
         ))}
         {instructions.e.map((line) => (
           <div
             key={`edited(${line})`}
-            style={{
-              top: `${codeSettings.topOffset + (line - 1) * codeSettings.lineHeight}px`,
-            }}
-            className="absolute h-[18px] w-2.5 top-[50px] -left-[21.5px] bg-yellow-600 rounded-lg"
+            className="mb-2 h-[18px] w-2.5 rounded-lg bg-yellow-600"
           />
-        ))}
-      </div>
+        ))} */}
+      </>
     );
   }, [command]);
 
@@ -195,9 +190,9 @@ const options: MarkdownOptions = {
       <blockquote className="px-3 py-2 border-l-4">{children}</blockquote>
     ),
     pre: ({ children }) => (
-      <div className="relative border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md group">
+      <div className="relative">
         <SnippetCopyButton>{children}</SnippetCopyButton>
-        <pre className="p-4">{children}</pre>
+        <pre>{children}</pre>
       </div>
     ),
   },

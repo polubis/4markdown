@@ -80,12 +80,12 @@ body {
   overflow: auto;
 }
 
-.markdown pre code {
-  font-size: 17px;
-}
-
 .markdown :not(pre) > code {
   white-space: normal;
+}
+
+.markdown pre > code {
+  line-height: 24px;
 }
 
 @keyframes lrotate {
