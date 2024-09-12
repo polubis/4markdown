@@ -28,6 +28,11 @@ type MarkdownOptions = Omit<MarkdownToJSX.Options, 'overrides'> & {
   overrides?: MarkdownOverrides;
 };
 
+const codeSettings = {
+  topOffset: 3,
+  lineHeight: 23,
+};
+
 const Code = ({
   children,
   className: command,
@@ -50,10 +55,34 @@ const Code = ({
   return (
     <>
       {instructions.is === `ok` && (
-        <div className="absolute h-full w-2 flex flex-col">
-          <div className="absolute h-5 w-2.5 top-[3px] -left-[21.5px] bg-red-600 rounded-lg" />
-          <div className="absolute h-5 w-2.5 top-[26px] -left-[21.5px] bg-green-600 rounded-lg" />
-          <div className="absolute h-5 w-2.5 top-[50px] -left-[21.5px] bg-yellow-600 rounded-lg" />
+        <div className="absolute">
+          {instructions.a.map((line) => (
+            <div
+              key={`added(${line})`}
+              style={{
+                top: `${codeSettings.topOffset + line * codeSettings.lineHeight}px`,
+              }}
+              className="absolute h-5 w-2.5 -left-[21.5px] bg-green-600 rounded-lg"
+            />
+          ))}
+          {instructions.d.map((line) => (
+            <div
+              key={`deleted(${line})`}
+              style={{
+                top: `${codeSettings.topOffset + line * codeSettings.lineHeight}px`,
+              }}
+              className="absolute h-5 w-2.5 top-[3px] -left-[21.5px] bg-red-600 rounded-lg"
+            />
+          ))}
+          {instructions.e.map((line) => (
+            <div
+              key={`edited(${line})`}
+              style={{
+                top: `${codeSettings.topOffset + line * codeSettings.lineHeight}px`,
+              }}
+              className="absolute h-5 w-2.5 top-[50px] -left-[21.5px] bg-yellow-600 rounded-lg"
+            />
+          ))}
         </div>
       )}
       <code ref={ref} className="language-javascript">
