@@ -160,7 +160,7 @@ const mindmapCreatorStoreSelectors = {
       removalConfirmationOpened,
       settingsOpened,
     } = state;
-    debugger;
+
     if (
       saving.is === `busy` ||
       nodeFormOpened ||
