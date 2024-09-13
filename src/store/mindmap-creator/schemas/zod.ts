@@ -48,7 +48,7 @@ const zodMindmapSchema = z.object({
       id,
       source: id,
       target: id,
-      type: z.enum([`curved`]),
+      type: z.enum([`curved`, `linear`]),
     }),
   ),
 });
