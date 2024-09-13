@@ -12,7 +12,7 @@ const nodeName = z
   .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ' -]$/);
 const nodeDescription = z.string().min(25).max(300).optional();
 
-const mindmapSchema = z.object({
+const zodMindmapSchema = z.object({
   id,
   name: z.string().min(2).max(100),
   description: z.string().min(25).max(300).optional(),
@@ -52,3 +52,5 @@ const mindmapSchema = z.object({
     }),
   ),
 });
+
+export { zodMindmapSchema };
