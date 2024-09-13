@@ -20,7 +20,6 @@ import {
   type Connection,
   type Viewport,
 } from '@xyflow/react';
-import * as mocks from './mock';
 
 type MousePosition = Omit<Viewport, 'zoom'>;
 
@@ -72,6 +71,48 @@ const isOkState = (
   if (state.is !== `ok`) throw Error(`State is not ready to work with`);
 
   return state;
+};
+
+const generateMindmap = (count: number): MindmapDto => {
+  const now = new Date().toISOString();
+
+  const nodes = Array.from(
+    { length: count },
+    (_, i): MindmapNode => ({
+      id: new Date().toISOString(),
+      position: {
+        x: 0,
+        y: 1,
+      },
+      data: {
+        url: `https://google.com`,
+        description: `It's node description: ${i}`,
+        name: `It's node: ${i}`,
+      },
+      type: `external`,
+    }),
+  );
+
+  const edges = Array.from(
+    { length: count },
+    (_, i): MindmapEdge => ({
+      id: new Date().toISOString(),
+      type: `curved`,
+      source: nodes[i].id,
+      target: nodes[i + 1]?.id ? nodes[i + 1].id : nodes[0].id,
+    }),
+  );
+
+  return {
+    id: `id:${now}`,
+    cdate: now,
+    mdate: now,
+    nodes,
+    edges,
+    description: `It's my test mindmap graph`,
+    name: `My custom mindmap graph`,
+    orientation: `y`,
+  };
 };
 
 const getSelectedNodes = (
@@ -228,22 +269,22 @@ const mindmapCreatorStoreActions = {
       const { settings, mindmap } = await mock({ delay: 1 })<
         API4MarkdownDto<'getMindmap'>
       >({
-        mindmap: {
-          id: `1`,
-          cdate: ``,
-          mdate: ``,
-          nodes: mocks.nodes,
-          edges: mocks.edges,
-          description: ``,
-          name: `React Roadmap`,
-          orientation: `y`,
-        },
+        mindmap: generateMindmap(50),
         settings: {
           autoFit: true,
         },
       })<API4MarkdownPayload<'getMindmap'>>({ id });
 
       set({ is: `ok`, settings, mindmap });
+
+      const { getLayoutedElements } = await import(`./get-layouted-elements`);
+
+      set({
+        mindmap: {
+          ...mindmap,
+          ...getLayoutedElements(),
+        },
+      });
     } catch (error: unknown) {
       set({ is: `fail`, error: parseErrorV2(error) });
     }
