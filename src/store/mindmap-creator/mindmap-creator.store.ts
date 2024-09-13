@@ -79,7 +79,7 @@ const generateMindmap = (count: number): MindmapDto => {
   const nodes = Array.from(
     { length: count },
     (_, i): MindmapNode => ({
-      id: new Date().toISOString(),
+      id: `${i}${now}:node`,
       position: {
         x: 0,
         y: 1,
@@ -96,7 +96,7 @@ const generateMindmap = (count: number): MindmapDto => {
   const edges = Array.from(
     { length: count },
     (_, i): MindmapEdge => ({
-      id: new Date().toISOString(),
+      id: `${i}${now}:edge`,
       type: `curved`,
       source: nodes[i].id,
       target: nodes[i + 1]?.id ? nodes[i + 1].id : nodes[0].id,
@@ -111,7 +111,7 @@ const generateMindmap = (count: number): MindmapDto => {
     edges,
     description: `It's my test mindmap graph`,
     name: `My custom mindmap graph`,
-    orientation: `y`,
+    orientation: `x`,
   };
 };
 
@@ -160,7 +160,7 @@ const mindmapCreatorStoreSelectors = {
       removalConfirmationOpened,
       settingsOpened,
     } = state;
-
+    debugger;
     if (
       saving.is === `busy` ||
       nodeFormOpened ||
@@ -266,6 +266,7 @@ const mindmapCreatorStoreActions = {
 
       set({ is: `busy` });
 
+      const { getLayoutedElements } = await import(`./get-layouted-elements`);
       const { settings, mindmap } = await mock({ delay: 1 })<
         API4MarkdownDto<'getMindmap'>
       >({
@@ -275,15 +276,17 @@ const mindmapCreatorStoreActions = {
         },
       })<API4MarkdownPayload<'getMindmap'>>({ id });
 
-      set({ is: `ok`, settings, mindmap });
-
-      const { getLayoutedElements } = await import(`./get-layouted-elements`);
-
       set({
+        is: `ok`,
+        settings,
         mindmap: {
           ...mindmap,
-          ...getLayoutedElements(),
+          ...getLayoutedElements(mindmap),
         },
+      });
+
+      setTimeout(() => {
+        mindmapCreatorStoreActions.alignNodes();
       });
     } catch (error: unknown) {
       set({ is: `fail`, error: parseErrorV2(error) });
@@ -528,7 +531,7 @@ const mindmapCreatorStoreActions = {
     set({
       mindmap: {
         ...mindmap,
-        ...getLayoutedElements(),
+        ...getLayoutedElements(mindmapCreatorStoreSelectors.ok().mindmap),
       },
     });
 
