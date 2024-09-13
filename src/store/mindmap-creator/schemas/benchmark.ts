@@ -41,7 +41,7 @@ const benchmark = <K extends string>({
   const total = parseFloat(
     values
       .reduce(
-        (acc, sum) => parseFloat(acc.toFixed(4)) + parseFloat(sum.toFixed(4)),
+        (acc, sum) => parseFloat(acc.toFixed(2)) + parseFloat(sum.toFixed(2)),
         0,
       )
       .toFixed(4),
