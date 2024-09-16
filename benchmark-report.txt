@@ -1,0 +1,6 @@
+Yup x 23.04 ops/sec ±9.21% (41 runs sampled)
+Zod x 33.36 ops/sec ±11.95% (39 runs sampled)
+Joi x 66.88 ops/sec ±10.05% (41 runs sampled)
+Class-Validator x 142 ops/sec ±7.84% (51 runs sampled)
+Superstruct x 8,193 ops/sec ±6.85% (54 runs sampled)
+Fastest is Superstruct
