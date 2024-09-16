@@ -83,7 +83,7 @@ class Edge {
   type!: 'curved' | 'linear';
 }
 
-export class Mindmap {
+class Mindmap {
   @IsString()
   id!: string;
 
@@ -120,3 +120,5 @@ export class Mindmap {
   @ValidateNested({ each: true })
   edges!: Edge[];
 }
+
+export { Mindmap };
