@@ -8,7 +8,6 @@ import { Mindmap } from './class-validator';
 const mindmapData = generateMindmap(50);
 
 // Convert the generated data into an instance of the Mindmap class
-const mindmapInstance = plainToInstance(Mindmap, mindmapData);
 
 describe(`Class-Validator benchmark`, () => {
   it(`checks for 100, 500, 1000 iterations`, () => {
@@ -16,7 +15,7 @@ describe(`Class-Validator benchmark`, () => {
       benchmark({
         key: `100 iterations`,
         values: runProbes({
-          func: () => validateSync(mindmapInstance), // Use validateSync for synchronous validation
+          func: () => validateSync(plainToInstance(Mindmap, mindmapData)), // Use validateSync for synchronous validation
           iterations: 100,
         }),
       }),
@@ -26,7 +25,7 @@ describe(`Class-Validator benchmark`, () => {
       benchmark({
         key: `500 iterations`,
         values: runProbes({
-          func: () => validateSync(mindmapInstance),
+          func: () => validateSync(plainToInstance(Mindmap, mindmapData)),
           iterations: 500,
         }),
       }),
@@ -36,7 +35,7 @@ describe(`Class-Validator benchmark`, () => {
       benchmark({
         key: `1000 iterations`,
         values: runProbes({
-          func: () => validateSync(mindmapInstance),
+          func: () => validateSync(plainToInstance(Mindmap, mindmapData)),
           iterations: 1000,
         }),
       }),
