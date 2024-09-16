@@ -6,6 +6,7 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import type { HomeViewModel } from 'models/view-models';
 import { creatorStoreActions } from 'store/creator/creator.store';
+import { zodMindmapSchema } from 'store/mindmap-creator/schemas/zod';
 
 interface HomePageProps {
   pageContext: HomeViewModel;
@@ -13,6 +14,10 @@ interface HomePageProps {
 
 const HomePage = ({ pageContext: { initialCode } }: HomePageProps) => {
   creatorStoreActions.hydrate(initialCode);
+
+  React.useEffect(() => {
+    zodMindmapSchema.safeParse({});
+  }, []);
 
   return <CreatorView />;
 };

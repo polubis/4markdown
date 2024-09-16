@@ -1,0 +1,6 @@
+Yup x 62.84 ops/sec ±7.56% (113 runs sampled) - Total Time: 1.798 seconds
+Zod x 131 ops/sec ±3.74% (116 runs sampled) - Total Time: 0.883 seconds
+Joi x 203 ops/sec ±2.95% (115 runs sampled) - Total Time: 0.566 seconds
+Class-Validator x 347 ops/sec ±4.22% (116 runs sampled) - Total Time: 0.334 seconds
+Superstruct x 9,136 ops/sec ±5.55% (121 runs sampled) - Total Time: 0.013 seconds
+Fastest is Superstruct
