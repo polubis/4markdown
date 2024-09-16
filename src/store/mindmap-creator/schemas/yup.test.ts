@@ -12,7 +12,7 @@ describe(`Yup benchmark`, () => {
         key: `100 iterations`,
         values: runProbes({
           func: () => {
-            yupMindmapSchema.isValidSync(mindmap, { abortEarly: false });
+            yupMindmapSchema.validateSync(mindmap, { abortEarly: false });
           },
           iterations: 100,
         }),
@@ -24,7 +24,7 @@ describe(`Yup benchmark`, () => {
         key: `500 iterations`,
         values: runProbes({
           func: () => {
-            yupMindmapSchema.isValidSync(mindmap, { abortEarly: false });
+            yupMindmapSchema.validateSync(mindmap, { abortEarly: false });
           },
           iterations: 500,
         }),
@@ -36,7 +36,7 @@ describe(`Yup benchmark`, () => {
         key: `1000 iterations`,
         values: runProbes({
           func: () => {
-            yupMindmapSchema.isValidSync(mindmap, { abortEarly: false });
+            yupMindmapSchema.validateSync(mindmap, { abortEarly: false });
           },
           iterations: 1000,
         }),
