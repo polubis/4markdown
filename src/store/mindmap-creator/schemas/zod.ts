@@ -53,4 +53,6 @@ const zodMindmapSchema = z.object({
   ),
 });
 
+export type Mindmap = z.infer<typeof zodMindmapSchema>;
+
 export { zodMindmapSchema };
