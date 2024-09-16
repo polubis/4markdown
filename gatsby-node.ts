@@ -89,7 +89,11 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       { minSamples },
     )
     .on(`cycle`, function (event) {
-      const result = String(event.target);
+      const opsPerSec = event.target.hz; // Get ops/sec
+      const totalSamples = event.target.stats.sample.length; // Get the number of samples
+      const totalTimeInSeconds = totalSamples / opsPerSec; // Calculate total time in seconds
+
+      const result = `${String(event.target)} - Total Time: ${totalTimeInSeconds.toFixed(3)} seconds`;
       console.log(result);
       report += result + `\n`; // Append the result to the report string
     })
