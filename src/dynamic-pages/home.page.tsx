@@ -6,7 +6,9 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import type { HomeViewModel } from 'models/view-models';
 import { creatorStoreActions } from 'store/creator/creator.store';
-import { superstructMindmapSchema } from 'store/mindmap-creator/schemas/superstruct';
+import { validateSync } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { Mindmap } from 'store/mindmap-creator/schemas/class-validator';
 
 interface HomePageProps {
   pageContext: HomeViewModel;
@@ -16,7 +18,7 @@ const HomePage = ({ pageContext: { initialCode } }: HomePageProps) => {
   creatorStoreActions.hydrate(initialCode);
 
   React.useEffect(() => {
-    superstructMindmapSchema.validate({});
+    validateSync(plainToInstance(Mindmap, {}));
   }, []);
 
   return <CreatorView />;
