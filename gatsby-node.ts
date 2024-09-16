@@ -46,27 +46,48 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const app = initializeApp(config);
   const functions = getFunctions(app);
 
-  const mindmap = generateMindmap(200);
+  const mindmap = generateMindmap(100);
   let report = ``;
 
   const suite = new Benchmark.Suite();
+  const minSamples = 50;
 
   suite
-    .add(`Yup`, function () {
-      yupMindmapSchema.isValidSync(mindmap, { abortEarly: false });
-    })
-    .add(`Zod`, function () {
-      zodMindmapSchema.safeParse(mindmap);
-    })
-    .add(`Joi`, function () {
-      joiMindmapSchema.validate(mindmap, { abortEarly: false });
-    })
-    .add(`Class-Validator`, function () {
-      validateSync(plainToInstance(Mindmap, mindmap));
-    })
-    .add(`Superstruct`, function () {
-      superstructMindmapSchema.validate(mindmap);
-    })
+    .add(
+      `Yup`,
+      function () {
+        yupMindmapSchema.isValidSync(mindmap, { abortEarly: false });
+      },
+      { minSamples },
+    )
+    .add(
+      `Zod`,
+      function () {
+        zodMindmapSchema.safeParse(mindmap);
+      },
+      { minSamples },
+    )
+    .add(
+      `Joi`,
+      function () {
+        joiMindmapSchema.validate(mindmap, { abortEarly: false });
+      },
+      { minSamples },
+    )
+    .add(
+      `Class-Validator`,
+      function () {
+        validateSync(plainToInstance(Mindmap, mindmap));
+      },
+      { minSamples },
+    )
+    .add(
+      `Superstruct`,
+      function () {
+        superstructMindmapSchema.validate(mindmap);
+      },
+      { minSamples },
+    )
     .on(`cycle`, function (event) {
       const result = String(event.target);
       console.log(result);
