@@ -10,7 +10,7 @@ const mindmapData = generateMindmap(50);
 // Convert the generated data into an instance of the Mindmap class
 const mindmapInstance = plainToInstance(Mindmap, mindmapData);
 
-describe(`class-validator benchmark`, () => {
+describe(`Class-Validator benchmark`, () => {
   it(`checks for 100, 500, 1000 iterations`, () => {
     console.table(
       benchmark({
