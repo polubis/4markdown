@@ -9,7 +9,16 @@ import {
 } from 'models/view-models';
 import { type PermanentDocumentDto } from 'api-4markdown-contracts';
 import { createInitialCode } from './create-initial-code';
-import { writeFileSync } from 'fs';
+import { writeFileSync, writeFile } from 'fs';
+import { generateMindmap } from './src/store/mindmap-creator/schemas/generate-mindmap';
+import { yupMindmapSchema } from './src/store/mindmap-creator/schemas/yup';
+import Benchmark from 'benchmark';
+import { zodMindmapSchema } from './src/store/mindmap-creator/schemas/zod';
+import { joiMindmapSchema } from './src/store/mindmap-creator/schemas/joi';
+import { validateSync } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
+import { Mindmap } from './src/store/mindmap-creator/schemas/class-validator';
+import { superstructMindmapSchema } from './src/store/mindmap-creator/schemas/superstruct';
 
 const config: FirebaseOptions = {
   apiKey: process.env.GATSBY_API_KEY,
@@ -36,6 +45,45 @@ export const onPostBuild: GatsbyNode['onPostBuild'] = async () => {
 export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const app = initializeApp(config);
   const functions = getFunctions(app);
+
+  const mindmap = generateMindmap(200);
+  let report = ``;
+
+  const suite = new Benchmark.Suite();
+
+  suite
+    .add(`Yup`, function () {
+      yupMindmapSchema.isValidSync(mindmap, { abortEarly: false });
+    })
+    .add(`Zod`, function () {
+      zodMindmapSchema.safeParse(mindmap);
+    })
+    .add(`Joi`, function () {
+      joiMindmapSchema.validate(mindmap, { abortEarly: false });
+    })
+    .add(`Class-Validator`, function () {
+      validateSync(plainToInstance(Mindmap, mindmap));
+    })
+    .add(`Superstruct`, function () {
+      superstructMindmapSchema.validate(mindmap);
+    })
+    .on(`cycle`, function (event) {
+      const result = String(event.target);
+      console.log(result);
+      report += result + `\n`; // Append the result to the report string
+    })
+    .on(`complete`, function () {
+      const fastest = suite.filter(`fastest`).map(`name`);
+      console.log(`Fastest is ` + fastest);
+      report += `Fastest is ` + fastest + `\n`;
+
+      // Save the report to a file
+      writeFile(`benchmark-report.txt`, report, (err) => {
+        if (err) throw err;
+        console.log(`Benchmark report saved!`);
+      });
+    })
+    .run({ async: true });
 
   // @TODO: Find a way to call it statically from library.
   const { data: docs } = await httpsCallable<unknown, PermanentDocumentDto[]>(
