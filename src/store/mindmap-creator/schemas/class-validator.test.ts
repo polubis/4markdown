@@ -1,13 +1,11 @@
 import { benchmark, runProbes } from './benchmark';
 import { generateMindmap } from './generate-mindmap';
-import { validateSync } from 'class-validator'; // Import validateSync from class-validator
-import { plainToInstance } from 'class-transformer'; // Optional: use this to convert plain objects to class instances if needed
+import { validateSync } from 'class-validator';
+import { plainToInstance } from 'class-transformer';
 import { expect } from '@jest/globals';
 import { Mindmap } from './class-validator';
 
 const mindmapData = generateMindmap(50);
-
-// Convert the generated data into an instance of the Mindmap class
 
 describe(`Class-Validator benchmark`, () => {
   it(`checks for 100, 500, 1000 iterations`, () => {
@@ -15,7 +13,7 @@ describe(`Class-Validator benchmark`, () => {
       benchmark({
         key: `100 iterations`,
         values: runProbes({
-          func: () => validateSync(plainToInstance(Mindmap, mindmapData)), // Use validateSync for synchronous validation
+          func: () => validateSync(plainToInstance(Mindmap, mindmapData)),
           iterations: 100,
         }),
       }),
