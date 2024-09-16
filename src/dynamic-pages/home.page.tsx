@@ -6,7 +6,7 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import type { HomeViewModel } from 'models/view-models';
 import { creatorStoreActions } from 'store/creator/creator.store';
-import { zodMindmapSchema } from 'store/mindmap-creator/schemas/zod';
+import { yupMindmapSchema } from 'store/mindmap-creator/schemas/yup';
 
 interface HomePageProps {
   pageContext: HomeViewModel;
@@ -16,7 +16,7 @@ const HomePage = ({ pageContext: { initialCode } }: HomePageProps) => {
   creatorStoreActions.hydrate(initialCode);
 
   React.useEffect(() => {
-    zodMindmapSchema.safeParse({});
+    yupMindmapSchema.isValidSync({}, { abortEarly: false });
   }, []);
 
   return <CreatorView />;
