@@ -6,6 +6,7 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import type { HomeViewModel } from 'models/view-models';
 import { creatorStoreActions } from 'store/creator/creator.store';
+import MinigameContainer from 'features/minigame/containers/minigame-container';
 
 interface HomePageProps {
   pageContext: HomeViewModel;
@@ -14,7 +15,7 @@ interface HomePageProps {
 const HomePage = ({ pageContext: { initialCode } }: HomePageProps) => {
   creatorStoreActions.hydrate(initialCode);
 
-  return <CreatorView />;
+  return <CreatorView/>;
 };
 
 export default HomePage;
