@@ -237,6 +237,7 @@ const mindmapCreatorStoreActions = {
           description: ``,
           name: `React Roadmap`,
           orientation: `y`,
+          visibility: `private`,
         },
         settings: {
           autoFit: true,

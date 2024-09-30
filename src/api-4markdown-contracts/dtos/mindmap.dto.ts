@@ -44,7 +44,7 @@ type MindmapEdgeType = MindmapEdge['type'];
 
 type MindmapOrientation = 'x' | 'y';
 
-type MindmapDto = {
+type MindmapDtoBase = {
   id: Id;
   name: Name;
   description?: string;
@@ -54,6 +54,12 @@ type MindmapDto = {
   edges: MindmapEdge[];
   orientation: MindmapOrientation;
 };
+
+type PrivateMindmapDto = MindmapDtoBase & { visibility: `private` };
+type PublicMindmapDto = MindmapDtoBase & { visibility: `public` };
+type PermanentMindmapDto = MindmapDtoBase & { visibility: `permanent` };
+
+type MindmapDto = PrivateMindmapDto | PublicMindmapDto | PermanentMindmapDto;
 
 export type {
   MindmapDto,
@@ -65,4 +71,7 @@ export type {
   MindmapEdge,
   MindmapExternalNode,
   MindmapOrientation,
+  PrivateMindmapDto,
+  PublicMindmapDto,
+  PermanentMindmapDto,
 };
