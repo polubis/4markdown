@@ -19,7 +19,9 @@ const useDocumentRateUpdate = (
           documentId: document.id,
         });
         setRating(rating);
-      } catch {}
+      } catch (error) {
+        alert(error.message);
+      }
     },
     [document.id],
   );

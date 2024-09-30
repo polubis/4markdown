@@ -70,7 +70,8 @@ type Element =
 type Endpoint =
   | `getYourUserProfile`
   | `getYourDocuments`
-  | `getAccessibleDocument`;
+  | `getAccessibleDocument`
+  | `rateDocument`;
 
 let acc = 1;
 let folder: string | undefined;
@@ -80,6 +81,9 @@ const BASE_COMMANDS = {
     cy.get(`textarea[aria-label="creator"]`)
       .invoke(`val`)
       .should(`include`, value);
+  },
+  'I scroll to website footer': () => {
+    cy.contains(`greenonsoftware@gmail.com`).scrollIntoView();
   },
   'I sign in': () => {
     BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
@@ -164,6 +168,12 @@ const BASE_COMMANDS = {
         });
       },
     ).as(config.endpoint);
+  },
+  'System intercepts endpoint': (config: { endpoint: Endpoint }) => {
+    cy.intercept({
+      method: `POST`,
+      url: `**/**cloudfunctions.net/${config.endpoint}`,
+    }).as(config.endpoint);
   },
   'I wait for api': (endpoint: Endpoint, code: number) => {
     cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);

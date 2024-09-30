@@ -40,7 +40,7 @@ describe(`Voting for documents works when`, () => {
         });
     },
     'I see update rating section': () => {
-      Given(`I see button`, [
+      Given(`I scroll to website footer`).Then(`I see button`, [
         `Rate as bad`,
         `Rate as decent`,
         `Rate as good`,
@@ -115,7 +115,8 @@ describe(`Voting for documents works when`, () => {
   it(`user may vote when he is signed in and checking non-private documents`, () => {
     const documentName = `${uid(`documents voting`)}`;
 
-    Given(`Im on page`, `education-zone`)
+    Given(`System intercepts endpoint`, { endpoint: `rateDocument` })
+      .And(`Im on page`, `education-zone`)
       .And(`I see votes for each document in education zone`)
       .When(`I click first document in education zone`)
       .Then(`I see votes at the top of the document`)
@@ -146,10 +147,11 @@ describe(`Voting for documents works when`, () => {
       .And(`I see votes at the top of the document`)
       .And(`System takes picture`)
       // @TODO[PRIO=5]: [Scroll to update rating section].
-      .And(`I see update rating section`);
-    // .And(`System takes picture`)
-    // .When(`I click button`, [`Rate as perfect`])
-    // .Then(`I see incremented perfect rate`)
+      .And(`I see update rating section`)
+      .And(`System takes picture`)
+      .When(`I click button`, [`Rate as perfect`])
+      .Then(`I wait for api`, `rateDocument`, 200);
+    // .And(`I see incremented perfect rate`);
     // .And(`I see votes at the top of the document`)
     // .And(`System takes picture`);
   });
