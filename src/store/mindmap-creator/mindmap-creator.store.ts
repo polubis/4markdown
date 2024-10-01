@@ -222,7 +222,11 @@ const mindmapCreatorStoreActions = {
   load: async (): Promise<void> => {
     try {
       const searchParams = new URLSearchParams(window.location.search);
-      const id = searchParams.get(`id`) ?? ``;
+      const id = searchParams.get(`id`);
+
+      if (id === null) {
+        return;
+      }
 
       set({ is: `busy` });
 
