@@ -66,6 +66,28 @@ const SelectionControlsContainer = () => {
   );
 };
 
+const MindmapCreatorNavigationContainer = () => {
+  const mindmapCreatorStore = mindmapCreatorStoreSelectors.useState();
+
+  return (
+    <header className="flex items-center px-4 h-[72px] border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+      <AppNavLink to="/" title="Back to home page">
+        <Button i={1} s={2}>
+          <BiArrowBack />
+        </Button>
+      </AppNavLink>
+      {mindmapCreatorStore.is === `ok` && (
+        <h1 className="text-lg font-bold ml-9">
+          {mindmapCreatorStore.mindmap.name}
+        </h1>
+      )}
+      <ThemeSwitcher className="ml-auto" />
+      <UserPopover className="ml-3" />
+      <MoreNav className="ml-3" />
+    </header>
+  );
+};
+
 const MindmapCreatorView = () => {
   const mindmapCreatorStore = mindmapCreatorStoreSelectors.useState();
 
@@ -75,21 +97,7 @@ const MindmapCreatorView = () => {
 
   return (
     <ReactFlowProvider>
-      <header className="flex items-center px-4 h-[72px] border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-        <AppNavLink to="/" title="Back to home page">
-          <Button i={1} s={2}>
-            <BiArrowBack />
-          </Button>
-        </AppNavLink>
-        {mindmapCreatorStore.is === `ok` && (
-          <h1 className="text-lg font-bold ml-9">
-            {mindmapCreatorStore.mindmap.name}
-          </h1>
-        )}
-        <ThemeSwitcher className="ml-auto" />
-        <UserPopover className="ml-3" />
-        <MoreNav className="ml-3" />
-      </header>
+      <MindmapCreatorNavigationContainer />
       <main className="flex h-[calc(100svh-72px)]">
         <aside className="flex flex-col items-center w-[72px] shrink-0 p-4 border-r-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           {mindmapCreatorStore.is === `ok` && (
