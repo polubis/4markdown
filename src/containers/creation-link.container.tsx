@@ -46,11 +46,13 @@ const CreationLinkContainer = () => {
             </Link>
           </li>
           <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3">
-            <h6 className="text-md">Mindmap</h6>
-            <p className="mt-1 text-sm">
-              Organize your thoughts and resources to build your second brain as
-              a graph
-            </p>
+            <Link to={meta.routes.mindmap.creator}>
+              <h6 className="text-md">Mindmap</h6>
+              <p className="mt-1 text-sm">
+                Organize your thoughts and resources to build your second brain
+                as a graph
+              </p>
+            </Link>
           </li>
         </ul>
       </div>
