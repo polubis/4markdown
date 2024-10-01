@@ -101,7 +101,7 @@ type GetYourInfoContract = Contract<
 
 type CreateMindmapContract = Contract<
   `createMindmap`,
-  PrivateMindmapDto,
+  { id: MindmapDto['id'] },
   Required<Pick<PrivateMindmapDto, 'name' | 'description'>>
 >;
 

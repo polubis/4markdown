@@ -1,4 +1,7 @@
-import type { API4MarkdownPayload } from 'api-4markdown-contracts';
+import type {
+  API4MarkdownDto,
+  API4MarkdownPayload,
+} from 'api-4markdown-contracts';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { CreationLinkContainer } from 'containers/creation-link.container';
@@ -15,12 +18,20 @@ import {
   name,
 } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
-import { Link } from 'gatsby';
+import { navigate } from 'gatsby';
 import React, { type FormEventHandler } from 'react';
 import { BiArrowBack } from 'react-icons/bi';
 import { meta } from '../../../meta';
+import { mock } from 'development-kit/mock';
+import type { Transaction } from 'development-kit/utility-types';
+import { parseErrorV2, type ParsedError } from 'development-kit/parse-error-v2';
+
+type CreateMindmapState = Transaction<undefined, { error: ParsedError }>;
 
 const CreateMindmapView = () => {
+  const [creation, setCreation] = React.useState<CreateMindmapState>({
+    is: `idle`,
+  });
   const [{ invalid, values }, { inject }] = useForm<
     API4MarkdownPayload<'createMindmap'>
   >(
@@ -34,8 +45,22 @@ const CreateMindmapView = () => {
     },
   );
 
-  const handleConfirm: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleConfirm: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
+    try {
+      setCreation({ is: `busy` });
+
+      const { id } = await mock({ delay: 1 })<API4MarkdownDto<'createMindmap'>>(
+        {
+          id: new Date().toISOString(),
+        },
+      )<API4MarkdownPayload<'createMindmap'>>(values);
+
+      navigate(`${meta.routes.mindmap.creator}?id=${id}`);
+    } catch (error: unknown) {
+      setCreation({ is: `fail`, error: parseErrorV2(error) });
+    }
   };
 
   return (
@@ -72,14 +97,27 @@ const CreateMindmapView = () => {
                 {...inject(`description`)}
               />
             </Field>
+            {creation.is === `fail` && (
+              <p className="text-red-600 dark:text-red-400 mt-6 text-right">
+                {creation.error.symbol === `invalid-schema`
+                  ? creation.error.content[0].message
+                  : creation.error.content}
+              </p>
+            )}
             <footer className="mt-6 flex">
-              <Link className="ml-auto" to={meta.routes.home}>
-                <Button type="button" i={1} s={2} auto>
-                  <BiArrowBack /> Back
-                </Button>
-              </Link>
               <Button
-                disabled={invalid}
+                className="ml-auto"
+                type="button"
+                i={1}
+                s={2}
+                disabled={creation.is === `busy`}
+                auto
+                onClick={() => navigate(meta.routes.home)}
+              >
+                <BiArrowBack /> Back
+              </Button>
+              <Button
+                disabled={creation.is === `busy` || invalid}
                 type="submit"
                 className="ml-2"
                 i={2}
