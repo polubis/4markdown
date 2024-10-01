@@ -15,19 +15,13 @@ import {
   name,
 } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
-import { SeoFriendlyDescriptionHint } from 'features/creator/components/seo-friendly-description-hint';
 import { Link } from 'gatsby';
 import React, { type FormEventHandler } from 'react';
-import {
-  BiArrowBack,
-  BiArrowFromLeft,
-  BiSolidArrowToLeft,
-} from 'react-icons/bi';
+import { BiArrowBack } from 'react-icons/bi';
 import { meta } from '../../../meta';
-import { Hint } from 'design-system/hint';
 
 const CreateMindmapView = () => {
-  const [{ invalid, values, result, untouched }, { inject }] = useForm<
+  const [{ invalid, values }, { inject }] = useForm<
     API4MarkdownPayload<'createMindmap'>
   >(
     {
@@ -96,7 +90,7 @@ const CreateMindmapView = () => {
               </Button>
             </footer>
           </form>
-          <div className="w-full">siema</div>
+          <div className="w-full flex items-center justify-center"></div>
         </section>
       </main>
       <AppFooterContainer />
