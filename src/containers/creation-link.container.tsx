@@ -20,7 +20,7 @@ const CreationLinkContainer = () => {
 
   return (
     <>
-      {menu.opened && <ScrollHide></ScrollHide>}
+      {menu.opened && <ScrollHide />}
       <Button auto i={2} s={2} title="Create any content" onClick={menu.toggle}>
         <BiPlus />
         <span className="ml-0.5">Create</span>
