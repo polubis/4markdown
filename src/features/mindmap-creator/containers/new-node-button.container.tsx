@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiPlus } from 'react-icons/bi';
+import { BiAddToQueue } from 'react-icons/bi';
 import { mindmapCreatorStoreActions } from 'store/mindmap-creator/mindmap-creator.store';
 import { useKeyPress } from '@xyflow/react';
 
@@ -19,7 +19,7 @@ const NewNodeButtonContainer = () => {
       title="Create new mindmap node (n)"
       onClick={mindmapCreatorStoreActions.startAddingNode}
     >
-      <BiPlus />
+      <BiAddToQueue />
     </Button>
   );
 };
