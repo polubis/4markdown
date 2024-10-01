@@ -10,6 +10,7 @@ type ScrollHideReturn<T extends HTMLElement> = [
   ShowScroll,
 ];
 
+// @TODO[PRIO=3]: [Improve useScrollHide implementation].
 const useScrollHide = <T extends HTMLElement>(): ScrollHideReturn<T> => {
   const ref = React.useRef<T>(null);
   const initialStyle = React.useRef<ScrollHideStyle>({

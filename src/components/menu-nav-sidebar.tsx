@@ -1,4 +1,4 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import Backdrop from 'design-system/backdrop';
@@ -14,19 +14,20 @@ interface MenuNavSidebarProps {
   opened?: boolean;
 }
 
-const ScrollHide = ({ children }: { children: ReactNode }) => {
+const ScrollHide = () => {
   useScrollHide();
 
-  return <>{children}</>;
+  return null;
 };
 
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
   return (
     <>
       {opened && (
-        <ScrollHide>
+        <>
+          <ScrollHide />
           <Backdrop onClick={onClose} />
-        </ScrollHide>
+        </>
       )}
 
       <aside
@@ -75,12 +76,21 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
           </ButtonLink>
           <ButtonLink
             to={meta.routes.home}
-            title="Navigate to creator"
+            title="Navigate to document creator"
             component={(props) => (
               <Link activeClassName="active-button-link" {...props} />
             )}
           >
-            Creator
+            Document Creator
+          </ButtonLink>
+          <ButtonLink
+            to={meta.routes.mindmap.creator}
+            title="Navigate to mindmap creator"
+            component={(props) => (
+              <Link activeClassName="active-button-link" {...props} />
+            )}
+          >
+            Mindmap Creator
           </ButtonLink>
           <ButtonLink
             to={meta.discordUrl}
