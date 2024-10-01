@@ -10,7 +10,6 @@ type CreatorStoreStateReady = { is: 'ready' } & {
 type CreatorStoreState = CreatorStoreStateIdle | CreatorStoreStateReady;
 
 const CREATOR_STORE_LS_KEY = `code`;
-const CREATOR_STORE_CREATE_KEY = `add-document`;
 
 const useCreatorStore = create<CreatorStoreState>(() => ({
   is: `idle`,
@@ -31,8 +30,6 @@ const creatorStoreSelectors = {
   state: get,
   useReady: () => useCreatorStore(isReadyState),
   ready: () => isReadyState(get()),
-  isDocumentCreationActive: () =>
-    localStorage.getItem(CREATOR_STORE_CREATE_KEY),
 } as const;
 
 const set = (state: CreatorStoreState): void => {
@@ -89,12 +86,6 @@ const creatorStoreActions = {
     if (state === null) return;
 
     set(JSON.parse(state) as CreatorStoreStateReady);
-  },
-  triggerCreation: (): void => {
-    localStorage.setItem(CREATOR_STORE_CREATE_KEY, `1`);
-  },
-  resetCreation: (): void => {
-    localStorage.removeItem(CREATOR_STORE_CREATE_KEY);
   },
 } as const;
 

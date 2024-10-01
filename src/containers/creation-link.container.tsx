@@ -3,9 +3,9 @@ import { BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { Link } from 'gatsby';
 import { meta } from '../../meta';
-import { creatorStoreActions } from 'store/creator/creator.store';
 import { useToggle } from 'development-kit/use-toggle';
 import c from 'classnames';
+import { triggerDocumentCreation } from 'core/create-content-management';
 
 const CreationLinkContainer = () => {
   const menu = useToggle();
@@ -25,7 +25,7 @@ const CreationLinkContainer = () => {
         <ul className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 rounded-md border-2">
           <li
             className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b-2 border-zinc-300 dark:border-zinc-800"
-            onClick={creatorStoreActions.triggerCreation}
+            onClick={triggerDocumentCreation}
           >
             <Link to={meta.routes.home}>
               <h6 className="text-md">Document</h6>

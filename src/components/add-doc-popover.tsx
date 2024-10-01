@@ -1,12 +1,13 @@
+import {
+  isDocumentCreationActive,
+  resetDocumentCreation,
+  triggerDocumentCreation,
+} from 'core/create-content-management';
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
-import {
-  creatorStoreActions,
-  creatorStoreSelectors,
-} from 'store/creator/creator.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 
 const AddDocPopoverContent = React.lazy(
@@ -26,16 +27,16 @@ const AddDocPopover: React.FC = () => {
       return;
     }
 
-    creatorStoreActions.triggerCreation();
+    triggerDocumentCreation();
     authStore.logIn();
   };
 
   React.useEffect(() => {
     if (authStore.is !== `authorized` || menu.opened) return;
 
-    if (!creatorStoreSelectors.isDocumentCreationActive()) return;
+    if (!isDocumentCreationActive()) return;
 
-    creatorStoreActions.resetCreation();
+    resetDocumentCreation();
     menu.open();
   }, [authStore.is, menu]);
 
