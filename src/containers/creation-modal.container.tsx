@@ -6,7 +6,7 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { meta } from '../../meta';
 import { Link } from 'gatsby';
-import { triggerDocumentCreation } from 'core/document-creation-management';
+import { creatorStoreActions } from 'store/creator/creator.store';
 
 const CreationModalContainer = () => {
   return (
@@ -27,7 +27,7 @@ const CreationModalContainer = () => {
       <ul className="mt-8 space-y-4">
         <li
           className="flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800"
-          onClick={triggerDocumentCreation}
+          onClick={creatorStoreActions.triggerCreation}
         >
           <Link to={meta.routes.home}>
             <h6 className="text-lg">Document</h6>
