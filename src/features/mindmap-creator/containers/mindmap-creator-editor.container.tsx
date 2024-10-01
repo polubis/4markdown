@@ -3,9 +3,12 @@ import './mindmap-creator-editor.css';
 
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack } from 'react-icons/bi';
+import { BiArrowBack, BiPlus } from 'react-icons/bi';
 import { ThemeSwitcher } from 'design-system/theme-switcher';
-import { mindmapCreatorStoreSelectors } from 'store/mindmap-creator/mindmap-creator.store';
+import {
+  mindmapCreatorStoreActions,
+  mindmapCreatorStoreSelectors,
+} from 'store/mindmap-creator/mindmap-creator.store';
 import { AppNavLink } from 'components/app-nav-link';
 import MoreNav from 'components/more-nav';
 import { ScreenLoader } from 'design-system/screen-loader';
@@ -19,6 +22,12 @@ import { SettingsButtonContainer } from './settings-button.container';
 import { EditNodeButtonContainer } from './edit-node-button.container';
 import { RemoveNodesButtonContainer } from './remove-nodes-button.container';
 import UserPopover from 'components/user-popover';
+
+const CreateMindmapModalContainer = React.lazy(() =>
+  import(`./create-mindmap-modal.container`).then((m) => ({
+    default: m.CreateMindmapModalContainer,
+  })),
+);
 
 const SaveErrorModalContainer = React.lazy(() =>
   import(`./save-error-modal.container`).then((m) => ({
@@ -74,6 +83,13 @@ const MindmapCreatorNavigationContainer = () => {
           <BiArrowBack />
         </Button>
       </AppNavLink>
+      <Button
+        i={1}
+        s={2}
+        onClick={mindmapCreatorStoreActions.startMindmapCreation}
+      >
+        <BiPlus />
+      </Button>
       {mindmapCreatorStore.is === `ok` && (
         <h1 className="text-lg font-bold ml-9">
           {mindmapCreatorStore.mindmap.name}
@@ -134,6 +150,11 @@ const MindmapCreatorEditorContainer = () => {
       {mindmapCreatorStore.saving.is === `fail` && (
         <React.Suspense>
           <SaveErrorModalContainer />
+        </React.Suspense>
+      )}
+      {mindmapCreatorStore.createMindmapOpened && (
+        <React.Suspense>
+          <CreateMindmapModalContainer />
         </React.Suspense>
       )}
     </ReactFlowProvider>

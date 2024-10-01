@@ -52,6 +52,7 @@ type MindmapCreatorStoreState = Transaction<
   settingsOpened?: boolean;
   nodeFormOpened?: boolean;
   nodeToEditId?: MindmapNode['id'];
+  createMindmapOpened?: boolean;
   removalConfirmationOpened?: boolean;
   saving: Transaction<undefined, { error: ParsedError }>;
 };
@@ -496,6 +497,12 @@ const mindmapCreatorStoreActions = {
   },
   resetSaving: (): void => {
     set({ saving: { is: `idle` } });
+  },
+  startMindmapCreation: (): void => {
+    set({ createMindmapOpened: true });
+  },
+  cancelMindmapCreation: (): void => {
+    set({ createMindmapOpened: false });
   },
 } as const;
 
