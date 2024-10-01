@@ -1,14 +1,16 @@
-const key = `add-document`;
+const KEYS = {
+  ADD_DOCUMENT: `add-document`,
+};
 
 const isDocumentCreationActive = (): boolean =>
-  localStorage.getItem(key) === `1`;
+  localStorage.getItem(KEYS.ADD_DOCUMENT) === `1`;
 
 const triggerDocumentCreation = (): void => {
-  localStorage.setItem(key, `1`);
+  localStorage.setItem(KEYS.ADD_DOCUMENT, `1`);
 };
 
 const resetDocumentCreation = (): void => {
-  localStorage.removeItem(key);
+  localStorage.removeItem(KEYS.ADD_DOCUMENT);
 };
 
 export {
