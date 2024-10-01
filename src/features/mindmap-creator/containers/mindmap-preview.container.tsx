@@ -22,8 +22,6 @@ import {
   type MindmapNode,
   type MindmapNodeType,
 } from 'api-4markdown-contracts';
-import '@xyflow/react/dist/base.css';
-import '../mindmap-creator.css';
 import {
   mindmapCreatorStoreActions,
   mindmapCreatorStoreSelectors,
