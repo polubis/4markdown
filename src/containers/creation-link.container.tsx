@@ -14,11 +14,11 @@ const CreationLinkContainer = () => {
     <>
       <Button auto i={2} s={2} title="Create any content" onClick={menu.toggle}>
         <BiPlus />
-        <span className="ml-0.5">Create</span>
+        Create
       </Button>
       <div
         className={c(
-          `absolute z-0 max-w-[280px] -left-[4px] sm:left-[60px]`,
+          `absolute z-10 max-w-[280px] -left-[4px] sm:left-[60px]`,
           menu.opened ? `top-[64px]` : `-top-full`,
         )}
       >
@@ -37,10 +37,7 @@ const CreationLinkContainer = () => {
             </Link>
           </li>
           <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3">
-            <Link
-              to={meta.routes.mindmap.create}
-              activeClassName="bg-green-500"
-            >
+            <Link to={meta.routes.mindmap.create}>
               <h6 className="text-md">Mindmap</h6>
               <p className="mt-1 text-sm">
                 Organize your thoughts and resources to build your second brain

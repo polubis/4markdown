@@ -12,6 +12,7 @@ interface ButtonProps
   rounded?: boolean;
 }
 
+// @TODO[PRIO=3]: [Add option to render as link].
 const Button: React.FC<ButtonProps> = ({
   className,
   children,
