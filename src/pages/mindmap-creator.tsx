@@ -14,11 +14,11 @@ export const Head = () => {
   return (
     <Meta
       appName={meta.appName}
-      title={`Create mindmaps and build your second brain`}
-      description={`Use this powerful creator to build mindmaps and link your materials. Share them with others and contribute to each other's work`}
+      title={`Build and Preview Mindmaps | ${meta.appName}`}
+      description={`Explore ${meta.appName}'s powerful mindmap creator. Build, customize, and preview your mindmaps effortlessly. Use this app to visually organize your ideas and collaborate with others in real-time`}
       url={meta.siteUrl + meta.routes.mindmap.creator}
       lang={meta.lang}
-      keywords={`${meta.appName}, Mindmap creator, Online mindmap builder, Online mindmap editor`}
+      keywords={`Mindmap builder, ${meta.appName}, Mindmap creator tool, Build and preview mindmaps, Online mindmap app, Visual idea organizer, Mindmap collaboration, Customizable mindmaps`}
       image={LogoThumbnail}
     />
   );

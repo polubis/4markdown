@@ -30,6 +30,7 @@ export const meta = {
     privacyPolicy: `/privacy-policy/`,
     mindmap: {
       creator: `/mindmap-creator/`,
+      create: `/create-mindmap/`,
     },
   },
   legacyRoutes: {
