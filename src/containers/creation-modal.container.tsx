@@ -6,6 +6,7 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { meta } from '../../meta';
 import { Link } from 'gatsby';
+import { triggerDocumentCreation } from 'core/document-creation-management';
 
 const CreationModalContainer = () => {
   return (
@@ -24,7 +25,10 @@ const CreationModalContainer = () => {
         </Button>
       </header>
       <ul className="mt-8 space-y-4">
-        <li className="flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800">
+        <li
+          className="flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800"
+          onClick={triggerDocumentCreation}
+        >
           <Link to={meta.routes.home}>
             <h6 className="text-lg">Document</h6>
             <p className="mt-0.5">
@@ -35,7 +39,7 @@ const CreationModalContainer = () => {
             </p>
           </Link>
         </li>
-        <li className="flex flex-col py-3 px-4 rounded-lg bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800">
+        <li className="flex flex-col cursor-pointer py-3 px-4 rounded-lg bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800">
           <h6 className="text-lg">Mindmap</h6>
           <p className="mt-0.5">
             Organize your thoughts and resources visually to build your second
