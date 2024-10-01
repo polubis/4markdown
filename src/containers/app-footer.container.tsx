@@ -120,7 +120,7 @@ const AppFooterContainer = () => {
             <Link
               activeClassName="active-link"
               className="hover:underline underline-offset-2"
-              to={meta.routes.mindmap.create}
+              to={meta.routes.mindmap.creator}
             >
               Mindmap Creator
             </Link>
