@@ -22,7 +22,7 @@ const CreationLinkContainer = () => {
           menu.opened ? `top-[64px]` : `-top-full`,
         )}
       >
-        <ul className="space-y-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 rounded-md border-2">
+        <ul className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 rounded-md border-2">
           <li
             className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b-2 border-zinc-300 dark:border-zinc-800"
             onClick={creatorStoreActions.triggerCreation}
