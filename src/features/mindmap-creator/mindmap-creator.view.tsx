@@ -21,6 +21,7 @@ import { SettingsButtonContainer } from './containers/settings-button.container'
 import { EditNodeButtonContainer } from './containers/edit-node-button.container';
 import { RemoveNodesButtonContainer } from './containers/remove-nodes-button.container';
 import UserPopover from 'components/user-popover';
+import { CreationModalContainer } from 'containers/creation-modal.container';
 
 const SaveErrorModalContainer = React.lazy(() =>
   import(`./containers/save-error-modal.container`).then((m) => ({
@@ -94,6 +95,7 @@ const MindmapCreatorView = () => {
 
   return (
     <ReactFlowProvider>
+      <CreationModalContainer />
       <header className="flex items-center px-4 h-[72px] border-b-2 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
         <AppNavLink to="/" title="Back to home page">
           <Button i={1} s={2}>
