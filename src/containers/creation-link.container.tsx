@@ -6,12 +6,21 @@ import { meta } from '../../meta';
 import { useToggle } from 'development-kit/use-toggle';
 import c from 'classnames';
 import { triggerDocumentCreation } from 'core/create-content-management';
+import { useScrollHide } from 'development-kit/use-scroll-hide';
+
+// @TODO[PRIO=3]: [Improve useScrollHide implementation].
+const ScrollHide = () => {
+  useScrollHide();
+
+  return null;
+};
 
 const CreationLinkContainer = () => {
   const menu = useToggle();
 
   return (
     <>
+      {menu.opened && <ScrollHide></ScrollHide>}
       <Button auto i={2} s={2} title="Create any content" onClick={menu.toggle}>
         <BiPlus />
         <span className="ml-0.5">Create</span>
