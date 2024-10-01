@@ -2,7 +2,7 @@ import React from 'react';
 import type { HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
-import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
+import { CreationLinkContainer } from 'containers/creation-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
@@ -12,7 +12,7 @@ const NotFoundPage = () => {
   return (
     <>
       <AppNavigation>
-        <BackToCreatorLinkContainer />
+        <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="max-w-2xl p-4 mx-auto h-screen flex flex-col justify-center">

@@ -6,7 +6,7 @@ import {
   docPreviewStoreActions,
   docPreviewStoreSelectors,
 } from 'store/doc-preview/doc-preview.store';
-import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
+import { CreationLinkContainer } from 'containers/creation-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
@@ -55,7 +55,7 @@ const DocPreviewView = () => {
   return (
     <>
       <AppNavigation>
-        <BackToCreatorLinkContainer />
+        <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
       {(docPreviewStore.is === `idle` || docPreviewStore.is === `busy`) && (

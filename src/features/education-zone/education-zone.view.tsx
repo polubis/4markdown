@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
+import { CreationLinkContainer } from 'containers/creation-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { Link } from 'gatsby';
 import { Badges } from 'design-system/badges';
@@ -20,7 +20,7 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
   return (
     <>
       <AppNavigation>
-        <BackToCreatorLinkContainer />
+        <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="max-w-lg mx-auto my-6 p-4">
