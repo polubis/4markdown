@@ -85,11 +85,7 @@ const InternalNodeFormContainer = () => {
           <Field
             className="mb-2"
             label="Document*"
-            hint={
-              <Hint
-                trigger={`Find a non-private document in ${meta.appName}`}
-              />
-            }
+            hint={<Hint trigger={`Find the ${meta.appName} document`} />}
           >
             <YourDocumentsSearchContainer
               onSelect={selectDoc}
