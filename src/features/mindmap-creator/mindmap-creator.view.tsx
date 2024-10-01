@@ -66,25 +66,6 @@ const SelectionControlsContainer = () => {
   );
 };
 
-/**
- * @TODO
- *
- * 6. Add undo/redo.
- * 10. Connect to real API's
- * 11. Tab Index in modals - something is weird
- * 11. Create abckend endpoints.
- * 12. Create search docs endpont.
- * Improve auto selection - add animation after add/edit or smeth else.
- * 13. Connect search docs to endpoint.
- * 17. Think about tracking progress
- * 18. Show loaded details of document and preview in some section
- * 19 Connect addinew new mindmap (new modal an doption to choose).
- * 22. Vsibility of the documents
- * Show that something is saveable due to its changes - save icon.
- * Create a settings that allows to put a more space between elements when auto alignning.
- * Improve bezier curve behavior when rotated axis.
- */
-
 const MindmapCreatorView = () => {
   const mindmapCreatorStore = mindmapCreatorStoreSelectors.useState();
 
