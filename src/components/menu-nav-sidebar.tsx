@@ -84,7 +84,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Document Creator
           </ButtonLink>
           <ButtonLink
-            to={meta.routes.mindmap.creator}
+            to={meta.routes.mindmap.create}
             title="Navigate to mindmap creator"
             component={(props) => (
               <Link activeClassName="active-button-link" {...props} />
