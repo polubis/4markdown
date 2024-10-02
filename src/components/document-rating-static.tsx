@@ -1,6 +1,6 @@
 import React from 'react';
-import { DOCUMENT_RATING_ICONS } from './document-rating-config';
 import type { DocumentRatingDto } from 'api-4markdown-contracts';
+import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 
 interface DocumentRatingStaticProps {
   rating: DocumentRatingDto;

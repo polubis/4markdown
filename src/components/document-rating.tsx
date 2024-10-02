@@ -5,7 +5,7 @@ import type {
 import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
-import { DOCUMENT_RATING_ICONS } from './document-rating-config';
+import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 
 type DocumentRatingProps = {
   className?: string;
