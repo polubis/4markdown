@@ -2,11 +2,11 @@ import React from 'react';
 import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import DocPreviewView from 'features/doc-preview/doc-preview.view';
 import { meta } from '../../meta';
+import DocumentPreviewView from 'features/document-preview/document-preview.view';
 
 const DocumentPreviewPage = () => {
-  return <DocPreviewView />;
+  return <DocumentPreviewView />;
 };
 
 export default DocumentPreviewPage;
