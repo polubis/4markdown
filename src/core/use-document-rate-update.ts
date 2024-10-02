@@ -1,16 +1,25 @@
 import React from 'react';
 import type {
+  API4MarkdownPayload,
   DocumentRatingCategory,
   DocumentRatingDto,
   PermanentDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
 import { getAPI } from 'api-4markdown';
+import debounce from 'lodash.debounce';
 
 type DocumentRateState = {
   yourRate: null | DocumentRatingCategory;
   rating: DocumentRatingDto;
 };
+
+const rateDocument = debounce(
+  (payload: API4MarkdownPayload<'rateDocument'>): void => {
+    getAPI().call(`rateDocument`)(payload);
+  },
+  2000,
+);
 
 const useDocumentRateUpdate = (
   document: PublicDocumentDto | PermanentDocumentDto,
@@ -54,7 +63,7 @@ const useDocumentRateUpdate = (
           };
         });
 
-        getAPI().call(`rateDocument`)({
+        rateDocument({
           category,
           documentId: document.id,
         });
