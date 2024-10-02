@@ -15,8 +15,10 @@ type DocumentRateState = {
 };
 
 const rateDocument = debounce(
-  (payload: API4MarkdownPayload<'rateDocument'>): void => {
-    getAPI().call(`rateDocument`)(payload);
+  async (payload: API4MarkdownPayload<'rateDocument'>): Promise<void> => {
+    try {
+      await getAPI().call(`rateDocument`)(payload);
+    } catch {}
   },
   2000,
 );

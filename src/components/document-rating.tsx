@@ -58,12 +58,12 @@ const DocumentRating = ({
   };
 
   return (
-    <section className={c(`flex space-x-0.5`, className)}>
+    <section className={c(`flex space-x-1`, className)}>
       {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
         <Button
           i={yourRate === category ? 2 : 1}
           s={2}
-          className="pl-2 pr-2"
+          className="px-1.5"
           key={category}
           auto
           title={`Rate as ${category}`}
