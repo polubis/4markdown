@@ -16,12 +16,13 @@ type DocumentLayoutProps = {
   rating: DocumentRatingDto;
   tags: PermanentDocumentDto['tags'];
   author: UserProfileDto | null;
-} & Pick<DocumentRatingProps, 'onRate'>;
+} & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
 
 const DocumentLayout = ({
   children,
   author,
   tags,
+  yourRate,
   rating,
   onRate,
 }: DocumentLayoutProps) => {
@@ -30,6 +31,7 @@ const DocumentLayout = ({
       <DocumentRating
         className="mb-4 justify-end"
         rating={rating}
+        yourRate={yourRate}
         onRate={onRate}
       />
       {tags.length > 0 && (
@@ -73,6 +75,7 @@ const DocumentLayout = ({
       <DocumentRating
         className="mb-4 justify-end"
         rating={rating}
+        yourRate={yourRate}
         onRate={onRate}
       />
     </main>

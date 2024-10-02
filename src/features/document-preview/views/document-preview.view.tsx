@@ -21,7 +21,7 @@ const ErrorScreen = React.lazy(() =>
 
 const DocumentContent = () => {
   const documentPreviewStore = useDocumentPreviewStore(selectSafe);
-  const { rating, updateRating } = useDocumentRateUpdate(
+  const { rating, yourRate, updateRating } = useDocumentRateUpdate(
     documentPreviewStore.document,
   );
 
@@ -29,6 +29,7 @@ const DocumentContent = () => {
     <DocumentLayout
       rating={rating}
       onRate={updateRating}
+      yourRate={yourRate}
       tags={
         documentPreviewStore.document.visibility === `permanent`
           ? documentPreviewStore.document.tags
