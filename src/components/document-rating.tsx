@@ -4,9 +4,8 @@ import type {
 } from 'api-4markdown-contracts';
 import React from 'react';
 import c from 'classnames';
-import { BiBulb, BiDislike, BiHeart, BiLaugh, BiLike } from 'react-icons/bi';
-import type { IconType } from 'react-icons';
 import { Button } from 'design-system/button';
+import { DOCUMENT_RATING_ICONS } from './document-rating-config';
 
 type DocumentRatingProps = {
   className?: string;
@@ -14,14 +13,6 @@ type DocumentRatingProps = {
   yourRate: DocumentRatingCategory | null;
   onRate(category: DocumentRatingCategory, index: number): void;
 };
-
-const DOCUMENT_RATING_ICONS: [IconType, DocumentRatingCategory][] = [
-  [BiHeart, `perfect`],
-  [BiBulb, `good`],
-  [BiLike, `decent`],
-  [BiDislike, `bad`],
-  [BiLaugh, `ugly`],
-];
 
 const NOTES = [
   { name: `C4`, frequency: 261.63 },
