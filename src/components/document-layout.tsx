@@ -1,33 +1,37 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import Markdown from './markdown';
 import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import type {
+  DocumentRatingDto,
   PermanentDocumentDto,
   UserProfileDto,
 } from 'api-4markdown-contracts';
+import { DocumentRating, type DocumentRatingProps } from './document-rating';
 
-interface DocumentLayoutProps {
+type DocumentLayoutProps = {
   children: string;
+  rating: DocumentRatingDto;
   tags: PermanentDocumentDto['tags'];
   author: UserProfileDto | null;
-  ratingTop?: ReactNode;
-  ratingBottom?: ReactNode;
-}
+} & Pick<DocumentRatingProps, 'onRate'>;
 
 const DocumentLayout = ({
   children,
   author,
   tags,
-  ratingTop,
-  ratingBottom,
+  rating,
+  onRate,
 }: DocumentLayoutProps) => {
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
-      {ratingTop}
-
+      <DocumentRating
+        className="mb-4 justify-end"
+        rating={rating}
+        onRate={onRate}
+      />
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
@@ -66,7 +70,11 @@ const DocumentLayout = ({
           </div>
         </section>
       )}
-      {ratingBottom}
+      <DocumentRating
+        className="mb-4 justify-end"
+        rating={rating}
+        onRate={onRate}
+      />
     </main>
   );
 };

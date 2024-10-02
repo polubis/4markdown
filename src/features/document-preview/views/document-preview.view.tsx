@@ -7,8 +7,6 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
-import { DocumentRatingStatic } from 'components/document-rating-static';
-import { DocumentRatingContainer } from 'containers/document-rating.container';
 import {
   loadDocument,
   useDocumentPreviewStore,
@@ -29,14 +27,14 @@ const DocumentContent = () => {
 
   return (
     <DocumentLayout
+      rating={rating}
+      onRate={updateRating}
       tags={
         documentPreviewStore.document.visibility === `permanent`
           ? documentPreviewStore.document.tags
           : []
       }
       author={documentPreviewStore.document.author}
-      ratingTop={<DocumentRatingStatic rating={rating} />}
-      ratingBottom={<DocumentRatingContainer onChange={updateRating} />}
     >
       {documentPreviewStore.document.code}
     </DocumentLayout>

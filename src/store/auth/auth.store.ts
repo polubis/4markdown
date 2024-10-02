@@ -1,5 +1,4 @@
 import type {
-  API4MarkdownContract,
   API4MarkdownPayload,
   API4MarkdownDto,
   DocumentDto,
@@ -30,7 +29,6 @@ interface AuthorizedData {
   updateYourProfile(
     payload: API4MarkdownPayload<'updateYourUserProfile'>,
   ): Promise<void>;
-  rateDocument: API4MarkdownContract<'rateDocument'>;
 }
 
 interface UnauthrorizedData {

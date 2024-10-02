@@ -70,8 +70,6 @@ const useAuth = () => {
       await getYourDocuments(() => docStoreActions.reset());
     };
 
-    const rateDocument = call(`rateDocument`);
-
     const unsubscribe = onAuthChange(async (user) => {
       if (user) {
         authStoreActions.authorize({
@@ -85,7 +83,6 @@ const useAuth = () => {
               yourProfileStoreActions.idle();
             } catch {}
           },
-          rateDocument,
           uploadImage: async (image) => {
             try {
               imagesStoreActions.busy();
