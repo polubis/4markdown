@@ -6,6 +6,7 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import type { HomeViewModel } from 'models/view-models';
 import { creatorStoreActions } from 'store/creator/creator.store';
+import { sum, max } from '../calculator';
 
 interface HomePageProps {
   pageContext: HomeViewModel;
@@ -13,6 +14,11 @@ interface HomePageProps {
 
 const HomePage = ({ pageContext: { initialCode } }: HomePageProps) => {
   creatorStoreActions.hydrate(initialCode);
+
+  React.useEffect(() => {
+    sum(1, 2, 3, 4);
+    max(1, 2, 3, 4);
+  }, []);
 
   return <CreatorView />;
 };
