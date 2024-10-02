@@ -70,7 +70,6 @@ const useAuth = () => {
       await getYourDocuments(() => docStoreActions.reset());
     };
 
-    const getAccessibleDocument = call(`getAccessibleDocument`);
     const rateDocument = call(`rateDocument`);
 
     const unsubscribe = onAuthChange(async (user) => {
@@ -103,7 +102,6 @@ const useAuth = () => {
               throw error;
             }
           },
-          getAccessibleDocument,
           deleteDoc: async () => {
             const id = docStoreSelectors.active().id;
 
@@ -267,7 +265,6 @@ const useAuth = () => {
       yourProfileStoreActions.idle();
 
       authStoreActions.unauthorize({
-        getAccessibleDocument,
         logIn: async () => {
           try {
             await logIn();
