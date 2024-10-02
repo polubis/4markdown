@@ -73,7 +73,7 @@ const DocumentLayout = ({
         </section>
       )}
       <DocumentRating
-        className="mb-4 justify-end"
+        className="mt-10 justify-end"
         rating={rating}
         yourRate={yourRate}
         onRate={onRate}
