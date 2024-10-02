@@ -73,11 +73,12 @@ const DocumentRating = ({
           i={yourRate === category ? 2 : 1}
           s={2}
           key={category}
+          auto
           title={`Rate as ${category}`}
           onClick={() => handleClick(category, idx)}
         >
           <Icon />
-          <span>{rating[category]}</span>
+          <span className="text-md pl-0.5">{rating[category]}</span>
         </Button>
       ))}
     </section>

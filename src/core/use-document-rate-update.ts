@@ -54,10 +54,10 @@ const useDocumentRateUpdate = (
           };
         });
 
-        getAPI().call(`rateDocument`)({
-          category,
-          documentId: document.id,
-        });
+        // getAPI().call(`rateDocument`)({
+        //   category,
+        //   documentId: document.id,
+        // });
       } catch {}
     },
     [document.id],
