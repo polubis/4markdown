@@ -3,7 +3,7 @@ import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
-import { DocumentPreviewView } from 'features/document-preview';
+import { DocumentPreviewView } from 'features/document-preview/document-preview.view';
 
 const DocumentPreviewPage = () => {
   return <DocumentPreviewView />;
