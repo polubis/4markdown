@@ -11,7 +11,6 @@ import { meta } from '../../meta';
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import { DocumentRatingStatic } from 'components/document-rating-static';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
-import { DocumentRatingContainer } from 'containers/document-rating.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -28,14 +27,14 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <BackToCreatorLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <DocumentLayout
+      {/* <DocumentLayout
         tags={pageContext.doc.tags}
         author={pageContext.doc.author}
         ratingTop={<DocumentRatingStatic rating={rating} />}
         ratingBottom={<DocumentRatingContainer onChange={updateRating} />}
       >
         {pageContext.doc.code}
-      </DocumentLayout>
+      </DocumentLayout> */}
       <AppFooterContainer />
     </>
   );
