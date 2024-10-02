@@ -18,14 +18,10 @@ import {
 const ErrorScreen = React.lazy(() => import(`../../components/error-screen`));
 
 const useDocLoad = () => {
-  const authStore = useAuthStore();
-
   React.useEffect(() => {
-    if (authStore.is === `authorized` || authStore.is === `unauthorized`) {
-      const searchParams = new URLSearchParams(window.location.search);
-      docPreviewStoreActions.load({ id: searchParams.get(`id`) ?? `` });
-    }
-  }, [authStore]);
+    const searchParams = new URLSearchParams(window.location.search);
+    docPreviewStoreActions.load({ id: searchParams.get(`id`) ?? `` });
+  }, []);
 };
 
 const DocumentContent = () => {
