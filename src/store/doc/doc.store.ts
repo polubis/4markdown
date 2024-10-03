@@ -31,6 +31,7 @@ const getActiveState = (state: DocStoreState): DocStoreActiveState => {
 const docStoreSelectors = {
   active: () => getActiveState(useDocStore.getState()),
   useActive: () => useDocStore(getActiveState),
+  state: () => useDocStore.getState(),
 };
 
 const docStoreActions = {
