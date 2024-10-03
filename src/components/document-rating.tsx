@@ -66,6 +66,7 @@ const DocumentRating = ({
           className="px-1.5"
           key={category}
           auto
+          title={`Rate as ${category}`}
           onClick={() => handleClick(category, idx)}
         >
           <Icon className="mr-0.5" />
