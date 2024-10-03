@@ -115,7 +115,7 @@ const AppFooterContainer = () => {
               className="hover:underline underline-offset-2"
               to={meta.routes.home}
             >
-              Creator
+              Document Creator
             </Link>
             <Link
               activeClassName="active-link"

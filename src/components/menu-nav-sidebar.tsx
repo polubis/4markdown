@@ -75,12 +75,12 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
           </ButtonLink>
           <ButtonLink
             to={meta.routes.home}
-            title="Navigate to creator"
+            title="Navigate to document creator"
             component={(props) => (
               <Link activeClassName="active-button-link" {...props} />
             )}
           >
-            Creator
+            Document Creator
           </ButtonLink>
           <ButtonLink
             to={meta.discordUrl}
