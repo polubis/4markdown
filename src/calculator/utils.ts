@@ -1,7 +1,3 @@
-export const logger = (...items: number[]) => {
-  return console.log(items.map((item) => `${item}\n`).join(`\n`));
-};
-
 export const sum = (...items: number[]): number =>
   items.reduce((acc, item) => item + acc, 0);
 
