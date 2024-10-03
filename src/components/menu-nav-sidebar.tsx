@@ -36,7 +36,10 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
         )}
       >
         <div className="p-4 flex items-center h-[72px]">
-          <picture>
+          <Link
+            to={meta.routes.home}
+            className="flex items-center hover:underline underline-offset-2"
+          >
             <img
               rel="preload"
               className="w-8 h-8"
@@ -44,8 +47,8 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
               alt={meta.appName}
               title={meta.title}
             />
-          </picture>
-          <p className="text-xl ml-3 font-bold">{meta.appName}</p>
+            <p className="text-xl ml-3 font-bold">{meta.appName}</p>
+          </Link>
           <Button
             className="ml-auto"
             i={2}
