@@ -29,7 +29,10 @@ const AppFooterContainer = () => {
       <div className="border-t-2 border-zinc-300 dark:border-zinc-800">
         <div className="flex flex-col px-4 py-8 md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
           <div className="flex flex-col space-y-2">
-            <div className="flex items-center space-x-3 mb-2">
+            <Link
+              to={meta.routes.home}
+              className="cursor-pointer flex items-center space-x-3 mb-2 hover:underline underline-offset-2"
+            >
               <img
                 className="w-8 h-8"
                 loading="lazy"
@@ -37,8 +40,9 @@ const AppFooterContainer = () => {
                 alt={meta.appName}
                 title={meta.title}
               />
+
               <p className="font-bold mb-1">{meta.appName}</p>
-            </div>
+            </Link>
 
             <p className="text-sm flex flex-col">
               <span>
