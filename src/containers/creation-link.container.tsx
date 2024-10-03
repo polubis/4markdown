@@ -26,7 +26,7 @@ const CreationLinkContainer = () => {
       >
         <ul className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 rounded-md border-2">
           <li
-            className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b-2 border-zinc-300 dark:border-zinc-800"
+            className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3"
             onClick={
               docStore.is === `idle` ? triggerDocumentCreation : undefined
             }
@@ -55,7 +55,7 @@ const CreationLinkContainer = () => {
               )}
             </Link>
           </li>
-          {/* <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3">
+          {/* <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3  border-b-2 border-zinc-300 dark:border-zinc-800">
             <h6 className="text-md">
               Flashcard Board{' '}
               <span className="px-2 py-0.5 border-2 border-yellow-700 text-yellow-700 rounded-full text-sm">
