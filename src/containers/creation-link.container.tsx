@@ -60,24 +60,13 @@ const CreationLinkContainer = () => {
           </li>
 
           <li className="relative flex flex-col p-3 border-b-2 border-zinc-300 dark:border-zinc-800">
-            <span className="px-2 py-0.5 border border-yellow-700 text-yellow-700 rounded-full text-sm absolute top-1 right-1">
-              From 12.12.2024
-            </span>
             <h6 className="text-md">Flashcard Board</h6>
-            <p className="mt-1 text-sm">
-              Create a flashcard board and prepare notes for each topic
-            </p>
+            <p className="mt-1 text-sm">Coming soon</p>
           </li>
 
           <li className="relative flex flex-col p-3">
-            <span className="px-2 py-0.5 border border-yellow-700 text-yellow-700 rounded-full text-sm absolute top-1 right-1">
-              From 01.03.2025
-            </span>
             <h6 className="text-md">Mindmap</h6>
-            <p className="mt-1 text-sm">
-              Organize your thoughts and resources into a graph to build your
-              second brain
-            </p>
+            <p className="mt-1 text-sm">Coming soon</p>
           </li>
         </ul>
       </div>
