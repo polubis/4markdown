@@ -9,9 +9,7 @@ import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
-import { DocumentRatingStatic } from 'components/document-rating-static';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
-import { DocumentRatingContainer } from 'containers/document-rating.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -20,7 +18,9 @@ interface DocumentPageProps {
 }
 
 const DocumentPage = ({ pageContext }: DocumentPageProps) => {
-  const { rating, updateRating } = useDocumentRateUpdate(pageContext.doc);
+  const { rating, yourRate, updateRating } = useDocumentRateUpdate(
+    pageContext.doc,
+  );
 
   return (
     <>
@@ -29,10 +29,11 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <DocumentLayout
+        rating={rating}
+        yourRate={yourRate}
+        onRate={updateRating}
         tags={pageContext.doc.tags}
         author={pageContext.doc.author}
-        ratingTop={<DocumentRatingStatic rating={rating} />}
-        ratingBottom={<DocumentRatingContainer onChange={updateRating} />}
       >
         {pageContext.doc.code}
       </DocumentLayout>
