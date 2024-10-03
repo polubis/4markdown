@@ -35,7 +35,14 @@ const CreationLinkContainer = () => {
               docStore.is === `idle` ? triggerDocumentCreation : undefined
             }
           >
-            <Link to={meta.routes.home}>
+            <Link
+              to={meta.routes.home}
+              title={
+                docStore.is === `idle`
+                  ? `Create a new document`
+                  : `Continue editing the document`
+              }
+            >
               {docStore.is === `idle` && (
                 <>
                   <h6 className="text-md">Document</h6>

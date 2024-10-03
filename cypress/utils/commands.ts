@@ -52,13 +52,15 @@ type ClickableControls =
   | `Really Old documents`;
 
 type Element =
-  | `Go to creator`
+  | `Create any content`
   | `Your Github link`
   | `Your Twitter link`
   | `Your Facebook link`
   | `Your Blog link`
   | `Your LinkedIn link`
-  | `Check privacy policy`;
+  | `Check privacy policy`
+  | `Continue editing the document`
+  | `Create a new document`;
 
 type Endpoint =
   | `getYourUserProfile`
@@ -84,7 +86,7 @@ const BASE_COMMANDS = {
   },
   'I click elements': (elements: Element[]) => {
     elements.forEach((element) => {
-      cy.get(`[title="${element}"]`).click();
+      cy.get(`[title="${element}"]`).click({ force: true });
     });
   },
   'I see elements': (elements: Element[]) => {
