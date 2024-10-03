@@ -97,4 +97,12 @@ const initialize = (): API4Markdown => {
 
 const useAPI = () => React.useState(initialize)[0];
 
-export { useAPI };
+const getAPI = (): API4Markdown => {
+  if (!instance) {
+    throw Error(`Instance of API is not read to be used`);
+  }
+
+  return instance;
+};
+
+export { useAPI, getAPI };

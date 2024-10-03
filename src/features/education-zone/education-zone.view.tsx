@@ -4,13 +4,12 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { Link } from 'gatsby';
 import { Badges } from 'design-system/badges';
 import { Badge } from 'design-system/badge';
-import { Button } from 'design-system/button';
 import { AppNavigation } from 'components/app-navigation';
 import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
 import type { EducationZoneViewModel } from 'models/view-models';
-import { DocumentRatingStatic } from 'components/document-rating-static';
+import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 
 interface EducationZoneViewProps {
   context: EducationZoneViewModel;
@@ -32,9 +31,17 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
                   <Badge key={tag}>{tag}</Badge>
                 ))}
               </Badges>
-              <h6 className="mb-2 text-2xl">{doc.name}</h6>
+              <h6 className="mb-2 text-2xl">
+                <Link
+                  className="underline underline-offset-2 hover:text-blue-800 hover:dark:text-blue-500"
+                  title={`Explore ${doc.name}`}
+                  to={doc.path}
+                >
+                  {doc.name}
+                </Link>
+              </h6>
               <p className="break-words">{doc.description}</p>
-              <p className="flex space-x-1 mt-2 text-sm capitalize">
+              <p className="flex space-x-1 mt-2 text-sm capitalize italic">
                 Created{` `}
                 {formatDistance(new Date(), doc.cdate, {
                   addSuffix: true,
@@ -47,30 +54,27 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
                 {` `}
                 ago
               </p>
-              <div className="flex items-center mt-3 py-2">
+              <div className="flex items-center space-x-2 mt-5 mb-2">
                 {doc.author && (
                   <Avatar
-                    size="sm"
+                    size="tn"
                     title={doc.author.displayName}
                     alt={`${doc.author.displayName} avatar`}
-                    className="bg-gray-300 dark:bg-slate-800 shrink-0 mr-4"
+                    className="bg-gray-300 dark:bg-slate-800 mr-1.5"
                     char={doc.author.displayName.charAt(0)}
                     src={doc.author?.avatar?.src}
                   />
                 )}
-                <div className="ml-auto">
-                  <DocumentRatingStatic rating={doc.rating} iconSize={20} />
-                </div>
+                {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+                  <div
+                    className="flex text-black dark:text-white items-center"
+                    key={category}
+                  >
+                    <Icon className="mr-1" size={20} />
+                    <strong>{doc.rating[category]}</strong>
+                  </div>
+                ))}
               </div>
-              <Link
-                className="mt-5 mr-auto"
-                to={doc.path}
-                title={`Explore ${doc.name}`}
-              >
-                <Button i={2} s={2} auto>
-                  Explore
-                </Button>
-              </Link>
             </li>
           ))}
         </ul>

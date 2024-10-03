@@ -1,3 +1,4 @@
+import { Loader } from 'design-system/loader';
 import React from 'react';
 
 const LoadingScreen = () => {
@@ -7,6 +8,7 @@ const LoadingScreen = () => {
         <h6 className="text-xl text-center">
           Wait... Checking required stuff (～￣▽￣)～
         </h6>
+        <Loader className="mt-6" size="xl" />
       </div>
     </div>
   );
