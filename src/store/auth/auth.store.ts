@@ -1,5 +1,4 @@
 import type {
-  API4MarkdownContract,
   API4MarkdownPayload,
   API4MarkdownDto,
   DocumentDto,
@@ -26,17 +25,14 @@ interface AuthorizedData {
   ): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
-  getAccessibleDocument: API4MarkdownContract<'getAccessibleDocument'>;
   getYourProfile(): Promise<void>;
   updateYourProfile(
     payload: API4MarkdownPayload<'updateYourUserProfile'>,
   ): Promise<void>;
-  rateDocument: API4MarkdownContract<'rateDocument'>;
 }
 
 interface UnauthrorizedData {
   logIn(): Promise<void>;
-  getAccessibleDocument: API4MarkdownContract<'getAccessibleDocument'>;
 }
 
 interface AuthStoreActions {
