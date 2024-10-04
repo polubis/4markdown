@@ -81,6 +81,7 @@ import { BiUser, BiUserCircle } from 'react-icons/bi';
 
 const EducationZoneView = () => {
   const { documents } = useEducationZoneStore(selectReady);
+  const now = new Date();
 
   return (
     <>
@@ -110,7 +111,7 @@ const EducationZoneView = () => {
                       <i>
                         {document.author.displayName}
                         {` `}
-                        {formatDistance(document.mdate, new Date(), {
+                        {formatDistance(document.mdate, now, {
                           addSuffix: true,
                         })}
                       </i>
@@ -119,7 +120,7 @@ const EducationZoneView = () => {
                     <i>
                       Anonymous
                       {` `}
-                      {formatDistance(document.mdate, new Date(), {
+                      {formatDistance(document.mdate, now, {
                         addSuffix: true,
                       })}
                     </i>
