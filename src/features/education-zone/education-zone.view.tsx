@@ -11,9 +11,54 @@ import { meta } from '../../../meta';
 import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
 import { useEducationZoneContext } from './context/education-zone.context';
 
+const Pagination = () => {
+  const [{ page, pages }] = useEducationZoneContext();
+
+  if (pages.length < 2) return null;
+
+  const firstPage = pages[0];
+  const lastPage = pages[pages.length - 1];
+
+  return (
+    <div className="flex space-x-2 justify-end mt-10 mr-6">
+      {page !== firstPage && (
+        <Link
+          key="first"
+          className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+          title="Go to first page"
+          to={meta.routes.docs.educationZone}
+        >
+          <BiArrowToLeft size={20} />
+        </Link>
+      )}
+      {pages.map((page) => (
+        <Link
+          activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
+          className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+          title={`Go to ${page} page`}
+          to={`${meta.routes.docs.educationZone}${page === firstPage ? `` : page}`}
+          key={page}
+        >
+          {page}
+        </Link>
+      ))}
+      {page !== lastPage && (
+        <Link
+          className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+          title="Go to last page"
+          to={`${meta.routes.docs.educationZone}${lastPage}`}
+          key="last"
+        >
+          <BiArrowToRight size={20} />
+        </Link>
+      )}
+    </div>
+  );
+};
+
 const EducationZoneView = () => {
-  const [{ documents, page, pages }] = useEducationZoneContext();
-  const now = new Date();
+  const [now] = React.useState(() => new Date());
+  const [{ documents }] = useEducationZoneContext();
 
   return (
     <>
@@ -77,41 +122,7 @@ const EducationZoneView = () => {
               </li>
             ))}
           </ol>
-          {pages.length > 1 && (
-            <div className="flex space-x-2 justify-end mt-10 mr-6">
-              {page !== pages[0] && (
-                <Link
-                  key="first"
-                  className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
-                  title="Go to first page"
-                  to={meta.routes.docs.educationZone}
-                >
-                  <BiArrowToLeft size={20} />
-                </Link>
-              )}
-              {pages.map((page) => (
-                <Link
-                  activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
-                  className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
-                  title={`Go to ${page} page`}
-                  to={`${meta.routes.docs.educationZone}${page === 1 ? `` : page}`}
-                  key={page}
-                >
-                  {page}
-                </Link>
-              ))}
-              {page !== pages[pages.length - 1] && (
-                <Link
-                  className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
-                  title="Go to last page"
-                  to={`${meta.routes.docs.educationZone}${pages[pages.length - 1]}`}
-                  key="last"
-                >
-                  <BiArrowToRight size={20} />
-                </Link>
-              )}
-            </div>
-          )}
+          <Pagination />
         </section>
         <section className="px-6 pb-6">
           <div className="top-0 sticky right-0 pt-6">
