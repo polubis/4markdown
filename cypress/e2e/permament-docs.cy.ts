@@ -10,8 +10,13 @@ describe(`Permament documents works when`, () => {
     'I see unchanged elements': () => {
       cy.get(`.markdown > div > :is(h1, h2, h3, h4, h5, h6)`).each(
         (element) => {
-          cy.contains(element.text()).scrollIntoView();
-          Given(`System takes picture`);
+          const text = element.text();
+
+          cy.contains(text).scrollIntoView();
+
+          if (text !== `Summary`) {
+            Given(`System takes picture`);
+          }
         },
       );
     },

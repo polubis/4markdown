@@ -3,13 +3,13 @@ import { type HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { DocumentLayout } from 'components/document-layout';
-import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
+import { CreationLinkContainer } from 'containers/creation-link.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -25,7 +25,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
   return (
     <>
       <AppNavigation>
-        <BackToCreatorLinkContainer />
+        <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <DocumentLayout

@@ -1,15 +1,15 @@
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
-import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import React from 'react';
 import { meta } from '../../../meta';
+import { CreationLinkContainer } from 'containers/creation-link.container';
 
 const PrivacyPolicyView = () => {
   return (
     <>
       <AppNavigation>
-        <BackToCreatorLinkContainer />
+        <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="max-w-4xl p-4 my-6 mx-auto [&>h1]:pb-3 [&>h2]:pb-1 markdown [&>h1]:text-5xl [&>h2]:text-4xl [&>*]:mb-3">

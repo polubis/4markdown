@@ -5,6 +5,8 @@ import { BiMoon, BiSun } from 'react-icons/bi';
 import MoreNav from './more-nav';
 import UserPopover from './user-popover';
 import { ThemeProvider } from 'design-system/theme-provider';
+import { Link } from 'gatsby';
+import { meta } from '../../meta';
 
 interface NavigationProps {
   className?: string;
@@ -15,18 +17,18 @@ const Navigation = ({ className, children }: NavigationProps) => {
   return (
     <header
       className={c(
-        `flex items-center overflow-x-auto overflow-y-hidden py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800`,
+        `flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800`,
         className,
       )}
     >
-      <picture className="shrink-0 sm:flex hidden mr-3">
+      <Link to={meta.routes.home} className="shrink-0 sm:flex hidden mr-3">
         <img
           className="w-8 h-8"
           rel="preload"
           src="/favicon-32x32.png"
           alt="Logo"
         />
-      </picture>
+      </Link>
       <nav className="flex gap-3 w-full items-center">
         {children}
         <ThemeProvider>
