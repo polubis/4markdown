@@ -23,6 +23,54 @@ const EducationZoneView = () => {
       <main className="flex max-w-[1280px] mx-auto">
         <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6 px-10">
           <h1 className="text-2xl">The Wall</h1>
+          <ol className="flex flex-col mb-4 mt-3 space-y-4">
+            {documents.wall.map((document) => (
+              <li className="flex flex-col space-y-1" key={document.id}>
+                <div className="flex items-center space-x-1">
+                  {document.author ? (
+                    <>
+                      <Avatar
+                        size="tn"
+                        alt="Author avatar"
+                        className="bg-gray-300 dark:bg-slate-800 mr-1.5"
+                        char={document.author.displayName.charAt(0)}
+                        src={document.author?.avatar?.src}
+                      />
+                      <i>
+                        {document.author.displayName}
+                        {` `}
+                        {formatDistance(document.mdate, now, {
+                          addSuffix: true,
+                        })}
+                      </i>
+                    </>
+                  ) : (
+                    <i>
+                      Anonymous
+                      {` `}
+                      {formatDistance(document.mdate, now, {
+                        addSuffix: true,
+                      })}
+                    </i>
+                  )}
+                </div>
+                <h2 className="text-xl hover:underline underline-offset-2">
+                  <Link to={document.path} className="line-clamp-2">
+                    {document.name}
+                  </Link>
+                </h2>
+                <p>{document.description}</p>
+                <div className="flex items-center space-x-2">
+                  {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+                    <div className="flex items-center" key={category}>
+                      <Icon className="mr-1" size={20} />
+                      <strong>{document.rating[category]}</strong>
+                    </div>
+                  ))}
+                </div>
+              </li>
+            ))}
+          </ol>
         </section>
         <section className="p-6 shrink-0">
           <h2 className="text-xl">Content Rank</h2>
