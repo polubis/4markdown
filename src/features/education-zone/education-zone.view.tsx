@@ -95,7 +95,7 @@ const EducationZoneView = () => {
         </section>
         <section className="p-8 shrink-0">
           <h2 className="text-xl">Content Rank</h2>
-          <ol className="flex flex-col mb-4 mt-3 space-y-4">
+          <ol className="flex flex-col mb-4 mt-3 space-y-4 w-[280px]">
             {documents.top.map((document) => (
               <li className="flex flex-col space-y-1" key={document.id}>
                 <div className="flex items-center space-x-1">
@@ -127,7 +127,9 @@ const EducationZoneView = () => {
                   )}
                 </div>
                 <h3 className="text-lg hover:underline underline-offset-2">
-                  <Link to={document.path}>{document.name}</Link>
+                  <Link to={document.path} className="line-clamp-2">
+                    {document.name}
+                  </Link>
                 </h3>
                 <div className="flex items-center space-x-2">
                   {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
