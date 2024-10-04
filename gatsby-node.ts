@@ -39,7 +39,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const functions = getFunctions(app);
 
   // @TODO: Find a way to call it statically from library.
-  const { data: documents } = await httpsCallable<
+  const { data: allDocuments } = await httpsCallable<
     unknown,
     PermanentDocumentDto[]
   >(functions, `getPermanentDocuments`)();
@@ -52,40 +52,51 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     },
   });
 
-  documents.forEach((doc) => {
+  allDocuments.forEach((document) => {
     actions.createPage({
-      path: doc.path,
+      path: document.path,
       component: path.resolve(`./src/dynamic-pages/document.page.tsx`),
       context: {
-        doc,
+        doc: document,
       },
     });
   });
 
-  actions.createPage<API4MarkdownDto<'getEducationDashboard'>>({
-    path: meta.routes.docs.educationZone,
-    component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
-    context: {
-      documents: {
-        top: [...documents]
-          .slice(0, 4)
-          .map(({ author, name, id, path, rating, mdate }) => ({
-            name,
-            id,
-            path,
-            rating,
-            mdate,
-            author:
-              author?.displayName && author?.bio
-                ? {
-                    displayName: author.displayName,
-                    avatar: author?.avatar ? author.avatar.sm : null,
-                  }
-                : null,
-          })),
-        wall: [...documents]
-          .slice(0, 20)
-          .map(
+  const paginatedDocuments = allDocuments.reduce<PermanentDocumentDto[][]>(
+    (acc) => {
+      acc.push([...allDocuments].slice(acc.length, 20));
+
+      return acc;
+    },
+    [],
+  );
+
+  paginatedDocuments.forEach((documents, index) => {
+    actions.createPage<API4MarkdownDto<'getEducationDashboard'>>({
+      path:
+        index === 0
+          ? meta.routes.docs.educationZone
+          : `${meta.routes.docs.educationZone}/${index + 1}`,
+      component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
+      context: {
+        documents: {
+          top: allDocuments
+            .slice(0, 4)
+            .map(({ author, name, id, path, rating, mdate }) => ({
+              name,
+              id,
+              path,
+              rating,
+              mdate,
+              author:
+                author?.displayName && author?.bio
+                  ? {
+                      displayName: author.displayName,
+                      avatar: author?.avatar ? author.avatar.sm : null,
+                    }
+                  : null,
+            })),
+          wall: documents.map(
             ({ author, name, id, path, rating, mdate, description, tags }) => ({
               name,
               id,
@@ -103,7 +114,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
                   : null,
             }),
           ),
+        },
       },
-    },
+    });
   });
 };
