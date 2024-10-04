@@ -11,20 +11,10 @@ type EducationZonePageProps = {
   pageContext: API4MarkdownDto<'getEducationDashboard'>;
 };
 
-const Hydrate = ({ pageContext }: EducationZonePageProps) => {
-  hydrateEducationZone(pageContext);
-  return null;
-};
-
 const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
   hydrateEducationZone(pageContext);
 
-  return (
-    <>
-      <Hydrate pageContext={pageContext} />
-      <EducationZoneView />;
-    </>
-  );
+  return <EducationZoneView />;
 };
 
 export default EducationZonePage;
