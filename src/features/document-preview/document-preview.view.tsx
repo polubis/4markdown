@@ -2,7 +2,6 @@ import { DocumentLayout } from 'components/document-layout';
 import LoadingScreen from 'components/loading-screen';
 import React from 'react';
 
-import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
@@ -12,6 +11,7 @@ import {
   useDocumentPreviewStore,
 } from './store/document-preview.store';
 import { selectSafe } from './store/document-preview.selectors';
+import { CreationLinkContainer } from 'containers/creation-link.container';
 
 const ErrorScreen = React.lazy(() =>
   import(`./components/error-screen`).then(({ ErrorScreen }) => ({
@@ -52,7 +52,7 @@ const DocumentPreviewView = () => {
   return (
     <>
       <AppNavigation>
-        <BackToCreatorLinkContainer />
+        <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
       {(documentPreviewStore.is === `idle` ||

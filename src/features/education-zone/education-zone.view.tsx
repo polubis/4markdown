@@ -1,5 +1,4 @@
 import React from 'react';
-import { BackToCreatorLinkContainer } from 'containers/back-to-creator-link.container';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { Link } from 'gatsby';
 import { Badges } from 'design-system/badges';
@@ -10,6 +9,7 @@ import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
 import type { EducationZoneViewModel } from 'models/view-models';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
+import { CreationLinkContainer } from 'containers/creation-link.container';
 
 interface EducationZoneViewProps {
   context: EducationZoneViewModel;
@@ -19,7 +19,7 @@ const EducationZoneView = ({ context }: EducationZoneViewProps) => {
   return (
     <>
       <AppNavigation>
-        <BackToCreatorLinkContainer />
+        <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="max-w-lg mx-auto my-6 p-4">
