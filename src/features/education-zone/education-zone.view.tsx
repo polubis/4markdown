@@ -7,6 +7,8 @@ import { Avatar } from 'design-system/avatar';
 import { CreationLinkContainer } from 'containers/creation-link.container';
 import { useEducationZoneStore } from './store/education-zone.store';
 import { selectReady } from './store/education-zone.selectors';
+import { Link } from 'gatsby';
+import { BiUser, BiUserCircle } from 'react-icons/bi';
 
 // const EducationZoneView = ({ context }: EducationZoneViewProps) => {
 //   return (
@@ -91,32 +93,50 @@ const EducationZoneView = () => {
           <h1></h1>
         </section>
         <section className="p-8 shrink-0">
-          <h2 className="text-xl">Top Content</h2>
-          <ol>
+          <h2 className="text-xl">Content Rank</h2>
+          <ol className="flex flex-col mb-4 mt-3 space-y-4">
             {documents.top.map((document) => (
-              <li key={document.id}>
-                {document.author && (
-                  <>
-                    <strong>
-                      {document.author.displayName}
-                      {` `}
-                      {formatDistance(document.mdate, new Date(), {
-                        addSuffix: true,
-                      })}
-                    </strong>
-                    <Avatar
-                      size="tn"
-                      alt="Author avatar"
-                      className="bg-gray-300 dark:bg-slate-800 mr-1.5"
-                      char={document.author.displayName.charAt(0)}
-                      src={document.author?.avatar?.src}
-                    />
-                  </>
-                )}
-                <h3 className="text-lg">{document.name}</h3>
+              <li className="flex flex-col space-y-1" key={document.id}>
+                <div className="flex items-center space-x-1">
+                  {document.author ? (
+                    <>
+                      <Avatar
+                        size="tn"
+                        alt="Author avatar"
+                        className="bg-gray-300 dark:bg-slate-800 mr-1"
+                        char={document.author.displayName.charAt(0)}
+                        src={document.author?.avatar?.src}
+                      />
+                      <i>
+                        {document.author.displayName}
+                        {` `}
+                        {formatDistance(document.mdate, new Date(), {
+                          addSuffix: true,
+                        })}
+                      </i>
+                    </>
+                  ) : (
+                    <>
+                      <BiUserCircle className="mr-1" size={28} />
+                      <i>
+                        Anonymous
+                        {` `}
+                        {formatDistance(document.mdate, new Date(), {
+                          addSuffix: true,
+                        })}
+                      </i>
+                    </>
+                  )}
+                </div>
+                <h3 className="text-lg hover:underline underline-offset-2">
+                  <Link to={document.path}>{document.name}</Link>
+                </h3>
               </li>
             ))}
           </ol>
+          <Link to="/" className="hover:underline underline-offset-2">
+            See Full Rank
+          </Link>
         </section>
       </main>
       <AppFooterContainer />
