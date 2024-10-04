@@ -9,6 +9,7 @@ import { useEducationZoneStore } from './store/education-zone.store';
 import { selectReady } from './store/education-zone.selectors';
 import { Link } from 'gatsby';
 import { BiUser, BiUserCircle } from 'react-icons/bi';
+import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 
 // const EducationZoneView = ({ context }: EducationZoneViewProps) => {
 //   return (
@@ -60,15 +61,15 @@ import { BiUser, BiUserCircle } from 'react-icons/bi';
 //     src={doc.author?.avatar?.src}
 //   />
 // )}
-//                 {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
-//                   <div
-//                     className="flex text-black dark:text-white items-center"
-//                     key={category}
-//                   >
-//                     <Icon className="mr-1" size={20} />
-//                     <strong>{doc.rating[category]}</strong>
-//                   </div>
-//                 ))}
+// {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+//   <div
+//     className="flex text-black dark:text-white items-center"
+//     key={category}
+//   >
+//     <Icon className="mr-1" size={20} />
+//     <strong>{doc.rating[category]}</strong>
+//   </div>
+// ))}
 //               </div>
 //             </li>
 //           ))}
@@ -129,6 +130,14 @@ const EducationZoneView = () => {
                 <h3 className="text-lg hover:underline underline-offset-2">
                   <Link to={document.path}>{document.name}</Link>
                 </h3>
+                <div className="flex items-center space-x-2">
+                  {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+                    <div className="flex items-center" key={category}>
+                      <Icon className="mr-1" size={20} />
+                      <strong>{document.rating[category]}</strong>
+                    </div>
+                  ))}
+                </div>
               </li>
             ))}
           </ol>
