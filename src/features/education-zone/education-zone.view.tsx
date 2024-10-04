@@ -16,14 +16,12 @@ const Pagination = () => {
 
   if (pages.length < 2) return null;
 
-  const pagesLimit = 5;
-  const offset = Math.floor(pagesLimit / 2);
+  const displayRange = 5;
+  const offsetLeft = 2;
+  const offsetRight = 2;
   const firstPage = pages[0];
   const lastPage = pages[pages.length - 1];
-  const filteredPages = [...pages].slice(
-    page - offset <= firstPage ? 0 : page - offset,
-    page + offset >= lastPage ? lastPage : page + offset,
-  );
+  const filteredPages = pages;
 
   return (
     <div className="flex space-x-2 justify-end mt-10 mr-6">
