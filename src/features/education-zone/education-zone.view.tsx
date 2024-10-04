@@ -103,7 +103,7 @@ const EducationZoneView = () => {
                       <Avatar
                         size="tn"
                         alt="Author avatar"
-                        className="bg-gray-300 dark:bg-slate-800 mr-1"
+                        className="bg-gray-300 dark:bg-slate-800 mr-1.5"
                         char={document.author.displayName.charAt(0)}
                         src={document.author?.avatar?.src}
                       />
@@ -116,16 +116,13 @@ const EducationZoneView = () => {
                       </i>
                     </>
                   ) : (
-                    <>
-                      <BiUserCircle className="mr-1" size={28} />
-                      <i>
-                        Anonymous
-                        {` `}
-                        {formatDistance(document.mdate, new Date(), {
-                          addSuffix: true,
-                        })}
-                      </i>
-                    </>
+                    <i>
+                      Anonymous
+                      {` `}
+                      {formatDistance(document.mdate, new Date(), {
+                        addSuffix: true,
+                      })}
+                    </i>
                   )}
                 </div>
                 <h3 className="text-lg hover:underline underline-offset-2">
