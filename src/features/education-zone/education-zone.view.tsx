@@ -22,11 +22,13 @@ const EducationZoneView = () => {
       </AppNavigation>
       <main className="flex max-w-[1280px] mx-auto">
         <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6 px-10">
-          <h1 className="text-2xl">The Wall</h1>
-          <ol className="flex flex-col mb-4 mt-3 space-y-4">
+          <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4">
+            The Wall
+          </h1>
+          <ol className="flex flex-col mb-4 mt-4 space-y-6">
             {documents.wall.map((document) => (
-              <li className="flex flex-col space-y-1" key={document.id}>
-                <div className="flex items-center space-x-1">
+              <li className="flex flex-col" key={document.id}>
+                <div className="flex items-center space-x-1 mb-1">
                   {document.author ? (
                     <>
                       <Avatar
@@ -54,12 +56,12 @@ const EducationZoneView = () => {
                     </i>
                   )}
                 </div>
-                <h2 className="text-xl hover:underline underline-offset-2">
+                <h2 className="text-2xl hover:underline underline-offset-2">
                   <Link to={document.path} className="line-clamp-2">
                     {document.name}
                   </Link>
                 </h2>
-                <p>{document.description}</p>
+                <p className="w-[70%] mt-1 mb-3">{document.description}</p>
                 <div className="flex items-center space-x-2">
                   {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
                     <div className="flex items-center" key={category}>
@@ -76,8 +78,8 @@ const EducationZoneView = () => {
           <h2 className="text-xl">Content Rank</h2>
           <ol className="flex flex-col mb-4 mt-3 space-y-4 w-[280px]">
             {documents.top.map((document) => (
-              <li className="flex flex-col space-y-1" key={document.id}>
-                <div className="flex items-center space-x-1">
+              <li className="flex flex-col" key={document.id}>
+                <div className="flex items-center space-x-1 mb-0.5">
                   {document.author ? (
                     <>
                       <Avatar
@@ -105,7 +107,7 @@ const EducationZoneView = () => {
                     </i>
                   )}
                 </div>
-                <h3 className="text-lg hover:underline underline-offset-2">
+                <h3 className="text-lg hover:underline underline-offset-2 mb-2">
                   <Link to={document.path} className="line-clamp-2">
                     {document.name}
                   </Link>
