@@ -44,7 +44,32 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     `getPermanentDocuments`,
   )();
 
-  const allDocuments = [...d, ...d, ...d, ...d, ...d, ...d, ...d, ...d];
+  const allDocuments = [
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+  ];
 
   actions.createPage<HomeViewModel>({
     path: meta.routes.home,
