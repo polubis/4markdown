@@ -69,11 +69,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       documents: {
         top: [...documents]
           .slice(0, 4)
-          .map(({ author, name, id, path, rating }) => ({
+          .map(({ author, name, id, path, rating, mdate }) => ({
             name,
             id,
             path,
             rating,
+            mdate,
             author:
               author?.displayName && author?.bio
                 ? {

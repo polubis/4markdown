@@ -92,7 +92,10 @@ type GetEducationDashboardContract = Contract<
   `getEducationDashboard`,
   {
     documents: {
-      top: (Pick<PermanentDocumentDto, 'id' | 'path' | 'name' | 'rating'> & {
+      top: (Pick<
+        PermanentDocumentDto,
+        'id' | 'path' | 'name' | 'rating' | 'mdate'
+      > & {
         author: {
           avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
           displayName: NonNullable<UserProfileDto['displayName']>;

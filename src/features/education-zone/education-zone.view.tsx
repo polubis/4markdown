@@ -1,13 +1,9 @@
 import React from 'react';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
-import { Link } from 'gatsby';
-import { Badges } from 'design-system/badges';
-import { Badge } from 'design-system/badge';
 import { AppNavigation } from 'components/app-navigation';
 import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
-import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import { CreationLinkContainer } from 'containers/creation-link.container';
 import { useEducationZoneStore } from './store/education-zone.store';
 import { selectReady } from './store/education-zone.selectors';
@@ -40,9 +36,9 @@ import { selectReady } from './store/education-zone.selectors';
 //               <p className="break-words">{doc.description}</p>
 //               <p className="flex space-x-1 mt-2 text-sm capitalize italic">
 //                 Created{` `}
-//                 {formatDistance(new Date(), doc.cdate, {
-//                   addSuffix: true,
-//                 })}
+// {formatDistance(new Date(), doc.cdate, {
+//   addSuffix: true,
+// })}
 //                 {` `}
 //                 ago / Edited{` `}
 //                 {formatDistance(new Date(), doc.mdate, {
@@ -52,16 +48,16 @@ import { selectReady } from './store/education-zone.selectors';
 //                 ago
 //               </p>
 //               <div className="flex items-center space-x-2 mt-5 mb-2">
-//                 {doc.author && (
-//                   <Avatar
-//                     size="tn"
-//                     title={doc.author.displayName}
-//                     alt={`${doc.author.displayName} avatar`}
-//                     className="bg-gray-300 dark:bg-slate-800 mr-1.5"
-//                     char={doc.author.displayName.charAt(0)}
-//                     src={doc.author?.avatar?.src}
-//                   />
-//                 )}
+// {doc.author && (
+//   <Avatar
+//     size="tn"
+//     title={doc.author.displayName}
+//     alt={`${doc.author.displayName} avatar`}
+//     className="bg-gray-300 dark:bg-slate-800 mr-1.5"
+//     char={doc.author.displayName.charAt(0)}
+//     src={doc.author?.avatar?.src}
+//   />
+// )}
 //                 {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
 //                   <div
 //                     className="flex text-black dark:text-white items-center"
@@ -90,14 +86,34 @@ const EducationZoneView = () => {
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="max-w-[1280px] mx-auto bg-red-500">
-        <section></section>
-        <section>
-          <h6>Top Content</h6>
+      <main className="flex max-w-[1280px] mx-auto">
+        <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-8 px-12">
+          <h1></h1>
+        </section>
+        <section className="p-8 shrink-0">
+          <h2 className="text-xl">Top Content</h2>
           <ol>
             {documents.top.map((document) => (
               <li key={document.id}>
-                <h6>{document.name}</h6>
+                {document.author && (
+                  <>
+                    <strong>
+                      {document.author.displayName}
+                      {` `}
+                      {formatDistance(document.mdate, new Date(), {
+                        addSuffix: true,
+                      })}
+                    </strong>
+                    <Avatar
+                      size="tn"
+                      alt="Author avatar"
+                      className="bg-gray-300 dark:bg-slate-800 mr-1.5"
+                      char={document.author.displayName.charAt(0)}
+                      src={document.author?.avatar?.src}
+                    />
+                  </>
+                )}
+                <h3 className="text-lg">{document.name}</h3>
               </li>
             ))}
           </ol>
