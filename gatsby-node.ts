@@ -62,17 +62,15 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  const paginatedDocuments = allDocuments.reduce<PermanentDocumentDto[][]>(
-    (acc) => {
-      acc.push([...allDocuments].slice(acc.length, 19));
+  const documentsPerPage = 20;
+  const pagesCount = Math.ceil(allDocuments.length / documentsPerPage);
 
-      return acc;
-    },
-    [],
+  const paginatedDocuments = Array.from({ length: pagesCount }, (_, index) =>
+    [...allDocuments].slice(
+      index * documentsPerPage,
+      (index + 1) * documentsPerPage,
+    ),
   );
-
-  console.log(allDocuments.length);
-  console.log(paginatedDocuments.map((doc) => doc.length));
 
   paginatedDocuments.forEach((documents, index) => {
     actions.createPage<API4MarkdownDto<'getEducationDashboard'>>({
