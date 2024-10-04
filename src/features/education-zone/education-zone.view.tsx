@@ -90,10 +90,10 @@ const EducationZoneView = () => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="flex max-w-[1280px] mx-auto">
-        <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-8 px-12">
+        <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6 px-10">
           <h1></h1>
         </section>
-        <section className="p-8 shrink-0">
+        <section className="p-6 shrink-0">
           <h2 className="text-xl">Content Rank</h2>
           <ol className="flex flex-col mb-4 mt-3 space-y-4 w-[280px]">
             {documents.top.map((document) => (
