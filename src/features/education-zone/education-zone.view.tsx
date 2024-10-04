@@ -21,11 +21,11 @@ const EducationZoneView = () => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="flex max-w-[1280px] mx-auto">
-        <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6 px-10">
+        <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6">
           <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4">
             The Wall
           </h1>
-          <ol className="flex flex-col mb-4 mt-4 space-y-6">
+          <ol className="flex flex-col mb-4 mt-4 space-y-6 mr-6">
             {documents.wall.map((document) => (
               <li className="flex flex-col" key={document.id}>
                 <div className="flex items-center space-x-1 mb-1">
