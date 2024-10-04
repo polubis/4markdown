@@ -25,7 +25,7 @@ const EducationZoneView = () => {
           <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4">
             The Wall
           </h1>
-          <ol className="flex flex-col mb-4 mt-4 space-y-6 mr-6">
+          <ol className="flex flex-col mb-4 mt-4 space-y-8 mr-6">
             {documents.wall.map((document) => (
               <li className="flex flex-col" key={document.id}>
                 <div className="flex items-center space-x-1 mb-1">
@@ -62,7 +62,7 @@ const EducationZoneView = () => {
                   </Link>
                 </h2>
                 <p className="w-[70%] mt-1 mb-3">{document.description}</p>
-                <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3">
+                <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3">
                   {document.tags.join(`, `)}
                 </p>
                 <div className="flex items-center space-x-2">
