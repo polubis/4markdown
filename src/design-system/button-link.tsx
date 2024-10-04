@@ -11,6 +11,7 @@ interface ButtonLinkProps {
   component?: (props: Omit<ButtonLinkProps, 'component'>) => ReactNode;
 }
 
+// @TODO[PRIO=4]: [Improve link component].
 const ButtonLink = ({
   className,
   component: Component = ({ to, ...props }) => <a href={to} {...props} />,

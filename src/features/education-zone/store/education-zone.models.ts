@@ -1,4 +1,4 @@
-import type { API4MarkdownDto } from 'api-4markdown-contracts';
+import type { EducationZoneViewModel } from 'models/view-models';
 
 type EducationZoneStoreState =
   | {
@@ -6,6 +6,6 @@ type EducationZoneStoreState =
     }
   | ({
       is: `ready`;
-    } & API4MarkdownDto<'getEducationDashboard'>);
+    } & EducationZoneViewModel);
 
 export type { EducationZoneStoreState };

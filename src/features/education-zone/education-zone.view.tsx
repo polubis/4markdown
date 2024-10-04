@@ -9,9 +9,11 @@ import { useEducationZoneStore } from './store/education-zone.store';
 import { selectReady } from './store/education-zone.selectors';
 import { Link } from 'gatsby';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
+import { meta } from '../../../meta';
+import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
 
 const EducationZoneView = () => {
-  const { documents } = useEducationZoneStore(selectReady);
+  const { documents, page, pages } = useEducationZoneStore(selectReady);
   const now = new Date();
 
   return (
@@ -76,6 +78,41 @@ const EducationZoneView = () => {
               </li>
             ))}
           </ol>
+          {pages.length > 1 && (
+            <div className="flex space-x-2 justify-end mt-10 mr-6">
+              {page !== pages[0] && (
+                <Link
+                  key="first"
+                  className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+                  title="Go to first page"
+                  to={meta.routes.docs.educationZone}
+                >
+                  <BiArrowToLeft size={20} />
+                </Link>
+              )}
+              {pages.map((page) => (
+                <Link
+                  activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
+                  className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+                  title={`Go to ${page} page`}
+                  to={`${meta.routes.docs.educationZone}${page === 1 ? `` : page}`}
+                  key={page}
+                >
+                  {page}
+                </Link>
+              ))}
+              {page !== pages[pages.length - 1] && (
+                <Link
+                  className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+                  title="Go to last page"
+                  to={`${meta.routes.docs.educationZone}${pages[pages.length - 1]}`}
+                  key="last"
+                >
+                  <BiArrowToRight size={20} />
+                </Link>
+              )}
+            </div>
+          )}
         </section>
         <section className="px-6 pb-6">
           <div className="top-0 sticky right-0 pt-6">

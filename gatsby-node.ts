@@ -3,11 +3,11 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
-import { type HomeViewModel } from 'models/view-models';
 import {
-  type API4MarkdownDto,
-  type PermanentDocumentDto,
-} from 'api-4markdown-contracts';
+  type EducationZoneViewModel,
+  type HomeViewModel,
+} from 'models/view-models';
+import { type PermanentDocumentDto } from 'api-4markdown-contracts';
 import { createInitialCode } from './create-initial-code';
 import { writeFileSync } from 'fs';
 
@@ -39,10 +39,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const functions = getFunctions(app);
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
-  const { data: allDocuments } = await httpsCallable<
-    unknown,
-    PermanentDocumentDto[]
-  >(functions, `getPermanentDocuments`)();
+  const { data: d } = await httpsCallable<unknown, PermanentDocumentDto[]>(
+    functions,
+    `getPermanentDocuments`,
+  )();
+
+  const allDocuments = [...d, ...d, ...d, ...d, ...d, ...d, ...d, ...d];
 
   actions.createPage<HomeViewModel>({
     path: meta.routes.home,
@@ -63,23 +65,32 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   const documentsPerPage = 20;
-  const pagesCount = Math.ceil(allDocuments.length / documentsPerPage);
-
-  const paginatedDocuments = Array.from({ length: pagesCount }, (_, index) =>
-    [...allDocuments].slice(
-      index * documentsPerPage,
-      (index + 1) * documentsPerPage,
-    ),
+  const documentsPageCount = Math.ceil(allDocuments.length / documentsPerPage);
+  const paginatedDocuments = Array.from(
+    { length: documentsPageCount },
+    (_, index) =>
+      [...allDocuments].slice(
+        index * documentsPerPage,
+        (index + 1) * documentsPerPage,
+      ),
+  );
+  const documentsPages = Array.from(
+    { length: documentsPageCount },
+    (_, index) => index + 1,
   );
 
   paginatedDocuments.forEach((documents, index) => {
-    actions.createPage<API4MarkdownDto<'getEducationDashboard'>>({
+    const page = documentsPages[index];
+
+    actions.createPage<EducationZoneViewModel>({
       path:
-        index === 0
+        page === 1
           ? meta.routes.docs.educationZone
-          : `${meta.routes.docs.educationZone}${index + 1}`,
+          : `${meta.routes.docs.educationZone}${page}`,
       component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
       context: {
+        page,
+        pages: documentsPages,
         documents: {
           top: allDocuments
             .slice(0, 4)

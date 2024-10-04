@@ -1,5 +1,13 @@
+import type { API4MarkdownDto } from 'api-4markdown-contracts';
+
 type HomeViewModel = {
   initialCode: string;
 };
 
-export type { HomeViewModel };
+// @TODO[PRIO=4]: [Split models to separate files].
+type EducationZoneViewModel = {
+  page: number;
+  pages: number[];
+} & API4MarkdownDto<'getEducationDashboard'>;
+
+export type { HomeViewModel, EducationZoneViewModel };
