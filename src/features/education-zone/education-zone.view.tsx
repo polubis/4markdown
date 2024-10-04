@@ -10,18 +10,22 @@ import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import { meta } from '../../../meta';
 import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
 import { useEducationZoneContext } from './context/education-zone.context';
+import { paginate } from 'development-kit/paginate';
 
 const Pagination = () => {
   const [{ page, pages }] = useEducationZoneContext();
 
-  if (pages.length < 2) return null;
-
-  const displayRange = 5;
-  const offsetLeft = 2;
-  const offsetRight = 2;
   const firstPage = pages[0];
   const lastPage = pages[pages.length - 1];
-  const filteredPages = pages;
+  const filteredPages = React.useMemo(
+    () =>
+      paginate({
+        pagesCount: pages.length,
+        limit: 5,
+        currentPage: page,
+      }),
+    [pages, page],
+  );
 
   return (
     <div className="flex space-x-2 justify-end mt-10 mr-6">
@@ -62,7 +66,7 @@ const Pagination = () => {
 
 const EducationZoneView = () => {
   const [now] = React.useState(() => new Date());
-  const [{ documents, page, pages }] = useEducationZoneContext();
+  const [{ documents }] = useEducationZoneContext();
 
   return (
     <>
@@ -72,13 +76,8 @@ const EducationZoneView = () => {
       </AppNavigation>
       <main className="flex max-w-[1280px] mx-auto relative">
         <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6">
-          <Pagination />
-
           <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4">
             The Wall
-            <i>
-              Page {page} from {pages.length}
-            </i>
           </h1>
           <ol className="flex flex-col mb-4 mt-4 space-y-8 mr-6">
             {documents.wall.map((document) => (

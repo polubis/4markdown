@@ -39,43 +39,10 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const functions = getFunctions(app);
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
-  const { data: d } = await httpsCallable<unknown, PermanentDocumentDto[]>(
-    functions,
-    `getPermanentDocuments`,
-  )();
-
-  const allDocuments = [
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-    ...d,
-  ];
+  const { data: allDocuments } = await httpsCallable<
+    unknown,
+    PermanentDocumentDto[]
+  >(functions, `getPermanentDocuments`)();
 
   actions.createPage<HomeViewModel>({
     path: meta.routes.home,
