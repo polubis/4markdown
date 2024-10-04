@@ -85,21 +85,24 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
           })),
         wall: [...documents]
           .slice(0, 20)
-          .map(({ author, name, id, path, rating, mdate, description }) => ({
-            name,
-            id,
-            path,
-            rating,
-            mdate,
-            description,
-            author:
-              author?.displayName && author?.bio
-                ? {
-                    displayName: author.displayName,
-                    avatar: author?.avatar ? author.avatar.sm : null,
-                  }
-                : null,
-          })),
+          .map(
+            ({ author, name, id, path, rating, mdate, description, tags }) => ({
+              name,
+              id,
+              path,
+              rating,
+              mdate,
+              description,
+              tags,
+              author:
+                author?.displayName && author?.bio
+                  ? {
+                      displayName: author.displayName,
+                      avatar: author?.avatar ? author.avatar.sm : null,
+                    }
+                  : null,
+            }),
+          ),
       },
     },
   });

@@ -103,7 +103,7 @@ type GetEducationDashboardContract = Contract<
       })[];
       wall: (Pick<
         PermanentDocumentDto,
-        'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description'
+        'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description' | 'tags'
       > & {
         author: {
           avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;

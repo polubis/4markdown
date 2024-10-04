@@ -62,6 +62,9 @@ const EducationZoneView = () => {
                   </Link>
                 </h2>
                 <p className="w-[70%] mt-1 mb-3">{document.description}</p>
+                <p className="text-sm uppercase font-medium rounded-md bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3">
+                  {document.tags.join(`, `)}
+                </p>
                 <div className="flex items-center space-x-2">
                   {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
                     <div className="flex items-center" key={category}>
