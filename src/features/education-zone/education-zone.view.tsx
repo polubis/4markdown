@@ -8,7 +8,6 @@ import { CreationLinkContainer } from 'containers/creation-link.container';
 import { useEducationZoneStore } from './store/education-zone.store';
 import { selectReady } from './store/education-zone.selectors';
 import { Link } from 'gatsby';
-import { BiUser, BiUserCircle } from 'react-icons/bi';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 
 // const EducationZoneView = ({ context }: EducationZoneViewProps) => {
