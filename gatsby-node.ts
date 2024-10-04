@@ -38,7 +38,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const app = initializeApp(config);
   const functions = getFunctions(app);
 
-  // @TODO: Find a way to call it statically from library.
+  // @TODO[PRIO=1]: [Find a way to call it statically from library].
   const { data: allDocuments } = await httpsCallable<
     unknown,
     PermanentDocumentDto[]
@@ -64,19 +64,22 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
 
   const paginatedDocuments = allDocuments.reduce<PermanentDocumentDto[][]>(
     (acc) => {
-      acc.push([...allDocuments].slice(acc.length, 20));
+      acc.push([...allDocuments].slice(acc.length, 19));
 
       return acc;
     },
     [],
   );
 
+  console.log(allDocuments.length);
+  console.log(paginatedDocuments.map((doc) => doc.length));
+
   paginatedDocuments.forEach((documents, index) => {
     actions.createPage<API4MarkdownDto<'getEducationDashboard'>>({
       path:
         index === 0
           ? meta.routes.docs.educationZone
-          : `${meta.routes.docs.educationZone}/${index + 1}`,
+          : `${meta.routes.docs.educationZone}${index + 1}`,
       component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
       context: {
         documents: {
