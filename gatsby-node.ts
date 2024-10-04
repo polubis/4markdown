@@ -3,11 +3,11 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
+import { type HomeViewModel } from 'models/view-models';
 import {
-  type HomeViewModel,
-  type EducationZoneViewModel,
-} from 'models/view-models';
-import { type PermanentDocumentDto } from 'api-4markdown-contracts';
+  type API4MarkdownDto,
+  type PermanentDocumentDto,
+} from 'api-4markdown-contracts';
 import { createInitialCode } from './create-initial-code';
 import { writeFileSync } from 'fs';
 
@@ -21,6 +21,7 @@ const config: FirebaseOptions = {
   measurementId: process.env.GATSBY_MEASURMENT_ID,
 };
 
+// @TODO[PRIO=4]: [Move it to separate file as the "seo-plugins.ts"].
 export const onPostBuild: GatsbyNode['onPostBuild'] = async () => {
   const indexNowKey = process.env.INDEX_NOW_KEY;
 
@@ -38,10 +39,10 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const functions = getFunctions(app);
 
   // @TODO: Find a way to call it statically from library.
-  const { data: docs } = await httpsCallable<unknown, PermanentDocumentDto[]>(
-    functions,
-    `getPermanentDocuments`,
-  )();
+  const { data: documents } = await httpsCallable<
+    unknown,
+    PermanentDocumentDto[]
+  >(functions, `getPermanentDocuments`)();
 
   actions.createPage<HomeViewModel>({
     path: meta.routes.home,
@@ -51,7 +52,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     },
   });
 
-  docs.forEach((doc) => {
+  documents.forEach((doc) => {
     actions.createPage({
       path: doc.path,
       component: path.resolve(`./src/dynamic-pages/document.page.tsx`),
@@ -61,14 +62,16 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  actions.createPage<EducationZoneViewModel>({
+  actions.createPage<API4MarkdownDto<'getEducationDashboard'>>({
     path: meta.routes.docs.educationZone,
     component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
     context: {
-      docs: docs.map<EducationZoneViewModel['docs'][number]>(
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        ({ code, visibility, author, ...doc }) => ({
-          ...doc,
+      documents: {
+        top: documents.map(({ author, name, id, path, rating }) => ({
+          name,
+          id,
+          path,
+          rating,
           author:
             author?.displayName && author?.bio
               ? {
@@ -76,8 +79,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
                   avatar: author?.avatar ? author.avatar.sm : null,
                 }
               : null,
-        }),
-      ),
+        })),
+      },
     },
   });
 };
