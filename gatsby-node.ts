@@ -63,23 +63,23 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   const documentsPerPage = 20;
-  const documentsPageCount = Math.ceil(allDocuments.length / documentsPerPage);
+  const documentPagesCount = Math.ceil(allDocuments.length / documentsPerPage);
   const paginatedDocuments = Array.from(
-    { length: documentsPageCount },
-    (_, index) =>
-      [...allDocuments].slice(
-        index * documentsPerPage,
-        (index + 1) * documentsPerPage,
-      ),
-  );
-  const documentsPages = Array.from(
-    { length: documentsPageCount },
-    (_, index) => index + 1,
+    { length: documentPagesCount },
+    (_, index) => {
+      const page = index + 1;
+
+      return {
+        page,
+        documents: [...allDocuments].slice(
+          index * documentsPerPage,
+          page * documentsPerPage,
+        ),
+      };
+    },
   );
 
-  paginatedDocuments.forEach((documents, index) => {
-    const page = documentsPages[index];
-
+  paginatedDocuments.forEach(({ documents, page }) => {
     actions.createPage<EducationZoneViewModel>({
       path:
         page === 1
@@ -88,7 +88,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
       context: {
         page,
-        pages: documentsPages,
+        pagesCount: documentPagesCount,
         documents: {
           top: allDocuments
             .slice(0, 4)

@@ -13,18 +13,18 @@ import { useEducationZoneContext } from './context/education-zone.context';
 import { paginate } from 'development-kit/paginate';
 
 const Pagination = () => {
-  const [{ page, pages }] = useEducationZoneContext();
+  const [{ page, pagesCount }] = useEducationZoneContext();
 
-  const firstPage = pages[0];
-  const lastPage = pages[pages.length - 1];
+  const firstPage = 1;
+  const lastPage = pagesCount;
   const filteredPages = React.useMemo(
     () =>
       paginate({
-        pagesCount: pages.length,
+        pagesCount,
         limit: 5,
         currentPage: page,
       }),
-    [pages, page],
+    [page, pagesCount],
   );
 
   return (
