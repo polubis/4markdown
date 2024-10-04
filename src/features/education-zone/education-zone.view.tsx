@@ -56,7 +56,7 @@ const EducationZoneView = () => {
                     </i>
                   )}
                 </div>
-                <h2 className="text-2xl hover:underline underline-offset-2">
+                <h2 className="text-2xl hover:underline underline-offset-2 w-fit">
                   <Link to={document.path} className="line-clamp-2">
                     {document.name}
                   </Link>
@@ -111,7 +111,7 @@ const EducationZoneView = () => {
                       </i>
                     )}
                   </div>
-                  <h3 className="text-lg hover:underline underline-offset-2 mb-2">
+                  <h3 className="text-lg hover:underline underline-offset-2 mb-2 w-fit">
                     <Link to={document.path} className="line-clamp-2">
                       {document.name}
                     </Link>
