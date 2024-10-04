@@ -60,8 +60,11 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .When(`I click button`, [`Document preview`])
       .Then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
       .When(`I reload page`)
-      .Then(`I see elements`, [`Go to creator`])
-      .When(`I click elements`, [`Go to creator`])
+      .Then(`I see elements`, [`Create any content`])
+      .When(`I click elements`, [
+        `Create any content`,
+        `Continue editing the document`,
+      ])
       .And(`I click button`, [`More document options`])
       .Then(`I not see button`, [`Edit current document`])
       .When(`I click button`, [
@@ -89,7 +92,10 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .Then(`I see disabled button`, [`Make document permanent`])
       .And(`I not see button`, [`Make document permanent`])
       .When(`I click button`, [`Document preview`])
-      .And(`I click elements`, [`Go to creator`])
+      .And(`I click elements`, [
+        `Create any content`,
+        `Continue editing the document`,
+      ])
       .When(`I click button`, [
         `More document options`,
         `Edit current document`,
