@@ -69,6 +69,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     ...d,
     ...d,
     ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
+    ...d,
   ];
 
   actions.createPage<HomeViewModel>({

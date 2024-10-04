@@ -16,8 +16,14 @@ const Pagination = () => {
 
   if (pages.length < 2) return null;
 
+  const pagesLimit = 5;
+  const offset = Math.floor(pagesLimit / 2);
   const firstPage = pages[0];
   const lastPage = pages[pages.length - 1];
+  const filteredPages = [...pages].slice(
+    page - offset <= firstPage ? 0 : page - offset,
+    page + offset >= lastPage ? lastPage : page + offset,
+  );
 
   return (
     <div className="flex space-x-2 justify-end mt-10 mr-6">
@@ -31,7 +37,7 @@ const Pagination = () => {
           <BiArrowToLeft size={20} />
         </Link>
       )}
-      {pages.map((page) => (
+      {filteredPages.map((page) => (
         <Link
           activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
           className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
@@ -58,7 +64,7 @@ const Pagination = () => {
 
 const EducationZoneView = () => {
   const [now] = React.useState(() => new Date());
-  const [{ documents }] = useEducationZoneContext();
+  const [{ documents, page, pages }] = useEducationZoneContext();
 
   return (
     <>
@@ -68,8 +74,13 @@ const EducationZoneView = () => {
       </AppNavigation>
       <main className="flex max-w-[1280px] mx-auto relative">
         <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6">
+          <Pagination />
+
           <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4">
             The Wall
+            <i>
+              Page {page} from {pages.length}
+            </i>
           </h1>
           <ol className="flex flex-col mb-4 mt-4 space-y-8 mr-6">
             {documents.wall.map((document) => (
