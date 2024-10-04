@@ -4,17 +4,19 @@ import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import { EducationZoneView } from 'features/education-zone/education-zone.view';
-import type { API4MarkdownDto } from 'api-4markdown-contracts';
-import { hydrateEducationZone } from 'features/education-zone/store/education-zone.store';
+import { EducationZoneProvider } from 'features/education-zone/context/education-zone.context';
+import type { EducationZoneViewModel } from 'models/view-models';
 
 type EducationZonePageProps = {
-  pageContext: API4MarkdownDto<'getEducationDashboard'>;
+  pageContext: EducationZoneViewModel;
 };
 
 const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
-  hydrateEducationZone(pageContext);
-
-  return <EducationZoneView />;
+  return (
+    <EducationZoneProvider initialState={pageContext}>
+      <EducationZoneView />
+    </EducationZoneProvider>
+  );
 };
 
 export default EducationZonePage;

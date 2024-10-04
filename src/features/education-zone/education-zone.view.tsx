@@ -5,15 +5,14 @@ import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
 import { CreationLinkContainer } from 'containers/creation-link.container';
-import { useEducationZoneStore } from './store/education-zone.store';
-import { selectReady } from './store/education-zone.selectors';
 import { Link } from 'gatsby';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import { meta } from '../../../meta';
 import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
+import { useEducationZoneContext } from './context/education-zone.context';
 
 const EducationZoneView = () => {
-  const { documents, page, pages } = useEducationZoneStore(selectReady);
+  const [{ documents, page, pages }] = useEducationZoneContext();
   const now = new Date();
 
   return (
