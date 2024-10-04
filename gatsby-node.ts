@@ -67,19 +67,21 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
     context: {
       documents: {
-        top: documents.map(({ author, name, id, path, rating }) => ({
-          name,
-          id,
-          path,
-          rating,
-          author:
-            author?.displayName && author?.bio
-              ? {
-                  displayName: author.displayName,
-                  avatar: author?.avatar ? author.avatar.sm : null,
-                }
-              : null,
-        })),
+        top: [...documents]
+          .slice(0, 4)
+          .map(({ author, name, id, path, rating }) => ({
+            name,
+            id,
+            path,
+            rating,
+            author:
+              author?.displayName && author?.bio
+                ? {
+                    displayName: author.displayName,
+                    avatar: author?.avatar ? author.avatar.sm : null,
+                  }
+                : null,
+          })),
       },
     },
   });
