@@ -12,9 +12,9 @@ import { EducationLayout } from 'components/education-layout';
 
 type EducationRankViewProps = EducationRankViewModel;
 
-const EducationRankView = ({ top }: EducationRankViewProps) => {
-  const [now] = React.useState(() => new Date());
+const now = new Date();
 
+const EducationRankView = ({ top }: EducationRankViewProps) => {
   return (
     <>
       <AppNavigation>
