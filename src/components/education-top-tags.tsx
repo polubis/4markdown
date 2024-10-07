@@ -15,8 +15,7 @@ const EducationTopTags = ({ className, tags }: EducationTopTagsProps) => {
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
           <Link
-          // @TODO[PRIO=2]: [Why ! is required?].
-            activeClassName="!bg-gray-400/60 !dark:bg-slate-800/60"
+            activeClassName="!bg-gray-400/60 dark:!bg-slate-800/60"
             key={tag}
             className="focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white rounded-md text-sm uppercase font-medium bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3"
             to={`${meta.routes.docs.educationZone}${tag}/`}

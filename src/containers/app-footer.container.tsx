@@ -125,7 +125,6 @@ const AppFooterContainer = () => {
               activeClassName="active-link"
               className="hover:underline underline-offset-2"
               to={meta.routes.education.rank}
-              partiallyActive
             >
               Education Rank
             </Link>
@@ -133,7 +132,6 @@ const AppFooterContainer = () => {
               activeClassName="active-link"
               className="hover:underline underline-offset-2"
               to={meta.routes.docs.educationZone}
-              partiallyActive
             >
               Education Zone
             </Link>

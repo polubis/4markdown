@@ -97,11 +97,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             to={meta.routes.education.rank}
             title="Navigate to education rank"
             component={(props) => (
-              <Link
-                partiallyActive
-                activeClassName="active-button-link"
-                {...props}
-              />
+              <Link activeClassName="active-button-link" {...props} />
             )}
           >
             Education Rank
@@ -110,11 +106,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             to={meta.routes.docs.educationZone}
             title="Navigate to education zone"
             component={(props) => (
-              <Link
-                partiallyActive
-                activeClassName="active-button-link"
-                {...props}
-              />
+              <Link activeClassName="active-button-link" {...props} />
             )}
           >
             Education Zone
