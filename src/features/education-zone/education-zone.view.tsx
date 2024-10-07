@@ -146,15 +146,19 @@ const EducationZoneView = () => {
       </AppNavigation>
       <EducationLayout
         title={tag ?? `The Wall`}
-        subTitle={tag ? `By Tag` : `Page ${page} from ${pagesCount}`}
+        subTitle={
+          tag
+            ? `By Tag (${documents.wall.length})`
+            : `Page ${page} from ${pagesCount}`
+        }
       >
         <>
           <EducationDocumentsList documents={documents.wall} />
           <Pagination />
         </>
         <>
+          <EducationTopTags className="mb-6" tags={topTags} />
           <ContentRank />
-          <EducationTopTags className="mt-6" tags={topTags} />
         </>
       </EducationLayout>
       <AppFooterContainer />
