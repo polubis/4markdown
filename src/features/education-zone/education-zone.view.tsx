@@ -145,9 +145,7 @@ const EducationZoneView = () => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <EducationLayout
-        title={
-          tag ? <span className="uppercase">{`"${tag}"`}</span> : `The Wall`
-        }
+        title={tag ? <span className="uppercase">{tag}</span> : `The Wall`}
         subTitle={
           tag
             ? `By Tag (${documents.wall.length})`
