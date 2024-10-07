@@ -152,6 +152,51 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
 
   const topTags = getTopTags(allDocuments, 10);
 
+  topTags.forEach((tag) => {
+    actions.createPage<EducationZoneViewModel>({
+      path: `${meta.routes.docs.educationZone}${tag}`,
+      component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
+      context: {
+        page: 1,
+        pagesCount: 1,
+        documents: {
+          partialTop: [...topDocuments].slice(0, 3),
+          top: topDocuments,
+          wall: allDocuments
+            .filter((document) => document.tags.includes(tag))
+            .map(
+              ({
+                author,
+                name,
+                id,
+                path,
+                rating,
+                mdate,
+                description,
+                tags,
+              }) => ({
+                name,
+                id,
+                path,
+                rating,
+                mdate,
+                description,
+                tags,
+                author:
+                  author?.displayName && author?.bio
+                    ? {
+                        displayName: author.displayName,
+                        avatar: author?.avatar ? author.avatar.sm : null,
+                      }
+                    : null,
+              }),
+            ),
+        },
+        topTags,
+      },
+    });
+  });
+
   paginatedDocuments.forEach(({ documents, page }) => {
     actions.createPage<EducationZoneViewModel>({
       path:
