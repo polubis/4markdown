@@ -6,6 +6,7 @@ import { CreationLinkContainer } from 'containers/creation-link.container';
 import type { EducationRankViewModel } from 'models/view-models';
 import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
+import { EducationTopTags } from 'components/education-top-tags';
 
 type EducationRankViewProps = EducationRankViewModel;
 
@@ -24,7 +25,9 @@ const EducationRankView = ({
         title="The Education Rank"
       >
         <EducationDocumentsList documents={topDocuments} />
-        <>{topTags.join(`,`)}</>
+        <>
+          <EducationTopTags tags={topTags} />
+        </>
       </EducationLayout>
       <AppFooterContainer />
     </>
