@@ -71,7 +71,7 @@ const DocumentsWall = () => {
   const [{ documents }] = useEducationZoneContext();
 
   return (
-    <ol className="flex flex-col mb-4 mt-4 space-y-8 mr-6">
+    <ol className="flex flex-col space-y-8">
       {documents.wall.map((document) => (
         <li className="flex flex-col" key={document.id}>
           <div className="flex items-center space-x-1 mb-1">
@@ -107,8 +107,8 @@ const DocumentsWall = () => {
               {document.name}
             </Link>
           </h2>
-          <p className="w-[70%] mt-1 mb-3">{document.description}</p>
-          <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3">
+          <p className="lg:max-w-[70%] mt-1 mb-3">{document.description}</p>
+          <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
             {document.tags.join(`, `)}
           </p>
           <div className="flex items-center space-x-2">
