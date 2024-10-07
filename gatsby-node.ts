@@ -116,6 +116,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
+  const topDocumentsLimit = 3;
   const documentsPerPage = 20;
   const documentPagesCount = Math.ceil(allDocuments.length / documentsPerPage);
   const paginatedDocuments = Array.from(
@@ -133,7 +134,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     },
   );
 
-  const topDocuments = getTopDocuments(allDocuments, 10).map<
+  const topDocuments = getTopDocuments(allDocuments, documentsPerPage).map<
     EducationZoneViewModel['documents']['top'][number]
   >(({ author, name, id, path, rating, mdate }) => ({
     name,
@@ -150,7 +151,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         : null,
   }));
 
-  const topTags = getTopTags(allDocuments, 10);
+  const topTags = getTopTags(allDocuments, documentsPerPage);
 
   topTags.forEach((tag) => {
     actions.createPage<EducationZoneViewModel>({
@@ -159,8 +160,9 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       context: {
         page: 1,
         pagesCount: 1,
+        tag,
         documents: {
-          partialTop: [...topDocuments].slice(0, 3),
+          partialTop: [...topDocuments].slice(0, topDocumentsLimit),
           top: topDocuments,
           wall: allDocuments
             .filter((document) => document.tags.includes(tag))
@@ -208,7 +210,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         page,
         pagesCount: documentPagesCount,
         documents: {
-          partialTop: [...topDocuments].slice(0, 3),
+          partialTop: [...topDocuments].slice(0, topDocumentsLimit),
           top: topDocuments,
           wall: documents.map(
             ({ author, name, id, path, rating, mdate, description, tags }) => ({

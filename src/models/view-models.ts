@@ -37,6 +37,7 @@ type EducationZoneViewModel = {
     wall: RichEducationDocumentModel[];
   };
   topTags: Tags;
+  tag?: Tags[number];
 };
 
 type EducationRankViewModel = {

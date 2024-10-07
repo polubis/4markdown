@@ -35,7 +35,7 @@ const Pagination = () => {
   if (filteredPages.length <= 1) return null;
 
   return (
-    <div className="flex space-x-2 mt-6 justify-end">
+    <div className="flex space-x-2 mt-auto pt-6 justify-end">
       {page !== firstPage && (
         <Link
           key="first"
@@ -135,7 +135,8 @@ const ContentRank = () => {
 };
 
 const EducationZoneView = () => {
-  const [{ page, pagesCount, documents, topTags }] = useEducationZoneContext();
+  const [{ page, pagesCount, documents, topTags, tag }] =
+    useEducationZoneContext();
 
   return (
     <>
@@ -144,8 +145,8 @@ const EducationZoneView = () => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <EducationLayout
-        title="The Wall"
-        subTitle={`Page ${page} from ${pagesCount}`}
+        title={tag ?? `The Wall`}
+        subTitle={tag ? `By Tag` : `Page ${page} from ${pagesCount}`}
       >
         <>
           <EducationDocumentsList documents={documents.wall} />
