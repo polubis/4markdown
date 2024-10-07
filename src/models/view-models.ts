@@ -7,7 +7,7 @@ import type {
 type HomeViewModel = {
   initialCode: string;
 };
-
+// @TODO[PRIO=3]: [Do BE for FE and reduce amount of proxy models here].
 type EducationDocumentAvatarModel = {
   avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
   displayName: NonNullable<UserProfileDto['displayName']>;

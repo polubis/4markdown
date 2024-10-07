@@ -13,6 +13,7 @@ import { useEducationZoneContext } from './context/education-zone.context';
 import { paginate } from 'development-kit/paginate';
 import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
+import { EducationTopTags } from 'components/education-top-tags';
 
 const now = new Date();
 
@@ -152,7 +153,7 @@ const EducationZoneView = () => {
         </>
         <>
           <ContentRank />
-          {topTags.join(`, `)}
+          <EducationTopTags className="mt-6" tags={topTags} />
         </>
       </EducationLayout>
       <AppFooterContainer />

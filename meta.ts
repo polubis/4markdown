@@ -26,6 +26,7 @@ export const meta = {
       rank: `/education-rank/`,
     },
     docs: {
+      // @TODO[PRIO=3]: [Move education zone to education].
       preview: `/document-preview/`,
       educationZone: `/education-zone/`,
     },
