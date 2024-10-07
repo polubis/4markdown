@@ -29,7 +29,7 @@ const DocumentLayout = ({
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
       <DocumentRating
-        className="mb-4 justify-center tn:justify-end"
+        className="mb-6 justify-center tn:justify-end"
         rating={rating}
         yourRate={yourRate}
         onRate={onRate}
