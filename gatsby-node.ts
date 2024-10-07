@@ -122,7 +122,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         page,
         pagesCount: documentPagesCount,
         documents: {
-          top: getTopDocuments(allDocuments, 4).map(
+          top: getTopDocuments(allDocuments, 3).map(
             ({ author, name, id, path, rating, mdate }) => ({
               name,
               id,

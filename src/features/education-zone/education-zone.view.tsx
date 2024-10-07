@@ -66,7 +66,7 @@ const Pagination = () => {
 
 const EducationZoneView = () => {
   const [now] = React.useState(() => new Date());
-  const [{ documents }] = useEducationZoneContext();
+  const [{ documents, page, pagesCount }] = useEducationZoneContext();
 
   return (
     <>
@@ -76,6 +76,9 @@ const EducationZoneView = () => {
       </AppNavigation>
       <main className="flex max-w-[1280px] mx-auto relative">
         <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6">
+          <p className="text-sm mb-0.5">
+            Page {page} from {pagesCount}
+          </p>
           <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4">
             The Wall
           </h1>
