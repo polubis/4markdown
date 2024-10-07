@@ -7,24 +7,23 @@ type HomeViewModel = {
   initialCode: string;
 };
 
+type EducationDocumentAvatarModel = {
+  avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
+  displayName: NonNullable<UserProfileDto['displayName']>;
+} | null;
+
 type RichEducationDocumentModel = Pick<
   PermanentDocumentDto,
   'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description' | 'tags'
 > & {
-  author: {
-    avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
-    displayName: NonNullable<UserProfileDto['displayName']>;
-  } | null;
+  author: EducationDocumentAvatarModel;
 };
 
 type LightEducationDocumentModel = Pick<
   PermanentDocumentDto,
   'id' | 'path' | 'name' | 'rating' | 'mdate'
 > & {
-  author: {
-    avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
-    displayName: NonNullable<UserProfileDto['displayName']>;
-  } | null;
+  author: EducationDocumentAvatarModel;
 };
 
 // @TODO[PRIO=4]: [Split models to separate files].
