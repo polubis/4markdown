@@ -7,6 +7,16 @@ type HomeViewModel = {
   initialCode: string;
 };
 
+type RichEducationDocumentModel = Pick<
+  PermanentDocumentDto,
+  'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description' | 'tags'
+> & {
+  author: {
+    avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
+    displayName: NonNullable<UserProfileDto['displayName']>;
+  } | null;
+};
+
 // @TODO[PRIO=4]: [Split models to separate files].
 type EducationZoneViewModel = {
   page: number;
@@ -30,28 +40,17 @@ type EducationZoneViewModel = {
         displayName: NonNullable<UserProfileDto['displayName']>;
       } | null;
     })[];
-    wall: (Pick<
-      PermanentDocumentDto,
-      'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description' | 'tags'
-    > & {
-      author: {
-        avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
-        displayName: NonNullable<UserProfileDto['displayName']>;
-      } | null;
-    })[];
+    wall: RichEducationDocumentModel[];
   };
 };
 
 type EducationRankViewModel = {
-  top: (Pick<
-    PermanentDocumentDto,
-    'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description' | 'tags'
-  > & {
-    author: {
-      avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
-      displayName: NonNullable<UserProfileDto['displayName']>;
-    } | null;
-  })[];
+  top: RichEducationDocumentModel[];
 };
 
-export type { HomeViewModel, EducationZoneViewModel, EducationRankViewModel };
+export type {
+  HomeViewModel,
+  EducationZoneViewModel,
+  EducationRankViewModel,
+  RichEducationDocumentModel,
+};
