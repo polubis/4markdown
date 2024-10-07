@@ -12,6 +12,7 @@ interface ButtonProps
   rounded?: boolean;
 }
 
+// @TODO[PRIO=3]: [Rewrite button - it's implementation is really bad].
 const Button: React.FC<ButtonProps> = ({
   className,
   children,
