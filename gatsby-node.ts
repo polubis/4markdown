@@ -62,7 +62,7 @@ const getTopDocuments = (
   }, {});
 
   return [...documents]
-    .sort((prev, curr) => documentWeights[prev.id] - documentWeights[curr.id])
+    .sort((prev, curr) => documentWeights[curr.id] - documentWeights[prev.id])
     .slice(0, amount);
 };
 
