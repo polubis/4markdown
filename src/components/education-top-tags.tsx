@@ -1,6 +1,4 @@
 import type { Tags } from 'api-4markdown-contracts';
-import { Badge } from 'design-system/badge';
-import { Badges } from 'design-system/badges';
 import { Link } from 'gatsby';
 import React from 'react';
 import { meta } from '../../meta';
@@ -14,13 +12,18 @@ const EducationTopTags = ({ className, tags }: EducationTopTagsProps) => {
   return (
     <div className={className}>
       <h2 className="text-xl pb-4">Top Tags</h2>
-      <Badges>
+      <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
-          <Link key={tag} to={`${meta.routes.docs.educationZone}${tag}/`}>
-            <Badge>{tag}</Badge>
+          <Link
+            activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
+            key={tag}
+            className="focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white rounded-md text-sm uppercase font-medium bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3"
+            to={`${meta.routes.docs.educationZone}${tag}/`}
+          >
+            {tag}
           </Link>
         ))}
-      </Badges>
+      </div>
     </div>
   );
 };
