@@ -21,9 +21,11 @@ const EducationRankView = ({ top }: EducationRankViewProps) => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="flex max-w-[1280px] mx-auto relative">
-        <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6 capitalize">
-          <p className="text-sm mb-0.5">Top {top.length} educational assets</p>
-          <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4">
+        <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6">
+          <p className="text-sm mb-0.5 capitalize">
+            Top {top.length} educational assets
+          </p>
+          <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4 capitalize">
             The Education Rank
           </h1>
           <ol className="flex flex-col mb-4 mt-4 space-y-8 mr-6">
