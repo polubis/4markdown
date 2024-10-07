@@ -30,8 +30,10 @@ const Pagination = () => {
     [page, pagesCount],
   );
 
+  if (filteredPages.length <= 1) return null;
+
   return (
-    <div className="flex space-x-2 justify-end mt-10 mr-6">
+    <div className="flex space-x-2 mt-6 justify-end">
       {page !== firstPage && (
         <Link
           key="first"
@@ -42,7 +44,7 @@ const Pagination = () => {
           <BiArrowToLeft size={20} />
         </Link>
       )}
-      {(filteredPages.length > 1 ? filteredPages : []).map((page) => (
+      {filteredPages.map((page) => (
         <Link
           activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
           className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"

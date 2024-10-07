@@ -20,7 +20,7 @@ const EducationLayout = ({
         <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4 px-4">
           {title}
         </h1>
-        <div className="mx-4 mt-6">{body}</div>
+        <div className="mx-4 mt-4">{body}</div>
       </section>
       <section className="border-t-2 md:border-t-0 border-zinc-300 dark:border-zinc-800">
         <div className="top-0 sticky right-0 pt-6 pb-6 px-4 md:px-6">
