@@ -116,7 +116,6 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  const topDocumentsLimit = 3;
   const documentsPerPage = 20;
   const documentPagesCount = Math.ceil(allDocuments.length / documentsPerPage);
   const paginatedDocuments = Array.from(
@@ -150,6 +149,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
           }
         : null,
   }));
+  const partialTopDocuments = [...topDocuments].slice(0, 3);
 
   const topTags = getTopTags(allDocuments, documentsPerPage);
 
@@ -162,7 +162,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         pagesCount: 1,
         tag,
         documents: {
-          partialTop: [...topDocuments].slice(0, topDocumentsLimit),
+          partialTop: partialTopDocuments,
           top: topDocuments,
           wall: allDocuments
             .filter((document) => document.tags.includes(tag))
@@ -210,7 +210,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         page,
         pagesCount: documentPagesCount,
         documents: {
-          partialTop: [...topDocuments].slice(0, topDocumentsLimit),
+          partialTop: partialTopDocuments,
           top: topDocuments,
           wall: documents.map(
             ({ author, name, id, path, rating, mdate, description, tags }) => ({
