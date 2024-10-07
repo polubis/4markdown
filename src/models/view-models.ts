@@ -1,4 +1,7 @@
-import type { API4MarkdownDto } from 'api-4markdown-contracts';
+import type {
+  PermanentDocumentDto,
+  UserProfileDto,
+} from 'api-4markdown-contracts';
 
 type HomeViewModel = {
   initialCode: string;
@@ -8,10 +11,47 @@ type HomeViewModel = {
 type EducationZoneViewModel = {
   page: number;
   pagesCount: number;
-} & API4MarkdownDto<'getEducationDashboard'>;
+  documents: {
+    top: (Pick<
+      PermanentDocumentDto,
+      'id' | 'path' | 'name' | 'rating' | 'mdate'
+    > & {
+      author: {
+        avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
+        displayName: NonNullable<UserProfileDto['displayName']>;
+      } | null;
+    })[];
+    partialTop: (Pick<
+      PermanentDocumentDto,
+      'id' | 'path' | 'name' | 'rating' | 'mdate'
+    > & {
+      author: {
+        avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
+        displayName: NonNullable<UserProfileDto['displayName']>;
+      } | null;
+    })[];
+    wall: (Pick<
+      PermanentDocumentDto,
+      'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description' | 'tags'
+    > & {
+      author: {
+        avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
+        displayName: NonNullable<UserProfileDto['displayName']>;
+      } | null;
+    })[];
+  };
+};
 
 type EducationRankViewModel = {
-  top: API4MarkdownDto<'getEducationDashboard'>['documents']['wall'];
+  top: (Pick<
+    PermanentDocumentDto,
+    'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description' | 'tags'
+  > & {
+    author: {
+      avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
+      displayName: NonNullable<UserProfileDto['displayName']>;
+    } | null;
+  })[];
 };
 
 export type { HomeViewModel, EducationZoneViewModel, EducationRankViewModel };
