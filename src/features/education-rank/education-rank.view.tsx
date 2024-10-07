@@ -8,6 +8,7 @@ import { CreationLinkContainer } from 'containers/creation-link.container';
 import { Link } from 'gatsby';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import type { EducationRankViewModel } from 'models/view-models';
+import { EducationLayout } from 'components/education-layout';
 
 type EducationRankViewProps = EducationRankViewModel;
 
@@ -20,15 +21,12 @@ const EducationRankView = ({ top }: EducationRankViewProps) => {
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="flex max-w-[1280px] mx-auto relative">
-        <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6">
-          <p className="text-sm mb-0.5 capitalize">
-            Top {top.length} educational assets
-          </p>
-          <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4 capitalize">
-            The Education Rank
-          </h1>
-          <ol className="flex flex-col mb-4 mt-4 space-y-8 mr-6">
+      <EducationLayout
+        subTitle={`Top ${top.length} educational assets`}
+        title="The Education Rank"
+      >
+        <>
+          <ol className="flex flex-col space-y-8">
             {top.map((document) => (
               <li className="flex flex-col" key={document.id}>
                 <div className="flex items-center space-x-1 mb-1">
@@ -79,8 +77,9 @@ const EducationRankView = ({ top }: EducationRankViewProps) => {
               </li>
             ))}
           </ol>
-        </section>
-      </main>
+        </>
+        <></>
+      </EducationLayout>
       <AppFooterContainer />
     </>
   );
