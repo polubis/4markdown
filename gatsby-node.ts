@@ -67,6 +67,27 @@ const getTopDocuments = (
     .slice(0, amount);
 };
 
+const getTopTags = (
+  documents: PermanentDocumentDto[],
+  amount: number,
+): string[] => {
+  const countedTags = documents.reduce<Record<string, number>>(
+    (acc, document) => {
+      document.tags.forEach((tag) => {
+        acc[tag] = acc[tag] ?? 1;
+      });
+
+      return acc;
+    },
+    {},
+  );
+
+  return Object.entries(countedTags)
+    .sort(([, prev], [, curr]) => curr - prev)
+    .slice(0, amount)
+    .map(([tag]) => tag);
+};
+
 export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const app = initializeApp(config);
   const functions = getFunctions(app);
@@ -129,6 +150,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         : null,
   }));
 
+  const topTags = getTopTags(allDocuments, 10);
+
   paginatedDocuments.forEach(({ documents, page }) => {
     actions.createPage<EducationZoneViewModel>({
       path:
@@ -161,6 +184,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
             }),
           ),
         },
+        topTags,
       },
     });
   });
@@ -169,7 +193,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     path: meta.routes.education.rank,
     component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
     context: {
-      top: getTopDocuments(allDocuments, documentsPerPage).map(
+      topDocuments: getTopDocuments(allDocuments, documentsPerPage).map(
         ({ author, name, id, path, rating, mdate, description, tags }) => ({
           name,
           id,
@@ -187,6 +211,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
               : null,
         }),
       ),
+      topTags,
     },
   });
 };

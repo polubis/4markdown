@@ -9,7 +9,10 @@ import { EducationDocumentsList } from 'components/education-documents-list';
 
 type EducationRankViewProps = EducationRankViewModel;
 
-const EducationRankView = ({ top }: EducationRankViewProps) => {
+const EducationRankView = ({
+  topDocuments,
+  topTags,
+}: EducationRankViewProps) => {
   return (
     <>
       <AppNavigation>
@@ -17,11 +20,11 @@ const EducationRankView = ({ top }: EducationRankViewProps) => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <EducationLayout
-        subTitle={`Top ${top.length} educational assets`}
+        subTitle={`Top ${topDocuments.length} educational assets`}
         title="The Education Rank"
       >
-        <EducationDocumentsList documents={top} />
-        <></>
+        <EducationDocumentsList documents={topDocuments} />
+        <>{topTags.join(`,`)}</>
       </EducationLayout>
       <AppFooterContainer />
     </>

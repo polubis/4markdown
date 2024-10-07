@@ -134,7 +134,7 @@ const ContentRank = () => {
 };
 
 const EducationZoneView = () => {
-  const [{ page, pagesCount, documents }] = useEducationZoneContext();
+  const [{ page, pagesCount, documents, topTags }] = useEducationZoneContext();
 
   return (
     <>
@@ -152,6 +152,7 @@ const EducationZoneView = () => {
         </>
         <>
           <ContentRank />
+          {topTags.join(`, `)}
         </>
       </EducationLayout>
       <AppFooterContainer />

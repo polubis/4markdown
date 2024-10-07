@@ -35,10 +35,12 @@ type EducationZoneViewModel = {
     partialTop: LightEducationDocumentModel[];
     wall: RichEducationDocumentModel[];
   };
+  topTags: PermanentDocumentDto['tags'];
 };
 
 type EducationRankViewModel = {
-  top: RichEducationDocumentModel[];
+  topDocuments: RichEducationDocumentModel[];
+  topTags: PermanentDocumentDto['tags'];
 };
 
 export type {

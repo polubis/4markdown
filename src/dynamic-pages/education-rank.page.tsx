@@ -11,9 +11,9 @@ type EducationRankPageProps = {
 };
 
 const EducationRankPage = ({
-  pageContext: { top },
+  pageContext: { topDocuments, topTags },
 }: EducationRankPageProps) => {
-  return <EducationRankView top={top} />;
+  return <EducationRankView topDocuments={topDocuments} topTags={topTags} />;
 };
 
 export default EducationRankPage;
