@@ -101,6 +101,15 @@ type GetEducationDashboardContract = Contract<
           displayName: NonNullable<UserProfileDto['displayName']>;
         } | null;
       })[];
+      partialTop: (Pick<
+        PermanentDocumentDto,
+        'id' | 'path' | 'name' | 'rating' | 'mdate'
+      > & {
+        author: {
+          avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;
+          displayName: NonNullable<UserProfileDto['displayName']>;
+        } | null;
+      })[];
       wall: (Pick<
         PermanentDocumentDto,
         'id' | 'path' | 'name' | 'rating' | 'mdate' | 'description' | 'tags'

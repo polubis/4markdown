@@ -111,6 +111,23 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     },
   );
 
+  const topDocuments = getTopDocuments(allDocuments, 10).map<
+    EducationZoneViewModel['documents']['top'][number]
+  >(({ author, name, id, path, rating, mdate }) => ({
+    name,
+    id,
+    path,
+    rating,
+    mdate,
+    author:
+      author?.displayName && author?.bio
+        ? {
+            displayName: author.displayName,
+            avatar: author?.avatar ? author.avatar.sm : null,
+          }
+        : null,
+  }));
+
   paginatedDocuments.forEach(({ documents, page }) => {
     actions.createPage<EducationZoneViewModel>({
       path:
@@ -122,22 +139,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         page,
         pagesCount: documentPagesCount,
         documents: {
-          top: getTopDocuments(allDocuments, 10).map(
-            ({ author, name, id, path, rating, mdate }) => ({
-              name,
-              id,
-              path,
-              rating,
-              mdate,
-              author:
-                author?.displayName && author?.bio
-                  ? {
-                      displayName: author.displayName,
-                      avatar: author?.avatar ? author.avatar.sm : null,
-                    }
-                  : null,
-            }),
-          ),
+          partialTop: [...topDocuments].slice(0, 3),
+          top: topDocuments,
           wall: documents.map(
             ({ author, name, id, path, rating, mdate, description, tags }) => ({
               name,

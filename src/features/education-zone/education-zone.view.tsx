@@ -139,7 +139,7 @@ const EducationZoneView = () => {
           <div className="top-0 sticky right-0 pt-6">
             <h2 className="text-xl">Content Rank</h2>
             <ol className="flex flex-col mb-4 mt-3 space-y-4 w-[280px]">
-              {documents.top.map((document) => (
+              {documents.partialTop.map((document) => (
                 <li className="flex flex-col" key={document.id}>
                   <div className="flex items-center space-x-1 mb-0.5">
                     {document.author ? (
