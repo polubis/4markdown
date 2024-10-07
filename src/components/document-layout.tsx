@@ -6,7 +6,7 @@ import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import type {
   DocumentRatingDto,
-  PermanentDocumentDto,
+  Tags,
   UserProfileDto,
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
@@ -14,7 +14,7 @@ import { DocumentRating, type DocumentRatingProps } from './document-rating';
 type DocumentLayoutProps = {
   children: string;
   rating: DocumentRatingDto;
-  tags: PermanentDocumentDto['tags'];
+  tags: Tags;
   author: UserProfileDto | null;
 } & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
 

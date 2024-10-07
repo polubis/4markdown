@@ -1,5 +1,6 @@
 import type {
   PermanentDocumentDto,
+  Tags,
   UserProfileDto,
 } from 'api-4markdown-contracts';
 
@@ -35,12 +36,12 @@ type EducationZoneViewModel = {
     partialTop: LightEducationDocumentModel[];
     wall: RichEducationDocumentModel[];
   };
-  topTags: PermanentDocumentDto['tags'];
+  topTags: Tags;
 };
 
 type EducationRankViewModel = {
   topDocuments: RichEducationDocumentModel[];
-  topTags: PermanentDocumentDto['tags'];
+  topTags: Tags;
 };
 
 export type {

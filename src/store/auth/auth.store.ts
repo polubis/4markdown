@@ -3,6 +3,7 @@ import type {
   API4MarkdownDto,
   DocumentDto,
   PermanentDocumentDto,
+  Tags,
 } from 'api-4markdown-contracts';
 import { create } from 'zustand';
 
@@ -21,7 +22,7 @@ interface AuthorizedData {
   makeDocPermanent(
     name: DocumentDto['name'],
     description: PermanentDocumentDto['description'],
-    tags: PermanentDocumentDto['tags'],
+    tags: Tags,
   ): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
