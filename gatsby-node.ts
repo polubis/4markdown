@@ -7,7 +7,10 @@ import {
   type EducationZoneViewModel,
   type HomeViewModel,
 } from 'models/view-models';
-import { type PermanentDocumentDto } from 'api-4markdown-contracts';
+import {
+  type DocumentRatingCategory,
+  type PermanentDocumentDto,
+} from 'api-4markdown-contracts';
 import { createInitialCode } from './create-initial-code';
 import { writeFileSync } from 'fs';
 
@@ -32,6 +35,35 @@ export const onPostBuild: GatsbyNode['onPostBuild'] = async () => {
   writeFileSync(filePath, indexNowKey);
 
   console.log(`IndexNow verification file created at: ${filePath}`);
+};
+
+const getTopDocuments = (
+  documents: PermanentDocumentDto[],
+  amount: number,
+): PermanentDocumentDto[] => {
+  const weights: Record<DocumentRatingCategory, number> = {
+    perfect: 5,
+    good: 4,
+    decent: 3,
+    bad: 2,
+    ugly: 1,
+  };
+
+  const documentWeights = documents.reduce<
+    Record<PermanentDocumentDto['id'], number>
+  >((acc, document) => {
+    acc[document.id] = Object.entries(document.rating).reduce(
+      (acc, [category, rate]) =>
+        rate * weights[category as DocumentRatingCategory] + acc,
+      0,
+    );
+
+    return acc;
+  }, {});
+
+  return [...documents]
+    .sort((prev, curr) => documentWeights[prev.id] - documentWeights[curr.id])
+    .slice(0, amount);
 };
 
 export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
@@ -90,9 +122,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         page,
         pagesCount: documentPagesCount,
         documents: {
-          top: allDocuments
-            .slice(0, 4)
-            .map(({ author, name, id, path, rating, mdate }) => ({
+          top: getTopDocuments(allDocuments, 4).map(
+            ({ author, name, id, path, rating, mdate }) => ({
               name,
               id,
               path,
@@ -105,7 +136,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
                       avatar: author?.avatar ? author.avatar.sm : null,
                     }
                   : null,
-            })),
+            }),
+          ),
           wall: documents.map(
             ({ author, name, id, path, rating, mdate, description, tags }) => ({
               name,
