@@ -88,17 +88,6 @@ type RateDocumentContract = Contract<
   }
 >;
 
-type GetEducationDashboardContract = Contract<
-  `getEducationDashboard`,
-  {
-    documents: {
-      top: PermanentDocumentDto[];
-      partialTop: PermanentDocumentDto[];
-      wall: PermanentDocumentDto[];
-    };
-  }
->;
-
 type API4MarkdownContracts =
   | GetYourDocumentsContract
   | GetAccessibleDocumentContract
@@ -110,8 +99,7 @@ type API4MarkdownContracts =
   | UploadImageContract
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract
-  | RateDocumentContract
-  | GetEducationDashboardContract;
+  | RateDocumentContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -152,6 +140,5 @@ export type {
   GetYourUserProfileContract,
   UpdateYourUserProfileContract,
   RateDocumentContract,
-  GetEducationDashboardContract,
   API4MarkdownContractCall,
 };
