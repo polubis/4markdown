@@ -10,4 +10,8 @@ type EducationZoneViewModel = {
   pagesCount: number;
 } & API4MarkdownDto<'getEducationDashboard'>;
 
-export type { HomeViewModel, EducationZoneViewModel };
+type EducationRankViewModel = {
+  top: API4MarkdownDto<'getEducationDashboard'>['documents']['wall'];
+};
+
+export type { HomeViewModel, EducationZoneViewModel, EducationRankViewModel };

@@ -4,6 +4,7 @@ import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
 import {
+  type EducationRankViewModel,
   type EducationZoneViewModel,
   type HomeViewModel,
 } from 'models/view-models';
@@ -162,5 +163,30 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         },
       },
     });
+  });
+
+  actions.createPage<EducationRankViewModel>({
+    path: meta.routes.education.rank,
+    component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
+    context: {
+      top: getTopDocuments(allDocuments, documentsPerPage).map(
+        ({ author, name, id, path, rating, mdate, description, tags }) => ({
+          name,
+          id,
+          path,
+          rating,
+          mdate,
+          description,
+          tags,
+          author:
+            author?.displayName && author?.bio
+              ? {
+                  displayName: author.displayName,
+                  avatar: author?.avatar ? author.avatar.sm : null,
+                }
+              : null,
+        }),
+      ),
+    },
   });
 };

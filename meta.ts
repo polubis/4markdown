@@ -22,6 +22,9 @@ export const meta = {
       preview: `/creator-preview/`,
     },
     home: `/`,
+    education: {
+      rank: `/education-rank/`,
+    },
     docs: {
       preview: `/document-preview/`,
       educationZone: `/education-zone/`,
@@ -29,6 +32,7 @@ export const meta = {
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
   },
+  // @TODO[PRIO=4]: [Remove legacy routes from this place].
   legacyRoutes: {
     docs: {
       preview: `/docs/preview/`, // Now "/document/preview/""

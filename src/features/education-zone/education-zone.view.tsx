@@ -39,7 +39,7 @@ const Pagination = () => {
           <BiArrowToLeft size={20} />
         </Link>
       )}
-      {filteredPages.map((page) => (
+      {(filteredPages.length > 1 ? filteredPages : []).map((page) => (
         <Link
           activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
           className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
@@ -76,7 +76,7 @@ const EducationZoneView = () => {
       </AppNavigation>
       <main className="flex max-w-[1280px] mx-auto relative">
         <section className="w-full border-r-2 border-zinc-300 dark:border-zinc-800 py-6">
-          <p className="text-sm mb-0.5">
+          <p className="text-sm mb-0.5 capitalize">
             Page {page} from {pagesCount}
           </p>
           <h1 className="text-3xl border-b-2 border-zinc-300 dark:border-zinc-800 pb-4">
@@ -185,7 +185,10 @@ const EducationZoneView = () => {
                 </li>
               ))}
             </ol>
-            <Link to="/" className="hover:underline underline-offset-2">
+            <Link
+              to={meta.routes.education.rank}
+              className="hover:underline underline-offset-2"
+            >
               See Full Rank
             </Link>
           </div>
