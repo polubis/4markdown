@@ -6,7 +6,7 @@ import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import type {
   DocumentRatingDto,
-  PermanentDocumentDto,
+  Tags,
   UserProfileDto,
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
@@ -14,7 +14,7 @@ import { DocumentRating, type DocumentRatingProps } from './document-rating';
 type DocumentLayoutProps = {
   children: string;
   rating: DocumentRatingDto;
-  tags: PermanentDocumentDto['tags'];
+  tags: Tags;
   author: UserProfileDto | null;
 } & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
 
@@ -29,7 +29,7 @@ const DocumentLayout = ({
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
       <DocumentRating
-        className="mb-6 justify-center tn:justify-end"
+        className="mb-6 justify-end"
         rating={rating}
         yourRate={yourRate}
         onRate={onRate}
@@ -73,7 +73,7 @@ const DocumentLayout = ({
         </section>
       )}
       <DocumentRating
-        className="mt-10 justify-center tn:justify-end"
+        className="mt-10 justify-end"
         rating={rating}
         yourRate={yourRate}
         onRate={onRate}

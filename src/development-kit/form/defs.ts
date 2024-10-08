@@ -11,7 +11,7 @@ export type ValidatorFn<Value, Result extends string> = (
 export type ValidatorsSetup<Values extends ValuesBase> = {
   [Key in keyof Values]?: ValidatorFn<Values[Key], string>[];
 };
-
+// @TODO[PRIO=3]: [Put is as a library].
 export type ValuesKeys<Values extends ValuesBase> = (keyof Values)[];
 
 export type ValidationResult<Values extends ValuesBase> = {

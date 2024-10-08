@@ -5,7 +5,7 @@ describe(`Permament documents works when`, () => {
   const { Given } = Gherkin({
     ...BASE_COMMANDS,
     'I click explore "Naming generics in TypeScript"': () => {
-      cy.get(`a[title="Explore Naming generics in TypeScript"]`).click();
+      cy.contains(`Naming generics in TypeScript`).scrollIntoView().click();
     },
     'I see unchanged elements': () => {
       cy.get(`.markdown > div > :is(h1, h2, h3, h4, h5, h6)`).each(
