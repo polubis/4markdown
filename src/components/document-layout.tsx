@@ -22,8 +22,8 @@ type ThumbnailImage = {
   h: number;
   w: number;
   src: string;
-  type: 'image';
-  format: 'webp';
+  type: string;
+  format: string;
 };
 
 type Thumbnails = [
@@ -36,43 +36,45 @@ type Thumbnails = [
 ];
 
 const thumbnails: Thumbnails = [
-  `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
+  `https://cdn.backpacker.com/wp-content/uploads/2018/08/15042738127_f2ecb0b570_o.jpg`,
   {
     h: 1024,
     w: 1024,
     src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
-    type: `image`,
-    format: `webp`,
+    type: `image/jpg`,
+    format: `jpg`,
   },
   {
     h: 864,
     w: 864,
-    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
-    type: `image`,
-    format: `webp`,
+    src: `https://cdn.britannica.com/10/241010-049-3EB67AA2/highest-mountains-of-the-world-on-each-continent.jpg`,
+    type: `image/jpg`,
+    format: `jpg`,
   },
   {
     h: 768,
     w: 768,
     src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
-    type: `image`,
-    format: `webp`,
+    type: `image/jpg`,
+    format: `jpg`,
   },
   {
     h: 480,
     w: 480,
-    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
-    type: `image`,
-    format: `webp`,
+    src: `https://hips.hearstapps.com/hmg-prod/images/alpe-di-siusi-sunrise-with-sassolungo-or-langkofel-royalty-free-image-1623254127.jpg`,
+    type: `image/jpg`,
+    format: `jpg`,
   },
   {
     h: 150,
     w: 150,
-    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
-    type: `image`,
-    format: `webp`,
+    src: `https://i.natgeofe.com/n/c9107b46-78b1-4394-988d-53927646c72b/1095.jpg`,
+    type: `image/jpg`,
+    format: `jpg`,
   },
 ];
+
+const thumbnailsMedia = [1024, 768, 512, 420, 320] as const;
 
 const DocumentLayout = ({
   children,
@@ -101,8 +103,13 @@ const DocumentLayout = ({
       )}
       <figure className="bg-slate-200 dark:bg-slate-800 rounded-md mb-4">
         <picture>
-          {fullThumbnails.map((thumbnail) => (
-            <source key={thumbnail.src} srcSet={thumbnail.src} />
+          {fullThumbnails.map((thumbnail, index) => (
+            <source
+              key={thumbnail.src}
+              srcSet={`${thumbnail.src} ${thumbnail.w}w ${thumbnail.h}h`}
+              media={`(min-width: ${thumbnailsMedia[index]}px)`}
+              type={thumbnail.type}
+            />
           ))}
           <img
             src={thumbnailPlaceholder}
