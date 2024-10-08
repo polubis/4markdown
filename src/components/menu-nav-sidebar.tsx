@@ -94,6 +94,15 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Discord
           </ButtonLink>
           <ButtonLink
+            to={meta.routes.education.rank}
+            title="Navigate to education rank"
+            component={(props) => (
+              <Link activeClassName="active-button-link" {...props} />
+            )}
+          >
+            Education Rank
+          </ButtonLink>
+          <ButtonLink
             to={meta.routes.docs.educationZone}
             title="Navigate to education zone"
             component={(props) => (
