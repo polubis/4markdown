@@ -18,6 +18,62 @@ type DocumentLayoutProps = {
   author: UserProfileDto | null;
 } & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
 
+type ThumbnailImage = {
+  h: number;
+  w: number;
+  src: string;
+  type: 'image';
+  format: 'webp';
+};
+
+type Thumbnails = [
+  string,
+  ThumbnailImage,
+  ThumbnailImage,
+  ThumbnailImage,
+  ThumbnailImage,
+  ThumbnailImage,
+];
+
+const thumbnails: Thumbnails = [
+  `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
+  {
+    h: 1024,
+    w: 1024,
+    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
+    type: `image`,
+    format: `webp`,
+  },
+  {
+    h: 864,
+    w: 864,
+    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
+    type: `image`,
+    format: `webp`,
+  },
+  {
+    h: 768,
+    w: 768,
+    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
+    type: `image`,
+    format: `webp`,
+  },
+  {
+    h: 480,
+    w: 480,
+    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
+    type: `image`,
+    format: `webp`,
+  },
+  {
+    h: 150,
+    w: 150,
+    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
+    type: `image`,
+    format: `webp`,
+  },
+];
+
 const DocumentLayout = ({
   children,
   author,
@@ -26,6 +82,8 @@ const DocumentLayout = ({
   rating,
   onRate,
 }: DocumentLayoutProps) => {
+  const [thumbnailPlaceholder, ...fullThumbnails] = thumbnails;
+
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
       <DocumentRating
@@ -42,10 +100,18 @@ const DocumentLayout = ({
         </Badges>
       )}
       <figure className="bg-slate-200 dark:bg-slate-800 rounded-md mb-4">
-        <figcaption>The title of the article.</figcaption>
         <picture>
-          <img src="" alt="The description of the article" />
+          {fullThumbnails.map((thumbnail) => (
+            <source key={thumbnail.src} srcSet={thumbnail.src} />
+          ))}
+          <img
+            src={thumbnailPlaceholder}
+            alt="The description of the article"
+          />
         </picture>
+        <figcaption className="opacity-0 h-0">
+          The title of the article.
+        </figcaption>
       </figure>
       {/* <figure className="relative w-full mb-4 h-[160px] tn:h-[240px] md:h-[320px]">
         <img
