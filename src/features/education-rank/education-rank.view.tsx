@@ -3,12 +3,12 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { CreationLinkContainer } from 'containers/creation-link.container';
-import type { EducationRankViewModel } from 'models/view-models';
+import type { EducationRanPageModel } from 'models/page-models';
 import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
 import { EducationTopTags } from 'components/education-top-tags';
 
-type EducationRankViewProps = EducationRankViewModel;
+type EducationRankViewProps = EducationRanPageModel;
 
 const EducationRankView = ({
   topDocuments,

@@ -4,10 +4,10 @@ import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
 import {
-  type EducationRankViewModel,
-  type EducationZoneViewModel,
-  type HomeViewModel,
-} from 'models/view-models';
+  type EducationRanPageModel,
+  type EducationPageModel,
+  type HomePageModel,
+} from 'models/page-models';
 import {
   type DocumentRatingCategory,
   type PermanentDocumentDto,
@@ -98,7 +98,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     PermanentDocumentDto[]
   >(functions, `getPermanentDocuments`)();
 
-  actions.createPage<HomeViewModel>({
+  actions.createPage<HomePageModel>({
     path: meta.routes.home,
     component: path.resolve(`./src/dynamic-pages/home.page.tsx`),
     context: {
@@ -134,7 +134,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   );
 
   const topDocuments = getTopDocuments(allDocuments, documentsPerPage).map<
-    EducationZoneViewModel['documents']['top'][number]
+    EducationPageModel['documents']['top'][number]
   >(({ author, name, id, path, rating, mdate }) => ({
     name,
     id,
@@ -151,10 +151,10 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   }));
   const partialTopDocuments = [...topDocuments].slice(0, 3);
 
-  const topTags = getTopTags(allDocuments, documentsPerPage);
+  const topTags = getTopTags(allDocuments, 10);
 
   topTags.forEach((tag) => {
-    actions.createPage<EducationZoneViewModel>({
+    actions.createPage<EducationPageModel>({
       path: `${meta.routes.docs.educationZone}${tag}`,
       component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
       context: {
@@ -200,7 +200,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   paginatedDocuments.forEach(({ documents, page }) => {
-    actions.createPage<EducationZoneViewModel>({
+    actions.createPage<EducationPageModel>({
       path:
         page === 1
           ? meta.routes.docs.educationZone
@@ -236,7 +236,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  actions.createPage<EducationRankViewModel>({
+  actions.createPage<EducationRanPageModel>({
     path: meta.routes.education.rank,
     component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
     context: {

@@ -13,12 +13,12 @@ import { paginate } from 'development-kit/paginate';
 import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
 import { EducationTopTags } from 'components/education-top-tags';
-import type { EducationZoneViewModel } from 'models/view-models';
+import type { EducationPageModel } from 'models/page-models';
 
-type EducationZoneViewProps = EducationZoneViewModel;
+type EducationZoneViewProps = EducationPageModel;
 
 const now = new Date();
-
+// @TODO[PRIO=3]: [Think about moving dates calculation on the server side].
 const Pagination = ({
   page,
   pagesCount,

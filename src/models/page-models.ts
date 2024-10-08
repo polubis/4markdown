@@ -4,7 +4,7 @@ import type {
   UserProfileDto,
 } from 'api-4markdown-contracts';
 
-type HomeViewModel = {
+type HomePageModel = {
   initialCode: string;
 };
 // @TODO[PRIO=3]: [Do BE for FE and reduce amount of proxy models here].
@@ -28,7 +28,7 @@ type LightEducationDocumentModel = Pick<
 };
 
 // @TODO[PRIO=4]: [Split models to separate files].
-type EducationZoneViewModel = {
+type EducationPageModel = {
   page: number;
   pagesCount: number;
   documents: {
@@ -40,15 +40,15 @@ type EducationZoneViewModel = {
   tag?: Tags[number];
 };
 
-type EducationRankViewModel = {
+type EducationRanPageModel = {
   topDocuments: RichEducationDocumentModel[];
   topTags: Tags;
 };
 
 export type {
-  HomeViewModel,
-  EducationZoneViewModel,
+  HomePageModel,
+  EducationPageModel,
   LightEducationDocumentModel,
-  EducationRankViewModel,
+  EducationRanPageModel,
   RichEducationDocumentModel,
 };

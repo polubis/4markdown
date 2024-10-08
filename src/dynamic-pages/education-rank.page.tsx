@@ -3,11 +3,11 @@ import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
-import type { EducationRankViewModel } from 'models/view-models';
+import type { EducationRanPageModel } from 'models/page-models';
 import { EducationRankView } from 'features/education-rank/education-rank.view';
 
 type EducationRankPageProps = {
-  pageContext: EducationRankViewModel;
+  pageContext: EducationRanPageModel;
 };
 
 const EducationRankPage = ({

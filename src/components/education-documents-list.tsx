@@ -2,7 +2,7 @@ import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import { formatDistance } from 'date-fns';
 import { Avatar } from 'design-system/avatar';
 import { Link } from 'gatsby';
-import type { RichEducationDocumentModel } from 'models/view-models';
+import type { RichEducationDocumentModel } from 'models/page-models';
 import React from 'react';
 
 type EducationDocumentsListProps = {

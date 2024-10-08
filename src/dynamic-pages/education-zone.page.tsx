@@ -4,10 +4,10 @@ import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import { EducationZoneView } from 'features/education-zone/education-zone.view';
-import type { EducationZoneViewModel } from 'models/view-models';
+import type { EducationPageModel } from 'models/page-models';
 
 type EducationZonePageProps = {
-  pageContext: EducationZoneViewModel;
+  pageContext: EducationPageModel;
 };
 
 const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
