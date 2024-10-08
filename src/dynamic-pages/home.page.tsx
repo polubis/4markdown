@@ -4,11 +4,11 @@ import CreatorView from 'features/creator/creator.view';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
-import type { HomeViewModel } from 'models/view-models';
+import type { HomePageModel } from 'models/page-models';
 import { creatorStoreActions } from 'store/creator/creator.store';
 
 interface HomePageProps {
-  pageContext: HomeViewModel;
+  pageContext: HomePageModel;
 }
 
 const HomePage = ({ pageContext: { initialCode } }: HomePageProps) => {

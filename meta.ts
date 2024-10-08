@@ -22,13 +22,18 @@ export const meta = {
       preview: `/creator-preview/`,
     },
     home: `/`,
+    education: {
+      rank: `/education-rank/`,
+    },
     docs: {
+      // @TODO[PRIO=3]: [Move education zone to education].
       preview: `/document-preview/`,
       educationZone: `/education-zone/`,
     },
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
   },
+  // @TODO[PRIO=4]: [Remove legacy routes from this place].
   legacyRoutes: {
     docs: {
       preview: `/docs/preview/`, // Now "/document/preview/""

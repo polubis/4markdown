@@ -1,84 +1,172 @@
 import React from 'react';
 import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
-import { Link } from 'gatsby';
-import { Badges } from 'design-system/badges';
-import { Badge } from 'design-system/badge';
 import { AppNavigation } from 'components/app-navigation';
 import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { Avatar } from 'design-system/avatar';
-import type { EducationZoneViewModel } from 'models/view-models';
-import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import { CreationLinkContainer } from 'containers/creation-link.container';
+import { Link } from 'gatsby';
+import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
+import { meta } from '../../../meta';
+import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
+import { paginate } from 'development-kit/paginate';
+import { EducationLayout } from 'components/education-layout';
+import { EducationDocumentsList } from 'components/education-documents-list';
+import { EducationTopTags } from 'components/education-top-tags';
+import type { EducationPageModel } from 'models/page-models';
 
-interface EducationZoneViewProps {
-  context: EducationZoneViewModel;
-}
+type EducationZoneViewProps = EducationPageModel;
 
-const EducationZoneView = ({ context }: EducationZoneViewProps) => {
+const now = new Date();
+// @TODO[PRIO=3]: [Think about moving dates calculation on the server side].
+const Pagination = ({
+  page,
+  pagesCount,
+}: Pick<EducationZoneViewProps, 'page' | 'pagesCount'>) => {
+  const firstPage = 1;
+  const lastPage = pagesCount;
+  const filteredPages = React.useMemo(
+    () =>
+      paginate({
+        pagesCount,
+        limit: 5,
+        currentPage: page,
+      }),
+    [page, pagesCount],
+  );
+
+  if (filteredPages.length <= 1) return null;
+
+  return (
+    <div className="flex space-x-2 mt-auto pt-6 justify-end">
+      {page !== firstPage && (
+        <Link
+          key="first"
+          className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+          title="Go to first page"
+          to={meta.routes.docs.educationZone}
+        >
+          <BiArrowToLeft size={20} />
+        </Link>
+      )}
+      {filteredPages.map((page) => (
+        <Link
+          activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
+          className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+          title={`Go to ${page} page`}
+          to={`${meta.routes.docs.educationZone}${page === firstPage ? `` : page}`}
+          key={page}
+        >
+          {page}
+        </Link>
+      ))}
+      {page !== lastPage && (
+        <Link
+          className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+          title="Go to last page"
+          to={`${meta.routes.docs.educationZone}${lastPage}`}
+          key="last"
+        >
+          <BiArrowToRight size={20} />
+        </Link>
+      )}
+    </div>
+  );
+};
+
+const ContentRank = ({
+  documents,
+}: Pick<EducationZoneViewProps, 'documents'>) => {
+  return (
+    <>
+      <h2 className="text-xl">Content Rank</h2>
+      <ol className="flex flex-col mb-4 mt-3 space-y-4 w-[280px]">
+        {documents.partialTop.map((document) => (
+          <li className="flex flex-col" key={document.id}>
+            <div className="flex items-center space-x-1 mb-0.5">
+              {document.author ? (
+                <>
+                  <Avatar
+                    size="tn"
+                    alt="Author avatar"
+                    className="bg-gray-300 dark:bg-slate-800 mr-1.5"
+                    char={document.author.displayName.charAt(0)}
+                    src={document.author?.avatar?.src}
+                  />
+                  <i>
+                    {document.author.displayName}
+                    {` `}
+                    {formatDistance(document.mdate, now, {
+                      addSuffix: true,
+                    })}
+                  </i>
+                </>
+              ) : (
+                <i>
+                  Anonymous
+                  {` `}
+                  {formatDistance(document.mdate, now, {
+                    addSuffix: true,
+                  })}
+                </i>
+              )}
+            </div>
+            <h3 className="text-lg hover:underline underline-offset-2 mb-2 w-fit">
+              <Link to={document.path} className="line-clamp-2">
+                {document.name}
+              </Link>
+            </h3>
+            <div className="flex items-center space-x-2">
+              {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+                <div className="flex items-center" key={category}>
+                  <Icon className="mr-1" size={20} />
+                  <strong>{document.rating[category]}</strong>
+                </div>
+              ))}
+            </div>
+          </li>
+        ))}
+      </ol>
+      <Link
+        to={meta.routes.education.rank}
+        className="hover:underline underline-offset-2"
+      >
+        See Full Rank
+      </Link>
+    </>
+  );
+};
+
+const EducationZoneView = ({
+  page,
+  pagesCount,
+  documents,
+  topTags,
+  tag,
+}: EducationZoneViewProps) => {
   return (
     <>
       <AppNavigation>
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="max-w-lg mx-auto my-6 p-4">
-        <ul className="flex flex-col space-y-10">
-          {context.docs.map((doc) => (
-            <li className="flex flex-col" key={doc.name}>
-              <Badges className="mb-3">
-                {doc.tags.map((tag) => (
-                  <Badge key={tag}>{tag}</Badge>
-                ))}
-              </Badges>
-              <h6 className="mb-2 text-2xl">
-                <Link
-                  className="underline underline-offset-2 hover:text-blue-800 hover:dark:text-blue-500"
-                  title={`Explore ${doc.name}`}
-                  to={doc.path}
-                >
-                  {doc.name}
-                </Link>
-              </h6>
-              <p className="break-words">{doc.description}</p>
-              <p className="flex space-x-1 mt-2 text-sm capitalize italic">
-                Created{` `}
-                {formatDistance(new Date(), doc.cdate, {
-                  addSuffix: true,
-                })}
-                {` `}
-                ago / Edited{` `}
-                {formatDistance(new Date(), doc.mdate, {
-                  addSuffix: true,
-                })}
-                {` `}
-                ago
-              </p>
-              <div className="flex items-center space-x-2 mt-5 mb-2">
-                {doc.author && (
-                  <Avatar
-                    size="tn"
-                    title={doc.author.displayName}
-                    alt={`${doc.author.displayName} avatar`}
-                    className="bg-gray-300 dark:bg-slate-800 mr-1.5"
-                    char={doc.author.displayName.charAt(0)}
-                    src={doc.author?.avatar?.src}
-                  />
-                )}
-                {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
-                  <div
-                    className="flex text-black dark:text-white items-center"
-                    key={category}
-                  >
-                    <Icon className="mr-1" size={20} />
-                    <strong>{doc.rating[category]}</strong>
-                  </div>
-                ))}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </main>
+      <EducationLayout
+        title={tag ? <span className="uppercase">{tag}</span> : `The Wall`}
+        subTitle={
+          tag
+            ? `By Tag (${documents.wall.length})`
+            : `Page ${page} from ${pagesCount}`
+        }
+      >
+        <>
+          <EducationDocumentsList documents={documents.wall} />
+          <Pagination page={page} pagesCount={pagesCount} />
+        </>
+        <>
+          <EducationTopTags className="mb-6" tags={topTags} />
+          <ContentRank documents={documents} />
+        </>
+      </EducationLayout>
       <AppFooterContainer />
     </>
   );

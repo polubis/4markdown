@@ -12,6 +12,7 @@ interface ButtonProps
   rounded?: boolean;
 }
 
+// @TODO[PRIO=3]: [Rewrite button - it's implementation is really bad].
 const Button: React.FC<ButtonProps> = ({
   className,
   children,
@@ -30,6 +31,7 @@ const Button: React.FC<ButtonProps> = ({
       { [`px-2 py-1 text-sm [&>svg]:text-xl`]: auto && s === 1 },
       { [`px-3 py-2 [&>svg]:text-2xl`]: auto && s === 2 },
       {
+        // @TODO[PRIO=4]: [Remove opacities in all places - use real colors].
         [`disabled:text-black/30 text-black enabled:hover:bg-gray-400/20 dark:enabled:hover:bg-slate-800/50 dark:text-white dark:disabled:text-white/30`]:
           i === 1,
       },
