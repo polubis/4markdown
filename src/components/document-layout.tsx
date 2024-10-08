@@ -28,6 +28,25 @@ const DocumentLayout = ({
 }: DocumentLayoutProps) => {
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
+      <DocumentRating
+        className="mb-6 justify-end"
+        rating={rating}
+        yourRate={yourRate}
+        onRate={onRate}
+      />
+      {tags.length > 0 && (
+        <Badges className="mb-4">
+          {tags.map((tag) => (
+            <Badge key={tag}>{tag}</Badge>
+          ))}
+        </Badges>
+      )}
+      <figure className="bg-slate-200 dark:bg-slate-800 rounded-md mb-4">
+        <figcaption>The title of the article.</figcaption>
+        <picture>
+          <img src="" alt="The description of the article" />
+        </picture>
+      </figure>
       {/* <figure className="relative w-full mb-4 h-[160px] tn:h-[240px] md:h-[320px]">
         <img
           className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
@@ -56,19 +75,6 @@ const DocumentLayout = ({
           />
         </picture>
       </figure> */}
-      <DocumentRating
-        className="mb-6 justify-end"
-        rating={rating}
-        yourRate={yourRate}
-        onRate={onRate}
-      />
-      {tags.length > 0 && (
-        <Badges className="mb-4">
-          {tags.map((tag) => (
-            <Badge key={tag}>{tag}</Badge>
-          ))}
-        </Badges>
-      )}
       <Markdown>{children}</Markdown>
       {author?.bio && author?.displayName && (
         <section className="mt-12">
