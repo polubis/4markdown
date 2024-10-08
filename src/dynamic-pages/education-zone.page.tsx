@@ -4,7 +4,6 @@ import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import { EducationZoneView } from 'features/education-zone/education-zone.view';
-import { EducationZoneProvider } from 'features/education-zone/context/education-zone.context';
 import type { EducationZoneViewModel } from 'models/view-models';
 
 type EducationZonePageProps = {
@@ -12,11 +11,7 @@ type EducationZonePageProps = {
 };
 
 const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
-  return (
-    <EducationZoneProvider initialState={pageContext}>
-      <EducationZoneView />
-    </EducationZoneProvider>
-  );
+  return <EducationZoneView {...pageContext} />;
 };
 
 export default EducationZonePage;

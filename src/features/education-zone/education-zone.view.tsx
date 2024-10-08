@@ -9,17 +9,20 @@ import { Link } from 'gatsby';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import { meta } from '../../../meta';
 import { BiArrowToLeft, BiArrowToRight } from 'react-icons/bi';
-import { useEducationZoneContext } from './context/education-zone.context';
 import { paginate } from 'development-kit/paginate';
 import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
 import { EducationTopTags } from 'components/education-top-tags';
+import type { EducationZoneViewModel } from 'models/view-models';
+
+type EducationZoneViewProps = EducationZoneViewModel;
 
 const now = new Date();
 
-const Pagination = () => {
-  const [{ page, pagesCount }] = useEducationZoneContext();
-
+const Pagination = ({
+  page,
+  pagesCount,
+}: Pick<EducationZoneViewProps, 'page' | 'pagesCount'>) => {
   const firstPage = 1;
   const lastPage = pagesCount;
   const filteredPages = React.useMemo(
@@ -71,9 +74,9 @@ const Pagination = () => {
   );
 };
 
-const ContentRank = () => {
-  const [{ documents }] = useEducationZoneContext();
-
+const ContentRank = ({
+  documents,
+}: Pick<EducationZoneViewProps, 'documents'>) => {
   return (
     <>
       <h2 className="text-xl">Content Rank</h2>
@@ -134,10 +137,13 @@ const ContentRank = () => {
   );
 };
 
-const EducationZoneView = () => {
-  const [{ page, pagesCount, documents, topTags, tag }] =
-    useEducationZoneContext();
-
+const EducationZoneView = ({
+  page,
+  pagesCount,
+  documents,
+  topTags,
+  tag,
+}: EducationZoneViewProps) => {
   return (
     <>
       <AppNavigation>
@@ -154,11 +160,11 @@ const EducationZoneView = () => {
       >
         <>
           <EducationDocumentsList documents={documents.wall} />
-          <Pagination />
+          <Pagination page={page} pagesCount={pagesCount} />
         </>
         <>
           <EducationTopTags className="mb-6" tags={topTags} />
-          <ContentRank />
+          <ContentRank documents={documents} />
         </>
       </EducationLayout>
       <AppFooterContainer />
