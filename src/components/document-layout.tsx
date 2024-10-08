@@ -28,6 +28,34 @@ const DocumentLayout = ({
 }: DocumentLayoutProps) => {
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
+      {/* <figure className="relative w-full mb-4 h-[160px] tn:h-[240px] md:h-[320px]">
+        <img
+          className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
+          src={thumbnail.placeholder}
+        />
+        <picture>
+          <source
+            srcSet={thumbnail.xl.src}
+            media={`(min-width: ${thumbnail.xl.w}px)`}
+          />
+          <source
+            srcSet={thumbnail.lg.src}
+            media={`(min-width: ${thumbnail.lg.w}px)`}
+          />
+          <source
+            srcSet={thumbnail.md.src}
+            media={`(min-width: ${thumbnail.md.w}px)`}
+          />
+          <source
+            srcSet={thumbnail.sm.src}
+            media={`(min-width: ${thumbnail.sm.w}px)`}
+          />
+          <img
+            className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
+            src={thumbnail.sm.src}
+          />
+        </picture>
+      </figure> */}
       <DocumentRating
         className="mb-6 justify-end"
         rating={rating}
