@@ -23,12 +23,12 @@ type Image = {
   h: number;
   w: number;
   src: string;
-  type: string;
-  format: string;
-  aspectRatio: [number, number];
 };
 
 type DocumentThumbnailDto = {
+  aspectRatio: [number, number];
+  format: string;
+  type: string;
   variants: {
     xl: Image;
     lg: Image;
