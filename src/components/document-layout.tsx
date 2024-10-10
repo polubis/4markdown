@@ -38,8 +38,9 @@ type Thumbnails = [
 const thumbnails: Thumbnails = [
   `https://cdn.backpacker.com/wp-content/uploads/2018/08/15042738127_f2ecb0b570_o.jpg`,
   {
-    h: 1024,
-    w: 1024,
+    // 5/2
+    h: 346,
+    w: 864,
     src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
     type: `image/jpg`,
     format: `jpg`,
@@ -89,20 +90,13 @@ const DocumentLayout = ({
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
       <DocumentRating
-        className="mb-6 justify-end"
+        className="mb-4 justify-end"
         rating={rating}
         yourRate={yourRate}
         onRate={onRate}
       />
-      {tags.length > 0 && (
-        <Badges className="mb-4">
-          {tags.map((tag) => (
-            <Badge key={tag}>{tag}</Badge>
-          ))}
-        </Badges>
-      )}
-      <figure className="bg-slate-200 dark:bg-slate-800 rounded-md mb-4">
-        <picture>
+      <figure className="mb-4">
+        <picture className="[&>*]:rounded-sm">
           {fullThumbnails.map((thumbnail, index) => (
             <source
               key={thumbnail.src}
@@ -120,34 +114,13 @@ const DocumentLayout = ({
           The title of the article.
         </figcaption>
       </figure>
-      {/* <figure className="relative w-full mb-4 h-[160px] tn:h-[240px] md:h-[320px]">
-        <img
-          className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
-          src={thumbnail.placeholder}
-        />
-        <picture>
-          <source
-            srcSet={thumbnail.xl.src}
-            media={`(min-width: ${thumbnail.xl.w}px)`}
-          />
-          <source
-            srcSet={thumbnail.lg.src}
-            media={`(min-width: ${thumbnail.lg.w}px)`}
-          />
-          <source
-            srcSet={thumbnail.md.src}
-            media={`(min-width: ${thumbnail.md.w}px)`}
-          />
-          <source
-            srcSet={thumbnail.sm.src}
-            media={`(min-width: ${thumbnail.sm.w}px)`}
-          />
-          <img
-            className="absolute top-0 right-0 w-full h-full object-cover rounded-lg"
-            src={thumbnail.sm.src}
-          />
-        </picture>
-      </figure> */}
+      {tags.length > 0 && (
+        <Badges className="mb-4">
+          {tags.map((tag) => (
+            <Badge key={tag}>{tag}</Badge>
+          ))}
+        </Badges>
+      )}
       <Markdown>{children}</Markdown>
       {author?.bio && author?.displayName && (
         <section className="mt-12">
