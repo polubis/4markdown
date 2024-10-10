@@ -6,6 +6,7 @@ import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import type {
   DocumentRatingDto,
+  DocumentThumbnailDto,
   Tags,
   UserProfileDto,
 } from 'api-4markdown-contracts';
@@ -16,66 +17,8 @@ type DocumentLayoutProps = {
   rating: DocumentRatingDto;
   tags: Tags;
   author: UserProfileDto | null;
+  thumbnail?: DocumentThumbnailDto;
 } & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
-
-type ThumbnailImage = {
-  h: number;
-  w: number;
-  src: string;
-  type: string;
-  format: string;
-};
-
-type Thumbnails = [
-  string,
-  ThumbnailImage,
-  ThumbnailImage,
-  ThumbnailImage,
-  ThumbnailImage,
-  ThumbnailImage,
-];
-
-const thumbnails: Thumbnails = [
-  `https://cdn.backpacker.com/wp-content/uploads/2018/08/15042738127_f2ecb0b570_o.jpg`,
-  {
-    // 5/2
-    h: 346,
-    w: 864,
-    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
-    type: `image/jpg`,
-    format: `jpg`,
-  },
-  {
-    h: 864,
-    w: 864,
-    src: `https://cdn.britannica.com/10/241010-049-3EB67AA2/highest-mountains-of-the-world-on-each-continent.jpg`,
-    type: `image/jpg`,
-    format: `jpg`,
-  },
-  {
-    h: 768,
-    w: 768,
-    src: `https://cdn.mos.cms.futurecdn.net/xaycNDmeyxpHDrPqU6LmaD.jpg`,
-    type: `image/jpg`,
-    format: `jpg`,
-  },
-  {
-    h: 480,
-    w: 480,
-    src: `https://hips.hearstapps.com/hmg-prod/images/alpe-di-siusi-sunrise-with-sassolungo-or-langkofel-royalty-free-image-1623254127.jpg`,
-    type: `image/jpg`,
-    format: `jpg`,
-  },
-  {
-    h: 150,
-    w: 150,
-    src: `https://i.natgeofe.com/n/c9107b46-78b1-4394-988d-53927646c72b/1095.jpg`,
-    type: `image/jpg`,
-    format: `jpg`,
-  },
-];
-
-const thumbnailsMedia = [1024, 768, 512, 420, 320] as const;
 
 const DocumentLayout = ({
   children,
@@ -83,10 +26,9 @@ const DocumentLayout = ({
   tags,
   yourRate,
   rating,
+  thumbnail,
   onRate,
 }: DocumentLayoutProps) => {
-  const [thumbnailPlaceholder, ...fullThumbnails] = thumbnails;
-
   return (
     <main className="max-w-4xl p-4 my-6 mx-auto">
       <DocumentRating
@@ -95,25 +37,29 @@ const DocumentLayout = ({
         yourRate={yourRate}
         onRate={onRate}
       />
-      <figure className="mb-4">
-        <picture className="[&>*]:rounded-sm">
-          {fullThumbnails.map((thumbnail, index) => (
-            <source
-              key={thumbnail.src}
-              srcSet={`${thumbnail.src} ${thumbnail.w}w ${thumbnail.h}h`}
-              media={`(min-width: ${thumbnailsMedia[index]}px)`}
-              type={thumbnail.type}
+      {thumbnail && (
+        <figure className="mb-4">
+          <picture className="[&>*]:rounded-sm">
+            {Object.entries(thumbnail.variants).map(
+              ([key, { src, h, w, type }]) => (
+                <source
+                  key={key}
+                  srcSet={`${src} ${w}w ${h}h`}
+                  media={`(min-width: ${w}px)`}
+                  type={type}
+                />
+              ),
+            )}
+            <img
+              src={thumbnail.placeholder}
+              alt="The description of the article"
             />
-          ))}
-          <img
-            src={thumbnailPlaceholder}
-            alt="The description of the article"
-          />
-        </picture>
-        <figcaption className="opacity-0 h-0">
-          The title of the article.
-        </figcaption>
-      </figure>
+          </picture>
+          <figcaption className="opacity-0 h-0">
+            The title of the article.
+          </figcaption>
+        </figure>
+      )}
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (
