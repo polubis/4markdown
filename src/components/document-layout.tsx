@@ -17,7 +17,7 @@ type DocumentLayoutProps = {
   rating: DocumentRatingDto;
   tags: Tags;
   author: UserProfileDto | null;
-  thumbnail?: DocumentThumbnailDto;
+  thumbnails?: DocumentThumbnailDto[];
 } & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
 
 const DocumentLayout = ({
@@ -26,7 +26,7 @@ const DocumentLayout = ({
   tags,
   yourRate,
   rating,
-  thumbnail,
+  thumbnails,
   onRate,
 }: DocumentLayoutProps) => {
   return (
@@ -37,29 +37,25 @@ const DocumentLayout = ({
         yourRate={yourRate}
         onRate={onRate}
       />
-      {thumbnail && (
-        <figure className="mb-4">
-          <picture className="[&>*]:rounded-sm">
-            {Object.entries(thumbnail.variants).map(
-              ([key, { src, h, w, type }]) => (
+      {Array.isArray(thumbnails) &&
+        thumbnails.map(({ format, variants, type, placeholder }) => (
+          <figure key={format} className="mb-4">
+            <picture className="[&>*]:rounded-sm">
+              {Object.entries(variants).map(([key, { src, h, w }]) => (
                 <source
                   key={key}
                   srcSet={`${src} ${w}w ${h}h`}
                   media={`(min-width: ${w}px)`}
                   type={type}
                 />
-              ),
-            )}
-            <img
-              src={thumbnail.placeholder}
-              alt="The description of the article"
-            />
-          </picture>
-          <figcaption className="opacity-0 h-0">
-            The title of the article.
-          </figcaption>
-        </figure>
-      )}
+              ))}
+              <img src={placeholder} alt="The description of the article" />
+            </picture>
+            <figcaption className="opacity-0 h-0">
+              The title of the article.
+            </figcaption>
+          </figure>
+        ))}
       {tags.length > 0 && (
         <Badges className="mb-4">
           {tags.map((tag) => (

@@ -29,6 +29,7 @@ type DocumentThumbnailDto = {
   aspectRatio: [number, number];
   format: string;
   type: string;
+  placeholder: Base64;
   variants: {
     xl: Image;
     lg: Image;
@@ -36,7 +37,6 @@ type DocumentThumbnailDto = {
     sm: Image;
     tn: Image;
   };
-  placeholder: Base64;
 };
 
 type PrivateDocumentDto = Document & {
@@ -47,7 +47,7 @@ type PublicDocumentDto = Document & {
   visibility: 'public';
   author: UserProfileDto | null;
   rating: DocumentRatingDto;
-  thumbnail?: DocumentThumbnailDto;
+  thumbnails?: DocumentThumbnailDto[];
 };
 
 type PermanentDocumentDto = Document & {
@@ -57,7 +57,7 @@ type PermanentDocumentDto = Document & {
   tags: Tags;
   author: UserProfileDto | null;
   rating: DocumentRatingDto;
-  thumbnail?: DocumentThumbnailDto;
+  thumbnails?: DocumentThumbnailDto[];
 };
 
 type DocumentDto =

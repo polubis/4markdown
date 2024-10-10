@@ -36,6 +36,7 @@ const DocumentContent = () => {
           : []
       }
       author={documentPreviewStore.document.author}
+      thumbnails={documentPreviewStore.document.thumbnails}
     >
       {documentPreviewStore.document.code}
     </DocumentLayout>

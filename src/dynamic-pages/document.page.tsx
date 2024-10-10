@@ -32,6 +32,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         rating={rating}
         yourRate={yourRate}
         onRate={updateRating}
+        thumbnails={pageContext.doc.thumbnails}
         tags={pageContext.doc.tags}
         author={pageContext.doc.author}
       >
