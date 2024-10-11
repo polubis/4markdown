@@ -167,7 +167,7 @@ const PermamentDocFormContainer = ({
         >
           {thumbnailPreview ? (
             <img
-              className="rounded-md h-[160px] w-full object-cover"
+              className="rounded-md max-h-[160px] w-auto block"
               src={thumbnailPreview}
             />
           ) : (
