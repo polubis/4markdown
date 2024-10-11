@@ -120,7 +120,7 @@ const PermamentDocFormContainer = ({
 
   return (
     <form className="flex flex-col" onSubmit={handleConfirm}>
-      <header className="flex items-center mb-4">
+      <header className="flex items-center mb-7">
         <h6 className="text-xl mr-4">Add Required Data</h6>
         <Button
           i={2}
@@ -133,7 +133,7 @@ const PermamentDocFormContainer = ({
           <BiX />
         </Button>
       </header>
-      <Field label={`Name (${name.length})*`} className="mt-2">
+      <Field label={`Name (${name.length})*`}>
         <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
       </Field>
       <Field
@@ -146,7 +146,14 @@ const PermamentDocFormContainer = ({
           {...inject(`description`)}
         />
       </Field>
-      <Field label="Thumbnail" className="mt-2">
+      <Field
+        label={result.tags ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
+        className="mt-3"
+        hint={<Hint trigger="It may be React, Angular, Vue and others..." />}
+      >
+        <Input placeholder="Separate tags with a comma" {...inject(`tags`)} />
+      </Field>
+      <Field label="Thumbnail" className="mt-3">
         <Button
           className={c({
             'p-6': !thumbnailPreview,
@@ -180,13 +187,6 @@ const PermamentDocFormContainer = ({
             Remove
           </Button>
         )}
-      </Field>
-      <Field
-        label={result.tags ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
-        className="mt-2"
-        hint={<Hint trigger="It may be React, Angular, Vue and others..." />}
-      >
-        <Input placeholder="Separate tags with a comma" {...inject(`tags`)} />
       </Field>
       <footer className="mt-6 flex">
         <Button
