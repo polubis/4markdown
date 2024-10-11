@@ -18,7 +18,6 @@ import {
   optional,
   url,
 } from 'development-kit/form';
-import { parseMessage } from 'development-kit/parse-message';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
 import { useToggle } from 'development-kit/use-toggle';
@@ -88,14 +87,12 @@ const UpdateErrorModal = ({
 
   if (updateYourProfileStore.is !== `fail`) return null;
 
-  const parsed = parseMessage(updateYourProfileStore.error);
-
   return (
     <ErrorModal
       heading="Ups, something went wrong"
-      message={parsed.message}
+      message={updateYourProfileStore.error.message}
       footer={
-        parsed.symbol === `outOfDateEntry` && (
+        updateYourProfileStore.error.symbol === `out-of-date` && (
           <Button
             type="button"
             i={2}
