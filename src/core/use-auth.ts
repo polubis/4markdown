@@ -199,40 +199,6 @@ const useAuth = () => {
               tags,
             });
           },
-          updateDocName: async (name) => {
-            const doc = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
-
-            if (doc.visibility === `private`) {
-              return await updateDoc({
-                code,
-                name,
-                id: doc.id,
-                mdate: doc.mdate,
-                visibility: `private`,
-              });
-            }
-
-            if (doc.visibility === `public`) {
-              return await updateDoc({
-                code,
-                name,
-                id: doc.id,
-                mdate: doc.mdate,
-                visibility: `public`,
-              });
-            }
-
-            return await updateDoc({
-              code,
-              name,
-              tags: doc.tags,
-              description: doc.description,
-              id: doc.id,
-              mdate: doc.mdate,
-              visibility: `permanent`,
-            });
-          },
           updateYourProfile: async (payload) => {
             try {
               updateYourProfileStoreActions.busy();
