@@ -39,17 +39,19 @@ type KnownError =
   | OutOfDateError
   | BadRequestError;
 
-type ParsedError =
+type ParsedError = (
   | KnownError
   | {
       symbol: 'unknown';
       content: string;
-    };
+    }
+) & { message: string };
 
 const parseErrorV2 = (error: unknown): ParsedError => {
   const unknownError: ParsedError = {
     symbol: `unknown`,
     content: `Unknown error occured`,
+    message: `Unknown error occured`,
   };
 
   if (typeof error !== `string`) {
@@ -79,8 +81,12 @@ const parseErrorV2 = (error: unknown): ParsedError => {
     ) {
       return unknownError;
     }
-
-    return { symbol, content } as ParsedError;
+    // @TODO[PRIO=5]: [Think about error shape design that does not need multiple models].
+    return {
+      symbol,
+      content,
+      message: Array.isArray(content) ? content[0] : content,
+    } as ParsedError;
   } catch {
     return unknownError;
   }
