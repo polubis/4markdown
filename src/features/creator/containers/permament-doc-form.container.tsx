@@ -153,9 +153,17 @@ const PermamentDocFormContainer = ({
       >
         <Input placeholder="Separate tags with a comma" {...inject(`tags`)} />
       </Field>
-      <Field label="Thumbnail" className="mt-3">
+      <Field
+        label="Thumbnail"
+        className="mt-3"
+        hint={
+          thumbnailPreview ? null : (
+            <Hint trigger="The thumbnail is displayed at the top of the document and in link previews" />
+          )
+        }
+      >
         <Button
-          className={c({
+          className={c(`min-h-[160px]`, {
             'p-6': !thumbnailPreview,
           })}
           type="button"
@@ -167,7 +175,7 @@ const PermamentDocFormContainer = ({
         >
           {thumbnailPreview ? (
             <img
-              className="rounded-md max-h-[160px] w-auto block"
+              className="max-h-[160px] w-auto block"
               src={thumbnailPreview}
             />
           ) : (
