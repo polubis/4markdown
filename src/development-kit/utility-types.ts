@@ -1,3 +1,5 @@
+import type { ParsedError } from './parse-error';
+
 type NonNullableProperties<T> = {
   [P in keyof T]: NonNullable<T[P]>;
 };
@@ -10,7 +12,7 @@ type MaybeObject = Record<string | number | symbol, any> | undefined;
 
 type Transaction<
   TOkData extends MaybeObject = undefined,
-  TFailData extends MaybeObject = { error: string },
+  TFailData extends MaybeObject = { error: ParsedError },
 > =
   | { is: 'idle' }
   | { is: 'busy' }

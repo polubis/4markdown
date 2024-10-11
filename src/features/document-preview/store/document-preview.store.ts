@@ -1,5 +1,5 @@
 import { getAPI } from 'api-4markdown';
-import { parseErrorV2 } from 'development-kit/parse-error-v2';
+import { parseError } from 'development-kit/parse-error';
 import { create } from 'zustand';
 import type { DocumentPreviewStoreState } from './document-preview.models';
 
@@ -22,7 +22,7 @@ const loadDocument = async (): Promise<void> => {
 
     setState({ is: `ok`, document });
   } catch (error: unknown) {
-    setState({ is: `fail`, error: parseErrorV2(error) });
+    setState({ is: `fail`, error: parseError(error) });
   }
 };
 
