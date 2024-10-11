@@ -1,4 +1,4 @@
-import type { Base64, Date } from '../atoms';
+import type { Date, ImageAction } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -46,10 +46,10 @@ type UpdateDocContract = Contract<
   DocumentDto,
   | Omit<PrivateDocumentDto, 'cdate'>
   | Omit<PublicDocumentDto, 'cdate' | 'author' | 'rating' | 'thumbnails'>
-  | Omit<
+  | (Omit<
       PermanentDocumentDto,
       'cdate' | 'path' | 'author' | 'rating' | 'thumbnails'
-    >
+    > & { thumbnail: ImageAction })
 >;
 
 type UploadImageContract = Contract<
@@ -73,12 +73,7 @@ type UpdateYourUserProfileContract = Contract<
   },
   Omit<UserProfileDto, 'avatar'> & {
     mdate: Date | null;
-    avatar:
-      | {
-          type: `noop`;
-        }
-      | { type: `remove` }
-      | { type: `update`; data: Base64 };
+    avatar: ImageAction;
   }
 >;
 

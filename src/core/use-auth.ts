@@ -20,6 +20,7 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
+    // @TODO[PRIO=1]: [Split to separate actions].
     const updateDoc = async (
       payload: API4MarkdownPayload<'updateDoc'>,
     ): Promise<void> => {
@@ -35,7 +36,7 @@ const useAuth = () => {
         throw error;
       }
     };
-
+    // @TODO[PRIO=3]: [Remove these functions form this place].
     const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
       try {
         yourProfileStoreActions.busy();
@@ -161,6 +162,7 @@ const useAuth = () => {
               docManagementStoreActions.fail(error);
             }
           },
+          // @TODO[PRIO=1]: [Split it to separate actions and endpoints calls].
           makeDocPrivate: async () => {
             const { id, name, mdate } = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
@@ -185,7 +187,7 @@ const useAuth = () => {
               visibility: `public`,
             });
           },
-          makeDocPermanent: async (name, description, tags) => {
+          makeDocPermanent: async (name, description, tags, thumbnail) => {
             const { id, mdate } = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
 
@@ -197,8 +199,10 @@ const useAuth = () => {
               visibility: `permanent`,
               description,
               tags,
+              thumbnail,
             });
           },
+          // @TODO[PRIO=1]: [Separate endpoint].
           updateDocName: async (name) => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
@@ -231,6 +235,9 @@ const useAuth = () => {
               id: doc.id,
               mdate: doc.mdate,
               visibility: `permanent`,
+              thumbnail: {
+                type: `noop`,
+              },
             });
           },
           updateYourProfile: async (payload) => {

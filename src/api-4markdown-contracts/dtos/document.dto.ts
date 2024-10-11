@@ -47,7 +47,7 @@ type PublicDocumentDto = Document & {
   visibility: 'public';
   author: UserProfileDto | null;
   rating: DocumentRatingDto;
-  thumbnails?: DocumentThumbnailDto[];
+  thumbnails?: [DocumentThumbnailDto, DocumentThumbnailDto];
 };
 
 type PermanentDocumentDto = Document & {
@@ -57,7 +57,7 @@ type PermanentDocumentDto = Document & {
   tags: Tags;
   author: UserProfileDto | null;
   rating: DocumentRatingDto;
-  thumbnails?: DocumentThumbnailDto[];
+  thumbnails?: [DocumentThumbnailDto, DocumentThumbnailDto];
 };
 
 type DocumentDto =

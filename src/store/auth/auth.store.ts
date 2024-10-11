@@ -4,6 +4,7 @@ import type {
   DocumentDto,
   PermanentDocumentDto,
   Tags,
+  ImageAction,
 } from 'api-4markdown-contracts';
 import { create } from 'zustand';
 
@@ -23,6 +24,7 @@ interface AuthorizedData {
     name: DocumentDto['name'],
     description: PermanentDocumentDto['description'],
     tags: Tags,
+    thumbnail: ImageAction,
   ): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
