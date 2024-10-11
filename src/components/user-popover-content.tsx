@@ -155,7 +155,7 @@ const UserPopoverContent = ({ onClose }: UserPopoverContentProps) => {
           <h6 className="text-red-600 dark:text-red-400 font-bold">
             Cannot load Your Profile information
           </h6>
-          <p className="mt-1 mb-4">{yourProfileStore.error}</p>
+          <p className="mt-1 mb-4">{yourProfileStore.error.message}</p>
           <Button
             i={2}
             s={1}
