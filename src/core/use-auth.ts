@@ -35,7 +35,7 @@ const useAuth = () => {
         throw error;
       }
     };
-
+    // @TODO[PRIO=2]: [Move it to your profile store].
     const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
       try {
         yourProfileStoreActions.busy();
@@ -117,6 +117,7 @@ const useAuth = () => {
           },
           reloadDocs,
           getYourProfile,
+          // @TODO[PRIO=2]: [Move it to creator store directory].
           createDoc: async (name) => {
             const { code } = creatorStoreSelectors.ready();
 
@@ -132,6 +133,7 @@ const useAuth = () => {
               throw error;
             }
           },
+          // @TODO[PRIO=2]: [Move it to creator store directory].
           updateDocumentCode: async () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
