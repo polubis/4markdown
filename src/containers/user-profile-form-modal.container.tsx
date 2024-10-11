@@ -78,41 +78,6 @@ const validators: ValidatorsSetup<UserProfileFormValues> = {
   twitterUrl: urlValidator,
 };
 
-const UpdateErrorModal = ({
-  onSync,
-}: {
-  onSync: UserProfileFormModalContainerProps['onSync'];
-}) => {
-  const updateYourProfileStore = updateYourProfileStoreSelectors.useState();
-
-  if (updateYourProfileStore.is !== `fail`) return null;
-
-  return (
-    <ErrorModal
-      heading="Ups, something went wrong"
-      message={updateYourProfileStore.error.message}
-      footer={
-        updateYourProfileStore.error.symbol === `out-of-date` && (
-          <Button
-            type="button"
-            i={2}
-            s={2}
-            auto
-            title="Sync Your profile"
-            onClick={() => {
-              updateYourProfileStoreActions.idle();
-              onSync();
-            }}
-          >
-            Sync
-          </Button>
-        )
-      }
-      onClose={updateYourProfileStoreActions.idle}
-    />
-  );
-};
-
 const UserProfileFormModalContainer = ({
   onClose,
   onBack,
@@ -325,7 +290,30 @@ const UserProfileFormModalContainer = ({
         <Status>Updating your profile...</Status>
       )}
 
-      <UpdateErrorModal onSync={onSync} />
+      {updateYourProfileStore.is === `fail` && (
+        <ErrorModal
+          heading="Ups, something went wrong"
+          message={updateYourProfileStore.error.message}
+          footer={
+            updateYourProfileStore.error.symbol === `out-of-date` && (
+              <Button
+                type="button"
+                i={2}
+                s={2}
+                auto
+                title="Sync Your profile"
+                onClick={() => {
+                  updateYourProfileStoreActions.idle();
+                  onSync();
+                }}
+              >
+                Sync
+              </Button>
+            )
+          }
+          onClose={updateYourProfileStoreActions.idle}
+        />
+      )}
 
       {avatarErrorModal.opened && (
         <ErrorModal
