@@ -1,5 +1,5 @@
 import type { DocumentDto } from 'api-4markdown-contracts';
-import { parseErrorV2 } from 'development-kit/parse-error-v2';
+import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
@@ -30,7 +30,7 @@ const docsStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
   ok: (docs: DocumentDto[]) => set({ is: `ok`, docs }),
-  fail: (error: unknown) => set({ is: `fail`, error: parseErrorV2(error) }),
+  fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
   updateDoc: (doc: DocumentDto) => {
     const state = docsStoreSelectors.ok();
 

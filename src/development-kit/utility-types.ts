@@ -1,4 +1,4 @@
-import type { ParsedError } from './parse-error-v2';
+import type { ParsedError } from './parse-error';
 
 type NonNullableProperties<T> = {
   [P in keyof T]: NonNullable<T[P]>;

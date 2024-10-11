@@ -1,4 +1,4 @@
-import { parseErrorV2 } from './parse-error-v2';
+import { parseError } from './parse-error';
 import { expect } from '@jest/globals';
 
 describe(`Error parsing works when`, () => {
@@ -6,11 +6,13 @@ describe(`Error parsing works when`, () => {
     const errorString = JSON.stringify({
       symbol: `already-exists`,
       content: `Some content`,
+      message: `Some content`,
     });
-    const result = parseErrorV2(errorString);
+    const result = parseError(errorString);
     expect(result).toEqual({
       symbol: `already-exists`,
       content: `Some content`,
+      message: `Some content`,
     });
   });
 
@@ -18,11 +20,13 @@ describe(`Error parsing works when`, () => {
     const errorString = JSON.stringify({
       symbol: `unauthenticated`,
       content: `Some content`,
+      message: `Some content`,
     });
-    const result = parseErrorV2(errorString);
+    const result = parseError(errorString);
     expect(result).toEqual({
       symbol: `unauthenticated`,
       content: `Some content`,
+      message: `Some content`,
     });
   });
 
@@ -31,8 +35,12 @@ describe(`Error parsing works when`, () => {
       symbol: `internal`,
       content: `Some content`,
     });
-    const result = parseErrorV2(errorString);
-    expect(result).toEqual({ symbol: `internal`, content: `Some content` });
+    const result = parseError(errorString);
+    expect(result).toEqual({
+      symbol: `internal`,
+      content: `Some content`,
+      message: `Some content`,
+    });
   });
 
   it(`parses invalid-schema error correctly`, () => {
@@ -40,10 +48,11 @@ describe(`Error parsing works when`, () => {
       symbol: `invalid-schema`,
       content: [{ key: `key1`, message: `Some message` }],
     });
-    const result = parseErrorV2(errorString);
+    const result = parseError(errorString);
     expect(result).toEqual({
       symbol: `invalid-schema`,
       content: [{ key: `key1`, message: `Some message` }],
+      message: `Some message`,
     });
   });
 
@@ -52,8 +61,12 @@ describe(`Error parsing works when`, () => {
       symbol: `not-found`,
       content: `Some content`,
     });
-    const result = parseErrorV2(errorString);
-    expect(result).toEqual({ symbol: `not-found`, content: `Some content` });
+    const result = parseError(errorString);
+    expect(result).toEqual({
+      symbol: `not-found`,
+      content: `Some content`,
+      message: `Some content`,
+    });
   });
 
   it(`parses out-of-date error correctly`, () => {
@@ -61,8 +74,12 @@ describe(`Error parsing works when`, () => {
       symbol: `out-of-date`,
       content: `Some content`,
     });
-    const result = parseErrorV2(errorString);
-    expect(result).toEqual({ symbol: `out-of-date`, content: `Some content` });
+    const result = parseError(errorString);
+    expect(result).toEqual({
+      symbol: `out-of-date`,
+      content: `Some content`,
+      message: `Some content`,
+    });
   });
 
   it(`parses bad-request error correctly`, () => {
@@ -70,83 +87,96 @@ describe(`Error parsing works when`, () => {
       symbol: `bad-request`,
       content: `Some content`,
     });
-    const result = parseErrorV2(errorString);
-    expect(result).toEqual({ symbol: `bad-request`, content: `Some content` });
+    const result = parseError(errorString);
+    expect(result).toEqual({
+      symbol: `bad-request`,
+      content: `Some content`,
+      message: `Some content`,
+    });
   });
 
   it(`returns unknown error for invalid JSON string`, () => {
-    const result = parseErrorV2(`invalid JSON string`);
+    const result = parseError(`invalid JSON string`);
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error for non-string input (number)`, () => {
-    const result = parseErrorV2(123);
+    const result = parseError(123);
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error for non-string input (object)`, () => {
-    const result = parseErrorV2({ key: `value` });
+    const result = parseError({ key: `value` });
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error for non-string input (array)`, () => {
-    const result = parseErrorV2([1, 2, 3]);
+    const result = parseError([1, 2, 3]);
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error for non-string input (boolean)`, () => {
-    const result = parseErrorV2(true);
+    const result = parseError(true);
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error for missing symbol`, () => {
     const errorString = JSON.stringify({ content: `Some content` });
-    const result = parseErrorV2(errorString);
+    const result = parseError(errorString);
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error for empty string`, () => {
-    const result = parseErrorV2(``);
+    const result = parseError(``);
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error for malformed JSON`, () => {
-    const result = parseErrorV2(
+    const result = parseError(
       `{"symbol": "internal", "content": "Some content"`,
     );
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error for valid JSON with missing content`, () => {
     const errorString = JSON.stringify({ symbol: `internal` });
-    const result = parseErrorV2(errorString);
+    const result = parseError(errorString);
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
@@ -156,8 +186,12 @@ describe(`Error parsing works when`, () => {
       content: `Some content`,
       extra: `extra property`,
     });
-    const result = parseErrorV2(errorString);
-    expect(result).toEqual({ symbol: `internal`, content: `Some content` });
+    const result = parseError(errorString);
+    expect(result).toEqual({
+      symbol: `internal`,
+      content: `Some content`,
+      message: `Some content`,
+    });
   });
 
   it(`returns unknown error when not supported symbol is returned`, () => {
@@ -165,16 +199,17 @@ describe(`Error parsing works when`, () => {
       symbol: `totally-unknown-random-symbol`,
       content: `Some content`,
     });
-    const result = parseErrorV2(errorString);
+    const result = parseError(errorString);
     expect(result).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 
   it(`returns unknown error when schema error has invalid shape`, () => {
     expect(
-      parseErrorV2(
+      parseError(
         JSON.stringify({
           symbol: `invalid-schema`,
           content: [],
@@ -183,9 +218,10 @@ describe(`Error parsing works when`, () => {
     ).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
     expect(
-      parseErrorV2(
+      parseError(
         JSON.stringify({
           symbol: `invalid-schema`,
           content: [
@@ -199,9 +235,10 @@ describe(`Error parsing works when`, () => {
     ).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
     expect(
-      parseErrorV2(
+      parseError(
         JSON.stringify({
           symbol: `invalid-schema`,
           content: [
@@ -215,6 +252,7 @@ describe(`Error parsing works when`, () => {
     ).toEqual({
       symbol: `unknown`,
       content: `Unknown error occured`,
+      message: `Unknown error occured`,
     });
   });
 });

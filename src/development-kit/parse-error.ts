@@ -47,7 +47,7 @@ type ParsedError = (
     }
 ) & { message: string };
 
-const parseErrorV2 = (error: unknown): ParsedError => {
+const parseError = (error: unknown): ParsedError => {
   const unknownError: ParsedError = {
     symbol: `unknown`,
     content: `Unknown error occured`,
@@ -85,7 +85,7 @@ const parseErrorV2 = (error: unknown): ParsedError => {
     return {
       symbol,
       content,
-      message: Array.isArray(content) ? content[0] : content,
+      message: Array.isArray(content) ? content[0].message : content,
     } as ParsedError;
   } catch {
     return unknownError;
@@ -93,4 +93,4 @@ const parseErrorV2 = (error: unknown): ParsedError => {
 };
 
 export type { ParsedError };
-export { parseErrorV2 };
+export { parseError };

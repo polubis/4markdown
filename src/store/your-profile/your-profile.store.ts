@@ -1,5 +1,5 @@
 import type { Date, UserProfileDto } from 'api-4markdown-contracts';
-import { parseErrorV2 } from 'development-kit/parse-error-v2';
+import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
@@ -27,7 +27,7 @@ const yourProfileStoreActions = {
   ok: ({ mdate, user }: Pick<YourProfileStoreOkState, 'mdate' | 'user'>) => {
     set({ is: `ok`, user, mdate });
   },
-  fail: (error: unknown) => set({ is: `fail`, error: parseErrorV2(error) }),
+  fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 };
 
 const isOk = (state: YourProfileStoreState): YourProfileStoreOkState => {
