@@ -10,6 +10,7 @@ type Prettify<TObject> = {
 
 type MaybeObject = Record<string | number | symbol, any> | undefined;
 
+// @TODO[PRIO=4]: [Decouple this ParsedError from this place].
 type Transaction<
   TOkData extends MaybeObject = undefined,
   TFailData extends MaybeObject = { error: ParsedError },

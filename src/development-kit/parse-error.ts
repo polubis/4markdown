@@ -1,14 +1,11 @@
-const symbols = [
-  `already-exists`,
-  `unauthenticated`,
-  `internal`,
-  `invalid-schema`,
-  `not-found`,
-  `out-of-date`,
-  `bad-request`,
-] as const;
-
-type ErrorSymbol = (typeof symbols)[number];
+type ErrorSymbol =
+  | `already-exists`
+  | `unauthenticated`
+  | `internal`
+  | `invalid-schema`
+  | `not-found`
+  | `out-of-date`
+  | `bad-request`;
 type ErrorContent = string | { key: string; message: string }[];
 
 type ErrorVariant<
@@ -17,8 +14,10 @@ type ErrorVariant<
 > = {
   symbol: TSymbol;
   content: TContent;
+  message: string;
 };
 
+// @TODO[PRIO=2]: [Move errors type defs to contracts library].
 type AlreadyExistsError = ErrorVariant<`already-exists`>;
 type UnauthenticatedError = ErrorVariant<`unauthenticated`>;
 type InternalError = ErrorVariant<`internal`>;
@@ -39,54 +38,27 @@ type KnownError =
   | OutOfDateError
   | BadRequestError;
 
-type ParsedError = (
-  | KnownError
-  | {
-      symbol: 'unknown';
-      content: string;
-    }
-) & { message: string };
+type UnknownError = {
+  symbol: 'unknown';
+  content: string;
+  message: string;
+};
+
+type ParsedError = KnownError | UnknownError;
 
 const parseError = (error: unknown): ParsedError => {
-  const unknownError: ParsedError = {
+  const unknownError: UnknownError = {
     symbol: `unknown`,
     content: `Unknown error occured`,
     message: `Unknown error occured`,
   };
 
-  if (typeof error !== `string`) {
+  if (!(error instanceof Error)) {
     return unknownError;
   }
 
   try {
-    const { symbol, content } = JSON.parse(error) as KnownError;
-
-    if (!content || !symbol) {
-      return unknownError;
-    }
-
-    if (!symbols.includes(symbol)) {
-      return unknownError;
-    }
-
-    if (
-      symbol === `invalid-schema` &&
-      (!Array.isArray(content) ||
-        content.length === 0 ||
-        content.some(
-          (reason) =>
-            typeof reason.key !== `string` ||
-            typeof reason.message !== `string`,
-        ))
-    ) {
-      return unknownError;
-    }
-    // @TODO[PRIO=5]: [Think about error shape design that does not need multiple models].
-    return {
-      symbol,
-      content,
-      message: Array.isArray(content) ? content[0].message : content,
-    } as ParsedError;
+    return JSON.parse(error.message);
   } catch {
     return unknownError;
   }
