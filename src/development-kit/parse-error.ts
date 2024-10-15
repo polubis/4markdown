@@ -49,9 +49,8 @@ type UnknownError = {
 
 type ParsedError = KnownError | UnknownError;
 
-const isParsedError = (error: unknown): error is KnownError => {
-  return typeof error === `object` && (error as Error).name === `FirebaseError`;
-};
+const isParsedError = (error: unknown): error is KnownError =>
+  typeof error === `object` && (error as Error).name === `FirebaseError`;
 
 const parseError = (error: unknown): ParsedError => {
   if (isParsedError(error)) {
