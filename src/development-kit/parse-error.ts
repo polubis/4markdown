@@ -17,8 +17,10 @@ type ErrorVariant<
 > = {
   symbol: TSymbol;
   content: TContent;
+  message: string;
 };
 
+// @TODO[PRIO=2]: [Move errors type defs to contracts library].
 type AlreadyExistsError = ErrorVariant<`already-exists`>;
 type UnauthenticatedError = ErrorVariant<`unauthenticated`>;
 type InternalError = ErrorVariant<`internal`>;
@@ -39,57 +41,28 @@ type KnownError =
   | OutOfDateError
   | BadRequestError;
 
-type ParsedError = (
-  | KnownError
-  | {
-      symbol: 'unknown';
-      content: string;
-    }
-) & { message: string };
+type UnknownError = {
+  symbol: 'unknown';
+  content: string;
+  message: string;
+};
+
+type ParsedError = KnownError | UnknownError;
+
+const isParsedError = (error: unknown): error is KnownError => {
+  return typeof error === `object` && (error as Error).name === `FirebaseError`;
+};
 
 const parseError = (error: unknown): ParsedError => {
-  const unknownError: ParsedError = {
+  if (isParsedError(error)) {
+    return error;
+  }
+
+  return {
     symbol: `unknown`,
     content: `Unknown error occured`,
     message: `Unknown error occured`,
   };
-
-  if (typeof error !== `string`) {
-    return unknownError;
-  }
-
-  try {
-    const { symbol, content } = JSON.parse(error) as KnownError;
-
-    if (!content || !symbol) {
-      return unknownError;
-    }
-
-    if (!symbols.includes(symbol)) {
-      return unknownError;
-    }
-
-    if (
-      symbol === `invalid-schema` &&
-      (!Array.isArray(content) ||
-        content.length === 0 ||
-        content.some(
-          (reason) =>
-            typeof reason.key !== `string` ||
-            typeof reason.message !== `string`,
-        ))
-    ) {
-      return unknownError;
-    }
-    // @TODO[PRIO=5]: [Think about error shape design that does not need multiple models].
-    return {
-      symbol,
-      content,
-      message: Array.isArray(content) ? content[0].message : content,
-    } as ParsedError;
-  } catch {
-    return unknownError;
-  }
 };
 
 export type { ParsedError };
