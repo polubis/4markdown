@@ -1,14 +1,11 @@
-const symbols = [
-  `already-exists`,
-  `unauthenticated`,
-  `internal`,
-  `invalid-schema`,
-  `not-found`,
-  `out-of-date`,
-  `bad-request`,
-] as const;
-
-type ErrorSymbol = (typeof symbols)[number];
+type ErrorSymbol =
+  | `already-exists`
+  | `unauthenticated`
+  | `internal`
+  | `invalid-schema`
+  | `not-found`
+  | `out-of-date`
+  | `bad-request`;
 type ErrorContent = string | { key: string; message: string }[];
 
 type ErrorVariant<
@@ -49,19 +46,22 @@ type UnknownError = {
 
 type ParsedError = KnownError | UnknownError;
 
-const isParsedError = (error: unknown): error is KnownError =>
-  typeof error === `object` && (error as Error).name === `FirebaseError`;
-
 const parseError = (error: unknown): ParsedError => {
-  if (isParsedError(error)) {
-    return error;
-  }
-
-  return {
+  const unknownError: UnknownError = {
     symbol: `unknown`,
     content: `Unknown error occured`,
     message: `Unknown error occured`,
   };
+
+  if (!(error instanceof Error)) {
+    return unknownError;
+  }
+
+  try {
+    return JSON.parse(error.message);
+  } catch {
+    return unknownError;
+  }
 };
 
 export type { ParsedError };
