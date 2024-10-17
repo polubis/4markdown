@@ -17,7 +17,6 @@ interface AuthorizedData {
   updateDocumentCode(): Promise<void>;
   makeDocPrivate(): Promise<void>;
   makeDocPublic(): Promise<void>;
-  updateDocName(name: DocumentDto['name']): Promise<void>;
   uploadImage(image: File): Promise<API4MarkdownDto<'uploadImage'>>;
   makeDocPermanent(
     name: DocumentDto['name'],

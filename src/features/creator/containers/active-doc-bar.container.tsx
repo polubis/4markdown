@@ -15,6 +15,7 @@ import {
   updateDocNameSchema,
   updatePermamentDocNameSchema,
 } from 'core/validators/doc-validators';
+import { updateDocumentName } from '../store/update-document-name.action';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -45,7 +46,7 @@ const ActiveDocBarContainer = () => {
   > = async (e) => {
     e.preventDefault();
     try {
-      await authStoreSelectors.authorized().updateDocName(values.name);
+      await updateDocumentName(values.name);
       edition.close();
     } catch {}
   };

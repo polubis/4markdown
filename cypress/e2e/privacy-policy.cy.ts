@@ -1,4 +1,5 @@
-import { BASE_COMMANDS, Element } from '../utils/commands';
+import type { Element } from '../utils/commands';
+import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
 describe(`Privacy policy works when`, () => {
