@@ -36,6 +36,11 @@ type UpdateDocumentCodeContract = Contract<
   Pick<DocumentDto, 'mdate'>,
   Pick<DocumentDto, 'mdate' | 'id' | 'code'>
 >;
+type UpdateDocumentNameContract = Contract<
+  `updateDocumentName`,
+  Pick<DocumentDto, 'mdate'>,
+  Pick<DocumentDto, 'mdate' | 'id' | 'name'>
+>;
 type CreateDocumentContract = Contract<
   `createDocument`,
   PrivateDocumentDto,
@@ -99,7 +104,8 @@ type API4MarkdownContracts =
   | UploadImageContract
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract
-  | RateDocumentContract;
+  | RateDocumentContract
+  | UpdateDocumentNameContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -140,5 +146,6 @@ export type {
   GetYourUserProfileContract,
   UpdateYourUserProfileContract,
   RateDocumentContract,
+  UpdateDocumentNameContract,
   API4MarkdownContractCall,
 };
