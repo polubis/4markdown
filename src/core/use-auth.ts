@@ -35,7 +35,7 @@ const useAuth = () => {
         throw error;
       }
     };
-
+    // @TODO[PRIO=2]: [Move it to your profile store].
     const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
       try {
         yourProfileStoreActions.busy();
@@ -117,6 +117,7 @@ const useAuth = () => {
           },
           reloadDocs,
           getYourProfile,
+          // @TODO[PRIO=2]: [Move it to creator store directory].
           createDoc: async (name) => {
             const { code } = creatorStoreSelectors.ready();
 
@@ -132,6 +133,7 @@ const useAuth = () => {
               throw error;
             }
           },
+          // @TODO[PRIO=2]: [Move it to creator store directory].
           updateDocumentCode: async () => {
             const doc = docStoreSelectors.active();
             const { code } = creatorStoreSelectors.ready();
@@ -197,40 +199,6 @@ const useAuth = () => {
               visibility: `permanent`,
               description,
               tags,
-            });
-          },
-          updateDocName: async (name) => {
-            const doc = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
-
-            if (doc.visibility === `private`) {
-              return await updateDoc({
-                code,
-                name,
-                id: doc.id,
-                mdate: doc.mdate,
-                visibility: `private`,
-              });
-            }
-
-            if (doc.visibility === `public`) {
-              return await updateDoc({
-                code,
-                name,
-                id: doc.id,
-                mdate: doc.mdate,
-                visibility: `public`,
-              });
-            }
-
-            return await updateDoc({
-              code,
-              name,
-              tags: doc.tags,
-              description: doc.description,
-              id: doc.id,
-              mdate: doc.mdate,
-              visibility: `permanent`,
             });
           },
           updateYourProfile: async (payload) => {
