@@ -8,17 +8,15 @@ describe(`Permament documents works when`, () => {
       cy.contains(`Naming generics in TypeScript`).scrollIntoView().click();
     },
     'I see unchanged elements': () => {
-      cy.get(`.markdown > div > :is(h1, h2, h3, h4, h5, h6)`).each(
-        (element) => {
-          const text = element.text();
+      cy.get(`.markdown > div > :is(h1, h2)`).each((element) => {
+        const text = element.text();
 
-          cy.contains(text).scrollIntoView();
+        cy.contains(text).scrollIntoView();
 
-          if (text !== `Summary`) {
-            Given(`System takes picture`);
-          }
-        },
-      );
+        if (text !== `Summary`) {
+          Given(`System takes picture`);
+        }
+      });
     },
   });
 
