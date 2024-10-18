@@ -74,7 +74,7 @@ const getTopTags = (
   const countedTags = documents.reduce<Record<string, number>>(
     (acc, document) => {
       document.tags.forEach((tag) => {
-        acc[tag] = acc[tag] ?? 1;
+        acc[tag] = (acc[tag] ?? 0) + 1;
       });
 
       return acc;
