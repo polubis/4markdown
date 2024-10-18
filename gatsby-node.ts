@@ -135,12 +135,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
 
   const topDocuments = getTopDocuments(allDocuments, documentsPerPage).map<
     EducationPageModel['documents']['top'][number]
-  >(({ author, name, id, path, rating, mdate }) => ({
+  >(({ author, name, id, path, rating, cdate }) => ({
     name,
     id,
     path,
     rating,
-    mdate,
+    cdate,
     author:
       author?.displayName && author?.bio
         ? {
@@ -173,7 +173,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
                 id,
                 path,
                 rating,
-                mdate,
+                cdate,
                 description,
                 tags,
               }) => ({
@@ -181,7 +181,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
                 id,
                 path,
                 rating,
-                mdate,
+                cdate,
                 description,
                 tags,
                 author:
@@ -213,12 +213,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
           partialTop: partialTopDocuments,
           top: topDocuments,
           wall: documents.map(
-            ({ author, name, id, path, rating, mdate, description, tags }) => ({
+            ({ author, name, id, path, rating, cdate, description, tags }) => ({
               name,
               id,
               path,
               rating,
-              mdate,
+              cdate,
               description,
               tags,
               author:
@@ -241,12 +241,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
     context: {
       topDocuments: getTopDocuments(allDocuments, documentsPerPage).map(
-        ({ author, name, id, path, rating, mdate, description, tags }) => ({
+        ({ author, name, id, path, rating, cdate, description, tags }) => ({
           name,
           id,
           path,
           rating,
-          mdate,
+          cdate,
           description,
           tags,
           author:
