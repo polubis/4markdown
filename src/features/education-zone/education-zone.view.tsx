@@ -96,7 +96,7 @@ const ContentRank = ({
                   <i>
                     {document.author.displayName}
                     {` `}
-                    {formatDistance(document.mdate, now, {
+                    {formatDistance(document.cdate, now, {
                       addSuffix: true,
                     })}
                   </i>
@@ -105,7 +105,7 @@ const ContentRank = ({
                 <i>
                   Anonymous
                   {` `}
-                  {formatDistance(document.mdate, now, {
+                  {formatDistance(document.cdate, now, {
                     addSuffix: true,
                   })}
                 </i>
