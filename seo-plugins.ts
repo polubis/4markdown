@@ -16,10 +16,21 @@ type SerializedPage = {
 
 type GatsbyPluginSitemapPage = { path: string };
 
+const legacyRoutes = {
+  documents: {
+    preview: `/docs/preview/`,
+    browse: `/docs/browse/`,
+  },
+};
+
+const urlToIndexLimit = 2;
+
 const disallowedPaths = [
   meta.routes.docs.preview,
   meta.routes.notFound,
-  meta.legacyRoutes.docs.preview,
+  meta.routes.creator.preview,
+  legacyRoutes.documents.preview,
+  legacyRoutes.documents.browse,
 ];
 
 const seoPlugins = () =>
@@ -54,9 +65,13 @@ const seoPlugins = () =>
         resolvePages: (payload: {
           allSitePage: { nodes: GatsbyPluginSitemapPage[] };
         }): GatsbyPluginSitemapPage[] =>
-          payload.allSitePage.nodes.filter(
-            (page) => !(disallowedPaths as string[]).includes(page.path),
-          ),
+          payload.allSitePage.nodes.filter((page) => {
+            return (
+              !(disallowedPaths as string[]).includes(page.path) &&
+              page.path.split(`/`).filter((part) => !!part).length <
+                urlToIndexLimit
+            );
+          }),
         serialize: ({ path: url }: { path: string }): SerializedPage => {
           const lowPrioPaths = [meta.routes.privacyPolicy];
           const mediumPrioPaths = [
