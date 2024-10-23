@@ -19,7 +19,8 @@ export default EducationZonePage;
 export const Head: HeadFC<object, EducationPageModel> = ({
   pageContext: { page, tag },
 }) => {
-  const isCanonical = page === 1 && tag === undefined;
+  const noTag = tag === undefined;
+  const isCanonical = page === 1 && noTag;
 
   return (
     <Meta
@@ -30,6 +31,16 @@ export const Head: HeadFC<object, EducationPageModel> = ({
       lang={meta.lang}
       image={LogoThumbnail}
       robots={isCanonical ? undefined : `noindex, nofollow`}
+      prevUrl={
+        noTag && page > 1
+          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page + 1}`
+          : undefined
+      }
+      nextUrl={
+        noTag && page > 1
+          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`
+          : undefined
+      }
     />
   );
 };
