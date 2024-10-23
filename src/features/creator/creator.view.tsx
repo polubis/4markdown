@@ -129,7 +129,7 @@ const CreatorView: React.FC = () => {
           <CreatorErrorModalContainer />
         </React.Suspense>
       )}
-      <main className="flex h-full md:flex-col flex-col-reverse">
+      <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
           <ImageUploaderContainer />
@@ -178,7 +178,7 @@ const CreatorView: React.FC = () => {
         </CreatorNavigation>
         <DocBarContainer />
         <section
-          className={c(`grid h-[calc(100svh-72px-50px)]`, {
+          className={c(`grid h-[calc(100vh-72px-50px)]`, {
             'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
               divideMode === `both`,
           })}
