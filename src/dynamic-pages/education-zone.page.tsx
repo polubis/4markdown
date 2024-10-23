@@ -16,7 +16,13 @@ const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
 
 export default EducationZonePage;
 
-export const Head: HeadFC = () => {
+export const Head: HeadFC<unknown, EducationPageModel> = ({
+  pageContext: { page, tag },
+}) => {
+  const untagged = tag === undefined;
+  const paginated = page > 1 && untagged;
+  const canonical = page === 1 && untagged;
+
   return (
     <Meta
       appName={meta.appName}
@@ -25,6 +31,17 @@ export const Head: HeadFC = () => {
       url={meta.siteUrl + meta.routes.docs.educationZone}
       lang={meta.lang}
       image={LogoThumbnail}
+      robots={canonical ? undefined : `noindex, nofollow`}
+      prevUrl={
+        paginated
+          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`
+          : undefined
+      }
+      nextUrl={
+        paginated
+          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page + 1}`
+          : undefined
+      }
     />
   );
 };

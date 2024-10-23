@@ -9,6 +9,8 @@ interface MetaProps {
   image: string;
   keywords?: string;
   robots?: string;
+  prevUrl?: string;
+  nextUrl?: string;
 }
 
 const Meta = ({
@@ -19,6 +21,8 @@ const Meta = ({
   lang,
   image,
   keywords,
+  prevUrl,
+  nextUrl,
   robots = `index,follow,max-image-preview:large`,
 }: MetaProps) => {
   return (
@@ -51,6 +55,8 @@ const Meta = ({
       {/* Other */}
       <meta name="parsely-link" content={url} />
       <meta name="parsely-title" content={title} />
+      {prevUrl && <link rel="prev" href={prevUrl} />}
+      {nextUrl && <link rel="next" href={nextUrl} />}
       <link rel="canonical" href={url} />
       {/* Images */}
       <meta property="og:image" content={image} />
