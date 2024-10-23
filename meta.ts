@@ -33,11 +33,4 @@ export const meta = {
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
   },
-  // @TODO[PRIO=4]: [Remove legacy routes from this place].
-  legacyRoutes: {
-    docs: {
-      preview: `/docs/preview/`, // Now "/document/preview/""
-      browse: `/docs/browse/`, // Now "/education-zone/"
-    },
-  },
 } as const;
