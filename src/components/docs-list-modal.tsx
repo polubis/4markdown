@@ -20,8 +20,8 @@ type RangeFilter = (typeof rangeFilters)[number];
 
 const rangeLookup: Record<RangeFilter, [number, number]> = {
   Recent: [0, 7],
-  Old: [7, 30],
-  'Really Old': [30, Number.MAX_VALUE],
+  Old: [8, 30],
+  'Really Old': [31, Number.MAX_VALUE],
 };
 
 const DocsListModal = ({ onClose }: DocsListModalProps) => {
