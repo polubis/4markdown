@@ -17,7 +17,7 @@ const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
 export default EducationZonePage;
 
 export const Head: HeadFC<object, EducationPageModel> = ({
-  pageContext: { page },
+  pageContext: { page, tag },
 }) => {
   return (
     <Meta
@@ -27,7 +27,7 @@ export const Head: HeadFC<object, EducationPageModel> = ({
       url={meta.siteUrl + meta.routes.docs.educationZone}
       lang={meta.lang}
       image={LogoThumbnail}
-      robots={page === 1 ? undefined : `noindex, nofollow`}
+      robots={page === 1 && tag === undefined ? undefined : `noindex, nofollow`}
     />
   );
 };
