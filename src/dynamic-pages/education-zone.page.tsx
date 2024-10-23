@@ -34,12 +34,12 @@ export const Head: HeadFC<unknown, EducationPageModel> = ({
       robots={canonical ? undefined : `noindex, nofollow`}
       prevUrl={
         paginated
-          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page + 1}`
+          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`
           : undefined
       }
       nextUrl={
         paginated
-          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`
+          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page + 1}`
           : undefined
       }
     />
