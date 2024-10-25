@@ -57,7 +57,7 @@ const SubscribeNewsletterFormContainer = ({
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email to hop on the knowledge train!"
+          placeholder="Type your email to hop on the knowledge train!"
         />
       </Field>
       <div className="mt-2">
