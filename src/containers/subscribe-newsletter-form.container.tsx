@@ -20,7 +20,12 @@ const SubscribeNewsletterFormContainer = ({
   const [transaction, setTransaction] = React.useState<Transaction>({
     is: `idle`,
   });
+  const [confirmation, setConfirmation] = React.useState(false);
   const [email, setEmail] = React.useState<Email>(``);
+
+  const toggleConfirmation = (): void => {
+    setConfirmation((prevConfirmation) => !prevConfirmation);
+  };
 
   const handleSubscribeSubmit: FormEventHandler<HTMLFormElement> = async (
     e,
@@ -33,6 +38,8 @@ const SubscribeNewsletterFormContainer = ({
         email,
       });
       setTransaction({ is: `ok` });
+      setEmail(``);
+      setConfirmation(false);
     } catch (error: unknown) {
       setTransaction({ is: `fail`, error: parseError(error) });
     }
@@ -60,6 +67,8 @@ const SubscribeNewsletterFormContainer = ({
           id="privacyPolicy"
           name="privacyPolicy"
           required
+          checked={confirmation}
+          onChange={toggleConfirmation}
           aria-describedby="privacyPolicyLabel"
         />
         <label
