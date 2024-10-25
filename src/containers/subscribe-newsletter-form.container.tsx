@@ -9,6 +9,7 @@ import type { Email } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import ErrorModal from 'components/error-modal';
+import { UnsubscribeNewsletterFormContainer } from './unsubscribe-newsletter-form.container';
 
 type SubscribeNewsletterFormContainerProps = {
   className?: string;
@@ -17,6 +18,7 @@ type SubscribeNewsletterFormContainerProps = {
 const SubscribeNewsletterFormContainer = ({
   className,
 }: SubscribeNewsletterFormContainerProps) => {
+  const [isUnsubscribeForm, setIsUnsubscribeForm] = React.useState(false);
   // @TODO[PRIO=3]: [Maybe parse error automatically in API respose?].
   const [transaction, setTransaction] = React.useState<Transaction>({
     is: `idle`,
@@ -26,6 +28,10 @@ const SubscribeNewsletterFormContainer = ({
 
   const resetTransaction = (): void => {
     setTransaction({ is: `idle` });
+  };
+
+  const toggleIsUnsubscribeForm = (): void => {
+    setIsUnsubscribeForm((prevIsUnsubscribeForm) => !prevIsUnsubscribeForm);
   };
 
   const toggleConfirmation = (): void => {
@@ -51,6 +57,10 @@ const SubscribeNewsletterFormContainer = ({
       setTransaction({ is: `fail`, error: parseError(error) });
     }
   };
+
+  if (isUnsubscribeForm) {
+    return <UnsubscribeNewsletterFormContainer className={className} />;
+  }
 
   return (
     <>
@@ -103,6 +113,7 @@ const SubscribeNewsletterFormContainer = ({
               type="button"
               disabled={transaction.is === `busy`}
               className="inline underline underline-offset-2 text-blue-800 dark:text-blue-500"
+              onClick={toggleIsUnsubscribeForm}
             >
               Unsubscribe
             </button>
