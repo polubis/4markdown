@@ -10,10 +10,12 @@ import ErrorModal from 'components/error-modal';
 
 type UnsubscribeNewsletterFormContainerProps = {
   className?: string;
+  onBack(): void;
 };
 
 const UnsubscribeNewsletterFormContainer = ({
   className,
+  onBack,
 }: UnsubscribeNewsletterFormContainerProps) => {
   // @TODO[PRIO=3]: [Maybe parse error automatically in API respose?].
   const [transaction, setTransaction] = React.useState<Transaction>({
@@ -46,11 +48,7 @@ const UnsubscribeNewsletterFormContainer = ({
 
   return (
     <>
-      <form
-        className={className}
-        aria-label="Unsubscribe from our newsletter"
-        onSubmit={handleSubscribeSubmit}
-      >
+      <form className={className} onSubmit={handleSubscribeSubmit}>
         <Field label="Unsubscribe From Our Newsletter">
           <Input
             required
@@ -60,15 +58,32 @@ const UnsubscribeNewsletterFormContainer = ({
             placeholder="Type your email to unsubscribe"
           />
         </Field>
-        <Button
-          disabled={transaction.is === `busy`}
-          auto
-          s={1}
-          i={2}
-          type="submit"
-        >
-          Subscribe
-        </Button>
+        <p className="text-sm mb-6 mt-3 italic">
+          We&apos;re sad to see you leave the knowledge train ಥ_ಥ. We hope
+          you&apos;ll be back soon!
+        </p>
+        <div className="flex space-x-3">
+          <Button
+            disabled={transaction.is === `busy`}
+            auto
+            s={1}
+            i={1}
+            type="button"
+            onClick={onBack}
+          >
+            Back
+          </Button>
+          <Button
+            disabled={transaction.is === `busy`}
+            auto
+            s={1}
+            i={2}
+            title="Confirm unsubscription from newsletter"
+            type="submit"
+          >
+            Unsubscribe
+          </Button>
+        </div>
       </form>
       {transaction.is === `fail` && (
         <ErrorModal

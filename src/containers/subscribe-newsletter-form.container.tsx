@@ -59,16 +59,17 @@ const SubscribeNewsletterFormContainer = ({
   };
 
   if (isUnsubscribeForm) {
-    return <UnsubscribeNewsletterFormContainer className={className} />;
+    return (
+      <UnsubscribeNewsletterFormContainer
+        className={className}
+        onBack={toggleIsUnsubscribeForm}
+      />
+    );
   }
 
   return (
     <>
-      <form
-        className={className}
-        aria-label="Subscribe to our newsletter"
-        onSubmit={handleSubscribeSubmit}
-      >
+      <form className={className} onSubmit={handleSubscribeSubmit}>
         <Field label="Subscribe To Our Newsletter">
           <Input
             required
@@ -87,7 +88,6 @@ const SubscribeNewsletterFormContainer = ({
             required
             checked={confirmation}
             onChange={toggleConfirmation}
-            aria-describedby="privacyPolicyLabel"
           />
           <label
             className="text-sm cursor-pointer"
@@ -113,6 +113,7 @@ const SubscribeNewsletterFormContainer = ({
               type="button"
               disabled={transaction.is === `busy`}
               className="inline underline underline-offset-2 text-blue-800 dark:text-blue-500"
+              title="Go to newsletter unsubscribe form"
               onClick={toggleIsUnsubscribeForm}
             >
               Unsubscribe
@@ -126,6 +127,7 @@ const SubscribeNewsletterFormContainer = ({
           s={1}
           i={2}
           type="submit"
+          title="Confirm newsletter subscription"
         >
           Subscribe
         </Button>
