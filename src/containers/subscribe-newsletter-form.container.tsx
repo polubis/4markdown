@@ -19,7 +19,7 @@ const SubscribeNewsletterFormContainer = ({
   className,
 }: SubscribeNewsletterFormContainerProps) => {
   const [isUnsubscribeForm, setIsUnsubscribeForm] = React.useState(false);
-  // @TODO[PRIO=3]: [Maybe parse error automatically in API respose?].
+  // @TODO[PRIO=3]: [Maybe parse error automatically in API response?].
   const [transaction, setTransaction] = React.useState<Transaction>({
     is: `idle`,
   });
