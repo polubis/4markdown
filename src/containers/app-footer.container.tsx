@@ -28,7 +28,7 @@ const AppFooterContainer = () => {
   return (
     <footer className="bg-zinc-200 dark:bg-gray-950">
       <div className="border-t-2 border-zinc-300 dark:border-zinc-800">
-        <section className="flex flex-col px-4 py-8 md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
+        <section className="flex flex-col px-4 py-8 md:flex-row md:space-x-8 space-y-6 md:space-y-0 mx-auto justify-center">
           <div className="flex flex-col space-y-2">
             <Link
               to={meta.routes.home}
@@ -62,7 +62,7 @@ const AppFooterContainer = () => {
               <span>{meta.contactEmail}</span>
             </p>
           </div>
-          <Column title="About">
+          <Column title="Help">
             <a
               className="hover:underline underline-offset-2"
               href={meta.authorsUrl}
@@ -71,16 +71,6 @@ const AppFooterContainer = () => {
             >
               Authors
             </a>
-            <a
-              className="hover:underline underline-offset-2"
-              href={meta.sourceCodeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Source Code
-            </a>
-          </Column>
-          <Column title="Help">
             <a
               className="hover:underline underline-offset-2"
               href={meta.blogUrl}
@@ -104,6 +94,14 @@ const AppFooterContainer = () => {
               rel="noopener noreferrer"
             >
               Markdown Cheatsheet
+            </a>
+            <a
+              className="hover:underline underline-offset-2"
+              href={meta.sourceCodeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Source Code
             </a>
             <a
               className="hover:underline underline-offset-2"
