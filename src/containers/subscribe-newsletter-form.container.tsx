@@ -11,7 +11,7 @@ const SubscribeNewsletterFormContainer = () => {
       <Field label="Subscribe To Our Newsletter">
         <Input required type="email" placeholder="Type your email..." />
       </Field>
-      <div className="mt-2 mb-6">
+      <div className="mt-2">
         <input
           className="h-4 w-4 mr-2 translate-y-[3px] cursor-pointer"
           type="checkbox"
@@ -35,9 +35,20 @@ const SubscribeNewsletterFormContainer = () => {
           >
             Privacy Policy
           </Link>
-          .
         </label>
       </div>
+      <p className="text-sm mb-6 mt-3">
+        <i>
+          Already subscribed? Here you can {` `}
+          <button
+            type="button"
+            className="inline underline underline-offset-2 text-blue-800 dark:text-blue-500"
+          >
+            Unsubscribe
+          </button>
+          {` `}from newsletter ಥ_ಥ
+        </i>
+      </p>
       <Button auto s={1} i={2} type="submit">
         Subscribe
       </Button>
