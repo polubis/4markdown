@@ -179,9 +179,7 @@ const AppFooterContainer = () => {
               YouTube
             </a>
           </Column>
-        </section>
-        <section className="md:mx-auto px-4 pb-8 flex max-w-md">
-          <SubscribeNewsletterFormContainer />
+          <SubscribeNewsletterFormContainer className="max-w-md" />
         </section>
       </div>
     </footer>

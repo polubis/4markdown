@@ -5,11 +5,21 @@ import React from 'react';
 import { meta } from '../../meta';
 import { Button } from 'design-system/button';
 
-const SubscribeNewsletterFormContainer = () => {
+type SubscribeNewsletterFormContainerProps = {
+  className?: string;
+};
+
+const SubscribeNewsletterFormContainer = ({
+  className,
+}: SubscribeNewsletterFormContainerProps) => {
   return (
-    <form aria-label="Subscribe to our newsletter">
+    <form className={className} aria-label="Subscribe to our newsletter">
       <Field label="Subscribe To Our Newsletter">
-        <Input required type="email" placeholder="Type your email..." />
+        <Input
+          required
+          type="email"
+          placeholder="Enter your email to hop on the knowledge train!"
+        />
       </Field>
       <div className="mt-2">
         <input
