@@ -1,4 +1,4 @@
-import type { Base64, Date } from '../atoms';
+import type { Base64, Date, Email } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -93,6 +93,17 @@ type RateDocumentContract = Contract<
   }
 >;
 
+type SubscribeNewsletterContract = Contract<
+  `subscribeNewsletter`,
+  void,
+  { email: Email }
+>;
+type UnsubscribeNewsletterContract = Contract<
+  `unsubscribeNewsletter`,
+  void,
+  { email: Email }
+>;
+
 type API4MarkdownContracts =
   | GetYourDocumentsContract
   | GetAccessibleDocumentContract
@@ -105,7 +116,9 @@ type API4MarkdownContracts =
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract
   | RateDocumentContract
-  | UpdateDocumentNameContract;
+  | UpdateDocumentNameContract
+  | SubscribeNewsletterContract
+  | UnsubscribeNewsletterContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -137,6 +150,8 @@ export type {
   API4MarkdownPayload,
   GetYourDocumentsContract,
   GetAccessibleDocumentContract,
+  SubscribeNewsletterContract,
+  UnsubscribeNewsletterContract,
   GetPermanentDocumentsContract,
   DeleteDocumentContract,
   UpdateDocumentCodeContract,

@@ -1,9 +1,13 @@
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
 import { Link } from 'gatsby';
-import React from 'react';
+import React, { type FormEventHandler } from 'react';
 import { meta } from '../../meta';
 import { Button } from 'design-system/button';
+import { getAPI } from 'api-4markdown';
+import type { Email } from 'api-4markdown-contracts';
+import { parseError } from 'development-kit/parse-error';
+import type { Transaction } from 'development-kit/utility-types';
 
 type SubscribeNewsletterFormContainerProps = {
   className?: string;
@@ -12,12 +16,40 @@ type SubscribeNewsletterFormContainerProps = {
 const SubscribeNewsletterFormContainer = ({
   className,
 }: SubscribeNewsletterFormContainerProps) => {
+  // @TODO[PRIO=3]: [Maybe parse error automatically in API respose?].
+  const [transaction, setTransaction] = React.useState<Transaction>({
+    is: `idle`,
+  });
+  const [email, setEmail] = React.useState<Email>(``);
+
+  const handleSubscribeSubmit: FormEventHandler<HTMLFormElement> = async (
+    e,
+  ) => {
+    e.preventDefault();
+
+    try {
+      setTransaction({ is: `busy` });
+      await getAPI().call(`subscribeNewsletter`)({
+        email,
+      });
+      setTransaction({ is: `ok` });
+    } catch (error: unknown) {
+      setTransaction({ is: `fail`, error: parseError(error) });
+    }
+  };
+
   return (
-    <form className={className} aria-label="Subscribe to our newsletter">
+    <form
+      className={className}
+      aria-label="Subscribe to our newsletter"
+      onSubmit={handleSubscribeSubmit}
+    >
       <Field label="Subscribe To Our Newsletter">
         <Input
           required
           type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email to hop on the knowledge train!"
         />
       </Field>
@@ -52,6 +84,7 @@ const SubscribeNewsletterFormContainer = ({
           Already subscribed? Here you can {` `}
           <button
             type="button"
+            disabled={transaction.is === `busy`}
             className="inline underline underline-offset-2 text-blue-800 dark:text-blue-500"
           >
             Unsubscribe
@@ -59,7 +92,13 @@ const SubscribeNewsletterFormContainer = ({
           {` `}from newsletter ಥ_ಥ
         </i>
       </p>
-      <Button auto s={1} i={2} type="submit">
+      <Button
+        disabled={transaction.is === `busy`}
+        auto
+        s={1}
+        i={2}
+        type="submit"
+      >
         Subscribe
       </Button>
     </form>
