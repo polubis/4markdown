@@ -180,7 +180,7 @@ const AppFooterContainer = () => {
             </a>
           </Column>
         </section>
-        <section className="mx-auto flex max-w-lg">
+        <section className="md:mx-auto px-4 pb-8 flex max-w-md">
           <SubscribeNewsletterFormContainer />
         </section>
       </div>
