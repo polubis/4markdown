@@ -3,6 +3,7 @@ import { CompanyLogo } from 'components/company-logo';
 import { Link } from 'gatsby';
 import React, { type ReactNode } from 'react';
 import { meta } from '../../meta';
+import { SubscribeNewsletterFormContainer } from './subscribe-newsletter-form.container';
 
 const Column = ({
   className,
@@ -27,7 +28,7 @@ const AppFooterContainer = () => {
   return (
     <footer className="bg-zinc-200 dark:bg-gray-950">
       <div className="border-t-2 border-zinc-300 dark:border-zinc-800">
-        <div className="flex flex-col px-4 py-8 md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
+        <section className="flex flex-col px-4 py-8 md:flex-row md:space-x-10 space-y-6 md:space-y-0 mx-auto justify-center">
           <div className="flex flex-col space-y-2">
             <Link
               to={meta.routes.home}
@@ -139,6 +140,7 @@ const AppFooterContainer = () => {
               activeClassName="active-link"
               className="hover:underline underline-offset-2"
               to={meta.routes.privacyPolicy}
+              target="_blank"
             >
               Privacy Policy
             </Link>
@@ -177,7 +179,10 @@ const AppFooterContainer = () => {
               YouTube
             </a>
           </Column>
-        </div>
+        </section>
+        <section className="mx-auto flex max-w-lg">
+          <SubscribeNewsletterFormContainer />
+        </section>
       </div>
     </footer>
   );
