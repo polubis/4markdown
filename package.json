@@ -1,8 +1,8 @@
 {
-  "name": "blog",
+  "name": "4markdown",
   "version": "1.0.0",
   "private": true,
-  "description": "blog",
+  "description": "4markdown",
   "author": "polubis",
   "keywords": [
     "gatsby"
