@@ -7,6 +7,7 @@ import type { Email } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import ErrorModal from 'components/error-modal';
+import { Status } from 'design-system/status';
 
 type UnsubscribeNewsletterFormContainerProps = {
   className?: string;
@@ -46,8 +47,25 @@ const UnsubscribeNewsletterFormContainer = ({
     }
   };
 
+  React.useEffect(() => {
+    // @TODO[PRIO=3]: [Handle it in dedicated component?].
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (transaction.is === `ok`) {
+      timeout = setTimeout(() => {
+        setTransaction({ is: `idle` });
+        onBack();
+      }, 3500);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [transaction, onBack]);
+
   return (
     <>
+      {transaction.is === `ok` && <Status>Bye, Bye ¯\_(ツ)_/¯</Status>}
       <form className={className} onSubmit={handleSubscribeSubmit}>
         <Field label="Unsubscribe From Our Newsletter">
           <Input

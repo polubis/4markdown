@@ -10,6 +10,7 @@ import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import ErrorModal from 'components/error-modal';
 import { UnsubscribeNewsletterFormContainer } from './unsubscribe-newsletter-form.container';
+import { Status } from 'design-system/status';
 
 type SubscribeNewsletterFormContainerProps = {
   className?: string;
@@ -30,9 +31,9 @@ const SubscribeNewsletterFormContainer = ({
     setTransaction({ is: `idle` });
   };
 
-  const toggleIsUnsubscribeForm = (): void => {
+  const toggleIsUnsubscribeForm = React.useCallback((): void => {
     setIsUnsubscribeForm((prevIsUnsubscribeForm) => !prevIsUnsubscribeForm);
-  };
+  }, []);
 
   const toggleConfirmation = (): void => {
     setConfirmation((prevConfirmation) => !prevConfirmation);
@@ -58,6 +59,21 @@ const SubscribeNewsletterFormContainer = ({
     }
   };
 
+  React.useEffect(() => {
+    // @TODO[PRIO=3]: [Handle it in dedicated component?].
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (transaction.is === `ok`) {
+      timeout = setTimeout(() => {
+        setTransaction({ is: `idle` });
+      }, 3500);
+    }
+
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [transaction]);
+
   if (isUnsubscribeForm) {
     return (
       <UnsubscribeNewsletterFormContainer
@@ -69,6 +85,7 @@ const SubscribeNewsletterFormContainer = ({
 
   return (
     <>
+      {transaction.is === `ok` && <Status>Thanks For Sub ☜(ﾟヮﾟ☜)</Status>}
       <form className={className} onSubmit={handleSubscribeSubmit}>
         <Field label="Subscribe To Our Newsletter">
           <Input

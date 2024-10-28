@@ -4,7 +4,7 @@ import { Badge, type BadgeProps } from './badge';
 import c from 'classnames';
 
 interface StatusProps extends BadgeProps {}
-
+// @TODO[PRIO=2]: [Add orientation and position].
 const Status = ({ className, ...props }: StatusProps) => {
   const { render } = usePortal();
 
