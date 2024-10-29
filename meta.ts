@@ -25,6 +25,7 @@ export const meta = {
     education: {
       rank: `/education-rank/`,
     },
+    // @TODO[PRIO=4]: [Rename docs to documents].
     docs: {
       // @TODO[PRIO=3]: [Move education zone to education].
       preview: `/document-preview/`,
@@ -32,5 +33,8 @@ export const meta = {
     },
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
+    newsletter: {
+      unsubscribe: `/unsubscribe-newsletter/`,
+    },
   },
 } as const;
