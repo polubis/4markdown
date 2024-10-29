@@ -9,7 +9,6 @@ import type { Email } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import ErrorModal from 'components/error-modal';
-import { UnsubscribeNewsletterFormContainer } from './unsubscribe-newsletter-form.container';
 import { Status } from 'design-system/status';
 
 type SubscribeNewsletterFormContainerProps = {
@@ -19,7 +18,6 @@ type SubscribeNewsletterFormContainerProps = {
 const SubscribeNewsletterFormContainer = ({
   className,
 }: SubscribeNewsletterFormContainerProps) => {
-  const [isUnsubscribeForm, setIsUnsubscribeForm] = React.useState(false);
   // @TODO[PRIO=3]: [Maybe parse error automatically in API response?].
   const [transaction, setTransaction] = React.useState<Transaction>({
     is: `idle`,
@@ -30,10 +28,6 @@ const SubscribeNewsletterFormContainer = ({
   const resetTransaction = (): void => {
     setTransaction({ is: `idle` });
   };
-
-  const toggleIsUnsubscribeForm = React.useCallback((): void => {
-    setIsUnsubscribeForm((prevIsUnsubscribeForm) => !prevIsUnsubscribeForm);
-  }, []);
 
   const toggleConfirmation = (): void => {
     setConfirmation((prevConfirmation) => !prevConfirmation);
@@ -73,15 +67,6 @@ const SubscribeNewsletterFormContainer = ({
       clearTimeout(timeout);
     };
   }, [transaction]);
-
-  if (isUnsubscribeForm) {
-    return (
-      <UnsubscribeNewsletterFormContainer
-        className={className}
-        onBack={toggleIsUnsubscribeForm}
-      />
-    );
-  }
 
   return (
     <>
@@ -126,15 +111,13 @@ const SubscribeNewsletterFormContainer = ({
         <p className="text-sm mb-6 mt-3">
           <i>
             Already subscribed? Here you can {` `}
-            <button
-              type="button"
-              disabled={transaction.is === `busy`}
-              className="inline underline underline-offset-2 text-blue-800 dark:text-blue-500"
+            <Link
+              className="underline underline-offset-2 text-blue-800 dark:text-blue-500"
               title="Go to newsletter unsubscribe form"
-              onClick={toggleIsUnsubscribeForm}
+              to={meta.routes.newsletter.unsubscribe}
             >
               Unsubscribe
-            </button>
+            </Link>
             {` `}from newsletter ಥ_ಥ
           </i>
         </p>

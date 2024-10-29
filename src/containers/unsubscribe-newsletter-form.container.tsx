@@ -11,12 +11,10 @@ import { Status } from 'design-system/status';
 
 type UnsubscribeNewsletterFormContainerProps = {
   className?: string;
-  onBack(): void;
 };
 
 const UnsubscribeNewsletterFormContainer = ({
   className,
-  onBack,
 }: UnsubscribeNewsletterFormContainerProps) => {
   // @TODO[PRIO=3]: [Maybe parse error automatically in API response?].
   const [transaction, setTransaction] = React.useState<Transaction>({
@@ -54,14 +52,13 @@ const UnsubscribeNewsletterFormContainer = ({
     if (transaction.is === `ok`) {
       timeout = setTimeout(() => {
         setTransaction({ is: `idle` });
-        onBack();
       }, 3500);
     }
 
     return () => {
       clearTimeout(timeout);
     };
-  }, [transaction, onBack]);
+  }, [transaction]);
 
   return (
     <>
@@ -84,17 +81,7 @@ const UnsubscribeNewsletterFormContainer = ({
           <Button
             disabled={transaction.is === `busy`}
             auto
-            s={1}
-            i={1}
-            type="button"
-            onClick={onBack}
-          >
-            Back
-          </Button>
-          <Button
-            disabled={transaction.is === `busy`}
-            auto
-            s={1}
+            s={2}
             i={2}
             title="Confirm unsubscription from newsletter"
             type="submit"
