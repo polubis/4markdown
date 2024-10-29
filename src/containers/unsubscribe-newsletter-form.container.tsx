@@ -68,6 +68,7 @@ const UnsubscribeNewsletterFormContainer = ({
           <Input
             required
             type="email"
+            className="max-w-[400px]"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Type your email to address"

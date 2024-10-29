@@ -7,6 +7,14 @@ import { Link } from 'gatsby';
 import React from 'react';
 import { meta } from '../../../meta';
 
+// Email avatar
+// Additional item in privacy policy
+// Describe a ticket with new content
+// Add subscribe banner in education zone
+// Fix tests e2e
+// Write new e2e tests for new features
+
+// @TODO[PRIO=4]: ["max-w-4xl p-4 my-6" replace it in whole app with component].
 const UnsubscribeNewsletterView = () => {
   return (
     <>
@@ -15,7 +23,7 @@ const UnsubscribeNewsletterView = () => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="max-w-4xl p-4 my-6 mx-auto">
-        <section className="flex items-center mx-auto space-x-10 min-h-[500px]">
+        <section className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:items-center mx-auto md:space-x-10 md:min-h-[500px]">
           <div>
             <h1 className="text-xl">Unsubscribe From Our Newsletter</h1>
             <p className="mt-3">
@@ -34,9 +42,9 @@ const UnsubscribeNewsletterView = () => {
               </Link>
             </p>
           </div>
-          <UnsubscribeNewsletterFormContainer className="max-w-[40%] shrink-0" />
+          <UnsubscribeNewsletterFormContainer className="md:max-w-[40%] shrink-0" />
         </section>
-        <section className="mt-4">
+        <section className="mt-10 md:mt-4">
           <Link
             className="underline underline-offset-2"
             to={meta.routes.docs.educationZone}
