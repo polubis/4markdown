@@ -15,7 +15,7 @@ const UnsubscribeNewsletterView = () => {
         <DocsBrowseLinkContainer />
       </AppNavigation>
       <main className="max-w-4xl p-4 my-6 mx-auto">
-        <section className="flex mx-auto space-x-10">
+        <section className="flex items-center mx-auto space-x-10 min-h-[500px]">
           <div>
             <h1 className="text-xl">Unsubscribe From Our Newsletter</h1>
             <p className="mt-3">
@@ -32,10 +32,18 @@ const UnsubscribeNewsletterView = () => {
               >
                 Privacy Policy
               </Link>
-              .
             </p>
           </div>
-          <UnsubscribeNewsletterFormContainer className="border max-w-[40%] bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-4 rounded-md shrink-0" />
+          <UnsubscribeNewsletterFormContainer className="max-w-[40%] shrink-0" />
+        </section>
+        <section className="mt-4">
+          <Link
+            className="underline underline-offset-2"
+            to={meta.routes.docs.educationZone}
+            title="Back to education zone"
+          >
+            I&apos;ve Changed My Mind
+          </Link>
         </section>
       </main>
       <AppFooterContainer />

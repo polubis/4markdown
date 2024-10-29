@@ -8,8 +8,6 @@ import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import ErrorModal from 'components/error-modal';
 import { Status } from 'design-system/status';
-import { meta } from '../../meta';
-import { Link } from 'gatsby';
 
 type UnsubscribeNewsletterFormContainerProps = {
   className?: string;
@@ -76,7 +74,7 @@ const UnsubscribeNewsletterFormContainer = ({
           />
         </Field>
         <p className="text-sm mb-6 mt-3 italic">
-          We&apos;re sad to see you leave the knowledge train ಥ_ಥ. We hope
+          We&apos;re ಥ_ಥ to see you leaving the knowledge train. We hope
           you&apos;ll be back soon!
         </p>
         <div className="flex space-x-3">
