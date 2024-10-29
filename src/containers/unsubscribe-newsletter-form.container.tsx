@@ -8,6 +8,8 @@ import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import ErrorModal from 'components/error-modal';
 import { Status } from 'design-system/status';
+import { meta } from '../../meta';
+import { Link } from 'gatsby';
 
 type UnsubscribeNewsletterFormContainerProps = {
   className?: string;
@@ -64,13 +66,13 @@ const UnsubscribeNewsletterFormContainer = ({
     <>
       {transaction.is === `ok` && <Status>Bye, Bye ¯\_(ツ)_/¯</Status>}
       <form className={className} onSubmit={handleSubscribeSubmit}>
-        <Field label="Unsubscribe From Our Newsletter">
+        <Field label="Email*">
           <Input
             required
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Type your email to unsubscribe"
+            placeholder="Type your email to address"
           />
         </Field>
         <p className="text-sm mb-6 mt-3 italic">
@@ -90,6 +92,7 @@ const UnsubscribeNewsletterFormContainer = ({
           </Button>
         </div>
       </form>
+
       {transaction.is === `fail` && (
         <ErrorModal
           heading="Ups, something went wrong"
