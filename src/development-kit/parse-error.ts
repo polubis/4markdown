@@ -1,6 +1,7 @@
 type ErrorSymbol =
   | `already-exists`
   | `unauthenticated`
+  | `unauthorized`
   | `internal`
   | `invalid-schema`
   | `not-found`
@@ -20,6 +21,7 @@ type ErrorVariant<
 // @TODO[PRIO=2]: [Move errors type defs to contracts library].
 type AlreadyExistsError = ErrorVariant<`already-exists`>;
 type UnauthenticatedError = ErrorVariant<`unauthenticated`>;
+type UnauthorizedError = ErrorVariant<`unauthorized`>;
 type InternalError = ErrorVariant<`internal`>;
 type InvalidSchemaError = ErrorVariant<
   `invalid-schema`,
@@ -36,7 +38,8 @@ type KnownError =
   | InvalidSchemaError
   | NotFoundError
   | OutOfDateError
-  | BadRequestError;
+  | BadRequestError
+  | UnauthorizedError;
 
 type UnknownError = {
   symbol: 'unknown';
