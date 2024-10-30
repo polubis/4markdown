@@ -236,6 +236,22 @@ const PrivacyPolicyView = () => {
           actionable activity, or to otherwise comply with applicable court
           orders, laws, rules and regulations.
         </p>
+        <h2>Newsletter Policy</h2>
+        <p>
+          By subscribing to our <strong>newsletter</strong>, you consent to the
+          storage of your email address in our secure database. If you choose to
+          unsubscribe, your email address will be promptly removed, and we will
+          cease sending you any commercial communications. Please note that due
+          to backup retention policies, your email address may remain in our
+          backup storage for up to 30 days before it is permanently deleted.
+        </p>
+        <p>
+          By subscribing to our newsletter, you acknowledge and agree to comply
+          with our platform’s terms and policies. Additionally, we may share
+          your email address with trusted third-party partners, only as
+          necessary to facilitate newsletter delivery and improve your
+          experience.
+        </p>
         <h2>
           Where and when is information collected from customers and end users?
         </h2>

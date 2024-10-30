@@ -8,11 +8,9 @@ import React from 'react';
 import { meta } from '../../../meta';
 
 // Email avatar
-// Additional item in privacy policy
 // Describe a ticket with new content
 // Fix tests e2e
 // Write new e2e tests for new features
-// Wyslac HI Email na subscribe
 // Add Subscribe Newsletter Separate Page
 
 // @TODO[PRIO=4]: ["max-w-4xl p-4 my-6" replace it in whole app with component].
