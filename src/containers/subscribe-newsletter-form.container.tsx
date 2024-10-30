@@ -110,7 +110,7 @@ const SubscribeNewsletterFormContainer = ({
             </Link>
           </label>
         </div>
-        <p className="text-sm mb-6 mt-3">
+        <p className="text-sm mb-6 mt-2">
           <i>
             Already subscribed? Here you can {` `}
             <Link

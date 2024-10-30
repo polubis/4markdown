@@ -74,7 +74,7 @@ const UnsubscribeNewsletterFormContainer = ({
             placeholder="Type your email to address"
           />
         </Field>
-        <p className="text-sm mb-6 mt-3 italic">
+        <p className="text-sm mb-6 mt-2 italic">
           We&apos;re ಥ_ಥ to see you leaving the knowledge train. We hope
           you&apos;ll be back soon!
         </p>
