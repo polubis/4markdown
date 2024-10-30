@@ -13,6 +13,8 @@ import { meta } from '../../../meta';
 // Add subscribe banner in education zone
 // Fix tests e2e
 // Write new e2e tests for new features
+// Wyslac HI Email na subscribe
+// Add Subscribe Newsletter Separate Page
 
 // @TODO[PRIO=4]: ["max-w-4xl p-4 my-6" replace it in whole app with component].
 const UnsubscribeNewsletterView = () => {
