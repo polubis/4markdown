@@ -21,7 +21,6 @@ export const Head: HeadFC<unknown, EducationPageModel> = ({
 }) => {
   const untagged = tag === undefined;
   const paginated = page > 1 && untagged;
-  const canonical = page === 1 && untagged;
 
   return (
     <Meta
@@ -30,8 +29,7 @@ export const Head: HeadFC<unknown, EducationPageModel> = ({
       description="Embark on a diverse journey through our extensive collection of articles about programming, mathematics, medicine, and more"
       url={meta.siteUrl + meta.routes.docs.educationZone}
       lang={meta.lang}
-      image={LogoThumbnail}
-      robots={canonical ? undefined : `noindex, nofollow`}
+      image={meta.siteUrl + LogoThumbnail}
       prevUrl={
         paginated
           ? `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`
