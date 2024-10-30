@@ -26,10 +26,16 @@ module.exports = {
         '70%, 90%': { transform: `translateY(-4px)` },
         '20%, 80%': { transform: `translateY(4px)` },
       },
+      'gradient-move': {
+        '0%': { backgroundPosition: `0% 50%` },
+        '50%': { backgroundPosition: `100% 50%` },
+        '100%': { backgroundPosition: `0% 50%` },
+      },
     },
     animation: {
       'fade-in': `fade-in 0.3s ease-in-out`,
       shake: `shake 0.5s ease-in-out`,
+      'gradient-move': `gradient-move 8s ease infinite`,
     },
   },
   plugins: [],

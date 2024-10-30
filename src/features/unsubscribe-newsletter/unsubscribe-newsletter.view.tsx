@@ -10,7 +10,6 @@ import { meta } from '../../../meta';
 // Email avatar
 // Additional item in privacy policy
 // Describe a ticket with new content
-// Add subscribe banner in education zone
 // Fix tests e2e
 // Write new e2e tests for new features
 // Wyslac HI Email na subscribe

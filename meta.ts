@@ -35,6 +35,7 @@ export const meta = {
     privacyPolicy: `/privacy-policy/`,
     newsletter: {
       unsubscribe: `/unsubscribe-newsletter/`,
+      subscribe: `/subscribe-newsletter/`,
     },
   },
 } as const;
