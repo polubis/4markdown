@@ -3,7 +3,7 @@ import { Input } from 'design-system/input';
 import { Link } from 'gatsby';
 import React, { type FormEventHandler } from 'react';
 import { meta } from '../../meta';
-import { Button } from 'design-system/button';
+import { Button, type ButtonProps } from 'design-system/button';
 import { getAPI } from 'api-4markdown';
 import type { Email } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
@@ -13,10 +13,12 @@ import { Status } from 'design-system/status';
 
 type SubscribeNewsletterFormContainerProps = {
   className?: string;
+  subscribeButtonSize?: ButtonProps['s'];
 };
 
 const SubscribeNewsletterFormContainer = ({
   className,
+  subscribeButtonSize = 1,
 }: SubscribeNewsletterFormContainerProps) => {
   // @TODO[PRIO=3]: [Maybe parse error automatically in API response?].
   const [transaction, setTransaction] = React.useState<Transaction>({
@@ -124,7 +126,7 @@ const SubscribeNewsletterFormContainer = ({
         <Button
           disabled={transaction.is === `busy`}
           auto
-          s={1}
+          s={subscribeButtonSize}
           i={2}
           type="submit"
           title="Confirm newsletter subscription"
