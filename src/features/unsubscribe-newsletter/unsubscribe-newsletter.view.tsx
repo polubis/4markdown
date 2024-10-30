@@ -11,7 +11,6 @@ import { meta } from '../../../meta';
 // Describe a ticket with new content
 // Fix tests e2e
 // Write new e2e tests for new features
-// Add Subscribe Newsletter Separate Page
 
 // @TODO[PRIO=4]: ["max-w-4xl p-4 my-6" replace it in whole app with component].
 const UnsubscribeNewsletterView = () => {
