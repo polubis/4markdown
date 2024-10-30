@@ -14,6 +14,7 @@ import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
 import { EducationTopTags } from 'components/education-top-tags';
 import type { EducationPageModel } from 'models/page-models';
+import { SubscribeNewsletterLink } from 'components/subscribe-newsletter-link';
 
 type EducationZoneViewProps = EducationPageModel;
 
@@ -163,15 +164,7 @@ const EducationZoneView = ({
           <Pagination page={page} pagesCount={pagesCount} />
         </>
         <>
-          <Link
-            className="flex mb-4 px-3 py-2 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 hover:opacity-90 shadow-md rounded-md cursor-pointer text-gray-700 dark:text-gray-300 animate-gradient-move bg-[length:200%_200%]"
-            to={meta.routes.newsletter.subscribe}
-            title="Subscribe to weekly summary newsletter"
-          >
-            <h6 className="text-sm font-semibold">
-              Subscribe To Our Weekly Web Summary
-            </h6>
-          </Link>
+          <SubscribeNewsletterLink />
           <EducationTopTags className="mb-4" tags={topTags} />
           <ContentRank documents={documents} />
         </>
