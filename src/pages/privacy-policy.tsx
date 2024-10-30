@@ -20,7 +20,7 @@ export const Head: HeadFC = () => {
       keywords={`${meta.appName},${meta.appName} Privacy Policy`}
       url={meta.siteUrl + meta.routes.privacyPolicy}
       lang={meta.lang}
-      image={LogoThumbnail}
+      image={meta.siteUrl + LogoThumbnail}
     />
   );
 };

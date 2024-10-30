@@ -55,7 +55,7 @@ export const Head: HeadFC<object, DocumentPageProps['pageContext']> = ({
       url={`${meta.siteUrl}${pageContext.doc.path}`}
       keywords={`${meta.appName}, ${pageContext.doc.name}`}
       lang={meta.lang}
-      image={LogoThumbnail}
+      image={meta.siteUrl + LogoThumbnail}
     />
   );
 };
