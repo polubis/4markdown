@@ -28,7 +28,7 @@ export const Head: HeadFC = () => {
       url={meta.siteUrl + meta.routes.home}
       keywords={`${meta.appName}, Editor, Github markdown editor online, ${meta.company}, Programming articles, Markdown preview, Online markdown editor`}
       lang={meta.lang}
-      image={LogoThumbnail}
+      image={meta.siteUrl + LogoThumbnail}
     />
   );
 };
