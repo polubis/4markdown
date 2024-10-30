@@ -165,7 +165,7 @@ const EducationZoneView = ({
         </>
         <>
           <SubscribeNewsletterLink />
-          <EducationTopTags className="mb-4" tags={topTags} />
+          <EducationTopTags className="my-4" tags={topTags} />
           <ContentRank documents={documents} />
         </>
       </EducationLayout>

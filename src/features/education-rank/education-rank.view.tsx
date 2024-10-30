@@ -7,6 +7,7 @@ import type { EducationRanPageModel } from 'models/page-models';
 import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
 import { EducationTopTags } from 'components/education-top-tags';
+import { SubscribeNewsletterLink } from 'components/subscribe-newsletter-link';
 
 type EducationRankViewProps = EducationRanPageModel;
 
@@ -26,7 +27,8 @@ const EducationRankView = ({
       >
         <EducationDocumentsList documents={topDocuments} />
         <>
-          <EducationTopTags tags={topTags} />
+          <SubscribeNewsletterLink />
+          <EducationTopTags className="mt-4" tags={topTags} />
         </>
       </EducationLayout>
       <AppFooterContainer />

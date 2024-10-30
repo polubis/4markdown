@@ -24,7 +24,7 @@ const EducationLayout = ({
           {body}
         </div>
       </section>
-      <section className="md:w-[400px] border-t-2 md:border-t-0 border-zinc-300 dark:border-zinc-800">
+      <section className="md:w-[400px] shrink-0 border-t-2 md:border-t-0 border-zinc-300 dark:border-zinc-800">
         <div className="top-0 sticky right-0 py-6 px-4 md:px-6">{side}</div>
       </section>
     </main>
