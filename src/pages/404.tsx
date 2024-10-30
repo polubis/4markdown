@@ -40,7 +40,7 @@ export const Head: HeadFC = () => {
       description={meta.description}
       url={meta.siteUrl + meta.routes.notFound}
       lang={meta.lang}
-      image={LogoThumbnail}
+      image={meta.siteUrl + LogoThumbnail}
       robots="noindex, nofollow"
     />
   );

@@ -19,7 +19,7 @@ export const Head: HeadFC = () => {
       description={meta.description}
       url={meta.siteUrl + meta.routes.docs.preview}
       lang={meta.lang}
-      image={LogoThumbnail}
+      image={meta.siteUrl + LogoThumbnail}
       robots="noindex, nofollow"
     />
   );

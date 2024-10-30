@@ -26,7 +26,7 @@ export const Head: HeadFC = () => {
       description="Explore the top educational resources in programming, science, and math. Enhance your knowledge with the best content."
       url={meta.siteUrl + meta.routes.education.rank}
       lang={meta.lang}
-      image={LogoThumbnail}
+      image={meta.siteUrl + LogoThumbnail}
     />
   );
 };

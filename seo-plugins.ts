@@ -44,7 +44,7 @@ const seoPlugins = () =>
           {
             userAgent: `*`,
             allow: [`/`],
-            disallow: [disallowedPaths, `${meta.routes.docs.educationZone}*`],
+            disallow: [disallowedPaths],
           },
         ],
       },
