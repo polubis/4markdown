@@ -27,7 +27,9 @@ const EducationRankView = ({
       >
         <EducationDocumentsList documents={topDocuments} />
         <>
-          <SubscribeNewsletterLink />
+          <SubscribeNewsletterLink>
+            Subscribe To Weekly Web Dev Newsletter
+          </SubscribeNewsletterLink>
           <EducationTopTags className="mt-4" tags={topTags} />
         </>
       </EducationLayout>

@@ -8,6 +8,7 @@ import c from 'classnames';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
 import { CompanyLogo } from './company-logo';
 import { meta } from '../../meta';
+import { SubscribeNewsletterLink } from './subscribe-newsletter-link';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -171,12 +172,14 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
           <ButtonLink
             to={meta.ytChannelUrl}
             target="_blank"
-            className="mb-6"
             title={`${meta.appName} YouTube`}
             rel="noopener noreferrer"
           >
             YouTube
           </ButtonLink>
+          <SubscribeNewsletterLink className="mt-2 mb-6 w-full text-center">
+            Subscribe Newsletter
+          </SubscribeNewsletterLink>
           <a
             href={meta.companyUrl}
             target="_blank"

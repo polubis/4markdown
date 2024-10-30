@@ -164,7 +164,9 @@ const EducationZoneView = ({
           <Pagination page={page} pagesCount={pagesCount} />
         </>
         <>
-          <SubscribeNewsletterLink />
+          <SubscribeNewsletterLink>
+            Subscribe To Our Weekly Web Dev Newsletter
+          </SubscribeNewsletterLink>
           <EducationTopTags className="my-4" tags={topTags} />
           <ContentRank documents={documents} />
         </>
