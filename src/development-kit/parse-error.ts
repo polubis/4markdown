@@ -5,7 +5,8 @@ type ErrorSymbol =
   | `invalid-schema`
   | `not-found`
   | `out-of-date`
-  | `bad-request`;
+  | `bad-request`
+  | `unauthorized`;
 type ErrorContent = string | { key: string; message: string }[];
 
 type ErrorVariant<
@@ -20,6 +21,7 @@ type ErrorVariant<
 // @TODO[PRIO=2]: [Move errors type defs to contracts library].
 type AlreadyExistsError = ErrorVariant<`already-exists`>;
 type UnauthenticatedError = ErrorVariant<`unauthenticated`>;
+type Unauthorized = ErrorVariant<`unauthorized`>;
 type InternalError = ErrorVariant<`internal`>;
 type InvalidSchemaError = ErrorVariant<
   `invalid-schema`,
@@ -32,6 +34,7 @@ type BadRequestError = ErrorVariant<`bad-request`>;
 type KnownError =
   | AlreadyExistsError
   | UnauthenticatedError
+  | Unauthorized
   | InternalError
   | InvalidSchemaError
   | NotFoundError
