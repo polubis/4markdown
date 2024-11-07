@@ -10,11 +10,13 @@ import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 
-const AddDocPopoverContent = React.lazy(
-  () => import(`./add-doc-popover-content`),
+const CreateDocumentModal = React.lazy(() =>
+  import(`./create-document-modal`).then((m) => ({
+    default: m.CreateDocumentModal,
+  })),
 );
 
-const AddDocPopover: React.FC = () => {
+const AddDocPopover = () => {
   const docManagementStore = useDocManagementStore();
   const authStore = useAuthStore();
   const menu = useToggle();
@@ -54,7 +56,7 @@ const AddDocPopover: React.FC = () => {
       </Button>
       {menu.opened && (
         <React.Suspense>
-          <AddDocPopoverContent onClose={menu.close} />
+          <CreateDocumentModal onClose={menu.close} />
         </React.Suspense>
       )}
     </>
