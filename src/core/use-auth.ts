@@ -20,15 +20,15 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    const updateDoc = async (
-      payload: API4MarkdownPayload<'updateDoc'>,
+    const updateDocumentVisibility = async (
+      payload: API4MarkdownPayload<'updateDocumentVisibility'>,
     ): Promise<void> => {
       try {
         docManagementStoreActions.busy();
-        const updatedDoc = await call(`updateDoc`)(payload);
+        const updatedDocument = await call(`updateDocumentVisibility`)(payload);
         docManagementStoreActions.ok();
-        docStoreActions.setActive(updatedDoc);
-        docsStoreActions.updateDoc(updatedDoc);
+        docStoreActions.setActive(updatedDocument);
+        docsStoreActions.updateDoc(updatedDocument);
         creatorStoreActions.asUnchanged();
       } catch (error: unknown) {
         docManagementStoreActions.fail(error);
@@ -164,38 +164,30 @@ const useAuth = () => {
             }
           },
           makeDocPrivate: async () => {
-            const { id, name, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
+            const { id, mdate } = docStoreSelectors.active();
 
-            await updateDoc({
+            await updateDocumentVisibility({
               id,
               mdate,
-              name,
-              code,
               visibility: `private`,
             });
           },
           makeDocPublic: async () => {
-            const { id, name, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
+            const { id, mdate } = docStoreSelectors.active();
 
-            await updateDoc({
+            await updateDocumentVisibility({
               id,
               mdate,
-              name,
-              code,
               visibility: `public`,
             });
           },
           makeDocPermanent: async (name, description, tags) => {
             const { id, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
 
-            await updateDoc({
+            await updateDocumentVisibility({
               mdate,
               id,
               name,
-              code,
               visibility: `permanent`,
               description,
               tags,

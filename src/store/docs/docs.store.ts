@@ -1,9 +1,11 @@
-import type { DocumentDto } from 'api-4markdown-contracts';
 import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
+import type { DocumentCreatorViewModel } from 'models/view-models';
 import { create } from 'zustand';
 
-type DocsStoreState = Transaction<{ docs: DocumentDto[] }>;
+type DocsStoreState = Transaction<{
+  docs: DocumentCreatorViewModel['document'][];
+}>;
 type DocsStoreOkState = Extract<DocsStoreState, { is: 'ok' }>;
 
 const useDocsStore = create<DocsStoreState>(() => ({
@@ -29,9 +31,9 @@ const docsStoreSelectors = {
 const docsStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
-  ok: (docs: DocumentDto[]) => set({ is: `ok`, docs }),
+  ok: (docs: DocumentCreatorViewModel['document'][]) => set({ is: `ok`, docs }),
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
-  updateDoc: (doc: DocumentDto) => {
+  updateDoc: (doc: DocumentCreatorViewModel['document']) => {
     const state = docsStoreSelectors.ok();
 
     set({
@@ -45,7 +47,7 @@ const docsStoreActions = {
         }),
     });
   },
-  addDoc: (doc: DocumentDto) => {
+  addDoc: (doc: DocumentCreatorViewModel['document']) => {
     const state = docsStoreSelectors.ok();
 
     set({
@@ -53,7 +55,7 @@ const docsStoreActions = {
       docs: [doc, ...state.docs],
     });
   },
-  deleteDoc: (id: DocumentDto['id']) => {
+  deleteDoc: (id: DocumentCreatorViewModel['document']['id']) => {
     const state = docsStoreSelectors.ok();
 
     set({
