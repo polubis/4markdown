@@ -12,11 +12,11 @@ import { docStoreSelectors } from 'store/doc/doc.store';
 import { SeoFriendlyDescriptionHint } from '../components/seo-friendly-description-hint';
 import { updateDocumentVisibility } from '../store/update-document-visibility.action';
 
-interface PermamentDocFormContainerProps {
+type PermamentDocFormContainerProps = {
   onConfirm(): void;
   onClose(): void;
   onBack(): void;
-}
+};
 
 const PermamentDocFormContainer = ({
   onConfirm,
