@@ -50,11 +50,9 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
             </Link>
           </h2>
           <p className="lg:max-w-[70%] mt-1 mb-3">{document.description}</p>
-          {document.tags.length > 0 && (
-            <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
-              {document.tags.join(`, `)}
-            </p>
-          )}
+          <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
+            {document.tags.join(`, `)}
+          </p>
           <div className="flex items-center space-x-2">
             {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
               <div className="flex items-center" key={category}>
