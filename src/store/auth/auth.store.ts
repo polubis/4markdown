@@ -2,8 +2,6 @@ import type {
   API4MarkdownPayload,
   API4MarkdownDto,
   DocumentDto,
-  PermanentDocumentDto,
-  Tags,
 } from 'api-4markdown-contracts';
 import { create } from 'zustand';
 
@@ -14,15 +12,7 @@ interface AuthorizedData {
   };
   logOut(): void;
   createDoc(name: DocumentDto['name']): Promise<void>;
-  updateDocumentCode(): Promise<void>;
-  makeDocPrivate(): Promise<void>;
-  makeDocPublic(): Promise<void>;
   uploadImage(image: File): Promise<API4MarkdownDto<'uploadImage'>>;
-  makeDocPermanent(
-    name: DocumentDto['name'],
-    description: PermanentDocumentDto['description'],
-    tags: Tags,
-  ): Promise<void>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
   getYourProfile(): Promise<void>;

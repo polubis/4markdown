@@ -7,10 +7,10 @@ import { Textarea } from 'design-system/textarea';
 import { useForm } from 'development-kit/use-form';
 import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
-import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 import { SeoFriendlyDescriptionHint } from '../components/seo-friendly-description-hint';
+import { updateDocumentVisibility } from '../store/update-document-visibility.action';
 
 interface PermamentDocFormContainerProps {
   onConfirm(): void;
@@ -43,9 +43,12 @@ const PermamentDocFormContainer = ({
     e.preventDefault();
 
     try {
-      await authStoreSelectors
-        .authorized()
-        .makeDocPermanent(name, description, tags.split(`,`));
+      await updateDocumentVisibility({
+        name,
+        description,
+        tags: tags.split(`,`),
+        visibility: `permanent`,
+      });
       onConfirm();
     } catch {}
   };

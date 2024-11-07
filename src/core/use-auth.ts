@@ -12,7 +12,6 @@ import { readFileAsBase64 } from '../development-kit/file-reading';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI } from 'api-4markdown';
-import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 
 const useAuth = () => {
   const api = useAPI();
@@ -20,21 +19,6 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    const updateDocumentVisibility = async (
-      payload: API4MarkdownPayload<'updateDocumentVisibility'>,
-    ): Promise<void> => {
-      try {
-        docManagementStoreActions.busy();
-        const updatedDocument = await call(`updateDocumentVisibility`)(payload);
-        docManagementStoreActions.ok();
-        docStoreActions.setActive(updatedDocument);
-        docsStoreActions.updateDoc(updatedDocument);
-        creatorStoreActions.asUnchanged();
-      } catch (error: unknown) {
-        docManagementStoreActions.fail(error);
-        throw error;
-      }
-    };
     // @TODO[PRIO=2]: [Move it to your profile store].
     const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
       try {
@@ -132,66 +116,6 @@ const useAuth = () => {
               docManagementStoreActions.fail(error);
               throw error;
             }
-          },
-          // @TODO[PRIO=2]: [Move it to creator store directory].
-          updateDocumentCode: async () => {
-            const doc = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
-
-            const newDoc = {
-              ...doc,
-              code,
-            };
-
-            try {
-              docManagementStoreActions.busy();
-              const data = await call(`updateDocumentCode`)({
-                id: newDoc.id,
-                code: newDoc.code,
-                mdate: newDoc.mdate,
-              });
-              const updatedDoc = {
-                ...newDoc,
-                mdate: data.mdate,
-              };
-
-              docManagementStoreActions.ok();
-              docsStoreActions.updateDoc(updatedDoc);
-              docStoreActions.setActive(updatedDoc);
-              creatorStoreActions.asUnchanged();
-            } catch (error: unknown) {
-              docManagementStoreActions.fail(error);
-            }
-          },
-          makeDocPrivate: async () => {
-            const { id, mdate } = docStoreSelectors.active();
-
-            await updateDocumentVisibility({
-              id,
-              mdate,
-              visibility: `private`,
-            });
-          },
-          makeDocPublic: async () => {
-            const { id, mdate } = docStoreSelectors.active();
-
-            await updateDocumentVisibility({
-              id,
-              mdate,
-              visibility: `public`,
-            });
-          },
-          makeDocPermanent: async (name, description, tags) => {
-            const { id, mdate } = docStoreSelectors.active();
-
-            await updateDocumentVisibility({
-              mdate,
-              id,
-              name,
-              visibility: `permanent`,
-              description,
-              tags,
-            });
           },
           updateYourProfile: async (payload) => {
             try {

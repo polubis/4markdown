@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
-import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
+import { useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import type { DocStoreActiveState } from 'store/doc/doc.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
@@ -16,6 +16,7 @@ import {
   updatePermamentDocNameSchema,
 } from 'core/validators/doc-validators';
 import { updateDocumentName } from '../store/update-document-name.action';
+import { updateDocumentCode } from '../store/update-document-code.action';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -49,10 +50,6 @@ const ActiveDocBarContainer = () => {
       await updateDocumentName(values.name);
       edition.close();
     } catch {}
-  };
-
-  const handleSaveCodeConfirm = async (): Promise<void> => {
-    await authStoreSelectors.authorized().updateDocumentCode();
   };
 
   const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
@@ -121,7 +118,7 @@ const ActiveDocBarContainer = () => {
             s={1}
             disabled={nonInteractive || !creatorStore.changed}
             title="Save changes"
-            onClick={handleSaveCodeConfirm}
+            onClick={updateDocumentCode}
           >
             <BiSave />
           </Button>
