@@ -57,9 +57,9 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
             <Hint
               trigger={
                 <>
-                  Document created in <strong>private</strong> mode. Visible
-                  only to you, but <strong>not encrypted</strong> - avoid
-                  sensitive data
+                  Document will be created in <strong>private</strong> mode.
+                  Visible only to you, but <strong>not encrypted</strong> -
+                  avoid sensitive data
                 </>
               }
             />
