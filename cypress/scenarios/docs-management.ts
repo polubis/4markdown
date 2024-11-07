@@ -35,7 +35,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     const editedDocumentDescription = `This is totally new description for permament document to prove edition mechanism works`;
 
     When(`I click button`, [`Create new document`])
-      .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
+      .Then(`I see text`, [`Create Document`, `Document Name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
       .When(`I type in input`, `Type document name`, documentName)
       .Then(`I see not disabled button`, [`Confirm document creation`])
@@ -78,7 +78,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Confirm permanent document policy`,
       ])
       .And(`I clear input`, [`Type document name`])
-      .And(`I type in input`, `Type document name`, `Document name`)
+      .And(`I type in input`, `Type document name`, `Document Name`)
       .And(
         `I type in input`,
         `Describe your document in 3-4 sentences. The description will be displayed in Google`,
@@ -130,7 +130,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     const documentNameEdited = `Doc 2`;
 
     return When(`I click button`, [`Create new document`])
-      .Then(`I see text`, [`Create Document`, `Document name*`, `Create`])
+      .Then(`I see text`, [`Create Document`, `Document Name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
       .When(`I type in input`, `Type document name`, documentName)
       .Then(`I see not disabled button`, [`Confirm document creation`])
@@ -176,13 +176,13 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       ])
       .Then(`I see text`, [
         `Document Removal`,
-        `Document name*`,
+        `Document Name*`,
         `Type ${documentNameEdited} to remove this document`,
       ])
       .And(`I click button`, [`Cancel document removal`])
       .Then(`I not see text`, [
         `Document Removal`,
-        `Document name*`,
+        `Document Name*`,
         `Type ${documentNameEdited} to remove this document`,
       ])
       .When(`I click button`, [

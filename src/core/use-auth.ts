@@ -2,10 +2,7 @@ import React from 'react';
 import { type AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import {
-  creatorStoreActions,
-  creatorStoreSelectors,
-} from 'store/creator/creator.store';
+import { creatorStoreActions } from 'store/creator/creator.store';
 import { docsStoreActions } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
@@ -101,22 +98,6 @@ const useAuth = () => {
           },
           reloadDocs,
           getYourProfile,
-          // @TODO[PRIO=2]: [Move it to creator store directory].
-          createDoc: async (name) => {
-            const { code } = creatorStoreSelectors.ready();
-
-            try {
-              docManagementStoreActions.busy();
-              const createdDoc = await call(`createDocument`)({ name, code });
-              docManagementStoreActions.ok();
-              docStoreActions.setActive(createdDoc);
-              docsStoreActions.addDoc(createdDoc);
-              creatorStoreActions.asUnchanged();
-            } catch (error: unknown) {
-              docManagementStoreActions.fail(error);
-              throw error;
-            }
-          },
           updateYourProfile: async (payload) => {
             try {
               updateYourProfileStoreActions.busy();

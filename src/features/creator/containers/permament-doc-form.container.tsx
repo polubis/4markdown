@@ -18,6 +18,8 @@ interface PermamentDocFormContainerProps {
   onBack(): void;
 }
 
+// 1. Align valdiation on perm doc
+// 2. Align create doc validation
 const PermamentDocFormContainer = ({
   onConfirm,
   onClose,

@@ -1,18 +1,15 @@
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import {
   type ValidatorsSetup,
-  isString,
   maxLength,
   minLength,
   minWords,
-  name,
-  noEdgeSpaces,
   validator,
 } from 'development-kit/form';
 
 const baseSchemas = {
-  name: [isString, name, minLength(2), maxLength(100), noEdgeSpaces],
-  description: [isString, noEdgeSpaces, minLength(50), maxLength(250)],
+  name: [minLength(1), maxLength(160)],
+  description: [minLength(50), maxLength(250)],
   tags: [
     validator(`tags`, (value: string) => {
       if (typeof value !== `string` || value.length !== value.trim().length) {
@@ -38,12 +35,6 @@ const baseSchemas = {
 
 const permamentDocNameSchema = [...baseSchemas.name, minWords(3)];
 
-const createDocSchema: Required<
-  ValidatorsSetup<Pick<PermanentDocumentDto, 'name'>>
-> = {
-  name: baseSchemas.name,
-};
-
 const updateDocNameSchema: Required<
   ValidatorsSetup<Pick<PermanentDocumentDto, 'name'>>
 > = {
@@ -67,7 +58,6 @@ const makeDocPermamentSchema: Required<
 };
 
 export {
-  createDocSchema,
   makeDocPermamentSchema,
   updateDocNameSchema,
   updatePermamentDocNameSchema,

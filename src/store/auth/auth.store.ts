@@ -1,7 +1,6 @@
 import type {
   API4MarkdownPayload,
   API4MarkdownDto,
-  DocumentDto,
 } from 'api-4markdown-contracts';
 import { create } from 'zustand';
 
@@ -11,7 +10,6 @@ interface AuthorizedData {
     avatar: string | null;
   };
   logOut(): void;
-  createDoc(name: DocumentDto['name']): Promise<void>;
   uploadImage(image: File): Promise<API4MarkdownDto<'uploadImage'>>;
   reloadDocs(): Promise<void>;
   deleteDoc(): Promise<void>;
