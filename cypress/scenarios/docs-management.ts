@@ -37,7 +37,11 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document Name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name`, documentName)
+      .When(
+        `I type in input`,
+        `"My Notes", "Basics of Computer Science", ...etc`,
+        documentName,
+      )
       .Then(`I see not disabled button`, [`Confirm document creation`])
       .When(`I click button`, [`Confirm document creation`])
       .Then(`I see disabled button`, [
@@ -132,7 +136,11 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     return When(`I click button`, [`Create new document`])
       .Then(`I see text`, [`Create Document`, `Document Name*`, `Create`])
       .And(`I see disabled button`, [`Confirm document creation`])
-      .When(`I type in input`, `Type document name`, documentName)
+      .When(
+        `I type in input`,
+        `"My Notes", "Basics of Computer Science", ...etc`,
+        documentName,
+      )
       .Then(`I see not disabled button`, [`Confirm document creation`])
       .When(`I click button`, [`Confirm document creation`])
       .Then(`I see disabled button`, [

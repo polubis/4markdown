@@ -33,7 +33,11 @@ describe(`Docs browse works when`, () => {
       .And(`I see text in creator`, documentCode1)
       .And(`I see button`, [`Your documents`])
       .When(`I click button`, [`Create new document`])
-      .And(`I type in input`, `Type document name`, documentName1)
+      .And(
+        `I type in input`,
+        `"My Notes", "Basics of Computer Science", ...etc`,
+        documentName1,
+      )
       .And(`I click button`, [`Confirm document creation`])
       .Then(`I see text`, [documentName1])
       .And(`I see text in creator`, documentCode1)
@@ -57,7 +61,11 @@ describe(`Docs browse works when`, () => {
       .And(`I see text`, [documentName1])
       .And(`I see text in creator`, documentCode2)
       .When(`I click button`, [`Create new document`])
-      .And(`I type in input`, `Type document name`, documentName2)
+      .And(
+        `I type in input`,
+        `"My Notes", "Basics of Computer Science", ...etc`,
+        documentName2,
+      )
       .And(`I click button`, [`Confirm document creation`])
       .Then(`I see text`, [documentName2])
       .And(`I see text in creator`, documentCode2)

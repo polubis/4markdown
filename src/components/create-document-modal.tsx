@@ -55,11 +55,20 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
           label="Document Name*"
           hint={
             <Hint
-              trigger={`"My Notes", "Basics of Computer Science", ...etc`}
+              trigger={
+                <>
+                  Document created in <strong>private</strong> mode. Visible
+                  only to you, but <strong>not encrypted</strong> - avoid
+                  sensitive data
+                </>
+              }
             />
           }
         >
-          <Input placeholder="Type document name" {...inject(`name`)} />
+          <Input
+            placeholder={`"My Notes", "Basics of Computer Science", ...etc`}
+            {...inject(`name`)}
+          />
         </Field>
         <Button
           type="submit"
