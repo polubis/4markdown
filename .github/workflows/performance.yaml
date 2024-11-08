@@ -47,7 +47,7 @@ jobs:
         run: npm install -g @unlighthouse/cli@0.13.5 puppeteer@23.7.0
 
       - name: Run Unlighthouse CI
-        run: unlighthouse-ci --site "http://localhost:9000" --budget 92 --reporter "jsonExpanded" --mobile
+        run: unlighthouse-ci --site "http://localhost:9000" --budget 92 --reporter "jsonExpanded" --mobile --debug
 
       - name: Read Lighthouse Result
         run: cat ./.unlighthouse/ci-result.json
