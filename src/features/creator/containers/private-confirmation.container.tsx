@@ -1,8 +1,8 @@
 import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
+import { updateDocumentVisibility } from '../store/update-document-visibility.action';
 
 interface PrivateConfirmationContainerProps {
   onClose(): void;
@@ -23,8 +23,7 @@ const PrivateConfirmationContainer = ({
     e.preventDefault();
 
     try {
-      await authStoreSelectors.authorized().makeDocPrivate();
-
+      await updateDocumentVisibility({ visibility: `private` });
       onConfirm();
     } catch {}
   };

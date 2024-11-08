@@ -2,17 +2,13 @@ import React from 'react';
 import { type AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import {
-  creatorStoreActions,
-  creatorStoreSelectors,
-} from 'store/creator/creator.store';
+import { creatorStoreActions } from 'store/creator/creator.store';
 import { docsStoreActions } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI } from 'api-4markdown';
-import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 
 const useAuth = () => {
   const api = useAPI();
@@ -20,21 +16,6 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    const updateDoc = async (
-      payload: API4MarkdownPayload<'updateDoc'>,
-    ): Promise<void> => {
-      try {
-        docManagementStoreActions.busy();
-        const updatedDoc = await call(`updateDoc`)(payload);
-        docManagementStoreActions.ok();
-        docStoreActions.setActive(updatedDoc);
-        docsStoreActions.updateDoc(updatedDoc);
-        creatorStoreActions.asUnchanged();
-      } catch (error: unknown) {
-        docManagementStoreActions.fail(error);
-        throw error;
-      }
-    };
     // @TODO[PRIO=2]: [Move it to your profile store].
     const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
       try {
@@ -117,90 +98,6 @@ const useAuth = () => {
           },
           reloadDocs,
           getYourProfile,
-          // @TODO[PRIO=2]: [Move it to creator store directory].
-          createDoc: async (name) => {
-            const { code } = creatorStoreSelectors.ready();
-
-            try {
-              docManagementStoreActions.busy();
-              const createdDoc = await call(`createDocument`)({ name, code });
-              docManagementStoreActions.ok();
-              docStoreActions.setActive(createdDoc);
-              docsStoreActions.addDoc(createdDoc);
-              creatorStoreActions.asUnchanged();
-            } catch (error: unknown) {
-              docManagementStoreActions.fail(error);
-              throw error;
-            }
-          },
-          // @TODO[PRIO=2]: [Move it to creator store directory].
-          updateDocumentCode: async () => {
-            const doc = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
-
-            const newDoc = {
-              ...doc,
-              code,
-            };
-
-            try {
-              docManagementStoreActions.busy();
-              const data = await call(`updateDocumentCode`)({
-                id: newDoc.id,
-                code: newDoc.code,
-                mdate: newDoc.mdate,
-              });
-              const updatedDoc = {
-                ...newDoc,
-                mdate: data.mdate,
-              };
-
-              docManagementStoreActions.ok();
-              docsStoreActions.updateDoc(updatedDoc);
-              docStoreActions.setActive(updatedDoc);
-              creatorStoreActions.asUnchanged();
-            } catch (error: unknown) {
-              docManagementStoreActions.fail(error);
-            }
-          },
-          makeDocPrivate: async () => {
-            const { id, name, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
-
-            await updateDoc({
-              id,
-              mdate,
-              name,
-              code,
-              visibility: `private`,
-            });
-          },
-          makeDocPublic: async () => {
-            const { id, name, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
-
-            await updateDoc({
-              id,
-              mdate,
-              name,
-              code,
-              visibility: `public`,
-            });
-          },
-          makeDocPermanent: async (name, description, tags) => {
-            const { id, mdate } = docStoreSelectors.active();
-            const { code } = creatorStoreSelectors.ready();
-
-            await updateDoc({
-              mdate,
-              id,
-              name,
-              code,
-              visibility: `permanent`,
-              description,
-              tags,
-            });
-          },
           updateYourProfile: async (payload) => {
             try {
               updateYourProfileStoreActions.busy();
