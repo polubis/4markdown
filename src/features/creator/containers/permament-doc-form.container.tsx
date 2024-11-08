@@ -1,4 +1,3 @@
-import { makeDocPermamentSchema } from 'core/validators/doc-validators';
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
@@ -25,15 +24,12 @@ const PermamentDocFormContainer = ({
 }: PermamentDocFormContainerProps) => {
   const docStore = docStoreSelectors.active();
   const docManagementStore = useDocManagementStore();
-  const [{ invalid, values, result, untouched }, { inject }] = useForm(
-    {
-      name: docStore.name,
-      description:
-        docStore.visibility === `permanent` ? docStore.description : ``,
-      tags: docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
-    },
-    makeDocPermamentSchema,
-  );
+  const [{ invalid, values, result, untouched }, { inject }] = useForm({
+    name: docStore.name,
+    description:
+      docStore.visibility === `permanent` ? docStore.description : ``,
+    tags: docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
+  });
 
   const { name, description, tags } = values;
 
