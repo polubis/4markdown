@@ -93,7 +93,11 @@ const PermamentDocFormContainer = ({
       <Field
         label={splittedTags === 0 ? `Tags*` : `Tags (${splittedTags})*`}
         className="mt-2"
-        hint={<Hint trigger="Comma-separated, 1 to 10 tags" />}
+        hint={
+          <Hint
+            trigger={`Comma-separated, 1 to 10 tags, e.g., react, ruby-on-rails`}
+          />
+        }
       >
         <Input placeholder="Separate tags with a comma" {...inject(`tags`)} />
       </Field>
