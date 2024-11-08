@@ -44,7 +44,7 @@ jobs:
           timeout 60s bash -c 'until echo > /dev/tcp/localhost/9000; do sleep 1; done'
 
       - name: Install Unlighthouse
-        run: npm install -g @unlighthouse/cli puppeteer
+        run: npm install -g @unlighthouse/cli@0.13.5 puppeteer@23.7.0
 
       - name: Run Unlighthouse CI
         run: unlighthouse-ci --site "http://localhost:9000" --budget 92 --reporter "jsonExpanded" --mobile
