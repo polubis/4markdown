@@ -76,7 +76,7 @@ const PermamentDocFormContainer = ({
       <Field
         label={`Name (${name.length})*`}
         className="mt-2"
-        hint={<Hint trigger="3-15 separate words, and max 160 characters" />}
+        hint={<Hint trigger="3-15 separate words, and max 70 characters" />}
       >
         <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
       </Field>
