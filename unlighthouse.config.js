@@ -7,7 +7,7 @@ module.exports = {
       seo: 90,
     },
   },
-  site: `http://localhost:9000`,
+  sites: [`http://localhost:9000`],
   reporter: `jsonExpanded`,
   scanner: {
     device: `mobile`,
