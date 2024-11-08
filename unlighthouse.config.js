@@ -7,7 +7,6 @@ module.exports = {
       seo: 90,
     },
   },
-  sites: [],
   site: `http://localhost:9000`,
   reporter: `jsonExpanded`,
   scanner: {
