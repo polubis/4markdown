@@ -76,7 +76,7 @@ const PermamentDocFormContainer = ({
       <Field
         label={`Name (${name.length})*`}
         className="mt-2"
-        hint={<Hint trigger="Between 3 and 15 separate words" />}
+        hint={<Hint trigger="3-15 separate words, and 50-90 characters" />}
       >
         <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
       </Field>
@@ -93,13 +93,12 @@ const PermamentDocFormContainer = ({
       <Field
         label={splittedTags === 0 ? `Tags*` : `Tags (${splittedTags})*`}
         className="mt-2"
-        hint={
-          <Hint
-            trigger={`Comma-separated, 1 to 10 tags, e.g., react, ruby-on-rails`}
-          />
-        }
+        hint={<Hint trigger={`Comma-separated, 1-10 tags, each unique`} />}
       >
-        <Input placeholder="Separate tags with a comma" {...inject(`tags`)} />
+        <Input
+          placeholder="React, ruby-on-rails, c++, c# ...etc"
+          {...inject(`tags`)}
+        />
       </Field>
       <footer className="mt-6 flex">
         <Button

@@ -50,7 +50,7 @@ const SeoFriendlyDescriptionHint = () => {
       content={Content}
       trigger={({ open }) => (
         <>
-          Between 110-160 characters
+          110-160 characters
           <button
             type="button"
             onClick={open}

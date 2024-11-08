@@ -88,7 +88,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `The description will be displayed in Google and under document`,
         `This is my permanent article description that will be displayed in Google for best possible SEO results`,
       )
-      .And(`I type in input`, `Separate tags with a comma`, `react,angular`)
+      .And(`I type in input`, `React, ruby-on-rails, ...etc`, `react,angular`)
       .Then(`I see disabled button`, [`Make document permanent`])
       .When(`I clear input`, [`Type document name`])
       .And(`I type in input`, `Type document name`, documentName)
@@ -107,7 +107,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I clear input`, [
         `Type document name`,
         `The description will be displayed in Google and under document`,
-        `Separate tags with a comma`,
+        `React, ruby-on-rails, ...etc`,
       ])
       .And(`I type in input`, `Type document name`, editedDocumentName)
       .And(
@@ -115,7 +115,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `The description will be displayed in Google and under document`,
         editedDocumentDescription,
       )
-      .And(`I type in input`, `Separate tags with a comma`, `angular,vue,node`)
+      .And(`I type in input`, `React, ruby-on-rails, ...etc`, `angular,vue,node`)
       .And(`I click button`, [`Make document permanent`])
       .Then(`I see button`, [`Edit current document`])
       .And(`I see text`, [
