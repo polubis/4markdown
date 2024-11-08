@@ -46,12 +46,17 @@ type CreateDocumentContract = Contract<
   PrivateDocumentDto,
   Pick<PrivateDocumentDto, 'name' | 'code'>
 >;
-type UpdateDocContract = Contract<
-  `updateDoc`,
-  DocumentDto,
-  | Omit<PrivateDocumentDto, 'cdate'>
-  | Omit<PublicDocumentDto, 'cdate' | 'author' | 'rating'>
-  | Omit<PermanentDocumentDto, 'cdate' | 'path' | 'author' | 'rating'>
+type UpdateDocumentVisibilityContract = Contract<
+  `updateDocumentVisibility`,
+  | PrivateDocumentDto
+  | Omit<PublicDocumentDto, 'author' | 'rating'>
+  | Omit<PermanentDocumentDto, 'author' | 'rating'>,
+  | Pick<PrivateDocumentDto, 'id' | 'mdate' | 'visibility'>
+  | Pick<PublicDocumentDto, 'id' | 'mdate' | 'visibility'>
+  | Pick<
+      PermanentDocumentDto,
+      'id' | 'mdate' | 'visibility' | 'description' | 'tags' | 'name'
+    >
 >;
 
 type UploadImageContract = Contract<
@@ -100,7 +105,7 @@ type API4MarkdownContracts =
   | DeleteDocumentContract
   | UpdateDocumentCodeContract
   | CreateDocumentContract
-  | UpdateDocContract
+  | UpdateDocumentVisibilityContract
   | UploadImageContract
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract
@@ -141,7 +146,7 @@ export type {
   DeleteDocumentContract,
   UpdateDocumentCodeContract,
   CreateDocumentContract,
-  UpdateDocContract,
+  UpdateDocumentVisibilityContract,
   UploadImageContract,
   GetYourUserProfileContract,
   UpdateYourUserProfileContract,

@@ -1,10 +1,10 @@
 import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { authStoreSelectors } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Link } from 'gatsby';
 import { meta } from '../../../../meta';
+import { updateDocumentVisibility } from '../store/update-document-visibility.action';
 
 interface PublicConfirmationContainerProps {
   onClose(): void;
@@ -25,7 +25,7 @@ const PublicConfirmationContainer = ({
     e.preventDefault();
 
     try {
-      await authStoreSelectors.authorized().makeDocPublic();
+      await updateDocumentVisibility({ visibility: `public` });
 
       onConfirm();
     } catch {}

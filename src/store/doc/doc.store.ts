@@ -1,4 +1,4 @@
-import type { DocumentDto } from 'api-4markdown-contracts';
+import type { DocumentCreatorViewModel } from 'models/view-models';
 import { creatorStoreActions } from 'store/creator/creator.store';
 import { create } from 'zustand';
 
@@ -6,7 +6,7 @@ interface DocStoreIdleState {
   is: 'idle';
 }
 
-type DocStoreActiveState = DocumentDto & {
+type DocStoreActiveState = DocumentCreatorViewModel['document'] & {
   is: 'active';
 };
 
@@ -36,7 +36,7 @@ const docStoreSelectors = {
 };
 
 const docStoreActions = {
-  setActive: (doc: DocumentDto) => {
+  setActive: (doc: DocumentCreatorViewModel['document']) => {
     const newState: DocStoreActiveState = {
       is: `active`,
       ...doc,

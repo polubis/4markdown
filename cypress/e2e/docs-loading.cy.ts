@@ -43,6 +43,7 @@ const getDocsResponse: { result: DocumentDto[] } = {
       cdate: now.toISOString(),
       mdate: now.toISOString(),
       visibility: `private`,
+      path: `/ideas-for-articles/`,
     },
     {
       id: `8c6bf351-80a1-487a-b08b-ec8bbaaf2f6b`,

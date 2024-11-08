@@ -8,7 +8,7 @@ import { type DocsStoreOkState, useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
 import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
-import type { DocumentDto } from 'api-4markdown-contracts';
+import type { DocumentCreatorViewModel } from 'models/view-models';
 
 interface DocsListModalProps {
   onClose?(): void;
@@ -32,8 +32,8 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     rangeFilters[0],
   );
 
-  const selectDoc = (doc: DocumentDto): void => {
-    docStoreActions.setActive(doc);
+  const selectDoc = (document: DocumentCreatorViewModel['document']): void => {
+    docStoreActions.setActive(document);
     onClose?.();
   };
 
