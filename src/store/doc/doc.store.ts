@@ -36,14 +36,17 @@ const docStoreSelectors = {
 };
 
 const docStoreActions = {
-  setActive: (doc: DocumentCreatorViewModel['document']) => {
+  setActive: (
+    doc: DocumentCreatorViewModel['document'],
+    asUnchanged = true,
+  ) => {
     const newState: DocStoreActiveState = {
       is: `active`,
       ...doc,
     };
     set(newState);
     creatorStoreActions.change(doc.code);
-    creatorStoreActions.asUnchanged();
+    asUnchanged && creatorStoreActions.asUnchanged();
   },
   reset: () => set({ is: `idle` }),
 };
