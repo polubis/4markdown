@@ -39,7 +39,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see disabled button`, [`Confirm document creation`])
       .When(
         `I type in input`,
-        `"My Notes", "Basics of Computer Science", ...etc`,
+        `My Notes, Basics of Computer Science, ...etc`,
         documentName,
       )
       .Then(`I see not disabled button`, [`Confirm document creation`])
@@ -138,7 +138,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I see disabled button`, [`Confirm document creation`])
       .When(
         `I type in input`,
-        `"My Notes", "Basics of Computer Science", ...etc`,
+        `My Notes, Basics of Computer Science, ...etc`,
         documentName,
       )
       .Then(`I see not disabled button`, [`Confirm document creation`])

@@ -35,7 +35,7 @@ describe(`Docs browse works when`, () => {
       .When(`I click button`, [`Create new document`])
       .And(
         `I type in input`,
-        `"My Notes", "Basics of Computer Science", ...etc`,
+        `My Notes, Basics of Computer Science, ...etc`,
         documentName1,
       )
       .And(`I click button`, [`Confirm document creation`])
@@ -63,7 +63,7 @@ describe(`Docs browse works when`, () => {
       .When(`I click button`, [`Create new document`])
       .And(
         `I type in input`,
-        `"My Notes", "Basics of Computer Science", ...etc`,
+        `My Notes, Basics of Computer Science, ...etc`,
         documentName2,
       )
       .And(`I click button`, [`Confirm document creation`])

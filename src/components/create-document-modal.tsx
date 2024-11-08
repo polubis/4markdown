@@ -66,7 +66,7 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
           }
         >
           <Input
-            placeholder={`"My Notes", "Basics of Computer Science", ...etc`}
+            placeholder={`My Notes, Basics of Computer Science, ...etc`}
             {...inject(`name`)}
           />
         </Field>
