@@ -16,8 +16,9 @@ type Base = {
   code: MarkdownCode;
   mdate: Date;
   cdate: Date;
+  path: Path;
 };
-
+// @TODO[PRIO=2]: [Re-design contracts to be atomic, instead of creating huge shared objects...].
 type PrivateDocumentDto = Base & {
   visibility: 'private';
 };
@@ -31,7 +32,6 @@ type PublicDocumentDto = Base & {
 type PermanentDocumentDto = Base & {
   visibility: `permanent`;
   description: Description;
-  path: Path;
   tags: Tags;
   author: UserProfileDto | null;
   rating: DocumentRatingDto;

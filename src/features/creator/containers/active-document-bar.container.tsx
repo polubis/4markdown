@@ -2,20 +2,17 @@ import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
-import { authStoreSelectors, useAuthStore } from 'store/auth/auth.store';
+import { useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import type { DocStoreActiveState } from 'store/doc/doc.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
-import {
-  updateDocNameSchema,
-  updatePermamentDocNameSchema,
-} from 'core/validators/doc-validators';
+
 import { updateDocumentName } from '../store/update-document-name.action';
+import { updateDocumentCode } from '../store/update-document-code.action';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -24,19 +21,14 @@ const DeleteDocModal = React.lazy(
   () => import(`../../../components/delete-doc-modal`),
 );
 
-const getSchema = (docStore: DocStoreActiveState) =>
-  docStore.visibility === `permanent`
-    ? updatePermamentDocNameSchema
-    : updateDocNameSchema;
-
-const ActiveDocBarContainer = () => {
+const ActiveDocumentBarContainer = () => {
   const docManagementStore = useDocManagementStore();
   const docStore = docStoreSelectors.useActive();
   const docsStore = useDocsStore();
   const authStore = useAuthStore();
   const creatorStore = creatorStoreSelectors.useReady();
   const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
-    useForm({ name: docStore.name }, getSchema(docStore));
+    useForm({ name: docStore.name });
   const edition = useToggle();
   const morePopover = useToggle();
   const deleteModal = useToggle();
@@ -51,12 +43,8 @@ const ActiveDocBarContainer = () => {
     } catch {}
   };
 
-  const handleSaveCodeConfirm = async (): Promise<void> => {
-    await authStoreSelectors.authorized().updateDocumentCode();
-  };
-
   const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
-    set({ name: docStore.name });
+    reconfigure({ name: docStore.name });
     edition.open();
   };
 
@@ -66,7 +54,7 @@ const ActiveDocBarContainer = () => {
   };
 
   React.useEffect(() => {
-    reconfigure({ name: docStore.name }, getSchema(docStore));
+    reconfigure({ name: docStore.name });
   }, [docStore, reconfigure]);
 
   const nonInteractive =
@@ -121,7 +109,7 @@ const ActiveDocBarContainer = () => {
             s={1}
             disabled={nonInteractive || !creatorStore.changed}
             title="Save changes"
-            onClick={handleSaveCodeConfirm}
+            onClick={updateDocumentCode}
           >
             <BiSave />
           </Button>
@@ -159,4 +147,4 @@ const ActiveDocBarContainer = () => {
   );
 };
 
-export default ActiveDocBarContainer;
+export default ActiveDocumentBarContainer;
