@@ -4,7 +4,7 @@ import type {
   PrivateDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
-import { creatorStoreActions } from 'store/creator/creator.store';
+import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
@@ -20,17 +20,20 @@ const updateDocumentVisibility = async (
   payload: PrivatePayload | PublicPayload | PermanentPayload,
 ): Promise<void> => {
   try {
+    const { code } = creatorStoreSelectors.ready();
     const { id, mdate } = docStoreSelectors.active();
     docManagementStoreActions.busy();
-    const updatedDocument = await getAPI().call(`updateDocumentVisibility`)({
-      id,
-      mdate,
-      ...payload,
-    });
+    const updatedDocument = {
+      ...(await getAPI().call(`updateDocumentVisibility`)({
+        id,
+        mdate,
+        ...payload,
+      })),
+      code,
+    };
     docManagementStoreActions.ok();
-    docStoreActions.setActive(updatedDocument);
+    docStoreActions.setActive(updatedDocument, false);
     docsStoreActions.updateDoc(updatedDocument);
-    creatorStoreActions.asUnchanged();
   } catch (error: unknown) {
     docManagementStoreActions.fail(error);
     throw error;
