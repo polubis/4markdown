@@ -24,7 +24,7 @@ const PermamentDocFormContainer = ({
 }: PermamentDocFormContainerProps) => {
   const docStore = docStoreSelectors.active();
   const docManagementStore = useDocManagementStore();
-  const [{ invalid, values, result, untouched }, { inject }] = useForm({
+  const [{ invalid, values, untouched }, { inject }] = useForm({
     name: docStore.name,
     description:
       docStore.visibility === `permanent` ? docStore.description : ``,
@@ -49,6 +49,15 @@ const PermamentDocFormContainer = ({
     } catch {}
   };
 
+  const splittedTags = React.useMemo(
+    () =>
+      values.tags
+        .split(`,`)
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0).length,
+    [values.tags],
+  );
+
   return (
     <form className="flex flex-col" onSubmit={handleConfirm}>
       <header className="flex items-center mb-4">
@@ -64,7 +73,11 @@ const PermamentDocFormContainer = ({
           <BiX />
         </Button>
       </header>
-      <Field label={`Name (${name.length})*`} className="mt-2">
+      <Field
+        label={`Name (${name.length})*`}
+        className="mt-2"
+        hint={<Hint trigger="Between 3 and 15 separate words" />}
+      >
         <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
       </Field>
       <Field
@@ -73,14 +86,14 @@ const PermamentDocFormContainer = ({
         hint={<SeoFriendlyDescriptionHint />}
       >
         <Textarea
-          placeholder="Describe your document in 3-4 sentences. The description will be displayed in Google"
+          placeholder="The description will be displayed in Google and under document"
           {...inject(`description`)}
         />
       </Field>
       <Field
-        label={result.tags ? `Tags*` : `Tags (${tags.split(`,`).length})*`}
+        label={splittedTags === 0 ? `Tags*` : `Tags (${splittedTags})*`}
         className="mt-2"
-        hint={<Hint trigger="It may be React, Angular, Vue and others..." />}
+        hint={<Hint trigger="Comma-separated, 1 to 10 tags" />}
       >
         <Input placeholder="Separate tags with a comma" {...inject(`tags`)} />
       </Field>

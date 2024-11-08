@@ -85,7 +85,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .And(`I type in input`, `Type document name`, `Document Name`)
       .And(
         `I type in input`,
-        `Describe your document in 3-4 sentences. The description will be displayed in Google`,
+        `The description will be displayed in Google and under document`,
         `This is my permanent article description that will be displayed in Google for best possible SEO results`,
       )
       .And(`I type in input`, `Separate tags with a comma`, `react,angular`)
@@ -106,13 +106,13 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       ])
       .And(`I clear input`, [
         `Type document name`,
-        `Describe your document in 3-4 sentences. The description will be displayed in Google`,
+        `The description will be displayed in Google and under document`,
         `Separate tags with a comma`,
       ])
       .And(`I type in input`, `Type document name`, editedDocumentName)
       .And(
         `I type in input`,
-        `Describe your document in 3-4 sentences. The description will be displayed in Google`,
+        `The description will be displayed in Google and under document`,
         editedDocumentDescription,
       )
       .And(`I type in input`, `Separate tags with a comma`, `angular,vue,node`)

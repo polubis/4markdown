@@ -6,8 +6,8 @@ import { DocBarRow } from '../components/doc-bar-row';
 import { DocBarLoader } from '../components/doc-bar-loader';
 import { YourDocumentsContainer } from './your-documents.container';
 
-const ActiveDocBarContainer = React.lazy(
-  () => import(`./active-doc-bar.container`),
+const ActiveDocumentBarContainer = React.lazy(
+  () => import(`./active-document-bar.container`),
 );
 
 const DocBarContainer = () => {
@@ -25,7 +25,7 @@ const DocBarContainer = () => {
             </DocBarRow>
           ) : (
             <React.Suspense fallback={<DocBarLoader />}>
-              <ActiveDocBarContainer />
+              <ActiveDocumentBarContainer />
             </React.Suspense>
           )}
         </>
