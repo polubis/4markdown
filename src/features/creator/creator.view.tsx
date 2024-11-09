@@ -23,7 +23,7 @@ const CreatorErrorModalContainer = React.lazy(
 
 type DivideMode = 'both' | 'preview' | 'code';
 
-const CreatorView: React.FC = () => {
+const CreatorView = () => {
   useCreatorLocalStorageSync();
 
   const docManagementStore = useDocManagementStore();
@@ -178,7 +178,7 @@ const CreatorView: React.FC = () => {
         </CreatorNavigation>
         <DocBarContainer />
         <section
-          className={c(`grid h-[calc(100vh-72px-50px)]`, {
+          className={c(`grid h-[calc(100svh-72px-50px)]`, {
             'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
               divideMode === `both`,
           })}
@@ -192,7 +192,7 @@ const CreatorView: React.FC = () => {
             aria-label="creator"
             spellCheck="false"
             className={c(
-              `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
+              `p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
               { hidden: divideMode === `preview` },
             )}
             onChange={changeCode}
@@ -203,7 +203,7 @@ const CreatorView: React.FC = () => {
           />
           <div
             className={c(
-              `p-4 overflow-auto w-full h-full border-zinc-300 dark:border-zinc-800`,
+              `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
               { hidden: divideMode === `code` },
               { 'max-w-4xl mx-auto': divideMode === `preview` },
               {
