@@ -115,14 +115,17 @@ const CreatorView: React.FC = () => {
   }, [code, divideMode]);
 
   React.useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
     const timeout = timeoutRef.current;
 
     return () => {
       timeout && clearTimeout(timeout);
     };
+  }, []);
+
+  React.useLayoutEffect(() => {
+    window.scrollTo({
+      top: 0,
+    });
   }, []);
 
   return (
