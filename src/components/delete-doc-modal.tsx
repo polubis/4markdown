@@ -49,7 +49,8 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
       </div>
       <form onSubmit={handleConfirm}>
         <p className="mb-4">
-          Type <strong>{docStore.name}</strong> to remove this document
+          Type <strong className="whitespace-pre">({docStore.name})</strong> to
+          remove this document
         </p>
         <fieldset className="flex flex-col gap-1.5">
           <label className="text-sm font-medium">Document Name*</label>

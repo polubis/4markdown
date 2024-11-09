@@ -45,7 +45,7 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
             )}
           </div>
           <h2 className="text-2xl hover:underline underline-offset-2 w-fit">
-            <Link to={document.path} className="line-clamp-2">
+            <Link to={document.path} className="line-clamp-2 whitespace-pre">
               {document.name}
             </Link>
           </h2>

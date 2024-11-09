@@ -106,7 +106,7 @@ const DocumentDetailsContainer = ({
               </Button>
             </div>
             <p className="mt-4">
-              Name: <strong>{docStore.name}</strong>
+              Name: <strong className="whitespace-pre">{docStore.name}</strong>
             </p>
             {docStore.visibility === `permanent` && (
               <>
