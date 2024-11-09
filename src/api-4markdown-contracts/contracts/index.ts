@@ -38,7 +38,7 @@ type UpdateDocumentCodeContract = Contract<
 >;
 type UpdateDocumentNameContract = Contract<
   `updateDocumentName`,
-  Pick<DocumentDto, 'mdate'>,
+  Pick<DocumentDto, 'mdate' | 'name'>,
   Pick<DocumentDto, 'mdate' | 'id' | 'name'>
 >;
 type CreateDocumentContract = Contract<
