@@ -112,7 +112,7 @@ const DocumentDetailsContainer = ({
               <>
                 <p className="mt-1">
                   Description:{` `}
-                  <strong className="break-words">
+                  <strong className="break-words whitespace-pre">
                     {docStore.description}
                   </strong>
                 </p>
