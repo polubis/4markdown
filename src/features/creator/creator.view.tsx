@@ -129,7 +129,7 @@ const CreatorView: React.FC = () => {
           <CreatorErrorModalContainer />
         </React.Suspense>
       )}
-      <main className="flex md:flex-col flex-col-reverse">
+      <main className="flex h-full md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
           <ImageUploaderContainer />
