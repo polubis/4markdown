@@ -19,19 +19,15 @@ export default EducationZonePage;
 export const Head: HeadFC<unknown, EducationPageModel> = ({
   pageContext: { page, tag, pagesCount },
 }) => {
-  const untagged = tag === undefined;
-  const paginated = page > 1 && untagged;
-  const prevPage = page - 1;
-  const nextPage = page + 1;
-  const prevUrl = paginated
-    ? `${meta.siteUrl + meta.routes.docs.educationZone}${prevPage === 1 ? `` : prevPage}`
-    : undefined;
-  const nextUrl =
-    nextPage > pagesCount
+  const prevUrl =
+    tag !== undefined || page === 1
       ? undefined
-      : paginated
-        ? `${meta.siteUrl + meta.routes.docs.educationZone}${nextPage}`
-        : undefined;
+      : `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`;
+  const nextPage = page + 1;
+  const nextUrl =
+    tag !== undefined || nextPage > pagesCount
+      ? undefined
+      : `${meta.siteUrl + meta.routes.docs.educationZone}${nextPage}`;
 
   return (
     <Meta
