@@ -123,7 +123,13 @@ const CreatorView: React.FC = () => {
   }, []);
 
   React.useLayoutEffect(() => {
-    window.scrollY = 0;
+    const timeout = setTimeout(() => {
+      window.scrollTo({ top: 0 });
+    }, 100);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (
@@ -133,7 +139,7 @@ const CreatorView: React.FC = () => {
           <CreatorErrorModalContainer />
         </React.Suspense>
       )}
-      <main className="flex h-svh md:flex-col flex-col-reverse">
+      <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
           <ImageUploaderContainer />
