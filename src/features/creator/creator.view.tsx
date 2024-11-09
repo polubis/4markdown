@@ -122,16 +122,6 @@ const CreatorView: React.FC = () => {
     };
   }, []);
 
-  React.useLayoutEffect(() => {
-    const timeout = setTimeout(() => {
-      window.scrollTo({ top: 0 });
-    }, 100);
-
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
-
   return (
     <>
       {docManagementStore.is === `fail` && (
