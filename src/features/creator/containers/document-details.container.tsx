@@ -106,13 +106,13 @@ const DocumentDetailsContainer = ({
               </Button>
             </div>
             <p className="mt-4">
-              Name: <strong className="whitespace-pre">{docStore.name}</strong>
+              Name: <strong>{docStore.name}</strong>
             </p>
             {docStore.visibility === `permanent` && (
               <>
                 <p className="mt-1">
                   Description:{` `}
-                  <strong className="break-words whitespace-pre">
+                  <strong className="break-words">
                     {docStore.description}
                   </strong>
                 </p>

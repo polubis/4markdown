@@ -45,13 +45,11 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
             )}
           </div>
           <h2 className="text-2xl hover:underline underline-offset-2 w-fit">
-            <Link to={document.path} className="line-clamp-2 whitespace-pre">
+            <Link to={document.path} className="line-clamp-2">
               {document.name}
             </Link>
           </h2>
-          <p className="lg:max-w-[70%] mt-1 mb-3 whitespace-pre">
-            {document.description}
-          </p>
+          <p className="lg:max-w-[70%] mt-1 mb-3">{document.description}</p>
           <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
             {document.tags.join(`, `)}
           </p>

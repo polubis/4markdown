@@ -9,7 +9,7 @@ const DocBarRow = ({ title, children }: DocBarRowProps) => {
   return (
     <>
       <h6
-        className="text-xl font-bold max-w-[260px] truncate mr-4 whitespace-pre"
+        className="text-xl font-bold max-w-[260px] truncate mr-4"
         title={title}
       >
         {title}
