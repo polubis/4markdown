@@ -20,7 +20,7 @@ const updateDocumentName = async (
     const updatedDocument = {
       ...activeDocument,
       code,
-      name,
+      name: response.name,
       mdate: response.mdate,
     };
 

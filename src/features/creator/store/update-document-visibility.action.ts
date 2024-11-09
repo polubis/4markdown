@@ -4,6 +4,7 @@ import type {
   PrivateDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
+import type { DocumentCreatorViewModel } from 'models/view-models';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
@@ -23,12 +24,14 @@ const updateDocumentVisibility = async (
     const { code } = creatorStoreSelectors.ready();
     const { id, mdate } = docStoreSelectors.active();
     docManagementStoreActions.busy();
-    const updatedDocument = {
-      ...(await getAPI().call(`updateDocumentVisibility`)({
-        id,
-        mdate,
-        ...payload,
-      })),
+
+    const response = await getAPI().call(`updateDocumentVisibility`)({
+      id,
+      mdate,
+      ...payload,
+    });
+    const updatedDocument: DocumentCreatorViewModel['document'] = {
+      ...response,
       code,
     };
     docManagementStoreActions.ok();
