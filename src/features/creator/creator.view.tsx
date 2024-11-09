@@ -23,7 +23,7 @@ const CreatorErrorModalContainer = React.lazy(
 
 type DivideMode = 'both' | 'preview' | 'code';
 
-const CreatorView: React.FC = () => {
+const CreatorView = () => {
   useCreatorLocalStorageSync();
 
   const docManagementStore = useDocManagementStore();
@@ -192,7 +192,7 @@ const CreatorView: React.FC = () => {
             aria-label="creator"
             spellCheck="false"
             className={c(
-              `w-full h-full p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
+              `p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
               { hidden: divideMode === `preview` },
             )}
             onChange={changeCode}
@@ -203,7 +203,7 @@ const CreatorView: React.FC = () => {
           />
           <div
             className={c(
-              `p-4 overflow-auto w-full h-full border-zinc-300 dark:border-zinc-800`,
+              `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
               { hidden: divideMode === `code` },
               { 'max-w-4xl mx-auto': divideMode === `preview` },
               {
