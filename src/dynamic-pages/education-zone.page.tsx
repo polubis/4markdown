@@ -17,10 +17,21 @@ const EducationZonePage = ({ pageContext }: EducationZonePageProps) => {
 export default EducationZonePage;
 
 export const Head: HeadFC<unknown, EducationPageModel> = ({
-  pageContext: { page, tag },
+  pageContext: { page, tag, pagesCount },
 }) => {
   const untagged = tag === undefined;
   const paginated = page > 1 && untagged;
+  const prevPage = page - 1;
+  const nextPage = page + 1;
+  const prevUrl = paginated
+    ? `${meta.siteUrl + meta.routes.docs.educationZone}${prevPage === 1 ? `` : prevPage}`
+    : undefined;
+  const nextUrl =
+    nextPage > pagesCount
+      ? undefined
+      : paginated
+        ? `${meta.siteUrl + meta.routes.docs.educationZone}${nextPage}`
+        : undefined;
 
   return (
     <Meta
@@ -30,16 +41,8 @@ export const Head: HeadFC<unknown, EducationPageModel> = ({
       url={meta.siteUrl + meta.routes.docs.educationZone}
       lang={meta.lang}
       image={meta.siteUrl + LogoThumbnail}
-      prevUrl={
-        paginated
-          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`
-          : undefined
-      }
-      nextUrl={
-        paginated
-          ? `${meta.siteUrl + meta.routes.docs.educationZone}${page + 1}`
-          : undefined
-      }
+      prevUrl={prevUrl}
+      nextUrl={nextUrl}
     />
   );
 };
