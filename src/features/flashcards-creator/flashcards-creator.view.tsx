@@ -5,7 +5,7 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import React from 'react';
 import { createInitialCode } from '../../../create-initial-code';
 import Markdown from 'components/markdown';
-import { BiPlus, BiPlusCircle } from 'react-icons/bi';
+import { BiPlusCircle } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 
 const mock = {
@@ -39,7 +39,7 @@ const FlashcardsCreatorView = () => {
           </li>
           {mock.cards.map((card, index) => (
             <li
-              className="relative p-4 h-[300px] border rounded-lg bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 overflow-hidden"
+              className="relative p-4 h-[300px] border-2 rounded-lg border-zinc-300 dark:border-zinc-800 overflow-hidden"
               key={card.id}
             >
               <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
