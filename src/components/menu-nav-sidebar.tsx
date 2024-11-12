@@ -112,6 +112,15 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Education Zone
           </ButtonLink>
           <ButtonLink
+            to={meta.routes.flashcards.creator}
+            title="Navigate to flashcards creator"
+            component={(props) => (
+              <Link activeClassName="active-button-link" {...props} />
+            )}
+          >
+            Flashcards Creator
+          </ButtonLink>
+          <ButtonLink
             to={meta.linkedInUrl}
             target="_blank"
             title={`${meta.company} LinkedIn`}
