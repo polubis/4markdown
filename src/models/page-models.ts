@@ -4,6 +4,8 @@ import type {
   UserProfileDto,
 } from 'api-4markdown-contracts';
 
+type FlashcardsCreatorPageModel = {};
+
 type HomePageModel = {
   initialCode: string;
 };
@@ -51,4 +53,5 @@ export type {
   LightEducationDocumentModel,
   EducationRanPageModel,
   RichEducationDocumentModel,
+  FlashcardsCreatorPageModel,
 };

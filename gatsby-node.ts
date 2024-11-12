@@ -7,6 +7,7 @@ import {
   type EducationRanPageModel,
   type EducationPageModel,
   type HomePageModel,
+  type FlashcardsCreatorPageModel,
 } from 'models/page-models';
 import {
   type DocumentRatingCategory,
@@ -104,6 +105,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     context: {
       initialCode: createInitialCode(),
     },
+  });
+
+  actions.createPage<FlashcardsCreatorPageModel>({
+    path: meta.routes.flashcards.creator,
+    component: path.resolve(`./src/dynamic-pages/flashcards-creator.page.tsx`),
+    context: {},
   });
 
   allDocuments.forEach((document) => {
