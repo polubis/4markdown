@@ -66,9 +66,16 @@ const CreationLinkContainer = () => {
             </Link>
           </li>
 
-          <li className="relative flex flex-col p-3 border-b-2 border-zinc-300 dark:border-zinc-800">
-            <h6 className="text-md">Flashcard Board</h6>
-            <p className="mt-1 text-sm">Coming soon</p>
+          <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b-2 border-zinc-300 dark:border-zinc-800">
+            <Link
+              to={meta.routes.flashcards.creator}
+              title="Create new flashcards"
+            >
+              <h6 className="text-md">Flashcards</h6>
+              <p className="mt-1 text-sm">
+                Create flashcards and gather them in a single board
+              </p>
+            </Link>
           </li>
 
           <li className="relative flex flex-col p-3">
