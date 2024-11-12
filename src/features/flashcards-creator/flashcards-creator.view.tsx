@@ -39,7 +39,7 @@ const FlashcardsCreatorView = () => {
           </li>
           {mock.cards.map((card, index) => (
             <li
-              className="relative p-4 bg-zinc-200 cursor-pointer dark:bg-gray-950 h-[300px] border border-zinc-300 dark:border-zinc-800 overflow-hidden rounded-md"
+              className="relative p-4 h-[300px] border rounded-lg bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800 overflow-hidden"
               key={card.id}
             >
               <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
