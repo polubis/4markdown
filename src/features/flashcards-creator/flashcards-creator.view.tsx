@@ -29,7 +29,7 @@ const FlashcardsCreatorView = () => {
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
       </AppNavigation>
-      <main className="py-6 px-8">
+      <main className="py-10 px-8">
         <ul className="grid grid-cols-3 gap-6 grid-row-3">
           <li className="flex items-center justify-center" key="create">
             <Button i={2} s={2} auto>
