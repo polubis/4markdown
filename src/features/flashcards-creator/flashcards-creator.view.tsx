@@ -1,7 +1,4 @@
-import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
-import { CreationLinkContainer } from 'containers/creation-link.container';
-import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import React from 'react';
 import { createInitialCode } from '../../../create-initial-code';
 import Markdown from 'components/markdown';
@@ -11,6 +8,8 @@ import { useToggle } from 'development-kit/use-toggle';
 import { usePortal } from 'development-kit/use-portal';
 import { ImageUploaderContainer } from 'features/creator/containers/image-uploader.container';
 import TemplatesPopover from 'features/creator/components/templates-popover';
+import { CreatorNavigation } from 'features/creator/components/creator-navigation';
+import AddDocPopover from 'components/add-doc-popover';
 
 type Flashcard = {
   id: number;
@@ -51,11 +50,12 @@ const FlashcardsCreatorView = () => {
 
   return (
     <>
-      <AppNavigation>
-        <CreationLinkContainer />
-        <DocsBrowseLinkContainer />
-      </AppNavigation>
-      <main className="py-10 px-8">
+      <div className="fixed top-0 left-0 right-0 z-10">
+        <CreatorNavigation>
+          <AddDocPopover />
+        </CreatorNavigation>
+      </div>
+      <main className="pb-10 pt-[112px] px-8">
         <ul className="grid grid-cols-3 gap-6 grid-row-3">
           <li className="flex items-center justify-center" key="create">
             <Button i={2} s={2} auto>
@@ -80,7 +80,7 @@ const FlashcardsCreatorView = () => {
       <AppFooterContainer />
       {activeFlashcard.data &&
         render(
-          <div className="fixed top-0 left-0 right-0 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
+          <div className="fixed top-0 left-0 right-0 z-10 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
             <header className="flex gap-4 items-center px-4 h-[72px]">
               <Button i={1} s={2}>
                 <BiX />
