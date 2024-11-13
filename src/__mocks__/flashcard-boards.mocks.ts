@@ -3,142 +3,148 @@ import type { FlashcardDto, FlashcardsBoardDto } from 'api-4markdown-contracts';
 const FLASHCARDS: FlashcardDto[] = [
   {
     id: `1`,
-    content: `# Flashcard Boards
-  Using "flashcardsBoards" could still feel a bit confusing because it blends two nouns, each in the plural form, without clearly conveying the relationship between them. Since each **Board** is essentially a container for **Flashcards**, it's often clearer to separate these terms or use them in a way that implies this hierarchy.
-  
-  - **Flashcard Boards** – clarifies that these are boards of flashcards.
-  - **Flashcards Hub** or **Flashcards Collection** – referring to an overarching feature containing multiple boards and flashcards.
-  
-  In short, **Flashcard Boards** (or similar terms) makes the structure and relationship more explicit and readable.`,
+    content: `# Flashcard Boards Explained
+  "Flashcard Boards" can sometimes seem ambiguous since it combines two plural nouns. To clarify the relationship, consider that each **Board** holds a collection of **Flashcards**.
+
+  - **Flashcard Boards** – implies these are boards filled with flashcards.
+  - **Flashcards Hub** or **Flashcards Collection** – if representing a larger feature containing multiple boards.
+
+  In essence, using a structured term like **Flashcard Boards** makes the organizational hierarchy clear.`,
   },
   {
     id: `2`,
-    content: `# Lorem Ipsum
-  Lorem ipsum dolor sit amet, **consectetur adipiscing** elit. Sed do _eiusmod tempor_ incididunt ut labore et dolore magna aliqua.
-  
-  - Ut enim ad minim veniam
-  - Quis nostrud exercitation ullamco
-  - Laboris nisi ut aliquip ex ea commodo consequat
-  
-  In short, lorem ipsum is a **placeholder text** commonly used in the graphic, print, and publishing industries.`,
+    content: `# What is Lorem Ipsum?
+  Lorem ipsum is a common placeholder text in the design world, used to fill space when the final content isn't yet available.
+
+  - **Origins**: Derived from "De finibus bonorum et malorum" by Cicero.
+  - **Usage**: Helps visualize layout without meaningful content.
+
+  Lorem ipsum is essential for **mock-ups** and **prototypes** as it prevents distraction from design elements.`,
   },
   {
     id: `3`,
-    content: `# Benefits of Markdown
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent **facilisis**, ipsum a tristique commodo, erat nisi tincidunt eros, a dictum ligula arcu at justo.
-  
-  - Markdown is *simple* to write and read
-  - **Flexible** format, supporting text and code
-  - Ideal for documentation and content creation
-  
-  In short, using Markdown helps maintain a **clean and organized** text format.`,
+    content: `# Benefits of Markdown for Developers
+  Markdown provides a straightforward way to create formatted documents with simple syntax.
+
+  - Markdown is *easy* to write and read.
+  - **Flexible** format that supports both text and code.
+  - Works great for documentation and **quick notes**.
+
+  Markdown helps developers **maintain clean and organized content** across projects.`,
   },
   {
     id: `4`,
-    content: `# Markdown Syntax Examples
-  Here are some examples of basic Markdown syntax:
-  
+    content: `# Markdown Syntax Overview
+  Key Markdown syntax that developers find useful:
+
   - **Bold**: \`**Bold Text**\`
-  - _Italic_: \`*Italic Text*\`
-  - Inline \`code\`: \`console.log("Hello World");\`
-    
+  - *Italic*: \`*Italic Text*\`
+  - Inline code example: \`console.log("Hello Markdown");\`
+  
   \`\`\`javascript
-  // Code block example
+  // JavaScript code block example
   function greet() {
-    console.log("Hello World");
+    console.log("Hello, Markdown!");
   }
   \`\`\`
-  
-  Markdown is versatile for **formatting content** efficiently.`,
+
+  Markdown is versatile and effective for **project documentation** and **technical writing**.`,
   },
   {
     id: `5`,
-    content: `# The Importance of Documentation
-  Good documentation is essential for **team collaboration** and long-term project success. It helps new team members understand the code and makes the project more **maintainable**.
-  
-  - Clear explanations help avoid **redundant questions**
-  - Supports **scalability** by enabling smooth transitions
-  - Serves as a reliable **reference**
-  
-  Remember, documentation is a **key part of development** and should not be overlooked.`,
+    content: `# Documentation Importance in Development
+  Good documentation fosters collaboration and long-term success in projects. 
+
+  - **Avoids redundant questions** by providing clarity.
+  - Supports **team scaling** by easing new members in.
+  - Acts as a **long-term reference** for project nuances.
+
+  Documentation is a crucial part of development and should be prioritized from the start.`,
   },
   {
     id: `6`,
-    content: `# Git Basics
-  Git is a **version control system** that allows teams to collaborate on code and track changes over time.
-  
-  - **Initialize** a repo: \`git init\`
-  - **Add** changes: \`git add .\`
-  - **Commit** changes: \`git commit -m "message"\`
-  
-  Using Git effectively can enhance **collaboration and project management** across development teams.`,
+    content: `# Git Basics for Collaboration
+  Git is a **version control system** that enables developers to track and manage code changes effectively.
+
+  - Initialize a repo: \`git init\`
+  - Stage changes: \`git add .\`
+  - Commit changes: \`git commit -m "commit message"\`
+
+  Effective use of Git helps in **team collaboration** and prevents **code conflicts**.`,
   },
   {
     id: `7`,
     content: `# Introduction to TypeScript
-  TypeScript is a **typed superset** of JavaScript that compiles to plain JavaScript. It improves code quality by enforcing types.
-  
-  - Helps catch **type errors** during development
-  - Offers **better tooling** and **autocompletion**
-  - Enhances **readability** of complex codebases
-  
-  Adopting TypeScript can result in fewer bugs and a more **maintainable codebase**.`,
+  TypeScript, a superset of JavaScript, introduces types for **better error handling** and code quality.
+
+  - Prevents **type errors** during development.
+  - Enhances **tooling** with autocomplete and better hints.
+  - Helps in making **large codebases more readable**.
+
+  Adopting TypeScript can result in **fewer bugs** and better **maintainability** over time.`,
   },
   {
     id: `8`,
-    content: `# CSS Flexbox Basics
-  Flexbox is a layout model that enables responsive **design structures**.
-  
-  - Define a flex container: \`display: flex;\`
-  - Align items: \`align-items: center;\`
-  - Justify content: \`justify-content: space-between;\`
-  
-  Using Flexbox makes it easier to create **adaptive and visually appealing layouts**.`,
+    content: `# CSS Flexbox Fundamentals
+  Flexbox provides a **flexible layout structure** for creating responsive and adaptive designs.
+
+  - Define a container: \`display: flex;\`
+  - Center items: \`align-items: center;\`
+  - Space elements: \`justify-content: space-between;\`
+
+  Flexbox enables **efficient design control** across various screen sizes and devices.`,
   },
   {
     id: `9`,
-    content: `# JavaScript Promises
-  Promises in JavaScript represent the **future result** of an asynchronous operation.
-  
+    content: `# JavaScript Promises in Action
+  Promises represent a **future value** from asynchronous code, helping handle operations that don’t resolve immediately.
+
   - Create a promise: \`new Promise((resolve, reject) => {...})\`
-  - Resolve or reject: \`.then()\` or \`.catch()\`
-  - Chain promises for **sequential operations**
-  
-  Promises simplify async code and make it **more readable**.`,
+  - Handle success or failure: \`.then()\` or \`.catch()\`
+  - Chain promises for **sequence of tasks**
+
+  Promises improve async code readability and structure, especially in complex applications.`,
   },
   {
     id: `10`,
-    content: `# REST API Basics
-  A REST API allows for communication between a **client** and a **server** using HTTP requests.
-  
-  - Common methods: **GET**, **POST**, **PUT**, **DELETE**
-  - Each request is **stateless** and self-contained
-  - Follows principles of **scalability** and **simplicity**
-  
-  REST APIs are a popular choice for creating **web services** and enabling **client-server interactions**.`,
+    content: `# REST API Essentials
+  REST APIs facilitate communication between a **client** and a **server** using HTTP requests.
+
+  - Methods: **GET**, **POST**, **PUT**, **DELETE**
+  - Statelessness – each request is independent.
+  - Scalable and simple for various web interactions.
+
+  REST APIs are essential for **client-server applications** and enabling **interoperability** across platforms.`,
   },
 ];
 
 const FLASHCARD_BOARDS: FlashcardsBoardDto[] = [
   {
     id: `1`,
-    name: `My private flashcards board`,
+    name: `Developer Concepts`,
     visibility: `private`,
-    flashcards: [...FLASHCARDS].slice(3),
+    flashcards: [FLASHCARDS[4], FLASHCARDS[6], FLASHCARDS[9]],
   },
   {
     id: `2`,
-    name: `My public flashcards board`,
+    name: `Web Design Essentials`,
     visibility: `public`,
-    flashcards: FLASHCARDS,
+    flashcards: [FLASHCARDS[3], FLASHCARDS[5], FLASHCARDS[7]],
   },
   {
     id: `3`,
-    name: `My permanent flashcards board`,
+    name: `Markdown and Text Formatting`,
     visibility: `permanent`,
-    description: `This is the description for my permanent board`,
-    flashcards: [...FLASHCARDS].slice(6),
+    description: `A permanent board dedicated to learning Markdown syntax and its applications for developers and writers.`,
+    flashcards: [...FLASHCARDS].slice(3),
+  },
+  {
+    id: `4`,
+    name: `JavaScript Asynchronous Programming`,
+    visibility: `permanent`,
+    description: `This permanent board covers asynchronous programming in JavaScript, with a focus on Promises and their use cases.`,
+    flashcards: [...FLASHCARDS].slice(3, 8),
   },
 ];
 
-export { FLASHCARD_BOARDS };
+export { FLASHCARDS, FLASHCARD_BOARDS };
