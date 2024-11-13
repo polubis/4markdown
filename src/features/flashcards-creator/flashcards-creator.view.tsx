@@ -9,6 +9,8 @@ import { BiPlusCircle, BiX } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import { usePortal } from 'development-kit/use-portal';
+import { ImageUploaderContainer } from 'features/creator/containers/image-uploader.container';
+import TemplatesPopover from 'features/creator/components/templates-popover';
 
 type Flashcard = {
   id: number;
@@ -83,18 +85,25 @@ const FlashcardsCreatorView = () => {
               <Button i={1} s={2}>
                 <BiX />
               </Button>
+              <ImageUploaderContainer />
+              <TemplatesPopover />
             </header>
             <div className="grid h-[calc(100svh-72px)] md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1">
-              <label className="hidden" htmlFor="creator" id="creator">
-                Creator
-              </label>
-              <textarea
-                aria-labelledby="creator"
-                aria-label="creator"
-                spellCheck="false"
-                className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
-              />
-              <Markdown>{activeFlashcard.data.content}</Markdown>
+              <section>
+                <label className="hidden" htmlFor="creator" id="creator">
+                  Creator
+                </label>
+                <textarea
+                  aria-labelledby="creator"
+                  aria-label="creator"
+                  spellCheck="false"
+                  value={activeFlashcard.data.content}
+                  className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
+                />
+              </section>
+              <section className="p-4">
+                <Markdown>{activeFlashcard.data.content}</Markdown>
+              </section>
             </div>
           </div>,
         )}
