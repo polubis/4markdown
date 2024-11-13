@@ -81,7 +81,7 @@ const FlashcardsCreatorView = () => {
       {activeFlashcard.data &&
         render(
           <div className="fixed top-0 left-0 right-0 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
-            <header className="flex items-center px-4 h-[72px]">
+            <header className="flex items-center px-4 space-x-4 h-[72px]">
               <Button i={1} s={2}>
                 <BiX />
               </Button>
@@ -101,7 +101,7 @@ const FlashcardsCreatorView = () => {
                   className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
                 />
               </section>
-              <section className="p-4">
+              <section className="p-4 overflow-y-auto">
                 <Markdown>{activeFlashcard.data.content}</Markdown>
               </section>
             </div>
