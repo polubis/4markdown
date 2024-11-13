@@ -12,6 +12,7 @@ module.exports = {
     '^core/(.*)': `<rootDir>/src/core/$1`,
     '^components/(.*)': `<rootDir>/src/components/$1`,
     '^design-system/(.*)': `<rootDir>/src/design-system/$1`,
+    '^__mocks__/(.*)': `<rootDir>/src/__mocks__/$1`,
   },
   testPathIgnorePatterns: [`node_modules`, `\\.cache`, `<rootDir>.*/public`],
   transformIgnorePatterns: [

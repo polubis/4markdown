@@ -111,7 +111,8 @@
       "core/*": ["./src/core/*"],
       "containers/*": ["./src/containers/*"],
       "api-4markdown": ["./src/api-4markdown"],
-      "api-4markdown-contracts": ["./src/api-4markdown-contracts"]
+      "api-4markdown-contracts": ["./src/api-4markdown-contracts"],
+      "__mocks__/*": ["./src/__mocks__/*"],
     },
     "types": ["jest", "node", "cypress"]
   },
