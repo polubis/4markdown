@@ -8,6 +8,7 @@ import type {
   UserProfileDto,
   DocumentRatingCategory,
   DocumentRatingDto,
+  FlashcardsBoardDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -98,6 +99,11 @@ type RateDocumentContract = Contract<
   }
 >;
 
+type GetYourContentContract = Contract<
+  `getYourContent`,
+  { flashcardBoards: FlashcardsBoardDto[] }
+>;
+
 type API4MarkdownContracts =
   | GetYourDocumentsContract
   | GetAccessibleDocumentContract
@@ -110,7 +116,8 @@ type API4MarkdownContracts =
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract
   | RateDocumentContract
-  | UpdateDocumentNameContract;
+  | UpdateDocumentNameContract
+  | GetYourContentContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -153,4 +160,5 @@ export type {
   RateDocumentContract,
   UpdateDocumentNameContract,
   API4MarkdownContractCall,
+  GetYourContentContract,
 };
