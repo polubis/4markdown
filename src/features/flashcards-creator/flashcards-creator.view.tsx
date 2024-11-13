@@ -5,12 +5,10 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import React from 'react';
 import { createInitialCode } from '../../../create-initial-code';
 import Markdown from 'components/markdown';
-import { BiPlusCircle } from 'react-icons/bi';
+import { BiPlusCircle, BiX } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import { usePortal } from 'development-kit/use-portal';
-import c from 'classnames';
-import Modal from 'design-system/modal';
 
 type Flashcard = {
   id: number;
@@ -36,6 +34,11 @@ const mock: FlashcardsBoard = {
     { id: 2, content: createInitialCode() },
     { id: 3, content: createInitialCode() },
     { id: 4, content: createInitialCode() },
+    { id: 5, content: createInitialCode() },
+    { id: 6, content: createInitialCode() },
+    { id: 7, content: createInitialCode() },
+    { id: 8, content: createInitialCode() },
+    { id: 9, content: createInitialCode() },
   ],
 };
 
@@ -75,33 +78,23 @@ const FlashcardsCreatorView = () => {
       <AppFooterContainer />
       {activeFlashcard.data &&
         render(
-          <div
-            className={c(
-              `grid fixed top-0 left-0 h-100svh md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1`,
-            )}
-          >
-            <label className="hidden" htmlFor="creator" id="creator">
-              Creator
-            </label>
-            <textarea
-              aria-labelledby="creator"
-              aria-label="creator"
-              spellCheck="false"
-              className={c(
-                `p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
-              )}
-              // onChange={changeCode}
-              // onKeyDown={maintainTabs}
-              // onClick={(e) => {
-              //   loadAndScroll(e.target as HTMLTextAreaElement);
-              // }}
-            />
-            <div
-              className={c(
-                `p-4 overflow-auto border-zinc-300 dark:bg-black bg-white dark:border-zinc-800 md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0`,
-              )}
-            >
-              <Markdown>{activeFlashcard.data?.content}</Markdown>
+          <div className="fixed top-0 left-0 right-0 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
+            <header className="flex items-center px-4 h-[72px]">
+              <Button i={1} s={2}>
+                <BiX />
+              </Button>
+            </header>
+            <div className="grid h-[calc(100svh-72px)] md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1">
+              <label className="hidden" htmlFor="creator" id="creator">
+                Creator
+              </label>
+              <textarea
+                aria-labelledby="creator"
+                aria-label="creator"
+                spellCheck="false"
+                className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
+              />
+              <Markdown>{activeFlashcard.data.content}</Markdown>
             </div>
           </div>,
         )}
