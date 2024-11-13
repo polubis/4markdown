@@ -24,7 +24,7 @@ type GetAccessibleDocumentContract = Contract<
   Pick<DocumentDto, 'id'>
 >;
 type GetPermanentDocumentsContract = Contract<
-  `gerPermanentDocuments`,
+  `getPermanentDocuments`,
   PermanentDocumentDto[]
 >;
 type DeleteDocumentContract = Contract<
@@ -99,8 +99,8 @@ type RateDocumentContract = Contract<
   }
 >;
 
-type GetYourContentContract = Contract<
-  `getYourContent`,
+type GetYourFlashcardBoardsContract = Contract<
+  `getYourFlashcardBoards`,
   { flashcardBoards: FlashcardsBoardDto[] }
 >;
 
@@ -117,7 +117,7 @@ type API4MarkdownContracts =
   | UpdateYourUserProfileContract
   | RateDocumentContract
   | UpdateDocumentNameContract
-  | GetYourContentContract;
+  | GetYourFlashcardBoardsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -160,5 +160,5 @@ export type {
   RateDocumentContract,
   UpdateDocumentNameContract,
   API4MarkdownContractCall,
-  GetYourContentContract,
+  GetYourFlashcardBoardsContract,
 };
