@@ -81,7 +81,7 @@ const FlashcardsCreatorView = () => {
       {activeFlashcard.data &&
         render(
           <div className="fixed top-0 left-0 right-0 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
-            <header className="flex items-center px-4 space-x-4 h-[72px]">
+            <header className="flex gap-4 items-center px-4 h-[72px]">
               <Button i={1} s={2}>
                 <BiX />
               </Button>
