@@ -136,6 +136,7 @@ const FLASHCARD_BOARDS: FlashcardsBoardDto[] = [
     id: `3`,
     name: `My permanent flashcards board`,
     visibility: `permanent`,
+    description: `This is the description for my permanent board`,
     flashcards: [...FLASHCARDS].slice(6),
   },
 ];

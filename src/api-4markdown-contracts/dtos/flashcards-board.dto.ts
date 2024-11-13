@@ -1,4 +1,4 @@
-import type { Id, Name, Order } from '../atoms';
+import type { Description, Id, Name, Order } from '../atoms';
 import type { FlashcardDto } from './flashcard.dto';
 
 type Base = {
@@ -17,6 +17,7 @@ type PublicFlashcardsBoardDto = Base & {
 
 type PermanentFlashcardsBoardDto = Base & {
   visibility: `permanent`;
+  description: Description;
 };
 
 type FlashcardsBoardDto =
