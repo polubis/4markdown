@@ -6,5 +6,16 @@ type Tags = string[];
 type Path = string;
 type Description = string;
 type Base64 = string;
+type Order = number;
 
-export type { Id, Name, MarkdownCode, Date, Tags, Path, Description, Base64 };
+export type {
+  Id,
+  Name,
+  MarkdownCode,
+  Date,
+  Tags,
+  Path,
+  Description,
+  Base64,
+  Order,
+};

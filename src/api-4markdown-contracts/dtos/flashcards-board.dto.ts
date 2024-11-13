@@ -1,8 +1,10 @@
-import type { Id, Name } from '../atoms';
+import type { Id, Name, Order } from '../atoms';
+import type { FlashcardDto } from './flashcard.dto';
 
 type Base = {
   id: Id;
   name: Name;
+  flashcards: Record<Order, FlashcardDto>;
 };
 
 type PrivateFlashcardsBoardDto = Base & {
@@ -13,6 +15,18 @@ type PublicFlashcardsBoardDto = Base & {
   visibility: `public`;
 };
 
-type FlashcardsBoardDto = PrivateFlashcardsBoardDto | PublicFlashcardsBoardDto;
+type PermanentFlashcardsBoardDto = Base & {
+  visibility: `permanent`;
+};
 
-export { FlashcardsBoardDto };
+type FlashcardsBoardDto =
+  | PrivateFlashcardsBoardDto
+  | PublicFlashcardsBoardDto
+  | PermanentFlashcardsBoardDto;
+
+export type {
+  FlashcardsBoardDto,
+  PrivateFlashcardsBoardDto,
+  PublicFlashcardsBoardDto,
+  PermanentFlashcardsBoardDto,
+};
