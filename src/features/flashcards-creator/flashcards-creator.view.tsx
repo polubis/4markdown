@@ -11,10 +11,53 @@ import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-c
 import { useToggle } from 'development-kit/use-toggle';
 import type { FlashcardDto } from 'api-4markdown-contracts';
 
+/* <header>
+  <h6 className="text-lg font-bold">
+    Editing: {activeFlashcard.data.content.split(`\n`)[0]}
+  </h6>
+</header> */
+const FlashcardEditor = ({
+  flashcard,
+  onClose,
+}: {
+  onClose(): void;
+  flashcard: FlashcardDto;
+}) => {
+  const { render } = usePortal();
+
+  return render(
+    <div className="fixed top-0 left-0 right-0 z-10 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
+      <header className="flex gap-4 items-center px-4 h-[72px]">
+        <Button i={1} s={2} onClick={onClose}>
+          <BiX />
+        </Button>
+        <ImageUploaderContainer />
+        <TemplatesPopover />
+      </header>
+      <div className="animate-fade-in grid h-[calc(100svh-72px)] md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1">
+        <section>
+          <label className="hidden" htmlFor="creator" id="creator">
+            Creator
+          </label>
+          <textarea
+            aria-labelledby="creator"
+            aria-label="creator"
+            spellCheck="false"
+            value={flashcard.content}
+            className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
+          />
+        </section>
+        <section className="p-4 overflow-y-auto">
+          <Markdown>{flashcard.content}</Markdown>
+        </section>
+      </div>
+    </div>,
+  );
+};
+
 const FlashcardsCreatorView = () => {
   const { flashcards } = useFlashcardsCreatorStore();
   const activeFlashcard = useToggle<FlashcardDto>();
-  const { render } = usePortal();
 
   return (
     <>
@@ -39,35 +82,12 @@ const FlashcardsCreatorView = () => {
           ))}
         </ul>
       </main>
-      {activeFlashcard.data &&
-        render(
-          <div className="fixed top-0 left-0 right-0 z-10 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
-            <header className="flex gap-4 items-center px-4 h-[72px]">
-              <Button i={1} s={2} onClick={activeFlashcard.close}>
-                <BiX />
-              </Button>
-              <ImageUploaderContainer />
-              <TemplatesPopover />
-            </header>
-            <div className="grid h-[calc(100svh-72px)] md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1">
-              <section>
-                <label className="hidden" htmlFor="creator" id="creator">
-                  Creator
-                </label>
-                <textarea
-                  aria-labelledby="creator"
-                  aria-label="creator"
-                  spellCheck="false"
-                  value={activeFlashcard.data.content}
-                  className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
-                />
-              </section>
-              <section className="p-4 overflow-y-auto">
-                <Markdown>{activeFlashcard.data.content}</Markdown>
-              </section>
-            </div>
-          </div>,
-        )}
+      {activeFlashcard.data && (
+        <FlashcardEditor
+          flashcard={activeFlashcard.data}
+          onClose={activeFlashcard.close}
+        />
+      )}
     </>
   );
 };
