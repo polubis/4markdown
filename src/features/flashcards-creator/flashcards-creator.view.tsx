@@ -26,7 +26,7 @@ const FlashcardEditor = ({
   const { render } = usePortal();
 
   return render(
-    <div className="fixed top-0 left-0 right-0 z-10 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
+    <div className="fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-20 backdrop-blur-2xl">
       <header className="animate-fade-in flex gap-4 items-center px-4 h-[72px]">
         <Button i={1} s={2} onClick={onClose}>
           <BiX />
