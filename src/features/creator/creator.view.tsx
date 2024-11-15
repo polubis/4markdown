@@ -16,18 +16,17 @@ import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
 import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
+import { useCreatorDivide } from 'core/use-creator-divide';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
 
-type DivideMode = 'both' | 'preview' | 'code';
-
 const CreatorView = () => {
   useCreatorLocalStorageSync();
 
   const docManagementStore = useDocManagementStore();
-  const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
+  const { divide, divideMode, setDivideMode } = useCreatorDivide();
   const { code, initialCode } = creatorStoreSelectors.useReady();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
@@ -49,20 +48,6 @@ const CreatorView = () => {
     );
 
     scrollToCreatorPreview(input);
-  };
-
-  const divide = (): void => {
-    if (divideMode === `both`) {
-      setDivideMode(`code`);
-      return;
-    }
-
-    if (divideMode === `code`) {
-      setDivideMode(`preview`);
-      return;
-    }
-
-    setDivideMode(`both`);
   };
 
   const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {

@@ -11,11 +11,6 @@ import { useToggle } from 'development-kit/use-toggle';
 import type { FlashcardDto } from 'api-4markdown-contracts';
 import { Bar } from 'design-system/bar';
 
-/* <header>
-  <h6 className="text-lg font-bold">
-    Editing: {activeFlashcard.data.content.split(`\n`)[0]}
-  </h6>
-</header> */
 const FlashcardEditor = ({
   flashcard,
   onClose,
@@ -26,22 +21,32 @@ const FlashcardEditor = ({
   const { render } = usePortal();
 
   return render(
-    <div className="fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-20 backdrop-blur-2xl">
-      <header className="animate-fade-in flex gap-4 items-center px-4 h-[72px]">
-        <Button i={1} s={2} onClick={onClose}>
-          <BiX />
-        </Button>
+    <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-20 backdrop-blur-2xl">
+      <header className="border-t-2 md:border-b-2 md:border-t-0 gap-3 flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800">
         <ImageUploaderContainer />
         <TemplatesPopover />
+        <Button className="ml-auto" i={1} s={2} onClick={onClose}>
+          <BiX size="28" />
+        </Button>
       </header>
-      <div className="animate-fade-in grid h-[calc(100svh-72px)] md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1">
+      <Bar className="h-[50px]">
+        <h6 className="text-lg font-bold">
+          {flashcard.content.split(`\n`)[0]}
+        </h6>
+      </Bar>
+      <div className="grid h-[calc(100svh-72px-50px)] md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1">
         <section>
-          <label className="hidden" htmlFor="creator" id="creator">
-            Creator
+          <label
+            className="hidden"
+            htmlFor="flashcard-creator"
+            id="flashcard-creator"
+          >
+            Flashcard Creator
           </label>
           <textarea
-            aria-labelledby="creator"
-            aria-label="creator"
+            aria-labelledby="flashcard-creator"
+            aria-label="flashcard-creator"
+            autoFocus
             spellCheck="false"
             value={flashcard.content}
             className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
