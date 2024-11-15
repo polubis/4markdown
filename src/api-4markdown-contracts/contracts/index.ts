@@ -1,4 +1,4 @@
-import type { Base64, Date } from '../atoms';
+import type { Base64, Date, Paginated, Pagination } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -101,7 +101,8 @@ type RateDocumentContract = Contract<
 
 type GetYourFlashcardBoardsContract = Contract<
   `getYourFlashcardBoards`,
-  { flashcardBoards: FlashcardsBoardDto[] }
+  Paginated & { flashcardBoards: FlashcardsBoardDto[] },
+  Pagination
 >;
 
 type API4MarkdownContracts =
