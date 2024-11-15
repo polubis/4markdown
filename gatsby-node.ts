@@ -4,10 +4,12 @@ import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
 import {
+  type FlashcardsCreatorPageModel,
   type EducationRanPageModel,
   type EducationPageModel,
   type HomePageModel,
 } from 'models/page-models';
+
 import {
   type DocumentRatingCategory,
   type PermanentDocumentDto,
@@ -97,6 +99,12 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     unknown,
     PermanentDocumentDto[]
   >(functions, `getPermanentDocuments`)();
+
+  actions.createPage<FlashcardsCreatorPageModel>({
+    path: meta.routes.flashcards.creator,
+    component: path.resolve(`./src/dynamic-pages/flashcards-creator.page.tsx`),
+    context: {},
+  });
 
   actions.createPage<HomePageModel>({
     path: meta.routes.home,

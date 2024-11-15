@@ -45,10 +45,13 @@ type EducationRanPageModel = {
   topTags: Tags;
 };
 
+type FlashcardsCreatorPageModel = {};
+
 export type {
   HomePageModel,
   EducationPageModel,
   LightEducationDocumentModel,
   EducationRanPageModel,
   RichEducationDocumentModel,
+  FlashcardsCreatorPageModel,
 };
