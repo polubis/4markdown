@@ -143,7 +143,6 @@ const CreatorView = () => {
             )}
             {divideMode === `preview` && <BiSolidBookContent />}
           </Button>
-
           <Button
             className="md:flex hidden"
             title="Open in separate window"
