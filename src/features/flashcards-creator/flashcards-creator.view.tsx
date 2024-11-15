@@ -1,4 +1,3 @@
-import { AppFooterContainer } from 'containers/app-footer.container';
 import React from 'react';
 import { createInitialCode } from '../../../create-initial-code';
 import Markdown from 'components/markdown';
@@ -77,7 +76,6 @@ const FlashcardsCreatorView = () => {
           ))}
         </ul>
       </main>
-      <AppFooterContainer />
       {activeFlashcard.data &&
         render(
           <div className="fixed top-0 left-0 right-0 z-10 h-[100svh] bg-black bg-opacity-60 backdrop-blur-2xl">
