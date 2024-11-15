@@ -1,10 +1,10 @@
-import type { Description, Id, Name, Order } from '../atoms';
+import type { Description, Id, Name } from '../atoms';
 import type { FlashcardDto } from './flashcard.dto';
 
 type Base = {
   id: Id;
   name: Name;
-  flashcards: Record<Order, FlashcardDto>;
+  flashcards: FlashcardDto[];
 };
 
 type PrivateFlashcardsBoardDto = Base & {

@@ -1,7 +1,7 @@
-import type { FlashcardsBoardDto } from 'api-4markdown-contracts';
+import type { FlashcardDto } from 'api-4markdown-contracts';
 
 type FlashcardsCreatorStoreState = {
-  flashcards: FlashcardsBoardDto['flashcards'];
+  flashcards: FlashcardDto[];
 };
 
 export type { FlashcardsCreatorStoreState };

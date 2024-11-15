@@ -6,7 +6,6 @@ type Tags = string[];
 type Path = string;
 type Description = string;
 type Base64 = string;
-type Order = number;
 type Paginated = {
   page: number;
   totalPages: number;
@@ -23,7 +22,6 @@ export type {
   Path,
   Description,
   Base64,
-  Order,
   Paginated,
   Pagination,
   PaginationLimit,
