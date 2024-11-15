@@ -32,5 +32,8 @@ export const meta = {
     },
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
+    flashcards: {
+      creator: `/flashcards-creator/`,
+    },
   },
 } as const;
