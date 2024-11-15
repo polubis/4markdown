@@ -46,7 +46,6 @@ const FlashcardEditor = ({
           <textarea
             aria-labelledby="flashcard-creator"
             aria-label="flashcard-creator"
-            autoFocus
             spellCheck="false"
             value={flashcard.content}
             className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
