@@ -79,14 +79,16 @@ const FlashcardsCreatorView = () => {
           <ul className="grid grid-cols-3 gap-6 grid-row-3 p-8 h-full absolute top-0 left-0 overflow-y-auto">
             {flashcards.map((flashcard, index) => (
               <li
-                className="relative p-4 h-[300px] border-2 rounded-lg border-zinc-300 dark:border-zinc-800 overflow-hidden"
+                className="cursor-pointer relative p-4 h-[300px] border-2 rounded-lg border-zinc-300 dark:border-zinc-800 overflow-hidden"
                 key={flashcard.id}
                 onClick={() => activeFlashcard.openWithData(flashcard)}
               >
                 <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
                   {index + 1}
                 </strong>
-                <Markdown>{flashcard.content}</Markdown>
+                <div className="pointer-events-none select-none">
+                  <Markdown>{flashcard.content}</Markdown>
+                </div>
               </li>
             ))}
           </ul>
