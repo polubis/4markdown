@@ -30,8 +30,7 @@ const FlashcardEditor = () => {
   const { render } = usePortal();
   const activeFlashcard = useFlashcardsCreatorStore(selectSafeActiveFlashcard);
 
-  const data = activeFlashcard!;
-  const initialCode = data.content;
+  const initialCode = activeFlashcard.content;
 
   const [code, setCode] = React.useState(initialCode);
 
@@ -56,6 +55,9 @@ const FlashcardEditor = () => {
   };
 
   const unchanged = code === initialCode;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const heading = React.useMemo(() => initialCode.split(`\n`)[0], []);
 
   return render(
     <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-20 backdrop-blur-2xl">
@@ -107,9 +109,7 @@ const FlashcardEditor = () => {
         </Button>
       </header>
       <Bar className="h-[50px]">
-        <h6 className="text-lg font-bold mr-4">
-          {data.content.split(`\n`)[0]}
-        </h6>
+        <h6 className="text-lg font-bold mr-4">{heading}</h6>
         <Button
           i={1}
           s={1}
