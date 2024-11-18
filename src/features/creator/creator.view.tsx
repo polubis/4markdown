@@ -7,16 +7,14 @@ import {
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
 import c from 'classnames';
-import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from './components/templates-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
-import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
-import { useCreatorDivide } from 'core/use-creator-divide';
+import { useCreatorManagement } from 'core/use-creator-management';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -26,86 +24,24 @@ const CreatorView = () => {
   useCreatorLocalStorageSync();
 
   const docManagementStore = useDocManagementStore();
-  const { divide, divideMode, setDivideMode } = useCreatorDivide();
+
   const { code, initialCode } = creatorStoreSelectors.useReady();
-  const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
-  const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 
-  const clearConfirm = useConfirm(() => creatorStoreActions.change(``));
-  const resetConfirm = useConfirm(() =>
-    creatorStoreActions.change(initialCode),
-  );
-
-  const loadAndScroll = async (input: HTMLTextAreaElement): Promise<void> => {
-    const DESKTOP_WIDTH = 1024;
-
-    if (divideMode !== `both` || window.innerWidth < DESKTOP_WIDTH) {
-      return;
-    }
-
-    const { scrollToCreatorPreview } = await import(
-      `./utils/scroll-to-creator-preview`
-    );
-
-    scrollToCreatorPreview(input);
-  };
-
-  const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    const target = e.target as HTMLTextAreaElement;
-
-    loadAndScroll(target);
-
-    if (e.key !== `Tab`) {
-      return;
-    }
-
-    e.preventDefault();
-
-    const start = target.selectionStart;
-    const end = target.selectionEnd;
-
-    const newValue =
-      code.substring(0, start) + ` ` + ` ` + ` ` + ` ` + code.substring(end);
-
-    creatorStoreActions.change(newValue);
-
-    target.selectionStart = target.selectionEnd = start + 1;
-  };
-
-  const changeCode: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
-    const timeout = timeoutRef.current;
-
-    timeout && clearTimeout(timeout);
-
-    timeoutRef.current = setTimeout(() => {
-      creatorStoreActions.change(e.target.value);
-    }, 750);
-  };
-
-  const openNewWindow = (): void => {
-    setDivideMode(`code`);
-    window.open(
-      meta.routes.creator.preview,
-      `_blank`,
-      `width=${screen.availWidth},height=${screen.availHeight}`,
-    );
-  };
-
-  React.useEffect(() => {
-    const creatorField = creatorRef.current;
-
-    if (creatorField) {
-      creatorField.value = code;
-    }
-  }, [code, divideMode]);
-
-  React.useEffect(() => {
-    const timeout = timeoutRef.current;
-
-    return () => {
-      timeout && clearTimeout(timeout);
-    };
-  }, []);
+  const {
+    divideMode,
+    divide,
+    openNewWindow,
+    clearConfirm,
+    resetConfirm,
+    creatorRef,
+    changeCode,
+    maintainTabs,
+    scrollToHeading,
+  } = useCreatorManagement({
+    code,
+    initialCode,
+    onChange: creatorStoreActions.change,
+  });
 
   return (
     <>
@@ -182,7 +118,7 @@ const CreatorView = () => {
             onChange={changeCode}
             onKeyDown={maintainTabs}
             onClick={(e) => {
-              loadAndScroll(e.target as HTMLTextAreaElement);
+              scrollToHeading(e.target as HTMLTextAreaElement);
             }}
           />
           <div
