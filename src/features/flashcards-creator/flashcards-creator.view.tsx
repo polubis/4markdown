@@ -15,18 +15,22 @@ import TemplatesPopover from 'features/creator/components/templates-popover';
 import { CreatorNavigation } from 'features/creator/components/creator-navigation';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 import { Bar } from 'design-system/bar';
-import {
-  FlashcardsCreatorProvider,
-  useFlashcardsCreatorContext,
-} from './flashcards-creator.provider';
 import { useCreatorManagement } from 'core/use-creator-management';
 import c from 'classnames';
+import {
+  selectActiveFlashcard,
+  selectSafeActiveFlashcard,
+} from 'store/flashcards-creator/flashcards-creator.selectors';
+import {
+  resetActiveFlashcard,
+  setActiveFlashcard,
+} from 'store/flashcards-creator/flashcards-creator.actions';
 
 const FlashcardEditor = () => {
   const { render } = usePortal();
-  const { activeFlashcard } = useFlashcardsCreatorContext();
+  const activeFlashcard = useFlashcardsCreatorStore(selectSafeActiveFlashcard);
 
-  const data = activeFlashcard.data!;
+  const data = activeFlashcard!;
   const initialCode = data.content;
 
   const [code, setCode] = React.useState(initialCode);
@@ -48,7 +52,7 @@ const FlashcardEditor = () => {
   });
 
   const confirmSave = (): void => {
-    activeFlashcard.close();
+    resetActiveFlashcard();
   };
 
   return render(
@@ -96,7 +100,7 @@ const FlashcardEditor = () => {
         >
           {resetConfirm.opened ? `Sure?` : `Reset`}
         </Button>
-        <Button className="ml-auto" i={1} s={2} onClick={activeFlashcard.close}>
+        <Button className="ml-auto" i={1} s={2} onClick={resetActiveFlashcard}>
           <BiX size="28" />
         </Button>
       </header>
@@ -156,7 +160,7 @@ const FlashcardEditor = () => {
 
 const FlashcardsCreatorView = () => {
   const { flashcards } = useFlashcardsCreatorStore();
-  const { activeFlashcard } = useFlashcardsCreatorContext();
+  const activeFlashcard = useFlashcardsCreatorStore(selectActiveFlashcard);
 
   return (
     <>
@@ -180,7 +184,7 @@ const FlashcardsCreatorView = () => {
               <li
                 className="cursor-pointer relative p-4 h-[300px] border-2 rounded-lg border-zinc-300 dark:border-zinc-800 overflow-hidden"
                 key={flashcard.id}
-                onClick={() => activeFlashcard.openWithData(flashcard)}
+                onClick={() => setActiveFlashcard(flashcard.id)}
               >
                 <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
                   {index + 1}
@@ -193,15 +197,9 @@ const FlashcardsCreatorView = () => {
           </ul>
         </section>
       </main>
-      {activeFlashcard.data && <FlashcardEditor />}
+      {activeFlashcard && <FlashcardEditor />}
     </>
   );
 };
 
-const FlashcardsCreatorConnectedView = () => (
-  <FlashcardsCreatorProvider>
-    <FlashcardsCreatorView />
-  </FlashcardsCreatorProvider>
-);
-
-export { FlashcardsCreatorConnectedView as FlashcardsCreatorView };
+export { FlashcardsCreatorView };
