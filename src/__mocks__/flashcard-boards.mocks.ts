@@ -1,4 +1,8 @@
-import type { FlashcardDto, FlashcardsBoardDto } from 'api-4markdown-contracts';
+import type {
+  FlashcardDto,
+  FlashcardsBoardDto,
+  PrivateFlashcardsBoardDto,
+} from 'api-4markdown-contracts';
 
 const FLASHCARDS: FlashcardDto[] = [
   {
@@ -118,22 +122,32 @@ const FLASHCARDS: FlashcardDto[] = [
   },
 ];
 
+const PRIVATE_FLASHCARDS_BOARD: PrivateFlashcardsBoardDto = {
+  id: `1`,
+  name: `Developer Concepts`,
+  cdate: `2024-11-18T13:45:00.563Z`,
+  mdate: `2024-11-18T13:45:00.563Z`,
+  visibility: `private`,
+  description: null,
+  flashcards: [FLASHCARDS[4], FLASHCARDS[6], FLASHCARDS[9]],
+};
+
 const FLASHCARD_BOARDS: FlashcardsBoardDto[] = [
-  {
-    id: `1`,
-    name: `Developer Concepts`,
-    visibility: `private`,
-    flashcards: [FLASHCARDS[4], FLASHCARDS[6], FLASHCARDS[9]],
-  },
+  PRIVATE_FLASHCARDS_BOARD,
   {
     id: `2`,
     name: `Web Design Essentials`,
+    cdate: `2024-11-18T13:45:00.563Z`,
+    mdate: `2024-11-18T13:45:00.563Z`,
     visibility: `public`,
+    description: null,
     flashcards: [FLASHCARDS[3], FLASHCARDS[5], FLASHCARDS[7]],
   },
   {
     id: `3`,
     name: `Markdown and Text Formatting`,
+    cdate: `2024-11-18T13:45:00.563Z`,
+    mdate: `2024-11-18T13:45:00.563Z`,
     visibility: `permanent`,
     description: `A permanent board dedicated to learning Markdown syntax and its applications for developers and writers.`,
     flashcards: [...FLASHCARDS].slice(3),
@@ -141,10 +155,12 @@ const FLASHCARD_BOARDS: FlashcardsBoardDto[] = [
   {
     id: `4`,
     name: `JavaScript Asynchronous Programming`,
+    cdate: `2024-11-18T13:45:00.563Z`,
+    mdate: `2024-11-18T13:45:00.563Z`,
     visibility: `permanent`,
     description: `This permanent board covers asynchronous programming in JavaScript, with a focus on Promises and their use cases.`,
     flashcards: [...FLASHCARDS].slice(3, 8),
   },
 ];
 
-export { FLASHCARDS, FLASHCARD_BOARDS };
+export { FLASHCARDS, FLASHCARD_BOARDS, PRIVATE_FLASHCARDS_BOARD };
