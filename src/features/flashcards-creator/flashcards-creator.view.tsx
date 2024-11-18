@@ -5,7 +5,6 @@ import {
   BiPlus,
   BiSave,
   BiSolidBookContent,
-  BiWindows,
   BiX,
 } from 'react-icons/bi';
 import { Button } from 'design-system/button';
@@ -42,7 +41,6 @@ const FlashcardEditor = () => {
     changeCode,
     maintainTabs,
     scrollToHeading,
-    openNewWindow,
     clearConfirm,
     resetConfirm,
   } = useCreatorManagement({
@@ -75,15 +73,6 @@ const FlashcardEditor = () => {
             <BiSolidBookContent className="rotate-180" />
           )}
           {divideMode === `preview` && <BiSolidBookContent />}
-        </Button>
-        <Button
-          className="md:flex hidden"
-          title="Open in separate window"
-          i={1}
-          s={2}
-          onClick={openNewWindow}
-        >
-          <BiWindows />
         </Button>
         <Button
           i={2}

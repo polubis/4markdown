@@ -1,7 +1,6 @@
 import React from 'react';
 import { useCreatorDivide } from './use-creator-divide';
 import { useConfirm } from 'development-kit/use-confirm';
-import { meta } from '../../meta';
 
 const useCreatorManagement = ({
   code,
@@ -65,15 +64,6 @@ const useCreatorManagement = ({
     }, 750);
   };
 
-  const openNewWindow = (): void => {
-    setDivideMode(`code`);
-    window.open(
-      meta.routes.creator.preview,
-      `_blank`,
-      `width=${screen.availWidth},height=${screen.availHeight}`,
-    );
-  };
-
   React.useEffect(() => {
     const creatorField = creatorRef.current;
 
@@ -95,9 +85,9 @@ const useCreatorManagement = ({
     clearConfirm,
     creatorRef,
     resetConfirm,
-    openNewWindow,
     changeCode,
     maintainTabs,
+    setDivideMode,
     divide,
     scrollToHeading,
   };

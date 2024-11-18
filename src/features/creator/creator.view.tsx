@@ -15,6 +15,7 @@ import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
 import { useCreatorManagement } from 'core/use-creator-management';
+import { meta } from '../../../meta';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -30,11 +31,11 @@ const CreatorView = () => {
   const {
     divideMode,
     divide,
-    openNewWindow,
     clearConfirm,
     resetConfirm,
     creatorRef,
     changeCode,
+    setDivideMode,
     maintainTabs,
     scrollToHeading,
   } = useCreatorManagement({
@@ -42,6 +43,15 @@ const CreatorView = () => {
     initialCode,
     onChange: creatorStoreActions.change,
   });
+
+  const openNewWindow = (): void => {
+    setDivideMode(`code`);
+    window.open(
+      meta.routes.creator.preview,
+      `_blank`,
+      `width=${screen.availWidth},height=${screen.availHeight}`,
+    );
+  };
 
   return (
     <>
