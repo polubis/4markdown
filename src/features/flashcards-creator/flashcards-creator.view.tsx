@@ -5,9 +5,9 @@ import { Button } from 'design-system/button';
 import { CreatorNavigation } from 'features/creator/components/creator-navigation';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 import { Bar } from 'design-system/bar';
-import { selectActiveFlashcard } from 'store/flashcards-creator/flashcards-creator.selectors';
-import { setActiveFlashcard } from 'store/flashcards-creator/flashcards-creator.actions';
 import { useToggle } from 'development-kit/use-toggle';
+import { setActiveFlashcard } from 'store/flashcards-creator/set-active-flashcard.action';
+import { selectActiveFlashcard } from 'store/flashcards-creator/select-active-flashcard.selector';
 
 const FlashcardEditorModalContainer = React.lazy(() =>
   import(`./containers/flashcard-editor-modal.container`).then((m) => ({

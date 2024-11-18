@@ -9,9 +9,9 @@ import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-c
 import { Bar } from 'design-system/bar';
 import { useCreatorManagement } from 'core/use-creator-management';
 import c from 'classnames';
-import { selectSafeActiveFlashcard } from 'store/flashcards-creator/flashcards-creator.selectors';
-import { resetActiveFlashcard } from 'store/flashcards-creator/flashcards-creator.actions';
+import { selectSafeActiveFlashcard } from 'store/flashcards-creator/select-safe-active-flashcard.selector';
 import { useOnEscapePress } from 'development-kit/use-on-escape-press';
+import { resetActiveFlashcard } from 'store/flashcards-creator/reset-active-flashcard.action';
 
 const FlashcardEditorModalContainer = () => {
   const { render } = usePortal();
