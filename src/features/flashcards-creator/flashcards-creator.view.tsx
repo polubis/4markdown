@@ -7,31 +7,30 @@ import { ImageUploaderContainer } from 'features/creator/containers/image-upload
 import TemplatesPopover from 'features/creator/components/templates-popover';
 import { CreatorNavigation } from 'features/creator/components/creator-navigation';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
-import { useToggle } from 'development-kit/use-toggle';
-import type { FlashcardDto } from 'api-4markdown-contracts';
 import { Bar } from 'design-system/bar';
+import {
+  FlashcardsCreatorProvider,
+  useFlashcardsCreatorContext,
+} from './flashcards-creator.provider';
 
-const FlashcardEditor = ({
-  flashcard,
-  onClose,
-}: {
-  onClose(): void;
-  flashcard: FlashcardDto;
-}) => {
+const FlashcardEditor = () => {
   const { render } = usePortal();
+  const { activeFlashcard } = useFlashcardsCreatorContext();
+
+  if (!activeFlashcard.data) throw Error(`Lack of parent protection for data`);
 
   return render(
     <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-20 backdrop-blur-2xl">
       <header className="border-t-2 md:border-b-2 md:border-t-0 gap-3 flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800">
         <ImageUploaderContainer />
         <TemplatesPopover />
-        <Button className="ml-auto" i={1} s={2} onClick={onClose}>
+        <Button className="ml-auto" i={1} s={2} onClick={activeFlashcard.close}>
           <BiX size="28" />
         </Button>
       </header>
       <Bar className="h-[50px]">
         <h6 className="text-lg font-bold">
-          {flashcard.content.split(`\n`)[0]}
+          {activeFlashcard.data.content.split(`\n`)[0]}
         </h6>
       </Bar>
       <div className="grid h-[calc(100svh-72px-50px)] md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1">
@@ -47,12 +46,12 @@ const FlashcardEditor = ({
             aria-labelledby="flashcard-creator"
             aria-label="flashcard-creator"
             spellCheck="false"
-            value={flashcard.content}
+            value={activeFlashcard.data.content}
             className="p-4 border-r-0 resize-none focus:outline-none text-lg bg-transparent text-black dark:text-white w-full h-full"
           />
         </section>
         <section className="p-4 overflow-y-auto">
-          <Markdown>{flashcard.content}</Markdown>
+          <Markdown>{activeFlashcard.data.content}</Markdown>
         </section>
       </div>
     </div>,
@@ -61,7 +60,7 @@ const FlashcardEditor = ({
 
 const FlashcardsCreatorView = () => {
   const { flashcards } = useFlashcardsCreatorStore();
-  const activeFlashcard = useToggle<FlashcardDto>();
+  const { activeFlashcard } = useFlashcardsCreatorContext();
 
   return (
     <>
@@ -98,14 +97,15 @@ const FlashcardsCreatorView = () => {
           </ul>
         </section>
       </main>
-      {activeFlashcard.data && (
-        <FlashcardEditor
-          flashcard={activeFlashcard.data}
-          onClose={activeFlashcard.close}
-        />
-      )}
+      {activeFlashcard.data && <FlashcardEditor />}
     </>
   );
 };
 
-export { FlashcardsCreatorView };
+const FlashcardsCreatorConnectedView = () => (
+  <FlashcardsCreatorProvider>
+    <FlashcardsCreatorView />
+  </FlashcardsCreatorProvider>
+);
+
+export { FlashcardsCreatorConnectedView as FlashcardsCreatorView };
