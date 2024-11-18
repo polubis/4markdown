@@ -3,6 +3,7 @@ import Markdown from 'components/markdown';
 import {
   BiBookContent,
   BiPlus,
+  BiSave,
   BiSolidBookContent,
   BiWindows,
   BiX,
@@ -45,6 +46,10 @@ const FlashcardEditor = () => {
     initialCode,
     onChange: setCode,
   });
+
+  const confirmSave = (): void => {
+    activeFlashcard.close();
+  };
 
   return render(
     <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-20 backdrop-blur-2xl">
@@ -96,7 +101,12 @@ const FlashcardEditor = () => {
         </Button>
       </header>
       <Bar className="h-[50px]">
-        <h6 className="text-lg font-bold">{data.content.split(`\n`)[0]}</h6>
+        <h6 className="text-lg font-bold mr-4">
+          {data.content.split(`\n`)[0]}
+        </h6>
+        <Button i={1} s={1} title="Save changes" onClick={confirmSave}>
+          <BiSave />
+        </Button>
       </Bar>
       <section
         className={c(`grid h-[calc(100svh-72px-50px)]`, {
