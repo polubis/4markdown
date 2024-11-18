@@ -25,6 +25,7 @@ import {
   resetActiveFlashcard,
   setActiveFlashcard,
 } from 'store/flashcards-creator/flashcards-creator.actions';
+import { useOnEscapePress } from 'development-kit/use-on-escape-press';
 
 const FlashcardEditor = () => {
   const { render } = usePortal();
@@ -53,6 +54,8 @@ const FlashcardEditor = () => {
   const confirmSave = (): void => {
     resetActiveFlashcard();
   };
+
+  useOnEscapePress(resetActiveFlashcard);
 
   const unchanged = code === initialCode;
 
