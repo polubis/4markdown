@@ -16,7 +16,7 @@ const set = (state: YourFlashcardBoardsStoreState): void => {
   setState(state);
 };
 
-const loadYourFlashcaradBoards = async (): Promise<void> => {
+const loadYourFlashcardBoards = async (): Promise<void> => {
   try {
     set({ is: `loading` });
 
@@ -39,4 +39,4 @@ const loadYourFlashcaradBoards = async (): Promise<void> => {
   }
 };
 
-export { loadYourFlashcaradBoards };
+export { loadYourFlashcardBoards };
