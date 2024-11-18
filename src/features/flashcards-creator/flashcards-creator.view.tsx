@@ -6,7 +6,7 @@ import { CreatorNavigation } from 'features/creator/components/creator-navigatio
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 import { Bar } from 'design-system/bar';
 import { useToggle } from 'development-kit/use-toggle';
-import { setActiveFlashcard } from 'store/flashcards-creator/set-active-flashcard.action';
+import { setActiveFlashcard } from 'store/flashcards-creator/actions/set-active-flashcard.action';
 import { selectActiveFlashcard } from 'store/flashcards-creator/select-active-flashcard.selector';
 
 const FlashcardEditorModalContainer = React.lazy(() =>
@@ -68,10 +68,7 @@ const FlashcardsCreatorView = () => {
       )}
       {creationModal.opened && (
         <React.Suspense>
-          <CreateFlashcardsBoardModalContainer
-            onClose={creationModal.close}
-            onSuccess={creationModal.close}
-          />
+          <CreateFlashcardsBoardModalContainer onClose={creationModal.close} />
         </React.Suspense>
       )}
     </>

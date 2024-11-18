@@ -11,7 +11,7 @@ import { useCreatorManagement } from 'core/use-creator-management';
 import c from 'classnames';
 import { selectSafeActiveFlashcard } from 'store/flashcards-creator/select-safe-active-flashcard.selector';
 import { useOnEscapePress } from 'development-kit/use-on-escape-press';
-import { resetActiveFlashcard } from 'store/flashcards-creator/reset-active-flashcard.action';
+import { resetActiveFlashcard } from 'store/flashcards-creator/actions/reset-active-flashcard.action';
 
 const FlashcardEditorModalContainer = () => {
   const { render } = usePortal();

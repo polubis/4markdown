@@ -5,41 +5,23 @@ import { Input } from 'design-system/input';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 import Modal from 'design-system/modal';
-import type {
-  API4MarkdownDto,
-  API4MarkdownPayload,
-  PrivateFlashcardsBoardDto,
-} from 'api-4markdown-contracts';
 import { useForm } from 'development-kit/use-form';
 import { Textarea } from 'design-system/textarea';
-import type { Transaction } from 'development-kit/utility-types';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
-import { parseError } from 'development-kit/parse-error';
-import { mock } from 'development-kit/mock';
-import { PRIVATE_FLASHCARDS_BOARD } from '__mocks__/flashcard-boards.mocks';
+import { createFlashcardsBoard } from 'store/flashcards-creator/actions/create-flashcards-board.action';
 
 type CreateFlashcardsBoardModalContainerProps = {
   onClose(): void;
-  onSuccess(flashcardsBoard: PrivateFlashcardsBoardDto): void;
 };
 
-type CreateFlashcardsBoardFormValues = {
-  name: API4MarkdownPayload<'createFlashcardsBoard'>['name'];
-  description: NonNullable<
-    API4MarkdownPayload<'createFlashcardsBoard'>['description']
-  >;
-};
+type CreateFlashcardsBoardFormValues = Parameters<
+  typeof createFlashcardsBoard
+>[0];
 
 const CreateFlashcardsBoardModalContainer = ({
   onClose,
-  onSuccess,
 }: CreateFlashcardsBoardModalContainerProps) => {
-  const { flashcards } = useFlashcardsCreatorStore();
-
-  const [operation, setOperation] = React.useState<Transaction>({
-    is: `idle`,
-  });
-
+  const { creation } = useFlashcardsCreatorStore();
   const [{ invalid, values, untouched }, { inject }] =
     useForm<CreateFlashcardsBoardFormValues>({
       name: ``,
@@ -47,28 +29,14 @@ const CreateFlashcardsBoardModalContainer = ({
     });
 
   const close = (): void => {
-    if (operation.is === `busy`) return;
+    if (creation.is === `busy`) return;
 
     onClose();
   };
 
   const submitBoardCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-
-    try {
-      setOperation({ is: `busy` });
-      const board = await mock()<API4MarkdownDto<'createFlashcardsBoard'>>(
-        PRIVATE_FLASHCARDS_BOARD,
-      )<API4MarkdownPayload<'createFlashcardsBoard'>>({
-        ...values,
-        flashcards,
-      });
-
-      setOperation({ is: `ok` });
-      onSuccess(board);
-    } catch (error: unknown) {
-      setOperation({ is: `fail`, error: parseError(error) });
-    }
+    createFlashcardsBoard(values);
   };
 
   return (
@@ -82,7 +50,7 @@ const CreateFlashcardsBoardModalContainer = ({
             s={1}
             title="Close flashards board creation"
             className="ml-auto"
-            disabled={operation.is === `busy`}
+            disabled={creation.is === `busy`}
             onClick={close}
           >
             <BiX />
@@ -121,7 +89,7 @@ const CreateFlashcardsBoardModalContainer = ({
           className="mt-6"
           auto
           title="Confirm flashcards board creation"
-          disabled={untouched || invalid || operation.is === `busy`}
+          disabled={untouched || invalid || creation.is === `busy`}
         >
           Create
           <BiPlusCircle />
