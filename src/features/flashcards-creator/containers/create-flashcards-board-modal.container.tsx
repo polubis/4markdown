@@ -8,14 +8,14 @@ import Modal from 'design-system/modal';
 import { useForm } from 'development-kit/use-form';
 import { Textarea } from 'design-system/textarea';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
-import { createFlashcardsBoard } from 'store/flashcards-creator/actions/create-flashcards-board.action';
+import { createFlashcardsBoardAct } from 'acts/create-flashcards-board.act';
 
 type CreateFlashcardsBoardModalContainerProps = {
   onClose(): void;
 };
 
 type CreateFlashcardsBoardFormValues = Parameters<
-  typeof createFlashcardsBoard
+  typeof createFlashcardsBoardAct
 >[0];
 
 const CreateFlashcardsBoardModalContainer = ({
@@ -36,7 +36,7 @@ const CreateFlashcardsBoardModalContainer = ({
 
   const submitBoardCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    createFlashcardsBoard(values);
+    createFlashcardsBoardAct(values);
   };
 
   return (

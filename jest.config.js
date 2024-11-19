@@ -10,6 +10,7 @@ module.exports = {
     '^development-kit/(.*)': `<rootDir>/src/development-kit/$1`,
     '^store/(.*)': `<rootDir>/src/store/$1`,
     '^core/(.*)': `<rootDir>/src/core/$1`,
+    '^acts/(.*)': `<rootDir>/src/acts/$1`,
     '^components/(.*)': `<rootDir>/src/components/$1`,
     '^design-system/(.*)': `<rootDir>/src/design-system/$1`,
     '^__mocks__/(.*)': `<rootDir>/src/__mocks__/$1`,

@@ -3,11 +3,13 @@ import Markdown from 'components/markdown';
 import { BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { CreatorNavigation } from 'features/creator/components/creator-navigation';
-import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
+import {
+  flashcardsCreatorStoreActions,
+  flashcardsCreatorStoreSelectors,
+  useFlashcardsCreatorStore,
+} from 'store/flashcards-creator/flashcards-creator.store';
 import { Bar } from 'design-system/bar';
 import { useToggle } from 'development-kit/use-toggle';
-import { setActiveFlashcard } from 'store/flashcards-creator/actions/set-active-flashcard.action';
-import { selectActiveFlashcard } from 'store/flashcards-creator/select-active-flashcard.selector';
 
 const FlashcardEditorModalContainer = React.lazy(() =>
   import(`./containers/flashcard-editor-modal.container`).then((m) => ({
@@ -23,7 +25,7 @@ const CreateFlashcardsBoardModalContainer = React.lazy(() =>
 
 const FlashcardsCreatorView = () => {
   const { flashcards } = useFlashcardsCreatorStore();
-  const activeFlashcard = useFlashcardsCreatorStore(selectActiveFlashcard);
+  const activeFlashcard = flashcardsCreatorStoreSelectors.useActiveFlashcard();
   const creationModal = useToggle();
 
   return (
@@ -48,7 +50,9 @@ const FlashcardsCreatorView = () => {
               <li
                 className="cursor-pointer relative p-4 h-[300px] border-2 rounded-lg border-zinc-300 dark:border-zinc-800 overflow-hidden"
                 key={flashcard.id}
-                onClick={() => setActiveFlashcard(flashcard.id)}
+                onClick={() =>
+                  flashcardsCreatorStoreActions.setActiveFlashcard(flashcard.id)
+                }
               >
                 <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
                   {index + 1}

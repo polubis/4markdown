@@ -5,17 +5,19 @@ import { Button } from 'design-system/button';
 import { usePortal } from 'development-kit/use-portal';
 import { ImageUploaderContainer } from 'features/creator/containers/image-uploader.container';
 import TemplatesPopover from 'features/creator/components/templates-popover';
-import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
+import {
+  flashcardsCreatorStoreActions,
+  flashcardsCreatorStoreSelectors,
+} from 'store/flashcards-creator/flashcards-creator.store';
 import { Bar } from 'design-system/bar';
 import { useCreatorManagement } from 'core/use-creator-management';
 import c from 'classnames';
-import { selectSafeActiveFlashcard } from 'store/flashcards-creator/select-safe-active-flashcard.selector';
 import { useOnEscapePress } from 'development-kit/use-on-escape-press';
-import { resetActiveFlashcard } from 'store/flashcards-creator/actions/reset-active-flashcard.action';
 
 const FlashcardEditorModalContainer = () => {
   const { render } = usePortal();
-  const activeFlashcard = useFlashcardsCreatorStore(selectSafeActiveFlashcard);
+  const activeFlashcard =
+    flashcardsCreatorStoreSelectors.useSafeActiveFlashcard();
 
   const initialCode = activeFlashcard.content;
 
@@ -37,10 +39,10 @@ const FlashcardEditorModalContainer = () => {
   });
 
   const confirmSave = (): void => {
-    resetActiveFlashcard();
+    flashcardsCreatorStoreActions.resetActiveFlashcard();
   };
 
-  useOnEscapePress(resetActiveFlashcard);
+  useOnEscapePress(flashcardsCreatorStoreActions.resetActiveFlashcard);
 
   const unchanged = code === initialCode;
 
@@ -83,7 +85,12 @@ const FlashcardEditorModalContainer = () => {
         >
           {resetConfirm.opened ? `Sure?` : `Reset`}
         </Button>
-        <Button className="ml-auto" i={1} s={2} onClick={resetActiveFlashcard}>
+        <Button
+          className="ml-auto"
+          i={1}
+          s={2}
+          onClick={flashcardsCreatorStoreActions.resetActiveFlashcard}
+        >
           <BiX size="28" />
         </Button>
       </header>
