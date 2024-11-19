@@ -8,7 +8,6 @@ import {
   flashcardsCreatorStoreSelectors,
 } from 'store/flashcards-creator/flashcards-creator.store';
 import { Bar } from 'design-system/bar';
-import { useToggle } from 'development-kit/use-toggle';
 
 const FlashcardEditorModalContainer = React.lazy(() =>
   import(`./containers/flashcard-editor-modal.container`).then((m) => ({
@@ -23,9 +22,9 @@ const CreateFlashcardsBoardModalContainer = React.lazy(() =>
 );
 
 const FlashcardsCreatorView = () => {
-  const { flashcards } = flashcardsCreatorStoreSelectors.useState();
+  const { flashcards, creationStarted } =
+    flashcardsCreatorStoreSelectors.useState();
   const activeFlashcard = flashcardsCreatorStoreSelectors.useActiveFlashcard();
-  const creationModal = useToggle();
 
   return (
     <>
@@ -35,7 +34,7 @@ const FlashcardsCreatorView = () => {
             i={1}
             s={2}
             title="Create new flashcards board"
-            onClick={creationModal.open}
+            onClick={flashcardsCreatorStoreActions.startCreation}
           >
             <BiPlus />
           </Button>
@@ -69,9 +68,9 @@ const FlashcardsCreatorView = () => {
           <FlashcardEditorModalContainer />
         </React.Suspense>
       )}
-      {creationModal.opened && (
+      {creationStarted && (
         <React.Suspense>
-          <CreateFlashcardsBoardModalContainer onClose={creationModal.close} />
+          <CreateFlashcardsBoardModalContainer />
         </React.Suspense>
       )}
     </>

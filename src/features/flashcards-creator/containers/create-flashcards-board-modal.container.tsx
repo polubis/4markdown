@@ -7,20 +7,17 @@ import { Hint } from 'design-system/hint';
 import Modal from 'design-system/modal';
 import { useForm } from 'development-kit/use-form';
 import { Textarea } from 'design-system/textarea';
-import { flashcardsCreatorStoreSelectors } from 'store/flashcards-creator/flashcards-creator.store';
+import {
+  flashcardsCreatorStoreActions,
+  flashcardsCreatorStoreSelectors,
+} from 'store/flashcards-creator/flashcards-creator.store';
 import { createFlashcardsBoardAct } from 'acts/create-flashcards-board.act';
-
-type CreateFlashcardsBoardModalContainerProps = {
-  onClose(): void;
-};
 
 type CreateFlashcardsBoardFormValues = Parameters<
   typeof createFlashcardsBoardAct
 >[0];
 
-const CreateFlashcardsBoardModalContainer = ({
-  onClose,
-}: CreateFlashcardsBoardModalContainerProps) => {
+const CreateFlashcardsBoardModalContainer = () => {
   const { creation } = flashcardsCreatorStoreSelectors.useState();
   const [{ invalid, values, untouched }, { inject }] =
     useForm<CreateFlashcardsBoardFormValues>({
@@ -28,19 +25,13 @@ const CreateFlashcardsBoardModalContainer = ({
       description: ``,
     });
 
-  const close = (): void => {
-    if (creation.is === `busy`) return;
-
-    onClose();
-  };
-
   const submitBoardCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     createFlashcardsBoardAct(values);
   };
 
   return (
-    <Modal onEscape={close}>
+    <Modal onEscape={flashcardsCreatorStoreActions.endCreation}>
       <form className="flex flex-col" onSubmit={submitBoardCreation}>
         <div className="flex items-center mb-4">
           <h6 className="text-xl mr-8">Create Flashcards Board</h6>
@@ -51,7 +42,7 @@ const CreateFlashcardsBoardModalContainer = ({
             title="Close flashards board creation"
             className="ml-auto"
             disabled={creation.is === `busy`}
-            onClick={close}
+            onClick={flashcardsCreatorStoreActions.endCreation}
           >
             <BiX />
           </Button>

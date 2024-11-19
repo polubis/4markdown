@@ -28,7 +28,10 @@ const createFlashcardsBoardAct = async (values: {
       flashcards,
     });
 
-    flashcardsCreatorStoreActions.setCreation({ is: `ok` });
+    flashcardsCreatorStoreActions.set({
+      creation: { is: `ok` },
+      creationStarted: false,
+    });
   } catch (error: unknown) {
     flashcardsCreatorStoreActions.setCreation({
       is: `fail`,

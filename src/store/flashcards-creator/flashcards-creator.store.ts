@@ -7,15 +7,17 @@ type FlashcardsCreatorStoreState = {
   flashcards: FlashcardDto[];
   activeFlashcardId: FlashcardDto['id'] | null;
   creation: Transaction;
+  creationStarted: boolean;
 };
 
 const useFlashcardsCreatorStore = create<FlashcardsCreatorStoreState>(() => ({
   flashcards: FLASHCARD_BOARDS[2].flashcards,
   activeFlashcardId: null,
   creation: { is: `idle` },
+  creationStarted: false,
 }));
 
-const { setState } = useFlashcardsCreatorStore;
+const { setState, getState } = useFlashcardsCreatorStore;
 
 const selectActiveFlashcard = ({
   activeFlashcardId,
@@ -38,6 +40,7 @@ const selectSafeActiveFlashcard = (
 };
 
 const flashcardsCreatorStoreSelectors = {
+  state: (): FlashcardsCreatorStoreState => getState(),
   useState: (): FlashcardsCreatorStoreState => useFlashcardsCreatorStore(),
   useActiveFlashcard: (): FlashcardDto | null =>
     useFlashcardsCreatorStore(selectActiveFlashcard),
@@ -46,6 +49,7 @@ const flashcardsCreatorStoreSelectors = {
 };
 
 const flashcardsCreatorStoreActions = {
+  set: (state: Partial<FlashcardsCreatorStoreState>): void => setState(state),
   resetActiveFlashcard: (): void => setState({ activeFlashcardId: null }),
   setActiveFlashcard: (
     id: FlashcardsCreatorStoreState['activeFlashcardId'],
@@ -55,6 +59,16 @@ const flashcardsCreatorStoreActions = {
     }),
   setCreation: (creation: FlashcardsCreatorStoreState['creation']): void => {
     setState({ creation });
+  },
+  startCreation: (): void => {
+    setState({ creationStarted: true });
+  },
+  endCreation: (): void => {
+    const { creation } = flashcardsCreatorStoreSelectors.state();
+
+    if (creation.is === `busy`) return;
+
+    setState({ creationStarted: false });
   },
 };
 
