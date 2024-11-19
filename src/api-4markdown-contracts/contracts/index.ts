@@ -23,7 +23,7 @@ type GetAccessibleDocumentContract = Contract<
   Pick<DocumentDto, 'id'>
 >;
 type GetPermanentDocumentsContract = Contract<
-  `gerPermanentDocuments`,
+  `getPermanentDocuments`,
   PermanentDocumentDto[]
 >;
 type DeleteDocumentContract = Contract<
@@ -134,6 +134,14 @@ type API4MarkdownContractCall = <TKey extends API4MarkdownContractKey>(
   ? () => Promise<API4MarkdownDto<TKey>>
   : (payload: API4MarkdownPayload<TKey>) => Promise<API4MarkdownDto<TKey>>;
 
+type API4MarkdownResult<TKey extends API4MarkdownContractKey> =
+  | { is: `fail`; error: unknown }
+  | {
+      is: `ok`;
+      payload: API4MarkdownPayload<TKey>;
+      dto: API4MarkdownDto<TKey>;
+    };
+
 type ErrorSymbol =
   | `already-exists`
   | `unauthenticated`
@@ -196,6 +204,7 @@ export type {
   API4MarkdownContract,
   API4MarkdownDto,
   API4MarkdownPayload,
+  API4MarkdownResult,
   GetYourDocumentsContract,
   GetAccessibleDocumentContract,
   GetPermanentDocumentsContract,
