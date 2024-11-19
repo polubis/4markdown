@@ -56,6 +56,19 @@ const creatorStoreActions = {
     set(newState);
     localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
+  changeWithoutMarkAsUnchanged: (code: string) => {
+    const { is, initialCode, changed } = creatorStoreSelectors.ready();
+    const newState: CreatorStoreStateReady = {
+      is,
+      code,
+      initialCode,
+      changed,
+    };
+
+    set(newState);
+
+    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
+  },
   change: (code: string) => {
     const { is, initialCode } = creatorStoreSelectors.ready();
     const newState: CreatorStoreStateReady = {
