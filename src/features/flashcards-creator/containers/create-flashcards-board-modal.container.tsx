@@ -7,7 +7,7 @@ import { Hint } from 'design-system/hint';
 import Modal from 'design-system/modal';
 import { useForm } from 'development-kit/use-form';
 import { Textarea } from 'design-system/textarea';
-import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
+import { flashcardsCreatorStoreSelectors } from 'store/flashcards-creator/flashcards-creator.store';
 import { createFlashcardsBoardAct } from 'acts/create-flashcards-board.act';
 
 type CreateFlashcardsBoardModalContainerProps = {
@@ -21,7 +21,7 @@ type CreateFlashcardsBoardFormValues = Parameters<
 const CreateFlashcardsBoardModalContainer = ({
   onClose,
 }: CreateFlashcardsBoardModalContainerProps) => {
-  const { creation } = useFlashcardsCreatorStore();
+  const { creation } = flashcardsCreatorStoreSelectors.useState();
   const [{ invalid, values, untouched }, { inject }] =
     useForm<CreateFlashcardsBoardFormValues>({
       name: ``,

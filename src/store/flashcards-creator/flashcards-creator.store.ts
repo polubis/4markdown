@@ -38,6 +38,7 @@ const selectSafeActiveFlashcard = (
 };
 
 const flashcardsCreatorStoreSelectors = {
+  useState: (): FlashcardsCreatorStoreState => useFlashcardsCreatorStore(),
   useActiveFlashcard: (): FlashcardDto | null =>
     useFlashcardsCreatorStore(selectActiveFlashcard),
   useSafeActiveFlashcard: (): FlashcardDto =>

@@ -6,7 +6,6 @@ import { CreatorNavigation } from 'features/creator/components/creator-navigatio
 import {
   flashcardsCreatorStoreActions,
   flashcardsCreatorStoreSelectors,
-  useFlashcardsCreatorStore,
 } from 'store/flashcards-creator/flashcards-creator.store';
 import { Bar } from 'design-system/bar';
 import { useToggle } from 'development-kit/use-toggle';
@@ -24,7 +23,7 @@ const CreateFlashcardsBoardModalContainer = React.lazy(() =>
 );
 
 const FlashcardsCreatorView = () => {
-  const { flashcards } = useFlashcardsCreatorStore();
+  const { flashcards } = flashcardsCreatorStoreSelectors.useState();
   const activeFlashcard = flashcardsCreatorStoreSelectors.useActiveFlashcard();
   const creationModal = useToggle();
 
