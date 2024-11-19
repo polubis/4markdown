@@ -36,15 +36,20 @@ const docStoreSelectors = {
 };
 
 const docStoreActions = {
+  setActiveWithoutCodeChange: (doc: DocumentCreatorViewModel['document']) => {
+    set({
+      is: `active`,
+      ...doc,
+    });
+  },
   setActive: (
     doc: DocumentCreatorViewModel['document'],
     asUnchanged = true,
   ) => {
-    const newState: DocStoreActiveState = {
+    set({
       is: `active`,
       ...doc,
-    };
-    set(newState);
+    });
     creatorStoreActions.change(doc.code);
     asUnchanged && creatorStoreActions.asUnchanged();
   },
