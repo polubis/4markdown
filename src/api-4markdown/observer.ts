@@ -38,4 +38,13 @@ const observe = <TKey extends API4MarkdownContractKey>(
   return unobserve;
 };
 
-export { observe };
+const emit = <TKey extends API4MarkdownContractKey>(
+  key: TKey,
+  result: API4MarkdownResult<TKey>,
+): void => {
+  observersMap.get(key)?.forEach((observer) => {
+    observer(result);
+  });
+};
+
+export { observe, emit };
