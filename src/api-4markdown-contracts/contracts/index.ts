@@ -182,7 +182,13 @@ type UnknownError = {
   message: string;
 };
 
-type ParsedError = KnownError | UnknownError;
+type NoInternetError = {
+  symbol: 'no-internet';
+  content: string;
+  message: string;
+};
+
+type ParsedError = KnownError | UnknownError | NoInternetError;
 
 export type {
   API4MarkdownContracts,
@@ -206,4 +212,5 @@ export type {
   ParsedError,
   UnknownError,
   KnownError,
+  NoInternetError,
 };
