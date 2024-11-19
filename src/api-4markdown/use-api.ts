@@ -2,6 +2,7 @@ import type {
   API4MarkdownContractCall,
   API4MarkdownContracts,
   API4MarkdownDto,
+  NoInternetError,
 } from 'api-4markdown-contracts';
 import { type FirebaseOptions, initializeApp } from 'firebase/app';
 import type { Functions } from 'firebase/functions';
@@ -37,6 +38,11 @@ type API4Markdown = {
 let instance: API4Markdown | null = null;
 let functions: Functions | null = null;
 
+const isOffline = (): boolean =>
+  typeof window !== `undefined` && !navigator.onLine;
+
+class NoInternetException extends Error {}
+
 const initialize = (): API4Markdown => {
   const config: FirebaseOptions = {
     apiKey: process.env.GATSBY_API_KEY,
@@ -56,17 +62,32 @@ const initialize = (): API4Markdown => {
       call:
         <TKey extends API4MarkdownContracts['key']>(key: TKey) =>
         async (payload) => {
-          const { getFunctions, httpsCallable } = await import(
-            `firebase/functions`
-          );
+          try {
+            if (isOffline()) throw new NoInternetException();
 
-          if (!functions) {
-            functions = getFunctions(app);
+            const { getFunctions, httpsCallable } = await import(
+              `firebase/functions`
+            );
+
+            if (!functions) {
+              functions = getFunctions(app);
+            }
+
+            return (await httpsCallable(functions, key)(payload))
+              .data as Promise<API4MarkdownDto<TKey>>;
+          } catch (error: unknown) {
+            if (error instanceof NoInternetException) {
+              const noInternetError: NoInternetError = {
+                content: `Lack of internet`,
+                message: `Lack of internet`,
+                symbol: `no-internet`,
+              };
+
+              throw Error(JSON.stringify(noInternetError));
+            }
+
+            throw error;
           }
-
-          return (await httpsCallable(functions, key)(payload)).data as Promise<
-            API4MarkdownDto<TKey>
-          >;
         },
       logIn: async () => {
         await setPersistence(auth, browserLocalPersistence);
