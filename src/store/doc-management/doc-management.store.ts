@@ -1,4 +1,4 @@
-import { parseError } from 'development-kit/parse-error';
+import { parseError } from 'api-4markdown';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 

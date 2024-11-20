@@ -138,7 +138,8 @@ const useAuth = () => {
     return () => {
       unsubscribe();
     };
-  }, [api]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 };
 
 export { useAuth };
