@@ -34,6 +34,10 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
     },
     // Acts
     loadBoards: async () => {
+      const state = get();
+
+      if (state.flashcardBoards.is !== `idle`) return;
+
       try {
         set({ flashcardBoards: { is: `busy` } });
 

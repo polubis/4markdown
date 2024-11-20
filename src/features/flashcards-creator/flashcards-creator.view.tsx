@@ -1,6 +1,6 @@
 import React from 'react';
 import Markdown from 'components/markdown';
-import { BiPlus } from 'react-icons/bi';
+import { BiGridAlt, BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { CreatorNavigation } from 'features/creator/components/creator-navigation';
 import { Bar } from 'design-system/bar';
@@ -27,6 +27,7 @@ const FlashcardsCreatorView = () => {
   const {
     startCreation,
     activateFlashcard,
+    flashcardBoards,
     activeFlashcards,
     creation,
     activeFlashcardId,
@@ -52,6 +53,16 @@ const FlashcardsCreatorView = () => {
         </CreatorNavigation>
         <Bar className="h-[50px]">
           <h6 className="text-lg font-bold">Flashcards Board</h6>
+          {authStore.is === `authorized` && (
+            <Button
+              i={1}
+              s={1}
+              disabled={flashcardBoards.is === `busy`}
+              title="Your flashcard boards"
+            >
+              <BiGridAlt />
+            </Button>
+          )}
         </Bar>
         <section className="relative h-[calc(100svh-72px-50px)]">
           <ul className="grid grid-cols-3 gap-6 grid-row-3 p-8 h-full absolute top-0 left-0 overflow-y-auto">
