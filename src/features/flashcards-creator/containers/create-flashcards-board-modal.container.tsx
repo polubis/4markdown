@@ -12,6 +12,7 @@ import {
   flashcardsCreatorStoreSelectors,
 } from 'store/flashcards-creator/flashcards-creator.store';
 import { createFlashcardsBoardAct } from 'acts/create-flashcards-board.act';
+import ErrorModal from 'components/error-modal';
 
 type CreateFlashcardsBoardFormValues = Parameters<
   typeof createFlashcardsBoardAct
@@ -29,6 +30,38 @@ const CreateFlashcardsBoardModalContainer = () => {
     e.preventDefault();
     createFlashcardsBoardAct(values);
   };
+
+  const closeErrorModal = (): void => {
+    flashcardsCreatorStoreActions.setCreation({ is: `idle` });
+  };
+
+  if (creation.is === `fail`) {
+    return (
+      <ErrorModal
+        heading="Error During Creating Flashcards Board"
+        message={creation.error.message}
+        footer={
+          <>
+            {creation.error.symbol === `out-of-date` && (
+              <Button
+                type="button"
+                i={2}
+                s={2}
+                auto
+                title="Sync out of flashcards board"
+                onClick={() => {
+                  closeErrorModal();
+                }}
+              >
+                Sync
+              </Button>
+            )}
+          </>
+        }
+        onClose={closeErrorModal}
+      />
+    );
+  }
 
   return (
     <Modal onEscape={flashcardsCreatorStoreActions.endCreation}>
