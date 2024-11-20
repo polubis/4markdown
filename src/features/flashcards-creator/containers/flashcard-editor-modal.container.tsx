@@ -5,19 +5,18 @@ import { Button } from 'design-system/button';
 import { usePortal } from 'development-kit/use-portal';
 import { ImageUploaderContainer } from 'features/creator/containers/image-uploader.container';
 import TemplatesPopover from 'features/creator/components/templates-popover';
-import {
-  flashcardsCreatorStoreActions,
-  flashcardsCreatorStoreSelectors,
-} from 'store/flashcards-creator/flashcards-creator.store';
 import { Bar } from 'design-system/bar';
 import { useCreatorManagement } from 'core/use-creator-management';
 import c from 'classnames';
 import { useOnEscapePress } from 'development-kit/use-on-escape-press';
+import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
+import { selectActiveFlashcard } from 'store/flashcards-creator/flashcards-creator.selectors';
 
 const FlashcardEditorModalContainer = () => {
   const { render } = usePortal();
-  const activeFlashcard =
-    flashcardsCreatorStoreSelectors.useSafeActiveFlashcard();
+
+  const activeFlashcard = useFlashcardsCreatorStore(selectActiveFlashcard);
+  const flashcardsCreatorStore = useFlashcardsCreatorStore();
 
   const initialCode = activeFlashcard.content;
 
@@ -38,11 +37,9 @@ const FlashcardEditorModalContainer = () => {
     onChange: setCode,
   });
 
-  const confirmSave = (): void => {
-    flashcardsCreatorStoreActions.resetActiveFlashcard();
-  };
+  const confirmSave = (): void => {};
 
-  useOnEscapePress(flashcardsCreatorStoreActions.resetActiveFlashcard);
+  useOnEscapePress(flashcardsCreatorStore.disactivateFlashcard);
 
   const unchanged = code === initialCode;
 
@@ -89,7 +86,7 @@ const FlashcardEditorModalContainer = () => {
           className="ml-auto"
           i={1}
           s={2}
-          onClick={flashcardsCreatorStoreActions.resetActiveFlashcard}
+          onClick={flashcardsCreatorStore.disactivateFlashcard}
         >
           <BiX size="28" />
         </Button>

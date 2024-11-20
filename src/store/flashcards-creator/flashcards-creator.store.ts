@@ -1,80 +1,50 @@
-import { create } from 'zustand';
 import { FLASHCARD_BOARDS } from '__mocks__/flashcard-boards.mocks';
-import type { FlashcardDto } from 'api-4markdown-contracts';
-import type { Transaction } from 'development-kit/utility-types';
+import { parseError } from 'api-4markdown';
+import type {
+  API4MarkdownDto,
+  API4MarkdownPayload,
+  Pagination,
+} from 'api-4markdown-contracts';
+import { mock } from 'development-kit/mock';
+import { create } from 'zustand';
+import type { FlashcardsCreatorStore } from './flashcards-creator.models';
 
-type FlashcardsCreatorStoreState = {
-  flashcards: FlashcardDto[];
-  activeFlashcardId: FlashcardDto['id'] | null;
-  creation: Transaction;
-  creationStarted: boolean;
-};
-
-const useFlashcardsCreatorStore = create<FlashcardsCreatorStoreState>(() => ({
-  flashcards: FLASHCARD_BOARDS[2].flashcards,
-  activeFlashcardId: null,
+const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>((set) => ({
+  // State
+  flashcardBoards: { is: `idle` },
   creation: { is: `idle` },
-  creationStarted: false,
+  activeFlashcards: FLASHCARD_BOARDS[2].flashcards,
+  activeFlashcardId: null,
+  // Actions
+  activateFlashcard: (id) => {
+    set({ activeFlashcardId: id });
+  },
+  initCreation: () => {
+    set({ creation: { is: `started` } });
+  },
+  disactivateFlashcard: () => {
+    set({ activeFlashcardId: null });
+  },
+  // Acts
+  loadBoards: async () => {
+    try {
+      set({ flashcardBoards: { is: `busy` } });
+
+      const pagination: Pagination = { page: 1, limit: 10 };
+
+      const { flashcardBoards } = await mock()<
+        API4MarkdownDto<'getYourFlashcardBoards'>
+      >({
+        flashcardBoards: FLASHCARD_BOARDS,
+        page: 1,
+        totalPages: 10,
+      })<API4MarkdownPayload<'getYourFlashcardBoards'>>(pagination);
+
+      set({ flashcardBoards: { is: `ok`, flashcardBoards, ...pagination } });
+    } catch (error: unknown) {
+      set({ flashcardBoards: { is: `fail`, error: parseError(error) } });
+    }
+  },
 }));
 
-const { setState, getState } = useFlashcardsCreatorStore;
-
-const selectActiveFlashcard = ({
-  activeFlashcardId,
-  flashcards,
-}: FlashcardsCreatorStoreState): FlashcardDto | null => {
-  return activeFlashcardId === null
-    ? null
-    : (flashcards.find((flashcard) => flashcard.id === activeFlashcardId) ??
-        null);
-};
-
-const selectSafeActiveFlashcard = (
-  state: FlashcardsCreatorStoreState,
-): FlashcardDto => {
-  const result = selectActiveFlashcard(state);
-
-  if (result === null) throw Error(`Invalid read attempt`);
-
-  return result;
-};
-
-const flashcardsCreatorStoreSelectors = {
-  state: (): FlashcardsCreatorStoreState => getState(),
-  useState: (): FlashcardsCreatorStoreState => useFlashcardsCreatorStore(),
-  useActiveFlashcard: (): FlashcardDto | null =>
-    useFlashcardsCreatorStore(selectActiveFlashcard),
-  useSafeActiveFlashcard: (): FlashcardDto =>
-    useFlashcardsCreatorStore(selectSafeActiveFlashcard),
-};
-
-const flashcardsCreatorStoreActions = {
-  set: (state: Partial<FlashcardsCreatorStoreState>): void => setState(state),
-  resetActiveFlashcard: (): void => setState({ activeFlashcardId: null }),
-  setActiveFlashcard: (
-    id: FlashcardsCreatorStoreState['activeFlashcardId'],
-  ): void =>
-    setState({
-      activeFlashcardId: id,
-    }),
-  setCreation: (creation: FlashcardsCreatorStoreState['creation']): void => {
-    setState({ creation });
-  },
-  startCreation: (): void => {
-    setState({ creationStarted: true });
-  },
-  endCreation: (): void => {
-    const { creation } = flashcardsCreatorStoreSelectors.state();
-
-    if (creation.is === `busy`) return;
-
-    setState({ creationStarted: false });
-  },
-};
-
-export {
-  useFlashcardsCreatorStore,
-  flashcardsCreatorStoreSelectors,
-  flashcardsCreatorStoreActions,
-};
-export type { FlashcardsCreatorStoreState };
+export { useFlashcardsCreatorStore };
