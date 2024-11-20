@@ -20,7 +20,7 @@ const CreateFlashcardsBoardModalContainer = React.lazy(() =>
 
 const FlashcardsCreatorView = () => {
   const {
-    initCreation,
+    startCreation,
     activateFlashcard,
     activeFlashcards,
     creation,
@@ -35,7 +35,7 @@ const FlashcardsCreatorView = () => {
             i={1}
             s={2}
             title="Create new flashcards board"
-            onClick={initCreation}
+            onClick={startCreation}
           >
             <BiPlus />
           </Button>

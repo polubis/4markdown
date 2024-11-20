@@ -27,7 +27,8 @@ type FlashcardsCreatorStoreState = {
 type FlashcardsCreatorStoreActions = {
   activateFlashcard(id: FlashcardDto['id']): void;
   disactivateFlashcard(): void;
-  initCreation(): void;
+  startCreation(): void;
+  resetCreation(): void;
 };
 
 type FlashcardsCreatorStoreActs = {

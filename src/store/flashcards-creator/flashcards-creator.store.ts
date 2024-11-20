@@ -19,11 +19,14 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>((set) => ({
   activateFlashcard: (id) => {
     set({ activeFlashcardId: id });
   },
-  initCreation: () => {
+  startCreation: () => {
     set({ creation: { is: `started` } });
   },
   disactivateFlashcard: () => {
     set({ activeFlashcardId: null });
+  },
+  resetCreation: () => {
+    set({ creation: { is: `idle` } });
   },
   // Acts
   loadBoards: async () => {

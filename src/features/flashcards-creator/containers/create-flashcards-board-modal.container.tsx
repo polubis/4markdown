@@ -11,25 +11,19 @@ import { createFlashcardsBoardAct } from 'acts/create-flashcards-board.act';
 import ErrorModal from 'components/error-modal';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 
-type CreateFlashcardsBoardFormValues = Parameters<
-  typeof createFlashcardsBoardAct
->[0];
-
 const CreateFlashcardsBoardModalContainer = () => {
-  const { creation } = useFlashcardsCreatorStore();
-  const [{ invalid, values, untouched }, { inject }] =
-    useForm<CreateFlashcardsBoardFormValues>({
-      name: ``,
-      description: ``,
-    });
+  const { creation, resetCreation, startCreation } =
+    useFlashcardsCreatorStore();
+  const [{ invalid, values, untouched }, { inject }] = useForm<
+    Parameters<typeof createFlashcardsBoardAct>[0]
+  >({
+    name: ``,
+    description: ``,
+  });
 
   const submitBoardCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     createFlashcardsBoardAct(values);
-  };
-
-  const closeErrorModal = (): void => {
-    flashcardsCreatorStoreActions.setCreation({ is: `idle` });
   };
 
   if (creation.is === `fail`) {
@@ -46,22 +40,20 @@ const CreateFlashcardsBoardModalContainer = () => {
                 s={2}
                 auto
                 title="Sync out of flashcards board"
-                onClick={() => {
-                  closeErrorModal();
-                }}
+                onClick={() => {}}
               >
                 Sync
               </Button>
             )}
           </>
         }
-        onClose={closeErrorModal}
+        onClose={startCreation}
       />
     );
   }
 
   return (
-    <Modal onEscape={flashcardsCreatorStoreActions.endCreation}>
+    <Modal onEscape={resetCreation}>
       <form className="flex flex-col" onSubmit={submitBoardCreation}>
         <div className="flex items-center mb-4">
           <h6 className="text-xl mr-8">Create Flashcards Board</h6>
@@ -72,7 +64,7 @@ const CreateFlashcardsBoardModalContainer = () => {
             title="Close flashards board creation"
             className="ml-auto"
             disabled={creation.is === `busy`}
-            onClick={flashcardsCreatorStoreActions.endCreation}
+            onClick={resetCreation}
           >
             <BiX />
           </Button>
