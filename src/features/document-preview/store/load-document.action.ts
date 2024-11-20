@@ -1,6 +1,5 @@
-import { getAPI } from 'api-4markdown';
+import { getAPI, parseError } from 'api-4markdown';
 import { useDocumentPreviewStore } from './document-preview.store';
-import { parseError } from 'development-kit/parse-error';
 
 const { setState } = useDocumentPreviewStore;
 
