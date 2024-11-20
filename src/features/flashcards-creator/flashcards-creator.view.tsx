@@ -5,6 +5,7 @@ import { Button } from 'design-system/button';
 import { CreatorNavigation } from 'features/creator/components/creator-navigation';
 import { Bar } from 'design-system/bar';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
+import { useAuthStore } from 'store/auth/auth.store';
 
 const FlashcardEditorModalContainer = React.lazy(() =>
   import(`./containers/flashcard-editor-modal.container`).then((m) => ({
@@ -18,7 +19,11 @@ const CreateFlashcardsBoardModalContainer = React.lazy(() =>
   })),
 );
 
+// Load boards only for authorized users
+// Display loaded boards
+// Allow to select board
 const FlashcardsCreatorView = () => {
+  const authStore = useAuthStore();
   const {
     startCreation,
     activateFlashcard,
@@ -26,6 +31,11 @@ const FlashcardsCreatorView = () => {
     creation,
     activeFlashcardId,
   } = useFlashcardsCreatorStore();
+
+  React.useEffect(() => {
+    authStore.is === `authorized` &&
+      useFlashcardsCreatorStore.getState().loadBoards();
+  }, [authStore]);
 
   return (
     <>
