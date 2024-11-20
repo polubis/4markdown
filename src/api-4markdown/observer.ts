@@ -32,7 +32,7 @@ const observe = <TKey extends API4MarkdownContractKey>(
     observers = new Map();
     observersMap.set(key, observers);
   }
-
+  // @TODO[PRIO=4]: [Go back here and improve type defs to make].
   observers.set(id, observer as Observer);
 
   return unobserve;

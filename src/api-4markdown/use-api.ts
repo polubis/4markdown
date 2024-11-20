@@ -1,6 +1,6 @@
 import type {
   API4MarkdownContractCall,
-  API4MarkdownContracts,
+  API4MarkdownContractKey,
   API4MarkdownDto,
   NoInternetError,
 } from 'api-4markdown-contracts';
@@ -22,7 +22,8 @@ import {
   signOut,
 } from 'firebase/auth';
 import React from 'react';
-// @TODO: Decouple interfaces from Firebase and try to lazy load firebase/auth.
+import { emit } from './observer';
+// @TODO[PRIO=2]: [Decouple from Firebase interfaces, and lazy load what can be lazy loaded].
 
 type API4Markdown = {
   call: API4MarkdownContractCall;
@@ -60,7 +61,7 @@ const initialize = (): API4Markdown => {
   if (!instance) {
     instance = {
       call:
-        <TKey extends API4MarkdownContracts['key']>(key: TKey) =>
+        <TKey extends API4MarkdownContractKey>(key: TKey) =>
         async (payload) => {
           try {
             if (isOffline()) throw new NoInternetException();
@@ -73,20 +74,33 @@ const initialize = (): API4Markdown => {
               functions = getFunctions(app);
             }
 
-            return (await httpsCallable(functions, key)(payload))
-              .data as Promise<API4MarkdownDto<TKey>>;
-          } catch (error: unknown) {
-            if (error instanceof NoInternetException) {
-              const noInternetError: NoInternetError = {
-                content: `Lack of internet`,
-                message: `Lack of internet`,
-                symbol: `no-internet`,
-              };
+            const dto = (
+              await httpsCallable<unknown, API4MarkdownDto<TKey>>(
+                functions,
+                key,
+              )(payload)
+            ).data;
+            // @TODO[PRIO=4]: [Go back here and improve type defs to make].
+            emit(key, { is: `ok`, dto, payload: payload as any });
 
-              throw Error(JSON.stringify(noInternetError));
+            return dto;
+          } catch (rawError: unknown) {
+            try {
+              if (rawError instanceof NoInternetException) {
+                const noInternetError: NoInternetError = {
+                  content: `Lack of internet`,
+                  message: `Lack of internet`,
+                  symbol: `no-internet`,
+                };
+
+                throw Error(JSON.stringify(noInternetError));
+              }
+
+              throw rawError;
+            } catch (error: unknown) {
+              emit(key, { is: `fail`, error });
+              throw error;
             }
-
-            throw error;
           }
         },
       logIn: async () => {

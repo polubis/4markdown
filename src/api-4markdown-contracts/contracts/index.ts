@@ -123,11 +123,6 @@ type API4MarkdownPayload<TKey extends API4MarkdownContractKey> = Extract<
   { key: TKey }
 >['payload'];
 
-type API4MarkdownContract<TKey extends API4MarkdownContractKey> =
-  API4MarkdownPayload<TKey> extends undefined
-    ? () => Promise<API4MarkdownDto<TKey>>
-    : (payload: API4MarkdownPayload<TKey>) => Promise<API4MarkdownDto<TKey>>;
-
 type API4MarkdownContractCall = <TKey extends API4MarkdownContractKey>(
   key: TKey,
 ) => API4MarkdownPayload<TKey> extends undefined
@@ -201,7 +196,6 @@ type ParsedError = KnownError | UnknownError | NoInternetError;
 export type {
   API4MarkdownContracts,
   API4MarkdownContractKey,
-  API4MarkdownContract,
   API4MarkdownDto,
   API4MarkdownPayload,
   API4MarkdownResult,
