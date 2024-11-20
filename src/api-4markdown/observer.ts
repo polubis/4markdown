@@ -7,13 +7,13 @@ type Observer = <TKey extends API4MarkdownContractKey>(
   result: API4MarkdownResult<TKey>,
 ) => void;
 
-const observersMap = new Map<API4MarkdownContractKey, Map<string, Observer>>();
+const observersMap = new Map<API4MarkdownContractKey, Map<symbol, Observer>>();
 
 const observe = <TKey extends API4MarkdownContractKey>(
   key: TKey,
   observer: (result: API4MarkdownResult<TKey>) => void,
 ) => {
-  const id = Symbol(`id`).toString();
+  const id = Symbol(`id`);
 
   const unobserve = (): void => {
     const observers = observersMap.get(key);
