@@ -1,7 +1,8 @@
 import type {
   API4MarkdownContractCall,
-  API4MarkdownContracts,
+  API4MarkdownContractKey,
   API4MarkdownDto,
+  NoInternetError,
 } from 'api-4markdown-contracts';
 import { type FirebaseOptions, initializeApp } from 'firebase/app';
 import type { Functions } from 'firebase/functions';
@@ -21,7 +22,8 @@ import {
   signOut,
 } from 'firebase/auth';
 import React from 'react';
-// @TODO: Decouple interfaces from Firebase and try to lazy load firebase/auth.
+import { emit } from './observer';
+// @TODO[PRIO=2]: [Decouple from Firebase interfaces, and lazy load what can be lazy loaded].
 
 type API4Markdown = {
   call: API4MarkdownContractCall;
@@ -36,6 +38,11 @@ type API4Markdown = {
 
 let instance: API4Markdown | null = null;
 let functions: Functions | null = null;
+
+const isOffline = (): boolean =>
+  typeof window !== `undefined` && !navigator.onLine;
+
+class NoInternetException extends Error {}
 
 const initialize = (): API4Markdown => {
   const config: FirebaseOptions = {
@@ -54,19 +61,47 @@ const initialize = (): API4Markdown => {
   if (!instance) {
     instance = {
       call:
-        <TKey extends API4MarkdownContracts['key']>(key: TKey) =>
+        <TKey extends API4MarkdownContractKey>(key: TKey) =>
         async (payload) => {
-          const { getFunctions, httpsCallable } = await import(
-            `firebase/functions`
-          );
+          try {
+            if (isOffline()) throw new NoInternetException();
 
-          if (!functions) {
-            functions = getFunctions(app);
+            const { getFunctions, httpsCallable } = await import(
+              `firebase/functions`
+            );
+
+            if (!functions) {
+              functions = getFunctions(app);
+            }
+
+            const dto = (
+              await httpsCallable<unknown, API4MarkdownDto<TKey>>(
+                functions,
+                key,
+              )(payload)
+            ).data;
+            // @TODO[PRIO=4]: [Go back here and improve type defs to make].
+            emit(key, { is: `ok`, dto, payload: payload as any });
+
+            return dto;
+          } catch (rawError: unknown) {
+            try {
+              if (rawError instanceof NoInternetException) {
+                const noInternetError: NoInternetError = {
+                  content: `Lack of internet`,
+                  message: `Lack of internet`,
+                  symbol: `no-internet`,
+                };
+
+                throw Error(JSON.stringify(noInternetError));
+              }
+
+              throw rawError;
+            } catch (error: unknown) {
+              emit(key, { is: `fail`, error });
+              throw error;
+            }
           }
-
-          return (await httpsCallable(functions, key)(payload)).data as Promise<
-            API4MarkdownDto<TKey>
-          >;
         },
       logIn: async () => {
         await setPersistence(auth, browserLocalPersistence);

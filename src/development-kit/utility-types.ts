@@ -1,4 +1,4 @@
-import type { ParsedError } from './parse-error';
+import type { ParsedError } from 'api-4markdown-contracts';
 
 type NonNullableProperties<T> = {
   [P in keyof T]: NonNullable<T[P]>;
