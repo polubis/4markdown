@@ -8,16 +8,17 @@ import type {
 import type { Transaction } from 'development-kit/utility-types';
 
 type FlashcardsCreatorStoreState = {
+  flashcardBoardsVisible: boolean;
   flashcardsBoardCreation: Transaction | { is: `started` };
   flashcardBoards:
-    | Transaction<{ flashcardBoards: FlashcardsBoardDto[] }>
+    | Transaction<{ data: FlashcardsBoardDto[] }>
     | ((
-        | { is: `loading-more`; flashcardBoards: FlashcardsBoardDto[] }
-        | { is: `all-loaded`; flashcardBoards: FlashcardsBoardDto[] }
+        | { is: `loading-more`; data: FlashcardsBoardDto[] }
+        | { is: `all-loaded`; data: FlashcardsBoardDto[] }
         | {
             is: `load-more-fail`;
             error: ParsedError;
-            flashcardBoards: FlashcardsBoardDto[];
+            data: FlashcardsBoardDto[];
           }
       ) &
         Pagination);
@@ -30,6 +31,8 @@ type FlashcardsCreatorStoreActions = {
   disactivateFlashcard(): void;
   startCreation(): void;
   resetCreation(): void;
+  showFlashcardBoards(): void;
+  hideFlashcardBoards(): void;
 };
 
 type FlashcardsCreatorStoreActs = {

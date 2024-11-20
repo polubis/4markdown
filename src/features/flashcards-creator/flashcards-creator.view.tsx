@@ -19,6 +19,12 @@ const CreateFlashcardsBoardModalContainer = React.lazy(() =>
   })),
 );
 
+const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
+  import(`./containers/browse-flashcard-boards-modal.container`).then((m) => ({
+    default: m.BrowseFlashcardBoardsModalContainer,
+  })),
+);
+
 // Load boards only for authorized users
 // Display loaded boards
 // Allow to select board
@@ -27,7 +33,9 @@ const FlashcardsCreatorView = () => {
   const {
     startCreation,
     activateFlashcard,
+    showFlashcardBoards,
     flashcardBoards,
+    flashcardBoardsVisible,
     activeFlashcards,
     flashcardsBoardCreation,
     activeFlashcardId,
@@ -60,6 +68,7 @@ const FlashcardsCreatorView = () => {
               className="ml-4"
               disabled={flashcardBoards.is === `busy`}
               title="Your flashcard boards"
+              onClick={showFlashcardBoards}
             >
               <BiGridAlt />
             </Button>
@@ -92,6 +101,11 @@ const FlashcardsCreatorView = () => {
       {flashcardsBoardCreation.is !== `idle` && (
         <React.Suspense>
           <CreateFlashcardsBoardModalContainer />
+        </React.Suspense>
+      )}
+      {flashcardBoardsVisible && (
+        <React.Suspense>
+          <BrowseFlashcardBoardsModalContainer />
         </React.Suspense>
       )}
     </>

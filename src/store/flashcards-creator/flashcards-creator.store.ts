@@ -15,6 +15,7 @@ import type { FlashcardsCreatorStore } from './flashcards-creator.models';
 const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
   (set, get) => ({
     // State
+    flashcardBoardsVisible: false,
     flashcardBoards: { is: `idle` },
     flashcardsBoardCreation: { is: `idle` },
     activeFlashcards: FLASHCARD_BOARDS[2].flashcards,
@@ -31,6 +32,12 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
     },
     resetCreation: () => {
       set({ flashcardsBoardCreation: { is: `idle` } });
+    },
+    showFlashcardBoards: () => {
+      set({ flashcardBoardsVisible: true });
+    },
+    hideFlashcardBoards: () => {
+      set({ flashcardBoardsVisible: false });
     },
     // Acts
     loadBoards: async () => {
@@ -51,7 +58,9 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
           totalPages: 10,
         })<API4MarkdownPayload<'getYourFlashcardBoards'>>(pagination);
 
-        set({ flashcardBoards: { is: `ok`, flashcardBoards, ...pagination } });
+        set({
+          flashcardBoards: { is: `ok`, data: flashcardBoards, ...pagination },
+        });
       } catch (error: unknown) {
         set({ flashcardBoards: { is: `fail`, error: parseError(error) } });
       }
