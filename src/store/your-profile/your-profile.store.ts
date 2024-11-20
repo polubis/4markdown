@@ -1,5 +1,5 @@
+import { parseError } from 'api-4markdown';
 import type { Date, UserProfileDto } from 'api-4markdown-contracts';
-import { parseError } from 'development-kit/parse-error';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
