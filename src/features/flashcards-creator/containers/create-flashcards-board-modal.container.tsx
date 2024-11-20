@@ -11,7 +11,7 @@ import ErrorModal from 'components/error-modal';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 
 const CreateFlashcardsBoardModalContainer = () => {
-  const { creation, resetCreation, startCreation, createBoard } =
+  const { flashcardsBoardCreation, resetCreation, startCreation, createBoard } =
     useFlashcardsCreatorStore();
   const [{ invalid, values, untouched }, { inject }] = useForm<
     Parameters<typeof createBoard>[0]
@@ -25,14 +25,14 @@ const CreateFlashcardsBoardModalContainer = () => {
     createBoard(values);
   };
 
-  if (creation.is === `fail`) {
+  if (flashcardsBoardCreation.is === `fail`) {
     return (
       <ErrorModal
         heading="Error During Creating Flashcards Board"
-        message={creation.error.message}
+        message={flashcardsBoardCreation.error.message}
         footer={
           <>
-            {creation.error.symbol === `out-of-date` && (
+            {flashcardsBoardCreation.error.symbol === `out-of-date` && (
               <Button
                 type="button"
                 i={2}
@@ -62,7 +62,7 @@ const CreateFlashcardsBoardModalContainer = () => {
             s={1}
             title="Close flashards board creation"
             className="ml-auto"
-            disabled={creation.is === `busy`}
+            disabled={flashcardsBoardCreation.is === `busy`}
             onClick={resetCreation}
           >
             <BiX />
@@ -101,7 +101,9 @@ const CreateFlashcardsBoardModalContainer = () => {
           className="mt-6"
           auto
           title="Confirm flashcards board creation"
-          disabled={untouched || invalid || creation.is === `busy`}
+          disabled={
+            untouched || invalid || flashcardsBoardCreation.is === `busy`
+          }
         >
           Create
           <BiPlusCircle />

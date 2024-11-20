@@ -29,7 +29,7 @@ const FlashcardsCreatorView = () => {
     activateFlashcard,
     flashcardBoards,
     activeFlashcards,
-    creation,
+    flashcardsBoardCreation,
     activeFlashcardId,
   } = useFlashcardsCreatorStore();
 
@@ -89,7 +89,7 @@ const FlashcardsCreatorView = () => {
           <FlashcardEditorModalContainer />
         </React.Suspense>
       )}
-      {creation.is !== `idle` && (
+      {flashcardsBoardCreation.is !== `idle` && (
         <React.Suspense>
           <CreateFlashcardsBoardModalContainer />
         </React.Suspense>

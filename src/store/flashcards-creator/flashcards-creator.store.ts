@@ -16,7 +16,7 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
   (set, get) => ({
     // State
     flashcardBoards: { is: `idle` },
-    creation: { is: `idle` },
+    flashcardsBoardCreation: { is: `idle` },
     activeFlashcards: FLASHCARD_BOARDS[2].flashcards,
     activeFlashcardId: null,
     // Actions
@@ -24,13 +24,13 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
       set({ activeFlashcardId: id });
     },
     startCreation: () => {
-      set({ creation: { is: `started` } });
+      set({ flashcardsBoardCreation: { is: `started` } });
     },
     disactivateFlashcard: () => {
       set({ activeFlashcardId: null });
     },
     resetCreation: () => {
-      set({ creation: { is: `idle` } });
+      set({ flashcardsBoardCreation: { is: `idle` } });
     },
     // Acts
     loadBoards: async () => {
@@ -60,7 +60,7 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
       try {
         const { activeFlashcards } = get();
 
-        set({ creation: { is: `busy` } });
+        set({ flashcardsBoardCreation: { is: `busy` } });
 
         await mock()<API4MarkdownDto<'createFlashcardsBoard'>>(
           PRIVATE_FLASHCARDS_BOARD,
@@ -69,9 +69,11 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
           flashcards: activeFlashcards,
         });
 
-        set({ creation: { is: `ok` } });
+        set({ flashcardsBoardCreation: { is: `ok` } });
       } catch (error: unknown) {
-        set({ creation: { is: `fail`, error: parseError(error) } });
+        set({
+          flashcardsBoardCreation: { is: `fail`, error: parseError(error) },
+        });
       }
     },
   }),

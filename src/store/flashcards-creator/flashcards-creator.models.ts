@@ -8,7 +8,7 @@ import type {
 import type { Transaction } from 'development-kit/utility-types';
 
 type FlashcardsCreatorStoreState = {
-  creation: Transaction | { is: `started` };
+  flashcardsBoardCreation: Transaction | { is: `started` };
   flashcardBoards:
     | Transaction<{ flashcardBoards: FlashcardsBoardDto[] }>
     | ((
