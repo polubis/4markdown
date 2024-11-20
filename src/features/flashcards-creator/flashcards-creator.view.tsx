@@ -51,12 +51,13 @@ const FlashcardsCreatorView = () => {
             <BiPlus />
           </Button>
         </CreatorNavigation>
-        <Bar className="h-[50px]">
+        <Bar className="h-[50px] items-center">
           <h6 className="text-lg font-bold">Flashcards Board</h6>
           {authStore.is === `authorized` && (
             <Button
               i={1}
               s={1}
+              className="ml-4"
               disabled={flashcardBoards.is === `busy`}
               title="Your flashcard boards"
             >
