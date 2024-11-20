@@ -7,19 +7,16 @@ import { Hint } from 'design-system/hint';
 import Modal from 'design-system/modal';
 import { useForm } from 'development-kit/use-form';
 import { Textarea } from 'design-system/textarea';
-import {
-  flashcardsCreatorStoreActions,
-  flashcardsCreatorStoreSelectors,
-} from 'store/flashcards-creator/flashcards-creator.store';
 import { createFlashcardsBoardAct } from 'acts/create-flashcards-board.act';
 import ErrorModal from 'components/error-modal';
+import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 
 type CreateFlashcardsBoardFormValues = Parameters<
   typeof createFlashcardsBoardAct
 >[0];
 
 const CreateFlashcardsBoardModalContainer = () => {
-  const { creation } = flashcardsCreatorStoreSelectors.useState();
+  const { creation } = useFlashcardsCreatorStore();
   const [{ invalid, values, untouched }, { inject }] =
     useForm<CreateFlashcardsBoardFormValues>({
       name: ``,

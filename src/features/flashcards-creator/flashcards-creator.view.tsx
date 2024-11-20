@@ -19,7 +19,13 @@ const CreateFlashcardsBoardModalContainer = React.lazy(() =>
 );
 
 const FlashcardsCreatorView = () => {
-  const flashcardsCreatorStore = useFlashcardsCreatorStore();
+  const {
+    initCreation,
+    activateFlashcard,
+    activeFlashcards,
+    creation,
+    activeFlashcardId,
+  } = useFlashcardsCreatorStore();
 
   return (
     <>
@@ -29,7 +35,7 @@ const FlashcardsCreatorView = () => {
             i={1}
             s={2}
             title="Create new flashcards board"
-            onClick={flashcardsCreatorStore.initCreation}
+            onClick={initCreation}
           >
             <BiPlus />
           </Button>
@@ -39,13 +45,11 @@ const FlashcardsCreatorView = () => {
         </Bar>
         <section className="relative h-[calc(100svh-72px-50px)]">
           <ul className="grid grid-cols-3 gap-6 grid-row-3 p-8 h-full absolute top-0 left-0 overflow-y-auto">
-            {flashcardsCreatorStore.activeFlashcards.map((flashcard, index) => (
+            {activeFlashcards.map((flashcard, index) => (
               <li
                 className="cursor-pointer relative p-4 h-[300px] border-2 rounded-lg border-zinc-300 dark:border-zinc-800 overflow-hidden"
                 key={flashcard.id}
-                onClick={() =>
-                  flashcardsCreatorStore.activateFlashcard(flashcard.id)
-                }
+                onClick={() => activateFlashcard(flashcard.id)}
               >
                 <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
                   {index + 1}
@@ -58,12 +62,12 @@ const FlashcardsCreatorView = () => {
           </ul>
         </section>
       </main>
-      {flashcardsCreatorStore.activeFlashcardId !== null && (
+      {activeFlashcardId !== null && (
         <React.Suspense>
           <FlashcardEditorModalContainer />
         </React.Suspense>
       )}
-      {flashcardsCreatorStore.creation.is !== `idle` && (
+      {creation.is !== `idle` && (
         <React.Suspense>
           <CreateFlashcardsBoardModalContainer />
         </React.Suspense>

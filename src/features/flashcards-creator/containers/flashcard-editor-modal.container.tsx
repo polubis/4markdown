@@ -16,7 +16,7 @@ const FlashcardEditorModalContainer = () => {
   const { render } = usePortal();
 
   const activeFlashcard = useFlashcardsCreatorStore(selectActiveFlashcard);
-  const flashcardsCreatorStore = useFlashcardsCreatorStore();
+  const { disactivateFlashcard } = useFlashcardsCreatorStore();
 
   const initialCode = activeFlashcard.content;
 
@@ -39,7 +39,7 @@ const FlashcardEditorModalContainer = () => {
 
   const confirmSave = (): void => {};
 
-  useOnEscapePress(flashcardsCreatorStore.disactivateFlashcard);
+  useOnEscapePress(disactivateFlashcard);
 
   const unchanged = code === initialCode;
 
@@ -82,12 +82,7 @@ const FlashcardEditorModalContainer = () => {
         >
           {resetConfirm.opened ? `Sure?` : `Reset`}
         </Button>
-        <Button
-          className="ml-auto"
-          i={1}
-          s={2}
-          onClick={flashcardsCreatorStore.disactivateFlashcard}
-        >
+        <Button className="ml-auto" i={1} s={2} onClick={disactivateFlashcard}>
           <BiX size="28" />
         </Button>
       </header>
