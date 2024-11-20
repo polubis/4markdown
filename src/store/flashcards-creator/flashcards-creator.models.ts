@@ -1,4 +1,5 @@
 import type {
+  API4MarkdownPayload,
   FlashcardDto,
   FlashcardsBoardDto,
   Pagination,
@@ -33,6 +34,12 @@ type FlashcardsCreatorStoreActions = {
 
 type FlashcardsCreatorStoreActs = {
   loadBoards(): Promise<void>;
+  createBoard(values: {
+    name: API4MarkdownPayload<'createFlashcardsBoard'>['name'];
+    description: NonNullable<
+      API4MarkdownPayload<'createFlashcardsBoard'>['description']
+    >;
+  }): Promise<void>;
 };
 
 type FlashcardsCreatorStore = FlashcardsCreatorStoreState &

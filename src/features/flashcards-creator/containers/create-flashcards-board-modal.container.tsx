@@ -7,15 +7,14 @@ import { Hint } from 'design-system/hint';
 import Modal from 'design-system/modal';
 import { useForm } from 'development-kit/use-form';
 import { Textarea } from 'design-system/textarea';
-import { createFlashcardsBoardAct } from 'acts/create-flashcards-board.act';
 import ErrorModal from 'components/error-modal';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 
 const CreateFlashcardsBoardModalContainer = () => {
-  const { creation, resetCreation, startCreation } =
+  const { creation, resetCreation, startCreation, createBoard } =
     useFlashcardsCreatorStore();
   const [{ invalid, values, untouched }, { inject }] = useForm<
-    Parameters<typeof createFlashcardsBoardAct>[0]
+    Parameters<typeof createBoard>[0]
   >({
     name: ``,
     description: ``,
@@ -23,7 +22,7 @@ const CreateFlashcardsBoardModalContainer = () => {
 
   const submitBoardCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    createFlashcardsBoardAct(values);
+    createBoard(values);
   };
 
   if (creation.is === `fail`) {
