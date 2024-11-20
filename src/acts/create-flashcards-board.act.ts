@@ -4,11 +4,11 @@ import type {
 } from 'api-4markdown-contracts';
 import { mock } from 'development-kit/mock';
 import { PRIVATE_FLASHCARDS_BOARD } from '__mocks__/flashcard-boards.mocks';
-import { parseError } from 'development-kit/parse-error';
 import {
   flashcardsCreatorStoreActions,
   useFlashcardsCreatorStore,
 } from 'store/flashcards-creator/flashcards-creator.store';
+import { parseError } from 'api-4markdown';
 
 const createFlashcardsBoardAct = async (values: {
   name: API4MarkdownPayload<'createFlashcardsBoard'>['name'];

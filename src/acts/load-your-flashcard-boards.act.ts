@@ -1,11 +1,11 @@
 import { FLASHCARD_BOARDS } from '__mocks__/flashcard-boards.mocks';
+import { parseError } from 'api-4markdown';
 import type {
   API4MarkdownDto,
   API4MarkdownPayload,
   Pagination,
 } from 'api-4markdown-contracts';
 import { mock } from 'development-kit/mock';
-import { parseError } from 'development-kit/parse-error';
 import { yourFlashcardBoardsStoreActions } from 'store/your-flashcard-boards/your-flashcard-boards.store';
 
 const loadYourFlashcardBoardsAct = async (): Promise<void> => {
