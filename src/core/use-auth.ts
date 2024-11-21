@@ -9,6 +9,7 @@ import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI, unobserveAll, removeCache } from 'api-4markdown';
 
+// What about edition? How to solve this problem?
 const useAuth = () => {
   const api = useAPI();
 
