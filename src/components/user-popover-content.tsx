@@ -9,7 +9,7 @@ import { useToggle } from 'development-kit/use-toggle';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
-import { getYourUserProfile } from 'store/your-profile/get-your-user-profile.action';
+import { reloadYourUserProfile } from 'store/your-profile/reload-your-user-profile.action';
 
 const DetailLoader = () => (
   <div className="flex space-x-1 h-6">
@@ -27,10 +27,6 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
     onClose();
   });
 
-  const reloadYourProfile = () => {
-    getYourUserProfile();
-  };
-
   if (userProfileForm.opened) {
     return (
       <UserProfileFormModalContainer
@@ -38,7 +34,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
         onClose={onClose}
         onSync={() => {
           userProfileForm.close();
-          reloadYourProfile();
+          reloadYourUserProfile();
         }}
       />
     );
@@ -151,7 +147,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
             auto
             type="button"
             title="Retry your profile load"
-            onClick={reloadYourProfile}
+            onClick={reloadYourUserProfile}
           >
             Try Again
           </Button>
