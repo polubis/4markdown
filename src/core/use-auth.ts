@@ -1,5 +1,5 @@
 import React from 'react';
-import { type AuthorizedData, authStoreActions } from 'store/auth/auth.store';
+import { authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
@@ -15,22 +15,6 @@ const useAuth = () => {
   React.useEffect(() => {
     const { call, logOut, logIn, onAuthChange } = api;
 
-    // @TODO[PRIO=2]: [Move it to your profile store].
-    const getYourProfile: AuthorizedData['getYourProfile'] = async () => {
-      try {
-        yourProfileStoreActions.busy();
-
-        const response = await call(`getYourUserProfile`)();
-
-        yourProfileStoreActions.ok({
-          mdate: response?.mdate ?? null,
-          user: response?.profile ?? null,
-        });
-      } catch (error: unknown) {
-        yourProfileStoreActions.fail(error);
-      }
-    };
-
     const unsubscribe = onAuthChange(async (user) => {
       if (user) {
         authStoreActions.authorize({
@@ -40,8 +24,8 @@ const useAuth = () => {
           },
           logOut: async () => {
             try {
-              removeCache(`getYourUserProfile`, `getYourDocuments`);
               await logOut();
+              removeCache(`getYourUserProfile`, `getYourDocuments`);
               yourProfileStoreActions.idle();
             } catch {}
           },
@@ -61,7 +45,6 @@ const useAuth = () => {
               throw error;
             }
           },
-          getYourProfile,
           updateYourProfile: async (payload) => {
             try {
               updateYourProfileStoreActions.busy();
@@ -78,8 +61,6 @@ const useAuth = () => {
             }
           },
         });
-
-        getYourProfile();
 
         return;
       }

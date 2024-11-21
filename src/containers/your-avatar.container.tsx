@@ -1,6 +1,7 @@
 import type { AvatarSize } from 'design-system/avatar';
 import { Avatar } from 'design-system/avatar';
 import React from 'react';
+import { getYourUserProfile } from 'store/your-profile/get-your-user-profile.action';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
 interface YourAvatarContainerProps {
@@ -11,6 +12,10 @@ const alt = `Your avatar`;
 
 const YourAvatarContainer = ({ size }: YourAvatarContainerProps) => {
   const yourProfileStore = yourProfileStoreSelectors.useState();
+
+  React.useEffect(() => {
+    getYourUserProfile();
+  }, []);
 
   if (yourProfileStore.is !== `ok`) {
     return <Avatar size={size} alt={alt} />;
