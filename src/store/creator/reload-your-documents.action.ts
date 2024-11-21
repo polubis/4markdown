@@ -1,10 +1,12 @@
 import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
-import { getAPI } from 'api-4markdown';
+import { getAPI, removeCache } from 'api-4markdown';
 
 const reloadYourDocuments = async (): Promise<void> => {
   try {
+    removeCache(`getYourDocuments`);
+
     docsStoreActions.idle();
     docManagementStoreActions.idle();
     docsStoreActions.busy();
