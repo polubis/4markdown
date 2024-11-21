@@ -30,8 +30,10 @@ const setCache = <TKey extends API4MarkdownContractKey>(
   } catch {}
 };
 
-const removeCache = (key: API4MarkdownContractKey): void => {
-  localStorage.removeItem(key);
+const removeCache = (...keys: API4MarkdownContractKey[]): void => {
+  keys.forEach((key) => {
+    localStorage.removeItem(key);
+  });
 };
 
 const getCache = <TKey extends API4MarkdownContractKey>(

@@ -7,7 +7,7 @@ import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
-import { useAPI, unobserveAll } from 'api-4markdown';
+import { useAPI, unobserveAll, removeCache } from 'api-4markdown';
 
 const useAuth = () => {
   const api = useAPI();
@@ -40,6 +40,7 @@ const useAuth = () => {
           },
           logOut: async () => {
             try {
+              removeCache(`getYourUserProfile`, `getYourDocuments`);
               await logOut();
               yourProfileStoreActions.idle();
             } catch {}
