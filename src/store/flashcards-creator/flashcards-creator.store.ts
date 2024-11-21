@@ -9,9 +9,36 @@ import type {
   Pagination,
 } from 'api-4markdown-contracts';
 import { mock } from 'development-kit/mock';
+import type { StoreApi, UseBoundStore } from 'zustand';
 import { create } from 'zustand';
 import type { FlashcardsCreatorStore } from './flashcards-creator.models';
 import { selectFlashcardBoards } from './flashcards-creator.selectors';
+
+type Setter = UseBoundStore<StoreApi<FlashcardsCreatorStore>>['setState'];
+
+const loadBoards = async (set: Setter): Promise<void> => {
+  try {
+    set({ flashcardBoards: { is: `busy` } });
+
+    const pagination: Pagination = { page: 1, limit: 10 };
+
+    const { flashcardBoards } = await mock()<
+      API4MarkdownDto<'getYourFlashcardBoards'>
+    >({
+      flashcardBoards: FLASHCARD_BOARDS,
+      page: 1,
+      totalPages: 10,
+    })<API4MarkdownPayload<'getYourFlashcardBoards'>>(pagination);
+
+    set({
+      flashcardBoards: { is: `ok`, data: flashcardBoards, ...pagination },
+      activeFlashcardsBoardId: null,
+      activeFlashcardId: null,
+    });
+  } catch (error: unknown) {
+    set({ flashcardBoards: { is: `fail`, error: parseError(error) } });
+  }
+};
 
 const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
   (set, get) => ({
@@ -90,25 +117,7 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
 
       if (state.flashcardBoards.is !== `idle`) return;
 
-      try {
-        set({ flashcardBoards: { is: `busy` } });
-
-        const pagination: Pagination = { page: 1, limit: 10 };
-
-        const { flashcardBoards } = await mock()<
-          API4MarkdownDto<'getYourFlashcardBoards'>
-        >({
-          flashcardBoards: FLASHCARD_BOARDS,
-          page: 1,
-          totalPages: 10,
-        })<API4MarkdownPayload<'getYourFlashcardBoards'>>(pagination);
-
-        set({
-          flashcardBoards: { is: `ok`, data: flashcardBoards, ...pagination },
-        });
-      } catch (error: unknown) {
-        set({ flashcardBoards: { is: `fail`, error: parseError(error) } });
-      }
+      loadBoards(set);
     },
     createBoard: async (values) => {
       try {
@@ -130,6 +139,7 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
         });
       }
     },
+    reloadBoards: () => loadBoards(set),
   }),
 );
 

@@ -29,7 +29,6 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
 // Display save button if it's changed
 // Connect save button for changing flashcard boards
 // Allow to unmark flashcard board
-// Allow to refetch flashcards board
 // Allow to delete flashcard board
 // Improve each flashcard UX/UI
 // Add option to update status and visibility

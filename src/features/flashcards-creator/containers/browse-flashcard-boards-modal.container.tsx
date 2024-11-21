@@ -109,7 +109,8 @@ const FilterableBoards = () => {
 };
 
 const BrowseFlashcardBoardsModalContainer = () => {
-  const { hideFlashcardBoards, flashcardBoards } = useFlashcardsCreatorStore();
+  const { hideFlashcardBoards, reloadBoards, flashcardBoards } =
+    useFlashcardsCreatorStore();
 
   const pending =
     flashcardBoards.is === `idle` || flashcardBoards.is === `busy`;
@@ -125,6 +126,7 @@ const BrowseFlashcardBoardsModalContainer = () => {
             s={1}
             title="Sync flashcard boards documents"
             disabled={pending}
+            onClick={reloadBoards}
           >
             <BiRefresh />
           </Button>

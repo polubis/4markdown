@@ -35,6 +35,7 @@ type FlashcardsCreatorStoreActions = {
 
 type FlashcardsCreatorStoreActs = {
   loadBoards(): Promise<void>;
+  reloadBoards(): Promise<void>;
   createBoard(values: {
     name: API4MarkdownPayload<'createFlashcardsBoard'>['name'];
     description: NonNullable<
