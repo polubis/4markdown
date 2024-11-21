@@ -32,25 +32,6 @@ const useAuth = () => {
       }
     };
 
-    const getYourDocuments = async (onSuccess?: () => void): Promise<void> => {
-      try {
-        docsStoreActions.busy();
-
-        const docs = await call(`getYourDocuments`)();
-
-        docsStoreActions.ok(docs);
-
-        onSuccess?.();
-      } catch (error: unknown) {
-        docsStoreActions.fail(error);
-      }
-    };
-
-    const reloadDocs: AuthorizedData['reloadDocs'] = async () => {
-      docsStoreActions.idle();
-      await getYourDocuments(() => docStoreActions.reset());
-    };
-
     const unsubscribe = onAuthChange(async (user) => {
       if (user) {
         authStoreActions.authorize({
@@ -96,7 +77,6 @@ const useAuth = () => {
               throw error;
             }
           },
-          reloadDocs,
           getYourProfile,
           updateYourProfile: async (payload) => {
             try {
@@ -115,7 +95,6 @@ const useAuth = () => {
           },
         });
 
-        getYourDocuments();
         getYourProfile();
 
         return;

@@ -2,13 +2,13 @@ import { Button } from 'design-system/button';
 import Modal from 'design-system/modal';
 import React from 'react';
 import { BiLowVision, BiRefresh, BiShow, BiWorld, BiX } from 'react-icons/bi';
-import { authStoreSelectors } from 'store/auth/auth.store';
 import { docStoreActions, useDocStore } from 'store/doc/doc.store';
 import { type DocsStoreOkState, useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
 import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
 import type { DocumentCreatorViewModel } from 'models/view-models';
+import { reloadYourDocuments } from 'store/creator/reload-your-documents.action';
 
 interface DocsListModalProps {
   onClose?(): void;
@@ -27,7 +27,6 @@ const rangeLookup: Record<RangeFilter, [number, number]> = {
 const DocsListModal = ({ onClose }: DocsListModalProps) => {
   const docsStore = useDocsStore();
   const docStore = useDocStore();
-  const authStore = authStoreSelectors.useAuthorized();
   const [activeRange, setActiveRange] = React.useState<RangeFilter>(
     rangeFilters[0],
   );
@@ -67,7 +66,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             s={1}
             title="Sync documents"
             disabled={docsStore.is === `busy`}
-            onClick={authStore.reloadDocs}
+            onClick={reloadYourDocuments}
           >
             <BiRefresh />
           </Button>
