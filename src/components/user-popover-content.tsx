@@ -1,25 +1,14 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { Button } from 'design-system/button';
 import { BiEdit, BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import { authStoreSelectors } from 'store/auth/auth.store';
-import { useDocsStore } from 'store/docs/docs.store';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import Modal from 'design-system/modal';
 import { useToggle } from 'development-kit/use-toggle';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
-
-interface UserPopoverContentProps {
-  onClose(): void;
-}
-
-const Detail = ({ label, value }: { label: ReactNode; value: ReactNode }) => (
-  <p>
-    {label}: <strong>{value}</strong>
-  </p>
-);
 
 const DetailLoader = () => (
   <div className="flex space-x-1 h-6">
@@ -28,8 +17,7 @@ const DetailLoader = () => (
   </div>
 );
 
-const UserPopoverContent = ({ onClose }: UserPopoverContentProps) => {
-  const docsStore = useDocsStore();
+const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   const yourProfileStore = yourProfileStoreSelectors.useState();
   const userProfileForm = useToggle();
 
@@ -168,12 +156,6 @@ const UserPopoverContent = ({ onClose }: UserPopoverContentProps) => {
           </Button>
         </div>
       )}
-
-      <div className="flex flex-wrap gap-x-3 gap-y-2 mt-2">
-        {docsStore.is === `ok` && docsStore.docs.length > 0 && (
-          <Detail label="Documents" value={docsStore.docs.length} />
-        )}
-      </div>
 
       <Button
         className="mt-10 ml-auto"
