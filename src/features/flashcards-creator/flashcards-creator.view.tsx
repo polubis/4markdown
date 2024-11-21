@@ -25,9 +25,16 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
   })),
 );
 
-// Load boards only for authorized users
-// Display loaded boards
-// Allow to select board
+// Handle pagination loading
+// Handle transition state and disabling for pagination loading
+// Display select flashcards board
+// Display save button if it's changed
+// Connect save button for changing flashcard boards
+// Allow to unmark flashcard board
+// Allow to refetch flashcards board
+// Allow to delete flashcard board
+// Improve each flashcard UX/UI
+// Add RWD support
 const FlashcardsCreatorView = () => {
   const authStore = useAuthStore();
   const {
