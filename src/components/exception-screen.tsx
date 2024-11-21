@@ -28,4 +28,4 @@ const ExceptionScreen = () => {
   );
 };
 
-export default ExceptionScreen;
+export { ExceptionScreen };
