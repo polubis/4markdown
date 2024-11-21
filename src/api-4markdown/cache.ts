@@ -17,7 +17,7 @@ const hasValidSignature = <TKey extends API4MarkdownContractKey>(
 const setCache = <TKey extends API4MarkdownContractKey>(
   key: TKey,
   dto: API4MarkdownDto<TKey>,
-  ttlInMinutes = 60,
+  ttlInMinutes = 960,
 ): void => {
   try {
     localStorage.setItem(
@@ -47,6 +47,11 @@ const getCache = <TKey extends API4MarkdownContractKey>(
     const parsed = JSON.parse(raw) as unknown;
 
     if (!hasValidSignature<TKey>(parsed)) {
+      removeCache(key);
+      return null;
+    }
+
+    if (parsed.__expiry__ < new Date().getTime()) {
       removeCache(key);
       return null;
     }
