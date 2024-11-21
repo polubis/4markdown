@@ -51,8 +51,14 @@ const FlashcardEditorModalContainer = () => {
 
   const unchanged = code === initialCode;
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const heading = React.useMemo(() => initialCode.split(`\n`)[0], []);
+  const heading = React.useMemo(() => {
+    const splitted = initialCode.split(`\n`);
+
+    const first = splitted[0].trim();
+
+    return first || `Empty`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return render(
     <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-40 backdrop-blur-2xl">
