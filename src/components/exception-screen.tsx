@@ -1,12 +1,12 @@
 import { Button } from 'design-system/button';
 import React from 'react';
 
-const ExceptionScreen = () => {
-  const resetAll = (): void => {
-    localStorage.clear();
-    window.location.reload();
-  };
+const resetAll = (): void => {
+  localStorage.clear();
+  window.location.reload();
+};
 
+const ExceptionScreen = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="p-4 flex flex-col items-center max-w-[280px]">
