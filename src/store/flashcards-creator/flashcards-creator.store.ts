@@ -15,6 +15,7 @@ import type { FlashcardsCreatorStore } from './flashcards-creator.models';
 const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
   (set, get) => ({
     // State
+    activeFlashcardsBoardId: null,
     flashcardBoardsVisible: false,
     flashcardBoards: { is: `idle` },
     flashcardsBoardCreation: { is: `idle` },
@@ -26,6 +27,9 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
     },
     startCreation: () => {
       set({ flashcardsBoardCreation: { is: `started` } });
+    },
+    activateFlashcardsBoard: (id) => {
+      set({ activeFlashcardsBoardId: id });
     },
     disactivateFlashcard: () => {
       set({ activeFlashcardId: null });

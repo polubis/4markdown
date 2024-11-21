@@ -66,7 +66,9 @@ const FlashcardsCreatorView = () => {
               i={1}
               s={1}
               className="ml-4"
-              disabled={flashcardBoards.is === `busy`}
+              disabled={
+                flashcardBoards.is === `idle` || flashcardBoards.is === `busy`
+              }
               title="Your flashcard boards"
               onClick={showFlashcardBoards}
             >

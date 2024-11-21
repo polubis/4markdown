@@ -24,22 +24,21 @@ const FilterableBoards = () => {
     rangeFilters[0],
   );
 
-  const boards = useFlashcardsCreatorStore(selectFlashcardBoards);
+  const { activeFlashcardsBoardId, activateFlashcardsBoard } =
+    useFlashcardsCreatorStore();
+  const flashcardBoards = useFlashcardsCreatorStore(selectFlashcardBoards);
 
-  const filtered = React.useMemo((): FlashcardsBoardDto[] => {
+  const filteredFlashcardBoards = React.useMemo((): FlashcardsBoardDto[] => {
     const now = new Date();
 
-    return boards.filter((board) => {
+    return flashcardBoards.filter((board) => {
       const diff = differenceInDays(now, board.mdate);
       const [from, to] = rangeLookup[activeRange];
 
       return diff >= from && diff <= to;
     });
-  }, [boards, activeRange]);
-  // docStore.is === `active` && docStore.id === doc.id
-  // false
-  //                 ? `bg-green-700 text-white border-green-700`
-  //                 :
+  }, [flashcardBoards, activeRange]);
+
   return (
     <>
       <Tabs className="mb-5">
@@ -54,40 +53,48 @@ const FilterableBoards = () => {
           </Tabs.Item>
         ))}
       </Tabs>
-      {filtered.length > 0 ? (
+      {filteredFlashcardBoards.length > 0 ? (
         <ul className="flex flex-col space-y-3">
-          {filtered.map((board) => (
+          {filteredFlashcardBoards.map((flashcardsBoard) => (
             <li
               className={c(
                 `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3`,
-                `bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`,
+                activeFlashcardsBoardId === flashcardsBoard.id
+                  ? `bg-green-700 text-white border-green-700 [&_p]:text-white`
+                  : `bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`,
               )}
-              title={board.name}
-              key={board.id}
-              // onClick={() => selectDoc(doc)}
+              title={flashcardsBoard.name}
+              key={flashcardsBoard.id}
+              onClick={() => activateFlashcardsBoard(flashcardsBoard.id)}
             >
               <div className="flex justify-between mb-0.5">
                 <span className="text-sm capitalize">
                   Edited{` `}
-                  {formatDistance(new Date(), board.mdate, {
+                  {formatDistance(new Date(), flashcardsBoard.mdate, {
                     addSuffix: true,
                   })}
                   {` `}
                   ago
                 </span>
-                {board.visibility === `private` && (
-                  <BiLowVision size="20" title="This document is private" />
+                {flashcardsBoard.visibility === `private` && (
+                  <BiLowVision
+                    size="20"
+                    title="This flashcards board is private"
+                  />
                 )}
-                {board.visibility === `public` && (
-                  <BiShow size="20" title="This document is public" />
+                {flashcardsBoard.visibility === `public` && (
+                  <BiShow size="20" title="This flashcards board is public" />
                 )}
-                {board.visibility === `permanent` && (
-                  <BiWorld size="20" title="This document is permanent" />
+                {flashcardsBoard.visibility === `permanent` && (
+                  <BiWorld
+                    size="20"
+                    title="This flashcards board is permanent"
+                  />
                 )}
               </div>
-              <strong className="text-md">{board.name}</strong>
-              {board.description && (
-                <p className="text-sm mt-1">{board.description}</p>
+              <strong className="text-md">{flashcardsBoard.name}</strong>
+              {flashcardsBoard.description && (
+                <p className="text-sm mt-1">{flashcardsBoard.description}</p>
               )}
             </li>
           ))}
@@ -108,7 +115,7 @@ const BrowseFlashcardBoardsModalContainer = () => {
     flashcardBoards.is === `idle` || flashcardBoards.is === `busy`;
 
   return (
-    <Modal onEscape={hideFlashcardBoards}>
+    <Modal onEscape={pending ? undefined : hideFlashcardBoards}>
       <div className="flex items-center justify-between gap-4 mb-6">
         <h6 className="text-xl">Your Flashcard Boards</h6>
         <div className="flex gap-2">
