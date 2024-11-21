@@ -86,6 +86,9 @@ const FilterableBoards = () => {
                 )}
               </div>
               <strong className="text-md">{board.name}</strong>
+              {board.description && (
+                <p className="text-sm mt-1">{board.description}</p>
+              )}
             </li>
           ))}
         </ul>
