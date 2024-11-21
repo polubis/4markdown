@@ -7,7 +7,6 @@ import type {
 import type { Transaction } from 'development-kit/utility-types';
 
 type FlashcardsCreatorStoreState = {
-  flashcardsBoardPreviewVisible: boolean;
   activeFlashcardsBoardId: FlashcardsBoardDto['id'] | null;
   flashcardBoardsVisible: boolean;
   flashcardsBoardCreation: Transaction | { is: `started` };
@@ -31,6 +30,7 @@ type FlashcardsCreatorStoreActions = {
   updateFlashcard(content: FlashcardDto['content']): void;
   hideFlashcardBoards(): void;
   activateFlashcardsBoard(id: FlashcardsBoardDto['id']): void;
+  removeFlashcard(): void;
 };
 
 type FlashcardsCreatorStoreActs = {

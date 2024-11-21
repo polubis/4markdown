@@ -37,7 +37,6 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
 // Add RWD support
 // Add unsafed work alert
 // Add empty name if cannot add flashcard.
-// Add option to add single flashcard
 const FlashcardsCreatorView = () => {
   const authStore = useAuthStore();
   const {

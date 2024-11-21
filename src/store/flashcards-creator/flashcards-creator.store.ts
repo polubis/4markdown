@@ -16,7 +16,6 @@ import { selectFlashcardBoards } from './flashcards-creator.selectors';
 const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
   (set, get) => ({
     // State
-    flashcardsBoardPreviewVisible: false,
     activeFlashcardsBoardId: null,
     flashcardBoardsVisible: false,
     flashcardBoards: { is: `idle` },
@@ -24,6 +23,16 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
     activeFlashcards: FLASHCARD_BOARDS[2].flashcards,
     activeFlashcardId: null,
     // Actions
+    removeFlashcard: () => {
+      const { activeFlashcardId, activeFlashcards } = get();
+
+      set({
+        activeFlashcards: activeFlashcards.filter(
+          (flashcard) => flashcard.id !== activeFlashcardId,
+        ),
+        activeFlashcardId: null,
+      });
+    },
     activateFlashcard: (id) => {
       set({ activeFlashcardId: id });
     },

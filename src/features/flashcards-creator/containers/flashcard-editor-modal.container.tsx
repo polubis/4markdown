@@ -1,6 +1,12 @@
 import React from 'react';
 import Markdown from 'components/markdown';
-import { BiBookContent, BiSave, BiSolidBookContent, BiX } from 'react-icons/bi';
+import {
+  BiBookContent,
+  BiSave,
+  BiSolidBookContent,
+  BiTrash,
+  BiX,
+} from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { usePortal } from 'development-kit/use-portal';
 import { ImageUploaderContainer } from 'features/creator/containers/image-uploader.container';
@@ -11,12 +17,16 @@ import c from 'classnames';
 import { useOnEscapePress } from 'development-kit/use-on-escape-press';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 import { selectActiveFlashcard } from 'store/flashcards-creator/flashcards-creator.selectors';
+import { useConfirm } from 'development-kit/use-confirm';
 
 const FlashcardEditorModalContainer = () => {
   const { render } = usePortal();
 
   const activeFlashcard = useFlashcardsCreatorStore(selectActiveFlashcard);
-  const { disactivateFlashcard, updateFlashcard } = useFlashcardsCreatorStore();
+  const { disactivateFlashcard, updateFlashcard, removeFlashcard } =
+    useFlashcardsCreatorStore();
+
+  const deleteConfirmation = useConfirm(removeFlashcard);
 
   const initialCode = activeFlashcard.content;
 
@@ -89,11 +99,21 @@ const FlashcardEditorModalContainer = () => {
         <Button
           i={1}
           s={1}
-          title="Save changes"
+          title="Save flashcard changes"
           disabled={unchanged}
           onClick={() => updateFlashcard(code)}
         >
           <BiSave />
+        </Button>
+        <Button
+          i={1}
+          s={1}
+          className="ml-1"
+          auto={deleteConfirmation.opened}
+          title="Remove flashcard"
+          onClick={deleteConfirmation.confirm}
+        >
+          {deleteConfirmation.opened ? `Sure?` : <BiTrash />}
         </Button>
       </Bar>
       <section
