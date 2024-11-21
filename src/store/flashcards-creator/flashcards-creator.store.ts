@@ -28,9 +28,6 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
     startCreation: () => {
       set({ flashcardsBoardCreation: { is: `started` } });
     },
-    activateFlashcardsBoard: (id) => {
-      set({ activeFlashcardsBoardId: id });
-    },
     disactivateFlashcard: () => {
       set({ activeFlashcardId: null });
     },
@@ -42,6 +39,31 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
     },
     hideFlashcardBoards: () => {
       set({ flashcardBoardsVisible: false });
+    },
+    activateFlashcardsBoard: (id) => {
+      const { flashcardBoards } = get();
+
+      switch (flashcardBoards.is) {
+        case `idle`:
+        case `busy`:
+        case `fail`:
+        case `loading-more`:
+        case `load-more-fail`:
+          return;
+        default: {
+          const foundFlashcardsBoard = flashcardBoards.data.find(
+            (flashcardBoard) => flashcardBoard.id === id,
+          );
+
+          if (!foundFlashcardsBoard) return;
+
+          set({
+            activeFlashcardsBoardId: id,
+            flashcardBoardsVisible: false,
+            activeFlashcards: foundFlashcardsBoard.flashcards,
+          });
+        }
+      }
     },
     // Acts
     loadBoards: async () => {
