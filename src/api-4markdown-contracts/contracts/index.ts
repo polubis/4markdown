@@ -137,6 +137,11 @@ type API4MarkdownResult<TKey extends API4MarkdownContractKey> =
       dto: API4MarkdownDto<TKey>;
     };
 
+type API4MarkdownCacheSignature<TKey extends API4MarkdownContractKey> = {
+  __expiry__: number;
+  value: API4MarkdownDto<TKey> | null;
+};
+
 type ErrorSymbol =
   | `already-exists`
   | `unauthenticated`
@@ -199,6 +204,7 @@ export type {
   API4MarkdownDto,
   API4MarkdownPayload,
   API4MarkdownResult,
+  API4MarkdownCacheSignature,
   GetYourDocumentsContract,
   GetAccessibleDocumentContract,
   GetPermanentDocumentsContract,
