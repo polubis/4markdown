@@ -7,8 +7,7 @@ import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
-import { useAPI } from 'api-4markdown';
-import { unobserveAll } from '../api-4markdown/observer';
+import { useAPI, unobserveAll } from 'api-4markdown';
 
 const useAuth = () => {
   const api = useAPI();
