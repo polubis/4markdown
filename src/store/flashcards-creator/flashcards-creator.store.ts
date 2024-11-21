@@ -16,6 +16,7 @@ import { selectFlashcardBoards } from './flashcards-creator.selectors';
 const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
   (set, get) => ({
     // State
+    flashcardsBoardPreviewVisible: false,
     activeFlashcardsBoardId: null,
     flashcardBoardsVisible: false,
     flashcardBoards: { is: `idle` },

@@ -7,6 +7,7 @@ import type {
 import type { Transaction } from 'development-kit/utility-types';
 
 type FlashcardsCreatorStoreState = {
+  flashcardsBoardPreviewVisible: boolean;
   activeFlashcardsBoardId: FlashcardsBoardDto['id'] | null;
   flashcardBoardsVisible: boolean;
   flashcardsBoardCreation: Transaction | { is: `started` };

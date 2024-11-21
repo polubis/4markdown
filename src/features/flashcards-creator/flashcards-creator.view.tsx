@@ -24,7 +24,6 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
     default: m.BrowseFlashcardBoardsModalContainer,
   })),
 );
-
 // Handle pagination loading
 // Handle transition state and disabling for pagination loading
 // Display save button if it's changed
@@ -36,9 +35,7 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
 // Add option to update status and visibility
 // Add option to update name
 // Add RWD support
-// Add preview
 // Add unsafed work alert
-// Load flashcards into permanent documents - education zone sectkion
 // Add empty name if cannot add flashcard.
 // Add option to add single flashcard
 const FlashcardsCreatorView = () => {
