@@ -1,15 +1,17 @@
 import { getAPI } from 'api-4markdown';
-import { docsStoreActions } from 'store/docs/docs.store';
+import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
 
-const getYourDocuments = async (onOk?: () => void): Promise<void> => {
+const getYourDocuments = async (): Promise<void> => {
   try {
+    const { is } = docsStoreSelectors.state();
+
+    if (is === `idle` || is === `busy`) return;
+
     docsStoreActions.busy();
 
-    const docs = await getAPI().call(`getYourDocuments`)();
+    const documents = await getAPI().call(`getYourDocuments`)();
 
-    docsStoreActions.ok(docs);
-
-    onOk?.();
+    docsStoreActions.ok(documents);
   } catch (error: unknown) {
     docsStoreActions.fail(error);
   }

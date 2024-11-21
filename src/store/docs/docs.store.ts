@@ -12,7 +12,7 @@ const useDocsStore = create<DocsStoreState>(() => ({
   is: `idle`,
 }));
 
-const { setState } = useDocsStore;
+const { setState, getState } = useDocsStore;
 
 const set = (state: DocsStoreState) => {
   setState(state, true);
@@ -25,7 +25,8 @@ const getOkState = (state: DocsStoreState): DocsStoreOkState => {
 };
 
 const docsStoreSelectors = {
-  ok: () => getOkState(useDocsStore.getState()),
+  state: () => getState(),
+  ok: () => getOkState(getState()),
 };
 
 const docsStoreActions = {
