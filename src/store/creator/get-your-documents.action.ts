@@ -5,7 +5,7 @@ const getYourDocuments = async (): Promise<void> => {
   try {
     const { is } = docsStoreSelectors.state();
 
-    if (is === `idle` || is === `busy`) return;
+    if (is !== `idle`) return;
 
     docsStoreActions.busy();
 
