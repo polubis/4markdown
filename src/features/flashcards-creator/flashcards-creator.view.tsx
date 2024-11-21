@@ -37,6 +37,7 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
 // Add option to update name
 // Add RWD support
 // Add preview
+// Add unsafed work alert
 const FlashcardsCreatorView = () => {
   const authStore = useAuthStore();
   const {
