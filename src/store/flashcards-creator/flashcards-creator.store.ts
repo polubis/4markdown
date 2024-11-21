@@ -60,6 +60,20 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
         set({ flashcardBoards: { is: `fail`, error: parseError(error) } });
       }
     },
+    updateFlashcard: (content) => {
+      const { activeFlashcardId, activeFlashcards } = get();
+
+      const updatedFlashcards = activeFlashcards.map((flashcard) =>
+        flashcard.id === activeFlashcardId
+          ? { ...flashcard, content }
+          : flashcard,
+      );
+
+      set({
+        activeFlashcardId: null,
+        activeFlashcards: updatedFlashcards,
+      });
+    },
     // Acts
     loadBoards: async () => {
       const state = get();

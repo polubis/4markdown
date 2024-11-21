@@ -16,7 +16,7 @@ const FlashcardEditorModalContainer = () => {
   const { render } = usePortal();
 
   const activeFlashcard = useFlashcardsCreatorStore(selectActiveFlashcard);
-  const { disactivateFlashcard } = useFlashcardsCreatorStore();
+  const { disactivateFlashcard, updateFlashcard } = useFlashcardsCreatorStore();
 
   const initialCode = activeFlashcard.content;
 
@@ -36,8 +36,6 @@ const FlashcardEditorModalContainer = () => {
     initialCode,
     onChange: setCode,
   });
-
-  const confirmSave = (): void => {};
 
   useOnEscapePress(disactivateFlashcard);
 
@@ -93,7 +91,7 @@ const FlashcardEditorModalContainer = () => {
           s={1}
           title="Save changes"
           disabled={unchanged}
-          onClick={confirmSave}
+          onClick={() => updateFlashcard(code)}
         >
           <BiSave />
         </Button>

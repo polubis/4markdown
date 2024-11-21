@@ -27,6 +27,7 @@ type FlashcardsCreatorStoreActions = {
   startCreation(): void;
   resetCreation(): void;
   showFlashcardBoards(): void;
+  updateFlashcard(content: FlashcardDto['content']): void;
   hideFlashcardBoards(): void;
   activateFlashcardsBoard(id: FlashcardsBoardDto['id']): void;
 };
