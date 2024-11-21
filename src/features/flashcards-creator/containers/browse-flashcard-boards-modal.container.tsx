@@ -31,7 +31,7 @@ const FilterableBoards = () => {
   const filteredFlashcardBoards = React.useMemo((): FlashcardsBoardDto[] => {
     const now = new Date();
 
-    return flashcardBoards.filter((board) => {
+    return flashcardBoards.data.filter((board) => {
       const diff = differenceInDays(now, board.mdate);
       const [from, to] = rangeLookup[activeRange];
 

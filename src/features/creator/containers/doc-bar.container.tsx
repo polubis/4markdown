@@ -3,8 +3,8 @@ import React from 'react';
 import { useDocStore } from 'store/doc/doc.store';
 import { useAuthStore } from 'store/auth/auth.store';
 import { DocBarRow } from '../components/doc-bar-row';
-import { DocBarLoader } from '../components/doc-bar-loader';
 import { YourDocumentsContainer } from './your-documents.container';
+import { BarLoadingPlaceholder } from 'components/bar-loading-placeholder';
 
 const ActiveDocumentBarContainer = React.lazy(
   () => import(`./active-document-bar.container`),
@@ -16,7 +16,7 @@ const DocBarContainer = () => {
 
   return (
     <Bar className="h-[50px]">
-      {authStore.is === `idle` && <DocBarLoader />}
+      {authStore.is === `idle` && <BarLoadingPlaceholder />}
       {authStore.is === `authorized` && (
         <>
           {docStore.is === `idle` ? (
@@ -24,7 +24,7 @@ const DocBarContainer = () => {
               <YourDocumentsContainer />
             </DocBarRow>
           ) : (
-            <React.Suspense fallback={<DocBarLoader />}>
+            <React.Suspense fallback={<BarLoadingPlaceholder />}>
               <ActiveDocumentBarContainer />
             </React.Suspense>
           )}

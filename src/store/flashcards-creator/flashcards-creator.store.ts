@@ -11,6 +11,7 @@ import type {
 import { mock } from 'development-kit/mock';
 import { create } from 'zustand';
 import type { FlashcardsCreatorStore } from './flashcards-creator.models';
+import { selectFlashcardBoards } from './flashcards-creator.selectors';
 
 const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
   (set, get) => ({
@@ -41,28 +42,22 @@ const useFlashcardsCreatorStore = create<FlashcardsCreatorStore>(
       set({ flashcardBoardsVisible: false });
     },
     activateFlashcardsBoard: (id) => {
-      const { flashcardBoards } = get();
+      try {
+        const flashcardBoards = selectFlashcardBoards(get());
 
-      switch (flashcardBoards.is) {
-        case `idle`:
-        case `busy`:
-        case `fail`:
-        case `loading-more`:
-        case `load-more-fail`:
-          return;
-        default: {
-          const foundFlashcardsBoard = flashcardBoards.data.find(
-            (flashcardBoard) => flashcardBoard.id === id,
-          );
+        const foundFlashcardsBoard = flashcardBoards.data.find(
+          (flashcardBoard) => flashcardBoard.id === id,
+        );
 
-          if (!foundFlashcardsBoard) return;
+        if (!foundFlashcardsBoard) throw Error(`Cannot find flashcards board`);
 
-          set({
-            activeFlashcardsBoardId: id,
-            flashcardBoardsVisible: false,
-            activeFlashcards: foundFlashcardsBoard.flashcards,
-          });
-        }
+        set({
+          activeFlashcardsBoardId: id,
+          flashcardBoardsVisible: false,
+          activeFlashcards: foundFlashcardsBoard.flashcards,
+        });
+      } catch (error: unknown) {
+        set({ flashcardBoards: { is: `fail`, error: parseError(error) } });
       }
     },
     // Acts

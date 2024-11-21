@@ -3,7 +3,6 @@ import type {
   FlashcardDto,
   FlashcardsBoardDto,
   Pagination,
-  ParsedError,
 } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 
@@ -16,11 +15,6 @@ type FlashcardsCreatorStoreState = {
     | ((
         | { is: `loading-more`; data: FlashcardsBoardDto[] }
         | { is: `all-loaded`; data: FlashcardsBoardDto[] }
-        | {
-            is: `load-more-fail`;
-            error: ParsedError;
-            data: FlashcardsBoardDto[];
-          }
       ) &
         Pagination);
   activeFlashcards: FlashcardDto[];

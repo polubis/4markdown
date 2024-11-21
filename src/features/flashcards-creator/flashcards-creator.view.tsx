@@ -1,11 +1,11 @@
 import React from 'react';
 import Markdown from 'components/markdown';
-import { BiGridAlt, BiPlus } from 'react-icons/bi';
+import { BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { CreatorNavigation } from 'features/creator/components/creator-navigation';
-import { Bar } from 'design-system/bar';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
 import { useAuthStore } from 'store/auth/auth.store';
+import { FlashcardsBoardMaintenanceBarContainer } from './containers/flashcards-board-maintenance-bar.container';
 
 const FlashcardEditorModalContainer = React.lazy(() =>
   import(`./containers/flashcard-editor-modal.container`).then((m) => ({
@@ -27,21 +27,21 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
 
 // Handle pagination loading
 // Handle transition state and disabling for pagination loading
-// Display select flashcards board
 // Display save button if it's changed
 // Connect save button for changing flashcard boards
 // Allow to unmark flashcard board
 // Allow to refetch flashcards board
 // Allow to delete flashcard board
 // Improve each flashcard UX/UI
+// Add option to update status and visibility
+// Add option to update name
 // Add RWD support
+// Add preview
 const FlashcardsCreatorView = () => {
   const authStore = useAuthStore();
   const {
     startCreation,
     activateFlashcard,
-    showFlashcardBoards,
-    flashcardBoards,
     flashcardBoardsVisible,
     activeFlashcards,
     flashcardsBoardCreation,
@@ -66,23 +66,7 @@ const FlashcardsCreatorView = () => {
             <BiPlus />
           </Button>
         </CreatorNavigation>
-        <Bar className="h-[50px] items-center">
-          <h6 className="text-lg font-bold">Flashcards Board</h6>
-          {authStore.is === `authorized` && (
-            <Button
-              i={1}
-              s={1}
-              className="ml-4"
-              disabled={
-                flashcardBoards.is === `idle` || flashcardBoards.is === `busy`
-              }
-              title="Your flashcard boards"
-              onClick={showFlashcardBoards}
-            >
-              <BiGridAlt />
-            </Button>
-          )}
-        </Bar>
+        <FlashcardsBoardMaintenanceBarContainer />
         <section className="relative h-[calc(100svh-72px-50px)]">
           <ul className="grid grid-cols-3 gap-6 grid-row-3 p-8 h-full absolute top-0 left-0 overflow-y-auto">
             {activeFlashcards.map((flashcard, index) => (
