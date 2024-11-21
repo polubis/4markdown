@@ -1,8 +1,7 @@
 import React from 'react';
 import { type AuthorizedData, authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
-import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import { creatorStoreActions } from 'store/creator/creator.store';
+import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
@@ -58,22 +57,6 @@ const useAuth = () => {
               return data;
             } catch (error: unknown) {
               imagesStoreActions.fail(error);
-              throw error;
-            }
-          },
-          deleteDoc: async () => {
-            const id = docStoreSelectors.active().id;
-
-            try {
-              docManagementStoreActions.busy();
-              await call(`deleteDocument`)({ id });
-
-              docManagementStoreActions.ok();
-              docsStoreActions.deleteDoc(id);
-              docStoreActions.reset();
-              creatorStoreActions.init();
-            } catch (error: unknown) {
-              docManagementStoreActions.fail(error);
               throw error;
             }
           },

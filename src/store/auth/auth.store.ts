@@ -11,7 +11,6 @@ interface AuthorizedData {
   };
   logOut(): void;
   uploadImage(image: File): Promise<API4MarkdownDto<'uploadImage'>>;
-  deleteDoc(): Promise<void>;
   getYourProfile(): Promise<void>;
   updateYourProfile(
     payload: API4MarkdownPayload<'updateYourUserProfile'>,

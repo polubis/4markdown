@@ -17,8 +17,11 @@ import { updateDocumentCode } from '../../../store/creator/update-document-code.
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
 );
-const DeleteDocModal = React.lazy(
-  () => import(`../../../components/delete-doc-modal`),
+
+const DeleteDocumentModalContainer = React.lazy(() =>
+  import(`./delete-document-modal.container`).then((m) => ({
+    default: m.DeleteDocumentModalContainer,
+  })),
 );
 
 const ActiveDocumentBarContainer = () => {
@@ -140,7 +143,7 @@ const ActiveDocumentBarContainer = () => {
 
       {deleteModal.opened && (
         <React.Suspense>
-          <DeleteDocModal onClose={deleteModal.close} />
+          <DeleteDocumentModalContainer onClose={deleteModal.close} />
         </React.Suspense>
       )}
     </>
