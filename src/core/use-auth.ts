@@ -8,6 +8,7 @@ import { readFileAsBase64 } from '../development-kit/file-reading';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI } from 'api-4markdown';
+import { unobserveAll } from '../api-4markdown/observer';
 
 const useAuth = () => {
   const api = useAPI();
@@ -99,6 +100,7 @@ const useAuth = () => {
 
     return () => {
       unsubscribe();
+      unobserveAll();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
