@@ -38,6 +38,7 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
 // Add RWD support
 // Add preview
 // Add unsafed work alert
+// Fix issue with editing single flashcard and saving
 const FlashcardsCreatorView = () => {
   const authStore = useAuthStore();
   const {
