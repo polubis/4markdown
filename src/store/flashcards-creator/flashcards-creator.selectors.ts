@@ -1,4 +1,4 @@
-import type { FlashcardDto } from 'api-4markdown-contracts';
+import type { FlashcardDto, FlashcardsBoardDto } from 'api-4markdown-contracts';
 import type { FlashcardsCreatorStoreState } from './flashcards-creator.models';
 
 const selectActiveFlashcard = ({
@@ -20,17 +20,29 @@ const selectFlashcardBoards = ({
   flashcardBoards,
 }: FlashcardsCreatorStoreState): Extract<
   FlashcardsCreatorStoreState['flashcardBoards'],
-  { is: 'ok' | 'all-loaded' }
+  { is: 'ok' }
 > => {
-  if (
-    flashcardBoards.is === `idle` ||
-    flashcardBoards.is === `busy` ||
-    flashcardBoards.is === `fail` ||
-    flashcardBoards.is === `loading-more`
-  )
-    throw Error(`Invalid state read attempt`);
+  if (flashcardBoards.is === `ok`) return flashcardBoards;
 
-  return flashcardBoards;
+  throw Error(`Invalid state read attempt`);
 };
 
-export { selectActiveFlashcard, selectFlashcardBoards };
+const selectActiveFlashcardsBoard = (
+  state: FlashcardsCreatorStoreState,
+): FlashcardsBoardDto => {
+  const flashcardBoards = selectFlashcardBoards(state);
+
+  const foundFlashcardsBoard = flashcardBoards.data.find(
+    (flashcardsBoard) => flashcardsBoard.id === state.activeFlashcardsBoardId,
+  );
+
+  if (!foundFlashcardsBoard) throw Error(`Cannot find active flashcards board`);
+
+  return foundFlashcardsBoard;
+};
+
+export {
+  selectActiveFlashcard,
+  selectFlashcardBoards,
+  selectActiveFlashcardsBoard,
+};

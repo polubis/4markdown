@@ -2,7 +2,6 @@ import type {
   API4MarkdownPayload,
   FlashcardDto,
   FlashcardsBoardDto,
-  Pagination,
 } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 
@@ -10,13 +9,7 @@ type FlashcardsCreatorStoreState = {
   activeFlashcardsBoardId: FlashcardsBoardDto['id'] | null;
   flashcardBoardsVisible: boolean;
   flashcardsBoardCreation: Transaction | { is: `started` };
-  flashcardBoards:
-    | Transaction<{ data: FlashcardsBoardDto[] }>
-    | ((
-        | { is: `loading-more`; data: FlashcardsBoardDto[] }
-        | { is: `all-loaded`; data: FlashcardsBoardDto[] }
-      ) &
-        Pagination);
+  flashcardBoards: Transaction<{ data: FlashcardsBoardDto[] }>;
   activeFlashcards: FlashcardDto[];
   activeFlashcardId: FlashcardDto['id'] | null;
 };

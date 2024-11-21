@@ -25,14 +25,15 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
   })),
 );
 
+// Add option to update status and visibility
+
 // Handle pagination loading
 // Handle transition state and disabling for pagination loading
 // Display save button if it's changed
+// Allow to delete flashcard board
 // Connect save button for changing flashcard boards
 // Allow to unmark flashcard board
-// Allow to delete flashcard board
 // Improve each flashcard UX/UI
-// Add option to update status and visibility
 // Add option to update name
 // Add RWD support
 // Add unsafed work alert

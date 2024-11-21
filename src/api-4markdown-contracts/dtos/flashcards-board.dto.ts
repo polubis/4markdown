@@ -7,6 +7,7 @@ type Base = {
   cdate: Date;
   name: Name;
   flashcards: FlashcardDto[];
+  tags: [string, ...string[]];
 };
 
 type PrivateFlashcardsBoardDto = Base & {
@@ -22,6 +23,7 @@ type PublicFlashcardsBoardDto = Base & {
 type PermanentFlashcardsBoardDto = Base & {
   visibility: `permanent`;
   description: Description;
+  displayOnEducationZone: boolean;
 };
 
 type FlashcardsBoardDto =

@@ -4,8 +4,10 @@ import { Button } from 'design-system/button';
 import { useAuthStore } from 'store/auth/auth.store';
 import { BarLoadingPlaceholder } from 'components/bar-loading-placeholder';
 import { useFlashcardsCreatorStore } from 'store/flashcards-creator/flashcards-creator.store';
-import { BiGridAlt } from 'react-icons/bi';
+import { BiDotsHorizontal, BiGridAlt } from 'react-icons/bi';
 import type { FlashcardsBoardDto } from 'api-4markdown-contracts';
+import { useToggle } from 'development-kit/use-toggle';
+import { FlashcardsBoardDetailsModalContainer } from './flashcards-board-details-modal.container';
 
 const DEFAULT_TITLE = `Flashcards Board`;
 
@@ -16,6 +18,7 @@ const Title = ({ children }: { children: ReactNode }) => (
 const BarContent = () => {
   const { activeFlashcardsBoardId, flashcardBoards, showFlashcardBoards } =
     useFlashcardsCreatorStore();
+  const flashcardsBoardDetailsModal = useToggle();
 
   const activeFlashcardsBoard = React.useMemo((): FlashcardsBoardDto | null => {
     if (activeFlashcardsBoardId === null) return null;
@@ -42,7 +45,7 @@ const BarContent = () => {
       <Button
         i={1}
         s={1}
-        className="ml-4"
+        className="ml-2"
         disabled={
           flashcardBoards.is === `idle` || flashcardBoards.is === `busy`
         }
@@ -51,6 +54,24 @@ const BarContent = () => {
       >
         <BiGridAlt />
       </Button>
+      {activeFlashcardsBoard && (
+        <>
+          <Button
+            i={1}
+            s={1}
+            disabled={
+              flashcardBoards.is === `idle` || flashcardBoards.is === `busy`
+            }
+            title="Show flashcards board details"
+            onClick={flashcardsBoardDetailsModal.open}
+          >
+            <BiDotsHorizontal />
+          </Button>
+          {flashcardsBoardDetailsModal.opened && (
+            <FlashcardsBoardDetailsModalContainer />
+          )}
+        </>
+      )}
     </>
   );
 };
@@ -59,7 +80,7 @@ const FlashcardsBoardMaintenanceBarContainer = () => {
   const authStore = useAuthStore();
 
   return (
-    <Bar className="h-[50px] items-center">
+    <Bar className="h-[50px] items-center gap-2">
       {authStore.is === `idle` && <BarLoadingPlaceholder />}
       {authStore.is === `authorized` && <BarContent />}
       {authStore.is === `unauthorized` && <Title>{DEFAULT_TITLE}</Title>}
