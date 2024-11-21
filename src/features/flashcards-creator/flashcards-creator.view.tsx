@@ -39,6 +39,7 @@ const BrowseFlashcardBoardsModalContainer = React.lazy(() =>
 // Add preview
 // Add unsafed work alert
 // Fix issue with editing single flashcard and saving
+// Load flashcards into permanent documents - education zone sectkion
 const FlashcardsCreatorView = () => {
   const authStore = useAuthStore();
   const {
