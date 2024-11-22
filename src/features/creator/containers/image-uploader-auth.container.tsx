@@ -14,7 +14,7 @@ import {
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import type { ImageDto } from 'api-4markdown-contracts';
-import { uploadImage } from 'store/images/upload-image.action';
+import { uploadImage } from 'actions/upload-image.action';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<ImageDto | null>();

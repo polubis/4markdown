@@ -7,7 +7,7 @@ import { type DocsStoreOkState, useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
 import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
-import { reloadYourDocuments } from 'store/creator/reload-your-documents.action';
+import { reloadYourDocuments } from 'actions/reload-your-documents.action';
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
 
 interface DocsListModalProps {

@@ -5,7 +5,7 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { DocBarLoader } from '../components/doc-bar-loader';
 import { YourDocumentsContainer } from './your-documents.container';
-import { getYourDocuments } from 'store/creator/get-your-documents.action';
+import { getYourDocuments } from 'actions/get-your-documents.action';
 
 const ActiveDocumentBarContainer = React.lazy(
   () => import(`./active-document-bar.container`),

@@ -1,7 +1,7 @@
 import type { AvatarSize } from 'design-system/avatar';
 import { Avatar } from 'design-system/avatar';
 import React from 'react';
-import { getYourUserProfile } from 'store/your-profile/get-your-user-profile.action';
+import { getYourUserProfile } from 'actions/get-your-user-profile.action';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
 interface YourAvatarContainerProps {

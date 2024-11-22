@@ -5,7 +5,7 @@ import {
   docManagementStoreActions,
   docManagementStoreSelectors,
 } from 'store/doc-management/doc-management.store';
-import { reloadYourDocuments } from 'store/creator/reload-your-documents.action';
+import { reloadYourDocuments } from 'actions/reload-your-documents.action';
 
 const CreatorErrorModalContainer = () => {
   const docManagementStore = docManagementStoreSelectors.useFail();

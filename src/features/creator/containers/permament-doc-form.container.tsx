@@ -8,8 +8,8 @@ import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
+import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 import { SeoFriendlyDescriptionHint } from '../components/seo-friendly-description-hint';
-import { updateDocumentVisibility } from '../../../store/creator/update-document-visibility.action';
 
 type PermamentDocFormContainerProps = {
   onConfirm(): void;

@@ -8,8 +8,8 @@ import { useToggle } from 'development-kit/use-toggle';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
-import { reloadYourUserProfile } from 'store/your-profile/reload-your-user-profile.action';
-import { logOut } from 'store/auth/log-out.action';
+import { reloadYourUserProfile } from 'actions/reload-your-user-profile.action';
+import { logOut } from 'actions/log-out.action';
 
 const DetailLoader = () => (
   <div className="flex space-x-1 h-6">

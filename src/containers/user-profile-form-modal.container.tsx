@@ -28,7 +28,7 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { updateYourUserProfile } from 'store/update-your-profile/update-your-user-profile.action';
+import { updateYourUserProfile } from 'actions/update-your-user-profile.action';
 import type { YourProfileStoreOkState } from 'store/your-profile/your-profile.store';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 

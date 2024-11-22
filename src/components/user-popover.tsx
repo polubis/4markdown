@@ -6,7 +6,7 @@ import { useToggle } from 'development-kit/use-toggle';
 import { useDocsStore } from 'store/docs/docs.store';
 import { YourAvatarContainer } from '../containers/your-avatar.container';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
-import { logIn } from 'store/auth/log-in.action';
+import { logIn } from 'actions/log-in.action';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 

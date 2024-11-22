@@ -14,6 +14,7 @@ module.exports = {
     '^design-system/(.*)': `<rootDir>/src/design-system/$1`,
     '^api-4markdown$': `<rootDir>/src/api-4markdown`,
     '^api-4markdown-contracts$': `<rootDir>/src/api-4markdown-contracts`,
+    '^actions$': `<rootDir>/src/actions`,
   },
   testPathIgnorePatterns: [`node_modules`, `\\.cache`, `<rootDir>.*/public`],
   transformIgnorePatterns: [

@@ -3,7 +3,7 @@ import { Input } from 'design-system/input';
 import Modal from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
-import { deleteDocument } from 'store/creator/delete-document.action';
+import { deleteDocument } from 'actions/delete-document.action';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 

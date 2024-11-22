@@ -10,9 +10,8 @@ import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
-
-import { updateDocumentName } from '../../../store/creator/update-document-name.action';
-import { updateDocumentCode } from '../../../store/creator/update-document-code.action';
+import { updateDocumentCode } from 'actions/update-document-code.action';
+import { updateDocumentName } from 'actions/update-document-name.action';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
