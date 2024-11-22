@@ -1,10 +1,10 @@
 import { getAPI } from 'api-4markdown';
 import type {
+  API4MarkdownDto,
   PermanentDocumentDto,
   PrivateDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
-import type { DocumentCreatorViewModel } from 'models/view-models';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
@@ -30,7 +30,7 @@ const updateDocumentVisibility = async (
       mdate,
       ...payload,
     });
-    const updatedDocument: DocumentCreatorViewModel['document'] = {
+    const updatedDocument: API4MarkdownDto<`getYourDocuments`>[number] = {
       ...response,
       code,
     };

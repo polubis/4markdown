@@ -1,4 +1,4 @@
-import { getAPI } from 'api-4markdown';
+import { getAPI, setCache } from 'api-4markdown';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import {
   creatorStoreActions,
@@ -6,7 +6,7 @@ import {
 } from 'store/creator/creator.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions } from 'store/doc/doc.store';
-import { docsStoreActions } from 'store/docs/docs.store';
+import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
 
 const createDocument = async (
   payload: Pick<API4MarkdownPayload<'createDocument'>, 'name'>,
@@ -23,6 +23,8 @@ const createDocument = async (
     docStoreActions.setActive(createdDoc);
     docsStoreActions.addDoc(createdDoc);
     creatorStoreActions.asUnchanged();
+
+    setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
   } catch (error: unknown) {
     docManagementStoreActions.fail(error);
     throw error;

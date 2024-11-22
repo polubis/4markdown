@@ -16,7 +16,14 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   payload: TPayload;
 };
 
-type GetYourDocumentsContract = Contract<`getYourDocuments`, DocumentDto[]>;
+type GetYourDocumentsContract = Contract<
+  `getYourDocuments`,
+  (
+    | PrivateDocumentDto
+    | Omit<PublicDocumentDto, 'author' | 'rating'>
+    | Omit<PermanentDocumentDto, 'author' | 'rating'>
+  )[]
+>;
 type GetAccessibleDocumentContract = Contract<
   `getAccessibleDocument`,
   PublicDocumentDto | PermanentDocumentDto,
