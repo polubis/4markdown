@@ -2,7 +2,6 @@ import React from 'react';
 import { Button } from 'design-system/button';
 import { BiEdit, BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
-import { authStoreSelectors } from 'store/auth/auth.store';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import Modal from 'design-system/modal';
 import { useToggle } from 'development-kit/use-toggle';
@@ -10,6 +9,7 @@ import { UserProfileFormModalContainer } from 'containers/user-profile-form-moda
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import { reloadYourUserProfile } from 'store/your-profile/reload-your-user-profile.action';
+import { logOut } from 'store/auth/log-out.action';
 
 const DetailLoader = () => (
   <div className="flex space-x-1 h-6">
@@ -23,7 +23,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   const userProfileForm = useToggle();
 
   const signOutConfirmation = useConfirm(() => {
-    authStoreSelectors.authorized().logOut();
+    logOut();
     onClose();
   });
 

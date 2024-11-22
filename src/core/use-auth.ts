@@ -4,28 +4,17 @@ import { docManagementStoreActions } from 'store/doc-management/doc-management.s
 import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
-import { initializeAPI, removeCache } from 'api-4markdown';
+import { initializeAPI } from 'api-4markdown';
 
 const useAuth = () => {
   const [api] = React.useState(initializeAPI);
 
   React.useEffect(() => {
-    const { logOut, logIn, onAuthChange } = api;
-
-    const unsubscribe = onAuthChange(async (user) => {
+    const unsubscribe = api.onAuthChange((user) => {
       if (user) {
         authStoreActions.authorize({
-          user: {
-            avatar: user.photoURL,
-            name: user.displayName,
-          },
-          logOut: async () => {
-            try {
-              await logOut();
-              removeCache(`getYourUserProfile`, `getYourDocuments`);
-              yourProfileStoreActions.idle();
-            } catch {}
-          },
+          avatar: user.photoURL,
+          name: user.displayName,
         });
 
         return;
@@ -35,14 +24,7 @@ const useAuth = () => {
       docManagementStoreActions.idle();
       docsStoreActions.idle();
       yourProfileStoreActions.idle();
-
-      authStoreActions.unauthorize({
-        logIn: async () => {
-          try {
-            await logIn();
-          } catch (error: unknown) {}
-        },
-      });
+      authStoreActions.unauthorize();
     });
 
     return () => {
