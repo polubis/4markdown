@@ -6,6 +6,7 @@ import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 // @TODO[PRIO=3]: [Align user profile namings].
 const updateYourUserProfile = async (
   payload: API4MarkdownPayload<'updateYourUserProfile'>,
+  onOk?: () => void,
 ): Promise<void> => {
   try {
     updateYourProfileStoreActions.busy();
@@ -18,9 +19,9 @@ const updateYourUserProfile = async (
 
     updateYourProfileStoreActions.ok();
     yourProfileStoreActions.ok({ mdate, user: profile });
+    onOk?.();
   } catch (error: unknown) {
     updateYourProfileStoreActions.fail(error);
-    throw error;
   }
 };
 
