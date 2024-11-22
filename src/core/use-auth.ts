@@ -3,8 +3,6 @@ import { authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
-import { imagesStoreActions } from 'store/images/images.store';
-import { readFileAsBase64 } from '../development-kit/file-reading';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { useAPI, unobserveAll, removeCache } from 'api-4markdown';
 
@@ -13,7 +11,7 @@ const useAuth = () => {
   const api = useAPI();
 
   React.useEffect(() => {
-    const { call, logOut, logIn, onAuthChange } = api;
+    const { logOut, logIn, onAuthChange } = api;
 
     const unsubscribe = onAuthChange(async (user) => {
       if (user) {
@@ -28,22 +26,6 @@ const useAuth = () => {
               removeCache(`getYourUserProfile`, `getYourDocuments`);
               yourProfileStoreActions.idle();
             } catch {}
-          },
-          uploadImage: async (image) => {
-            try {
-              imagesStoreActions.busy();
-
-              const data = await call(`uploadImage`)({
-                image: await readFileAsBase64(image),
-              });
-
-              imagesStoreActions.ok();
-
-              return data;
-            } catch (error: unknown) {
-              imagesStoreActions.fail(error);
-              throw error;
-            }
           },
         });
 

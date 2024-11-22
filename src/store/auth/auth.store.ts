@@ -1,4 +1,3 @@
-import type { API4MarkdownDto } from 'api-4markdown-contracts';
 import { create } from 'zustand';
 
 interface AuthorizedData {
@@ -7,7 +6,6 @@ interface AuthorizedData {
     avatar: string | null;
   };
   logOut(): void;
-  uploadImage(image: File): Promise<API4MarkdownDto<'uploadImage'>>;
 }
 
 interface UnauthrorizedData {
