@@ -5,21 +5,18 @@ import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import type { HomePageModel } from 'models/page-models';
-import { creatorStoreActions } from 'store/creator/creator.store';
 
-interface HomePageProps {
+type HomePageProps = {
   pageContext: HomePageModel;
-}
+};
 
-const HomePage = ({ pageContext: { initialCode } }: HomePageProps) => {
-  creatorStoreActions.hydrate(initialCode);
-
+const HomePage = (_: HomePageProps) => {
   return <CreatorView />;
 };
 
 export default HomePage;
 
-export const Head: HeadFC = () => {
+export const Head: HeadFC<HomePageProps> = () => {
   return (
     <Meta
       appName={meta.appName}

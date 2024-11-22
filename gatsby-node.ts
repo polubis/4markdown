@@ -12,7 +12,6 @@ import {
   type DocumentRatingCategory,
   type PermanentDocumentDto,
 } from 'api-4markdown-contracts';
-import { createInitialCode } from './create-initial-code';
 import { writeFileSync } from 'fs';
 
 const config: FirebaseOptions = {
@@ -101,9 +100,6 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   actions.createPage<HomePageModel>({
     path: meta.routes.home,
     component: path.resolve(`./src/dynamic-pages/home.page.tsx`),
-    context: {
-      initialCode: createInitialCode(),
-    },
   });
 
   allDocuments.forEach((document) => {
