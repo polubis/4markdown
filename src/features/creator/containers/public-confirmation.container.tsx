@@ -4,7 +4,7 @@ import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Link } from 'gatsby';
 import { meta } from '../../../../meta';
-import { updateDocumentVisibility } from '../store/update-document-visibility.action';
+import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 
 interface PublicConfirmationContainerProps {
   onClose(): void;

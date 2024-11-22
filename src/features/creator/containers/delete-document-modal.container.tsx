@@ -3,15 +3,11 @@ import { Input } from 'design-system/input';
 import Modal from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
-import { authStoreSelectors } from 'store/auth/auth.store';
+import { deleteDocument } from 'actions/delete-document.action';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 
-interface DeleteDocModalProps {
-  onClose?(): void;
-}
-
-const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
+const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
   const [name, setName] = React.useState(``);
@@ -24,12 +20,9 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
     onClose?.();
   };
 
-  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
+  const handleConfirm: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    try {
-      await authStoreSelectors.authorized().deleteDoc();
-      close();
-    } catch {}
+    deleteDocument(close);
   };
 
   return (
@@ -89,4 +82,4 @@ const DeleteDocModal = ({ onClose }: DeleteDocModalProps) => {
   );
 };
 
-export default DeleteDocModal;
+export { DeleteDocumentModalContainer };

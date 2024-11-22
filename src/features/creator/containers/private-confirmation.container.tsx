@@ -2,7 +2,7 @@ import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { updateDocumentVisibility } from '../store/update-document-visibility.action';
+import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 
 interface PrivateConfirmationContainerProps {
   onClose(): void;

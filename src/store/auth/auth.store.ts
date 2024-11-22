@@ -1,32 +1,11 @@
-import type {
-  API4MarkdownPayload,
-  API4MarkdownDto,
-} from 'api-4markdown-contracts';
 import { create } from 'zustand';
 
-interface AuthorizedData {
+type AuthorizedData = {
   user: {
     name: string | null;
     avatar: string | null;
   };
-  logOut(): void;
-  uploadImage(image: File): Promise<API4MarkdownDto<'uploadImage'>>;
-  reloadDocs(): Promise<void>;
-  deleteDoc(): Promise<void>;
-  getYourProfile(): Promise<void>;
-  updateYourProfile(
-    payload: API4MarkdownPayload<'updateYourUserProfile'>,
-  ): Promise<void>;
-}
-
-interface UnauthrorizedData {
-  logIn(): Promise<void>;
-}
-
-interface AuthStoreActions {
-  authorize(data: AuthorizedData): void;
-  unauthorize(data: UnauthrorizedData): void;
-}
+};
 
 type AuthStoreStateIdle = { is: 'idle' };
 type AuthStoreStateAuthorized = {
@@ -35,7 +14,7 @@ type AuthStoreStateAuthorized = {
 
 type AuthStoreStateUnauthorized = {
   is: 'unauthorized';
-} & UnauthrorizedData;
+};
 
 type AuthStoreState =
   | AuthStoreStateIdle
@@ -64,17 +43,16 @@ const set = (state: AuthStoreState): void => {
   setState(state, true);
 };
 
-const authStoreActions: AuthStoreActions = {
-  authorize: (data) => {
+const authStoreActions = {
+  authorize: (user: AuthorizedData['user']) => {
     set({
       is: `authorized`,
-      ...data,
+      user,
     });
   },
-  unauthorize: (data) => {
-    set({ is: `unauthorized`, ...data });
+  unauthorize: () => {
+    set({ is: `unauthorized` });
   },
 };
 
-export type { AuthorizedData };
 export { useAuthStore, authStoreActions, authStoreSelectors };
