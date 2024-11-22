@@ -1,7 +1,4 @@
-import type {
-  API4MarkdownPayload,
-  API4MarkdownDto,
-} from 'api-4markdown-contracts';
+import type { API4MarkdownDto } from 'api-4markdown-contracts';
 import { create } from 'zustand';
 
 interface AuthorizedData {
@@ -11,9 +8,6 @@ interface AuthorizedData {
   };
   logOut(): void;
   uploadImage(image: File): Promise<API4MarkdownDto<'uploadImage'>>;
-  updateYourProfile(
-    payload: API4MarkdownPayload<'updateYourUserProfile'>,
-  ): Promise<void>;
 }
 
 interface UnauthrorizedData {

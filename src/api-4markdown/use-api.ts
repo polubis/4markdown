@@ -25,6 +25,7 @@ import React from 'react';
 import { emit } from './observer';
 // @TODO[PRIO=2]: [Decouple from Firebase interfaces, and lazy load what can be lazy loaded].
 
+// @TODO[PRIO=2]: [Make this API less "object" oriented, maybe there is a possibility to three-shake it].
 type API4Markdown = {
   call: API4MarkdownContractCall;
   logIn(): Promise<void>;

@@ -6,7 +6,6 @@ import { docsStoreActions } from 'store/docs/docs.store';
 import { imagesStoreActions } from 'store/images/images.store';
 import { readFileAsBase64 } from '../development-kit/file-reading';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
-import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
 import { useAPI, unobserveAll, removeCache } from 'api-4markdown';
 
 // What about edition? How to solve this problem?
@@ -43,21 +42,6 @@ const useAuth = () => {
               return data;
             } catch (error: unknown) {
               imagesStoreActions.fail(error);
-              throw error;
-            }
-          },
-          updateYourProfile: async (payload) => {
-            try {
-              updateYourProfileStoreActions.busy();
-
-              const { mdate, profile } = await call(`updateYourUserProfile`)(
-                payload,
-              );
-
-              updateYourProfileStoreActions.ok();
-              yourProfileStoreActions.ok({ mdate, user: profile });
-            } catch (error: unknown) {
-              updateYourProfileStoreActions.fail(error);
               throw error;
             }
           },
