@@ -1,7 +1,7 @@
-import { getAPI } from 'api-4markdown';
+import { getAPI, setCache } from 'api-4markdown';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import { docsStoreActions } from 'store/docs/docs.store';
+import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
 import { creatorStoreActions } from './creator.store';
 
 const deleteDocument = async (onOk?: () => void): Promise<void> => {
@@ -15,6 +15,9 @@ const deleteDocument = async (onOk?: () => void): Promise<void> => {
     docsStoreActions.deleteDoc(id);
     docStoreActions.reset();
     creatorStoreActions.init();
+
+    setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
+
     onOk?.();
   } catch (error: unknown) {
     docManagementStoreActions.fail(error);
