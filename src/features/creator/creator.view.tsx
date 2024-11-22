@@ -15,7 +15,6 @@ import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
 import { meta } from '../../../meta';
-import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -24,8 +23,6 @@ const CreatorErrorModalContainer = React.lazy(
 type DivideMode = 'both' | 'preview' | 'code';
 
 const CreatorView = () => {
-  useCreatorLocalStorageSync();
-
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();

@@ -9,8 +9,6 @@ type CreatorStoreStateReady = { is: 'ready' } & {
 
 type CreatorStoreState = CreatorStoreStateIdle | CreatorStoreStateReady;
 
-const CREATOR_STORE_LS_KEY = `code`;
-
 const useCreatorStore = create<CreatorStoreState>(() => ({
   is: `idle`,
 }));
@@ -54,7 +52,6 @@ const creatorStoreActions = {
     };
 
     set(newState);
-    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
   changeWithoutMarkAsUnchanged: (code: string) => {
     const { is, initialCode, changed } = creatorStoreSelectors.ready();
@@ -66,8 +63,6 @@ const creatorStoreActions = {
     };
 
     set(newState);
-
-    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
   change: (code: string) => {
     const { is, initialCode } = creatorStoreSelectors.ready();
@@ -79,7 +74,6 @@ const creatorStoreActions = {
     };
 
     set(newState);
-    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
   asUnchanged: () => {
     const { is, initialCode, code } = creatorStoreSelectors.ready();
@@ -91,20 +85,7 @@ const creatorStoreActions = {
     };
 
     set(newState);
-    localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
-  },
-  sync: () => {
-    const state = localStorage.getItem(CREATOR_STORE_LS_KEY) as string | null;
-
-    if (state === null) return;
-
-    set(JSON.parse(state) as CreatorStoreStateReady);
   },
 } as const;
 
-export {
-  useCreatorStore,
-  CREATOR_STORE_LS_KEY,
-  creatorStoreActions,
-  creatorStoreSelectors,
-};
+export { useCreatorStore, creatorStoreActions, creatorStoreSelectors };
