@@ -3,6 +3,7 @@ import { readFileAsBase64 } from 'development-kit/file-reading';
 import { imagesStoreActions } from './images.store';
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
 
+// @TODO[PRIO=5]: [Design single way of handling error cases?].
 const uploadImage = async (
   image: File,
 ): Promise<API4MarkdownDto<'uploadImage'>> => {
