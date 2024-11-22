@@ -4,11 +4,10 @@ import { docManagementStoreActions } from 'store/doc-management/doc-management.s
 import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
 import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
-import { useAPI, unobserveAll, removeCache } from 'api-4markdown';
+import { initializeAPI, removeCache } from 'api-4markdown';
 
-// What about edition? How to solve this problem?
 const useAuth = () => {
-  const api = useAPI();
+  const [api] = React.useState(initializeAPI);
 
   React.useEffect(() => {
     const { logOut, logIn, onAuthChange } = api;
@@ -48,7 +47,6 @@ const useAuth = () => {
 
     return () => {
       unsubscribe();
-      unobserveAll();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
