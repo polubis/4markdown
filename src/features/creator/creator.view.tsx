@@ -15,17 +15,16 @@ import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
 import { meta } from '../../../meta';
+import { useDocumentCreatorStore } from 'store/document-creator/store';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
 
-type DivideMode = 'both' | 'preview' | 'code';
-
 const CreatorView = () => {
   const docManagementStore = useDocManagementStore();
-  const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = creatorStoreSelectors.useReady();
+  const { display } = useDocumentCreatorStore();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 
@@ -37,7 +36,7 @@ const CreatorView = () => {
   const loadAndScroll = async (input: HTMLTextAreaElement): Promise<void> => {
     const DESKTOP_WIDTH = 1024;
 
-    if (divideMode !== `both` || window.innerWidth < DESKTOP_WIDTH) {
+    if (display !== `both` || window.innerWidth < DESKTOP_WIDTH) {
       return;
     }
 
@@ -49,12 +48,12 @@ const CreatorView = () => {
   };
 
   const divide = (): void => {
-    if (divideMode === `both`) {
+    if (display === `both`) {
       setDivideMode(`code`);
       return;
     }
 
-    if (divideMode === `code`) {
+    if (display === `code`) {
       setDivideMode(`preview`);
       return;
     }
@@ -109,7 +108,7 @@ const CreatorView = () => {
     if (creatorField) {
       creatorField.value = code;
     }
-  }, [code, divideMode]);
+  }, [code, display]);
 
   React.useEffect(() => {
     const timeout = timeoutRef.current;
@@ -132,13 +131,13 @@ const CreatorView = () => {
           <ImageUploaderContainer />
           <TemplatesPopover />
           <Button i={1} s={2} title="Change view display" onClick={divide}>
-            {divideMode === `both` && (
+            {display === `both` && (
               <BiBookContent className="rotate-90 md:rotate-0" />
             )}
-            {divideMode === `code` && (
+            {display === `code` && (
               <BiSolidBookContent className="rotate-180" />
             )}
-            {divideMode === `preview` && <BiSolidBookContent />}
+            {display === `preview` && <BiSolidBookContent />}
           </Button>
 
           <Button
@@ -177,7 +176,7 @@ const CreatorView = () => {
         <section
           className={c(`grid h-[calc(100svh-72px-50px)]`, {
             'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
-              divideMode === `both`,
+              display === `both`,
           })}
         >
           <label className="hidden" htmlFor="creator" id="creator">
@@ -190,7 +189,7 @@ const CreatorView = () => {
             spellCheck="false"
             className={c(
               `p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
-              { hidden: divideMode === `preview` },
+              { hidden: display === `preview` },
             )}
             onChange={changeCode}
             onKeyDown={maintainTabs}
@@ -201,11 +200,11 @@ const CreatorView = () => {
           <div
             className={c(
               `p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
-              { hidden: divideMode === `code` },
-              { 'max-w-4xl mx-auto': divideMode === `preview` },
+              { hidden: display === `code` },
+              { 'max-w-4xl mx-auto': display === `preview` },
               {
                 'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
-                  divideMode === `both`,
+                  display === `both`,
               },
             )}
           >
