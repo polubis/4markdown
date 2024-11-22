@@ -10,15 +10,17 @@ import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
-
-import { updateDocumentName } from '../store/update-document-name.action';
-import { updateDocumentCode } from '../store/update-document-code.action';
+import { updateDocumentCode } from 'actions/update-document-code.action';
+import { updateDocumentName } from 'actions/update-document-name.action';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
 );
-const DeleteDocModal = React.lazy(
-  () => import(`../../../components/delete-doc-modal`),
+
+const DeleteDocumentModalContainer = React.lazy(() =>
+  import(`./delete-document-modal.container`).then((m) => ({
+    default: m.DeleteDocumentModalContainer,
+  })),
 );
 
 const ActiveDocumentBarContainer = () => {
@@ -140,7 +142,7 @@ const ActiveDocumentBarContainer = () => {
 
       {deleteModal.opened && (
         <React.Suspense>
-          <DeleteDocModal onClose={deleteModal.close} />
+          <DeleteDocumentModalContainer onClose={deleteModal.close} />
         </React.Suspense>
       )}
     </>

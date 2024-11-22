@@ -1,10 +1,10 @@
 import { parseError } from 'api-4markdown';
+import type { API4MarkdownDto, DocumentDto } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
-import type { DocumentCreatorViewModel } from 'models/view-models';
 import { create } from 'zustand';
-
+// @TODO[PRIO=2]: [Align type definitions for retrieving documents].
 type DocsStoreState = Transaction<{
-  docs: DocumentCreatorViewModel['document'][];
+  docs: API4MarkdownDto<`getYourDocuments`>;
 }>;
 type DocsStoreOkState = Extract<DocsStoreState, { is: 'ok' }>;
 
@@ -12,7 +12,7 @@ const useDocsStore = create<DocsStoreState>(() => ({
   is: `idle`,
 }));
 
-const { setState } = useDocsStore;
+const { setState, getState } = useDocsStore;
 
 const set = (state: DocsStoreState) => {
   setState(state, true);
@@ -25,15 +25,16 @@ const getOkState = (state: DocsStoreState): DocsStoreOkState => {
 };
 
 const docsStoreSelectors = {
-  ok: () => getOkState(useDocsStore.getState()),
+  state: () => getState(),
+  ok: () => getOkState(getState()),
 };
 
 const docsStoreActions = {
   idle: () => set({ is: `idle` }),
   busy: () => set({ is: `busy` }),
-  ok: (docs: DocumentCreatorViewModel['document'][]) => set({ is: `ok`, docs }),
+  ok: (docs: API4MarkdownDto<`getYourDocuments`>) => set({ is: `ok`, docs }),
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
-  updateDoc: (doc: DocumentCreatorViewModel['document']) => {
+  updateDoc: (doc: API4MarkdownDto<`getYourDocuments`>[number]) => {
     const state = docsStoreSelectors.ok();
 
     set({
@@ -47,7 +48,7 @@ const docsStoreActions = {
         }),
     });
   },
-  addDoc: (doc: DocumentCreatorViewModel['document']) => {
+  addDoc: (doc: API4MarkdownDto<`getYourDocuments`>[number]) => {
     const state = docsStoreSelectors.ok();
 
     set({
@@ -55,7 +56,7 @@ const docsStoreActions = {
       docs: [doc, ...state.docs],
     });
   },
-  deleteDoc: (id: DocumentCreatorViewModel['document']['id']) => {
+  deleteDoc: (id: DocumentDto['id']) => {
     const state = docsStoreSelectors.ok();
 
     set({

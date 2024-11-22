@@ -6,6 +6,7 @@ import { useToggle } from 'development-kit/use-toggle';
 import { useDocsStore } from 'store/docs/docs.store';
 import { YourAvatarContainer } from '../containers/your-avatar.container';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
+import { logIn } from 'actions/log-in.action';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
@@ -23,7 +24,7 @@ const UserPopover = () => {
       return;
     }
 
-    authStore.logIn();
+    logIn();
   };
 
   return (

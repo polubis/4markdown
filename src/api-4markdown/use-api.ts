@@ -21,10 +21,10 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
-import React from 'react';
 import { emit } from './observer';
 // @TODO[PRIO=2]: [Decouple from Firebase interfaces, and lazy load what can be lazy loaded].
 
+// @TODO[PRIO=2]: [Make this API less "object" oriented, maybe there is a possibility to three-shake it].
 type API4Markdown = {
   call: API4MarkdownContractCall;
   logIn(): Promise<void>;
@@ -44,7 +44,7 @@ const isOffline = (): boolean =>
 
 class NoInternetException extends Error {}
 
-const initialize = (): API4Markdown => {
+const initializeAPI = (): API4Markdown => {
   const config: FirebaseOptions = {
     apiKey: process.env.GATSBY_API_KEY,
     authDomain: process.env.GATSBY_AUTH_DOMAIN,
@@ -130,8 +130,6 @@ const initialize = (): API4Markdown => {
   return instance;
 };
 
-const useAPI = () => React.useState(initialize)[0];
-
 const getAPI = (): API4Markdown => {
   if (!instance) {
     throw Error(`Instance of API is not read to be used`);
@@ -140,4 +138,4 @@ const getAPI = (): API4Markdown => {
   return instance;
 };
 
-export { useAPI, getAPI };
+export { initializeAPI, getAPI };
