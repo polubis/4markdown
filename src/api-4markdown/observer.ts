@@ -47,4 +47,8 @@ const emit = <TKey extends API4MarkdownContractKey>(
   });
 };
 
-export { observe, emit };
+const unobserveAll = (): void => {
+  observersMap.clear();
+};
+
+export { observe, emit, unobserveAll };

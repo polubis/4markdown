@@ -24,11 +24,11 @@ import { useToggle } from 'development-kit/use-toggle';
 import type { NonNullableProperties } from 'development-kit/utility-types';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
-import { authStoreSelectors } from 'store/auth/auth.store';
 import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
+import { updateYourUserProfile } from 'actions/update-your-user-profile.action';
 import type { YourProfileStoreOkState } from 'store/your-profile/your-profile.store';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
@@ -107,8 +107,9 @@ const UserProfileFormModalContainer = ({
 
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    try {
-      await authStoreSelectors.authorized().updateYourProfile({
+
+    updateYourUserProfile(
+      {
         displayName: values.displayName || null,
         bio: values.bio || null,
         twitterUrl: values.twitterUrl || null,
@@ -118,9 +119,9 @@ const UserProfileFormModalContainer = ({
         linkedInUrl: values.linkedInUrl || null,
         avatar: values.avatar,
         mdate: values.mdate,
-      });
-      back();
-    } catch {}
+      },
+      back,
+    );
   };
 
   const [uploadAvatar] = useFileInput({

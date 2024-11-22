@@ -4,7 +4,6 @@ import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
-import { authStoreSelectors } from 'store/auth/auth.store';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -15,6 +14,7 @@ import {
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import type { ImageDto } from 'api-4markdown-contracts';
+import { uploadImage } from 'actions/upload-image.action';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<ImageDto | null>();
@@ -30,9 +30,7 @@ const ImageUploaderAuthContainer = () => {
       const uploadAndOpen = async (): Promise<void> => {
         if (!!files && files.length === 1) {
           try {
-            const result = await authStoreSelectors
-              .authorized()
-              .uploadImage(files[0]);
+            const result = await uploadImage(files[0]);
             imageModal.openWithData(result);
           } catch {
             errorModal.open();

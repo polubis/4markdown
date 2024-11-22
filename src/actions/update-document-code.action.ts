@@ -1,11 +1,11 @@
-import { getAPI } from 'api-4markdown';
+import { getAPI, setCache } from 'api-4markdown';
 import {
   creatorStoreActions,
   creatorStoreSelectors,
 } from 'store/creator/creator.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
-import { docsStoreActions } from 'store/docs/docs.store';
+import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
 
 const updateDocumentCode = async () => {
   const doc = docStoreSelectors.active();
@@ -32,6 +32,8 @@ const updateDocumentCode = async () => {
     docsStoreActions.updateDoc(updatedDoc);
     docStoreActions.setActive(updatedDoc);
     creatorStoreActions.asUnchanged();
+
+    setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
   } catch (error: unknown) {
     docManagementStoreActions.fail(error);
   }

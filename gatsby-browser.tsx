@@ -4,8 +4,10 @@ import './src/style/index.css';
 import ErrorBoundary from './src/development-kit/error-boundary';
 import { useAuth } from './src/core/use-auth';
 
-const ExceptionScreen = React.lazy(
-  () => import(`./src/components/exception-screen`),
+const ExceptionScreen = React.lazy(() =>
+  import(`./src/components/exception-screen`).then((m) => ({
+    default: m.ExceptionScreen,
+  })),
 );
 
 const SafeExceptionScreen = () => (

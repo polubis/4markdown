@@ -4,7 +4,7 @@ import { BiPlusCircle, BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Input } from 'design-system/input';
 import { useForm } from 'development-kit/use-form';
-import { createDocument } from 'features/creator/store/create-document.action';
+import { createDocument } from 'actions/create-document.action';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
