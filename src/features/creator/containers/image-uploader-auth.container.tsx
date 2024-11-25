@@ -6,7 +6,6 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
-import { useDocsStore } from 'store/docs/docs.store';
 import {
   imagesStoreRestrictions,
   useImagesStore,
@@ -15,11 +14,12 @@ import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import type { ImageDto } from 'api-4markdown-contracts';
 import { uploadImage } from 'actions/upload-image.action';
+import { useDocumentsCreatorState } from 'store/documents-creator';
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<ImageDto | null>();
   const errorModal = useToggle();
-  const docsStore = useDocsStore();
+  const busy = useDocumentsCreatorState((state) => state.busy);
   const imagesStore = useImagesStore();
   const [copyState, copy] = useCopy();
 
@@ -57,7 +57,7 @@ const ImageUploaderAuthContainer = () => {
       {imagesStore.is === `busy` && <Status>Uploading image...</Status>}
 
       <UploadImageButton
-        disabled={docsStore.is === `busy` || imagesStore.is === `busy`}
+        disabled={busy || imagesStore.is === `busy`}
         onClick={upload}
       />
 
