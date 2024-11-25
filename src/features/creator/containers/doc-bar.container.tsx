@@ -4,8 +4,8 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { DocBarLoader } from '../components/doc-bar-loader';
 import { YourDocumentsContainer } from './your-documents.container';
-import { getYourDocuments } from 'actions/get-your-documents.action';
 import { useDocumentsCreatorState } from 'store/documents-creator';
+import { actGetYourDocuments } from 'store/documents-creator/acts';
 
 const ActiveDocumentBarContainer = React.lazy(
   () => import(`./active-document-bar.container`),
@@ -16,7 +16,7 @@ const DocBarContainer = () => {
   const authStore = useAuthStore();
 
   React.useEffect(() => {
-    authStore.is === `authorized` && getYourDocuments();
+    authStore.is === `authorized` && actGetYourDocuments();
   }, [authStore]);
 
   return (

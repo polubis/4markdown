@@ -1,6 +1,6 @@
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import { useDocumentsCreatorState } from '.';
-import { getAPI, parseError, setCache } from 'api-4markdown';
+import { getAPI, getCache, parseError, setCache } from 'api-4markdown';
 import type { AsyncResult } from 'development-kit/utility-types';
 
 const { getState: get, setState: set } = useDocumentsCreatorState;
@@ -80,4 +80,27 @@ const actDeleteDocument = async (): AsyncResult => {
   }
 };
 
-export { actCreateDocument, actDeleteDocument };
+const actGetYourDocuments = async (): AsyncResult => {
+  try {
+    const cachedDocuments = getCache(`getYourDocuments`);
+
+    if (cachedDocuments !== null) {
+      set({ documents: cachedDocuments, busy: false });
+      return { is: `ok` };
+    }
+
+    handleStart();
+
+    const documents = await getAPI().call(`getYourDocuments`)();
+
+    setCache(`getYourDocuments`, documents);
+
+    set({ documents, busy: false });
+
+    return { is: `ok` };
+  } catch (error: unknown) {
+    return handleError(error);
+  }
+};
+
+export { actCreateDocument, actDeleteDocument, actGetYourDocuments };

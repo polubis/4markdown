@@ -1,4 +1,8 @@
-import type { DocumentDto, ParsedError } from 'api-4markdown-contracts';
+import type {
+  API4MarkdownDto,
+  DocumentDto,
+  ParsedError,
+} from 'api-4markdown-contracts';
 
 type DocumentsCreatorState = {
   changed: boolean;
@@ -6,7 +10,7 @@ type DocumentsCreatorState = {
   initialCode: DocumentDto['code'];
   display: `both` | `code` | `preview`;
   activeDocumentId: DocumentDto['id'] | null;
-  documents: DocumentDto[];
+  documents: API4MarkdownDto<`getYourDocuments`>;
   busy: boolean;
   error: ParsedError | null;
 };
