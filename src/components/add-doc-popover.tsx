@@ -9,7 +9,7 @@ import React from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { logIn } from 'actions/log-in.action';
-import { useDocumentsCreatorState } from 'features/creator/store/documents-creator.store';
+import { useDocumentsCreatorState } from 'store/documents-creator/documents-creator.store';
 
 const CreateDocumentModal = React.lazy(() =>
   import(`./create-document-modal`).then((m) => ({

@@ -5,7 +5,7 @@ import { DocBarRow } from '../components/doc-bar-row';
 import { DocBarLoader } from '../components/doc-bar-loader';
 import { YourDocumentsContainer } from './your-documents.container';
 import { getYourDocuments } from 'actions/get-your-documents.action';
-import { useDocumentsCreatorState } from '../store/documents-creator.store';
+import { useDocumentsCreatorState } from '../../../store/documents-creator/documents-creator.store';
 
 const ActiveDocumentBarContainer = React.lazy(
   () => import(`./active-document-bar.container`),

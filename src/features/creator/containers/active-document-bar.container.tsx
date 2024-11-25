@@ -12,7 +12,7 @@ import { updateDocumentName } from 'actions/update-document-name.action';
 import {
   selectActiveDocument,
   useDocumentsCreatorState,
-} from '../store/documents-creator.store';
+} from '../../../store/documents-creator/documents-creator.store';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),

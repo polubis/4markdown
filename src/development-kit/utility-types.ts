@@ -24,4 +24,18 @@ type Nullable<T> = {
   [P in keyof T]: T[P] extends object ? Nullable<T[P]> | null : T[P] | null;
 };
 
-export type { NonNullableProperties, Prettify, Transaction, Nullable };
+type ActResult<
+  TOkData extends MaybeObject = undefined,
+  TFailData extends MaybeObject = { error: ParsedError },
+> = Promise<
+  | (TOkData extends undefined ? { is: 'ok' } : { is: 'ok' } & TOkData)
+  | (TFailData extends undefined ? { is: `fail` } : { is: `fail` } & TFailData)
+>;
+
+export type {
+  NonNullableProperties,
+  Prettify,
+  Transaction,
+  Nullable,
+  ActResult,
+};

@@ -5,7 +5,7 @@ import { BiX } from 'react-icons/bi';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { Link } from 'gatsby';
 import { meta } from '../../../../meta';
-import { useDocumentsCreatorState } from '../store/documents-creator.store';
+import { useDocumentsCreatorState } from '../../../store/documents-creator/documents-creator.store';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;

@@ -14,7 +14,7 @@ import {
   setCode,
   setDisplay,
   useDocumentsCreatorState,
-} from './store/documents-creator.store';
+} from '../../store/documents-creator/documents-creator.store';
 import { Navigation } from 'components/navigation';
 
 const CreatorErrorModalContainer = React.lazy(() =>

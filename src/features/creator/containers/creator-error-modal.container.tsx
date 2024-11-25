@@ -3,7 +3,7 @@ import ErrorModal from 'components/error-modal';
 import { Button } from 'design-system/button';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { reloadYourDocuments } from 'actions/reload-your-documents.action';
-import { useDocumentsCreatorState } from '../store/documents-creator.store';
+import { useDocumentsCreatorState } from '../../../store/documents-creator/documents-creator.store';
 
 const CreatorErrorModalContainer = () => {
   const error = useDocumentsCreatorState((state) => state.error!);

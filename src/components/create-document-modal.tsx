@@ -3,12 +3,12 @@ import { Button } from 'design-system/button';
 import { BiPlusCircle, BiX } from 'react-icons/bi';
 import { Input } from 'design-system/input';
 import { useForm } from 'development-kit/use-form';
-import { createDocument } from 'actions/create-document.action';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 import Modal from 'design-system/modal';
-import { useDocumentsCreatorState } from 'features/creator/store/documents-creator.store';
+import { useDocumentsCreatorState } from 'store/documents-creator/documents-creator.store';
+import { actCreateDocument } from 'store/documents-creator/documents-creator.acts';
 
 type CreateDocumentModalProps = {
   onClose(): void;
@@ -29,7 +29,7 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
-      await createDocument(values);
+      await actCreateDocument(values);
       close();
     } catch {}
   };
