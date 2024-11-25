@@ -28,10 +28,7 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    try {
-      await actCreateDocument(values);
-      close();
-    } catch {}
+    (await actCreateDocument(values)).is === `ok` && close();
   };
 
   return (
