@@ -9,10 +9,8 @@ import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
 import { updateDocumentCode } from 'actions/update-document-code.action';
 import { updateDocumentName } from 'actions/update-document-name.action';
-import {
-  selectActiveDocument,
-  useDocumentsCreatorState,
-} from '../../../store/documents-creator/documents-creator.store';
+import { useDocumentsCreatorState } from 'store/documents-creator';
+import { selectActiveDocument } from 'store/documents-creator/selectors';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),

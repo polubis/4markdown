@@ -9,7 +9,7 @@ import { BiX } from 'react-icons/bi';
 import { docStoreSelectors } from 'store/doc/doc.store';
 import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 import { SeoFriendlyDescriptionHint } from '../components/seo-friendly-description-hint';
-import { useDocumentsCreatorState } from '../../../store/documents-creator/documents-creator.store';
+import { useDocumentsCreatorState } from 'store/documents-creator';
 
 type PermamentDocFormContainerProps = {
   onConfirm(): void;

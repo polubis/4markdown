@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'design-system/button';
 import { BiGridAlt } from 'react-icons/bi';
 import { useToggle } from 'development-kit/use-toggle';
-import { useDocumentsCreatorState } from '../../../store/documents-creator/documents-creator.store';
+import { useDocumentsCreatorState } from 'store/documents-creator';
 
 const DocsListModal = React.lazy(
   () => import(`../../../components/docs-list-modal`),

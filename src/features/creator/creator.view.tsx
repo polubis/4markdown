@@ -9,13 +9,13 @@ import AddDocPopover from 'components/add-doc-popover';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { meta } from '../../../meta';
+import { useDocumentsCreatorState } from 'store/documents-creator';
+import { Navigation } from 'components/navigation';
 import {
   divideDisplay,
   setCode,
   setDisplay,
-  useDocumentsCreatorState,
-} from '../../store/documents-creator/documents-creator.store';
-import { Navigation } from 'components/navigation';
+} from 'store/documents-creator/actions';
 
 const CreatorErrorModalContainer = React.lazy(() =>
   import(`./containers/creator-error-modal.container`).then((m) => ({
