@@ -9,7 +9,10 @@ import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
 import { updateDocumentCode } from 'actions/update-document-code.action';
 import { updateDocumentName } from 'actions/update-document-name.action';
-import { useDocumentsCreatorState } from '../store/documents-creator.store';
+import {
+  selectActiveDocument,
+  useDocumentsCreatorState,
+} from '../store/documents-creator.store';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -22,14 +25,14 @@ const DeleteDocumentModalContainer = React.lazy(() =>
 );
 
 const ActiveDocumentBarContainer = () => {
-  const { busy, activeDocumentId } = useDocumentsCreatorState((state) => ({
+  const { busy, activeDocument } = useDocumentsCreatorState((state) => ({
     busy: state.busy,
-    activeDocumentId: !state.activeDocumentId,
+    activeDocument: selectActiveDocument(state),
   }));
   const authStore = useAuthStore();
   const creatorStore = creatorStoreSelectors.useReady();
   const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
-    useForm({ name: docStore.name });
+    useForm({ name: activeDocument.name });
   const edition = useToggle();
   const morePopover = useToggle();
   const deleteModal = useToggle();
@@ -45,7 +48,7 @@ const ActiveDocumentBarContainer = () => {
   };
 
   const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
-    reconfigure({ name: docStore.name });
+    reconfigure({ name: activeDocument.name });
     edition.open();
   };
 
@@ -55,8 +58,8 @@ const ActiveDocumentBarContainer = () => {
   };
 
   React.useEffect(() => {
-    reconfigure({ name: docStore.name });
-  }, [docStore, reconfigure]);
+    reconfigure({ name: activeDocument.name });
+  }, [activeDocument, reconfigure]);
 
   const nonInteractive = authStore.is !== `authorized` || busy;
 
@@ -92,7 +95,7 @@ const ActiveDocumentBarContainer = () => {
           </Button>
         </form>
       ) : (
-        <DocBarRow title={docStore.name}>
+        <DocBarRow title={activeDocument.name}>
           <Button
             i={1}
             s={1}
