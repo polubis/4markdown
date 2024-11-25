@@ -24,7 +24,7 @@ type Nullable<T> = {
   [P in keyof T]: T[P] extends object ? Nullable<T[P]> | null : T[P] | null;
 };
 
-type ActResult<
+type AsyncResult<
   TOkData extends MaybeObject = undefined,
   TFailData extends MaybeObject = { error: ParsedError },
 > = Promise<
@@ -37,5 +37,5 @@ export type {
   Prettify,
   Transaction,
   Nullable,
-  ActResult,
+  AsyncResult,
 };
