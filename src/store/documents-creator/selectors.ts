@@ -1,13 +1,11 @@
-import type { DocumentDto } from 'api-4markdown-contracts';
 import type { DocumentsCreatorState } from './models';
 
 const findActiveDocument = ({
   documents,
   activeDocumentId,
-}: Pick<
-  DocumentsCreatorState,
-  'documents' | 'activeDocumentId'
->): DocumentDto | null => {
+}: Pick<DocumentsCreatorState, 'documents' | 'activeDocumentId'>):
+  | DocumentsCreatorState['documents'][number]
+  | null => {
   if (activeDocumentId === null) return null;
 
   const found = documents.find((document) => document.id === activeDocumentId);
@@ -17,7 +15,9 @@ const findActiveDocument = ({
   return found;
 };
 
-const selectActiveDocument = (state: DocumentsCreatorState): DocumentDto => {
+const selectActiveDocument = (
+  state: DocumentsCreatorState,
+): DocumentsCreatorState['documents'][number] => {
   const found = findActiveDocument(state);
 
   if (!found) {

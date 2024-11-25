@@ -32,7 +32,7 @@ const actCreateDocument = async (
       code,
     });
 
-    const newDocuments = [...documents, createdDocument];
+    const newDocuments = [createdDocument, ...documents];
 
     set({
       busy: false,
