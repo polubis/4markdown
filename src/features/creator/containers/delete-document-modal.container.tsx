@@ -3,26 +3,26 @@ import { Input } from 'design-system/input';
 import Modal from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
-import { deleteDocument } from 'actions/delete-document.action';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { docStoreSelectors } from 'store/doc/doc.store';
+import { useDocumentsCreatorState } from 'store/documents-creator';
+import { actDeleteDocument } from 'store/documents-creator/acts';
+import { selectActiveDocument } from 'store/documents-creator/selectors';
 
 const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
-  const docStore = docStoreSelectors.useActive();
-  const docManagementStore = useDocManagementStore();
+  const { busy, activeDocument } = useDocumentsCreatorState((state) => ({
+    busy: state.busy,
+    activeDocument: selectActiveDocument(state),
+  }));
   const [name, setName] = React.useState(``);
 
-  const disabled = docManagementStore.is === `busy`;
-
   const close = (): void => {
-    if (disabled) return;
+    if (busy) return;
 
     onClose?.();
   };
 
-  const handleConfirm: React.FormEventHandler<HTMLFormElement> = (e) => {
+  const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    deleteDocument(close);
+    (await actDeleteDocument()).is === `ok` && close();
   };
 
   return (
@@ -31,7 +31,7 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
         <h6 className="text-xl">Document Removal</h6>
         <Button
           type="button"
-          disabled={disabled}
+          disabled={busy}
           i={2}
           s={1}
           title="Close document removal"
@@ -42,7 +42,7 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
       </div>
       <form onSubmit={handleConfirm}>
         <p className="mb-4">
-          Type <strong>{docStore.name}</strong> to remove this document
+          Type <strong>{activeDocument.name}</strong> to remove this document
         </p>
         <fieldset className="flex flex-col gap-1.5">
           <label className="text-sm font-medium">Document Name*</label>
@@ -59,7 +59,7 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
             i={1}
             s={2}
             auto
-            disabled={disabled}
+            disabled={busy}
             title="Cancel document removal"
             onClick={close}
           >
@@ -72,7 +72,7 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
             s={2}
             auto
             title="Confirm document removal"
-            disabled={name !== docStore.name || disabled}
+            disabled={name !== activeDocument.name || busy}
           >
             Remove
           </Button>
