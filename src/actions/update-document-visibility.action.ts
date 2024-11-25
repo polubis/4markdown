@@ -5,7 +5,10 @@ import type {
   PrivateDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
-import { creatorStoreSelectors } from 'store/creator/creator.store';
+import {
+  creatorStoreActions,
+  creatorStoreSelectors,
+} from 'store/creator/creator.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
@@ -35,7 +38,8 @@ const updateDocumentVisibility = async (
       code,
     };
     docManagementStoreActions.ok();
-    docStoreActions.setActive(updatedDocument, false);
+    creatorStoreActions.changeWithoutMarkAsUnchanged(updatedDocument.code);
+    docStoreActions.setActiveWithoutCodeChange(updatedDocument);
     docsStoreActions.updateDoc(updatedDocument);
 
     setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
