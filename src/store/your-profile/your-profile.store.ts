@@ -16,7 +16,7 @@ const useYourProfileStore = create<YourProfileStoreState>(() => ({
 const { setState, getState } = useYourProfileStore;
 
 const set = (state: YourProfileStoreState, replace = true): void => {
-  setState(state, replace);
+  replace ? setState(state, true) : setState(state);
 };
 
 const yourProfileStoreActions = {
