@@ -1,21 +1,19 @@
 import React from 'react';
 import ErrorModal from 'components/error-modal';
 import { Button } from 'design-system/button';
-import {
-  docManagementStoreActions,
-  docManagementStoreSelectors,
-} from 'store/doc-management/doc-management.store';
+import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { reloadYourDocuments } from 'actions/reload-your-documents.action';
+import { useDocumentsCreatorState } from '../store/documents-creator.store';
 
 const CreatorErrorModalContainer = () => {
-  const docManagementStore = docManagementStoreSelectors.useFail();
+  const error = useDocumentsCreatorState((state) => state.error!);
 
   return (
     <ErrorModal
       heading="Ups, something went wrong"
-      message={docManagementStore.error.message}
+      message={error.message}
       footer={
-        docManagementStore.error.symbol === `out-of-date` && (
+        error.symbol === `out-of-date` && (
           <Button
             type="button"
             i={2}
@@ -33,4 +31,4 @@ const CreatorErrorModalContainer = () => {
   );
 };
 
-export default CreatorErrorModalContainer;
+export { CreatorErrorModalContainer };

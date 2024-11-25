@@ -2,10 +2,10 @@ import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { Link } from 'gatsby';
 import { meta } from '../../../../meta';
+import { useDocumentsCreatorState } from '../store/documents-creator.store';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;
@@ -18,7 +18,7 @@ const PermanentConfirmationContainer = ({
   onCancel,
   onClose,
 }: PermanentConfirmationContainerProps) => {
-  const docManagementStore = useDocManagementStore();
+  const { busy } = useDocumentsCreatorState();
   const formSection = useToggle();
 
   const openFormSection: FormEventHandler<HTMLFormElement> = async (
@@ -46,7 +46,7 @@ const PermanentConfirmationContainer = ({
           i={2}
           s={1}
           className="ml-auto"
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           title="Close document permanent status confirmation"
           onClick={onClose}
         >

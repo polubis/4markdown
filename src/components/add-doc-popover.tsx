@@ -9,7 +9,7 @@ import React from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { logIn } from 'actions/log-in.action';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
+import { useDocumentsCreatorState } from 'features/creator/store/documents-creator.store';
 
 const CreateDocumentModal = React.lazy(() =>
   import(`./create-document-modal`).then((m) => ({
@@ -18,7 +18,7 @@ const CreateDocumentModal = React.lazy(() =>
 );
 
 const AddDocPopover = () => {
-  const docManagementStore = useDocManagementStore();
+  const { error } = useDocumentsCreatorState();
   const authStore = useAuthStore();
   const menu = useToggle();
 
@@ -44,11 +44,9 @@ const AddDocPopover = () => {
   }, [authStore.is, menu]);
 
   React.useEffect(() => {
-    if (docManagementStore.is === `fail`) {
-      menu.close();
-    }
+    error && menu.close();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [docManagementStore]);
+  }, [error]);
 
   return (
     <>

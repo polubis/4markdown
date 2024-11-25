@@ -1,8 +1,8 @@
 import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
+import { useDocumentsCreatorState } from '../store/documents-creator.store';
 
 interface PrivateConfirmationContainerProps {
   onClose(): void;
@@ -15,7 +15,7 @@ const PrivateConfirmationContainer = ({
   onCancel,
   onConfirm,
 }: PrivateConfirmationContainerProps) => {
-  const docManagementStore = useDocManagementStore();
+  const { busy } = useDocumentsCreatorState();
 
   const handleConfirm: FormEventHandler<HTMLFormElement> = async (
     e,
@@ -36,7 +36,7 @@ const PrivateConfirmationContainer = ({
           i={2}
           s={1}
           className="ml-auto"
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           title="Close private document confirmation"
           onClick={onClose}
         >
@@ -59,7 +59,7 @@ const PrivateConfirmationContainer = ({
           s={2}
           auto
           title="Cancel private document confirmation"
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           onClick={onCancel}
         >
           Cancel
@@ -70,7 +70,7 @@ const PrivateConfirmationContainer = ({
           i={2}
           s={2}
           auto
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           title="Confirm private document status change"
         >
           Confirm

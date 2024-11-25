@@ -1,10 +1,10 @@
 import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Link } from 'gatsby';
 import { meta } from '../../../../meta';
 import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
+import { useDocumentsCreatorState } from '../store/documents-creator.store';
 
 interface PublicConfirmationContainerProps {
   onClose(): void;
@@ -17,7 +17,7 @@ const PublicConfirmationContainer = ({
   onCancel,
   onConfirm,
 }: PublicConfirmationContainerProps) => {
-  const docManagementStore = useDocManagementStore();
+  const { busy } = useDocumentsCreatorState();
 
   const handleConfirm: FormEventHandler<HTMLFormElement> = async (
     e,
@@ -39,7 +39,7 @@ const PublicConfirmationContainer = ({
           i={2}
           s={1}
           className="ml-auto"
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           title="Close public document confirmation"
           onClick={onClose}
         >
@@ -72,7 +72,7 @@ const PublicConfirmationContainer = ({
           s={2}
           auto
           title="Cancel public document confirmation"
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           onClick={onCancel}
         >
           Cancel
@@ -83,7 +83,7 @@ const PublicConfirmationContainer = ({
           i={2}
           s={2}
           auto
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           title="Confirm public document status change"
         >
           Confirm

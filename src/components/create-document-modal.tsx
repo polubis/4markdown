@@ -1,7 +1,6 @@
 import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiPlusCircle, BiX } from 'react-icons/bi';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Input } from 'design-system/input';
 import { useForm } from 'development-kit/use-form';
 import { createDocument } from 'actions/create-document.action';
@@ -9,19 +8,20 @@ import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 import Modal from 'design-system/modal';
+import { useDocumentsCreatorState } from 'features/creator/store/documents-creator.store';
 
 type CreateDocumentModalProps = {
   onClose(): void;
 };
 
 const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
-  const docManagementStore = useDocManagementStore();
+  const { busy } = useDocumentsCreatorState();
   const [{ invalid, values, untouched }, { inject }] = useForm<
     Pick<API4MarkdownPayload<'createDocument'>, 'name'>
   >({ name: `` });
 
   const close = (): void => {
-    if (docManagementStore.is === `busy`) return;
+    if (busy) return;
 
     onClose();
   };
@@ -45,7 +45,7 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
             s={1}
             title="Close document adding"
             className="ml-auto"
-            disabled={docManagementStore.is === `busy`}
+            disabled={busy}
             onClick={close}
           >
             <BiX />
@@ -77,7 +77,7 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
           className="mt-6"
           auto
           title="Confirm document creation"
-          disabled={untouched || invalid || docManagementStore.is === `busy`}
+          disabled={untouched || invalid || busy}
         >
           Create
           <BiPlusCircle />

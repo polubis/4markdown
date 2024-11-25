@@ -3,15 +3,13 @@ import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { docStoreSelectors } from 'store/doc/doc.store';
-import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
 import { updateDocumentCode } from 'actions/update-document-code.action';
 import { updateDocumentName } from 'actions/update-document-name.action';
+import { useDocumentsCreatorState } from '../store/documents-creator.store';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -24,9 +22,10 @@ const DeleteDocumentModalContainer = React.lazy(() =>
 );
 
 const ActiveDocumentBarContainer = () => {
-  const docManagementStore = useDocManagementStore();
-  const docStore = docStoreSelectors.useActive();
-  const docsStore = useDocsStore();
+  const { busy, activeDocumentId } = useDocumentsCreatorState((state) => ({
+    busy: state.busy,
+    activeDocumentId: !state.activeDocumentId,
+  }));
   const authStore = useAuthStore();
   const creatorStore = creatorStoreSelectors.useReady();
   const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
@@ -59,10 +58,7 @@ const ActiveDocumentBarContainer = () => {
     reconfigure({ name: docStore.name });
   }, [docStore, reconfigure]);
 
-  const nonInteractive =
-    authStore.is !== `authorized` ||
-    docManagementStore.is === `busy` ||
-    docsStore.is === `busy`;
+  const nonInteractive = authStore.is !== `authorized` || busy;
 
   return (
     <>
@@ -78,7 +74,7 @@ const ActiveDocumentBarContainer = () => {
             i={1}
             s={1}
             className="mr-1 ml-3"
-            disabled={invalid || untouched || docManagementStore.is === `busy`}
+            disabled={invalid || untouched || busy}
             title="Confirm name change"
             type="submit"
           >
@@ -88,7 +84,7 @@ const ActiveDocumentBarContainer = () => {
             i={1}
             s={1}
             title="Close document name edition"
-            disabled={docManagementStore.is === `busy`}
+            disabled={busy}
             type="button"
             onClick={handleEditClose}
           >

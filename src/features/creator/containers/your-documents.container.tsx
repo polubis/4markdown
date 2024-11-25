@@ -1,17 +1,15 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { useDocsStore } from 'store/docs/docs.store';
 import { BiGridAlt } from 'react-icons/bi';
 import { useToggle } from 'development-kit/use-toggle';
+import { useDocumentsCreatorState } from '../store/documents-creator.store';
 
 const DocsListModal = React.lazy(
   () => import(`../../../components/docs-list-modal`),
 );
 
 const YourDocumentsContainer = () => {
-  const docManagementStore = useDocManagementStore();
-  const docsStore = useDocsStore();
+  const { busy } = useDocumentsCreatorState();
   const modal = useToggle();
 
   return (
@@ -19,7 +17,7 @@ const YourDocumentsContainer = () => {
       <Button
         i={1}
         s={1}
-        disabled={docManagementStore.is === `busy` || docsStore.is === `busy`}
+        disabled={busy}
         title="Your documents"
         onClick={modal.open}
       >

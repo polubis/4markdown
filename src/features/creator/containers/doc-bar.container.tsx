@@ -1,18 +1,18 @@
 import { Bar } from 'design-system/bar';
 import React from 'react';
-import { useDocStore } from 'store/doc/doc.store';
 import { useAuthStore } from 'store/auth/auth.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { DocBarLoader } from '../components/doc-bar-loader';
 import { YourDocumentsContainer } from './your-documents.container';
 import { getYourDocuments } from 'actions/get-your-documents.action';
+import { useDocumentsCreatorState } from '../store/documents-creator.store';
 
 const ActiveDocumentBarContainer = React.lazy(
   () => import(`./active-document-bar.container`),
 );
 
 const DocBarContainer = () => {
-  const docStore = useDocStore();
+  const { activeDocumentId } = useDocumentsCreatorState();
   const authStore = useAuthStore();
 
   React.useEffect(() => {
@@ -24,7 +24,7 @@ const DocBarContainer = () => {
       {authStore.is === `idle` && <DocBarLoader />}
       {authStore.is === `authorized` && (
         <>
-          {docStore.is === `idle` ? (
+          {activeDocumentId === null ? (
             <DocBarRow title="Markdown Editor">
               <YourDocumentsContainer />
             </DocBarRow>

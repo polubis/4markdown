@@ -6,10 +6,10 @@ import { Textarea } from 'design-system/textarea';
 import { useForm } from 'development-kit/use-form';
 import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 import { SeoFriendlyDescriptionHint } from '../components/seo-friendly-description-hint';
+import { useDocumentsCreatorState } from '../store/documents-creator.store';
 
 type PermamentDocFormContainerProps = {
   onConfirm(): void;
@@ -23,7 +23,7 @@ const PermamentDocFormContainer = ({
   onBack,
 }: PermamentDocFormContainerProps) => {
   const docStore = docStoreSelectors.active();
-  const docManagementStore = useDocManagementStore();
+  const { busy } = useDocumentsCreatorState();
   const [{ invalid, values, untouched }, { inject }] = useForm({
     name: docStore.name,
     description:
@@ -66,7 +66,7 @@ const PermamentDocFormContainer = ({
           i={2}
           s={1}
           className="ml-auto"
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           title="Close document permanent status change"
           onClick={onClose}
         >
@@ -108,7 +108,7 @@ const PermamentDocFormContainer = ({
           s={2}
           auto
           title="Back to document status confirmation"
-          disabled={docManagementStore.is === `busy`}
+          disabled={busy}
           onClick={onBack}
         >
           Back
@@ -119,7 +119,7 @@ const PermamentDocFormContainer = ({
           i={2}
           s={2}
           auto
-          disabled={invalid || untouched || docManagementStore.is === `busy`}
+          disabled={invalid || untouched || busy}
           title="Make document permanent"
         >
           Confirm
