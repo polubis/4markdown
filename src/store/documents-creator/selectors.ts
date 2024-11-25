@@ -8,9 +8,7 @@ const findActiveDocument = ({
   DocumentsCreatorState,
   'documents' | 'activeDocumentId'
 >): DocumentDto | null => {
-  if (activeDocumentId === null) {
-    return null;
-  }
+  if (activeDocumentId === null) return null;
 
   const found = documents.find((document) => document.id === activeDocumentId);
 

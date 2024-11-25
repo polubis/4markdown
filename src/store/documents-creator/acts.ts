@@ -5,13 +5,27 @@ import type { AsyncResult } from 'development-kit/utility-types';
 
 const { getState: get, setState: set } = useDocumentsCreatorState;
 
+const handleStart = (): void => {
+  set({ busy: true, error: null });
+};
+
+const handleError = (
+  rawError: unknown,
+): Extract<Awaited<AsyncResult>, { is: `fail` }> => {
+  const error = parseError(rawError);
+
+  set({ busy: false, error });
+
+  return { is: `fail`, error };
+};
+
 const actCreateDocument = async (
   payload: Pick<API4MarkdownPayload<'createDocument'>, 'name'>,
 ): AsyncResult => {
-  const { code, documents } = get();
-
   try {
-    set({ busy: true, error: null });
+    handleStart();
+
+    const { code, documents } = get();
 
     const createdDocument = await getAPI().call(`createDocument`)({
       ...payload,
@@ -30,12 +44,40 @@ const actCreateDocument = async (
     setCache(`getYourDocuments`, newDocuments);
 
     return { is: `ok` };
-  } catch (rawError: unknown) {
-    const error = parseError(rawError);
-    set({ busy: false, error });
-
-    return { is: `fail`, error };
+  } catch (error: unknown) {
+    return handleError(error);
   }
 };
 
-export { actCreateDocument };
+const actDeleteDocument = async (): AsyncResult => {
+  try {
+    handleStart();
+
+    const { activeDocumentId, documents, initialCode } = get();
+
+    if (activeDocumentId === null)
+      throw Error(`Cannot find document to remove`);
+
+    await getAPI().call(`deleteDocument`)({ id: activeDocumentId });
+
+    const newDocuments = documents.filter(
+      (document) => document.id !== activeDocumentId,
+    );
+
+    set({
+      busy: false,
+      code: initialCode,
+      activeDocumentId: null,
+      documents: newDocuments,
+      changed: false,
+    });
+
+    setCache(`getYourDocuments`, newDocuments);
+
+    return { is: `ok` };
+  } catch (error: unknown) {
+    return handleError(error);
+  }
+};
+
+export { actCreateDocument, actDeleteDocument };
