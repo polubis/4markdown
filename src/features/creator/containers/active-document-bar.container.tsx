@@ -5,7 +5,6 @@ import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
-import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
 import { updateDocumentCode } from 'actions/update-document-code.action';
 import { updateDocumentName } from 'actions/update-document-name.action';
@@ -23,12 +22,11 @@ const DeleteDocumentModalContainer = React.lazy(() =>
 );
 
 const ActiveDocumentBarContainer = () => {
-  const { busy, activeDocument } = useDocumentsCreatorState((state) => ({
-    busy: state.busy,
-    activeDocument: selectActiveDocument(state),
-  }));
+  const busy = useDocumentsCreatorState((state) => state.busy);
+  const activeDocument = useDocumentsCreatorState(selectActiveDocument);
+  const changed = useDocumentsCreatorState((state) => state.changed);
+
   const authStore = useAuthStore();
-  const creatorStore = creatorStoreSelectors.useReady();
   const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
     useForm({ name: activeDocument.name });
   const edition = useToggle();
@@ -106,7 +104,7 @@ const ActiveDocumentBarContainer = () => {
           <Button
             i={1}
             s={1}
-            disabled={nonInteractive || !creatorStore.changed}
+            disabled={nonInteractive || !changed}
             title="Save changes"
             onClick={updateDocumentCode}
           >

@@ -1,9 +1,9 @@
 import React from 'react';
 import ErrorModal from 'components/error-modal';
 import { Button } from 'design-system/button';
-import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { useDocumentsCreatorState } from 'store/documents-creator';
 import { actReloadYourDocuments } from 'store/documents-creator/acts';
+import { resetError } from 'store/documents-creator/actions';
 
 const CreatorErrorModalContainer = () => {
   const error = useDocumentsCreatorState((state) => state.error!);
@@ -26,7 +26,7 @@ const CreatorErrorModalContainer = () => {
           </Button>
         )
       }
-      onClose={docManagementStoreActions.idle}
+      onClose={resetError}
     />
   );
 };

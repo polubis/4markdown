@@ -8,10 +8,8 @@ import { actDeleteDocument } from 'store/documents-creator/acts';
 import { selectActiveDocument } from 'store/documents-creator/selectors';
 
 const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
-  const { busy, activeDocument } = useDocumentsCreatorState((state) => ({
-    busy: state.busy,
-    activeDocument: selectActiveDocument(state),
-  }));
+  const busy = useDocumentsCreatorState((state) => state.busy);
+  const activeDocument = useDocumentsCreatorState(selectActiveDocument);
   const [name, setName] = React.useState(``);
 
   const close = (): void => {

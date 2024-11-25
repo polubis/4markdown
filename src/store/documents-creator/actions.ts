@@ -27,4 +27,14 @@ const divideDisplay = (): void => {
   setDisplay(`both`);
 };
 
-export { divideDisplay, setCode, setDisplay };
+const resetError = (): void => {
+  set({ error: null });
+};
+
+const setActiveDocumentId = (
+  activeDocumentId: DocumentsCreatorState['activeDocumentId'],
+): void => {
+  set({ activeDocumentId });
+};
+
+export { divideDisplay, setCode, setDisplay, resetError, setActiveDocumentId };
