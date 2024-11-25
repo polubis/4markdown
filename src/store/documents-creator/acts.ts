@@ -103,4 +103,25 @@ const actGetYourDocuments = async (): AsyncResult => {
   }
 };
 
-export { actCreateDocument, actDeleteDocument, actGetYourDocuments };
+const actReloadYourDocuments = async (): AsyncResult => {
+  try {
+    handleStart();
+
+    const documents = await getAPI().call(`getYourDocuments`)();
+
+    setCache(`getYourDocuments`, documents);
+
+    set({ documents, busy: false });
+
+    return { is: `ok` };
+  } catch (error: unknown) {
+    return handleError(error);
+  }
+};
+
+export {
+  actCreateDocument,
+  actDeleteDocument,
+  actGetYourDocuments,
+  actReloadYourDocuments,
+};

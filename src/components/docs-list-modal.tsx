@@ -7,8 +7,8 @@ import { type DocsStoreOkState, useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
 import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
-import { reloadYourDocuments } from 'actions/reload-your-documents.action';
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
+import { actReloadYourDocuments } from 'store/documents-creator/acts';
 
 interface DocsListModalProps {
   onClose?(): void;
@@ -68,7 +68,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             s={1}
             title="Sync documents"
             disabled={docsStore.is === `busy`}
-            onClick={reloadYourDocuments}
+            onClick={actReloadYourDocuments}
           >
             <BiRefresh />
           </Button>

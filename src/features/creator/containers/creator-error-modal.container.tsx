@@ -2,8 +2,8 @@ import React from 'react';
 import ErrorModal from 'components/error-modal';
 import { Button } from 'design-system/button';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
-import { reloadYourDocuments } from 'actions/reload-your-documents.action';
 import { useDocumentsCreatorState } from 'store/documents-creator';
+import { actReloadYourDocuments } from 'store/documents-creator/acts';
 
 const CreatorErrorModalContainer = () => {
   const error = useDocumentsCreatorState((state) => state.error!);
@@ -20,7 +20,7 @@ const CreatorErrorModalContainer = () => {
             s={2}
             auto
             title="Sync out of date document"
-            onClick={reloadYourDocuments}
+            onClick={actReloadYourDocuments}
           >
             Sync
           </Button>
