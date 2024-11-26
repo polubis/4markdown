@@ -11,8 +11,10 @@ import { selectActiveDocument } from 'store/documents-creator/selectors';
 import { updateDocumentCodeAct } from 'acts/update-document-code.act';
 import { updateDocumentNameAct } from 'acts/update-document-name.act';
 
-const DocumentDetailsContainer = React.lazy(
-  () => import(`./document-details.container`),
+const DocumentDetailsContainer = React.lazy(() =>
+  import(`./document-details.container`).then((m) => ({
+    default: m.DocumentDetailsContainer,
+  })),
 );
 
 const DeleteDocumentModalContainer = React.lazy(() =>

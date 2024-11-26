@@ -1,24 +1,24 @@
 import { Button } from 'design-system/button';
 import React from 'react';
 import { BiPencil, BiTrash, BiX } from 'react-icons/bi';
-import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { docStoreSelectors } from 'store/doc/doc.store';
 import c from 'classnames';
 import { formatDistance } from 'date-fns';
 import { navigate } from 'core/navigate';
 import { Tabs } from 'design-system/tabs';
 import { useToggle } from 'development-kit/use-toggle';
-import { PublicConfirmationContainer } from 'features/creator/containers/public-confirmation.container';
-import { PrivateConfirmationContainer } from 'features/creator/containers/private-confirmation.container';
-import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
+import { PublicConfirmationContainer } from './public-confirmation.container';
+import { PrivateConfirmationContainer } from './private-confirmation.container';
+import { PermanentConfirmationContainer } from './permanent-confirmation.container';
 import Modal from 'design-system/modal';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { meta } from '../../../../meta';
+import { useDocumentsCreatorState } from 'store/documents-creator';
+import { selectActiveDocument } from 'store/documents-creator/selectors';
 
-interface DocumentDetailsContainerProps {
+type DocumentDetailsContainerProps = {
   onClose(): void;
   onOpen(): void;
-}
+};
 
 const DocumentDetailsContainer = ({
   onClose,
@@ -27,8 +27,8 @@ const DocumentDetailsContainer = ({
   const privateConfirmation = useToggle();
   const permanentConfirmation = useToggle();
   const publicConfirmation = useToggle();
-  const docStore = docStoreSelectors.useActive();
-  const docManagementStore = useDocManagementStore();
+  const busy = useDocumentsCreatorState((state) => state.busy);
+  const activeDocument = useDocumentsCreatorState(selectActiveDocument);
   const permamentDocumentEdition = useToggle();
 
   return (
@@ -76,18 +76,18 @@ const DocumentDetailsContainer = ({
                 i={2}
                 s={1}
                 className="ml-auto"
-                disabled={docManagementStore.is === `busy`}
+                disabled={busy}
                 title="Delete current document"
                 onClick={onOpen}
               >
                 <BiTrash />
               </Button>
-              {docStore.visibility === `permanent` && (
+              {activeDocument.visibility === `permanent` && (
                 <Button
                   i={2}
                   s={1}
                   className="ml-2"
-                  disabled={docManagementStore.is === `busy`}
+                  disabled={busy}
                   title="Edit current document"
                   onClick={permamentDocumentEdition.open}
                 >
@@ -98,7 +98,7 @@ const DocumentDetailsContainer = ({
                 i={2}
                 s={1}
                 className="ml-2"
-                disabled={docManagementStore.is === `busy`}
+                disabled={busy}
                 title="Close additional options"
                 onClick={onClose}
               >
@@ -106,20 +106,20 @@ const DocumentDetailsContainer = ({
               </Button>
             </div>
             <p className="mt-4">
-              Name: <strong>{docStore.name}</strong>
+              Name: <strong>{activeDocument.name}</strong>
             </p>
-            {docStore.visibility === `permanent` && (
+            {activeDocument.visibility === `permanent` && (
               <>
                 <p className="mt-1">
                   Description:{` `}
                   <strong className="break-words">
-                    {docStore.description}
+                    {activeDocument.description}
                   </strong>
                 </p>
                 <p className="mt-1">
                   Tags:{` `}
                   <strong className="break-words">
-                    {docStore.tags.join(`, `)}
+                    {activeDocument.tags.join(`, `)}
                   </strong>
                 </p>
               </>
@@ -131,47 +131,53 @@ const DocumentDetailsContainer = ({
                   `capitalize`,
                   {
                     'text-green-700 dark:text-green-600':
-                      docStore.visibility === `public` ||
-                      docStore.visibility === `permanent`,
+                      activeDocument.visibility === `public` ||
+                      activeDocument.visibility === `permanent`,
                   },
                   {
                     'text-gray-600 dark:text-gray-400':
-                      docStore.visibility === `private`,
+                      activeDocument.visibility === `private`,
                   },
                 )}
               >
-                {docStore.visibility}
+                {activeDocument.visibility}
               </strong>
             </p>
             <p className="mt-1">
               Created:{` `}
               <strong>
-                {formatDistance(new Date().toISOString(), docStore.cdate)} ago
+                {formatDistance(new Date().toISOString(), activeDocument.cdate)}
+                {` `}
+                ago
               </strong>
             </p>
             <p className="mt-1">
               Edited:{` `}
               <strong>
-                {formatDistance(new Date().toISOString(), docStore.mdate)} ago
+                {formatDistance(new Date().toISOString(), activeDocument.mdate)}
+                {` `}
+                ago
               </strong>
             </p>
-            {(docStore.visibility === `public` ||
-              docStore.visibility === `permanent`) && (
+            {(activeDocument.visibility === `public` ||
+              activeDocument.visibility === `permanent`) && (
               <button
                 className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
                 title="Document preview"
                 onClick={() =>
-                  navigate(`${meta.routes.docs.preview}?id=${docStore.id}`)
+                  navigate(
+                    `${meta.routes.docs.preview}?id=${activeDocument.id}`,
+                  )
                 }
               >
                 <strong>Preview</strong>
               </button>
             )}
-            {docStore.visibility === `permanent` && (
+            {activeDocument.visibility === `permanent` && (
               <button
                 className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
                 title="Document URL"
-                onClick={() => navigate(docStore.path)}
+                onClick={() => navigate(activeDocument.path)}
               >
                 <strong>URL</strong>
               </button>
@@ -179,37 +185,37 @@ const DocumentDetailsContainer = ({
             <Tabs className="mt-8">
               <Tabs.Item
                 title="Make this document private"
-                active={docStore.visibility === `private`}
+                active={activeDocument.visibility === `private`}
                 onClick={
-                  docStore.visibility === `private`
+                  activeDocument.visibility === `private`
                     ? undefined
                     : privateConfirmation.open
                 }
-                disabled={docManagementStore.is === `busy`}
+                disabled={busy}
               >
                 Private
               </Tabs.Item>
               <Tabs.Item
                 title="Make this document public"
-                active={docStore.visibility === `public`}
+                active={activeDocument.visibility === `public`}
                 onClick={
-                  docStore.visibility === `public`
+                  activeDocument.visibility === `public`
                     ? undefined
                     : publicConfirmation.open
                 }
-                disabled={docManagementStore.is === `busy`}
+                disabled={busy}
               >
                 Public
               </Tabs.Item>
               <Tabs.Item
                 title="Make this document permanent"
-                active={docStore.visibility === `permanent`}
+                active={activeDocument.visibility === `permanent`}
                 onClick={
-                  docStore.visibility === `permanent`
+                  activeDocument.visibility === `permanent`
                     ? undefined
                     : permanentConfirmation.open
                 }
-                disabled={docManagementStore.is === `busy`}
+                disabled={busy}
               >
                 Permanent
               </Tabs.Item>
@@ -220,4 +226,4 @@ const DocumentDetailsContainer = ({
   );
 };
 
-export default DocumentDetailsContainer;
+export { DocumentDetailsContainer };
