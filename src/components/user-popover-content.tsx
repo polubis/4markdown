@@ -66,7 +66,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
           className="ml-2"
           title="Sync your profile"
           disabled={yourProfileStore.is === `busy`}
-          onClick={reloadYourUserProfile}
+          onClick={reloadYourUserProfileAct}
         >
           <BiRefresh />
         </Button>
@@ -164,7 +164,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
             auto
             type="button"
             title="Retry your profile load"
-            onClick={reloadYourUserProfile}
+            onClick={reloadYourUserProfileAct}
           >
             Try Again
           </Button>

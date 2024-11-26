@@ -6,10 +6,10 @@ import { Textarea } from 'design-system/textarea';
 import { useForm } from 'development-kit/use-form';
 import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
-import { docStoreSelectors } from 'store/doc/doc.store';
 import { SeoFriendlyDescriptionHint } from '../components/seo-friendly-description-hint';
 import { useDocumentsCreatorState } from 'store/documents-creator';
 import { updateDocumentVisibilityAct } from 'acts/update-document-visibility.act';
+import { selectActiveDocument } from 'store/documents-creator/selectors';
 
 type PermamentDocFormContainerProps = {
   onConfirm(): void;
@@ -22,13 +22,18 @@ const PermamentDocFormContainer = ({
   onClose,
   onBack,
 }: PermamentDocFormContainerProps) => {
-  const docStore = docStoreSelectors.active();
-  const { busy } = useDocumentsCreatorState();
+  const activeDocument = useDocumentsCreatorState(selectActiveDocument);
+  const busy = useDocumentsCreatorState((state) => state.busy);
   const [{ invalid, values, untouched }, { inject }] = useForm({
-    name: docStore.name,
+    name: activeDocument.name,
     description:
-      docStore.visibility === `permanent` ? docStore.description : ``,
-    tags: docStore.visibility === `permanent` ? docStore.tags.join(`,`) : ``,
+      activeDocument.visibility === `permanent`
+        ? activeDocument.description
+        : ``,
+    tags:
+      activeDocument.visibility === `permanent`
+        ? activeDocument.tags.join(`,`)
+        : ``,
   });
 
   const { name, description, tags } = values;

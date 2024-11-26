@@ -6,11 +6,12 @@ import { meta } from '../../meta';
 import { useToggle } from 'development-kit/use-toggle';
 import c from 'classnames';
 import { triggerDocumentCreation } from 'core/creation-management';
-import { docStoreSelectors } from 'store/doc/doc.store';
+import { useDocumentsCreatorState } from 'store/documents-creator';
+import { findActiveDocument } from 'store/documents-creator/selectors';
 
 const CreationLinkContainer = () => {
   const menu = useToggle();
-  const docStore = docStoreSelectors.state();
+  const activeDocument = useDocumentsCreatorState(findActiveDocument);
 
   return (
     <>
@@ -32,18 +33,18 @@ const CreationLinkContainer = () => {
           <li
             className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b-2 border-zinc-300 dark:border-zinc-800"
             onClick={
-              docStore.is === `idle` ? triggerDocumentCreation : undefined
+              activeDocument === null ? undefined : triggerDocumentCreation
             }
           >
             <Link
               to={meta.routes.home}
               title={
-                docStore.is === `idle`
+                activeDocument === null
                   ? `Create a new document`
                   : `Continue editing the document`
               }
             >
-              {docStore.is === `idle` && (
+              {activeDocument === null && (
                 <>
                   <h6 className="text-md">Document</h6>
                   <p className="mt-1 text-sm">
@@ -52,14 +53,14 @@ const CreationLinkContainer = () => {
                   </p>
                 </>
               )}
-              {docStore.is === `active` && (
+              {activeDocument !== null && (
                 <>
                   <h6 className="flex items-center text-md">
                     <BiArrowBack className="mr-2" size={20} /> Continue Editing
                   </h6>
                   <p className="mt-1 text-sm">
                     You are currently working on{` `}
-                    <strong>{docStore.name}</strong>
+                    <strong>{activeDocument.name}</strong>
                   </p>
                 </>
               )}

@@ -6,10 +6,10 @@ import c from 'classnames';
 import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
-import { reloadYourDocumentsAct } from 'store/documents-creator/acts';
 import { useDocumentsCreatorState } from 'store/documents-creator';
 import { findActiveDocument } from 'store/documents-creator/selectors';
 import { setActiveDocumentId } from 'store/documents-creator/actions';
+import { reloadYourDocumentsAct } from 'acts/reload-your-documents.act';
 
 type DocsListModalProps = {
   onClose(): void;
