@@ -8,8 +8,8 @@ import { useToggle } from 'development-kit/use-toggle';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
-import { reloadYourUserProfile } from 'actions/reload-your-user-profile.action';
 import { logOutAct } from 'acts/log-out.act';
+import { reloadYourUserProfileAct } from 'acts/reload-your-user-profile.act';
 
 const DetailLoader = () => (
   <div className="flex space-x-1 h-6">
@@ -40,7 +40,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
         onClose={close}
         onSync={() => {
           userProfileForm.close();
-          reloadYourUserProfile();
+          reloadYourUserProfileAct();
         }}
       />
     );
