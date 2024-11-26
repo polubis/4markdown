@@ -28,7 +28,7 @@ type AsyncResult<
   TOkData extends MaybeObject = undefined,
   TFailData extends MaybeObject = { error: ParsedError },
 > = Promise<
-  | (TOkData extends undefined ? { is: 'ok' } : { is: 'ok' } & TOkData)
+  | (TOkData extends undefined ? { is: 'ok' } : { is: 'ok'; data: TOkData })
   | (TFailData extends undefined ? { is: `fail` } : { is: `fail` } & TFailData)
 >;
 

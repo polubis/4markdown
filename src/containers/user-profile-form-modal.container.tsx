@@ -28,9 +28,9 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { updateYourUserProfile } from 'actions/update-your-user-profile.action';
 import type { YourProfileStoreOkState } from 'store/your-profile/your-profile.store';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
+import { updateYourUserProfileAct } from 'acts/update-your-user-profile.act';
 
 interface UserProfileFormModalContainerProps {
   onClose(): void;
@@ -108,8 +108,8 @@ const UserProfileFormModalContainer = ({
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
-    updateYourUserProfile(
-      {
+    (
+      await updateYourUserProfileAct({
         displayName: values.displayName || null,
         bio: values.bio || null,
         twitterUrl: values.twitterUrl || null,
@@ -119,9 +119,8 @@ const UserProfileFormModalContainer = ({
         linkedInUrl: values.linkedInUrl || null,
         avatar: values.avatar,
         mdate: values.mdate,
-      },
-      back,
-    );
+      })
+    ).is === `ok` && back();
   };
 
   const [uploadAvatar] = useFileInput({

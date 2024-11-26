@@ -8,8 +8,8 @@ import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
-import { logIn } from 'actions/log-in.action';
 import { useDocumentsCreatorState } from 'store/documents-creator';
+import { logInAct } from 'acts/log-in.act';
 
 const CreateDocumentModal = React.lazy(() =>
   import(`./create-document-modal`).then((m) => ({
@@ -31,7 +31,7 @@ const AddDocPopover = () => {
     }
 
     triggerDocumentCreation();
-    logIn();
+    logInAct();
   };
 
   React.useEffect(() => {

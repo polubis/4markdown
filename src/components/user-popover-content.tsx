@@ -9,7 +9,7 @@ import { UserProfileFormModalContainer } from 'containers/user-profile-form-moda
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import { reloadYourUserProfile } from 'actions/reload-your-user-profile.action';
-import { logOut } from 'actions/log-out.action';
+import { logOutAct } from 'acts/log-out.act';
 
 const DetailLoader = () => (
   <div className="flex space-x-1 h-6">
@@ -29,7 +29,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   };
 
   const signOutConfirmation = useConfirm(() => {
-    logOut();
+    logOutAct();
     close();
   });
 
