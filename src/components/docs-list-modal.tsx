@@ -6,7 +6,7 @@ import c from 'classnames';
 import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
-import { actReloadYourDocuments } from 'store/documents-creator/acts';
+import { reloadYourDocumentsAct } from 'store/documents-creator/acts';
 import { useDocumentsCreatorState } from 'store/documents-creator';
 import { findActiveDocument } from 'store/documents-creator/selectors';
 import { setActiveDocumentId } from 'store/documents-creator/actions';
@@ -138,7 +138,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
             s={1}
             title="Sync documents"
             disabled={busy}
-            onClick={actReloadYourDocuments}
+            onClick={reloadYourDocumentsAct}
           >
             <BiRefresh />
           </Button>

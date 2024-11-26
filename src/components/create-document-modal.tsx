@@ -8,7 +8,7 @@ import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 import Modal from 'design-system/modal';
 import { useDocumentsCreatorState } from 'store/documents-creator';
-import { actCreateDocument } from 'store/documents-creator/acts';
+import { createDocumentAct } from 'acts/create-document.act';
 
 type CreateDocumentModalProps = {
   onClose(): void;
@@ -28,7 +28,7 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    (await actCreateDocument(values)).is === `ok` && close();
+    (await createDocumentAct(values)).is === `ok` && close();
   };
 
   return (

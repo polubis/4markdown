@@ -4,7 +4,7 @@ import Modal from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { useDocumentsCreatorState } from 'store/documents-creator';
-import { actDeleteDocument } from 'store/documents-creator/acts';
+import { deleteDocumentAct } from 'store/documents-creator/acts';
 import { selectActiveDocument } from 'store/documents-creator/selectors';
 
 const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
@@ -20,7 +20,7 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
 
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    (await actDeleteDocument()).is === `ok` && close();
+    (await deleteDocumentAct()).is === `ok` && close();
   };
 
   return (
