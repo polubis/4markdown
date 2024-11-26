@@ -6,7 +6,7 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
-import { useImagesStore } from 'store/images/images.store';
+import { useImagesState } from 'store/images';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
@@ -22,7 +22,7 @@ const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<ImageDto | null>();
   const errorModal = useToggle();
   const busy = useDocumentsCreatorState((state) => state.busy);
-  const imagesStore = useImagesStore();
+  const imagesStore = useImagesState();
   const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
