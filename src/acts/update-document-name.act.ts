@@ -1,34 +1,34 @@
 import { getAPI, setCache } from 'api-4markdown';
+import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import type { AsyncResult } from 'development-kit/utility-types';
 import { useDocumentsCreatorState } from 'store/documents-creator';
-
 import { asBusy, asFail } from 'store/documents-creator/actions';
 import { selectActiveDocument } from 'store/documents-creator/selectors';
 
 const { getState: get, setState: set } = useDocumentsCreatorState;
 
-const updateDocumentCodeAct = async (): AsyncResult => {
+const updateDocumentNameAct = async (
+  name: API4MarkdownPayload<'updateDocumentName'>['name'],
+): AsyncResult => {
   try {
     asBusy();
 
-    const state = get();
-    const activeDocument = selectActiveDocument(state);
+    const activeDocument = selectActiveDocument(get());
 
-    const response = await getAPI().call(`updateDocumentCode`)({
-      id: activeDocument.id,
-      code: state.code,
+    const response = await getAPI().call(`updateDocumentName`)({
       mdate: activeDocument.mdate,
+      id: activeDocument.id,
+      name,
     });
 
-    const { documents } = get();
+    const { documents, activeDocumentId } = get();
     const newDocuments = documents.map((document) =>
-      document.id === activeDocument.id
-        ? { ...document, mdate: response.mdate }
+      document.id === activeDocumentId
+        ? { ...document, name: response.name, mdate: response.mdate }
         : document,
     );
 
     set({
-      changed: false,
       busy: false,
       documents: newDocuments,
     });
@@ -41,4 +41,4 @@ const updateDocumentCodeAct = async (): AsyncResult => {
   }
 };
 
-export { updateDocumentCodeAct };
+export { updateDocumentNameAct };
