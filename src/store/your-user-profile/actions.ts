@@ -3,7 +3,11 @@ import { useYourUserProfileState } from '.';
 import { parseError } from 'api-4markdown';
 import type { YourUserProfileState } from './models';
 
-const { setState: set } = useYourUserProfileState;
+const { setState: set, getInitialState: getInitial } = useYourUserProfileState;
+
+const asIdle = (): void => {
+  set(getInitial());
+};
 
 const asBusy = (): void => {
   set({ busy: true, error: null, profile: null });
@@ -26,4 +30,4 @@ const asFail = (
   return { is: `fail`, error };
 };
 
-export { asBusy, asFail, asOk };
+export { asIdle, asBusy, asFail, asOk };
