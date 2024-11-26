@@ -1,8 +1,8 @@
 import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 import { useDocumentsCreatorState } from 'store/documents-creator';
+import { updateDocumentVisibilityAct } from 'acts/update-document-visibility.act';
 
 interface PrivateConfirmationContainerProps {
   onClose(): void;
@@ -21,11 +21,8 @@ const PrivateConfirmationContainer = ({
     e,
   ): Promise<void> => {
     e.preventDefault();
-
-    try {
-      await updateDocumentVisibility({ visibility: `private` });
-      onConfirm();
-    } catch {}
+    (await updateDocumentVisibilityAct({ visibility: `private` })).is ===
+      `ok` && onConfirm();
   };
 
   return (

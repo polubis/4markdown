@@ -7,9 +7,9 @@ import { useForm } from 'development-kit/use-form';
 import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
 import { docStoreSelectors } from 'store/doc/doc.store';
-import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 import { SeoFriendlyDescriptionHint } from '../components/seo-friendly-description-hint';
 import { useDocumentsCreatorState } from 'store/documents-creator';
+import { updateDocumentVisibilityAct } from 'acts/update-document-visibility.act';
 
 type PermamentDocFormContainerProps = {
   onConfirm(): void;
@@ -38,15 +38,14 @@ const PermamentDocFormContainer = ({
   ): Promise<void> => {
     e.preventDefault();
 
-    try {
-      await updateDocumentVisibility({
+    (
+      await updateDocumentVisibilityAct({
         name,
         description,
         tags: tags.split(`,`),
         visibility: `permanent`,
-      });
-      onConfirm();
-    } catch {}
+      })
+    ).is === `ok` && onConfirm();
   };
 
   const splittedTags = React.useMemo(

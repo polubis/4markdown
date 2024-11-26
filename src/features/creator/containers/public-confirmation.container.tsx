@@ -3,8 +3,8 @@ import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { meta } from '../../../../meta';
-import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 import { useDocumentsCreatorState } from 'store/documents-creator';
+import { updateDocumentVisibilityAct } from 'acts/update-document-visibility.act';
 
 interface PublicConfirmationContainerProps {
   onClose(): void;
@@ -24,11 +24,8 @@ const PublicConfirmationContainer = ({
   ): Promise<void> => {
     e.preventDefault();
 
-    try {
-      await updateDocumentVisibility({ visibility: `public` });
-
+    (await updateDocumentVisibilityAct({ visibility: `public` })).is === `ok` &&
       onConfirm();
-    } catch {}
   };
 
   return (
