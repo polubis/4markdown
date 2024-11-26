@@ -1,10 +1,10 @@
+import { deleteDocumentAct } from 'acts/delete-document.act';
 import { Button } from 'design-system/button';
 import { Input } from 'design-system/input';
 import Modal from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { useDocumentsCreatorState } from 'store/documents-creator';
-import { deleteDocumentAct } from 'store/documents-creator/acts';
 import { selectActiveDocument } from 'store/documents-creator/selectors';
 
 const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {

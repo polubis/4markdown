@@ -2,8 +2,8 @@ import React from 'react';
 import ErrorModal from 'components/error-modal';
 import { Button } from 'design-system/button';
 import { useDocumentsCreatorState } from 'store/documents-creator';
-import { reloadYourDocumentsAct } from 'store/documents-creator/acts';
 import { resetError } from 'store/documents-creator/actions';
+import { reloadYourDocumentsAct } from 'acts/reload-your-documents.act';
 
 const CreatorErrorModalContainer = () => {
   const error = useDocumentsCreatorState((state) => state.error!);
