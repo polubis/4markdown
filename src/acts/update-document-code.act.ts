@@ -23,7 +23,7 @@ const updateDocumentCodeAct = async (): AsyncResult => {
     const { documents } = get();
     const newDocuments = documents.map((document) =>
       document.id === activeDocument.id
-        ? { ...document, mdate: response.mdate }
+        ? { ...document, ...response }
         : document,
     );
 

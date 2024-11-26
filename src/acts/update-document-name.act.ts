@@ -13,7 +13,8 @@ const updateDocumentNameAct = async (
   try {
     asBusy();
 
-    const activeDocument = selectActiveDocument(get());
+    const state = get();
+    const activeDocument = selectActiveDocument(state);
 
     const response = await getAPI().call(`updateDocumentName`)({
       mdate: activeDocument.mdate,
@@ -21,10 +22,9 @@ const updateDocumentNameAct = async (
       name,
     });
 
-    const { documents, activeDocumentId } = get();
-    const newDocuments = documents.map((document) =>
-      document.id === activeDocumentId
-        ? { ...document, name: response.name, mdate: response.mdate }
+    const newDocuments = state.documents.map((document) =>
+      document.id === activeDocument.id
+        ? { ...document, ...response }
         : document,
     );
 
