@@ -16,7 +16,7 @@ const findActiveDocument = ({
 };
 
 const selectActiveDocument = (
-  state: DocumentsCreatorState,
+  state: Pick<DocumentsCreatorState, 'documents' | 'activeDocumentId'>,
 ): DocumentsCreatorState['documents'][number] => {
   const found = findActiveDocument(state);
 

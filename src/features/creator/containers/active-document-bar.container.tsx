@@ -6,10 +6,9 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { useForm } from 'development-kit/use-form';
-import { updateDocumentCode } from 'actions/update-document-code.action';
-import { updateDocumentName } from 'actions/update-document-name.action';
 import { useDocumentsCreatorState } from 'store/documents-creator';
 import { selectActiveDocument } from 'store/documents-creator/selectors';
+import { updateDocumentCodeAct } from 'acts/update-document-code.act';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -106,7 +105,7 @@ const ActiveDocumentBarContainer = () => {
             s={1}
             disabled={nonInteractive || !changed}
             title="Save changes"
-            onClick={updateDocumentCode}
+            onClick={updateDocumentCodeAct}
           >
             <BiSave />
           </Button>
