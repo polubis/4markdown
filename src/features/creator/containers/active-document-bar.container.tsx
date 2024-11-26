@@ -9,6 +9,7 @@ import { useForm } from 'development-kit/use-form';
 import { useDocumentsCreatorState } from 'store/documents-creator';
 import { selectActiveDocument } from 'store/documents-creator/selectors';
 import { updateDocumentCodeAct } from 'acts/update-document-code.act';
+import { updateDocumentNameAct } from 'acts/update-document-name.act';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -36,10 +37,7 @@ const ActiveDocumentBarContainer = () => {
     HTMLFormElement
   > = async (e) => {
     e.preventDefault();
-    try {
-      await updateDocumentName(values.name);
-      edition.close();
-    } catch {}
+    (await updateDocumentNameAct(values.name)).is === `ok` && edition.close();
   };
 
   const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
