@@ -3,7 +3,11 @@ import { useDocumentsCreatorState } from '.';
 import type { AsyncResult } from 'development-kit/utility-types';
 import { parseError } from 'api-4markdown';
 
-const { setState: set, getState: get } = useDocumentsCreatorState;
+const {
+  setState: set,
+  getState: get,
+  getInitialState: getInitial,
+} = useDocumentsCreatorState;
 
 const setCode = (code: DocumentsCreatorState['code']): void => {
   set({ code });
@@ -39,6 +43,16 @@ const setActiveDocumentId = (
   set({ activeDocumentId });
 };
 
+const asIdle = (): void => {
+  const { code, display } = get();
+
+  set({
+    ...getInitial(),
+    code,
+    display,
+  });
+};
+
 const asBusy = (): void => {
   set({ busy: true, error: null });
 };
@@ -59,6 +73,7 @@ export {
   setDisplay,
   resetError,
   setActiveDocumentId,
+  asIdle,
   asBusy,
   asFail,
 };

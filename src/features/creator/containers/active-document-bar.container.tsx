@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
-import { useAuthStore } from 'store/auth/auth.store';
+import { useAuthState } from 'store/auth';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { useForm } from 'development-kit/use-form';
@@ -28,7 +28,7 @@ const ActiveDocumentBarContainer = () => {
   const activeDocument = useDocumentsCreatorState(selectActiveDocument);
   const changed = useDocumentsCreatorState((state) => state.changed);
 
-  const authStore = useAuthStore();
+  const authStore = useAuthState();
   const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
     useForm({ name: activeDocument.name });
   const edition = useToggle();

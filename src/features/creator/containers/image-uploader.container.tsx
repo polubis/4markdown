@@ -1,12 +1,12 @@
 import React from 'react';
-import { useAuthStore } from 'store/auth/auth.store';
+import { useAuthState } from 'store/auth';
 
 const ImageUploaderAuthContainer = React.lazy(
   () => import(`./image-uploader-auth.container`),
 );
 
 const ImageUploaderContainer = () => {
-  const authStore = useAuthStore();
+  const authStore = useAuthState();
 
   if (authStore.is === `authorized`) {
     return (

@@ -1,7 +1,7 @@
 import { Button } from 'design-system/button';
 import React from 'react';
 import { BiLogInCircle } from 'react-icons/bi';
-import { useAuthStore } from 'store/auth/auth.store';
+import { useAuthState } from 'store/auth';
 import { useToggle } from 'development-kit/use-toggle';
 import { YourAvatarContainer } from '../containers/your-avatar.container';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
@@ -12,7 +12,7 @@ const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
 const UserPopover = () => {
   const menu = useToggle();
-  const authStore = useAuthStore();
+  const authStore = useAuthState();
   const { busy } = useDocumentsCreatorState();
   const yourProfileStore = yourProfileStoreSelectors.useState();
 

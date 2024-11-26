@@ -1,6 +1,6 @@
 import { Bar } from 'design-system/bar';
 import React from 'react';
-import { useAuthStore } from 'store/auth/auth.store';
+import { useAuthState } from 'store/auth';
 import { DocBarRow } from '../components/doc-bar-row';
 import { DocBarLoader } from '../components/doc-bar-loader';
 import { YourDocumentsContainer } from './your-documents.container';
@@ -13,7 +13,7 @@ const ActiveDocumentBarContainer = React.lazy(
 
 const DocBarContainer = () => {
   const { activeDocumentId } = useDocumentsCreatorState();
-  const authStore = useAuthStore();
+  const authStore = useAuthState();
 
   React.useEffect(() => {
     authStore.is === `authorized` && getYourDocumentsAct();

@@ -7,7 +7,7 @@ import { Button } from 'design-system/button';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiPlus } from 'react-icons/bi';
-import { useAuthStore } from 'store/auth/auth.store';
+import { useAuthState } from 'store/auth';
 import { useDocumentsCreatorState } from 'store/documents-creator';
 import { logInAct } from 'acts/log-in.act';
 
@@ -19,7 +19,7 @@ const CreateDocumentModal = React.lazy(() =>
 
 const AddDocPopover = () => {
   const { error } = useDocumentsCreatorState();
-  const authStore = useAuthStore();
+  const authStore = useAuthState();
   const menu = useToggle();
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
