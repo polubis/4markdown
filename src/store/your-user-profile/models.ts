@@ -1,14 +1,9 @@
-import type { ParsedError, UserProfileDto } from 'api-4markdown-contracts';
-
-type UserProfile = {
-  user: UserProfileDto | null;
-  mdate: Date | null;
-};
+import type { API4MarkdownDto, ParsedError } from 'api-4markdown-contracts';
 
 type YourUserProfileState = {
   busy: boolean;
   error: ParsedError | null;
-  profile: UserProfile | null;
+  profile: API4MarkdownDto<`getYourUserProfile`>;
 };
 
 export type { YourUserProfileState };

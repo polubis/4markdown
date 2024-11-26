@@ -1,28 +1,21 @@
-import { getAPI, parseError, setCache } from 'api-4markdown';
-import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
+import { getAPI, setCache } from 'api-4markdown';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
-import { updateYourProfileStoreActions } from 'store/update-your-profile/update-your-profile.store';
 import type { AsyncResult } from 'development-kit/utility-types';
+import { asBusy, asFail, asOk } from 'store/your-user-profile/actions';
 
-// @TODO[PRIO=3]: [Align user profile namings].
 const updateYourUserProfileAct = async (
   payload: API4MarkdownPayload<'updateYourUserProfile'>,
 ): AsyncResult => {
   try {
-    updateYourProfileStoreActions.busy();
+    asBusy();
 
-    const { mdate, profile } = await getAPI().call(`updateYourUserProfile`)(
-      payload,
-    );
+    const profile = await getAPI().call(`updateYourUserProfile`)(payload);
 
-    setCache(`getYourUserProfile`, { profile, mdate });
+    setCache(`getYourUserProfile`, profile);
 
-    updateYourProfileStoreActions.ok();
-    yourProfileStoreActions.ok({ mdate, user: profile });
-    return { is: `ok` };
+    return asOk(profile);
   } catch (error: unknown) {
-    updateYourProfileStoreActions.fail(error);
-    return { is: `fail`, error: parseError(error) };
+    return asFail(error);
   }
 };
 

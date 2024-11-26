@@ -1,26 +1,18 @@
-import { getAPI, parseError, setCache } from 'api-4markdown';
-import type { API4MarkdownContractKey } from 'api-4markdown-contracts';
+import { getAPI, setCache } from 'api-4markdown';
 import type { AsyncResult } from 'development-kit/utility-types';
-import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
+import { asBusy, asOk, asFail } from 'store/your-user-profile/actions';
 
 const reloadYourUserProfileAct = async (): AsyncResult => {
   try {
-    const key: API4MarkdownContractKey = `getYourUserProfile`;
+    asBusy();
 
-    yourProfileStoreActions.busy();
+    const profile = await getAPI().call(`getYourUserProfile`)();
 
-    const profile = await getAPI().call(key)();
+    setCache(`getYourUserProfile`, profile);
 
-    setCache(key, profile);
-
-    yourProfileStoreActions.ok({
-      mdate: profile?.mdate ?? null,
-      user: profile?.profile ?? null,
-    });
-    return { is: `ok` };
+    return asOk(profile);
   } catch (error: unknown) {
-    yourProfileStoreActions.fail(error);
-    return { is: `fail`, error: parseError(error) };
+    return asFail(error);
   }
 };
 
