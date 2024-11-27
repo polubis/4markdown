@@ -20,7 +20,7 @@ export const Head: HeadFC<unknown, EducationPageModel> = ({
   pageContext: { page, tag, pagesCount },
 }) => {
   const prevUrl =
-    tag !== undefined || page === 1
+    tag !== undefined || page <= 2
       ? undefined
       : `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`;
   const nextPage = page + 1;
