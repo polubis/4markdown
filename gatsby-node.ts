@@ -155,7 +155,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
 
   topTags.forEach((tag) => {
     actions.createPage<EducationPageModel>({
-      path: `${meta.routes.docs.educationZone}${tag}`,
+      path: `${meta.routes.education.zone}${tag}`,
       component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
       context: {
         page: 1,
@@ -203,8 +203,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     actions.createPage<EducationPageModel>({
       path:
         page === 1
-          ? meta.routes.docs.educationZone
-          : `${meta.routes.docs.educationZone}${page}`,
+          ? meta.routes.education.zone
+          : `${meta.routes.education.zone}${page}`,
       component: path.resolve(`./src/dynamic-pages/education-zone.page.tsx`),
       context: {
         page,

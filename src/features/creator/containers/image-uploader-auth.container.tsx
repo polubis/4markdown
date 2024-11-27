@@ -1,5 +1,5 @@
 import { Button } from 'design-system/button';
-import Modal from 'design-system/modal';
+import { Modal } from 'design-system/modal';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';

@@ -1,5 +1,5 @@
 import { Button } from 'design-system/button';
-import Modal from 'design-system/modal';
+import { Modal } from 'design-system/modal';
 import React, { type ReactNode } from 'react';
 import { BiX } from 'react-icons/bi';
 

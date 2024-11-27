@@ -44,7 +44,7 @@ const Pagination = ({
           key="first"
           className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
           title="Go to first page"
-          to={meta.routes.docs.educationZone}
+          to={meta.routes.education.zone}
         >
           <BiArrowToLeft size={20} />
         </Link>
@@ -54,7 +54,7 @@ const Pagination = ({
           activeClassName="bg-gray-400/20 dark:bg-slate-800/50"
           className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
           title={`Go to ${page} page`}
-          to={`${meta.routes.docs.educationZone}${page === firstPage ? `` : page}`}
+          to={`${meta.routes.education.zone}${page === firstPage ? `` : page}`}
           key={page}
         >
           {page}
@@ -64,7 +64,7 @@ const Pagination = ({
         <Link
           className="flex font-bold items-center justify-center w-8 h-8 rounded-md text-[18px] focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
           title="Go to last page"
-          to={`${meta.routes.docs.educationZone}${lastPage}`}
+          to={`${meta.routes.education.zone}${lastPage}`}
           key="last"
         >
           <BiArrowToRight size={20} />

@@ -1,7 +1,7 @@
 import React, { type ReactNode, type ComponentType } from 'react';
 import type { ToggleReturn } from 'development-kit/use-toggle';
 import { useToggle } from 'development-kit/use-toggle';
-import Modal from './modal';
+import { Modal } from './modal';
 import c from 'classnames';
 
 interface HintProps {

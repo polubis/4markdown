@@ -131,7 +131,7 @@ const AppFooterContainer = () => {
             <Link
               activeClassName="active-link"
               className="hover:underline underline-offset-2"
-              to={meta.routes.docs.educationZone}
+              to={meta.routes.education.zone}
             >
               Education Zone
             </Link>

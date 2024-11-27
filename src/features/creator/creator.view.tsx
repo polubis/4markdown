@@ -37,7 +37,9 @@ const CreatorView = () => {
     creatorStoreActions.change(initialCode),
   );
 
-  const loadAndScroll = async (input: HTMLTextAreaElement): Promise<void> => {
+  const triggerPreviewScroll = async (
+    input: HTMLTextAreaElement,
+  ): Promise<void> => {
     const DESKTOP_WIDTH = 1024;
 
     if (divideMode !== `both` || window.innerWidth < DESKTOP_WIDTH) {
@@ -68,7 +70,7 @@ const CreatorView = () => {
   const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     const target = e.target as HTMLTextAreaElement;
 
-    loadAndScroll(target);
+    triggerPreviewScroll(target);
 
     if (e.key !== `Tab`) {
       return;
@@ -198,7 +200,7 @@ const CreatorView = () => {
             onChange={changeCode}
             onKeyDown={maintainTabs}
             onClick={(e) => {
-              loadAndScroll(e.target as HTMLTextAreaElement);
+              triggerPreviewScroll(e.target as HTMLTextAreaElement);
             }}
           />
           <div
