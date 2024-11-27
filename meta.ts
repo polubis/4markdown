@@ -24,11 +24,10 @@ export const meta = {
     home: `/`,
     education: {
       rank: `/education-rank/`,
+      zone: `/education-zone/`,
     },
-    docs: {
-      // @TODO[PRIO=3]: [Move education zone to education].
+    documents: {
       preview: `/document-preview/`,
-      educationZone: `/education-zone/`,
     },
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,

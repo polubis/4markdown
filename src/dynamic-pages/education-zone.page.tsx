@@ -22,19 +22,19 @@ export const Head: HeadFC<unknown, EducationPageModel> = ({
   const prevUrl =
     tag !== undefined || page <= 2
       ? undefined
-      : `${meta.siteUrl + meta.routes.docs.educationZone}${page - 1}`;
+      : `${meta.siteUrl + meta.routes.education.zone}${page - 1}`;
   const nextPage = page + 1;
   const nextUrl =
     tag !== undefined || nextPage > pagesCount
       ? undefined
-      : `${meta.siteUrl + meta.routes.docs.educationZone}${nextPage}`;
+      : `${meta.siteUrl + meta.routes.education.zone}${nextPage}`;
 
   return (
     <Meta
       appName={meta.appName}
       title="Explore a Wealth of Knowledge: Articles About Everything"
       description="Embark on a diverse journey through our extensive collection of articles about programming, mathematics, medicine, and more"
-      url={meta.siteUrl + meta.routes.docs.educationZone}
+      url={meta.siteUrl + meta.routes.education.zone}
       lang={meta.lang}
       image={meta.siteUrl + LogoThumbnail}
       prevUrl={prevUrl}

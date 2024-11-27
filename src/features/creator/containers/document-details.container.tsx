@@ -161,7 +161,7 @@ const DocumentDetailsContainer = ({
                 className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
                 title="Document preview"
                 onClick={() =>
-                  navigate(`${meta.routes.docs.preview}?id=${docStore.id}`)
+                  navigate(`${meta.routes.documents.preview}?id=${docStore.id}`)
                 }
               >
                 <strong>Preview</strong>
