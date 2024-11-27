@@ -17,7 +17,7 @@ export const Head: HeadFC = () => {
       appName={meta.appName}
       title={meta.title}
       description={meta.description}
-      url={meta.siteUrl + meta.routes.docs.preview}
+      url={meta.siteUrl + meta.routes.documents.preview}
       lang={meta.lang}
       image={meta.siteUrl + LogoThumbnail}
       robots="noindex, nofollow"

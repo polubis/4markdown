@@ -26,7 +26,7 @@ const legacyRoutes = {
 const urlToIndexLimit = 2;
 
 const disallowedPaths = [
-  meta.routes.docs.preview,
+  meta.routes.documents.preview,
   meta.routes.notFound,
   meta.routes.creator.preview,
   legacyRoutes.documents.preview,
@@ -76,7 +76,8 @@ const seoPlugins = () =>
           const lowPrioPaths = [meta.routes.privacyPolicy];
           const mediumPrioPaths = [
             meta.routes.home,
-            meta.routes.docs.educationZone,
+            meta.routes.education.zone,
+            meta.routes.education.rank,
           ];
           const lastmod = new Date().toISOString();
 

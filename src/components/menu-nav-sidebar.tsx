@@ -103,7 +103,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Education Rank
           </ButtonLink>
           <ButtonLink
-            to={meta.routes.docs.educationZone}
+            to={meta.routes.education.zone}
             title="Navigate to education zone"
             component={(props) => (
               <Link activeClassName="active-button-link" {...props} />

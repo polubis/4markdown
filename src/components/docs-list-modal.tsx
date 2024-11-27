@@ -1,5 +1,5 @@
 import { Button } from 'design-system/button';
-import Modal from 'design-system/modal';
+import { Modal } from 'design-system/modal';
 import React from 'react';
 import { BiLowVision, BiRefresh, BiShow, BiWorld, BiX } from 'react-icons/bi';
 import { docStoreActions, useDocStore } from 'store/doc/doc.store';

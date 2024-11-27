@@ -4,7 +4,7 @@ import { Avatar } from 'design-system/avatar';
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Input } from 'design-system/input';
-import Modal from 'design-system/modal';
+import { Modal } from 'design-system/modal';
 import { Status } from 'design-system/status';
 import { Textarea } from 'design-system/textarea';
 import { readFileAsBase64 } from 'development-kit/file-reading';
