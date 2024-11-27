@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import { Input } from 'design-system/input';
-import Modal from 'design-system/modal';
+import { Modal } from 'design-system/modal';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { deleteDocument } from 'actions/delete-document.action';

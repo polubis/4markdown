@@ -58,7 +58,7 @@ const PermanentConfirmationContainer = ({
         document available in <strong>Google</strong> and{` `}
         <Link
           className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-          to={meta.routes.docs.educationZone}
+          to={meta.routes.education.zone}
         >
           Education Zone
         </Link>
@@ -72,7 +72,7 @@ const PermanentConfirmationContainer = ({
           <strong>Google</strong> and{` `}
           <Link
             className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-            to={meta.routes.docs.educationZone}
+            to={meta.routes.education.zone}
           >
             Education Zone
           </Link>

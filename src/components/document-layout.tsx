@@ -52,7 +52,7 @@ const DocumentLayout = ({
               alt="Author avatar"
               char={author.displayName.charAt(0)}
             />
-            <div className="flex flex-col">
+            <div className="flex flex-col overflow-hidden">
               <i>About Author</i>
               <strong className="mb-1 text-black dark:text-white">
                 {author.displayName}

@@ -18,7 +18,7 @@ const EducationTopTags = ({ className, tags }: EducationTopTagsProps) => {
             activeClassName="!bg-gray-400/60 dark:!bg-slate-800/60"
             key={tag}
             className="focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white rounded-md text-sm uppercase font-medium bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3"
-            to={`${meta.routes.docs.educationZone}${tag}/`}
+            to={`${meta.routes.education.zone}${tag}/`}
           >
             {tag}
           </Link>
