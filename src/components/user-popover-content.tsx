@@ -3,7 +3,7 @@ import { Button } from 'design-system/button';
 import { BiEdit, BiRefresh, BiX } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
-import Modal from 'design-system/modal';
+import { Modal } from 'design-system/modal';
 import { useToggle } from 'development-kit/use-toggle';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
 import { Avatar } from 'design-system/avatar';

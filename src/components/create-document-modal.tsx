@@ -8,7 +8,7 @@ import { createDocument } from 'actions/create-document.action';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
-import Modal from 'design-system/modal';
+import { Modal } from 'design-system/modal';
 
 type CreateDocumentModalProps = {
   onClose(): void;

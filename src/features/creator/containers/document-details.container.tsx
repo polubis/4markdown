@@ -11,7 +11,7 @@ import { useToggle } from 'development-kit/use-toggle';
 import { PublicConfirmationContainer } from 'features/creator/containers/public-confirmation.container';
 import { PrivateConfirmationContainer } from 'features/creator/containers/private-confirmation.container';
 import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
-import Modal from 'design-system/modal';
+import { Modal } from 'design-system/modal';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { meta } from '../../../../meta';
 
