@@ -95,7 +95,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
       {yourProfileStore.is === `ok` && (
         <>
           {yourProfileStore.user?.displayName && yourProfileStore.user?.bio ? (
-            <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+            <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden">
               <Avatar
                 size="lg"
                 alt="Your avatar"
@@ -108,12 +108,9 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                 src={yourProfileStore.user.avatar?.lg.src}
               />
               <h6 className="mt-2 text-2xl font-bold">
-                {yourProfileStore.user.displayName ?? `Unset`}
+                {yourProfileStore.user.displayName}
               </h6>
-              <p className="mt-2 text-center break-all">
-                {yourProfileStore.user.bio ??
-                  `You've not provided your biography yet. Go to your profile settings to change it.`}
-              </p>
+              <p className="mt-2 text-center">{yourProfileStore.user.bio}</p>
               <footer className="mt-4 flex space-x-3">
                 <UserSocials
                   githubUrl={yourProfileStore.user.githubUrl}
