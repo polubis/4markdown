@@ -8,7 +8,7 @@ import {
   optional,
   size,
   pattern,
-  type Describe,
+  type Infer,
 } from 'superstruct';
 
 const id = string();
@@ -62,6 +62,6 @@ const superstructMindmapSchema = object({
   ),
 });
 
-export type Mindmap = Describe<typeof superstructMindmapSchema>;
+export type Mindmap = Infer<typeof superstructMindmapSchema>;
 
 export { superstructMindmapSchema };
