@@ -5,11 +5,16 @@ const state = <TValue>(initialValue: TValue) => {
 
   const useState = () => useZustandStore;
 
+  const replace: (typeof useZustandStore)['setState'] = (setter) => {
+    useZustandStore.setState(setter, true);
+  };
+
   useState.subscribe = useZustandStore.subscribe;
   useState.get = useZustandStore.getState;
   useState.getInitial = () => initialValue;
   useState.set = useZustandStore.setState;
-  useState.replace = (state: TValue) => useZustandStore.setState(state, true);
+  useState.reset = () => useZustandStore.setState(initialValue, true);
+  useState.replace = replace;
 
   return useState;
 };
