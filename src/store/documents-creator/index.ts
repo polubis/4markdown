@@ -63,7 +63,6 @@ const useDocumentsCreatorState = create<DocumentsCreatorState>(() => ({
   initialCode,
   changed: false,
 }));
-
 const getDocumentsCreatorState = useDocumentsCreatorState.getState;
 const setDocumentsCreatorState = useDocumentsCreatorState.setState;
 

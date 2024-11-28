@@ -4,7 +4,7 @@ The following standardized structure for the store must be applied to all use ca
 
 ```typescript
 [store][name - of - feature - folder];
-index.ts; // file containing hooks to read state, set state, replace state + initialization logic
+index.ts; // file containing hooks to read state, set state, replace state, and initialization logic
 models.ts; // defines the shape of the state
 actions.ts; // contains reusable logic for store changes
 selectors.ts; // contains reusable logic for state selection
@@ -48,11 +48,13 @@ import { create } from 'zustand';
 import type { ImagesState } from './models';
 
 const useImagesState = create<ImagesState>(() => ({
+  // Required
   is: `idle`,
 }));
-const getImagesState = useImagesState.getState;
-const setImagesState = useImagesState.setState;
+const getImagesState = useImagesState.getState; // May be skipped if not needed
+const setImagesState = useImagesState.setState; // May be skipped if not needed
 const replaceImagesState = (state: ImagesState): void => {
+  // May be skipped if not needed
   useImagesState.setState(state, true);
 };
 
@@ -62,12 +64,13 @@ export { useImagesState, getImagesState, setImagesState, replaceImagesState };
 **Rules:**
 
 1. **Required for every use case.**
-2. Always adhere to this exact structure.
+2. Always follow this exact structure.
 3. Export **four distinct functions**:
-   - `useImagesState` for hooks.
-   - `getImagesState` for reading state.
-   - `setImagesState` for updating state.
-   - `replaceImagesState` for replacing the entire state.
+   - `useImagesState` for hooks – required.
+   - `getImagesState` for reading the state – optional.
+   - `setImagesState` for updating the state – optional.
+   - `replaceImagesState` for replacing the entire state – optional.
+4. Only `useImagesState` must be created initially, while the others should be included only if there is at least one usage instance.
 
 ---
 
@@ -90,7 +93,7 @@ export { resetImagesAction };
 1. **Optional** — create actions only if needed to avoid duplication.
 2. Use the `Action` postfix in the function name.
 3. Always define a return type.
-4. Actions are always `sync` functions.
+4. Actions are always synchronous (`sync`) functions.
 
 ---
 
@@ -156,4 +159,4 @@ export { uploadImageAct };
 2. Globally available functions encapsulating complex processes.
 3. Combine multiple steps, state updates, actions, and API interactions in a reusable function.
 4. Acts **must return** either an `AsyncResult` or `Result` type.
-5. Acts can be either `sync` or `async`.
+5. Acts can be synchronous (`sync`) or asynchronous (`async`).
