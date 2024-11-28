@@ -7,12 +7,16 @@ import { BiX } from 'react-icons/bi';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
-import { imagesStoreRestrictions } from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import type { ImageDto } from 'api-4markdown-contracts';
+import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
 import { uploadImageAct } from 'acts/upload-image.act';
 import { useImagesState } from 'store/images';
+
+const imagesStoreRestrictions = {
+  type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
+  size: 4,
+} as const;
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<ImageDto | null>();
