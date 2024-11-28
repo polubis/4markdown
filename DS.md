@@ -4,7 +4,7 @@ The following standardized structure for the store must be applied to all use ca
 
 ```typescript
 [store][name - of - feature - folder];
-index.ts; // file containing hooks to read state + initial logic
+index.ts; // file containing hooks to read state, set state, replace state + initialization logic
 models.ts; // defines the shape of the state
 actions.ts; // contains reusable logic for store changes
 selectors.ts; // contains reusable logic for state selection
