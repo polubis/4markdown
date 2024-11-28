@@ -28,18 +28,14 @@ const ImageUploaderAuthContainer = () => {
   const [upload] = useFileInput({
     accept: imagesStoreRestrictions.type,
     maxSize: imagesStoreRestrictions.size,
-    onChange: ({ target: { files } }) => {
-      const uploadAndOpen = async (): Promise<void> => {
-        if (!!files && files.length === 1) {
-          const result = await uploadImageAct(files[0]);
+    onChange: async ({ target: { files } }) => {
+      if (!!files && files.length === 1) {
+        const result = await uploadImageAct(files[0]);
 
-          result.is === `ok`
-            ? imageModal.openWithData(result.data)
-            : errorModal.open();
-        }
-      };
-
-      uploadAndOpen();
+        result.is === `ok`
+          ? imageModal.openWithData(result.data)
+          : errorModal.open();
+      }
     },
     onError: errorModal.open,
   });
