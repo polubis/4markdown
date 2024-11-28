@@ -1,25 +1,28 @@
-import { getAPI } from 'api-4markdown';
+import { getAPI, parseError } from 'api-4markdown';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
-import { useImagesState } from 'store/images';
+import type { AsyncResult } from 'development-kit/utility-types';
+import { replaceImagesState } from 'store/images/actions';
 
 const uploadImageAct = async (
   image: File,
-): Promise<API4MarkdownDto<'uploadImage'>> => {
+): AsyncResult<API4MarkdownDto<'uploadImage'>> => {
   try {
-    useImagesState.setState({ is: `busy` });
+    replaceImagesState({ is: `busy` });
 
     const data = await getAPI().call(`uploadImage`)({
       image: await readFileAsBase64(image),
     });
 
-    useImagesState.setState({ is: `ok` });
+    replaceImagesState({ is: `ok` });
 
-    return data;
-  } catch (error: unknown) {
-    useImagesState.setState({ is: `fail` });
-    imagesStoreActions.fail(error);
-    throw error;
+    return { is: `ok`, data };
+  } catch (rawError: unknown) {
+    const error = parseError(rawError);
+
+    replaceImagesState({ is: `fail`, error });
+
+    return { is: `fail`, error };
   }
 };
 

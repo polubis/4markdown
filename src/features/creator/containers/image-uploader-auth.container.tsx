@@ -7,11 +7,11 @@ import { BiX } from 'react-icons/bi';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
-import { useImagesStore } from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
-import { uploadImage } from 'actions/upload-image.action';
+import { uploadImageAct } from 'acts/upload-image.act';
+import { useImagesState } from 'store/images';
 
 const imagesStoreRestrictions = {
   type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
@@ -22,7 +22,7 @@ const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<ImageDto | null>();
   const errorModal = useToggle();
   const docsStore = useDocsStore();
-  const imagesStore = useImagesStore();
+  const imagesStore = useImagesState();
   const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
@@ -31,12 +31,11 @@ const ImageUploaderAuthContainer = () => {
     onChange: ({ target: { files } }) => {
       const uploadAndOpen = async (): Promise<void> => {
         if (!!files && files.length === 1) {
-          try {
-            const result = await uploadImage(files[0]);
-            imageModal.openWithData(result);
-          } catch {
-            errorModal.open();
-          }
+          const result = await uploadImageAct(files[0]);
+
+          result.is === `ok`
+            ? imageModal.openWithData(result.data)
+            : errorModal.open();
         }
       };
 
