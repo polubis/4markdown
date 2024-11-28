@@ -32,10 +32,16 @@ type AsyncResult<
   | (TFailData extends undefined ? { is: `fail` } : { is: `fail` } & TFailData)
 >;
 
+type Result<
+  TOkData extends MaybeObject = undefined,
+  TFailData extends MaybeObject = { error: ParsedError },
+> = Awaited<AsyncResult<TOkData, TFailData>>;
+
 export type {
   NonNullableProperties,
   Prettify,
   Transaction,
   Nullable,
   AsyncResult,
+  Result,
 };

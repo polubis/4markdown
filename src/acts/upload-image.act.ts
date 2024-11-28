@@ -2,7 +2,7 @@ import { getAPI, parseError } from 'api-4markdown';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
 import type { AsyncResult } from 'development-kit/utility-types';
-import { replaceImagesState } from 'store/images/actions';
+import { replaceImagesState } from 'store/images';
 
 const uploadImageAct = async (
   image: File,

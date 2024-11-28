@@ -2,10 +2,7 @@ import React from 'react';
 import Markdown from 'components/markdown';
 import { BiBookContent, BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Button } from 'design-system/button';
-import {
-  creatorStoreActions,
-  creatorStoreSelectors,
-} from 'store/creator/creator.store';
+import { creatorStoreActions } from 'store/creator/creator.store';
 import c from 'classnames';
 import { useConfirm } from 'development-kit/use-confirm';
 import TemplatesPopover from './components/templates-popover';
@@ -16,6 +13,7 @@ import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
 import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
+import { useDocumentsCreatorState } from 'store/documents-creator';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -28,7 +26,7 @@ const CreatorView = () => {
 
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
-  const { code, initialCode } = creatorStoreSelectors.useReady();
+  const { code, initialCode } = useDocumentsCreatorState();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 
@@ -222,4 +220,4 @@ const CreatorView = () => {
   );
 };
 
-export default CreatorView;
+export { CreatorView };
