@@ -1,12 +1,6 @@
-import { create } from 'zustand';
 import type { ImagesState } from './models';
+import { state } from 'development-kit/state';
 
-const useImagesState = create<ImagesState>(() => ({
-  is: `idle`,
-}));
+const useImagesState = state<ImagesState>({ is: `idle` });
 
-const replaceImagesState = (state: ImagesState): void => {
-  useImagesState.setState(state, true);
-};
-
-export { useImagesState, replaceImagesState };
+export { useImagesState };
