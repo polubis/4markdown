@@ -5,7 +5,9 @@ type Setter<TValue> = TValue | ((value: TValue) => TValue);
 const state = <TValue>(initialValue: TValue) => {
   const useZustandStore = create(() => initialValue);
 
-  const useState = () => useZustandStore;
+  const useState = <TSelected = TValue>(
+    selector?: (value: TValue) => TSelected,
+  ) => useZustandStore(selector as (value: TValue) => TSelected);
 
   const swap = (setter: Setter<TValue>): void => {
     useZustandStore.setState(setter, true);
