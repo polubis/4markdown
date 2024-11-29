@@ -154,7 +154,20 @@ const EducationZoneView = ({
       </AppNavigation>
       <EducationLayout
         title={
-          tag ? <span className="uppercase">{tag}</span> : `Education Zone`
+          tag ? (
+            <span className="flex items-center space-x-1.5">
+              <Link
+                className="translate-y-0.5"
+                to={meta.routes.education.zone}
+                title="Back to education zone"
+              >
+                <BiArrowToLeft />
+              </Link>
+              <span className="uppercase">{tag}</span>
+            </span>
+          ) : (
+            `Education Zone`
+          )
         }
         subTitle={
           tag
