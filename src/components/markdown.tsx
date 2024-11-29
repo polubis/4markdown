@@ -88,7 +88,7 @@ const OPTIONS: MarkdownToJSX.Options = {
     h6: ({ children }) => <h6 className="text-lg break-words">{children}</h6>,
     p: ({ children }) => (
       <p
-        className={c(`text-md break-words text-justify md:text-left`, {
+        className={c(`break-words text-justify md:text-left`, {
           'flex flex-col': isDescribedImage(children),
         })}
       >
@@ -103,7 +103,7 @@ const OPTIONS: MarkdownToJSX.Options = {
     del: ({ children }) => <del>{children}</del>,
     a: ({ children, href }) => (
       <a
-        className="text-md underline underline-offset-3 cursor-pointer break-words"
+        className="underline underline-offset-3 cursor-pointer break-words"
         href={href}
         target="_blank"
         rel="noopener noreferrer"

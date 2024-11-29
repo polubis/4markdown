@@ -187,7 +187,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             rel="noopener noreferrer"
             className="flex items-center mt-auto cursor-pointer justify-end pb-4"
           >
-            <p className="text-md font-medium font-mono">
+            <p className="font-medium font-mono">
               By <strong>{meta.company}</strong>
             </p>
             <CompanyLogo size={32} className="ml-3" />

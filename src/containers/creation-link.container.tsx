@@ -45,7 +45,7 @@ const CreationLinkContainer = () => {
             >
               {docStore.is === `idle` && (
                 <>
-                  <h6 className="text-md">Document</h6>
+                  <h6>Document</h6>
                   <p className="mt-1 text-sm">
                     Create documents in markdown format and share them with
                     others
@@ -54,7 +54,7 @@ const CreationLinkContainer = () => {
               )}
               {docStore.is === `active` && (
                 <>
-                  <h6 className="flex items-center text-md">
+                  <h6 className="flex items-center">
                     <BiArrowBack className="mr-2" size={20} /> Continue Editing
                   </h6>
                   <p className="mt-1 text-sm">
@@ -67,12 +67,12 @@ const CreationLinkContainer = () => {
           </li>
 
           <li className="relative flex flex-col p-3 border-b-2 border-zinc-300 dark:border-zinc-800">
-            <h6 className="text-md">Flashcard Board</h6>
+            <h6>Flashcard Board</h6>
             <p className="mt-1 text-sm">Coming soon</p>
           </li>
 
           <li className="relative flex flex-col p-3">
-            <h6 className="text-md">Mindmap</h6>
+            <h6>Mindmap</h6>
             <p className="mt-1 text-sm">Coming soon</p>
           </li>
         </ul>

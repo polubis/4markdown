@@ -12,7 +12,7 @@ const EducationZoneLinkContainer = () => {
       partiallyActive
     >
       <BiBook size={20} className="mr-2 shrink-0" />
-      <span className="text-md font-semibold">Education Zone</span>
+      <span className="font-semibold">Education Zone</span>
     </AppNavLink>
   );
 };
