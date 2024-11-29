@@ -13,6 +13,7 @@ import { ScrollToTop } from './scroll-to-top';
 import { BiDockTop, BiGrid } from 'react-icons/bi';
 import Markdown from 'markdown-to-jsx';
 import { Tabs } from 'design-system/tabs';
+import c from 'classnames';
 
 type DocumentLayoutProps = {
   children: string;
@@ -27,7 +28,23 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
   const Parts = React.useMemo(() => {
     const parts = children.trim().split(`#`);
 
-    return parts.map((part, idx) => <Markdown key={idx}>{part}</Markdown>);
+    return (
+      <ul className="grid grid-cols-3 gap-6 grid-row-3">
+        {parts.map((part, index) => (
+          <li
+            className="cursor-pointer relative p-4 h-[300px] border-2 rounded-lg border-zinc-300 dark:border-zinc-800 overflow-hidden"
+            key={index}
+          >
+            <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
+              {index + 1}
+            </strong>
+            <div className="pointer-events-none select-none">
+              <Markdown>{part}</Markdown>
+            </div>
+          </li>
+        ))}
+      </ul>
+    );
   }, [children]);
 
   return Parts;
@@ -45,8 +62,8 @@ const DocumentLayout = ({
 
   return (
     <>
-      <main className="max-w-4xl p-4 my-6 mx-auto">
-        <section className="flex ml-auto mb-6 justify-end tn:justify-start">
+      <main className="p-4 my-6">
+        <section className="flex ml-auto mb-6 justify-end tn:justify-start max-w-4xl mx-auto">
           <Tabs>
             <Tabs.Item
               title="Display as a single document"
@@ -65,30 +82,30 @@ const DocumentLayout = ({
           </Tabs>
         </section>
         <DocumentRating
-          className="mb-6 justify-end"
+          className="mb-6 justify-end max-w-4xl mx-auto"
           rating={rating}
           yourRate={yourRate}
           onRate={onRate}
         />
         {tags.length > 0 && (
-          <section className="flex flex-wrap gap-2 items-center mb-4">
+          <section className="flex flex-wrap gap-2 items-center mb-4 max-w-4xl mx-auto">
             {tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
             ))}
           </section>
         )}
         {display === `document` && (
-          <article className={M.className}>
+          <article className={c(`max-w-4xl mx-auto`, M.className)}>
             <M>{children}</M>
           </article>
         )}
         {display === `flashcards` && (
-          <article>
+          <article className="my-10">
             <FlashcardsDisplay>{children}</FlashcardsDisplay>
           </article>
         )}
         {author?.bio && author?.displayName && (
-          <section className="mt-12">
+          <section className="mt-12 max-w-4xl mx-auto">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
               <Avatar
                 className="shrink-0 bg-gray-300 dark:bg-slate-800"
@@ -118,7 +135,7 @@ const DocumentLayout = ({
           </section>
         )}
         <DocumentRating
-          className="mt-10 justify-end"
+          className="mt-10 justify-end max-w-4xl mx-auto"
           rating={rating}
           yourRate={yourRate}
           onRate={onRate}
