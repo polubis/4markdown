@@ -69,6 +69,8 @@ const FlashcardsDiplayPreview = ({
  4. Add flashcard index information
  5. Add copy markdown button for each and for everything
  6. Fix preview on mobile
+ 7. Add option to share it - whole article.
+ 8. Fix issue with scrolling in popup
  */
 
 const FlashcardsDisplay = ({ children }: { children: string }) => {
