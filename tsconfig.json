@@ -110,6 +110,7 @@
       "components/*": ["./src/components/*"],
       "core/*": ["./src/core/*"],
       "actions/*": ["./src/actions/*"],
+      "acts/*": ["./src/acts/*"],
       "containers/*": ["./src/containers/*"],
       "api-4markdown": ["./src/api-4markdown"],
       "api-4markdown-contracts": ["./src/api-4markdown-contracts"]

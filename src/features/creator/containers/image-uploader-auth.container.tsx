@@ -7,38 +7,34 @@ import { BiX } from 'react-icons/bi';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
-import {
-  imagesStoreRestrictions,
-  useImagesStore,
-} from 'store/images/images.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import type { ImageDto } from 'api-4markdown-contracts';
-import { uploadImage } from 'actions/upload-image.action';
+import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
+import { uploadImageAct } from 'acts/upload-image.act';
+import { useUploadImageState } from 'store/upload-image';
+
+const imagesStoreRestrictions = {
+  type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
+  size: 4,
+} as const;
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<ImageDto | null>();
   const errorModal = useToggle();
   const docsStore = useDocsStore();
-  const imagesStore = useImagesStore();
+  const imagesState = useUploadImageState();
   const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
     accept: imagesStoreRestrictions.type,
     maxSize: imagesStoreRestrictions.size,
-    onChange: ({ target: { files } }) => {
-      const uploadAndOpen = async (): Promise<void> => {
-        if (!!files && files.length === 1) {
-          try {
-            const result = await uploadImage(files[0]);
-            imageModal.openWithData(result);
-          } catch {
-            errorModal.open();
-          }
-        }
-      };
-
-      uploadAndOpen();
+    onChange: async ({ target: { files } }) => {
+      if (!!files && files.length === 1) {
+        const result = await uploadImageAct(files[0]);
+        result.is === `ok`
+          ? imageModal.openWithData(result.data)
+          : errorModal.open();
+      }
     },
     onError: errorModal.open,
   });
@@ -54,10 +50,10 @@ const ImageUploaderAuthContainer = () => {
   return (
     <>
       {copyState.is === `copied` && <Status>Image copied</Status>}
-      {imagesStore.is === `busy` && <Status>Uploading image...</Status>}
+      {imagesState.is === `busy` && <Status>Uploading image...</Status>}
 
       <UploadImageButton
-        disabled={docsStore.is === `busy` || imagesStore.is === `busy`}
+        disabled={docsStore.is === `busy` || imagesState.is === `busy`}
         onClick={upload}
       />
 
