@@ -6,6 +6,7 @@ import { meta } from '../../meta';
 import { M } from 'components/markdown';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
+import c from 'classnames';
 
 const CreatorPreviewPage = () => {
   useCreatorLocalStorageSync();
@@ -30,7 +31,7 @@ const CreatorPreviewPage = () => {
         </section>
       )}
       {creatorStore.is === `ready` && (
-        <section className={`${M.className} p-4`}>
+        <section className={c(M.className, `p-4`)}>
           <M>{creatorStore.code}</M>
         </section>
       )}
