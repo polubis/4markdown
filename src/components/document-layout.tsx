@@ -52,7 +52,7 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
     const content = [intro, ...sections];
 
     return (
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <ul className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {content.map((block, index) => (
           <li key={index}>
             <div className="relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden">
