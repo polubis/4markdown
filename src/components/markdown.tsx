@@ -1,6 +1,11 @@
-import React, { type ReactNode } from 'react';
+import React, {
+  type ReactNode,
+  type HTMLAttributes,
+  type DetailedHTMLProps,
+  type ReactElement,
+} from 'react';
 import type { MarkdownToJSX } from 'markdown-to-jsx';
-import Md from 'markdown-to-jsx';
+import MarkdownRenderer from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import c from 'classnames';
 import { Button } from 'design-system/button';
@@ -9,7 +14,7 @@ import { useCopy } from 'development-kit/use-copy';
 
 const Code = ({
   children,
-}: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
+}: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
 
   React.useLayoutEffect(() => {
@@ -29,10 +34,8 @@ const Code = ({
 
 const isReactElement = (
   node: unknown,
-): node is React.ReactElement<unknown, () => ReactNode> =>
-  typeof node === `object` &&
-  node !== null &&
-  !!(node as React.ReactElement).type;
+): node is ReactElement<unknown, () => ReactNode> =>
+  typeof node === `object` && node !== null && !!(node as ReactElement).type;
 
 const isDescribedImage = (nodes: ReactNode): boolean => {
   if (!Array.isArray(nodes)) {
@@ -53,7 +56,7 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   const [state, save] = useCopy();
 
   const copy = () => {
-    save((children as React.ReactElement<{ children: string }>).props.children);
+    save((children as ReactElement<{ children: string }>).props.children);
   };
 
   return (
@@ -136,18 +139,24 @@ const OPTIONS: MarkdownToJSX.Options = {
     ),
   },
 };
-/* @TODO: Try to improve this typings here. */
 
-interface MarkdownProps {
+type MarkdownProps = {
+  className?: string;
   children: string;
-}
+};
 
-const Markdown: React.FC<MarkdownProps> = ({ children }) => {
+const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
+  return <MarkdownRenderer options={OPTIONS}>{children}</MarkdownRenderer>;
+};
+
+M.className = `markdown`;
+
+const Markdown = ({ className, children }: MarkdownProps) => {
   return (
-    <div className="markdown">
-      <Md options={OPTIONS as MarkdownToJSX.Options}>{children}</Md>
+    <div className={c(M.className, className)}>
+      <M>{children}</M>
     </div>
   );
 };
 
-export default Markdown;
+export { Markdown, M };

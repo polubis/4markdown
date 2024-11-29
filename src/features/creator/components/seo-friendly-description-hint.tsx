@@ -1,7 +1,7 @@
 import React from 'react';
 import { Hint } from 'design-system/hint';
 import { BiInfoCircle, BiX } from 'react-icons/bi';
-import Markdown from 'components/markdown';
+import { Markdown } from 'components/markdown';
 import { Button } from 'design-system/button';
 import type { ToggleReturn } from 'development-kit/use-toggle';
 

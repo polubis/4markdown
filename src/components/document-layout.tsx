@@ -1,6 +1,5 @@
 import React from 'react';
-import Markdown from './markdown';
-import { Badges } from 'design-system/badges';
+import { M, Markdown } from './markdown';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
@@ -11,6 +10,8 @@ import type {
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
+import { Button } from 'design-system/button';
+import { BiSquare } from 'react-icons/bi';
 
 type DocumentLayoutProps = {
   children: string;
@@ -30,6 +31,11 @@ const DocumentLayout = ({
   return (
     <>
       <main className="max-w-4xl p-4 my-6 mx-auto">
+        <section className="flex ml-auto mb-6 justify-end tn:justify-start">
+          <Button title="Divide the article into flashcards" i={2} s={2}>
+            <BiSquare />
+          </Button>
+        </section>
         <DocumentRating
           className="mb-6 justify-end"
           rating={rating}
@@ -37,13 +43,15 @@ const DocumentLayout = ({
           onRate={onRate}
         />
         {tags.length > 0 && (
-          <Badges className="mb-4">
+          <section className="flex flex-wrap gap-2 items-center mb-4">
             {tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
             ))}
-          </Badges>
+          </section>
         )}
-        <Markdown>{children}</Markdown>
+        <section className={M.className}>
+          <M>{children}</M>
+        </section>
         {author?.bio && author?.displayName && (
           <section className="mt-12">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">

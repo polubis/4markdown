@@ -1,7 +1,7 @@
 import { Button } from 'design-system/button';
 import { usePortal } from 'development-kit/use-portal';
 import React from 'react';
-import { BiArrowToTop, BiSquare } from 'react-icons/bi';
+import { BiArrowToTop } from 'react-icons/bi';
 
 const ScrollToTop = () => {
   const { render } = usePortal();
@@ -28,7 +28,7 @@ const ScrollToTop = () => {
   if (!visible) return null;
 
   return render(
-    <div className="fixed flex flex-col space-y-2 left-0 bottom-0 p-4">
+    <aside className="fixed flex flex-col space-y-2 left-0 bottom-0 p-4">
       <Button
         i={2}
         s={2}
@@ -37,10 +37,7 @@ const ScrollToTop = () => {
       >
         <BiArrowToTop />
       </Button>
-      <Button title="Divide the article into flashcards" i={2} s={2}>
-        <BiSquare />
-      </Button>
-    </div>,
+    </aside>,
   );
 };
 
