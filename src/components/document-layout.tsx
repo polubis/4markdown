@@ -16,7 +16,6 @@ import {
   BiCopyAlt,
   BiDockTop,
   BiGrid,
-  BiShare,
   BiX,
 } from 'react-icons/bi';
 import { Tabs } from 'design-system/tabs';
