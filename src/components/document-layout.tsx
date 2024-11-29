@@ -41,21 +41,19 @@ const FlashcardsDiplayPreview = ({
   const { render } = usePortal();
 
   return render(
-    <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-40 backdrop-blur-2xl">
+    <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-40 backdrop-blur-2xl overflow-auto">
       <header className="border-t-2 md:border-b-2 md:border-t-0 gap-3 flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800">
+        <h6 className="text-lg font-bold truncate">
+          {children.split(`\n`)[0]}
+        </h6>
         <Button className="ml-auto" i={1} s={2} onClick={onClose}>
           <BiX size={28} />
         </Button>
       </header>
-      <Bar className="h-[50px]">
-        <h6 className="text-lg font-bold truncate">
-          {children.split(`\n`)[0]}
-        </h6>
-      </Bar>
-      <section className={c(`grid grid-cols-1 h-[calc(100svh-72px-50px)]`)}>
+      <section className={c(`grid grid-cols-1 h-[calc(100svh-72px)]`)}>
         <div
           className={c(
-            `p-4 overflow-auto border-zinc-300 dark:border-zinc-800 max-w-4xl mx-auto`,
+            `p-4 border-zinc-300 dark:border-zinc-800 max-w-4xl mx-auto`,
           )}
         >
           <Markdown>{children}</Markdown>
