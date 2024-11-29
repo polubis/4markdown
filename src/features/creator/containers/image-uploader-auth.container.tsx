@@ -11,7 +11,7 @@ import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
 import { uploadImageAct } from 'acts/upload-image.act';
-import { useImagesState } from 'store/images';
+import { useUploadImageState } from 'store/upload-image';
 
 const imagesStoreRestrictions = {
   type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
@@ -22,7 +22,7 @@ const ImageUploaderAuthContainer = () => {
   const imageModal = useToggle<ImageDto | null>();
   const errorModal = useToggle();
   const docsStore = useDocsStore();
-  const imagesState = useImagesState();
+  const imagesState = useUploadImageState();
   const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
