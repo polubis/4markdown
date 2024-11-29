@@ -41,15 +41,5 @@ module.exports = {
         },
       });
     },
-    ({ addBase }) => {
-      addBase({
-        html: {
-          scrollbarGutter: `stable`,
-        },
-        body: {
-          overflowY: `scroll`,
-        },
-      });
-    },
   ],
 };
