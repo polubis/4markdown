@@ -10,7 +10,7 @@ import type {
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
-import { BiCodeBlock, BiFile } from 'react-icons/bi';
+import { BiDockTop, BiGrid } from 'react-icons/bi';
 import Markdown from 'markdown-to-jsx';
 import { Tabs } from 'design-system/tabs';
 
@@ -53,14 +53,14 @@ const DocumentLayout = ({
               active={display === `document`}
               onClick={() => setDisplay(`document`)}
             >
-              <BiFile />
+              <BiDockTop size={20} />
             </Tabs.Item>
             <Tabs.Item
               title="Divide the document into sections"
               active={display === `flashcards`}
               onClick={() => setDisplay(`flashcards`)}
             >
-              <BiCodeBlock />
+              <BiGrid size={20} />
             </Tabs.Item>
           </Tabs>
         </section>
