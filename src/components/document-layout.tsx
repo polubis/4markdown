@@ -35,7 +35,21 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
       .join(`\n`)
       .trim();
 
-    const content = [intro];
+    const sections = parts
+      .reduce<number[]>((acc, part, index) => {
+        if (/^##\s.+$/.test(part)) {
+          acc.push(index);
+        }
+
+        return acc;
+      }, [])
+      .map((start, index, positions) => {
+        const end = positions[index + 1] ?? parts.length - 1;
+
+        return parts.slice(start, end).join(`\n`);
+      });
+
+    const content = [intro, ...sections];
 
     return (
       <ul className="flex flex-wrap gap-6">
