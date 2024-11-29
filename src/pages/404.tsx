@@ -7,6 +7,7 @@ import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
 import { CreationLinkContainer } from 'containers/creation-link.container';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 const NotFoundPage = () => {
   return (
@@ -14,6 +15,7 @@ const NotFoundPage = () => {
       <AppNavigation>
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
       </AppNavigation>
       <main className="max-w-2xl p-4 mx-auto h-screen flex flex-col justify-center">
         <h1 className="text-2xl">

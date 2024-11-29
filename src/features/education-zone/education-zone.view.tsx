@@ -14,6 +14,7 @@ import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
 import { EducationTopTags } from 'components/education-top-tags';
 import type { EducationPageModel } from 'models/page-models';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 type EducationZoneViewProps = EducationPageModel;
 
@@ -149,6 +150,7 @@ const EducationZoneView = ({
       <AppNavigation>
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
       </AppNavigation>
       <EducationLayout
         title={tag ? <span className="uppercase">{tag}</span> : `The Wall`}

@@ -10,6 +10,7 @@ import { meta } from '../../meta';
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
 import { CreationLinkContainer } from 'containers/creation-link.container';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -27,6 +28,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
       <AppNavigation>
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
       </AppNavigation>
       <DocumentLayout
         rating={rating}

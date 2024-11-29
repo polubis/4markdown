@@ -10,6 +10,7 @@ import { useDocumentPreviewStore } from './store/document-preview.store';
 import { selectSafe } from './store/document-preview.selectors';
 import { CreationLinkContainer } from 'containers/creation-link.container';
 import { loadDocument } from './store/load-document.action';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 const ErrorScreen = React.lazy(() =>
   import(`./components/error-screen`).then(({ ErrorScreen }) => ({
@@ -52,6 +53,7 @@ const DocumentPreviewView = () => {
       <AppNavigation>
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
       </AppNavigation>
       {(documentPreviewStore.is === `idle` ||
         documentPreviewStore.is === `busy`) && <LoadingScreen />}

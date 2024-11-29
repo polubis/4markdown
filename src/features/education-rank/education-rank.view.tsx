@@ -7,6 +7,7 @@ import type { EducationRanPageModel } from 'models/page-models';
 import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
 import { EducationTopTags } from 'components/education-top-tags';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 type EducationRankViewProps = EducationRanPageModel;
 
@@ -19,6 +20,7 @@ const EducationRankView = ({
       <AppNavigation>
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
       </AppNavigation>
       <EducationLayout
         subTitle={`Top ${topDocuments.length} educational assets`}

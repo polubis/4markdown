@@ -4,6 +4,7 @@ import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
 import React from 'react';
 import { meta } from '../../../meta';
 import { CreationLinkContainer } from 'containers/creation-link.container';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 const PrivacyPolicyView = () => {
   return (
@@ -11,6 +12,7 @@ const PrivacyPolicyView = () => {
       <AppNavigation>
         <CreationLinkContainer />
         <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
       </AppNavigation>
       <main className="max-w-4xl p-4 my-6 mx-auto [&>h1]:pb-3 [&>h2]:pb-1 markdown [&>h1]:text-5xl [&>h2]:text-4xl [&>*]:mb-3">
         <p>
