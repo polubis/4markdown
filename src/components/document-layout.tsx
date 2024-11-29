@@ -10,9 +10,15 @@ import type {
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
-import { BiDockTop, BiGrid } from 'react-icons/bi';
+import { BiDockTop, BiGrid, BiWindowOpen, BiX } from 'react-icons/bi';
 import { Tabs } from 'design-system/tabs';
 import c from 'classnames';
+import { useToggle } from 'development-kit/use-toggle';
+import { Button } from 'design-system/button';
+import { usePortal } from 'development-kit/use-portal';
+import { Bar } from 'design-system/bar';
+import { useScrollHide } from 'development-kit/use-scroll-hide';
+import { useOnEscapePress } from 'development-kit/use-on-escape-press';
 
 type DocumentLayoutProps = {
   children: string;
@@ -23,7 +29,45 @@ type DocumentLayoutProps = {
 
 type Display = `document` | `flashcards`;
 
+const FlashcardsDiplayPreview = ({
+  children,
+  onClose,
+}: {
+  children: string;
+  onClose(): void;
+}) => {
+  useOnEscapePress(onClose);
+  useScrollHide();
+  const { render } = usePortal();
+
+  return render(
+    <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white dark:bg-opacity-60 bg-opacity-40 backdrop-blur-2xl">
+      <header className="border-t-2 md:border-b-2 md:border-t-0 gap-3 flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800">
+        <Button className="ml-auto" i={1} s={2} onClick={onClose}>
+          <BiX size={28} />
+        </Button>
+      </header>
+      <Bar className="h-[50px]">
+        <h6 className="text-lg font-bold truncate">
+          {children.split(`\n`)[0]}
+        </h6>
+      </Bar>
+      <section className={c(`grid grid-cols-1 h-[calc(100svh-72px-50px)]`)}>
+        <div
+          className={c(
+            `p-4 overflow-auto border-zinc-300 dark:border-zinc-800 max-w-4xl mx-auto`,
+          )}
+        >
+          <Markdown>{children}</Markdown>
+        </div>
+      </section>
+    </div>,
+  );
+};
+
 const FlashcardsDisplay = ({ children }: { children: string }) => {
+  const preview = useToggle<string>();
+
   const Parts = React.useMemo(() => {
     const parts = children.split(`\n`);
 
@@ -54,8 +98,16 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
     return (
       <ul className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {content.map((block, index) => (
-          <li key={index}>
-            <div className="relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden">
+          <li className="relative group" key={index}>
+            <Button
+              className="open-in-new-window absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+              i={2}
+              s={1}
+              onClick={() => preview.openWithData(block)}
+            >
+              <BiWindowOpen />
+            </Button>
+            <div className="h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden">
               <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
                 {index + 1}
               </strong>
@@ -65,9 +117,19 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
         ))}
       </ul>
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children]);
 
-  return Parts;
+  return (
+    <>
+      {Parts}
+      {preview.data && (
+        <FlashcardsDiplayPreview onClose={preview.close}>
+          {preview.data}
+        </FlashcardsDiplayPreview>
+      )}
+    </>
+  );
 };
 
 const DocumentLayout = ({
