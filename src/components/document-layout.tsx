@@ -41,7 +41,7 @@ const FlashcardsDiplayPreview = ({
   onClose(): void;
 }) => {
   return (
-    <Modal className="tn:w-[100%] max-w-3xl p-0" onEscape={onClose}>
+    <Modal className="tn:!w-[100%] !max-w-3xl !p-0" onEscape={onClose}>
       <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
         <Button className="ml-auto" i={1} s={2} onClick={onClose}>
           <BiX size={28} />
