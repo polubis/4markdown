@@ -1,14 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    // @TODO[PRIO=1]: [Make it generic and measure impact on build time].
-    `./src/pages/*.{js,jsx,ts,tsx}`,
-    `./src/components/*.{js,jsx,ts,tsx}`,
-    `./src/design-system/*.{js,jsx,ts,tsx}`,
-    `./src/features/**/*.{js,jsx,ts,tsx}`,
-    `./src/containers/**/*.{js,jsx,ts,tsx}`,
-    `./src/dynamic-pages/**/*.{js,jsx,ts,tsx}`,
-  ],
+  content: [`./src/**/*.{js,jsx,ts,tsx}`],
   darkMode: `class`,
   theme: {
     extend: {
