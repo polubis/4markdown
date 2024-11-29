@@ -1,5 +1,5 @@
 import React from 'react';
-import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
@@ -149,7 +149,7 @@ const EducationZoneView = ({
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <DocsBrowseLinkContainer />
+        <EducationZoneLinkContainer />
         <EducationRankLinkContainer />
       </AppNavigation>
       <EducationLayout

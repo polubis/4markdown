@@ -2,7 +2,7 @@ import { DocumentLayout } from 'components/document-layout';
 import LoadingScreen from 'components/loading-screen';
 import React from 'react';
 
-import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
@@ -52,7 +52,7 @@ const DocumentPreviewView = () => {
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <DocsBrowseLinkContainer />
+        <EducationZoneLinkContainer />
         <EducationRankLinkContainer />
       </AppNavigation>
       {(documentPreviewStore.is === `idle` ||

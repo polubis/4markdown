@@ -3,7 +3,7 @@ import { type HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { DocumentLayout } from 'components/document-layout';
-import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
@@ -27,7 +27,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <DocsBrowseLinkContainer />
+        <EducationZoneLinkContainer />
         <EducationRankLinkContainer />
       </AppNavigation>
       <DocumentLayout
