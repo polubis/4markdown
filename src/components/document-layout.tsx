@@ -1,5 +1,5 @@
 import React from 'react';
-import { M, Markdown } from './markdown';
+import { M } from './markdown';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
@@ -49,9 +49,9 @@ const DocumentLayout = ({
             ))}
           </section>
         )}
-        <section className={M.className}>
+        <article className={M.className}>
           <M>{children}</M>
-        </section>
+        </article>
         {author?.bio && author?.displayName && (
           <section className="mt-12">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
