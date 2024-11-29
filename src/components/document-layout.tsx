@@ -1,5 +1,5 @@
 import React from 'react';
-import { M } from './markdown';
+import { M, Markdown } from './markdown';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
@@ -11,7 +11,6 @@ import type {
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
 import { BiDockTop, BiGrid } from 'react-icons/bi';
-import Markdown from 'markdown-to-jsx';
 import { Tabs } from 'design-system/tabs';
 import c from 'classnames';
 
@@ -26,20 +25,30 @@ type Display = `document` | `flashcards`;
 
 const FlashcardsDisplay = ({ children }: { children: string }) => {
   const Parts = React.useMemo(() => {
-    const parts = children.trim().split(`#`);
+    const parts = children.split(`\n`);
+
+    const intro = parts
+      .slice(
+        0,
+        parts.findIndex((part) => /^##\s.+$/.test(part)),
+      )
+      .join(`\n`)
+      .trim();
+
+    const content = [intro];
 
     return (
-      <ul className="grid grid-cols-3 gap-6 grid-row-3">
-        {parts.map((part, index) => (
+      <ul className="flex flex-wrap gap-6">
+        {content.map((block, index) => (
           <li
-            className="cursor-pointer relative p-4 h-[300px] border-2 rounded-lg border-zinc-300 dark:border-zinc-800 overflow-hidden"
+            className="cursor-pointer relative p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800"
             key={index}
           >
             <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
               {index + 1}
             </strong>
             <div className="pointer-events-none select-none">
-              <Markdown>{part}</Markdown>
+              <Markdown>{block}</Markdown>
             </div>
           </li>
         ))}
@@ -58,7 +67,7 @@ const DocumentLayout = ({
   rating,
   onRate,
 }: DocumentLayoutProps) => {
-  const [display, setDisplay] = React.useState<Display>(`document`);
+  const [display, setDisplay] = React.useState<Display>(`flashcards`);
 
   return (
     <>
