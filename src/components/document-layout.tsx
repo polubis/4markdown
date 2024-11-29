@@ -10,7 +10,15 @@ import type {
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
-import { BiDockTop, BiGrid, BiX } from 'react-icons/bi';
+import {
+  BiArrowToLeft,
+  BiArrowToRight,
+  BiCopyAlt,
+  BiDockTop,
+  BiGrid,
+  BiShare,
+  BiX,
+} from 'react-icons/bi';
 import { Tabs } from 'design-system/tabs';
 import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
@@ -34,13 +42,26 @@ const FlashcardsDiplayPreview = ({
   onClose(): void;
 }) => {
   return (
-    <Modal onEscape={onClose}>
-      <header>
+    <Modal className="tn:w-[100%] max-w-3xl p-0" onEscape={onClose}>
+      <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
         <Button className="ml-auto" i={1} s={2} onClick={onClose}>
           <BiX size={28} />
         </Button>
       </header>
-      <Markdown>{children}</Markdown>
+      <section className="p-4">
+        <Markdown>{children}</Markdown>
+      </section>
+      <footer className="flex items-center justify-end p-4 space-x-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
+        <Button i={2} s={2}>
+          <BiCopyAlt />
+        </Button>
+        <Button i={2} s={2}>
+          <BiArrowToLeft />
+        </Button>
+        <Button i={2} s={2}>
+          <BiArrowToRight />
+        </Button>
+      </footer>
     </Modal>
   );
 };
