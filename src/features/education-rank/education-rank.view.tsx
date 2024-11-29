@@ -24,7 +24,7 @@ const EducationRankView = ({
       </AppNavigation>
       <EducationLayout
         subTitle={`Top ${topDocuments.length} educational assets`}
-        title="The Education Rank"
+        title="Education Rank"
       >
         <EducationDocumentsList documents={topDocuments} />
         <>
