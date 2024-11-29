@@ -8,6 +8,7 @@ import type { MarkdownToJSX } from 'markdown-to-jsx';
 import MarkdownRenderer from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import c from 'classnames';
+import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
@@ -55,7 +56,8 @@ const isDescribedImage = (nodes: ReactNode): boolean => {
 const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   const [state, save] = useCopy();
 
-  const copy = () => {
+  const copy: ButtonProps['onClick'] = (e) => {
+    e.stopPropagation();
     save((children as ReactElement<{ children: string }>).props.children);
   };
 
