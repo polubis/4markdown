@@ -12,6 +12,7 @@ import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
 import { Button } from 'design-system/button';
 import { BiSquare } from 'react-icons/bi';
+import Markdown from 'markdown-to-jsx';
 
 type DocumentLayoutProps = {
   children: string;
@@ -19,6 +20,18 @@ type DocumentLayoutProps = {
   tags: Tags;
   author: UserProfileDto | null;
 } & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
+
+type Display = `document` | `flashcards`;
+
+const FlashcardsDisplay = ({ children }: { children: string }) => {
+  const Parts = React.useMemo(() => {
+    const parts = children.split(`#`);
+
+    return parts.map((part, idx) => <Markdown key={idx}>{part}</Markdown>);
+  }, [children]);
+
+  return Parts;
+};
 
 const DocumentLayout = ({
   children,
@@ -28,11 +41,28 @@ const DocumentLayout = ({
   rating,
   onRate,
 }: DocumentLayoutProps) => {
+  const [display, setDisplay] = React.useState<Display>(`document`);
+
+  const toggleDisplay = (): void => {
+    setDisplay((prevDisplay) =>
+      prevDisplay === `document` ? `flashcards` : `document`,
+    );
+  };
+
   return (
     <>
       <main className="max-w-4xl p-4 my-6 mx-auto">
         <section className="flex ml-auto mb-6 justify-end tn:justify-start">
-          <Button title="Divide the article into flashcards" i={2} s={2}>
+          <Button
+            title={
+              display === `document`
+                ? `Divide the document into sections`
+                : `Display as a single document`
+            }
+            i={2}
+            s={2}
+            onClick={toggleDisplay}
+          >
             <BiSquare />
           </Button>
         </section>
@@ -49,9 +79,16 @@ const DocumentLayout = ({
             ))}
           </section>
         )}
-        <article className={M.className}>
-          <M>{children}</M>
-        </article>
+        {display === `document` && (
+          <article className={M.className}>
+            <M>{children}</M>
+          </article>
+        )}
+        {display === `flashcards` && (
+          <article>
+            <FlashcardsDisplay>{children}</FlashcardsDisplay>
+          </article>
+        )}
         {author?.bio && author?.displayName && (
           <section className="mt-12">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
