@@ -52,8 +52,8 @@ const DocumentPreviewView = () => {
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <EducationZoneLinkContainer />
         <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       {(documentPreviewStore.is === `idle` ||
         documentPreviewStore.is === `busy`) && <LoadingScreen />}

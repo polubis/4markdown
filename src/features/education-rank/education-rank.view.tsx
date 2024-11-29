@@ -19,8 +19,8 @@ const EducationRankView = ({
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <EducationZoneLinkContainer />
         <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       <EducationLayout
         subTitle={`Top ${topDocuments.length} educational assets`}

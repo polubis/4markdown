@@ -27,8 +27,8 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <EducationZoneLinkContainer />
         <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       <DocumentLayout
         rating={rating}

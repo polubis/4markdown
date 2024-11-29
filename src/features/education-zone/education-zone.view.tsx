@@ -149,8 +149,8 @@ const EducationZoneView = ({
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <EducationZoneLinkContainer />
         <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       <EducationLayout
         title={tag ? <span className="uppercase">{tag}</span> : `The Wall`}

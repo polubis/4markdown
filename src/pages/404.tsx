@@ -14,8 +14,8 @@ const NotFoundPage = () => {
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <EducationZoneLinkContainer />
         <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       <main className="max-w-2xl p-4 mx-auto h-screen flex flex-col justify-center">
         <h1 className="text-2xl">
