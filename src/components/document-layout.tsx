@@ -15,9 +15,7 @@ import { Tabs } from 'design-system/tabs';
 import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
-import { usePortal } from 'development-kit/use-portal';
-import { useScrollHide } from 'development-kit/use-scroll-hide';
-import { useOnEscapePress } from 'development-kit/use-on-escape-press';
+import { Modal } from 'design-system/modal';
 
 type DocumentLayoutProps = {
   children: string;
@@ -35,30 +33,15 @@ const FlashcardsDiplayPreview = ({
   children: string;
   onClose(): void;
 }) => {
-  useOnEscapePress(onClose);
-  useScrollHide();
-  const { render } = usePortal();
-
-  return render(
-    <div className="[&>*]:animate-fade-in flex md:flex-col flex-col-reverse fixed top-0 left-0 right-0 z-10 h-[100svh] dark:bg-black bg-white overflow-auto">
-      <header className="border-t-2 md:border-b-2 md:border-t-0 gap-3 flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800">
-        <h6 className="text-lg font-bold truncate">
-          {children.split(`\n`)[0]}
-        </h6>
+  return (
+    <Modal onEscape={onClose}>
+      <header>
         <Button className="ml-auto" i={1} s={2} onClick={onClose}>
           <BiX size={28} />
         </Button>
       </header>
-      <section className={c(`grid grid-cols-1 h-[calc(100svh-72px)]`)}>
-        <div
-          className={c(
-            `p-4 border-zinc-300 dark:border-zinc-800 max-w-4xl mx-auto`,
-          )}
-        >
-          <Markdown>{children}</Markdown>
-        </div>
-      </section>
-    </div>,
+      <Markdown>{children}</Markdown>
+    </Modal>
   );
 };
 
