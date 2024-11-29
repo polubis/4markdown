@@ -46,22 +46,19 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
       .map((start, index, positions) => {
         const end = positions[index + 1] ?? parts.length - 1;
 
-        return parts.slice(start, end).join(`\n`);
+        return parts.slice(start, end).join(`\n`).trim();
       });
 
     const content = [intro, ...sections];
 
     return (
-      <ul className="flex flex-wrap gap-6">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {content.map((block, index) => (
-          <li
-            className="cursor-pointer relative p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800"
-            key={index}
-          >
-            <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
-              {index + 1}
-            </strong>
-            <div className="pointer-events-none select-none">
+          <li key={index}>
+            <div className="relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden">
+              <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
+                {index + 1}
+              </strong>
               <Markdown>{block}</Markdown>
             </div>
           </li>
@@ -123,7 +120,7 @@ const DocumentLayout = ({
           </article>
         )}
         {display === `flashcards` && (
-          <article className="my-10">
+          <article className="my-10 mx-auto max-w-[1920px]">
             <FlashcardsDisplay>{children}</FlashcardsDisplay>
           </article>
         )}
