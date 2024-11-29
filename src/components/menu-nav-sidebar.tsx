@@ -106,7 +106,11 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             to={meta.routes.education.zone}
             title="Navigate to education zone"
             component={(props) => (
-              <Link activeClassName="active-button-link" {...props} />
+              <Link
+                partiallyActive
+                activeClassName="active-button-link"
+                {...props}
+              />
             )}
           >
             Education Zone

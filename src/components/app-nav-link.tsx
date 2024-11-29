@@ -8,6 +8,7 @@ interface AppNavLinkProps {
   to: GatsbyLinkProps<unknown>['to'];
   children: GatsbyLinkProps<unknown>['children'];
   title: GatsbyLinkProps<unknown>['title'];
+  partiallyActive?: GatsbyLinkProps<unknown>['partiallyActive'];
 }
 
 const AppNavLink = ({ className, ...props }: AppNavLinkProps) => {
