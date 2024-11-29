@@ -10,9 +10,7 @@ import type {
   UserProfileDto,
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
-import { Button } from 'design-system/button';
-import { BiArrowToTop, BiSquare } from 'react-icons/bi';
-import { usePortal } from 'development-kit/use-portal';
+import { ScrollToTop } from './scroll-to-top';
 
 type DocumentLayoutProps = {
   children: string;
@@ -20,47 +18,6 @@ type DocumentLayoutProps = {
   tags: Tags;
   author: UserProfileDto | null;
 } & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
-
-const ToolBar = () => {
-  const { render } = usePortal();
-  const [visible, setVisible] = React.useState(false);
-
-  React.useEffect(() => {
-    let prevY = window.scrollY;
-
-    const handleScroll = (): void => {
-      const y = window.scrollY;
-
-      setVisible(prevY > y && y > 100);
-
-      prevY = y;
-    };
-
-    window.addEventListener(`scroll`, handleScroll);
-
-    return () => {
-      window.removeEventListener(`scroll`, handleScroll);
-    };
-  }, []);
-
-  if (!visible) return null;
-
-  return render(
-    <div className="fixed flex flex-col space-y-2 left-0 bottom-0 p-4">
-      <Button
-        i={2}
-        s={2}
-        title="Scroll to top"
-        onClick={() => window.scrollTo({ top: 0, behavior: `smooth` })}
-      >
-        <BiArrowToTop />
-      </Button>
-      <Button title="Divide the article into flashcards" i={2} s={2}>
-        <BiSquare />
-      </Button>
-    </div>,
-  );
-};
 
 const DocumentLayout = ({
   children,
@@ -124,7 +81,7 @@ const DocumentLayout = ({
           onRate={onRate}
         />
       </main>
-      <ToolBar />
+      <ScrollToTop />
     </>
   );
 };
