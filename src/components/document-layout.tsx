@@ -10,7 +10,7 @@ import type {
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
-import { BiDockTop, BiGrid, BiWindowOpen, BiX } from 'react-icons/bi';
+import { BiDockTop, BiGrid, BiX } from 'react-icons/bi';
 import { Tabs } from 'design-system/tabs';
 import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
