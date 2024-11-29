@@ -62,6 +62,15 @@ const FlashcardsDiplayPreview = ({
   );
 };
 
+/**
+ 1. Add tab navigation by links in each tile
+ 2. Improve "numbers" display
+ 3. Improve preview popup behavior
+ 4. Add flashcard index information
+ 5. Add copy markdown button for each and for everything
+ 6. Fix preview on mobile
+ */
+
 const FlashcardsDisplay = ({ children }: { children: string }) => {
   const preview = useToggle<string>();
 
@@ -96,7 +105,7 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
       <ul className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {content.map((block, index) => (
           <li
-            className="relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer hover:opacity-70"
+            className="relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer"
             key={index}
             onClick={() => preview.openWithData(block)}
           >
