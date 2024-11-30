@@ -66,8 +66,6 @@ const FlashcardsDiplayPreview = ({
 };
 
 /**
- 1. Add tab navigation by links in each tile
- 2. Improve "numbers" display
  3. Improve preview popup behavior
  4. Add flashcard index information
  5. Add copy markdown button for each and for everything
@@ -106,20 +104,17 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
     const content = [intro, ...sections];
 
     return (
-      <ul className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
         {content.map((block, index) => (
-          <li
-            className="relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer"
+          <button
+            className="text-left relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
             key={index}
             onClick={() => preview.openWithData(block)}
           >
-            <strong className="absolute dark:opacity-10 opacity-15 text-6xl top-0 right-2">
-              {index + 1}
-            </strong>
             <Markdown>{block}</Markdown>
-          </li>
+          </button>
         ))}
-      </ul>
+      </div>
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children]);
