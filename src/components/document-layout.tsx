@@ -44,7 +44,7 @@ const FlashcardsDiplayPreview = ({
 } & ActiveSection) => {
   return (
     <Modal
-      className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 sm:[&>*]:rounded-lg [&>*]:rounded-none !sm:p-4 !p-0"
+      className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none !md:p-4 !p-0"
       onEscape={onClose}
     >
       <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
