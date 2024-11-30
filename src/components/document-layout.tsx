@@ -44,7 +44,7 @@ const FlashcardsDiplayPreview = ({
 } & ActiveSection) => {
   return (
     <Modal
-      className="tn:[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0"
+      className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 sm:[&>*]:rounded-lg [&>*]:rounded-none !sm:p-4 !p-0"
       onEscape={onClose}
     >
       <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
@@ -80,8 +80,8 @@ const FlashcardsDiplayPreview = ({
 /**
  * Disable tab when popup opened
  5. Add copy markdown button for each and for everything
- 6. Fix preview on mobile
  7. Add option to share it - whole article.
+ ADd navigation keyboard
  */
 
 const FlashcardsDisplay = ({ children }: { children: string }) => {
