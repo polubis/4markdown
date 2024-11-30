@@ -31,24 +31,5 @@ module.exports = {
       shake: `shake 0.5s ease-in-out`,
     },
   },
-  plugins: [
-    ({ addUtilities }) => {
-      addUtilities({
-        '.scroll-preserve-y': {
-          scrollbarGutter: `stable`,
-          overflowY: `scroll`,
-        },
-      });
-    },
-    ({ addBase }) => {
-      addBase({
-        html: {
-          scrollbarGutter: `stable`,
-        },
-        body: {
-          overflowY: `scroll`,
-        },
-      });
-    },
-  ],
+  plugins: [],
 };

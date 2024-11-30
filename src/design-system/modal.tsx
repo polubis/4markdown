@@ -19,7 +19,7 @@ const Modal = ({ className, children, onEscape }: ModalProps) => {
   const { render } = usePortal();
 
   return render(
-    <div className="bg-black/40 dark:bg-white/20 fixed items-center justify-center flex p-4 z-20 h-[100svh] w-[100svw] left-0 top-0 scroll-preserve-y animate-fade-in">
+    <div className="bg-black/40 dark:bg-white/20 fixed items-center justify-center flex p-4 z-20 h-[100svh] w-[100svw] left-0 top-0 overflow-auto animate-fade-in">
       <div
         className={c(
           `bg-white m-auto w-[100%] tn:w-[380px] dark:bg-black rounded-lg shadow-xl p-4`,
