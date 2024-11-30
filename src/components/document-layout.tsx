@@ -42,22 +42,29 @@ const FlashcardsDiplayPreview = ({
 }) => {
   return (
     <Modal className="tn:!w-[100%] !max-w-3xl !p-0" onEscape={onClose}>
-      <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
-        <Button className="ml-auto" i={1} s={2} onClick={onClose}>
-          <BiX size={28} />
+      <header className="flex items-center p-4 border-zinc-300 dark:border-zinc-800">
+        <h6 className="text-xl mr-8">Chapter Preview</h6>
+        <Button
+          className="ml-auto"
+          i={2}
+          s={1}
+          onClick={onClose}
+          title="Close section preview (Esc)"
+        >
+          <BiX />
         </Button>
       </header>
       <section className="p-4">
         <Markdown>{children}</Markdown>
       </section>
       <footer className="flex items-center justify-end p-4 space-x-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
-        <Button i={2} s={2}>
+        <Button i={2} s={1} title="Copy this section markdown (C)">
           <BiCopyAlt />
         </Button>
-        <Button i={2} s={2}>
+        <Button i={2} s={1} title="Go to previous section (A)">
           <BiArrowToLeft />
         </Button>
-        <Button i={2} s={2}>
+        <Button i={2} s={1} title="Go to next section (D)">
           <BiArrowToRight />
         </Button>
       </footer>
@@ -66,8 +73,9 @@ const FlashcardsDiplayPreview = ({
 };
 
 /**
+ * Disable tab when popup opened
+ * Display section index when popup opened
  3. Improve preview popup behavior
- 4. Add flashcard index information
  5. Add copy markdown button for each and for everything
  6. Fix preview on mobile
  7. Add option to share it - whole article.
