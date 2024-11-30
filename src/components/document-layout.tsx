@@ -87,7 +87,7 @@ const FlashcardsDiplayPreview = ({
 const FlashcardsDisplay = ({ children }: { children: string }) => {
   const preview = useToggle<ActiveSection>();
 
-  const Parts = React.useMemo(() => {
+  const sections = React.useMemo(() => {
     const parts = children.split(`\n`);
 
     const intro = parts
@@ -98,7 +98,7 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
       .join(`\n`)
       .trim();
 
-    const sections = parts
+    const rest = parts
       .reduce<number[]>((acc, part, index) => {
         if (/^##\s.+$/.test(part)) {
           acc.push(index);
@@ -112,9 +112,13 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
         return parts.slice(start, end).join(`\n`).trim();
       });
 
-    return (
+    return [intro, ...rest];
+  }, [children]);
+
+  return (
+    <>
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-        {[intro, ...sections].map((content, index) => (
+        {sections.map((content, index) => (
           <button
             className="text-left relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
             key={index}
@@ -124,13 +128,6 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
           </button>
         ))}
       </div>
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [children]);
-
-  return (
-    <>
-      {Parts}
       {preview.data && (
         <FlashcardsDiplayPreview {...preview.data} onClose={preview.close} />
       )}
