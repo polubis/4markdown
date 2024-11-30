@@ -33,17 +33,22 @@ type DocumentLayoutProps = {
 
 type Display = `document` | `flashcards`;
 
+type ActiveSection = { index: number; content: string };
+
 const FlashcardsDiplayPreview = ({
-  children,
+  index,
+  content,
   onClose,
 }: {
-  children: string;
   onClose(): void;
-}) => {
+} & ActiveSection) => {
   return (
-    <Modal className="tn:!w-[100%] !max-w-3xl !p-0" onEscape={onClose}>
-      <header className="flex items-center p-4 border-zinc-300 dark:border-zinc-800">
-        <h6 className="text-xl mr-8">Chapter Preview</h6>
+    <Modal
+      className="tn:[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0"
+      onEscape={onClose}
+    >
+      <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
+        <h6 className="text-xl mr-8">({index + 1}) Section Preview</h6>
         <Button
           className="ml-auto"
           i={2}
@@ -55,7 +60,7 @@ const FlashcardsDiplayPreview = ({
         </Button>
       </header>
       <section className="p-4">
-        <Markdown>{children}</Markdown>
+        <Markdown>{content}</Markdown>
       </section>
       <footer className="flex items-center justify-end p-4 space-x-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
         <Button i={2} s={1} title="Copy this section markdown (C)">
@@ -74,15 +79,13 @@ const FlashcardsDiplayPreview = ({
 
 /**
  * Disable tab when popup opened
- * Display section index when popup opened
- 3. Improve preview popup behavior
  5. Add copy markdown button for each and for everything
  6. Fix preview on mobile
  7. Add option to share it - whole article.
  */
 
 const FlashcardsDisplay = ({ children }: { children: string }) => {
-  const preview = useToggle<string>();
+  const preview = useToggle<ActiveSection>();
 
   const Parts = React.useMemo(() => {
     const parts = children.split(`\n`);
@@ -109,17 +112,15 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
         return parts.slice(start, end).join(`\n`).trim();
       });
 
-    const content = [intro, ...sections];
-
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-        {content.map((block, index) => (
+        {[intro, ...sections].map((content, index) => (
           <button
             className="text-left relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
             key={index}
-            onClick={() => preview.openWithData(block)}
+            onClick={() => preview.openWithData({ content, index })}
           >
-            <Markdown>{block}</Markdown>
+            <Markdown>{content}</Markdown>
           </button>
         ))}
       </div>
@@ -131,9 +132,7 @@ const FlashcardsDisplay = ({ children }: { children: string }) => {
     <>
       {Parts}
       {preview.data && (
-        <FlashcardsDiplayPreview onClose={preview.close}>
-          {preview.data}
-        </FlashcardsDiplayPreview>
+        <FlashcardsDiplayPreview {...preview.data} onClose={preview.close} />
       )}
     </>
   );
