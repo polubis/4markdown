@@ -16,9 +16,9 @@ import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 
-const DocumentSectionsModal = React.lazy(() =>
-  import(`./document-sections-modal`).then((m) => ({
-    default: m.DocumentSectionsModal,
+const DocumentChaptersModal = React.lazy(() =>
+  import(`./document-chapters-modal`).then((m) => ({
+    default: m.DocumentChaptersModal,
   })),
 );
 
@@ -121,9 +121,9 @@ const DocumentLayout = ({
       <ScrollToTop />
       {sectionsModal.opened && (
         <React.Suspense>
-          <DocumentSectionsModal onClose={sectionsModal.close}>
+          <DocumentChaptersModal onClose={sectionsModal.close}>
             {children}
-          </DocumentSectionsModal>
+          </DocumentChaptersModal>
         </React.Suspense>
       )}
     </>
