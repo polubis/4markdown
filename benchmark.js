@@ -1,15 +1,32 @@
 const { readFileSync } = require(`fs`);
 const path = require(`path`);
 
-const currentBenchmark = JSON.parse(
-  readFileSync(path.join(__dirname, `public`, `benchmark.json`), `utf8`),
-);
+const checkCurrentBenchmark = () => {
+  console.log(`@@@ Current benchmark @@@`);
+};
 
-console.log(`@@@ Current benchmark @@@`);
-console.table(currentBenchmark);
-
-if (currentBenchmark.failed) {
-  throw Error(
-    `Benchmark check failed - limit is ${currentBenchmark.limitPerChunkGroup}${currentBenchmark.limitUnit} per chunk`,
+const checkNewBenchmark = () => {
+  const newBenchmark = JSON.parse(
+    readFileSync(path.join(__dirname, `public`, `benchmark.json`), `utf8`),
   );
-}
+
+  console.log(`@@@ New benchmark @@@`);
+
+  console.table({
+    limitPerChunkGroup: newBenchmark.limitPerChunkGroup,
+    unit: newBenchmark.limitUnit,
+  });
+  console.table(newBenchmark.stats);
+  console.table({
+    sum: newBenchmark.totalSize,
+  });
+
+  if (newBenchmark.failed) {
+    throw Error(
+      `Benchmark check failed - limit is ${newBenchmark.limitPerChunkGroup}${newBenchmark.limitUnit} per chunk`,
+    );
+  }
+};
+
+checkCurrentBenchmark();
+checkNewBenchmark();
