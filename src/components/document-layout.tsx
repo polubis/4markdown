@@ -10,7 +10,7 @@ import type {
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
-import { BiGrid } from 'react-icons/bi';
+import { BiBook } from 'react-icons/bi';
 import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
@@ -43,12 +43,12 @@ const DocumentLayout = ({
       <main className="p-4 my-6">
         <section className="flex ml-auto mb-6 justify-end tn:justify-start max-w-4xl mx-auto">
           <Button
-            title="Divide the document into sections"
+            title="Display this document like a book"
             s={2}
             i={2}
             onClick={sectionsModal.open}
           >
-            <BiGrid size={20} />
+            <BiBook />
           </Button>
         </section>
         <DocumentRating

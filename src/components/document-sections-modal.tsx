@@ -106,7 +106,7 @@ const DocumentSectionsModal = ({
           i={2}
           s={1}
           onClick={onClose}
-          title="Close section preview (Esc)"
+          title="Close display as a book mode (Esc)"
         >
           <BiX />
         </Button>
@@ -115,14 +115,14 @@ const DocumentSectionsModal = ({
         <Markdown>{content}</Markdown>
       </section>
       <footer className="flex items-center justify-end p-4 space-x-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
-        <Button i={2} s={1} title="Copy this section markdown (C)">
+        <Button i={2} s={1} title="Copy this chapter markdown (C)">
           <BiCodeAlt />
         </Button>
         {isAbleToPrev(activeSectionIndex) && (
           <Button
             i={2}
             s={1}
-            title="Go to previous section (A)"
+            title="Go to previous chapter (A)"
             onClick={goToPreviousSection}
           >
             <BiArrowToLeft />
@@ -132,7 +132,7 @@ const DocumentSectionsModal = ({
           <Button
             i={2}
             s={1}
-            title="Go to next section (D)"
+            title="Go to next chapter (D)"
             onClick={goToNextSection}
           >
             <BiArrowToRight />
