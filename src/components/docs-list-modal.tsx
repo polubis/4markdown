@@ -139,7 +139,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
                       <BiWorld size="20" title="This document is permanent" />
                     )}
                   </div>
-                  <strong className="text-md">{doc.name}</strong>
+                  <strong>{doc.name}</strong>
                 </li>
               ))}
             </ul>

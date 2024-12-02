@@ -2,7 +2,7 @@ import { DocumentLayout } from 'components/document-layout';
 import LoadingScreen from 'components/loading-screen';
 import React from 'react';
 
-import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
@@ -10,6 +10,7 @@ import { useDocumentPreviewStore } from './store/document-preview.store';
 import { selectSafe } from './store/document-preview.selectors';
 import { CreationLinkContainer } from 'containers/creation-link.container';
 import { loadDocument } from './store/load-document.action';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 const ErrorScreen = React.lazy(() =>
   import(`./components/error-screen`).then(({ ErrorScreen }) => ({
@@ -51,7 +52,8 @@ const DocumentPreviewView = () => {
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       {(documentPreviewStore.is === `idle` ||
         documentPreviewStore.is === `busy`) && <LoadingScreen />}

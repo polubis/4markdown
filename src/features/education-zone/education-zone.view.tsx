@@ -1,5 +1,5 @@
 import React from 'react';
-import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { formatDistance } from 'date-fns';
 import { AppFooterContainer } from 'containers/app-footer.container';
@@ -14,6 +14,7 @@ import { EducationLayout } from 'components/education-layout';
 import { EducationDocumentsList } from 'components/education-documents-list';
 import { EducationTopTags } from 'components/education-top-tags';
 import type { EducationPageModel } from 'models/page-models';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 type EducationZoneViewProps = EducationPageModel;
 
@@ -148,10 +149,26 @@ const EducationZoneView = ({
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       <EducationLayout
-        title={tag ? <span className="uppercase">{tag}</span> : `The Wall`}
+        title={
+          tag ? (
+            <span className="flex items-center space-x-1.5">
+              <Link
+                className="translate-y-0.5"
+                to={meta.routes.education.zone}
+                title="Back to education zone"
+              >
+                <BiArrowToLeft />
+              </Link>
+              <span className="uppercase">{tag}</span>
+            </span>
+          ) : (
+            `Education Zone`
+          )
+        }
         subTitle={
           tag
             ? `By Tag (${documents.wall.length})`

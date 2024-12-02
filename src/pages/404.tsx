@@ -2,18 +2,20 @@ import React from 'react';
 import type { HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
-import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
 import { CreationLinkContainer } from 'containers/creation-link.container';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 const NotFoundPage = () => {
   return (
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       <main className="max-w-2xl p-4 mx-auto h-screen flex flex-col justify-center">
         <h1 className="text-2xl">
