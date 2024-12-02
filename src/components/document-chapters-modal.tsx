@@ -13,7 +13,7 @@ import { useKeyPress } from 'development-kit/use-key-press';
 import { falsy } from 'development-kit/guards';
 import { useCopy } from 'development-kit/use-copy';
 
-type DocumentSectionsModalProps = { children: string; onClose(): void };
+type DocumentChaptersModalProps = { children: string; onClose(): void };
 
 const modalId = `documents-chapters-modal`;
 
@@ -28,7 +28,7 @@ const isAbleToNext = (
 const DocumentChaptersModal = ({
   children,
   onClose,
-}: DocumentSectionsModalProps) => {
+}: DocumentChaptersModalProps) => {
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
   const [copyState, copy] = useCopy();
 
