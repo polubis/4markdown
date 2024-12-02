@@ -8,20 +8,6 @@ import { ok } from 'development-kit/guards';
 
 type DocumentSectionsModalProps = { children: string; onClose(): void };
 
-{
-  /* <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-{sections.map((content, index) => (
-  <button
-    className="text-left relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
-    key={index}
-    onClick={() => preview.openWithData({ content, index })}
-  >
-    <Markdown>{content}</Markdown>
-  </button>
-))}
-</div> */
-}
-
 const modalId = `documents-sections-modal`;
 
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
