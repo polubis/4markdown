@@ -14,8 +14,13 @@ import {
   BiBook,
   BiCheck,
   BiCopyAlt,
+  BiGlobe,
+  BiLogoFacebook,
   BiLogoLinkedin,
+  BiLogoReddit,
+  BiLogoTwitter,
   BiShare,
+  BiText,
 } from 'react-icons/bi';
 import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
@@ -30,23 +35,27 @@ const DocumentChaptersModal = React.lazy(() =>
   })),
 );
 
-const getLinkedInURL = () => {
-  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
-};
+const getLinkedInUrl = (): string =>
+  `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
+
+const getTwitterUrl = (): string =>
+  `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=Check%20this%20out!`;
+
+const getFacebookUrl = (): string =>
+  `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`;
+
+const getRedditUrl = (): string =>
+  `https://www.reddit.com/submit?url=${encodeURIComponent(window.location.href)}&title=Check%20this%20out!`;
 
 const SocialShare = () => {
   const panel = useToggle();
   const [copyState, copy] = useCopy();
 
-  const openPanel = (): void => {
+  const share = (url: () => string): void => {
+    panel.close();
     copy(
       `I’ve found a great article! Here’s the link: ${window.location.href}`,
     );
-    panel.open();
-  };
-
-  const share = (url: () => string): void => {
-    panel.close();
     window.open(url(), `_blank`);
   };
 
@@ -56,22 +65,59 @@ const SocialShare = () => {
         title="Share this document on social media platforms"
         i={2}
         s={2}
-        onClick={openPanel}
+        onClick={panel.open}
       >
         <BiShare />
       </Button>
       {panel.opened && (
         <Popover
-          className="!absolute flex gap-2 translate-y-2.5"
+          className="!absolute flex gap-2 translate-y-2.5 -right-8 tn:right-auto"
           onBackdropClick={panel.close}
         >
-          <Button s={1} i={2} onClick={() => share(getLinkedInURL)}>
+          <Button
+            s={1}
+            i={2}
+            onClick={() => copy(window.location.href)}
+            title="Simply copy the invitation template"
+          >
+            <BiText />
+          </Button>
+          <Button
+            s={1}
+            i={2}
+            onClick={() => share(getLinkedInUrl)}
+            title="Share on LinkedIn"
+          >
             <BiLogoLinkedin />
+          </Button>
+          <Button
+            s={1}
+            i={2}
+            onClick={() => share(getFacebookUrl)}
+            title="Share on Facebook"
+          >
+            <BiLogoFacebook />
+          </Button>
+          <Button
+            s={1}
+            i={2}
+            onClick={() => share(getTwitterUrl)}
+            title="Share on Twitter"
+          >
+            <BiLogoTwitter />
+          </Button>
+          <Button
+            s={1}
+            i={2}
+            onClick={() => share(getRedditUrl)}
+            title="Share on Reddit"
+          >
+            <BiLogoReddit />
           </Button>
         </Popover>
       )}
       {copyState.is === `copied` && (
-        <Status>Invitation content has been copied</Status>
+        <Status>Invitation template has been copied</Status>
       )}
     </div>
   );
@@ -98,8 +144,7 @@ const DocumentLayout = ({
   return (
     <>
       <main className="p-4 my-6">
-        <section className="flex ml-auto gap-2 mb-6 justify-end tn:justify-start max-w-4xl mx-auto">
-          <SocialShare />
+        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end tn:justify-start max-w-4xl mx-auto">
           <Button
             title="Display this document like a book"
             s={2}
@@ -108,6 +153,8 @@ const DocumentLayout = ({
           >
             <BiBook />
           </Button>
+          <div className="h-5 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
+          <SocialShare />
           <Button
             title="Copy this document markdown"
             s={2}
