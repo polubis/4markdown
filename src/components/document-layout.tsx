@@ -10,17 +10,75 @@ import type {
 } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
-import { BiBook, BiCheck, BiCopyAlt } from 'react-icons/bi';
+import {
+  BiBook,
+  BiCheck,
+  BiCopyAlt,
+  BiLogoLinkedin,
+  BiShare,
+} from 'react-icons/bi';
 import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
+import Backdrop from 'design-system/backdrop';
+import { usePortal } from 'development-kit/use-portal';
+import Popover from 'design-system/popover';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`./document-chapters-modal`).then((m) => ({
     default: m.DocumentChaptersModal,
   })),
 );
+
+const shareToLinkedIn = () => {
+  const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
+  window.open(linkedinUrl, `_blank`);
+};
+
+const SocialShare = ({ content }: { content: string }) => {
+  const panel = useToggle();
+  const [copyState, copy] = useCopy({ cleansAfter: 4000 });
+  const { render } = usePortal();
+
+  const openPanel = (): void => {
+    copy(content);
+    panel.open();
+  };
+
+  const share = (redirect: () => void): void => {
+    panel.close();
+    redirect();
+  };
+
+  return (
+    <>
+      <Button
+        title="Share this document on social media platforms"
+        i={2}
+        s={2}
+        onClick={openPanel}
+      >
+        <BiShare />
+      </Button>
+      {panel.opened && (
+        <Popover
+          className="flex gap-2 w-[94%] tn:max-w-max tn:w-auto overflow-x-auto bottom-20 left-2 md:bottom-auto md:top-16"
+          onBackdropClick={panel.close}
+        >
+          <Button
+            className="animate-fade-in"
+            s={1}
+            i={2}
+            onClick={() => share(shareToLinkedIn)}
+          >
+            <BiLogoLinkedin />
+          </Button>
+        </Popover>
+      )}
+    </>
+  );
+};
 
 type DocumentLayoutProps = {
   children: string;
@@ -44,6 +102,7 @@ const DocumentLayout = ({
     <>
       <main className="p-4 my-6">
         <section className="flex ml-auto gap-2 mb-6 justify-end tn:justify-start max-w-4xl mx-auto">
+          <SocialShare content={children} />
           <Button
             title="Display this document like a book"
             s={2}
