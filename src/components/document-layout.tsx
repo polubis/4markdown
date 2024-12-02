@@ -30,9 +30,8 @@ const DocumentChaptersModal = React.lazy(() =>
   })),
 );
 
-const shareToLinkedIn = () => {
-  const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
-  window.open(linkedinUrl, `_blank`);
+const getLinkedInURL = () => {
+  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
 };
 
 const SocialShare = () => {
@@ -40,13 +39,15 @@ const SocialShare = () => {
   const [copyState, copy] = useCopy();
 
   const openPanel = (): void => {
-    copy(`I've found nice article! Here is the link: ${window.location.href}`);
+    copy(
+      `I’ve found a great article! Here’s the link: ${window.location.href}`,
+    );
     panel.open();
   };
 
-  const share = (redirect: () => void): void => {
+  const share = (url: () => string): void => {
     panel.close();
-    redirect();
+    window.open(url(), `_blank`);
   };
 
   return (
@@ -64,7 +65,7 @@ const SocialShare = () => {
           className="!absolute flex gap-2 translate-y-2.5"
           onBackdropClick={panel.close}
         >
-          <Button s={1} i={2} onClick={() => share(shareToLinkedIn)}>
+          <Button s={1} i={2} onClick={() => share(getLinkedInURL)}>
             <BiLogoLinkedin />
           </Button>
         </Popover>
