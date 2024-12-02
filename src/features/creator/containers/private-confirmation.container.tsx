@@ -47,7 +47,7 @@ const PrivateConfirmationContainer = ({
         A private document is ideal for drafts or if you want it to always
         remain private. It will only be visible to you.
       </p>
-      <p className="mb-1">
+      <p>
         <i>
           Private means the document is visible only to you, but its content is
           {` `}
