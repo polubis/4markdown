@@ -93,7 +93,7 @@ const SocialShare = () => {
       </Button>
       {panel.opened && (
         <Popover
-          className="!absolute flex gap-2 translate-y-2.5 -right-8 tn:right-auto"
+          className="!absolute flex gap-2 translate-y-2.5 -right-12 sm:right-auto"
           onBackdropClick={panel.close}
         >
           <Button
@@ -166,7 +166,7 @@ const DocumentLayout = ({
   return (
     <>
       <main className="p-4 my-6">
-        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end tn:justify-start max-w-4xl mx-auto">
+        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-4xl mx-auto">
           <Button
             title="Display this document like a book"
             s={2}
