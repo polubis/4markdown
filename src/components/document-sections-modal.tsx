@@ -97,9 +97,7 @@ const DocumentSectionsModal = ({
       onEscape={onClose}
     >
       <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
-        <h6 className="text-xl mr-8">
-          ({activeSectionIndex + 1}) Section Preview
-        </h6>
+        <h6 className="text-xl mr-8">Chapter ({activeSectionIndex + 1})</h6>
         <Button
           className="ml-auto"
           i={2}
