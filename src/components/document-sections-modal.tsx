@@ -3,6 +3,7 @@ import { Modal } from 'design-system/modal';
 import React from 'react';
 import { BiArrowToLeft, BiArrowToRight, BiCodeAlt, BiX } from 'react-icons/bi';
 import { Markdown } from './markdown';
+import { useKeyPress } from 'development-kit/use-key-press';
 
 type DocumentSectionsModalProps = { children: string; onClose(): void };
 
@@ -20,19 +21,19 @@ type DocumentSectionsModalProps = { children: string; onClose(): void };
 </div> */
 }
 
+const isAbleToPrev = (activeSectionIndex: number): boolean =>
+  activeSectionIndex > 0;
+
+const isAbleToNext = (
+  activeSectionIndex: number,
+  sectionsLength: number,
+): boolean => activeSectionIndex <= sectionsLength - 2;
+
 const DocumentSectionsModal = ({
   children,
   onClose,
 }: DocumentSectionsModalProps) => {
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
-
-  const goToNextSection = (): void => {
-    setActiveSectionIndex((prevIndex) => prevIndex + 1);
-  };
-
-  const goToPreviousSection = (): void => {
-    setActiveSectionIndex((prevIndex) => prevIndex - 1);
-  };
 
   const sections = React.useMemo(() => {
     const parts = children.split(`\n`);
@@ -62,6 +63,21 @@ const DocumentSectionsModal = ({
     return [intro, ...rest];
   }, [children]);
 
+  const goToPreviousSection = (): void => {
+    if (!isAbleToPrev(activeSectionIndex)) return;
+
+    setActiveSectionIndex((prevIndex) => prevIndex - 1);
+  };
+
+  const goToNextSection = (): void => {
+    if (!isAbleToNext(activeSectionIndex, sections.length)) return;
+
+    setActiveSectionIndex(activeSectionIndex + 1);
+  };
+
+  useKeyPress([`a`, `A`], goToPreviousSection);
+  useKeyPress([`d`, `D`], goToNextSection);
+
   const content = sections[activeSectionIndex];
 
   return (
@@ -90,22 +106,26 @@ const DocumentSectionsModal = ({
         <Button i={2} s={1} title="Copy this section markdown (C)">
           <BiCodeAlt />
         </Button>
-        <Button
-          i={2}
-          s={1}
-          title="Go to previous section (A)"
-          onClick={goToPreviousSection}
-        >
-          <BiArrowToLeft />
-        </Button>
-        <Button
-          i={2}
-          s={1}
-          title="Go to next section (D)"
-          onClick={goToNextSection}
-        >
-          <BiArrowToRight />
-        </Button>
+        {isAbleToPrev(activeSectionIndex) && (
+          <Button
+            i={2}
+            s={1}
+            title="Go to previous section (A)"
+            onClick={goToPreviousSection}
+          >
+            <BiArrowToLeft />
+          </Button>
+        )}
+        {isAbleToNext(activeSectionIndex, sections.length) && (
+          <Button
+            i={2}
+            s={1}
+            title="Go to next section (D)"
+            onClick={goToNextSection}
+          >
+            <BiArrowToRight />
+          </Button>
+        )}
       </footer>
     </Modal>
   );

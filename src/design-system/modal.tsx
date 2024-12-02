@@ -2,20 +2,17 @@ import React, { type ReactNode } from 'react';
 import { usePortal } from 'development-kit/use-portal';
 import c from 'classnames';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
-import {
-  useOnEscapePress,
-  type EscapePressHandler,
-} from 'development-kit/use-on-escape-press';
+import { type OnKeyPress, useKeyPress } from 'development-kit/use-key-press';
 
 interface ModalProps {
   className?: string;
   children: ReactNode;
-  onEscape?: EscapePressHandler;
+  onEscape?: OnKeyPress;
 }
 
 const Modal = ({ className, children, onEscape }: ModalProps) => {
   useScrollHide();
-  useOnEscapePress(onEscape);
+  useKeyPress([`Escape`], onEscape);
   const { render } = usePortal();
 
   return render(

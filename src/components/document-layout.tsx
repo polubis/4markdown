@@ -45,7 +45,7 @@ const DocumentLayout = ({
           <Button
             title="Divide the document into sections"
             s={2}
-            i={1}
+            i={2}
             onClick={sectionsModal.open}
           >
             <BiGrid size={20} />
