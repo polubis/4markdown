@@ -4,7 +4,6 @@ import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
-import { Link } from 'gatsby';
 import { meta } from '../../../../meta';
 
 interface PermanentConfirmationContainerProps {
@@ -54,30 +53,36 @@ const PermanentConfirmationContainer = ({
         </Button>
       </header>
       <p className="mt-4 mb-1">
-        Changing the visibility to <strong>permanent</strong> will make your
-        document available in <strong>Google</strong> and{` `}
-        <Link
-          className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-          to={meta.routes.education.zone}
-        >
-          Education Zone
-        </Link>
+        Setting visibility to <strong>permanent</strong> makes your document
+        available on <strong>Google</strong> with a static URL based on its
+        name.
+      </p>
+      <p className="mb-1">
+        You can change the document status later, but indexing or removal from
         {` `}
-        after several days.
+        Google may take <strong>1-14 days</strong>.
       </p>
       <p>
         <i>
-          The document status can be changed later, however removing it from
-          {` `}
-          <strong>Google</strong> and{` `}
-          <Link
-            className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-            to={meta.routes.education.zone}
+          To add your article in the{` `}
+          <a
+            className="underline underline-offset-2 text-blue-800 dark:text-blue-500 font-bold"
+            href={meta.routes.education.zone}
+            target="_blank"
+            rel="noreferrer"
           >
             Education Zone
-          </Link>
-          {` `}
-          may take some time.
+          </a>
+          , contact us via{` `}
+          <a
+            className="underline underline-offset-2 text-blue-800 dark:text-blue-500 font-bold"
+            href={meta.linkedInUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </a>
+          . Not all permanent documents are displayed to maintain quality
         </i>
       </p>
       <footer className="mt-6 flex">
