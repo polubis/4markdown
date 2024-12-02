@@ -12,10 +12,7 @@ const checkNewBenchmark = () => {
 
   console.log(`@@@ New benchmark @@@`);
 
-  console.table({
-    limitPerChunkGroup: newBenchmark.limitPerChunkGroup,
-    unit: newBenchmark.limitUnit,
-  });
+  console.table(newBenchmark.limits);
   console.table(newBenchmark.stats);
   console.table({
     sum: newBenchmark.totalSize,
@@ -23,7 +20,7 @@ const checkNewBenchmark = () => {
 
   if (newBenchmark.failed) {
     throw Error(
-      `Benchmark check failed - limit is ${newBenchmark.limitPerChunkGroup}${newBenchmark.limitUnit} per chunk`,
+      `Benchmark check failed - limit is ${newBenchmark.limits.chunk}${newBenchmark.limits.unit} per chunk`,
     );
   }
 };

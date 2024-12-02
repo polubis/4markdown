@@ -28,8 +28,10 @@ const createAhrefsAutoIndexFile = (): void => {
 };
 
 const createBenchmarkFile = (): void => {
-  const limitPerChunkGroup = 150;
-  const limitUnit = `kB`;
+  const limits = {
+    chunk: 150,
+    unit: `kB`,
+  };
 
   const webpackStats: {
     namedChunkGroups: Record<string, { assets: { size: number }[] }>;
@@ -45,16 +47,14 @@ const createBenchmarkFile = (): void => {
         totalSize: number;
       }
     >;
-    limitUnit: string;
-    limitPerChunkGroup: number;
     totalSize: number;
     failed: boolean;
+    limits: typeof limits;
   } = {
     stats: {},
-    limitPerChunkGroup,
-    limitUnit,
     totalSize: 0,
     failed: false,
+    limits,
   };
 
   const twoDecimal = (value: number) => Number.parseFloat(value.toFixed(2));
@@ -83,7 +83,7 @@ const createBenchmarkFile = (): void => {
     .flatMap(({ sizes }) =>
       sizes.split(`|`).map((size) => Number.parseFloat(size)),
     )
-    .some((size) => size > limitPerChunkGroup);
+    .some((size) => size > limits.chunk);
 
   writeFileSync(
     path.join(__dirname, `public`, `benchmark.json`),
