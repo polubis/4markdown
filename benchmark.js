@@ -1,45 +1,15 @@
-const fs = require(`fs`);
+const { readFileSync } = require(`fs`);
 const path = require(`path`);
 
-const result = JSON.parse(
-  fs.readFileSync(path.join(__dirname, `public`, `webpack.stats.json`), `utf8`),
+const currentBenchmark = JSON.parse(
+  readFileSync(path.join(__dirname, `public`, `benchmark.json`), `utf8`),
 );
 
-const LIMIT = 150;
-const UNIT = `kB`;
+console.log(`@@@ Current benchmark @@@`);
+console.table(currentBenchmark);
 
-const stats = {};
-
-const twoDecimal = (value) => Number.parseFloat(value.toFixed(2));
-
-Object.entries(result.namedChunkGroups).forEach(([chunkKey, chunkValue]) => {
-  const sizes = chunkValue.assets.map(({ size }) => twoDecimal(size / 1024));
-
-  stats[chunkKey] = {
-    sizes: sizes.join(`|`),
-    totalSize: twoDecimal(sizes.reduce((sum, assetSize) => assetSize + sum, 0)),
-  };
-});
-
-console.table({
-  limitPerChunkGroup: LIMIT,
-  unit: UNIT,
-});
-console.table(stats);
-console.table({
-  sum: twoDecimal(
-    Object.values(stats)
-      .flatMap(({ totalSize }) => totalSize)
-      .reduce((sum, size) => sum + size, 0),
-  ),
-});
-
-const hasToBigChunk = Object.values(stats)
-  .flatMap(({ sizes }) =>
-    sizes.split(`|`).map((size) => Number.parseFloat(size)),
-  )
-  .some((size) => size > LIMIT);
-
-if (hasToBigChunk) {
-  throw Error(`Benchmark check failed - limit is ${LIMIT}${UNIT} per page`);
+if (currentBenchmark.failed) {
+  throw Error(
+    `Benchmark check failed - limit is ${currentBenchmark.limitPerChunkGroup}${currentBenchmark.limitUnit} per chunk`,
+  );
 }

@@ -28,30 +28,66 @@ const createAhrefsAutoIndexFile = (): void => {
 };
 
 const createBenchmarkFile = (): void => {
-  const result: {
+  const limitPerChunkGroup = 150;
+  const limitUnit = `kB`;
+
+  const webpackStats: {
     namedChunkGroups: Record<string, { assets: { size: number }[] }>;
   } = JSON.parse(
     readFileSync(path.join(__dirname, `public`, `webpack.stats.json`), `utf8`),
   );
 
-  const stats: Record<string, { sizes: string; totalSize: number }> = {};
+  const benchmark: {
+    stats: Record<
+      string,
+      {
+        sizes: string;
+        totalSize: number;
+      }
+    >;
+    limitUnit: string;
+    limitPerChunkGroup: number;
+    totalSize: number;
+    failed: boolean;
+  } = {
+    stats: {},
+    limitPerChunkGroup,
+    limitUnit,
+    totalSize: 0,
+    failed: false,
+  };
 
   const twoDecimal = (value: number) => Number.parseFloat(value.toFixed(2));
 
-  Object.entries(result.namedChunkGroups).forEach(([chunkKey, chunkValue]) => {
-    const sizes = chunkValue.assets.map(({ size }) => twoDecimal(size / 1024));
+  Object.entries(webpackStats.namedChunkGroups).forEach(
+    ([chunkKey, chunkValue]) => {
+      const sizes = chunkValue.assets.map(({ size }) =>
+        twoDecimal(size / 1024),
+      );
 
-    stats[chunkKey] = {
-      sizes: sizes.join(`|`),
-      totalSize: twoDecimal(
-        sizes.reduce((sum, assetSize) => assetSize + sum, 0),
-      ),
-    };
-  });
+      benchmark.stats[chunkKey] = {
+        sizes: sizes.join(`|`),
+        totalSize: twoDecimal(
+          sizes.reduce((sum, assetSize) => assetSize + sum, 0),
+        ),
+      };
+    },
+  );
+
+  benchmark.totalSize = twoDecimal(
+    Object.values(benchmark.stats)
+      .flatMap(({ totalSize }) => totalSize)
+      .reduce((sum, size) => sum + size, 0),
+  );
+  benchmark.failed = Object.values(benchmark.stats)
+    .flatMap(({ sizes }) =>
+      sizes.split(`|`).map((size) => Number.parseFloat(size)),
+    )
+    .some((size) => size > limitPerChunkGroup);
 
   writeFileSync(
     path.join(__dirname, `public`, `benchmark.json`),
-    JSON.stringify(stats),
+    JSON.stringify(benchmark),
   );
 
   console.log(`Build benchmark file created`);
