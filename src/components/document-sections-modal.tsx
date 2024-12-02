@@ -60,6 +60,8 @@ const DocumentSectionsModal = ({
     return [intro, ...rest];
   }, [children]);
 
+  const content = sections[activeSectionIndex];
+
   const goToPreviousSection = (): void => {
     if (!isAbleToPrev(activeSectionIndex)) return;
 
@@ -72,8 +74,13 @@ const DocumentSectionsModal = ({
     setActiveSectionIndex(activeSectionIndex + 1);
   };
 
+  const copyActiveChapter = (): void => {
+    copy(content);
+  };
+
   useKeyPress([`a`, `A`], goToPreviousSection);
   useKeyPress([`d`, `D`], goToNextSection);
+  useKeyPress([`c`, `C`], copyActiveChapter);
 
   React.useLayoutEffect(() => {
     const modal = document.getElementById(modalId);
@@ -82,8 +89,6 @@ const DocumentSectionsModal = ({
 
     modal.scrollTo({ top: 0 });
   }, [activeSectionIndex]);
-
-  const content = sections[activeSectionIndex];
 
   return (
     <Modal
@@ -113,7 +118,7 @@ const DocumentSectionsModal = ({
           i={2}
           s={1}
           title="Copy this chapter markdown (C)"
-          onClick={() => copy(content)}
+          onClick={copyActiveChapter}
         >
           {copyState.is === `copied` ? (
             <BiCheck className="text-green-700" />

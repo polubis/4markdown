@@ -32,7 +32,7 @@ const ScrollToTop = () => {
       <Button
         i={2}
         s={2}
-        title="Scroll to top (T)"
+        title="Scroll to top"
         onClick={() => window.scrollTo({ top: 0, behavior: `smooth` })}
       >
         <BiArrowToTop />
