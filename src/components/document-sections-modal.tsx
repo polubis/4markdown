@@ -1,0 +1,114 @@
+import { Button } from 'design-system/button';
+import { Modal } from 'design-system/modal';
+import React from 'react';
+import { BiArrowToLeft, BiArrowToRight, BiCodeAlt, BiX } from 'react-icons/bi';
+import { Markdown } from './markdown';
+
+type DocumentSectionsModalProps = { children: string; onClose(): void };
+
+{
+  /* <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+{sections.map((content, index) => (
+  <button
+    className="text-left relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+    key={index}
+    onClick={() => preview.openWithData({ content, index })}
+  >
+    <Markdown>{content}</Markdown>
+  </button>
+))}
+</div> */
+}
+
+const DocumentSectionsModal = ({
+  children,
+  onClose,
+}: DocumentSectionsModalProps) => {
+  const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
+
+  const goToNextSection = (): void => {
+    setActiveSectionIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const goToPreviousSection = (): void => {
+    setActiveSectionIndex((prevIndex) => prevIndex - 1);
+  };
+
+  const sections = React.useMemo(() => {
+    const parts = children.split(`\n`);
+
+    const intro = parts
+      .slice(
+        0,
+        parts.findIndex((part) => /^##\s.+$/.test(part)),
+      )
+      .join(`\n`)
+      .trim();
+
+    const rest = parts
+      .reduce<number[]>((acc, part, index) => {
+        if (/^##\s.+$/.test(part)) {
+          acc.push(index);
+        }
+
+        return acc;
+      }, [])
+      .map((start, index, positions) => {
+        const end = positions[index + 1] ?? parts.length - 1;
+
+        return parts.slice(start, end).join(`\n`).trim();
+      });
+
+    return [intro, ...rest];
+  }, [children]);
+
+  const content = sections[activeSectionIndex];
+
+  return (
+    <Modal
+      className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0"
+      onEscape={onClose}
+    >
+      <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
+        <h6 className="text-xl mr-8">
+          ({activeSectionIndex + 1}) Section Preview
+        </h6>
+        <Button
+          className="ml-auto"
+          i={2}
+          s={1}
+          onClick={onClose}
+          title="Close section preview (Esc)"
+        >
+          <BiX />
+        </Button>
+      </header>
+      <section className="p-4">
+        <Markdown>{content}</Markdown>
+      </section>
+      <footer className="flex items-center justify-end p-4 space-x-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
+        <Button i={2} s={1} title="Copy this section markdown (C)">
+          <BiCodeAlt />
+        </Button>
+        <Button
+          i={2}
+          s={1}
+          title="Go to previous section (A)"
+          onClick={goToPreviousSection}
+        >
+          <BiArrowToLeft />
+        </Button>
+        <Button
+          i={2}
+          s={1}
+          title="Go to next section (D)"
+          onClick={goToNextSection}
+        >
+          <BiArrowToRight />
+        </Button>
+      </footer>
+    </Modal>
+  );
+};
+
+export { DocumentSectionsModal };
