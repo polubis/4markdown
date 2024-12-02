@@ -3,13 +3,14 @@ import { type HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { DocumentLayout } from 'components/document-layout';
-import { DocsBrowseLinkContainer } from 'containers/docs-browse-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import { useDocumentRateUpdate } from 'core/use-document-rate-update';
 import { CreationLinkContainer } from 'containers/creation-link.container';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -26,7 +27,8 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
     <>
       <AppNavigation>
         <CreationLinkContainer />
-        <DocsBrowseLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
       </AppNavigation>
       <DocumentLayout
         rating={rating}

@@ -1,15 +1,21 @@
-import React, { type ReactNode } from 'react';
+import React, {
+  type ReactNode,
+  type HTMLAttributes,
+  type DetailedHTMLProps,
+  type ReactElement,
+} from 'react';
 import type { MarkdownToJSX } from 'markdown-to-jsx';
-import Md from 'markdown-to-jsx';
+import MarkdownRenderer from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import c from 'classnames';
+import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 
 const Code = ({
   children,
-}: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>) => {
+}: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
 
   React.useLayoutEffect(() => {
@@ -29,10 +35,8 @@ const Code = ({
 
 const isReactElement = (
   node: unknown,
-): node is React.ReactElement<unknown, () => ReactNode> =>
-  typeof node === `object` &&
-  node !== null &&
-  !!(node as React.ReactElement).type;
+): node is ReactElement<unknown, () => ReactNode> =>
+  typeof node === `object` && node !== null && !!(node as ReactElement).type;
 
 const isDescribedImage = (nodes: ReactNode): boolean => {
   if (!Array.isArray(nodes)) {
@@ -52,8 +56,9 @@ const isDescribedImage = (nodes: ReactNode): boolean => {
 const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   const [state, save] = useCopy();
 
-  const copy = () => {
-    save((children as React.ReactElement<{ children: string }>).props.children);
+  const copy: ButtonProps['onClick'] = (e) => {
+    e.stopPropagation();
+    save((children as ReactElement<{ children: string }>).props.children);
   };
 
   return (
@@ -88,7 +93,7 @@ const OPTIONS: MarkdownToJSX.Options = {
     h6: ({ children }) => <h6 className="text-lg break-words">{children}</h6>,
     p: ({ children }) => (
       <p
-        className={c(`text-md break-words text-justify md:text-left`, {
+        className={c(`break-words text-justify md:text-left`, {
           'flex flex-col': isDescribedImage(children),
         })}
       >
@@ -103,7 +108,7 @@ const OPTIONS: MarkdownToJSX.Options = {
     del: ({ children }) => <del>{children}</del>,
     a: ({ children, href }) => (
       <a
-        className="text-md underline underline-offset-3 cursor-pointer break-words"
+        className="underline underline-offset-3 cursor-pointer break-words"
         href={href}
         target="_blank"
         rel="noopener noreferrer"
@@ -136,18 +141,24 @@ const OPTIONS: MarkdownToJSX.Options = {
     ),
   },
 };
-/* @TODO: Try to improve this typings here. */
 
-interface MarkdownProps {
+type MarkdownProps = {
+  className?: string;
   children: string;
-}
+};
 
-const Markdown: React.FC<MarkdownProps> = ({ children }) => {
+const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
+  return <MarkdownRenderer options={OPTIONS}>{children}</MarkdownRenderer>;
+};
+
+M.className = `markdown`;
+
+const Markdown = ({ className, children }: MarkdownProps) => {
   return (
-    <div className="markdown">
-      <Md options={OPTIONS as MarkdownToJSX.Options}>{children}</Md>
+    <div className={c(M.className, className)}>
+      <M>{children}</M>
     </div>
   );
 };
 
-export default Markdown;
+export { Markdown, M };

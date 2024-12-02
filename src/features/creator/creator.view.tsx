@@ -1,5 +1,5 @@
 import React from 'react';
-import Markdown from 'components/markdown';
+import { Markdown } from 'components/markdown';
 import { BiBookContent, BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import {
