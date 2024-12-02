@@ -144,3 +144,14 @@ export { uploadImageAct };
 3. Combine multiple steps, state updates, actions, side effects, and API interactions in a reusable function.
 4. Acts **must return** either an `AsyncResult` or `Result` type.
 5. Acts can be synchronous (`sync`) or asynchronous (`async`).
+
+## Types and Interfaces
+
+The following rules should be applied:
+
+1. If a component is "local" and does not have many properties passed to it, consider defining its contract without an additional `type`.
+
+```typescript
+// A component used primarily for readability, to avoid large chunks of JSX
+const SocialShare = ({ content }: { content: string }) => {}
+```

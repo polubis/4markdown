@@ -3,9 +3,10 @@ import { Link, type HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
 import { meta } from '../../meta';
-import Markdown from 'components/markdown';
+import { M } from 'components/markdown';
 import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
+import c from 'classnames';
 
 const CreatorPreviewPage = () => {
   useCreatorLocalStorageSync();
@@ -30,9 +31,9 @@ const CreatorPreviewPage = () => {
         </section>
       )}
       {creatorStore.is === `ready` && (
-        <div className="p-4">
-          <Markdown>{creatorStore.code}</Markdown>
-        </div>
+        <section className={c(M.className, `p-4`)}>
+          <M>{creatorStore.code}</M>
+        </section>
       )}
     </main>
   );

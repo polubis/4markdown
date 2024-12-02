@@ -86,7 +86,7 @@ const ImageUploaderAuthContainer = () => {
               <BiX />
             </Button>
           </div>
-          <p className="text-md">
+          <p>
             To use <strong>uploaded image</strong> in markdown editor click
             below button.
           </p>

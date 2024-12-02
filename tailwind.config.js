@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    // @TODO[PRIO=1]: [Make it generic and measure impact on build time].
     `./src/pages/*.{js,jsx,ts,tsx}`,
     `./src/components/*.{js,jsx,ts,tsx}`,
     `./src/design-system/*.{js,jsx,ts,tsx}`,
@@ -32,24 +31,5 @@ module.exports = {
       shake: `shake 0.5s ease-in-out`,
     },
   },
-  plugins: [
-    ({ addUtilities }) => {
-      addUtilities({
-        '.scroll-preserve-y': {
-          scrollbarGutter: `stable`,
-          overflowY: `scroll`,
-        },
-      });
-    },
-    ({ addBase }) => {
-      addBase({
-        html: {
-          scrollbarGutter: `stable`,
-        },
-        body: {
-          overflowY: `scroll`,
-        },
-      });
-    },
-  ],
+  plugins: [],
 };
