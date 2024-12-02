@@ -4,9 +4,23 @@ import React from 'react';
 import { BiArrowToLeft, BiArrowToRight, BiCodeAlt, BiX } from 'react-icons/bi';
 import { Markdown } from './markdown';
 import { useKeyPress } from 'development-kit/use-key-press';
-import { ok } from 'development-kit/guards';
+import { falsy, ok } from 'development-kit/guards';
 
 type DocumentSectionsModalProps = { children: string; onClose(): void };
+
+{
+  /* <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+{sections.map((content, index) => (
+  <button
+    className="text-left relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
+    key={index}
+    onClick={() => preview.openWithData({ content, index })}
+  >
+    <Markdown>{content}</Markdown>
+  </button>
+))}
+</div> */
+}
 
 const modalId = `documents-sections-modal`;
 
@@ -70,7 +84,7 @@ const DocumentSectionsModal = ({
   React.useLayoutEffect(() => {
     const modal = document.getElementById(modalId);
 
-    ok(modal, `Cannot find ${modalId}`);
+    falsy(modal, `Cannot find ${modalId}`);
 
     modal.scrollTo({ top: 0 });
   }, [activeSectionIndex]);
