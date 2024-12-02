@@ -44,12 +44,15 @@ const PrivateConfirmationContainer = ({
         </Button>
       </header>
       <p className="mt-4 mb-1">
-        A private document is great to start with before you finish working on
-        it, or if you want it to always be private. This document will be
-        visible only to you.
+        A private document is ideal for drafts or if you want it to always
+        remain private. It will only be visible to you.
       </p>
       <p>
-        <i>The document status can be changed anytime.</i>
+        <i>
+          Private means the document is visible only to you, but its content is
+          {` `}
+          <strong>not encrypted</strong>. Avoid storing sensitive data
+        </i>
       </p>
       <footer className="mt-6 flex">
         <Button

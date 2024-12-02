@@ -2,7 +2,6 @@ import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { Link } from 'gatsby';
 import { meta } from '../../../../meta';
 import { updateDocumentVisibility } from 'actions/update-document-visibility.action';
 
@@ -47,22 +46,23 @@ const PublicConfirmationContainer = ({
         </Button>
       </header>
       <p className="mt-4 mb-1">
-        You will be able to share this document using a unique{` `}
-        <strong>URL</strong>. Simply press <strong>confirm</strong>, and then
-        share the link with others.
-      </p>
-      <p>
-        The document will not appear in <strong>Google</strong> and in the{` `}
-        <Link
-          className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-          to={meta.routes.education.zone}
+        You can share this document using a <strong>unique link</strong>. Public
+        documents are not visible on Google or in the{` `}
+        <a
+          className="underline underline-offset-2 text-blue-800 dark:text-blue-500 font-bold"
+          href={meta.routes.education.zone}
+          target="_blank"
+          rel="noreferrer"
         >
           Education Zone
-        </Link>
+        </a>
         .
       </p>
-      <p className="mt-1">
-        <i>The document status can be changed anytime.</i>
+      <p>
+        <i>
+          Public means the document is visible <strong>to you</strong> and
+          anyone with the <strong>link</strong> you share.
+        </i>
       </p>
       <footer className="mt-6 flex">
         <Button
