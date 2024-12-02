@@ -5,7 +5,7 @@ import {
   BiArrowToLeft,
   BiArrowToRight,
   BiCheck,
-  BiCopyAlt,
+  BiLogoMarkdown,
   BiX,
 } from 'react-icons/bi';
 import { Markdown } from './markdown';
@@ -121,7 +121,7 @@ const DocumentChaptersModal = ({
           {copyState.is === `copied` ? (
             <BiCheck className="text-green-700" />
           ) : (
-            <BiCopyAlt />
+            <BiLogoMarkdown />
           )}
         </Button>
         <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />

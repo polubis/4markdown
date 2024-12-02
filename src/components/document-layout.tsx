@@ -13,10 +13,9 @@ import { ScrollToTop } from './scroll-to-top';
 import {
   BiBook,
   BiCheck,
-  BiCopyAlt,
-  BiGlobe,
   BiLogoFacebook,
   BiLogoLinkedin,
+  BiLogoMarkdown,
   BiLogoReddit,
   BiLogoTwitter,
   BiShare,
@@ -50,14 +49,37 @@ const getRedditUrl = (): string =>
 const SocialShare = () => {
   const panel = useToggle();
   const [copyState, copy] = useCopy();
+  const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const removeTimeoutRef = (): void => {
+    timeoutRef.current && clearTimeout(timeoutRef.current);
+  };
 
   const share = (url: () => string): void => {
-    panel.close();
+    removeTimeoutRef();
+
     copy(
       `I’ve found a great article! Here’s the link: ${window.location.href}`,
     );
-    window.open(url(), `_blank`);
+
+    timeoutRef.current = setTimeout(() => {
+      window.open(url(), `_blank`);
+      panel.close();
+    }, 1000);
   };
+
+  const copyTemplate = (): void => {
+    copy(
+      `I’ve found a great article! Here’s the link: ${window.location.href}`,
+    );
+    panel.close();
+  };
+
+  React.useEffect(() => {
+    return () => {
+      removeTimeoutRef();
+    };
+  }, []);
 
   return (
     <div className="relative">
@@ -77,7 +99,7 @@ const SocialShare = () => {
           <Button
             s={1}
             i={2}
-            onClick={() => copy(window.location.href)}
+            onClick={copyTemplate}
             title="Simply copy the invitation template"
           >
             <BiText />
@@ -164,7 +186,7 @@ const DocumentLayout = ({
             {copyState.is === `copied` ? (
               <BiCheck className="text-green-700" />
             ) : (
-              <BiCopyAlt />
+              <BiLogoMarkdown />
             )}
           </Button>
         </section>
