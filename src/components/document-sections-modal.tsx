@@ -1,26 +1,19 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
 import React from 'react';
-import { BiArrowToLeft, BiArrowToRight, BiCodeAlt, BiX } from 'react-icons/bi';
+import {
+  BiArrowToLeft,
+  BiArrowToRight,
+  BiCheck,
+  BiCopyAlt,
+  BiX,
+} from 'react-icons/bi';
 import { Markdown } from './markdown';
 import { useKeyPress } from 'development-kit/use-key-press';
-import { falsy, ok } from 'development-kit/guards';
+import { falsy } from 'development-kit/guards';
+import { useCopy } from 'development-kit/use-copy';
 
 type DocumentSectionsModalProps = { children: string; onClose(): void };
-
-{
-  /* <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-{sections.map((content, index) => (
-  <button
-    className="text-left relative h-[300px] p-4 border-2 rounded-md border-zinc-300 dark:border-zinc-800 overflow-hidden cursor-pointer focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white"
-    key={index}
-    onClick={() => preview.openWithData({ content, index })}
-  >
-    <Markdown>{content}</Markdown>
-  </button>
-))}
-</div> */
-}
 
 const modalId = `documents-sections-modal`;
 
@@ -37,6 +30,7 @@ const DocumentSectionsModal = ({
   onClose,
 }: DocumentSectionsModalProps) => {
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
+  const [copyState, copy] = useCopy();
 
   const sections = React.useMemo(() => {
     const parts = children.split(`\n`);
@@ -114,10 +108,20 @@ const DocumentSectionsModal = ({
       <section className="p-4">
         <Markdown>{content}</Markdown>
       </section>
-      <footer className="flex items-center justify-end p-4 space-x-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
-        <Button i={2} s={1} title="Copy this chapter markdown (C)">
-          <BiCodeAlt />
+      <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
+        <Button
+          i={2}
+          s={1}
+          title="Copy this chapter markdown (C)"
+          onClick={() => copy(content)}
+        >
+          {copyState.is === `copied` ? (
+            <BiCheck className="text-green-700" />
+          ) : (
+            <BiCopyAlt />
+          )}
         </Button>
+        <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
         {isAbleToPrev(activeSectionIndex) && (
           <Button
             i={2}
