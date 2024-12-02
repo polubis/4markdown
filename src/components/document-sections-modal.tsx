@@ -4,6 +4,7 @@ import React from 'react';
 import { BiArrowToLeft, BiArrowToRight, BiCodeAlt, BiX } from 'react-icons/bi';
 import { Markdown } from './markdown';
 import { useKeyPress } from 'development-kit/use-key-press';
+import { ok } from 'development-kit/guards';
 
 type DocumentSectionsModalProps = { children: string; onClose(): void };
 
@@ -20,6 +21,8 @@ type DocumentSectionsModalProps = { children: string; onClose(): void };
 ))}
 </div> */
 }
+
+const modalId = `documents-sections-modal`;
 
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
   activeSectionIndex > 0;
@@ -78,10 +81,19 @@ const DocumentSectionsModal = ({
   useKeyPress([`a`, `A`], goToPreviousSection);
   useKeyPress([`d`, `D`], goToNextSection);
 
+  React.useLayoutEffect(() => {
+    const modal = document.getElementById(modalId);
+
+    ok(modal, `Cannot find ${modalId}`);
+
+    modal.scrollTo({ top: 0 });
+  }, [activeSectionIndex]);
+
   const content = sections[activeSectionIndex];
 
   return (
     <Modal
+      id={modalId}
       className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0"
       onEscape={onClose}
     >
