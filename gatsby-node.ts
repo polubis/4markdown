@@ -57,7 +57,6 @@ const createBenchmarkFile = (): void => {
   console.log(`Build benchmark file created`);
 };
 
-// @TODO[PRIO=4]: [Move it to separate file as the "seo-plugins.ts"].
 export const onPostBuild: GatsbyNode['onPostBuild'] = () => {
   createAhrefsAutoIndexFile();
   createBenchmarkFile();
