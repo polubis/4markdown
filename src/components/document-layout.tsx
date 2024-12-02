@@ -21,9 +21,8 @@ import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
-import Backdrop from 'design-system/backdrop';
-import { usePortal } from 'development-kit/use-portal';
 import Popover from 'design-system/popover';
+import { Status } from 'design-system/status';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`./document-chapters-modal`).then((m) => ({
@@ -36,13 +35,12 @@ const shareToLinkedIn = () => {
   window.open(linkedinUrl, `_blank`);
 };
 
-const SocialShare = ({ content }: { content: string }) => {
+const SocialShare = () => {
   const panel = useToggle();
-  const [copyState, copy] = useCopy({ cleansAfter: 4000 });
-  const { render } = usePortal();
+  const [copyState, copy] = useCopy();
 
   const openPanel = (): void => {
-    copy(content);
+    copy(`I've found nice article! Here is the link: ${window.location.href}`);
     panel.open();
   };
 
@@ -52,7 +50,7 @@ const SocialShare = ({ content }: { content: string }) => {
   };
 
   return (
-    <>
+    <div className="relative">
       <Button
         title="Share this document on social media platforms"
         i={2}
@@ -63,20 +61,18 @@ const SocialShare = ({ content }: { content: string }) => {
       </Button>
       {panel.opened && (
         <Popover
-          className="flex gap-2 w-[94%] tn:max-w-max tn:w-auto overflow-x-auto bottom-20 left-2 md:bottom-auto md:top-16"
+          className="!absolute flex gap-2 translate-y-2.5"
           onBackdropClick={panel.close}
         >
-          <Button
-            className="animate-fade-in"
-            s={1}
-            i={2}
-            onClick={() => share(shareToLinkedIn)}
-          >
+          <Button s={1} i={2} onClick={() => share(shareToLinkedIn)}>
             <BiLogoLinkedin />
           </Button>
         </Popover>
       )}
-    </>
+      {copyState.is === `copied` && (
+        <Status>Invitation content has been copied</Status>
+      )}
+    </div>
   );
 };
 
@@ -102,7 +98,7 @@ const DocumentLayout = ({
     <>
       <main className="p-4 my-6">
         <section className="flex ml-auto gap-2 mb-6 justify-end tn:justify-start max-w-4xl mx-auto">
-          <SocialShare content={children} />
+          <SocialShare />
           <Button
             title="Display this document like a book"
             s={2}
