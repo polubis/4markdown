@@ -59,7 +59,7 @@ jobs:
         run: npm install -g @unlighthouse/cli puppeteer
 
       - name: Run Unlighthouse CI
-        run: unlighthouse-ci --site "http://localhost:9000" --budget 90 --reporter "jsonExpanded" --mobile --urls /,/education-zone,/education-rank,/privacy-policy,/naming-generics-in-typescript,/using-zod-and-typescript-to-write-typesafe-code,/creating-reusable-and-framework-agnostic-link-component,/implementing-queue-in-javascript,/using-zod-and-typescript-to-write-typesafe-code
+        run: unlighthouse-ci --site "http://localhost:9000" --budget 60 --reporter "jsonExpanded" --mobile --urls /,/education-zone,/education-rank,/privacy-policy,/naming-generics-in-typescript,/using-zod-and-typescript-to-write-typesafe-code,/creating-reusable-and-framework-agnostic-link-component,/implementing-queue-in-javascript,/using-zod-and-typescript-to-write-typesafe-code
 
       - name: Read Lighthouse Result
         run: cat ./.unlighthouse/ci-result.json
