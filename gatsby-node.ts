@@ -1,4 +1,4 @@
-import { initializeApp, type FirebaseOptions } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
 import path from 'path';
@@ -13,20 +13,9 @@ import {
   type PermanentDocumentDto,
 } from 'api-4markdown-contracts';
 import { createInitialCode } from './create-initial-code';
-import { writeFileSync } from 'fs';
+import { readFileSync, writeFileSync } from 'fs';
 
-const config: FirebaseOptions = {
-  apiKey: process.env.GATSBY_API_KEY,
-  authDomain: process.env.GATSBY_AUTH_DOMAIN,
-  projectId: process.env.GATSBY_PROJECT_ID,
-  storageBucket: process.env.GATSBY_STORAGE_BUCKET,
-  messagingSenderId: process.env.GATSBY_MESSAGING_SENDER_ID,
-  appId: process.env.GATSBY_APP_ID,
-  measurementId: process.env.GATSBY_MEASURMENT_ID,
-};
-
-// @TODO[PRIO=4]: [Move it to separate file as the "seo-plugins.ts"].
-export const onPostBuild: GatsbyNode['onPostBuild'] = async () => {
+const createAhrefsAutoIndexFile = (): void => {
   const indexNowKey = process.env.INDEX_NOW_KEY;
 
   if (!indexNowKey) return;
@@ -36,6 +25,83 @@ export const onPostBuild: GatsbyNode['onPostBuild'] = async () => {
   writeFileSync(filePath, indexNowKey);
 
   console.log(`IndexNow verification file created at: ${filePath}`);
+};
+
+const createBenchmarkFile = (): void => {
+  const limits = {
+    chunk: 150,
+    unit: `kB`,
+  };
+
+  const webpackStats: {
+    namedChunkGroups: Record<string, { assets: { size: number }[] }>;
+  } = JSON.parse(
+    readFileSync(path.join(__dirname, `public`, `webpack.stats.json`), `utf8`),
+  );
+
+  const benchmark: {
+    chunks: Record<
+      string,
+      {
+        sizes: number[];
+        totalSize: number;
+        sizesAsString: string;
+      }
+    >;
+    totalSize: number;
+    failedChunkGroups: string[];
+    limits: typeof limits;
+  } = {
+    chunks: {},
+    totalSize: 0,
+    failedChunkGroups: [],
+    limits,
+  };
+
+  const twoDecimal = (value: number) => Number.parseFloat(value.toFixed(2));
+
+  Object.entries(webpackStats.namedChunkGroups).forEach(
+    ([chunkKey, chunkValue]) => {
+      const sizes = chunkValue.assets.map(({ size }) =>
+        twoDecimal(size / 1024),
+      );
+
+      benchmark.chunks[chunkKey] = {
+        sizes,
+        sizesAsString: sizes.join(`|`),
+        totalSize: twoDecimal(
+          sizes.reduce((sum, assetSize) => assetSize + sum, 0),
+        ),
+      };
+    },
+  );
+
+  benchmark.totalSize = twoDecimal(
+    Object.values(benchmark.chunks)
+      .flatMap(({ totalSize }) => totalSize)
+      .reduce((sum, size) => sum + size, 0),
+  );
+  benchmark.failedChunkGroups = Object.entries(benchmark.chunks).reduce<
+    string[]
+  >((acc, [key, { sizes }]) => {
+    const toBigSizes = sizes.filter((size) => size > limits.chunk);
+
+    toBigSizes.length > 0 && acc.push(key);
+
+    return acc;
+  }, []);
+
+  writeFileSync(
+    path.join(__dirname, `public`, `benchmark.json`),
+    JSON.stringify(benchmark),
+  );
+
+  console.log(`Build benchmark file created`);
+};
+
+export const onPostBuild: GatsbyNode['onPostBuild'] = () => {
+  createAhrefsAutoIndexFile();
+  createBenchmarkFile();
 };
 
 const getTopDocuments = (
@@ -89,7 +155,15 @@ const getTopTags = (
 };
 
 export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
-  const app = initializeApp(config);
+  const app = initializeApp({
+    apiKey: process.env.GATSBY_API_KEY,
+    authDomain: process.env.GATSBY_AUTH_DOMAIN,
+    projectId: process.env.GATSBY_PROJECT_ID,
+    storageBucket: process.env.GATSBY_STORAGE_BUCKET,
+    messagingSenderId: process.env.GATSBY_MESSAGING_SENDER_ID,
+    appId: process.env.GATSBY_APP_ID,
+    measurementId: process.env.GATSBY_MEASURMENT_ID,
+  });
   const functions = getFunctions(app);
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
