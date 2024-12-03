@@ -16,6 +16,7 @@ import {
   BiCopyAlt,
   BiLogoFacebook,
   BiLogoLinkedin,
+  BiLogoMarkdown,
   BiLogoReddit,
   BiLogoTwitter,
   BiShare,
@@ -167,6 +168,14 @@ const DocumentLayout = ({
     <>
       <main className="p-4 my-6">
         <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-4xl mx-auto">
+          <Button
+            title="Open in documents creator"
+            s={2}
+            i={2}
+            onClick={sectionsModal.open}
+          >
+            <BiLogoMarkdown />
+          </Button>
           <Button
             title="Display this document like a book"
             s={2}
