@@ -93,7 +93,9 @@ currentBenchmark().then((currentBenchmark) => {
       {},
     );
 
-    console.table(chunksDiff);
+    if (Object.keys(chunksDiff).length > 0) {
+      console.table(chunksDiff);
+    }
 
     const sum =
       sumDiff === 0 ? `=` : sumDiff > 0 ? `+${sumDiff}` : `${sumDiff}`;
@@ -101,8 +103,6 @@ currentBenchmark().then((currentBenchmark) => {
     console.table({
       sum,
     });
-
-    console.log(`OUTPUT="${sum}"`);
   };
 
   const verifyBenchmark = () => {
