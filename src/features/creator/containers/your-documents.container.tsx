@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'design-system/button';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { useDocsStore } from 'store/docs/docs.store';
-import { BiGridAlt } from 'react-icons/bi';
+import { BiCollection } from 'react-icons/bi';
 import { useToggle } from 'development-kit/use-toggle';
 
 const DocsListModal = React.lazy(
@@ -23,7 +23,7 @@ const YourDocumentsContainer = () => {
         title="Your documents"
         onClick={modal.open}
       >
-        <BiGridAlt />
+        <BiCollection className="rotate-180" />
       </Button>
 
       {modal.opened && (
