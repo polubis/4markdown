@@ -168,7 +168,7 @@ const DocumentLayout = ({
   const [copyState, copy] = useCopy();
 
   const openInDocumentsCreator = (): void => {
-    seeInDocumentsCreatorAct(children);
+    seeInDocumentsCreatorAct({ code: children });
     navigate(meta.routes.home);
   };
 
