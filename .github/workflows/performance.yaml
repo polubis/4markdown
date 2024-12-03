@@ -33,8 +33,18 @@ jobs:
           GATSBY_TEST_USER_PASSWORD: ${{ secrets.GATSBY_TEST_USER_PASSWORD }}
         run: npm run build
 
-      - name: Read Build Benchmark
-        run: npm run benchmark
+      - name: Read Build Benchmark and Capture Result
+        id: benchmark
+        run: |
+          result=$(npm run benchmark)
+
+          output_value=$(echo "$result" | grep -oP 'OUTPUT="\K[^"]+')
+
+          echo "Captured OUTPUT: $output_value"
+          echo "::set-output name=summary::Captured Benchmark Result: $output_value"
+
+      - name: Display Benchmark Summary in GitHub Actions
+        run: echo "Benchmark Results: ${{ steps.benchmark.outputs.summary }}"
 
       - name: Serve the project
         run: npm run serve &
