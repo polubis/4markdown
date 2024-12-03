@@ -13,9 +13,9 @@ import { ScrollToTop } from './scroll-to-top';
 import {
   BiBook,
   BiCheck,
+  BiCopyAlt,
   BiLogoFacebook,
   BiLogoLinkedin,
-  BiLogoMarkdown,
   BiLogoReddit,
   BiLogoTwitter,
   BiShare,
@@ -186,7 +186,7 @@ const DocumentLayout = ({
             {copyState.is === `copied` ? (
               <BiCheck className="text-green-700" />
             ) : (
-              <BiLogoMarkdown />
+              <BiCopyAlt />
             )}
           </Button>
         </section>
@@ -251,6 +251,7 @@ const DocumentLayout = ({
           </DocumentChaptersModal>
         </React.Suspense>
       )}
+      {copyState.is === `copied` && <Status>Document markdown copied</Status>}
     </>
   );
 };
