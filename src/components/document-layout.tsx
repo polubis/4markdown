@@ -13,6 +13,7 @@ import { ScrollToTop } from './scroll-to-top';
 import {
   BiBook,
   BiCheck,
+  BiCopyAlt,
   BiLogoFacebook,
   BiLogoLinkedin,
   BiLogoMarkdown,
@@ -27,6 +28,9 @@ import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 import Popover from 'design-system/popover';
 import { Status } from 'design-system/status';
+import { seeInDocumentsCreatorAct } from 'acts/see-in-documents-creator.act';
+import { navigate } from 'core/navigate';
+import { meta } from '../../meta';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`./document-chapters-modal`).then((m) => ({
@@ -163,10 +167,23 @@ const DocumentLayout = ({
   const sectionsModal = useToggle();
   const [copyState, copy] = useCopy();
 
+  const openInDocumentsCreator = (): void => {
+    seeInDocumentsCreatorAct({ code: children });
+    navigate(meta.routes.home);
+  };
+
   return (
     <>
       <main className="p-4 my-6">
         <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-4xl mx-auto">
+          <Button
+            title="Open in documents creator"
+            s={2}
+            i={2}
+            onClick={openInDocumentsCreator}
+          >
+            <BiLogoMarkdown />
+          </Button>
           <Button
             title="Display this document like a book"
             s={2}
@@ -186,7 +203,7 @@ const DocumentLayout = ({
             {copyState.is === `copied` ? (
               <BiCheck className="text-green-700" />
             ) : (
-              <BiLogoMarkdown />
+              <BiCopyAlt />
             )}
           </Button>
         </section>
@@ -251,6 +268,7 @@ const DocumentLayout = ({
           </DocumentChaptersModal>
         </React.Suspense>
       )}
+      {copyState.is === `copied` && <Status>Document markdown copied</Status>}
     </>
   );
 };
