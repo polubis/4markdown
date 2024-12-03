@@ -28,6 +28,9 @@ import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 import Popover from 'design-system/popover';
 import { Status } from 'design-system/status';
+import { seeInDocumentsCreatorAct } from 'acts/see-in-documents-creator.act';
+import { navigate } from 'core/navigate';
+import { meta } from '../../meta';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`./document-chapters-modal`).then((m) => ({
@@ -164,6 +167,11 @@ const DocumentLayout = ({
   const sectionsModal = useToggle();
   const [copyState, copy] = useCopy();
 
+  const openInDocumentsCreator = (): void => {
+    seeInDocumentsCreatorAct(children);
+    navigate(meta.routes.home);
+  };
+
   return (
     <>
       <main className="p-4 my-6">
@@ -172,7 +180,7 @@ const DocumentLayout = ({
             title="Open in documents creator"
             s={2}
             i={2}
-            onClick={sectionsModal.open}
+            onClick={openInDocumentsCreator}
           >
             <BiLogoMarkdown />
           </Button>
