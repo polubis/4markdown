@@ -13,14 +13,20 @@ const checkNewBenchmark = () => {
   console.log(`@@@ New benchmark @@@`);
 
   console.table(newBenchmark.limits);
-  console.table(newBenchmark.stats);
+  console.table(newBenchmark.chunks);
   console.table({
     sum: newBenchmark.totalSize,
   });
 
-  if (newBenchmark.failed) {
+  if (newBenchmark.failedChunkGroups.length > 0) {
     throw Error(
-      `Benchmark check failed - limit is ${newBenchmark.limits.chunk}${newBenchmark.limits.unit} per chunk`,
+      `
+        Benchmark check failed - limit is ${newBenchmark.limits.chunk}${newBenchmark.limits.unit} per chunk. 
+        
+        Here you've list of failed chunk groups: 
+
+        ${newBenchmark.failedChunkGroups.join(`,`)}
+      `,
     );
   }
 };

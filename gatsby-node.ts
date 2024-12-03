@@ -40,20 +40,21 @@ const createBenchmarkFile = (): void => {
   );
 
   const benchmark: {
-    stats: Record<
+    chunks: Record<
       string,
       {
-        sizes: string;
+        sizes: number[];
         totalSize: number;
+        sizesAsString: string;
       }
     >;
     totalSize: number;
-    failed: boolean;
+    failedChunkGroups: string[];
     limits: typeof limits;
   } = {
-    stats: {},
+    chunks: {},
     totalSize: 0,
-    failed: false,
+    failedChunkGroups: [],
     limits,
   };
 
@@ -65,8 +66,9 @@ const createBenchmarkFile = (): void => {
         twoDecimal(size / 1024),
       );
 
-      benchmark.stats[chunkKey] = {
-        sizes: sizes.join(`|`),
+      benchmark.chunks[chunkKey] = {
+        sizes,
+        sizesAsString: sizes.join(`|`),
         totalSize: twoDecimal(
           sizes.reduce((sum, assetSize) => assetSize + sum, 0),
         ),
@@ -75,15 +77,19 @@ const createBenchmarkFile = (): void => {
   );
 
   benchmark.totalSize = twoDecimal(
-    Object.values(benchmark.stats)
+    Object.values(benchmark.chunks)
       .flatMap(({ totalSize }) => totalSize)
       .reduce((sum, size) => sum + size, 0),
   );
-  benchmark.failed = Object.values(benchmark.stats)
-    .flatMap(({ sizes }) =>
-      sizes.split(`|`).map((size) => Number.parseFloat(size)),
-    )
-    .some((size) => size > limits.chunk);
+  benchmark.failedChunkGroups = Object.entries(benchmark.chunks).reduce<
+    string[]
+  >((acc, [key, { sizes }]) => {
+    const toBigSizes = sizes.filter((size) => size > limits.chunk);
+
+    toBigSizes.length > 0 && acc.push(key);
+
+    return acc;
+  }, []);
 
   writeFileSync(
     path.join(__dirname, `public`, `benchmark.json`),
