@@ -41,10 +41,12 @@ jobs:
           output_value=$(echo "$result" | grep -oP 'OUTPUT="\K[^"]+')
 
           echo "Captured OUTPUT: $output_value"
-          echo "::set-output name=summary::Captured Benchmark Result: $output_value"
+          echo "summary=Captured Benchmark Result: $output_value" >> $GITHUB_OUTPUT
 
       - name: Display Benchmark Summary in GitHub Actions
-        run: echo "Benchmark Results: ${{ steps.benchmark.outputs.summary }}"
+        run: |
+          echo "Benchmark Results: ${{ steps.benchmark.outputs.summary }}"
+          echo "Benchmark Results: ${{ steps.benchmark.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
 
       - name: Serve the project
         run: npm run serve &
