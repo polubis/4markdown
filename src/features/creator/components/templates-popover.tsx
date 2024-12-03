@@ -8,7 +8,7 @@ const TemplatesPopoverContent = React.lazy(
   () => import(`./templates-popover-content`),
 );
 
-const TemplatesPopover: React.FC = () => {
+const TemplatesPopover = () => {
   const menu = useToggle();
   const [copyState, copy] = useCopy();
 
@@ -35,4 +35,4 @@ const TemplatesPopover: React.FC = () => {
   );
 };
 
-export default TemplatesPopover;
+export { TemplatesPopover };
