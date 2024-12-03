@@ -33,20 +33,8 @@ jobs:
           GATSBY_TEST_USER_PASSWORD: ${{ secrets.GATSBY_TEST_USER_PASSWORD }}
         run: npm run build
 
-      - name: Read Build Benchmark and Capture Result
-        id: benchmark
-        run: |
-          result=$(npm run benchmark)
-
-          output_value=$(echo "$result" | grep -oP 'OUTPUT="\K[^"]+')
-
-          echo "Captured OUTPUT: $output_value"
-          echo "summary=Captured Benchmark Result: $output_value" >> $GITHUB_OUTPUT
-
-      - name: Display Benchmark Summary in GitHub Actions
-        run: |
-          echo "Benchmark Results: ${{ steps.benchmark.outputs.summary }}"
-          echo "Benchmark Results: ${{ steps.benchmark.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
+      - name: Read Build Benchmark
+        run: npm run benchmark
 
       - name: Serve the project
         run: npm run serve &
@@ -59,7 +47,7 @@ jobs:
         run: npm install -g @unlighthouse/cli puppeteer
 
       - name: Run Unlighthouse CI
-        run: unlighthouse-ci --site "http://localhost:9000" --budget 60 --reporter "jsonExpanded" --mobile --urls /,/education-zone,/education-rank,/privacy-policy,/naming-generics-in-typescript,/using-zod-and-typescript-to-write-typesafe-code,/creating-reusable-and-framework-agnostic-link-component,/implementing-queue-in-javascript,/using-zod-and-typescript-to-write-typesafe-code
+        run: unlighthouse-ci --site "http://localhost:9000" --budget 90 --reporter "jsonExpanded" --mobile --urls /,/education-zone,/education-rank,/privacy-policy,/naming-generics-in-typescript,/using-zod-and-typescript-to-write-typesafe-code,/creating-reusable-and-framework-agnostic-link-component,/implementing-queue-in-javascript,/using-zod-and-typescript-to-write-typesafe-code
 
       - name: Read Lighthouse Result
         run: cat ./.unlighthouse/ci-result.json
