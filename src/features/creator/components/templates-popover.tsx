@@ -3,12 +3,13 @@ import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
+import { Status } from 'design-system/status';
 
 const TemplatesPopoverContent = React.lazy(
   () => import(`./templates-popover-content`),
 );
 
-const TemplatesPopover: React.FC = () => {
+const TemplatesPopover = () => {
   const menu = useToggle();
   const [copyState, copy] = useCopy();
 
@@ -31,8 +32,11 @@ const TemplatesPopover: React.FC = () => {
           <TemplatesPopoverContent onCopy={copyAndClose} onClose={menu.close} />
         </React.Suspense>
       )}
+      {copyState.is === `copied` && (
+        <Status>Template copied. Now you can paste it</Status>
+      )}
     </>
   );
 };
 
-export default TemplatesPopover;
+export { TemplatesPopover };

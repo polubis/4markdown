@@ -3,11 +3,11 @@
 To make code consistent, the following standardized structure for the store must be applied:
 
 ```typescript
-    [store][name - of - feature - folder];
-    index.ts; // file containing hooks "useFeatureNameState" hook and initialization logic
-    models.ts; // defines the shape of the state
-    actions.ts; // contains reusable logic for store changes
-    selectors.ts; // contains reusable logic for state selection
+[store][name - of - feature - folder];
+index.ts; // file containing hooks "useFeatureNameState" hook and initialization logic
+models.ts; // defines the shape of the state
+actions.ts; // contains reusable logic for store changes
+selectors.ts; // contains reusable logic for state selection
 ```
 
 For cases where multiple actions need to be called from features, wrap these calls within an `act`, and put there:
@@ -142,7 +142,7 @@ export { uploadImageAct };
 1. Acts must use the `Act` postfix in their name.
 2. Globally available functions encapsulating complex processes.
 3. Combine multiple steps, state updates, actions, side effects, and API interactions in a reusable function.
-4. Acts **must return** either an `AsyncResult` or `Result` type.
+4. Acts must always have a `return type`.
 5. Acts can be synchronous (`sync`) or asynchronous (`async`).
 
 ## Types and Interfaces
@@ -153,5 +153,5 @@ The following rules should be applied:
 
 ```typescript
 // A component used primarily for readability, to avoid large chunks of JSX
-const SocialShare = ({ content }: { content: string }) => {}
+const SocialShare = ({ content }: { content: string }) => {};
 ```
