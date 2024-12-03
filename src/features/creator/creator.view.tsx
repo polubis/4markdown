@@ -8,7 +8,7 @@ import {
 } from 'store/creator/creator.store';
 import c from 'classnames';
 import { useConfirm } from 'development-kit/use-confirm';
-import TemplatesPopover from './components/templates-popover';
+import { TemplatesPopover } from './components/templates-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';

@@ -5,6 +5,8 @@ const newBenchmark = JSON.parse(
   readFileSync(path.join(__dirname, `public`, `benchmark.json`), `utf8`),
 );
 
+const twoDecimal = (value) => Number.parseFloat(value.toFixed(2));
+
 const currentBenchmark = () => {
   return fetch(`https://soft-pithivier-093469.netlify.app/benchmark.json`)
     .then((response) => {
@@ -71,13 +73,16 @@ currentBenchmark().then((currentBenchmark) => {
   const logDifferences = () => {
     console.log(`@@@ Differences @@@`);
 
-    const sumDiff = newBenchmark.totalSize - currentBenchmark.totalSize;
+    const sumDiff = twoDecimal(
+      newBenchmark.totalSize - currentBenchmark.totalSize,
+    );
 
     const chunksDiff = Object.entries(newBenchmark.chunks).reduce(
       (acc, [key, value]) => {
         if (value.totalSize !== currentBenchmark.chunks[key].totalSize) {
-          const totalChunksGroupDiff =
-            value.totalSize - currentBenchmark.chunks[key].totalSize;
+          const totalChunksGroupDiff = twoDecimal(
+            value.totalSize - currentBenchmark.chunks[key].totalSize,
+          );
 
           acc[key] = {
             sizesAsString: value.sizesAsString,
