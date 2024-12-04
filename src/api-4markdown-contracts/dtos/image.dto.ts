@@ -1,6 +1,6 @@
 import type { Id, Path } from '../atoms';
 
-const IMAGE_EXTENSIONS = [`png`, `jpeg`, `jpg`, `gif`] as const;
+const IMAGE_EXTENSIONS = [`png`, `jpeg`, `jpg`, `gif`, `webp`] as const;
 
 type ImageExtension = (typeof IMAGE_EXTENSIONS)[number];
 type ImageContentType = `image/${ImageExtension}`;
