@@ -45,7 +45,7 @@ const add = () => {
 
 #### How to add an image or links?
 
-![Alt of image](/icons/icon-256x256.png)
+![Alt of image](/logo-thumbnail.webp)
 *${meta.title}*
 
 ##### If you enjoyed this editor
