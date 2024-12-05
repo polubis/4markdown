@@ -24,7 +24,7 @@ const updateDocumentVisibility = async (
   payload: PrivatePayload | PublicPayload | PermanentPayload,
 ): Promise<void> => {
   try {
-    const { code } = creatorStoreSelectors.ready();
+    const { code } = creatorStoreSelectors.state();
     const { id, mdate } = docStoreSelectors.active();
     docManagementStoreActions.busy();
 

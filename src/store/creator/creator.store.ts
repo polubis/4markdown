@@ -1,35 +1,27 @@
 import { create } from 'zustand';
+import { createInitialCode } from '../../../create-initial-code';
 
-type CreatorStoreStateIdle = { is: 'idle' };
-type CreatorStoreStateReady = { is: 'ready' } & {
+type CreatorStoreState = {
   initialCode: string;
   code: string;
   changed: boolean;
 };
 
-type CreatorStoreState = CreatorStoreStateIdle | CreatorStoreStateReady;
-
 const CREATOR_STORE_LS_KEY = `code`;
 
+const initialCode = createInitialCode();
+
 const useCreatorStore = create<CreatorStoreState>(() => ({
-  is: `idle`,
+  initialCode,
+  code: initialCode,
+  changed: false,
 }));
 
 const { setState, getState: get } = useCreatorStore;
 
-const isReadyState = (state: CreatorStoreState): CreatorStoreStateReady => {
-  if (state.is === `idle`) {
-    throw Error(`Reading state when not ready`);
-  }
-
-  return state;
-};
-
 const creatorStoreSelectors = {
   useState: () => useCreatorStore(),
   state: get,
-  useReady: () => useCreatorStore(isReadyState),
-  ready: () => isReadyState(get()),
 } as const;
 
 const set = (state: CreatorStoreState): void => {
@@ -37,17 +29,10 @@ const set = (state: CreatorStoreState): void => {
 };
 
 const creatorStoreActions = {
-  hydrate: (initialCode: string) => {
-    const state = creatorStoreSelectors.state();
-
-    if (state.is === `idle`)
-      set({ is: `ready`, initialCode, code: initialCode, changed: false });
-  },
   init: () => {
-    const { is, initialCode } = creatorStoreSelectors.ready();
+    const { initialCode } = creatorStoreSelectors.state();
 
-    const newState: CreatorStoreStateReady = {
-      is,
+    const newState: CreatorStoreState = {
       code: initialCode,
       initialCode,
       changed: false,
@@ -57,9 +42,9 @@ const creatorStoreActions = {
     localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
   changeWithoutMarkAsUnchanged: (code: string) => {
-    const { is, initialCode, changed } = creatorStoreSelectors.ready();
-    const newState: CreatorStoreStateReady = {
-      is,
+    const { initialCode, changed } = creatorStoreSelectors.state();
+
+    const newState: CreatorStoreState = {
       code,
       initialCode,
       changed,
@@ -70,9 +55,8 @@ const creatorStoreActions = {
     localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
   change: (code: string) => {
-    const { is, initialCode } = creatorStoreSelectors.ready();
-    const newState: CreatorStoreStateReady = {
-      is,
+    const { initialCode } = creatorStoreSelectors.state();
+    const newState: CreatorStoreState = {
       code,
       initialCode,
       changed: true,
@@ -82,9 +66,8 @@ const creatorStoreActions = {
     localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(newState));
   },
   asUnchanged: () => {
-    const { is, initialCode, code } = creatorStoreSelectors.ready();
-    const newState: CreatorStoreStateReady = {
-      is,
+    const { initialCode, code } = creatorStoreSelectors.state();
+    const newState: CreatorStoreState = {
       code,
       initialCode,
       changed: false,
@@ -98,7 +81,7 @@ const creatorStoreActions = {
 
     if (state === null) return;
 
-    set(JSON.parse(state) as CreatorStoreStateReady);
+    set(JSON.parse(state) as CreatorStoreState);
   },
 } as const;
 

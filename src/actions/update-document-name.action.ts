@@ -12,7 +12,7 @@ const updateDocumentName = async (
   name: API4MarkdownPayload<'updateDocumentName'>['name'],
 ): Promise<void> => {
   try {
-    const { code } = creatorStoreSelectors.ready();
+    const { code } = creatorStoreSelectors.state();
     const activeDocument = docStoreSelectors.active();
     docManagementStoreActions.busy();
     const response = await getAPI().call(`updateDocumentName`)({

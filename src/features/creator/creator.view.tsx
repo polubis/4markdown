@@ -28,7 +28,7 @@ const CreatorView = () => {
 
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
-  const { code, initialCode } = creatorStoreSelectors.useReady();
+  const { code, initialCode } = creatorStoreSelectors.useState();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 

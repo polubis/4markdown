@@ -11,7 +11,7 @@ import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
 const createDocument = async (
   payload: Pick<API4MarkdownPayload<'createDocument'>, 'name'>,
 ): Promise<void> => {
-  const { code } = creatorStoreSelectors.ready();
+  const { code } = creatorStoreSelectors.state();
 
   try {
     docManagementStoreActions.busy();

@@ -9,7 +9,7 @@ import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
 
 const updateDocumentCode = async () => {
   const doc = docStoreSelectors.active();
-  const { code } = creatorStoreSelectors.ready();
+  const { code } = creatorStoreSelectors.state();
 
   const newDoc = {
     ...doc,
