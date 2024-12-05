@@ -58,8 +58,12 @@ if (process.env.GA_ID) {
     resolve: `gatsby-plugin-google-gtag`,
     options: {
       trackingIds: [process.env.GA_ID],
-      head: true,
-      anonymize: true,
+      gtagConfig: {
+        anonymize_ip: true,
+      },
+      pluginConfig: {
+        respectDNT: true,
+      },
     },
   });
 }
