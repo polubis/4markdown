@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, type HeadFC } from 'gatsby';
+import { type HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
 import { meta } from '../../meta';
@@ -15,26 +15,9 @@ const CreatorPreviewPage = () => {
 
   return (
     <main className="max-w-2xl mx-auto">
-      {creatorStore.is === `idle` && (
-        <section className="flex flex-col justify-center h-screen">
-          <h1 className="text-2xl text-center">Preview Unavailable</h1>
-          <p className="mt-2 text-center">
-            Please go to{` `}
-            <Link
-              className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1 font-bold"
-              to={meta.routes.home}
-            >
-              Creator
-            </Link>
-            {` `}and start writing some content first.
-          </p>
-        </section>
-      )}
-      {creatorStore.is === `ready` && (
-        <section className={c(M.className, `p-4`)}>
-          <M>{creatorStore.code}</M>
-        </section>
-      )}
+      <section className={c(M.className, `p-4`)}>
+        <M>{creatorStore.code}</M>
+      </section>
     </main>
   );
 };
