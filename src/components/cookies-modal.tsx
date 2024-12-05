@@ -1,18 +1,15 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
-import { Link } from 'gatsby';
 import React from 'react';
 import { meta } from '../../meta';
 import c from 'classnames';
-
-type CookiesModalProps = {};
 
 const enum ViewType {
   Intro = `intro`,
   Manage = `manage`,
 }
 
-const CookiesModal = ({}: CookiesModalProps) => {
+const CookiesModal = () => {
   const [view, setView] = React.useState(ViewType.Intro);
   const [cookiePreferences, setCookiePreferences] = React.useState({
     necessary: true,
@@ -22,6 +19,8 @@ const CookiesModal = ({}: CookiesModalProps) => {
   });
 
   const togglePreferences = (category: keyof typeof cookiePreferences) => {
+    if (category === `necessary`) return;
+
     setCookiePreferences((prev) => ({
       ...prev,
       [category]: !prev[category],
@@ -36,6 +35,8 @@ const CookiesModal = ({}: CookiesModalProps) => {
     setView(ViewType.Intro);
   };
 
+  const acceptCookies = (): void => {};
+
   const PrivacySection = (
     <div>
       <p className="text-sm text-justify mb-1">
@@ -43,13 +44,15 @@ const CookiesModal = ({}: CookiesModalProps) => {
         cookies on your device to enhance site navigation, analyze site usage,
         and assist in our marketing efforts
       </p>
-      <Link
+      <a
         className="text-sm underline underline-offset-2 text-blue-800 dark:text-blue-500"
         title="Go to privacy policy"
-        to={meta.routes.privacyPolicy}
+        href={meta.routes.privacyPolicy}
+        target="_blank"
+        rel="noreferrer"
       >
         Read our Privacy Policy
-      </Link>
+      </a>
     </div>
   );
 
@@ -61,24 +64,21 @@ const CookiesModal = ({}: CookiesModalProps) => {
             <h6 className="text-xl">Privacy Policy Settings</h6>
           </header>
           <p className="text-justify">
-            When you visit any website, it may store or retrieve information on
-            your browser, mostly in the form of cookies. This information might
-            be about you, your preferences or your device. We respect your right
-            to privacy and your choice to be informed about how your data is
-            being used
+            When you visit our site, we might save a little data on your
+            browser-mostly in the form of cookies. These cookies help us
+            remember things like your preferences or how you interact with our
+            site, so we can make your experience better. Your privacy matters to
+            us, and we want you to feel confident knowing how your data is used
           </p>
-          <footer className="flex flex-col space-y-3 mt-8">
-            <div className="flex space-x-3 [&_button]:flex-1">
-              <Button s={2} i={2} auto>
-                Accept All
+          <footer className="flex flex-col space-y-3 mt-6">
+            <div className="flex space-x-3 [&_button]:flex-1 mb-1">
+              <Button s={2} i={1} auto onClick={goToManagement}>
+                Customize
               </Button>
-              <Button s={2} i={2} auto>
-                Decline Optional
+              <Button s={2} i={2} auto onClick={acceptCookies}>
+                Accept
               </Button>
             </div>
-            <Button s={2} i={1} auto onClick={goToManagement}>
-              Customize Preferences
-            </Button>
             {PrivacySection}
           </footer>
         </>
@@ -107,7 +107,6 @@ const CookiesModal = ({}: CookiesModalProps) => {
                         className="sr-only peer"
                         checked={value}
                         onChange={() =>
-                          key !== `necessary` &&
                           togglePreferences(
                             key as keyof typeof cookiePreferences,
                           )
@@ -142,12 +141,12 @@ const CookiesModal = ({}: CookiesModalProps) => {
               ),
             )}
           </div>
-          <footer className="flex flex-col space-y-3 mt-6">
-            <div className="flex justify-between [&_button]:w-[48%] mb-1">
+          <footer className="flex flex-col space-y-3 mt-3">
+            <div className="flex space-x-3 [&_button]:flex-1 mb-1">
               <Button s={2} i={1} auto onClick={goToIntro}>
                 Back
               </Button>
-              <Button s={2} i={2} auto>
+              <Button s={2} i={2} auto onClick={acceptCookies}>
                 Accept
               </Button>
             </div>
