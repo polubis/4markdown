@@ -104,7 +104,7 @@ const CookiesModal = () => {
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
-                        className="sr-only"
+                        className="sr-only active:[&+div]:border-white"
                         checked={value}
                         onChange={() =>
                           togglePreferences(
@@ -115,7 +115,7 @@ const CookiesModal = () => {
                       />
                       <div
                         className={c(
-                          `w-11 h-6 rounded-full transition-colors duration-200 ease-in-out after:content-[""] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all`,
+                          `w-11 h-6 rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out after:content-[""] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all`,
                           {
                             'bg-blue-600 dark:bg-blue-500 after:translate-x-5':
                               value,
