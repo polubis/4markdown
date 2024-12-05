@@ -104,7 +104,7 @@ const CookiesModal = () => {
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
                         type="checkbox"
-                        className="sr-only peer"
+                        className="sr-only"
                         checked={value}
                         onChange={() =>
                           togglePreferences(
