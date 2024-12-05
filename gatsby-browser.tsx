@@ -3,6 +3,7 @@ import React from 'react';
 import './src/style/index.css';
 import ErrorBoundary from './src/development-kit/error-boundary';
 import { useAuth } from './src/core/use-auth';
+import { CookiesModal } from './src/components/cookies-modal';
 
 const ExceptionScreen = React.lazy(() =>
   import(`./src/components/exception-screen`).then((m) => ({
@@ -20,6 +21,9 @@ export const wrapPageElement = ({ element }) => {
   useAuth();
 
   return (
-    <ErrorBoundary fallback={SafeExceptionScreen}>{element}</ErrorBoundary>
+    <ErrorBoundary fallback={SafeExceptionScreen}>
+      {element}
+      <CookiesModal />
+    </ErrorBoundary>
   );
 };

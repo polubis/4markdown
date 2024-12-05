@@ -118,7 +118,6 @@ const OPTIONS: MarkdownToJSX.Options = {
     ),
     img: ({ src, alt }) => (
       <picture>
-        {/* @TODO: Think about showing different size of images. */}
         <img loading="lazy" className="max-w-[100%]" src={src} alt={alt} />
       </picture>
     ),

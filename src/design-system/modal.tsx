@@ -29,7 +29,7 @@ const Modal = ({ className, children, onEscape, ...props }: ModalProps) => {
       )}
       {...props}
     >
-      <div className="bg-white m-auto w-[100%] tn:w-[380px] dark:bg-black rounded-lg shadow-xl p-4">
+      <div className="bg-white m-auto w-[100%] tn:max-w-sm dark:bg-black rounded-lg shadow-xl p-4">
         {children}
       </div>
     </div>,
