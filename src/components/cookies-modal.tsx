@@ -12,23 +12,6 @@ const enum ViewType {
   Manage = `manage`,
 }
 
-const PrivacySection = (
-  <div>
-    <p className="text-sm text-justify mb-1">
-      By clicking <strong>Accept All</strong>, you agree to the storing of
-      cookies on your device to enhance site navigation, analyze site usage, and
-      assist in our marketing efforts
-    </p>
-    <Link
-      className="text-sm underline underline-offset-2 text-blue-800 dark:text-blue-500"
-      title="Go to privacy policy"
-      to={meta.routes.privacyPolicy}
-    >
-      Read our Privacy Policy
-    </Link>
-  </div>
-);
-
 const CookiesModal = ({}: CookiesModalProps) => {
   const [view, setView] = React.useState(ViewType.Intro);
   const [cookiePreferences, setCookiePreferences] = React.useState({
@@ -53,6 +36,23 @@ const CookiesModal = ({}: CookiesModalProps) => {
     setView(ViewType.Intro);
   };
 
+  const PrivacySection = (
+    <div>
+      <p className="text-sm text-justify mb-1">
+        By clicking <strong>Accept All</strong>, you agree to the storing of
+        cookies on your device to enhance site navigation, analyze site usage,
+        and assist in our marketing efforts
+      </p>
+      <Link
+        className="text-sm underline underline-offset-2 text-blue-800 dark:text-blue-500"
+        title="Go to privacy policy"
+        to={meta.routes.privacyPolicy}
+      >
+        Read our Privacy Policy
+      </Link>
+    </div>
+  );
+
   return (
     <Modal>
       {view === ViewType.Intro && (
@@ -68,7 +68,7 @@ const CookiesModal = ({}: CookiesModalProps) => {
             being used
           </p>
           <footer className="flex flex-col space-y-3 mt-8">
-            <div className="flex justify-between [&_button]:w-[48%]">
+            <div className="flex space-x-3 [&_button]:flex-1">
               <Button s={2} i={2} auto>
                 Accept All
               </Button>
@@ -143,7 +143,7 @@ const CookiesModal = ({}: CookiesModalProps) => {
             )}
           </div>
           <footer className="flex flex-col space-y-3 mt-6">
-            <div className="flex justify-between [&_button]:w-[48%]">
+            <div className="flex justify-between [&_button]:w-[48%] mb-1">
               <Button s={2} i={1} auto onClick={goToIntro}>
                 Back
               </Button>
@@ -151,6 +151,7 @@ const CookiesModal = ({}: CookiesModalProps) => {
                 Accept
               </Button>
             </div>
+            {PrivacySection}
           </footer>
         </>
       )}
