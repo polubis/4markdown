@@ -60,9 +60,11 @@ if (process.env.GA_ID) {
       trackingIds: [process.env.GA_ID],
       gtagConfig: {
         anonymize_ip: true,
-        respectDNT: true,
       },
-      head: true,
+      pluginConfig: {
+        respectDNT: true,
+        head: false,
+      },
     },
   });
 }
