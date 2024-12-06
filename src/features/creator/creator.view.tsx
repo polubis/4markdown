@@ -191,6 +191,7 @@ const CreatorView = () => {
           <textarea
             ref={creatorRef}
             aria-labelledby="creator"
+            defaultValue={code}
             aria-label="creator"
             spellCheck="false"
             className={c(

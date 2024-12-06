@@ -29,7 +29,7 @@ const createAhrefsAutoIndexFile = (): void => {
 
 const createBenchmarkFile = (): void => {
   const limits = {
-    chunk: 150,
+    chunk: 145,
     unit: `kB`,
   };
 
