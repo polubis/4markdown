@@ -4,9 +4,7 @@ import type {
   UserProfileDto,
 } from 'api-4markdown-contracts';
 
-type HomePageModel = {
-  initialCode: string;
-};
+type HomePageModel = {};
 // @TODO[PRIO=3]: [Do BE for FE and reduce amount of proxy models here].
 type EducationDocumentAvatarModel = {
   avatar: NonNullable<UserProfileDto['avatar']>['sm'] | null;

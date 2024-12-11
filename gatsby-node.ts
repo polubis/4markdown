@@ -12,7 +12,6 @@ import {
   type DocumentRatingCategory,
   type PermanentDocumentDto,
 } from 'api-4markdown-contracts';
-import { createInitialCode } from './create-initial-code';
 import { readFileSync, writeFileSync } from 'fs';
 
 const createAhrefsAutoIndexFile = (): void => {
@@ -175,9 +174,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   actions.createPage<HomePageModel>({
     path: meta.routes.home,
     component: path.resolve(`./src/dynamic-pages/home.page.tsx`),
-    context: {
-      initialCode: createInitialCode(),
-    },
+    context: {},
   });
 
   allDocuments.forEach((document) => {

@@ -1,18 +1,16 @@
 import { getAPI, setCache } from 'api-4markdown';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
-import {
-  creatorStoreActions,
-  creatorStoreSelectors,
-} from 'store/creator/creator.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
+import { useDocumentCreatorState } from 'store/document-creator';
+import { changeWithoutMarkAsUnchangedAction } from 'store/document-creator/actions';
 
 const updateDocumentName = async (
   name: API4MarkdownPayload<'updateDocumentName'>['name'],
 ): Promise<void> => {
   try {
-    const { code } = creatorStoreSelectors.ready();
+    const { code } = useDocumentCreatorState.get();
     const activeDocument = docStoreSelectors.active();
     docManagementStoreActions.busy();
     const response = await getAPI().call(`updateDocumentName`)({
@@ -28,7 +26,7 @@ const updateDocumentName = async (
     };
 
     docManagementStoreActions.ok();
-    creatorStoreActions.changeWithoutMarkAsUnchanged(updatedDocument.code);
+    changeWithoutMarkAsUnchangedAction(updatedDocument.code);
     docStoreActions.setActiveWithoutCodeChange(updatedDocument);
     docsStoreActions.updateDoc(updatedDocument);
 

@@ -1,21 +1,19 @@
 import { renderHook, act } from '@testing-library/react';
-import type { StoreApi, UseBoundStore } from 'zustand';
+import type { state } from './state';
 
 const storeFixture = <T>(
-  useStore: UseBoundStore<StoreApi<T>>,
+  useStore: ReturnType<typeof state<T>>,
   defaultState?: T,
 ) => {
-  const initialState = useStore.getState();
-
   if (defaultState) {
     act(() => {
-      useStore.setState(defaultState);
+      useStore.set(defaultState);
     });
   }
 
   const restore = (): void => {
     act(() => {
-      useStore.setState(initialState);
+      useStore.set(useStore.getInitial());
     });
   };
 

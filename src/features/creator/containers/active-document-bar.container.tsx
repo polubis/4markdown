@@ -8,10 +8,10 @@ import { docStoreSelectors } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
-import { creatorStoreSelectors } from 'store/creator/creator.store';
 import { useForm } from 'development-kit/use-form';
 import { updateDocumentCode } from 'actions/update-document-code.action';
 import { updateDocumentName } from 'actions/update-document-name.action';
+import { useDocumentCreatorState } from 'store/document-creator';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -28,7 +28,7 @@ const ActiveDocumentBarContainer = () => {
   const docStore = docStoreSelectors.useActive();
   const docsStore = useDocsStore();
   const authStore = useAuthStore();
-  const creatorStore = creatorStoreSelectors.useReady();
+  const creatorStore = useDocumentCreatorState();
   const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
     useForm({ name: docStore.name });
   const edition = useToggle();
