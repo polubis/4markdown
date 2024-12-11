@@ -28,12 +28,12 @@ const Avatar = ({ className, size, src, char, alt, title }: AvatarProps) => {
         className,
         `flex items-center justify-center rounded-full`,
         {
-          'w-[24px] h-[24px]': size === `tn`,
+          'w-6 h-6': size === `tn`,
         },
         {
-          'w-[32px] h-[32px]': size === `sm`,
+          'w-8 h-8': size === `sm`,
         },
-        { 'w-[64px] h-[64px]': size === `md` },
+        { 'w-16 h-16': size === `md` },
         {
           'w-[100px] h-[100px]': size === `lg`,
         },
@@ -63,7 +63,6 @@ const Avatar = ({ className, size, src, char, alt, title }: AvatarProps) => {
           {char}
         </span>
       )}
-
       {!src && !char && (
         <BiQuestionMark
           className="text-black dark:text-white"
