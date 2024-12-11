@@ -1,6 +1,8 @@
-import { meta } from './meta';
+import { state } from 'development-kit/state';
+import type { DocumentCreatorState } from './models';
+import { meta } from '../../../meta';
 
-const createInitialCode = (): string => `# Markdown Cheatsheet
+const initialCode = `# Markdown Cheatsheet
 
 Separate every paragraph/section of text with \`enter\`. Suppose you want to create bolding use **bolding**. The _italic_ text requires a "_" symbol. 
 
@@ -56,4 +58,10 @@ Like our [LinkedIn](${meta.linkedInUrl}) profile or join [Discord](${meta.discor
 
 Any suggestions, comments, or ideas for improvement? Feel free to join our [Discord](${meta.discordUrl}) or add info on [LinkedIn](${meta.linkedInUrl}) profile. If you want to contribute, here you have a repository: [${meta.appName} repository](${meta.sourceCodeUrl}).`;
 
-export { createInitialCode };
+const useDocumentCreatorState = state<DocumentCreatorState>({
+  initialCode,
+  code: initialCode,
+  changed: false,
+});
+
+export { useDocumentCreatorState };

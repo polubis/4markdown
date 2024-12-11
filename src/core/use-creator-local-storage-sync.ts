@@ -1,15 +1,13 @@
 import React from 'react';
-import {
-  CREATOR_STORE_LS_KEY,
-  creatorStoreActions,
-} from 'store/creator/creator.store';
+import { syncAction } from 'store/document-creator/actions';
+import { CREATOR_STORE_LS_KEY } from 'store/document-creator/config';
 
 const useCreatorLocalStorageSync = () => {
   React.useEffect(() => {
-    creatorStoreActions.sync();
+    syncAction();
 
-    const listener = (event: StorageEvent) => {
-      if (event.key === CREATOR_STORE_LS_KEY) creatorStoreActions.sync();
+    const listener = (event: StorageEvent): void => {
+      if (event.key === CREATOR_STORE_LS_KEY) syncAction();
     };
 
     window.addEventListener(`storage`, listener);
