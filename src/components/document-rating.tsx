@@ -6,6 +6,7 @@ import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
+import { BiCommentDetail } from 'react-icons/bi';
 
 type DocumentRatingProps = {
   className?: string;
@@ -59,6 +60,10 @@ const DocumentRating = ({
 
   return (
     <section className={c(`flex`, className)}>
+      <Button i={1} s={1} auto key="comments" title="See comments">
+        <BiCommentDetail className="mr-0.5" />
+        <strong>0</strong>
+      </Button>
       {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
         <Button
           i={yourRate === category ? 2 : 1}
