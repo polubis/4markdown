@@ -2,10 +2,6 @@ import React from 'react';
 import { Markdown } from 'components/markdown';
 import { BiBookContent, BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Button } from 'design-system/button';
-import {
-  creatorStoreActions,
-  creatorStoreSelectors,
-} from 'store/creator/creator.store';
 import c from 'classnames';
 import { useConfirm } from 'development-kit/use-confirm';
 import { TemplatesPopover } from './components/templates-popover';
@@ -16,6 +12,8 @@ import { ImageUploaderContainer } from './containers/image-uploader.container';
 import { CreatorNavigation } from './components/creator-navigation';
 import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
+import { changeAction } from 'store/document-creator/actions';
+import { useDocumentCreatorState } from 'store/document-creator';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -28,14 +26,12 @@ const CreatorView = () => {
 
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
-  const { code, initialCode } = creatorStoreSelectors.useReady();
+  const { code, initialCode } = useDocumentCreatorState();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 
-  const clearConfirm = useConfirm(() => creatorStoreActions.change(``));
-  const resetConfirm = useConfirm(() =>
-    creatorStoreActions.change(initialCode),
-  );
+  const clearConfirm = useConfirm(() => changeAction(``));
+  const resetConfirm = useConfirm(() => changeAction(initialCode));
 
   const triggerPreviewScroll = async (
     input: HTMLTextAreaElement,
@@ -84,7 +80,7 @@ const CreatorView = () => {
     const newValue =
       code.substring(0, start) + ` `.repeat(4) + code.substring(end);
 
-    creatorStoreActions.change(newValue);
+    changeAction(newValue);
 
     target.selectionStart = target.selectionEnd = start + 1;
   };
@@ -95,7 +91,7 @@ const CreatorView = () => {
     timeout && clearTimeout(timeout);
 
     timeoutRef.current = setTimeout(() => {
-      creatorStoreActions.change(e.target.value);
+      changeAction(e.target.value);
     }, 750);
   };
 
