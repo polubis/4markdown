@@ -5,13 +5,11 @@ import type {
   PrivateDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
-import {
-  creatorStoreActions,
-  creatorStoreSelectors,
-} from 'store/creator/creator.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions, docStoreSelectors } from 'store/doc/doc.store';
 import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
+import { useDocumentCreatorState } from 'store/document-creator';
+import { changeWithoutMarkAsUnchangedAction } from 'store/document-creator/actions';
 
 type PrivatePayload = Pick<PrivateDocumentDto, 'visibility'>;
 type PublicPayload = Pick<PublicDocumentDto, 'visibility'>;
@@ -24,7 +22,7 @@ const updateDocumentVisibility = async (
   payload: PrivatePayload | PublicPayload | PermanentPayload,
 ): Promise<void> => {
   try {
-    const { code } = creatorStoreSelectors.ready();
+    const { code } = useDocumentCreatorState.get();
     const { id, mdate } = docStoreSelectors.active();
     docManagementStoreActions.busy();
 
@@ -38,7 +36,7 @@ const updateDocumentVisibility = async (
       code,
     };
     docManagementStoreActions.ok();
-    creatorStoreActions.changeWithoutMarkAsUnchanged(updatedDocument.code);
+    changeWithoutMarkAsUnchangedAction(updatedDocument.code);
     docStoreActions.setActiveWithoutCodeChange(updatedDocument);
     docsStoreActions.updateDoc(updatedDocument);
 

@@ -1,5 +1,8 @@
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
-import { creatorStoreActions } from 'store/creator/creator.store';
+import {
+  changeAction,
+  markAsUnchangedAction,
+} from 'store/document-creator/actions';
 import { create } from 'zustand';
 
 interface DocStoreIdleState {
@@ -52,8 +55,8 @@ const docStoreActions = {
       is: `active`,
       ...doc,
     });
-    creatorStoreActions.change(doc.code);
-    asUnchanged && creatorStoreActions.asUnchanged();
+    changeAction(doc.code);
+    asUnchanged && markAsUnchangedAction();
   },
   reset: () => set({ is: `idle` }),
 };
