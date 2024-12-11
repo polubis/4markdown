@@ -82,7 +82,7 @@ const CreatorView = () => {
     const end = target.selectionEnd;
 
     const newValue =
-      code.substring(0, start) + ` ` + ` ` + ` ` + ` ` + code.substring(end);
+      code.substring(0, start) + ` `.repeat(4) + code.substring(end);
 
     creatorStoreActions.change(newValue);
 
