@@ -3,12 +3,7 @@ import { M } from './markdown';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
-import type {
-  DocumentRatingDto,
-  Tags,
-  UserProfileDto,
-} from 'api-4markdown-contracts';
-import { DocumentRating, type DocumentRatingProps } from './document-rating';
+import { DocumentRating } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
 import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from 'react-icons/bi';
 import c from 'classnames';
@@ -20,6 +15,7 @@ import { seeInDocumentsCreatorAct } from 'acts/see-in-documents-creator.act';
 import { navigate } from 'core/navigate';
 import { meta } from '../../meta';
 import { SocialShare } from './social-share';
+import { useDocumentLayoutContext } from './document-layout.provider';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`./document-chapters-modal`).then((m) => ({
@@ -27,26 +23,21 @@ const DocumentChaptersModal = React.lazy(() =>
   })),
 );
 
-type DocumentLayoutProps = {
-  children: string;
-  rating: DocumentRatingDto;
-  tags: Tags;
-  author: UserProfileDto | null;
-} & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;
+// children,
+// author,
+// tags,
+// yourRate,
+// rating,
+// onRate,
 
-const DocumentLayout = ({
-  children,
-  author,
-  tags,
-  yourRate,
-  rating,
-  onRate,
-}: DocumentLayoutProps) => {
+const DocumentLayout = () => {
+  const [{ document }] = useDocumentLayoutContext();
+  const { code, rating, author } = document;
   const sectionsModal = useToggle();
   const [copyState, copy] = useCopy();
 
   const openInDocumentsCreator = (): void => {
-    seeInDocumentsCreatorAct({ code: children });
+    seeInDocumentsCreatorAct({ code });
     navigate(meta.routes.home);
   };
 
@@ -76,7 +67,7 @@ const DocumentLayout = ({
             title="Copy this document markdown"
             s={2}
             i={2}
-            onClick={() => copy(children)}
+            onClick={() => copy(code)}
           >
             {copyState.is === `copied` ? (
               <BiCheck className="text-green-700" />
@@ -91,15 +82,15 @@ const DocumentLayout = ({
           yourRate={yourRate}
           onRate={onRate}
         />
-        {tags.length > 0 && (
+        {document.visibility === `permanent` && (
           <section className="flex flex-wrap gap-2 items-center mb-4 max-w-4xl mx-auto">
-            {tags.map((tag) => (
+            {document.tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
             ))}
           </section>
         )}
         <article className={c(`max-w-4xl mx-auto`, M.className)}>
-          <M>{children}</M>
+          <M>{code}</M>
         </article>
         {author?.bio && author?.displayName && (
           <section className="mt-12 max-w-4xl mx-auto">
@@ -142,7 +133,7 @@ const DocumentLayout = ({
       {sectionsModal.opened && (
         <React.Suspense>
           <DocumentChaptersModal onClose={sectionsModal.close}>
-            {children}
+            {code}
           </DocumentChaptersModal>
         </React.Suspense>
       )}

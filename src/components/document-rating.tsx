@@ -43,12 +43,7 @@ const playNote = (frequency: number): void => {
   oscillator.stop(audioContext.currentTime + 1);
 };
 
-const DocumentRating = ({
-  className,
-  yourRate,
-  rating,
-  onRate,
-}: DocumentRatingProps) => {
+const DocumentRating = ({ className }: DocumentRatingProps) => {
   const handleClick = async (
     category: DocumentRatingCategory,
     index: number,
