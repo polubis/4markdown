@@ -3,11 +3,7 @@ import { M } from './markdown';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
-import type {
-  RatingDto,
-  Tags,
-  UserProfileDto,
-} from 'api-4markdown-contracts';
+import type { RatingDto, Tags, UserProfileDto } from 'api-4markdown-contracts';
 import { DocumentRating, type DocumentRatingProps } from './document-rating';
 import { ScrollToTop } from './scroll-to-top';
 import {
