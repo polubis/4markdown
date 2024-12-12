@@ -2,15 +2,14 @@ import React from 'react';
 import { type HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import { DocumentLayout } from 'components/document-layout';
 import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
-import { AppFooterContainer } from 'containers/app-footer.container';
 import { meta } from '../../meta';
 import type { PermanentDocumentDto } from 'api-4markdown-contracts';
-import { useDocumentRateUpdate } from 'core/use-document-rate-update';
 import { CreationLinkContainer } from 'containers/creation-link.container';
 import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
+import { DocumentLayoutProvider } from 'providers/document-layout.provider';
+import { DocumentLayoutContainer } from 'containers/document-layout.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -19,10 +18,6 @@ interface DocumentPageProps {
 }
 
 const DocumentPage = ({ pageContext }: DocumentPageProps) => {
-  const { rating, yourRate, updateRating } = useDocumentRateUpdate(
-    pageContext.doc,
-  );
-
   return (
     <>
       <AppNavigation>
@@ -30,23 +25,16 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <EducationRankLinkContainer />
         <EducationZoneLinkContainer />
       </AppNavigation>
-      <DocumentLayout
-        rating={rating}
-        yourRate={yourRate}
-        onRate={updateRating}
-        tags={pageContext.doc.tags}
-        author={pageContext.doc.author}
-      >
-        {pageContext.doc.code}
-      </DocumentLayout>
-      <AppFooterContainer />
+      <DocumentLayoutProvider document={pageContext.doc}>
+        <DocumentLayoutContainer />
+      </DocumentLayoutProvider>
     </>
   );
 };
 
 export default DocumentPage;
 
-export const Head: HeadFC<object, DocumentPageProps['pageContext']> = ({
+export const Head: HeadFC<unknown, DocumentPageProps['pageContext']> = ({
   pageContext,
 }) => {
   return (

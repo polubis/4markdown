@@ -1,18 +1,17 @@
-import type {
-  DocumentRatingCategory,
-  DocumentRatingDto,
-} from 'api-4markdown-contracts';
+import type { DocumentRatingCategory } from 'api-4markdown-contracts';
 import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
+import debounce from 'lodash.debounce';
+import { useDocumentLayoutContext } from 'providers/document-layout.provider';
+import { rateDocumentAct } from 'acts/rate-document.act';
 
-type DocumentRatingProps = {
+type DocumentRatingContainerProps = {
   className?: string;
-  rating: DocumentRatingDto;
-  yourRate: DocumentRatingCategory | null;
-  onRate(category: DocumentRatingCategory, index: number): void;
 };
+
+const rateDocument = debounce(rateDocumentAct, 2000);
 
 const NOTES = [
   { name: `C4`, frequency: 261.63 },
@@ -43,18 +42,57 @@ const playNote = (frequency: number): void => {
   oscillator.stop(audioContext.currentTime + 1);
 };
 
-const DocumentRating = ({
+const DocumentRatingContainer = ({
   className,
-  yourRate,
-  rating,
-  onRate,
-}: DocumentRatingProps) => {
+}: DocumentRatingContainerProps) => {
+  const [{ document, yourRate }, setDocumentLayoutState] =
+    useDocumentLayoutContext();
+
   const handleClick = async (
     category: DocumentRatingCategory,
     index: number,
   ): Promise<void> => {
     playNote(NOTES[index].frequency);
-    onRate(category, index);
+    rateDocument({ documentId: document.id, category });
+    setDocumentLayoutState(({ document, yourRate }) => {
+      if (yourRate === null) {
+        return {
+          yourRate: category,
+          document: {
+            ...document,
+            rating: {
+              ...document.rating,
+              [category]: document.rating[category] + 1,
+            },
+          },
+        };
+      }
+
+      if (yourRate === category) {
+        return {
+          yourRate: null,
+          document: {
+            ...document,
+            rating: {
+              ...document.rating,
+              [category]: document.rating[category] - 1,
+            },
+          },
+        };
+      }
+
+      return {
+        yourRate: category,
+        document: {
+          ...document,
+          rating: {
+            ...document.rating,
+            [category]: document.rating[category] + 1,
+            [yourRate]: document.rating[yourRate] - 1,
+          },
+        },
+      };
+    });
   };
 
   return (
@@ -69,12 +107,11 @@ const DocumentRating = ({
           onClick={() => handleClick(category, idx)}
         >
           <Icon className="mr-0.5" />
-          <strong>{rating[category]}</strong>
+          <strong>{document.rating[category]}</strong>
         </Button>
       ))}
     </section>
   );
 };
 
-export { DocumentRating };
-export type { DocumentRatingProps };
+export { DocumentRatingContainer };

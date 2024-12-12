@@ -108,6 +108,7 @@
       "features/*": ["./src/features/*"],
       "models/*": ["./src/models/*"],
       "components/*": ["./src/components/*"],
+      "providers/*": ["./src/providers/*"],
       "core/*": ["./src/core/*"],
       "actions/*": ["./src/actions/*"],
       "acts/*": ["./src/acts/*"],
