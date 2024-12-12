@@ -4,7 +4,7 @@ import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import type {
-  DocumentRatingDto,
+  RatingDto,
   Tags,
   UserProfileDto,
 } from 'api-4markdown-contracts';
@@ -151,7 +151,7 @@ const SocialShare = () => {
 
 type DocumentLayoutProps = {
   children: string;
-  rating: DocumentRatingDto;
+  rating: RatingDto;
   tags: Tags;
   author: UserProfileDto | null;
 } & Pick<DocumentRatingProps, 'onRate' | 'yourRate'>;

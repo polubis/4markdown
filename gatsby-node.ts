@@ -9,7 +9,7 @@ import {
   type HomePageModel,
 } from 'models/page-models';
 import {
-  type DocumentRatingCategory,
+  type RatingCategory,
   type PermanentDocumentDto,
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
@@ -107,7 +107,7 @@ const getTopDocuments = (
   documents: PermanentDocumentDto[],
   amount: number,
 ): PermanentDocumentDto[] => {
-  const weights: Record<DocumentRatingCategory, number> = {
+  const weights: Record<RatingCategory, number> = {
     perfect: 5,
     good: 4,
     decent: 3,
@@ -120,7 +120,7 @@ const getTopDocuments = (
   >((acc, document) => {
     acc[document.id] = Object.entries(document.rating).reduce(
       (acc, [category, rate]) =>
-        rate * weights[category as DocumentRatingCategory] + acc,
+        rate * weights[category as RatingCategory] + acc,
       0,
     );
 

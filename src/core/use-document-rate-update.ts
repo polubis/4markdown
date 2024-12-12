@@ -1,8 +1,8 @@
 import React from 'react';
 import type {
   API4MarkdownPayload,
-  DocumentRatingCategory,
-  DocumentRatingDto,
+  RatingCategory,
+  RatingDto,
   PermanentDocumentDto,
   PublicDocumentDto,
 } from 'api-4markdown-contracts';
@@ -10,8 +10,8 @@ import { getAPI } from 'api-4markdown';
 import debounce from 'lodash.debounce';
 
 type DocumentRateState = {
-  yourRate: null | DocumentRatingCategory;
-  rating: DocumentRatingDto;
+  yourRate: null | RatingCategory;
+  rating: RatingDto;
 };
 
 const rateDocument = debounce(
@@ -32,7 +32,7 @@ const useDocumentRateUpdate = (
   }));
 
   const updateRating = React.useCallback(
-    (category: DocumentRatingCategory): void => {
+    (category: RatingCategory): void => {
       try {
         setState(({ rating, yourRate }) => {
           if (yourRate === null) {

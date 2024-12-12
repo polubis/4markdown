@@ -6,8 +6,8 @@ import type {
   PublicDocumentDto,
   ImageDto,
   UserProfileDto,
-  DocumentRatingCategory,
-  DocumentRatingDto,
+  RatingCategory,
+  RatingDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -98,10 +98,10 @@ type UpdateYourUserProfileContract = Contract<
 
 type RateDocumentContract = Contract<
   `rateDocument`,
-  DocumentRatingDto,
+  RatingDto,
   {
     documentId: DocumentDto['id'];
-    category: DocumentRatingCategory;
+    category: RatingCategory;
   }
 >;
 

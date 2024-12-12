@@ -1,6 +1,7 @@
 import type {
-  DocumentRatingCategory,
-  DocumentRatingDto,
+  CommentDto,
+  RatingCategory,
+  RatingDto,
 } from 'api-4markdown-contracts';
 import React from 'react';
 import c from 'classnames';
@@ -14,82 +15,82 @@ import { formatDistance } from 'date-fns';
 
 type DocumentRatingProps = {
   className?: string;
-  rating: DocumentRatingDto;
-  yourRate: DocumentRatingCategory | null;
-  onRate(category: DocumentRatingCategory, index: number): void;
+  rating: RatingDto;
+  yourRate: RatingCategory | null;
+  onRate(category: RatingCategory, index: number): void;
 };
 
-const comments = [
+const comments: CommentDto[] = [
   {
     id: `1`,
     cdate: `2024-12-11T12:00:00.000Z`,
     mdate: `2024-12-11T12:30:00.000Z`,
-    author: {
-      name: `Donald Rice`,
-    },
     content: `Christian spirit passion virtues suicide morality. Pinnacle moral pinnacle hope abstract right disgust joy.`,
-    reactions: {
-      likes: 24,
-    },
-    interactions: {
-      canReply: true,
-      replyLabel: `Reply`,
-      liked: true,
-      likeLabel: `You Like`,
-    },
-  },
-  {
-    id: `2`,
-    cdate: `2024-12-11T11:50:00.000Z`,
-    mdate: `2024-12-11T12:10:00.000Z`,
     author: {
-      name: `Jane Doe`,
+      displayName: `Donald Rice`,
+      avatar: {
+        md: {
+          w: 64,
+          h: 64,
+          id: `1`,
+          src: `https://firebasestorage.googleapis.com/v0/b/greenonsoftware-dev-api.appspot.com/o/5vHPGeTv26Oj574o1RRjweB6nx03%2Favatars%2Fmd?alt=media`,
+        },
+      },
+      url: `https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/`,
     },
-    content: `I completely agree with this perspective. It's refreshing to see these topics discussed.`,
-    reactions: {
-      likes: 15,
+    rating: {
+      ugly: 1,
+      bad: 0,
+      good: 1,
+      perfect: 1,
+      decent: 1,
     },
-    interactions: {
-      canReply: true,
-      replyLabel: `Reply`,
-      liked: false,
-      likeLabel: `Like`,
-    },
+    children: [
+      {
+        id: `2`,
+        cdate: `2024-12-11T12:00:00.000Z`,
+        mdate: `2024-12-11T12:30:00.000Z`,
+        content: `Christian spirit passion virtues suicide morality. Pinnacle moral pinnacle hope abstract right disgust joy.`,
+        author: {
+          displayName: `Donald Rice`,
+          avatar: {
+            md: {
+              w: 64,
+              h: 64,
+              id: `1`,
+              src: `https://firebasestorage.googleapis.com/v0/b/greenonsoftware-dev-api.appspot.com/o/5vHPGeTv26Oj574o1RRjweB6nx03%2Favatars%2Fmd?alt=media`,
+            },
+          },
+          url: `https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/`,
+        },
+        rating: {
+          ugly: 1,
+          bad: 0,
+          good: 1,
+          perfect: 1,
+          decent: 1,
+        },
+      },
+    ],
   },
   {
     id: `3`,
-    cdate: `2024-12-11T11:40:00.000Z`,
-    mdate: `2024-12-11T12:05:00.000Z`,
+    cdate: `2024-12-11T12:00:00.000Z`,
+    mdate: `2024-12-11T12:30:00.000Z`,
+    content: `Christian spirit passion virtues suicide morality. Pinnacle moral pinnacle hope abstract right disgust joy.`,
     author: {
-      name: `John Smith`,
-      avatar: `https://firebasestorage.googleapis.com/v0/b/greenonsoftware-dev-api.appspot.com/o/5vHPGeTv26Oj574o1RRjweB6nx03%2Favatars%2Fmd?alt=media`,
+      displayName: null,
+      avatar: null,
+      url: `https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/`,
     },
-    content: `While I see your point, I believe there's more nuance to this topic that needs to be addressed.`,
-    reactions: {
-      likes: 8,
+    rating: {
+      ugly: 1,
+      bad: 0,
+      good: 1,
+      perfect: 1,
+      decent: 1,
     },
-    interactions: {
-      canReply: true,
-      replyLabel: `Reply`,
-      liked: false,
-      likeLabel: `Like`,
-    },
-  },
-  {
-    id: `4`,
-    cdate: `2024-12-11T11:30:00.000Z`,
-    mdate: `2024-12-11T11:55:00.000Z`,
-    author: {
-      name: `Alice Johnson`,
-    },
-    content: `Interesting take! Thanks for sharing your thoughts.`,
-    reactions: {
-      likes: 12,
-    },
-    interactions: {
-      canReply: true,
-      liked: true,
-    },
+    children: [],
   },
 ];
 
@@ -132,18 +133,20 @@ const CommentsArea = () => {
                   <Avatar
                     className="shrink-0 tn:flex hidden mr-4"
                     size="md"
-                    title={`${comment.author.name} avatar`}
-                    alt={`${comment.author.name} avatar`}
+                    title={`${comment.author.displayName ?? `User`} avatar`}
+                    alt={`${comment.author.displayName ?? `User`} avatar`}
                     char={
-                      comment.author.avatar
-                        ? comment.author.name.charAt(0)
+                      comment.author.displayName
+                        ? comment.author.displayName.charAt(0)
                         : undefined
                     }
-                    src={comment.author.avatar}
+                    src={comment.author.avatar?.md.src}
                   />
                   <div className="flex flex-col">
                     <div className="flex items-center">
-                      <strong className="text-lg">{comment.author.name}</strong>
+                      <strong className="text-lg">
+                        {comment.author.displayName ?? `Anonymous`}
+                      </strong>
                       <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mx-2" />
                       <time dateTime={comment.cdate}>
                         {formatDistance(comment.cdate, now)}
@@ -162,13 +165,13 @@ const CommentsArea = () => {
                             // onClick={() => onRate(category, idx)}
                           >
                             <Icon className="mr-0.5" />
-                            <strong>1</strong>
+                            <strong>{comment.rating[category]}</strong>
                           </Button>
                         ))}
                       </div>
                       <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mx-2" />
                       <button className="hover:underline underline-offset-2 mr-4 p-1">
-                        Reply
+                        Reply ({comment.children.length})
                       </button>
                     </div>
                   </div>
