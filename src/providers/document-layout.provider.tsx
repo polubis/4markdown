@@ -48,7 +48,7 @@ const DocumentLayoutProvider = ({
   );
 };
 
-const useDocumentLayoutContext = () => {
+const useDocumentLayoutContext = (): DocumentLayoutContextValue => {
   const ctx = React.useContext(DocumentLayoutContext);
 
   if (!ctx) throw Error(`Lack of provider for document layout`);
