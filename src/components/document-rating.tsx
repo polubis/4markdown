@@ -144,12 +144,33 @@ const CommentsArea = () => {
                   <div className="flex flex-col">
                     <div className="flex items-center">
                       <strong className="text-lg">{comment.author.name}</strong>
-                      <div className="w-1 h-1 rounded-full bg-gray-500 mx-2" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mx-2" />
                       <time dateTime={comment.cdate}>
                         {formatDistance(comment.cdate, now)}
                       </time>
                     </div>
                     <p className="mt-1">{comment.content}</p>
+                    <div className="flex items-center mt-2.5">
+                      <div className="flex">
+                        {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+                          <Button
+                            i={1}
+                            s={1}
+                            auto
+                            key={category}
+                            title={`Rate as ${category}`}
+                            // onClick={() => onRate(category, idx)}
+                          >
+                            <Icon className="mr-0.5" />
+                            <strong>1</strong>
+                          </Button>
+                        ))}
+                      </div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mx-2" />
+                      <button className="hover:underline underline-offset-2 mr-4 p-1">
+                        Reply
+                      </button>
+                    </div>
                   </div>
                 </li>
               ))}
