@@ -85,11 +85,11 @@ const CommentReplies = ({ replies }: { replies: RepliesLoadState }) => {
   const now = new Date();
 
   return (
-    <>
+    <ul className="grid gap-3 p-3">
       {replies.data.map((reply) => (
-        <li key={reply.id} className="flex tn:ml-12 ml-6">
+        <li key={reply.id} className="flex">
           <Avatar
-            className="shrink-0 mr-4"
+            className="shrink-0 mr-3 bg-gray-300 dark:bg-slate-800"
             size="sm"
             title={`${reply.author.displayName ?? `User`} avatar`}
             alt={`${reply.author.displayName ?? `User`} avatar`}
@@ -125,7 +125,7 @@ const CommentReplies = ({ replies }: { replies: RepliesLoadState }) => {
           </div>
         </li>
       ))}
-    </>
+    </ul>
   );
 };
 
@@ -148,6 +148,31 @@ const CommentsArea = () => {
         data: [
           {
             id: `3`,
+            cdate: `2024-12-11T12:00:00.000Z`,
+            mdate: `2024-12-11T12:30:00.000Z`,
+            content: `Christian spirit passion virtues suicide morality. Pinnacle moral pinnacle hope abstract right disgust joy.`,
+            author: {
+              displayName: `Donald Rice`,
+              avatar: {
+                sm: {
+                  w: 32,
+                  h: 32,
+                  id: `1`,
+                  src: `https://firebasestorage.googleapis.com/v0/b/greenonsoftware-dev-api.appspot.com/o/5vHPGeTv26Oj574o1RRjweB6nx03%2Favatars%2Fmd?alt=media`,
+                },
+              },
+              url: `https://www.linkedin.com/in/adrian-po%C5%82ubi%C5%84ski-281ab2172/`,
+            },
+            rating: {
+              ugly: 1,
+              bad: 0,
+              good: 1,
+              perfect: 1,
+              decent: 1,
+            },
+          },
+          {
+            id: `6`,
             cdate: `2024-12-11T12:00:00.000Z`,
             mdate: `2024-12-11T12:30:00.000Z`,
             content: `Christian spirit passion virtues suicide morality. Pinnacle moral pinnacle hope abstract right disgust joy.`,
@@ -213,12 +238,12 @@ const CommentsArea = () => {
             </Button>
           </header>
           <section>
-            <ul className="flex flex-col space-y-4">
+            <ul className="grid gap-3">
               {comments.map((comment) => (
                 <Fragment key={comment.id}>
                   <li className="flex">
                     <Avatar
-                      className="shrink-0 mr-4"
+                      className="shrink-0 mr-3 bg-gray-300 dark:bg-slate-800"
                       size="sm"
                       title={`${comment.author.displayName ?? `User`} avatar`}
                       alt={`${comment.author.displayName ?? `User`} avatar`}
