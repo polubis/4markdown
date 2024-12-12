@@ -11,6 +11,8 @@ module.exports = {
     '^store/(.*)': `<rootDir>/src/store/$1`,
     '^core/(.*)': `<rootDir>/src/core/$1`,
     '^components/(.*)': `<rootDir>/src/components/$1`,
+    '^providers/(.*)': `<rootDir>/src/providers/$1`,
+    '^containers/(.*)': `<rootDir>/src/containers/$1`,
     '^design-system/(.*)': `<rootDir>/src/design-system/$1`,
     '^api-4markdown$': `<rootDir>/src/api-4markdown`,
     '^api-4markdown-contracts$': `<rootDir>/src/api-4markdown-contracts`,
