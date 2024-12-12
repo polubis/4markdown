@@ -15,7 +15,7 @@ import { seeInDocumentsCreatorAct } from 'acts/see-in-documents-creator.act';
 import { navigate } from 'core/navigate';
 import { meta } from '../../meta';
 import { SocialShare } from './social-share';
-import { useDocumentLayoutContext } from './document-layout.provider';
+import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`./document-chapters-modal`).then((m) => ({
@@ -23,16 +23,9 @@ const DocumentChaptersModal = React.lazy(() =>
   })),
 );
 
-// children,
-// author,
-// tags,
-// yourRate,
-// rating,
-// onRate,
-
 const DocumentLayout = () => {
   const [{ document }] = useDocumentLayoutContext();
-  const { code, rating, author } = document;
+  const { code, author } = document;
   const sectionsModal = useToggle();
   const [copyState, copy] = useCopy();
 
@@ -76,12 +69,7 @@ const DocumentLayout = () => {
             )}
           </Button>
         </section>
-        <DocumentRating
-          className="mb-6 justify-end max-w-4xl mx-auto"
-          rating={rating}
-          yourRate={yourRate}
-          onRate={onRate}
-        />
+        <DocumentRating className="mb-6 justify-end max-w-4xl mx-auto" />
         {document.visibility === `permanent` && (
           <section className="flex flex-wrap gap-2 items-center mb-4 max-w-4xl mx-auto">
             {document.tags.map((tag) => (
@@ -122,12 +110,7 @@ const DocumentLayout = () => {
             </div>
           </section>
         )}
-        <DocumentRating
-          className="mt-10 justify-end max-w-4xl mx-auto"
-          rating={rating}
-          yourRate={yourRate}
-          onRate={onRate}
-        />
+        <DocumentRating className="mt-10 justify-end max-w-4xl mx-auto" />
       </main>
       <ScrollToTop />
       {sectionsModal.opened && (

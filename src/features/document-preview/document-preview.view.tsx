@@ -9,7 +9,7 @@ import { useDocumentPreviewStore } from './store/document-preview.store';
 import { CreationLinkContainer } from 'containers/creation-link.container';
 import { loadDocument } from './store/load-document.action';
 import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
-import { DocumentLayoutProvider } from 'components/document-layout.provider';
+import { DocumentLayoutProvider } from 'providers/document-layout.provider';
 
 const ErrorScreen = React.lazy(() =>
   import(`./components/error-screen`).then(({ ErrorScreen }) => ({

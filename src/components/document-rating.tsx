@@ -1,7 +1,4 @@
-import type {
-  DocumentRatingCategory,
-  DocumentRatingDto,
-} from 'api-4markdown-contracts';
+import type { DocumentRatingCategory } from 'api-4markdown-contracts';
 import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
@@ -9,9 +6,6 @@ import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 
 type DocumentRatingProps = {
   className?: string;
-  rating: DocumentRatingDto;
-  yourRate: DocumentRatingCategory | null;
-  onRate(category: DocumentRatingCategory, index: number): void;
 };
 
 const NOTES = [
