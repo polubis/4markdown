@@ -4,7 +4,7 @@ import type { Avatar, UserProfileDto } from './user-profile.dto';
 
 type CommentAuthor = {
   displayName: UserProfileDto['displayName'];
-  avatar: Pick<Avatar, 'md'> | null;
+  avatar: Pick<Avatar, 'sm'> | null;
   url: string | null;
 };
 
@@ -15,7 +15,9 @@ type CommentDto = {
   content: string;
   rating: RatingDto;
   author: CommentAuthor;
-  children: Omit<CommentDto, 'children'>[];
+  repliesCount: number;
 };
 
-export type { CommentDto };
+type CommentReplyDto = Omit<CommentDto, 'repliesCount'>;
+
+export type { CommentDto, CommentReplyDto };
