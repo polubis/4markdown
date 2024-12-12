@@ -34,7 +34,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
 
 export default DocumentPage;
 
-export const Head: HeadFC<object, DocumentPageProps['pageContext']> = ({
+export const Head: HeadFC<unknown, DocumentPageProps['pageContext']> = ({
   pageContext,
 }) => {
   return (
