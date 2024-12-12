@@ -1,18 +1,17 @@
-import type {
-  API4MarkdownPayload,
-  DocumentRatingCategory,
-} from 'api-4markdown-contracts';
+import type { DocumentRatingCategory } from 'api-4markdown-contracts';
 import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import debounce from 'lodash.debounce';
-import { getAPI } from 'api-4markdown';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
+import { rateDocumentAct } from 'acts/rate-document.act';
 
 type DocumentRatingProps = {
   className?: string;
 };
+
+const rateDocument = debounce(rateDocumentAct, 2000);
 
 const NOTES = [
   { name: `C4`, frequency: 261.63 },
@@ -42,15 +41,6 @@ const playNote = (frequency: number): void => {
   );
   oscillator.stop(audioContext.currentTime + 1);
 };
-
-const rateDocument = debounce(
-  async (payload: API4MarkdownPayload<'rateDocument'>): Promise<void> => {
-    try {
-      await getAPI().call(`rateDocument`)(payload);
-    } catch {}
-  },
-  2000,
-);
 
 const DocumentRating = ({ className }: DocumentRatingProps) => {
   const [{ document, yourRate }, setDocumentLayoutState] =
