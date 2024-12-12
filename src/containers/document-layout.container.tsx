@@ -12,7 +12,7 @@ import { navigate } from 'core/navigate';
 import { meta } from '../../meta';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { SocialShare } from 'components/social-share';
-import { DocumentRating } from 'components/document-rating';
+import { DocumentRatingContainer } from 'containers/document-rating.container';
 import { M } from 'components/markdown';
 import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
@@ -69,7 +69,7 @@ const DocumentLayoutContainer = () => {
             )}
           </Button>
         </section>
-        <DocumentRating className="mb-6 justify-end max-w-4xl mx-auto" />
+        <DocumentRatingContainer className="mb-6 justify-end max-w-4xl mx-auto" />
         {document.visibility === `permanent` && (
           <section className="flex flex-wrap gap-2 items-center mb-4 max-w-4xl mx-auto">
             {document.tags.map((tag) => (
@@ -110,7 +110,7 @@ const DocumentLayoutContainer = () => {
             </div>
           </section>
         )}
-        <DocumentRating className="mt-10 justify-end max-w-4xl mx-auto" />
+        <DocumentRatingContainer className="mt-10 justify-end max-w-4xl mx-auto" />
       </main>
       <ScrollToTop />
       {sectionsModal.opened && (
