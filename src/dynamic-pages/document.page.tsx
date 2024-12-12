@@ -2,7 +2,6 @@ import React from 'react';
 import { type HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import { DocumentLayout } from 'components/document-layout';
 import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { AppNavigation } from 'components/app-navigation';
 import { meta } from '../../meta';
@@ -10,6 +9,7 @@ import type { PermanentDocumentDto } from 'api-4markdown-contracts';
 import { CreationLinkContainer } from 'containers/creation-link.container';
 import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 import { DocumentLayoutProvider } from 'providers/document-layout.provider';
+import { DocumentLayoutContainer } from 'containers/document-layout.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -26,7 +26,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <EducationZoneLinkContainer />
       </AppNavigation>
       <DocumentLayoutProvider document={pageContext.doc}>
-        <DocumentLayout />
+        <DocumentLayoutContainer />
       </DocumentLayoutProvider>
     </>
   );

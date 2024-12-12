@@ -1,4 +1,3 @@
-import { DocumentLayout } from 'components/document-layout';
 import LoadingScreen from 'components/loading-screen';
 import React from 'react';
 
@@ -10,6 +9,7 @@ import { CreationLinkContainer } from 'containers/creation-link.container';
 import { loadDocument } from './store/load-document.action';
 import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 import { DocumentLayoutProvider } from 'providers/document-layout.provider';
+import { DocumentLayoutContainer } from 'containers/document-layout.container';
 
 const ErrorScreen = React.lazy(() =>
   import(`./components/error-screen`).then(({ ErrorScreen }) => ({
@@ -40,7 +40,7 @@ const DocumentPreviewView = () => {
       )}
       {documentPreviewStore.is === `ok` && (
         <DocumentLayoutProvider document={documentPreviewStore.document}>
-          <DocumentLayout />
+          <DocumentLayoutContainer />
         </DocumentLayoutProvider>
       )}
       <AppFooterContainer />
