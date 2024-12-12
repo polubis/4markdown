@@ -19,7 +19,7 @@ type DocumentLayoutContextValue = [
   Dispatch<
     SetStateAction<{
       document: PublicDocumentDto | PermanentDocumentDto;
-      yourRate: null;
+      yourRate: DocumentRatingCategory | null;
     }>
   >,
 ];
@@ -36,7 +36,7 @@ const DocumentLayoutProvider = ({
   document,
   children,
 }: DocumentLayoutProviderProps) => {
-  const value = React.useState(() => ({
+  const value = React.useState<DocumentLayoutState>(() => ({
     document,
     yourRate: null,
   }));

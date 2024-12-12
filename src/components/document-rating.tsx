@@ -1,8 +1,14 @@
-import type { DocumentRatingCategory } from 'api-4markdown-contracts';
+import type {
+  API4MarkdownPayload,
+  DocumentRatingCategory,
+} from 'api-4markdown-contracts';
 import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
+import debounce from 'lodash.debounce';
+import { getAPI } from 'api-4markdown';
+import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 
 type DocumentRatingProps = {
   className?: string;
@@ -37,13 +43,64 @@ const playNote = (frequency: number): void => {
   oscillator.stop(audioContext.currentTime + 1);
 };
 
+const rateDocument = debounce(
+  async (payload: API4MarkdownPayload<'rateDocument'>): Promise<void> => {
+    try {
+      await getAPI().call(`rateDocument`)(payload);
+    } catch {}
+  },
+  2000,
+);
+
 const DocumentRating = ({ className }: DocumentRatingProps) => {
+  const [{ document, yourRate }, setDocumentLayoutState] =
+    useDocumentLayoutContext();
+
   const handleClick = async (
     category: DocumentRatingCategory,
     index: number,
   ): Promise<void> => {
     playNote(NOTES[index].frequency);
-    onRate(category, index);
+    rateDocument({ documentId: document.id, category });
+    setDocumentLayoutState(({ document, yourRate }) => {
+      if (yourRate === null) {
+        return {
+          yourRate: category,
+          document: {
+            ...document,
+            rating: {
+              ...document.rating,
+              [category]: document.rating[category] + 1,
+            },
+          },
+        };
+      }
+
+      if (yourRate === category) {
+        return {
+          yourRate: null,
+          document: {
+            ...document,
+            rating: {
+              ...document.rating,
+              [category]: document.rating[category] - 1,
+            },
+          },
+        };
+      }
+
+      return {
+        yourRate: category,
+        document: {
+          ...document,
+          rating: {
+            ...document.rating,
+            [category]: document.rating[category] + 1,
+            [yourRate]: document.rating[yourRate] - 1,
+          },
+        },
+      };
+    });
   };
 
   return (
@@ -58,7 +115,7 @@ const DocumentRating = ({ className }: DocumentRatingProps) => {
           onClick={() => handleClick(category, idx)}
         >
           <Icon className="mr-0.5" />
-          <strong>{rating[category]}</strong>
+          <strong>{document.rating[category]}</strong>
         </Button>
       ))}
     </section>
