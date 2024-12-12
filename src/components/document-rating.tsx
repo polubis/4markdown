@@ -21,6 +21,35 @@ import { Avatar } from 'design-system/avatar';
 import { formatDistance } from 'date-fns';
 import type { Transaction } from 'development-kit/utility-types';
 
+const NOTES = [
+  { name: `C4`, frequency: 261.63 },
+  { name: `D4`, frequency: 293.66 },
+  { name: `E4`, frequency: 329.63 },
+  { name: `F4`, frequency: 349.23 },
+  { name: `G4`, frequency: 392.0 },
+];
+
+const playNote = (frequency: number): void => {
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+  if (!audioContext) return;
+
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+
+  oscillator.type = `sine`;
+  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+
+  oscillator.start();
+  gainNode.gain.exponentialRampToValueAtTime(
+    0.00001,
+    audioContext.currentTime + 1,
+  );
+  oscillator.stop(audioContext.currentTime + 1);
+};
+
 type DocumentRatingProps = {
   className?: string;
   rating: RatingDto;
@@ -309,6 +338,14 @@ const DocumentRating = ({
   rating,
   onRate,
 }: DocumentRatingProps) => {
+  const handleClick = async (
+    category: RatingCategory,
+    index: number,
+  ): Promise<void> => {
+    playNote(NOTES[index].frequency);
+    onRate(category, index);
+  };
+
   return (
     <section
       className={c(
@@ -324,7 +361,7 @@ const DocumentRating = ({
           auto
           key={category}
           title={`Rate as ${category}`}
-          onClick={() => onRate(category, idx)}
+          onClick={() => handleClick(category, idx)}
         >
           <Icon className="mr-0.5" />
           <strong>{rating[category]}</strong>
