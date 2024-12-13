@@ -1,9 +1,19 @@
 import React from 'react';
 
+type IterableEntries<TKey, TValue> =
+  | Iterable<readonly [TKey, TValue]>
+  | null
+  | undefined;
+
 const useMap = <TKey, TValue>(
-  initialEntries?: Iterable<readonly [TKey, TValue]> | null | undefined,
+  initializer?:
+    | IterableEntries<TKey, TValue>
+    | (() => IterableEntries<TKey, TValue>),
 ) => {
-  const [map, setMap] = React.useState(() => new Map(initialEntries));
+  const [map, setMap] = React.useState(
+    () =>
+      new Map(typeof initializer === `function` ? initializer() : initializer),
+  );
 
   const set = React.useCallback((key: TKey, value: TValue): void => {
     setMap((prevMap) => {

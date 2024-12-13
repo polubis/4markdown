@@ -14,8 +14,13 @@ describe(`Mapping works when`, () => {
       useMap<string, number>(entries),
     );
 
+    const { result: result3 } = renderHook(() =>
+      useMap<string, number>(() => entries),
+    );
+
     expect([...result1.current.entries()]).toEqual([]);
     expect([...result2.current.entries()]).toEqual(entries);
+    expect([...result3.current.entries()]).toEqual(entries);
   });
 
   it(`sets a key-value`, () => {
