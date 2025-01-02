@@ -135,7 +135,7 @@ const DocumentRatingContainer = ({
       </section>
       {commentsModal.opened && (
         <React.Suspense>
-          <DocumentCommentsModalContainer />
+          <DocumentCommentsModalContainer onClose={commentsModal.close} />
         </React.Suspense>
       )}
     </>
