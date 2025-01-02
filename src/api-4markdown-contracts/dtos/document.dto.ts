@@ -27,6 +27,7 @@ type PublicDocumentDto = Base & {
   visibility: 'public';
   authorId: Id;
   author: UserProfileDto | null;
+  commentsCount: number;
   rating: RatingDto;
 };
 
@@ -35,6 +36,7 @@ type PermanentDocumentDto = Base & {
   authorId: Id;
   description: Description;
   tags: Tags;
+  commentsCount: number;
   author: UserProfileDto | null;
   rating: RatingDto;
 };

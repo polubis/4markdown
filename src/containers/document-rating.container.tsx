@@ -117,7 +117,7 @@ const DocumentRatingContainer = ({
           onClick={commentsModal.open}
         >
           <BiCommentDetail className="mr-0.5" />
-          <strong>0</strong>
+          <strong>{document.commentsCount}</strong>
         </Button>
         {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
           <Button
