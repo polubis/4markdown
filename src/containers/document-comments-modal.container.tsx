@@ -9,6 +9,7 @@ import { Modal } from 'design-system/modal';
 import { Textarea } from 'design-system/textarea';
 import { maxLength, minLength } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
+import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
@@ -28,6 +29,7 @@ const DocumentCommentsModalContainer = ({
   onClose,
 }: DocumentCommentsModalContainerProps) => {
   const { comments } = useDocumentCommentsState();
+  const [{ document }] = useDocumentLayoutContext();
   const authStore = useAuthStore();
   const yourProfileStore = yourProfileStoreSelectors.useState();
   const now = new Date();
@@ -45,6 +47,15 @@ const DocumentCommentsModalContainer = ({
     onClose();
   };
 
+  const getDocumentComments = React.useCallback(() => {
+    getDocumentCommentsAct({
+      document: {
+        id: document.id,
+        authorId: ``,
+      },
+    });
+  }, [document.id]);
+
   const confirmComment: FormEventHandler<HTMLFormElement> = async (
     e,
   ): Promise<void> => {
@@ -52,13 +63,8 @@ const DocumentCommentsModalContainer = ({
   };
 
   React.useEffect(() => {
-    getDocumentCommentsAct({
-      document: {
-        id: ``,
-        authorId: ``,
-      },
-    });
-  }, []);
+    getDocumentComments();
+  }, [getDocumentComments]);
 
   return (
     <Modal className="[&>*]:w-[100%] [&>*]:max-w-xl" onEscape={close}>
