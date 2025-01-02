@@ -47,14 +47,14 @@ const DocumentCommentsModalContainer = ({
     onClose();
   };
 
-  const getDocumentComments = React.useCallback(() => {
+  const getDocumentComments = (): void => {
     getDocumentCommentsAct({
       document: {
         id: document.id,
-        authorId: ``,
+        authorId: document.authorId,
       },
     });
-  }, [document.id]);
+  };
 
   const confirmComment: FormEventHandler<HTMLFormElement> = async (
     e,
@@ -64,7 +64,8 @@ const DocumentCommentsModalContainer = ({
 
   React.useEffect(() => {
     getDocumentComments();
-  }, [getDocumentComments]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Modal className="[&>*]:w-[100%] [&>*]:max-w-xl" onEscape={close}>
@@ -96,14 +97,7 @@ const DocumentCommentsModalContainer = ({
               auto
               s={2}
               i={2}
-              onClick={() => {
-                getDocumentCommentsAct({
-                  document: {
-                    id: ``,
-                    authorId: ``,
-                  },
-                });
-              }}
+              onClick={getDocumentComments}
             >
               Try Again
             </Button>

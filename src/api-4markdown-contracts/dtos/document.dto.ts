@@ -25,12 +25,14 @@ type PrivateDocumentDto = Base & {
 
 type PublicDocumentDto = Base & {
   visibility: 'public';
+  authorId: Id;
   author: UserProfileDto | null;
   rating: RatingDto;
 };
 
 type PermanentDocumentDto = Base & {
   visibility: `permanent`;
+  authorId: Id;
   description: Description;
   tags: Tags;
   author: UserProfileDto | null;
