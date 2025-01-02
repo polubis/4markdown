@@ -12,7 +12,7 @@ import { maxLength, minLength } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import React, { type FormEventHandler } from 'react';
-import { BiRefresh, BiX } from 'react-icons/bi';
+import { BiRefresh } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocumentCommentsState } from 'store/document-comments';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
@@ -40,7 +40,6 @@ const DocumentCommentsModalContainer = ({ onClose }: { onClose(): void }) => {
 
   const close = (): void => {
     if (updating.is === `busy`) return;
-
     onClose();
   };
 
@@ -75,29 +74,17 @@ const DocumentCommentsModalContainer = ({ onClose }: { onClose(): void }) => {
 
   return (
     <Modal className="[&>*]:w-[100%] [&>*]:max-w-xl" onEscape={close}>
-      <header className="flex items-center">
-        <h6 className="text-xl mr-8">Comments</h6>
+      <Modal.Header title="Comments">
         <Button
           i={2}
           s={1}
-          className="ml-auto"
           title="Reload comments"
           disabled={yourProfileStore.is === `busy`}
           onClick={getDocumentComments}
         >
           <BiRefresh />
         </Button>
-        <Button
-          type="button"
-          i={2}
-          s={1}
-          title="Close comments section"
-          className="ml-2"
-          onClick={close}
-        >
-          <BiX />
-        </Button>
-      </header>
+      </Modal.Header>
       <div className="flex flex-col">
         {(comments.is === `idle` || comments.is === `busy`) && (
           <Loader className="m-10 self-center" size="xl" />

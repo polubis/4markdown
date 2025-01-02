@@ -7,6 +7,8 @@ import { usePortal } from 'development-kit/use-portal';
 import c from 'classnames';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
 import { type OnKeyPress, useKeyPress } from 'development-kit/use-key-press';
+import { BiX } from 'react-icons/bi';
+import { Button } from './button';
 
 type ModalProps = {
   children: ReactNode;
@@ -35,5 +37,23 @@ const Modal = ({ className, children, onEscape, ...props }: ModalProps) => {
     </div>,
   );
 };
+
+type ModalHeaderProps = { children: ReactNode; title: ReactNode };
+
+const ModalHeader = ({ children, title }: ModalHeaderProps) => {
+  return (
+    <header className="flex items-center justify-between mb-6">
+      <h6 className="text-xl mr-6">{title}</h6>
+      <div className="flex items-center space-x-2">
+        {children}
+        <Button i={2} s={1} title="Close modal" onClick={close}>
+          <BiX />
+        </Button>
+      </div>
+    </header>
+  );
+};
+
+Modal.Header = ModalHeader;
 
 export { Modal };
