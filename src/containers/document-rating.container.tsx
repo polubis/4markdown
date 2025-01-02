@@ -8,12 +8,8 @@ import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { rateDocumentAct } from 'acts/rate-document.act';
 import { BiCommentDetail } from 'react-icons/bi';
 import { useToggle } from 'development-kit/use-toggle';
-
-const DocumentCommentsModalContainer = React.lazy(() =>
-  import(`./document-comments-modal.container`).then((m) => ({
-    default: m.DocumentCommentsModalContainer,
-  })),
-);
+import { useDocumentCommentsState } from 'store/document-comments';
+import { DocumentCommentsModalContainer } from './document-comments-modal.container';
 
 type DocumentRatingContainerProps = {
   className?: string;
@@ -54,6 +50,7 @@ const DocumentRatingContainer = ({
   className,
 }: DocumentRatingContainerProps) => {
   const commentsModal = useToggle();
+  const { comments } = useDocumentCommentsState();
 
   const [{ document, yourRate }, setDocumentLayoutState] =
     useDocumentLayoutContext();
@@ -117,7 +114,11 @@ const DocumentRatingContainer = ({
           onClick={commentsModal.open}
         >
           <BiCommentDetail className="mr-0.5" />
-          <strong>{document.commentsCount}</strong>
+          <strong>
+            {comments.is === `ok`
+              ? comments.data.length
+              : document.commentsCount}
+          </strong>
         </Button>
         {RATING_ICONS.map(([Icon, category], idx) => (
           <Button
@@ -134,9 +135,7 @@ const DocumentRatingContainer = ({
         ))}
       </section>
       {commentsModal.opened && (
-        <React.Suspense>
-          <DocumentCommentsModalContainer onClose={commentsModal.close} />
-        </React.Suspense>
+        <DocumentCommentsModalContainer onClose={commentsModal.close} />
       )}
     </>
   );
