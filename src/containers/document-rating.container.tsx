@@ -1,4 +1,4 @@
-import type { DocumentRatingCategory } from 'api-4markdown-contracts';
+import type { RatingCategory } from 'api-4markdown-contracts';
 import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
@@ -59,7 +59,7 @@ const DocumentRatingContainer = ({
     useDocumentLayoutContext();
 
   const handleClick = async (
-    category: DocumentRatingCategory,
+    category: RatingCategory,
     index: number,
   ): Promise<void> => {
     playNote(NOTES[index].frequency);

@@ -1,5 +1,5 @@
 import type { Date, Id } from '../atoms';
-import type { DocumentRatingDto } from './document-rating.dto';
+import type { RatingDto } from './rating.dto';
 import type { Avatar, UserProfileDto } from './user-profile.dto';
 
 type CommentAuthor = {
@@ -13,7 +13,7 @@ type DocumentCommentDto = {
   cdate: Date;
   mdate: Date;
   content: string;
-  rating: DocumentRatingDto;
+  rating: RatingDto;
   author: CommentAuthor;
   repliesCount: number;
 };

@@ -5,12 +5,12 @@ import React, {
 } from 'react';
 import type {
   AccessibleDocumentDto,
-  DocumentRatingCategory,
+  RatingCategory,
 } from 'api-4markdown-contracts';
 
 type DocumentLayoutState = {
   document: AccessibleDocumentDto;
-  yourRate: DocumentRatingCategory | null;
+  yourRate: RatingCategory | null;
 };
 
 type DocumentLayoutContextValue = [
@@ -18,7 +18,7 @@ type DocumentLayoutContextValue = [
   Dispatch<
     SetStateAction<{
       document: AccessibleDocumentDto;
-      yourRate: DocumentRatingCategory | null;
+      yourRate: RatingCategory | null;
     }>
   >,
 ];
