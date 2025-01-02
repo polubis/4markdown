@@ -25,4 +25,4 @@ type UserProfileDto = {
   blogUrl: string | null;
 };
 
-export type { UserProfileDto };
+export type { UserProfileDto, Avatar };
