@@ -6,6 +6,10 @@ const getDocumentCommentsAct = async (
   payload: API4MarkdownPayload<'getDocumentComments'>,
 ): Promise<void> => {
   try {
+    const { comments } = useDocumentCommentsState.get();
+
+    if (comments.is === `busy` || comments.is === `ok`) return;
+
     useDocumentCommentsState.set({ comments: { is: `busy` } });
 
     const data = await getAPI().call(`getDocumentComments`)(payload);
