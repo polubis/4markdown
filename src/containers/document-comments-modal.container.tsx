@@ -17,18 +17,12 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { useDocumentCommentsState } from 'store/document-comments';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
-type DocumentCommentsModalContainerProps = {
-  onClose(): void;
-};
-
 const COMMENT_RULES = {
   MIN: 1,
   MAX: 250,
 } as const;
 
-const DocumentCommentsModalContainer = ({
-  onClose,
-}: DocumentCommentsModalContainerProps) => {
+const DocumentCommentsModalContainer = ({ onClose }: { onClose(): void }) => {
   const { comments, updating } = useDocumentCommentsState();
   const [{ document }] = useDocumentLayoutContext();
   const authStore = useAuthStore();
