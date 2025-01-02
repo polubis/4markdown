@@ -12,7 +12,7 @@ import { maxLength, minLength } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import React, { type FormEventHandler } from 'react';
-import { BiX } from 'react-icons/bi';
+import { BiRefresh, BiX } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocumentCommentsState } from 'store/document-comments';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
@@ -82,11 +82,21 @@ const DocumentCommentsModalContainer = ({
       <header className="flex items-center">
         <h6 className="text-xl mr-8">Comments</h6>
         <Button
+          i={2}
+          s={1}
+          className="ml-auto"
+          title="Reload comments"
+          disabled={yourProfileStore.is === `busy`}
+          onClick={getDocumentComments}
+        >
+          <BiRefresh />
+        </Button>
+        <Button
           type="button"
           i={2}
           s={1}
           title="Close comments section"
-          className="ml-auto"
+          className="ml-2"
           onClick={close}
         >
           <BiX />
@@ -183,7 +193,7 @@ const DocumentCommentsModalContainer = ({
                     className="mt-3"
                   >
                     <Textarea
-                      placeholder="The description will be displayed in Google and under document"
+                      placeholder="Please be polite and add comments that provide value to you, the author, and the readers"
                       value={values.comment}
                       onChange={(e) => set({ comment: e.target.value })}
                     />
