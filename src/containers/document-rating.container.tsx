@@ -9,7 +9,14 @@ import { rateDocumentAct } from 'acts/rate-document.act';
 import { BiCommentDetail } from 'react-icons/bi';
 import { useToggle } from 'development-kit/use-toggle';
 import { useDocumentCommentsState } from 'store/document-comments';
-import { DocumentCommentsModalContainer } from './document-comments-modal.container';
+
+const DocumentCommentsModalContainer = React.lazy(() =>
+  import(`../containers/document-comments-modal.container`).then(
+    ({ DocumentCommentsModalContainer }) => ({
+      default: DocumentCommentsModalContainer,
+    }),
+  ),
+);
 
 type DocumentRatingContainerProps = {
   className?: string;
@@ -135,7 +142,9 @@ const DocumentRatingContainer = ({
         ))}
       </section>
       {commentsModal.opened && (
-        <DocumentCommentsModalContainer onClose={commentsModal.close} />
+        <React.Suspense>
+          <DocumentCommentsModalContainer onClose={commentsModal.close} />
+        </React.Suspense>
       )}
     </>
   );
