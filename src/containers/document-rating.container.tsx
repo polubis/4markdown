@@ -7,6 +7,13 @@ import debounce from 'lodash.debounce';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { rateDocumentAct } from 'acts/rate-document.act';
 import { BiCommentDetail } from 'react-icons/bi';
+import { useToggle } from 'development-kit/use-toggle';
+
+const DocumentCommentsModalContainer = React.lazy(() =>
+  import(`./document-comments-modal.container`).then((m) => ({
+    default: m.DocumentCommentsModalContainer,
+  })),
+);
 
 type DocumentRatingContainerProps = {
   className?: string;
@@ -46,6 +53,8 @@ const playNote = (frequency: number): void => {
 const DocumentRatingContainer = ({
   className,
 }: DocumentRatingContainerProps) => {
+  const commentsModal = useToggle();
+
   const [{ document, yourRate }, setDocumentLayoutState] =
     useDocumentLayoutContext();
 
@@ -97,32 +106,39 @@ const DocumentRatingContainer = ({
   };
 
   return (
-    <section className={c(`flex flex-wrap gap-y-1`, className)}>
-      <Button
-        i={1}
-        s={1}
-        auto
-        key="comments"
-        title="See comments"
-        // onClick={modal.open}
-      >
-        <BiCommentDetail className="mr-0.5" />
-        <strong>0</strong>
-      </Button>
-      {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
+    <>
+      <section className={c(`flex flex-wrap gap-y-1`, className)}>
         <Button
-          i={yourRate === category ? 2 : 1}
+          i={1}
           s={1}
           auto
-          key={category}
-          title={`Rate as ${category}`}
-          onClick={() => handleClick(category, idx)}
+          key="comments"
+          title="See comments"
+          onClick={commentsModal.open}
         >
-          <Icon className="mr-0.5" />
-          <strong>{document.rating[category]}</strong>
+          <BiCommentDetail className="mr-0.5" />
+          <strong>0</strong>
         </Button>
-      ))}
-    </section>
+        {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
+          <Button
+            i={yourRate === category ? 2 : 1}
+            s={1}
+            auto
+            key={category}
+            title={`Rate as ${category}`}
+            onClick={() => handleClick(category, idx)}
+          >
+            <Icon className="mr-0.5" />
+            <strong>{document.rating[category]}</strong>
+          </Button>
+        ))}
+      </section>
+      {commentsModal.opened && (
+        <React.Suspense>
+          <DocumentCommentsModalContainer />
+        </React.Suspense>
+      )}
+    </>
   );
 };
 
