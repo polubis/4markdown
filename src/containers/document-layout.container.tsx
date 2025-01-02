@@ -16,6 +16,7 @@ import { DocumentRatingContainer } from 'containers/document-rating.container';
 import { M } from 'components/markdown';
 import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
+import { useDocumentCommentsState } from 'store/document-comments';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`../components/document-chapters-modal`).then((m) => ({
@@ -33,6 +34,10 @@ const DocumentLayoutContainer = () => {
     seeInDocumentsCreatorAct({ code });
     navigate(meta.routes.home);
   };
+
+  React.useEffect(() => {
+    useDocumentCommentsState.reset();
+  }, []);
 
   return (
     <>
