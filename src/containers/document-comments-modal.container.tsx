@@ -1,4 +1,5 @@
 import { logIn } from 'actions/log-in.action';
+import { addDocumentCommentsAct } from 'acts/add-document-comment.act';
 import { getDocumentCommentsAct } from 'acts/get-document-comments.act';
 import { formatDistance } from 'date-fns';
 import { Avatar } from 'design-system/avatar';
@@ -28,7 +29,7 @@ const COMMENT_RULES = {
 const DocumentCommentsModalContainer = ({
   onClose,
 }: DocumentCommentsModalContainerProps) => {
-  const { comments } = useDocumentCommentsState();
+  const { comments, updating } = useDocumentCommentsState();
   const [{ document }] = useDocumentLayoutContext();
   const authStore = useAuthStore();
   const yourProfileStore = yourProfileStoreSelectors.useState();
@@ -60,6 +61,15 @@ const DocumentCommentsModalContainer = ({
     e,
   ): Promise<void> => {
     e.preventDefault();
+    addDocumentCommentsAct({
+      document: {
+        id: document.id,
+        authorId: document.authorId,
+      },
+      comment: {
+        content: values.comment,
+      },
+    });
   };
 
   React.useEffect(() => {
@@ -116,19 +126,19 @@ const DocumentCommentsModalContainer = ({
                         <Avatar
                           className="shrink-0 mr-3 bg-gray-300 dark:bg-slate-800"
                           size="sm"
-                          title={`${comment.author.displayName ?? `User`} avatar`}
-                          alt={`${comment.author.displayName ?? `User`} avatar`}
+                          title={`${comment.author?.displayName ?? `User`} avatar`}
+                          alt={`${comment.author?.displayName ?? `User`} avatar`}
                           char={
-                            comment.author.displayName
+                            comment.author?.displayName
                               ? comment.author.displayName.charAt(0)
                               : undefined
                           }
-                          src={comment.author.avatar?.sm.src}
+                          src={comment.author?.avatar?.sm.src}
                         />
                         <div className="flex flex-col">
                           <div className="flex items-center">
                             <strong className="text-lg">
-                              {comment.author.displayName ?? `Anonymous`}
+                              {comment.author?.displayName ?? `Anonymous`}
                             </strong>
                             <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mx-2" />
                             <time dateTime={comment.cdate}>
@@ -183,7 +193,7 @@ const DocumentCommentsModalContainer = ({
                     i={2}
                     s={2}
                     auto
-                    disabled={untouched || invalid}
+                    disabled={untouched || invalid || updating.is === `busy`}
                     title="Confirm and add comment"
                     type="submit"
                   >

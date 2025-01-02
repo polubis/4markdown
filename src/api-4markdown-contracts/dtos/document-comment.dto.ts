@@ -8,7 +8,7 @@ type DocumentCommentDto = {
   mdate: Date;
   content: string;
   rating: RatingDto;
-  author: UserProfileDto;
+  author: UserProfileDto | null;
   replies: Omit<DocumentCommentDto, 'replies'>[];
 };
 
