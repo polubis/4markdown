@@ -1,10 +1,17 @@
+import { logIn } from 'actions/log-in.action';
 import type { DocumentCommentDto } from 'api-4markdown-contracts';
 import { formatDistance } from 'date-fns';
 import { Avatar } from 'design-system/avatar';
 import { Button } from 'design-system/button';
+import { Field } from 'design-system/field';
 import { Modal } from 'design-system/modal';
-import React from 'react';
-import { BiDislike, BiHeart, BiLike, BiX } from 'react-icons/bi';
+import { Textarea } from 'design-system/textarea';
+import { maxLength, minLength } from 'development-kit/form';
+import { useForm } from 'development-kit/use-form';
+import React, { type FormEventHandler } from 'react';
+import { BiX } from 'react-icons/bi';
+import { useAuthStore } from 'store/auth/auth.store';
+import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 
 type DocumentCommentsModalContainerProps = {
   onClose(): void;
@@ -58,13 +65,35 @@ const comments: DocumentCommentDto[] = [
   },
 ];
 
+const COMMENT_RULES = {
+  MIN: 1,
+  MAX: 250,
+} as const;
+
 const DocumentCommentsModalContainer = ({
   onClose,
 }: DocumentCommentsModalContainerProps) => {
+  const authStore = useAuthStore();
+  const yourProfileStore = yourProfileStoreSelectors.useState();
   const now = new Date();
+
+  const [{ invalid, values, untouched }, { set }] = useForm(
+    {
+      comment: ``,
+    },
+    {
+      comment: [minLength(COMMENT_RULES.MIN), maxLength(COMMENT_RULES.MAX)],
+    },
+  );
 
   const close = (): void => {
     onClose();
+  };
+
+  const confirmComment: FormEventHandler<HTMLFormElement> = async (
+    e,
+  ): Promise<void> => {
+    e.preventDefault();
   };
 
   return (
@@ -110,7 +139,7 @@ const DocumentCommentsModalContainer = ({
                     </time>
                   </div>
                   <p className="mt-1">{comment.content}</p>
-                  <div className="flex items-center mt-2.5 space-x-1">
+                  {/* <div className="flex items-center mt-2.5 space-x-1">
                     <button
                       className="flex items-center mr-2"
                       // onClick={() => toggleReplyVisibility(comment.id)}
@@ -127,7 +156,7 @@ const DocumentCommentsModalContainer = ({
                     >
                       Replies ({comment.repliesCount})
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </li>
               {/* {repliesVisibility[comment.id] && (
@@ -137,10 +166,44 @@ const DocumentCommentsModalContainer = ({
           ))}
         </ul>
       </section>
-      <footer className="mt-8">
-        <Button className="ml-auto" i={2} s={2} auto>
-          Add Comment
-        </Button>
+      <footer className="mt-8" onSubmit={confirmComment}>
+        {yourProfileStore.is === `ok` ? (
+          <form>
+            <Field
+              label={`Comment (${values.comment.length}/250)*`}
+              className="mt-3"
+            >
+              <Textarea
+                placeholder="The description will be displayed in Google and under document"
+                value={values.comment}
+                onChange={(e) => set({ comment: e.target.value })}
+              />
+            </Field>
+            <Button
+              className="mt-6 ml-auto"
+              i={2}
+              s={2}
+              auto
+              disabled={untouched || invalid}
+              title="Confirm and add comment"
+              type="submit"
+            >
+              Add Comment
+            </Button>
+          </form>
+        ) : (
+          <Button
+            title="Add comment"
+            className="ml-auto"
+            i={2}
+            s={2}
+            auto
+            disabled={authStore.is === `idle`}
+            onClick={logIn}
+          >
+            Add Comment
+          </Button>
+        )}
       </footer>
     </Modal>
   );
