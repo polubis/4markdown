@@ -42,7 +42,7 @@ const comments: DocumentCommentDto[] = [
       perfect: 1,
       decent: 1,
     },
-    repliesCount: 1,
+    replies: 1,
   },
   {
     id: `3`,
@@ -61,7 +61,7 @@ const comments: DocumentCommentDto[] = [
       perfect: 1,
       decent: 1,
     },
-    repliesCount: 0,
+    replies: 0,
   },
 ];
 

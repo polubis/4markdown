@@ -1,4 +1,4 @@
-import type { Base64, Date } from '../atoms';
+import type { Base64, Date, Id } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -8,6 +8,7 @@ import type {
   UserProfileDto,
   RatingCategory,
   RatingDto,
+  DocumentCommentDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -105,6 +106,20 @@ type RateDocumentContract = Contract<
   }
 >;
 
+type AddDocumentCommentContract = Contract<
+  `addDocumentComment`,
+  DocumentCommentDto,
+  {
+    document: {
+      id: Id;
+      authorId: Id;
+    };
+    comment: {
+      content: DocumentCommentDto['content'];
+    };
+  }
+>;
+
 type API4MarkdownContracts =
   | GetYourDocumentsContract
   | GetAccessibleDocumentContract
@@ -117,7 +132,8 @@ type API4MarkdownContracts =
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract
   | RateDocumentContract
-  | UpdateDocumentNameContract;
+  | UpdateDocumentNameContract
+  | AddDocumentCommentContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -219,6 +235,7 @@ export type {
   UpdateDocumentCodeContract,
   CreateDocumentContract,
   UpdateDocumentVisibilityContract,
+  AddDocumentCommentContract,
   UploadImageContract,
   GetYourUserProfileContract,
   UpdateYourUserProfileContract,

@@ -1,12 +1,6 @@
 import type { Date, Id } from '../atoms';
 import type { RatingDto } from './rating.dto';
-import type { Avatar, UserProfileDto } from './user-profile.dto';
-
-type CommentAuthor = {
-  displayName: UserProfileDto['displayName'];
-  avatar: Pick<Avatar, 'sm'> | null;
-  url: string | null;
-};
+import type { UserProfileDto } from './user-profile.dto';
 
 type DocumentCommentDto = {
   id: Id;
@@ -14,8 +8,8 @@ type DocumentCommentDto = {
   mdate: Date;
   content: string;
   rating: RatingDto;
-  author: CommentAuthor;
-  repliesCount: number;
+  author: UserProfileDto;
+  replies: Omit<DocumentCommentDto, 'replies'>[];
 };
 
 export type { DocumentCommentDto };
