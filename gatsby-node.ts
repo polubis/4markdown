@@ -4,7 +4,7 @@ import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
 import {
-  type EducationRanPageModel,
+  type EducationRankPageModel,
   type EducationPageModel,
   type HomePageModel,
 } from 'models/page-models';
@@ -206,11 +206,13 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
 
   const topDocuments = getTopDocuments(allDocuments, documentsPerPage).map<
     EducationPageModel['documents']['top'][number]
-  >(({ author, name, id, path, rating, cdate }) => ({
+  >(({ author, name, id, path, authorId, commentsCount, rating, cdate }) => ({
     name,
     id,
     path,
     rating,
+    authorId,
+    commentsCount,
     cdate,
     author:
       author?.displayName && author?.bio
@@ -243,6 +245,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
                 name,
                 id,
                 path,
+                authorId,
+                commentsCount,
                 rating,
                 cdate,
                 description,
@@ -254,6 +258,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
                 rating,
                 cdate,
                 description,
+                authorId,
+                commentsCount,
                 tags,
                 author:
                   author?.displayName && author?.bio
@@ -284,10 +290,23 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
           partialTop: partialTopDocuments,
           top: topDocuments,
           wall: documents.map(
-            ({ author, name, id, path, rating, cdate, description, tags }) => ({
+            ({
+              author,
               name,
               id,
               path,
+              rating,
+              cdate,
+              description,
+              tags,
+              authorId,
+              commentsCount,
+            }) => ({
+              name,
+              id,
+              path,
+              authorId,
+              commentsCount,
               rating,
               cdate,
               description,
@@ -307,16 +326,29 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  actions.createPage<EducationRanPageModel>({
+  actions.createPage<EducationRankPageModel>({
     path: meta.routes.education.rank,
     component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
     context: {
       topDocuments: getTopDocuments(allDocuments, documentsPerPage).map(
-        ({ author, name, id, path, rating, cdate, description, tags }) => ({
+        ({
+          author,
           name,
           id,
           path,
           rating,
+          cdate,
+          description,
+          authorId,
+          commentsCount,
+          tags,
+        }) => ({
+          name,
+          id,
+          path,
+          rating,
+          authorId,
+          commentsCount,
           cdate,
           description,
           tags,

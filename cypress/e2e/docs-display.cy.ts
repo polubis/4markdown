@@ -19,6 +19,8 @@ const getDocsResponse: { result: PublicDocumentDto[] } = {
       cdate: now.toISOString(),
       mdate: now.toISOString(),
       visibility: `public`,
+      commentsCount: 0,
+      authorId: `random-author-id`,
       author: null,
       rating: {
         bad: 1,

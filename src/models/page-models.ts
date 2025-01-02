@@ -13,14 +13,22 @@ type EducationDocumentAvatarModel = {
 
 type RichEducationDocumentModel = Pick<
   PermanentDocumentDto,
-  'id' | 'path' | 'name' | 'rating' | 'cdate' | 'description' | 'tags'
+  | 'id'
+  | 'path'
+  | 'name'
+  | 'rating'
+  | 'cdate'
+  | 'description'
+  | 'tags'
+  | 'authorId'
+  | 'commentsCount'
 > & {
   author: EducationDocumentAvatarModel;
 };
 
 type LightEducationDocumentModel = Pick<
   PermanentDocumentDto,
-  'id' | 'path' | 'name' | 'rating' | 'cdate'
+  'id' | 'path' | 'name' | 'rating' | 'cdate' | 'commentsCount' | 'authorId'
 > & {
   author: EducationDocumentAvatarModel;
 };
@@ -38,7 +46,7 @@ type EducationPageModel = {
   tag?: Tags[number];
 };
 
-type EducationRanPageModel = {
+type EducationRankPageModel = {
   topDocuments: RichEducationDocumentModel[];
   topTags: Tags;
 };
@@ -47,6 +55,6 @@ export type {
   HomePageModel,
   EducationPageModel,
   LightEducationDocumentModel,
-  EducationRanPageModel,
+  EducationRankPageModel,
   RichEducationDocumentModel,
 };

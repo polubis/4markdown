@@ -4,6 +4,7 @@ import { Avatar } from 'design-system/avatar';
 import { Link } from 'gatsby';
 import type { RichEducationDocumentModel } from 'models/page-models';
 import React from 'react';
+import { BiCommentDetail } from 'react-icons/bi';
 
 type EducationDocumentsListProps = {
   documents: RichEducationDocumentModel[];
@@ -54,6 +55,10 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
             {document.tags.join(`, `)}
           </p>
           <div className="flex items-center space-x-2">
+            <div key="comments-count" className="flex items-center">
+              <BiCommentDetail className="mr-1" size={20} />
+              <strong>{0}</strong>
+            </div>
             {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
               <div className="flex items-center" key={category}>
                 <Icon className="mr-1" size={20} />
