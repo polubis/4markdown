@@ -2,7 +2,7 @@ import type { RatingCategory } from 'api-4markdown-contracts';
 import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
-import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
+import { RATING_ICONS } from 'core/document-rating-config';
 import debounce from 'lodash.debounce';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { rateDocumentAct } from 'acts/rate-document.act';
@@ -119,7 +119,7 @@ const DocumentRatingContainer = ({
           <BiCommentDetail className="mr-0.5" />
           <strong>{document.commentsCount}</strong>
         </Button>
-        {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
+        {RATING_ICONS.map(([Icon, category], idx) => (
           <Button
             i={yourRate === category ? 2 : 1}
             s={1}

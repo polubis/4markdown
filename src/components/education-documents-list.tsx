@@ -1,4 +1,4 @@
-import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
+import { RATING_ICONS } from 'core/document-rating-config';
 import { formatDistance } from 'date-fns';
 import { Avatar } from 'design-system/avatar';
 import { Link } from 'gatsby';
@@ -59,7 +59,7 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
               <BiCommentDetail className="mr-1" size={20} />
               <strong>{0}</strong>
             </div>
-            {DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+            {RATING_ICONS.map(([Icon, category]) => (
               <div className="flex items-center" key={category}>
                 <Icon className="mr-1" size={20} />
                 <strong>{document.rating[category]}</strong>
