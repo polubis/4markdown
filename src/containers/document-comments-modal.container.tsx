@@ -82,10 +82,11 @@ const DocumentCommentsModalContainer = ({
           <BiX />
         </Button>
       </header>
-      <div className="flex flex-col min-h-[140px]">
+      <div className="flex flex-col">
         {(comments.is === `idle` || comments.is === `busy`) && (
-          <Loader className="m-auto" size="xl" />
+          <Loader className="m-10 self-center" size="xl" />
         )}
+
         {comments.is === `fail` && (
           <div className="p-4 flex flex-col items-center m-auto">
             <h6 className="text-center">
@@ -103,63 +104,67 @@ const DocumentCommentsModalContainer = ({
             </Button>
           </div>
         )}
+
         {comments.is === `ok` && (
           <>
-            <section>
-              <ul className="grid gap-3">
-                {comments.data.map((comment) => (
-                  <React.Fragment key={comment.id}>
-                    <li className="flex">
-                      <Avatar
-                        className="shrink-0 mr-3 bg-gray-300 dark:bg-slate-800"
-                        size="sm"
-                        title={`${comment.author.displayName ?? `User`} avatar`}
-                        alt={`${comment.author.displayName ?? `User`} avatar`}
-                        char={
-                          comment.author.displayName
-                            ? comment.author.displayName.charAt(0)
-                            : undefined
-                        }
-                        src={comment.author.avatar?.sm.src}
-                      />
-                      <div className="flex flex-col">
-                        <div className="flex items-center">
-                          <strong className="text-lg">
-                            {comment.author.displayName ?? `Anonymous`}
-                          </strong>
-                          <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mx-2" />
-                          <time dateTime={comment.cdate}>
-                            {formatDistance(comment.cdate, now)}
-                          </time>
+            {comments.data.length > 0 && (
+              <section>
+                <ul className="grid gap-3">
+                  {comments.data.map((comment) => (
+                    <React.Fragment key={comment.id}>
+                      <li className="flex">
+                        <Avatar
+                          className="shrink-0 mr-3 bg-gray-300 dark:bg-slate-800"
+                          size="sm"
+                          title={`${comment.author.displayName ?? `User`} avatar`}
+                          alt={`${comment.author.displayName ?? `User`} avatar`}
+                          char={
+                            comment.author.displayName
+                              ? comment.author.displayName.charAt(0)
+                              : undefined
+                          }
+                          src={comment.author.avatar?.sm.src}
+                        />
+                        <div className="flex flex-col">
+                          <div className="flex items-center">
+                            <strong className="text-lg">
+                              {comment.author.displayName ?? `Anonymous`}
+                            </strong>
+                            <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mx-2" />
+                            <time dateTime={comment.cdate}>
+                              {formatDistance(comment.cdate, now)}
+                            </time>
+                          </div>
+                          <p className="mt-1">{comment.content}</p>
+                          {/* <div className="flex items-center mt-2.5 space-x-1">
+                 <button
+                   className="flex items-center mr-2"
+                   // onClick={() => toggleReplyVisibility(comment.id)}
+                 >
+                   <BiHeart />
+                   <BiLike />
+                   <BiDislike />
+                   {` `}
+                   <span className="pl-1">(40)</span>
+                 </button>
+                 <button
+                   className="hover:underline underline-offset-2 mr-2"
+                   // onClick={() => toggleReplyVisibility(comment.id)}
+                 >
+                   Replies ({comment.repliesCount})
+                 </button>
+               </div> */}
                         </div>
-                        <p className="mt-1">{comment.content}</p>
-                        {/* <div className="flex items-center mt-2.5 space-x-1">
-                    <button
-                      className="flex items-center mr-2"
-                      // onClick={() => toggleReplyVisibility(comment.id)}
-                    >
-                      <BiHeart />
-                      <BiLike />
-                      <BiDislike />
-                      {` `}
-                      <span className="pl-1">(40)</span>
-                    </button>
-                    <button
-                      className="hover:underline underline-offset-2 mr-2"
-                      // onClick={() => toggleReplyVisibility(comment.id)}
-                    >
-                      Replies ({comment.repliesCount})
-                    </button>
-                  </div> */}
-                      </div>
-                    </li>
-                    {/* {repliesVisibility[comment.id] && (
-                <CommentReplies replies={replies[comment.id]} />
-              )} */}
-                  </React.Fragment>
-                ))}
-              </ul>
-            </section>
+                      </li>
+                      {/* {repliesVisibility[comment.id] && (
+             <CommentReplies replies={replies[comment.id]} />
+           )} */}
+                    </React.Fragment>
+                  ))}
+                </ul>
+              </section>
+            )}
+
             <footer className="mt-8" onSubmit={confirmComment}>
               {yourProfileStore.is === `ok` ? (
                 <form>
