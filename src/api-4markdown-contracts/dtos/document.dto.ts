@@ -37,14 +37,14 @@ type PermanentDocumentDto = Base & {
   rating: DocumentRatingDto;
 };
 
-type DocumentDto =
-  | PrivateDocumentDto
-  | PublicDocumentDto
-  | PermanentDocumentDto;
+type AccessibleDocumentDto = PublicDocumentDto | PermanentDocumentDto;
+
+type DocumentDto = PrivateDocumentDto | AccessibleDocumentDto;
 
 export type {
   PrivateDocumentDto,
   PublicDocumentDto,
   PermanentDocumentDto,
   DocumentDto,
+  AccessibleDocumentDto,
 };

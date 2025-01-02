@@ -4,13 +4,12 @@ import React, {
   type ReactNode,
 } from 'react';
 import type {
+  AccessibleDocumentDto,
   DocumentRatingCategory,
-  PermanentDocumentDto,
-  PublicDocumentDto,
 } from 'api-4markdown-contracts';
 
 type DocumentLayoutState = {
-  document: PublicDocumentDto | PermanentDocumentDto;
+  document: AccessibleDocumentDto;
   yourRate: DocumentRatingCategory | null;
 };
 
@@ -18,7 +17,7 @@ type DocumentLayoutContextValue = [
   DocumentLayoutState,
   Dispatch<
     SetStateAction<{
-      document: PublicDocumentDto | PermanentDocumentDto;
+      document: AccessibleDocumentDto;
       yourRate: DocumentRatingCategory | null;
     }>
   >,
