@@ -6,6 +6,7 @@ import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
 import debounce from 'lodash.debounce';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { rateDocumentAct } from 'acts/rate-document.act';
+import { BiCommentDetail } from 'react-icons/bi';
 
 type DocumentRatingContainerProps = {
   className?: string;
@@ -96,7 +97,18 @@ const DocumentRatingContainer = ({
   };
 
   return (
-    <section className={c(`flex`, className)}>
+    <section className={c(`flex flex-wrap gap-y-1`, className)}>
+      <Button
+        i={1}
+        s={1}
+        auto
+        key="comments"
+        title="See comments"
+        // onClick={modal.open}
+      >
+        <BiCommentDetail className="mr-0.5" />
+        <strong>0</strong>
+      </Button>
       {DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
         <Button
           i={yourRate === category ? 2 : 1}
