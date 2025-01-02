@@ -120,6 +120,17 @@ type AddDocumentCommentContract = Contract<
   }
 >;
 
+type GetDocumentCommentsContract = Contract<
+  `getDocumentComments`,
+  DocumentCommentDto[],
+  {
+    document: {
+      id: Id;
+      authorId: Id;
+    };
+  }
+>;
+
 type API4MarkdownContracts =
   | GetYourDocumentsContract
   | GetAccessibleDocumentContract
@@ -133,6 +144,7 @@ type API4MarkdownContracts =
   | UpdateYourUserProfileContract
   | RateDocumentContract
   | UpdateDocumentNameContract
+  | GetDocumentCommentsContract
   | AddDocumentCommentContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
@@ -237,6 +249,7 @@ export type {
   UpdateDocumentVisibilityContract,
   AddDocumentCommentContract,
   UploadImageContract,
+  GetDocumentCommentsContract,
   GetYourUserProfileContract,
   UpdateYourUserProfileContract,
   RateDocumentContract,

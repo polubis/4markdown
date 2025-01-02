@@ -1,5 +1,5 @@
 import { logIn } from 'actions/log-in.action';
-import type { DocumentCommentDto } from 'api-4markdown-contracts';
+import { getDocumentCommentsAct } from 'acts/get-document-comments.act';
 import { formatDistance } from 'date-fns';
 import { Avatar } from 'design-system/avatar';
 import { Button } from 'design-system/button';
@@ -27,7 +27,7 @@ const COMMENT_RULES = {
 const DocumentCommentsModalContainer = ({
   onClose,
 }: DocumentCommentsModalContainerProps) => {
-  const { comments, updating } = useDocumentCommentsState();
+  const { comments } = useDocumentCommentsState();
   const authStore = useAuthStore();
   const yourProfileStore = yourProfileStoreSelectors.useState();
   const now = new Date();
@@ -51,6 +51,15 @@ const DocumentCommentsModalContainer = ({
     e.preventDefault();
   };
 
+  React.useEffect(() => {
+    getDocumentCommentsAct({
+      document: {
+        id: ``,
+        authorId: ``,
+      },
+    });
+  }, []);
+
   return (
     <Modal className="[&>*]:w-[100%] [&>*]:max-w-xl" onEscape={close}>
       <header className="flex items-center">
@@ -71,8 +80,8 @@ const DocumentCommentsModalContainer = ({
           <Loader className="m-auto" size="xl" />
         )}
         {comments.is === `fail` && (
-          <div className="p-4 flex flex-col items-center">
-            <h6 className="text-xl text-center">
+          <div className="p-4 flex flex-col items-center m-auto">
+            <h6 className="text-center">
               Unable to load comments for this document. Please try again
             </h6>
             <Button
@@ -81,6 +90,14 @@ const DocumentCommentsModalContainer = ({
               auto
               s={2}
               i={2}
+              onClick={() => {
+                getDocumentCommentsAct({
+                  document: {
+                    id: ``,
+                    authorId: ``,
+                  },
+                });
+              }}
             >
               Try Again
             </Button>
@@ -90,7 +107,7 @@ const DocumentCommentsModalContainer = ({
           <>
             <section>
               <ul className="grid gap-3">
-                {comments.map((comment) => (
+                {comments.data.map((comment) => (
                   <React.Fragment key={comment.id}>
                     <li className="flex">
                       <Avatar
