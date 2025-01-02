@@ -39,6 +39,8 @@ const DocumentCommentsModalContainer = ({ onClose }: { onClose(): void }) => {
   );
 
   const close = (): void => {
+    if (updating.is === `busy`) return;
+
     onClose();
   };
 
