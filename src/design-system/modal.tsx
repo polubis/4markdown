@@ -6,19 +6,51 @@ import React, {
 import { usePortal } from 'development-kit/use-portal';
 import c from 'classnames';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
-import { type OnKeyPress, useKeyPress } from 'development-kit/use-key-press';
+import { useKeyPress } from 'development-kit/use-key-press';
+import { Button } from './button';
+import { BiX } from 'react-icons/bi';
+import { falsy } from 'development-kit/guards';
 
 type ModalProps = {
   children: ReactNode;
-  onEscape?: OnKeyPress;
+  disabled?: boolean;
+  onClose: () => void;
 } & Omit<
   DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
   'children'
 >;
 
-const Modal = ({ className, children, onEscape, ...props }: ModalProps) => {
+type ModalContextValue = { close: ModalProps['onClose'] } & Pick<
+  ModalProps,
+  'disabled'
+>;
+
+const ModalContext = React.createContext<ModalContextValue | null>(null);
+
+const useModalContext = () => {
+  const ctx = React.useContext(ModalContext);
+
+  falsy(ctx, `Lack of context wrapper for modal`);
+
+  return ctx;
+};
+
+const Modal = ({
+  className,
+  children,
+  disabled,
+  onClose,
+  ...props
+}: ModalProps) => {
+  const close = (): void => {
+    if (disabled) return;
+
+    onClose();
+  };
+
   useScrollHide();
-  useKeyPress([`Escape`], onEscape);
+  useKeyPress([`Escape`], close);
+
   const { render } = usePortal();
 
   return render(
@@ -30,10 +62,46 @@ const Modal = ({ className, children, onEscape, ...props }: ModalProps) => {
       {...props}
     >
       <div className="bg-white m-auto w-[100%] tn:w-[380px] dark:bg-black rounded-lg shadow-xl p-4">
-        {children}
+        <ModalContext.Provider
+          value={{
+            disabled,
+            close,
+          }}
+        >
+          {children}
+        </ModalContext.Provider>
       </div>
     </div>,
   );
 };
+
+const ModalHeader = ({
+  title,
+  closeButtonTitle,
+}: {
+  title: ReactNode;
+  closeButtonTitle: string;
+}) => {
+  const { close, disabled } = useModalContext();
+
+  return (
+    <header className="flex items-center mb-6">
+      <h6 className="text-xl mr-8">{title}</h6>
+      <Button
+        i={2}
+        s={1}
+        aria-disabled={disabled}
+        disabled={disabled}
+        title={closeButtonTitle}
+        className="ml-auto"
+        onClick={close}
+      >
+        <BiX />
+      </Button>
+    </header>
+  );
+};
+
+Modal.Header = ModalHeader;
 
 export { Modal };

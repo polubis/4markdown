@@ -10,7 +10,7 @@ import {
 } from 'react-icons/bi';
 import { Markdown } from './markdown';
 import { useKeyPress } from 'development-kit/use-key-press';
-import { assert } from 'development-kit/guards';
+import { falsy } from 'development-kit/guards';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 
@@ -86,7 +86,7 @@ const DocumentChaptersModal = ({
   React.useLayoutEffect(() => {
     const modal = document.getElementById(modalId);
 
-    assert(modal, `Cannot find ${modalId}`);
+    falsy(modal, `Cannot find ${modalId}`);
 
     modal.scrollTo({ top: 0 });
   }, [activeSectionIndex]);
