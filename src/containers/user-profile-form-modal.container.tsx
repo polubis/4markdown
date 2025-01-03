@@ -23,7 +23,6 @@ import { useForm } from 'development-kit/use-form';
 import { useToggle } from 'development-kit/use-toggle';
 import type { NonNullableProperties } from 'development-kit/utility-types';
 import React from 'react';
-import { BiX } from 'react-icons/bi';
 import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
@@ -162,23 +161,12 @@ const UserProfileFormModalContainer = ({
   return (
     <>
       {updateYourProfileStore.is !== `fail` && avatarErrorModal.closed && (
-        <Modal>
+        <Modal disabled={updateYourProfileStore.is === `busy`} onClose={close}>
+          <Modal.Header
+            title="Your Profile Edition"
+            closeButtonTitle="Your Profile Edition"
+          />
           <form onSubmit={save}>
-            <div className="flex items-center">
-              <h6 className="text-xl mr-8">Your Profile Edition</h6>
-              <Button
-                i={2}
-                s={1}
-                className="ml-auto"
-                type="button"
-                title="Close your profile form"
-                disabled={updateYourProfileStore.is === `busy`}
-                onClick={close}
-              >
-                <BiX />
-              </Button>
-            </div>
-
             <div className="flex flex-col space-y-3 mt-8">
               <Field className="items-center mx-auto [&>label]:mb-2">
                 <Button
