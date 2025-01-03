@@ -79,7 +79,9 @@ const ModalHeader = ({
   title,
   closeButtonTitle,
   children,
+  className,
 }: {
+  className?: string;
   children?: ReactNode;
   title: ReactNode;
   closeButtonTitle: string;
@@ -87,7 +89,7 @@ const ModalHeader = ({
   const { close, disabled } = useModalContext();
 
   return (
-    <header className="flex items-center justify-between mb-6">
+    <header className={c(`flex items-center justify-between mb-6`, className)}>
       <h6 className="text-xl mr-8">{title}</h6>
       <div className="flex items-center space-x-2">
         {children}

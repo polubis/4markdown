@@ -6,15 +6,12 @@ import {
   BiArrowToRight,
   BiCheck,
   BiCopyAlt,
-  BiX,
 } from 'react-icons/bi';
 import { Markdown } from './markdown';
 import { useKeyPress } from 'development-kit/use-key-press';
 import { falsy } from 'development-kit/guards';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-
-type DocumentChaptersModalProps = { children: string; onClose(): void };
 
 const modalId = `documents-chapters-modal`;
 
@@ -29,7 +26,10 @@ const isAbleToNext = (
 const DocumentChaptersModal = ({
   children,
   onClose,
-}: DocumentChaptersModalProps) => {
+}: {
+  children: string;
+  onClose(): void;
+}) => {
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
   const [copyState, copy] = useCopy();
 
@@ -96,20 +96,13 @@ const DocumentChaptersModal = ({
       <Modal
         id={modalId}
         className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0"
-        onEscape={onClose}
+        onClose={onClose}
       >
-        <header className="flex items-center p-4 border-b-2 border-zinc-300 dark:border-zinc-800">
-          <h6 className="text-xl mr-8">Chapter ({activeSectionIndex + 1})</h6>
-          <Button
-            className="ml-auto"
-            i={2}
-            s={1}
-            onClick={onClose}
-            title="Close display as a book mode (Esc)"
-          >
-            <BiX />
-          </Button>
-        </header>
+        <Modal.Header
+          className="p-4 border-b-2 border-zinc-300 dark:border-zinc-800 mb-0"
+          title={`Chapter (${activeSectionIndex + 1})`}
+          closeButtonTitle="Close display as a book mode (Esc)"
+        />
         <section className="p-4">
           <Markdown>{content}</Markdown>
         </section>
