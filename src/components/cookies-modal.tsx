@@ -13,17 +13,31 @@ const enum CookieType {
   Marketing = `marketing`,
 }
 
-const useCookiesManagement = () => {
-  const [preferences, setPreferences] = React.useState({
+const enum ViewType {
+  Intro = `intro`,
+  Manage = `manage`,
+}
+
+const CookiesModal = () => {
+  const [accepted, setAccepted] = React.useState(
+    () => isClient() && getCookie(CookieType.Necessary) === `true`,
+  );
+  const [view, setView] = React.useState(ViewType.Intro);
+
+  const [preferences, setPreferences] = React.useState(() => ({
     [CookieType.Necessary]: true,
     [CookieType.Performance]: true,
     [CookieType.Functional]: true,
     [CookieType.Marketing]: true,
-  });
+  }));
 
-  const [accepted, setAccepted] = React.useState(
-    () => isClient() && getCookie(CookieType.Necessary) === `true`,
-  );
+  const goToManagement = (): void => {
+    setView(ViewType.Manage);
+  };
+
+  const goToIntro = (): void => {
+    setView(ViewType.Intro);
+  };
 
   const accept = (): void => {
     const oneYear = 365;
@@ -32,40 +46,13 @@ const useCookiesManagement = () => {
     setAccepted(true);
   };
 
-  const toggle = (category: keyof typeof preferences): void => {
+  const togglePreferences = (category: keyof typeof preferences): void => {
     if (category === `necessary`) return;
 
     setPreferences((prev) => ({
       ...prev,
       [category]: !prev[category],
     }));
-  };
-
-  return {
-    accepted,
-    preferences,
-    accept,
-    toggle,
-  };
-};
-
-const enum ViewType {
-  Intro = `intro`,
-  Manage = `manage`,
-}
-
-const CookiesModal = () => {
-  const { accepted, preferences, accept, toggle } = useCookiesManagement();
-  const [view, setView] = React.useState(ViewType.Intro);
-
-  React.useEffect(() => {});
-
-  const goToManagement = (): void => {
-    setView(ViewType.Manage);
-  };
-
-  const goToIntro = (): void => {
-    setView(ViewType.Intro);
   };
 
   if (accepted) return null;
@@ -119,7 +106,9 @@ const CookiesModal = () => {
                       type="checkbox"
                       className="sr-only active:[&+div]:border-white"
                       checked={value}
-                      onChange={() => toggle(key as keyof typeof preferences)}
+                      onChange={() =>
+                        togglePreferences(key as keyof typeof preferences)
+                      }
                       disabled={key === CookieType.Necessary}
                     />
                     <div
