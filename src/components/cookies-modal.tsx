@@ -13,14 +13,6 @@ const enum CookieType {
   Marketing = `marketing`,
 }
 
-const oneYear = 365;
-
-const verifyAcceptance = (): boolean => {
-  if (isServer()) return false;
-
-  return getCookie(CookieType.Necessary) === `true`;
-};
-
 const useCookiesManagement = () => {
   const [preferences, setPreferences] = React.useState({
     [CookieType.Necessary]: true,
@@ -29,9 +21,14 @@ const useCookiesManagement = () => {
     [CookieType.Marketing]: true,
   });
 
-  const [accepted, setAccepted] = React.useState(verifyAcceptance);
+  const [accepted, setAccepted] = React.useState(() => {
+    if (isServer()) return false;
+
+    return getCookie(CookieType.Necessary) === `true`;
+  });
 
   const accept = (): void => {
+    const oneYear = 365;
     setCookie(CookieType.Necessary, `true`, oneYear);
     setAccepted(true);
   };
