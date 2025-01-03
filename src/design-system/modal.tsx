@@ -56,7 +56,7 @@ const Modal = ({
   return render(
     <div
       className={c(
-        `bg-black/40 dark:bg-white/20 fixed items-center justify-center flex p-4 z-20 h-[100svh] w-[100svw] left-0 top-0 overflow-auto animate-fade-in`,
+        `bg-black/40 dark:bg-white/20 fixed items-center justify-center flex py-4 z-20 h-[100svh] w-[100svw] left-0 top-0 overflow-auto animate-fade-in`,
         className,
       )}
       {...props}
