@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { BiPencil, BiTrash, BiX } from 'react-icons/bi';
+import { BiPencil, BiTrash } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 import c from 'classnames';
@@ -32,7 +32,7 @@ const DocumentDetailsContainer = ({
   const permamentDocumentEdition = useToggle();
 
   return (
-    <Modal>
+    <Modal disabled={docManagementStore.is === `busy`} onClose={onClose}>
       {permamentDocumentEdition.opened && (
         <PermamentDocFormContainer
           onBack={permamentDocumentEdition.close}
@@ -70,12 +70,13 @@ const DocumentDetailsContainer = ({
         privateConfirmation.closed &&
         permamentDocumentEdition.closed && (
           <>
-            <div className="flex items-center">
-              <h6 className="text-xl mr-4">Details</h6>
+            <Modal.Header
+              title="Details"
+              closeButtonTitle="Close additional options"
+            >
               <Button
                 i={2}
                 s={1}
-                className="ml-auto"
                 disabled={docManagementStore.is === `busy`}
                 title="Delete current document"
                 onClick={onOpen}
@@ -86,7 +87,6 @@ const DocumentDetailsContainer = ({
                 <Button
                   i={2}
                   s={1}
-                  className="ml-2"
                   disabled={docManagementStore.is === `busy`}
                   title="Edit current document"
                   onClick={permamentDocumentEdition.open}
@@ -94,18 +94,8 @@ const DocumentDetailsContainer = ({
                   <BiPencil />
                 </Button>
               )}
-              <Button
-                i={2}
-                s={1}
-                className="ml-2"
-                disabled={docManagementStore.is === `busy`}
-                title="Close additional options"
-                onClick={onClose}
-              >
-                <BiX />
-              </Button>
-            </div>
-            <p className="mt-4">
+            </Modal.Header>
+            <p>
               Name: <strong>{docStore.name}</strong>
             </p>
             {docStore.visibility === `permanent` && (
