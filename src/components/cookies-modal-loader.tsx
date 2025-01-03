@@ -1,7 +1,7 @@
-import { observeFirstInteraction } from 'development-kit/observe-first-interaction';
-import { isClient } from 'development-kit/ssr-csr';
 import React from 'react';
+import { isClient } from 'development-kit/ssr-csr';
 import { meta } from '../../meta';
+import { useOnFirstInteraction } from 'development-kit/use-on-first-interaction';
 
 const CookiesModal = React.lazy(() =>
   import(`./cookies-modal`).then((m) => ({
@@ -10,15 +10,11 @@ const CookiesModal = React.lazy(() =>
 );
 
 const CookiesModalLoader = () => {
-  const [loaded, setLoaded] = React.useState(false);
-
-  React.useEffect(() => {
-    observeFirstInteraction(() => setLoaded(true));
-  }, []);
+  const { interacted } = useOnFirstInteraction();
 
   if (
     isClient() &&
-    loaded &&
+    interacted &&
     window.location.pathname !== meta.routes.privacyPolicy
   )
     return (
