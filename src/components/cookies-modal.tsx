@@ -29,6 +29,7 @@ const useCookiesManagement = () => {
 
   const accept = (): void => {
     const oneYear = 365;
+
     setCookie(CookieType.Necessary, `true`, oneYear);
     setAccepted(true);
   };
