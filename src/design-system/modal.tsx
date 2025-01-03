@@ -78,26 +78,31 @@ const Modal = ({
 const ModalHeader = ({
   title,
   closeButtonTitle,
+  children,
 }: {
+  children?: ReactNode;
   title: ReactNode;
   closeButtonTitle: string;
 }) => {
   const { close, disabled } = useModalContext();
 
   return (
-    <header className="flex items-center mb-6">
+    <header className="flex items-center justify-between mb-6">
       <h6 className="text-xl mr-8">{title}</h6>
-      <Button
-        i={2}
-        s={1}
-        aria-disabled={disabled}
-        disabled={disabled}
-        title={closeButtonTitle}
-        className="ml-auto"
-        onClick={close}
-      >
-        <BiX />
-      </Button>
+      <div className="flex items-center space-x-2">
+        {children}
+        <Button
+          i={2}
+          s={1}
+          aria-disabled={disabled}
+          disabled={disabled}
+          title={closeButtonTitle}
+          className="ml-auto"
+          onClick={close}
+        >
+          <BiX />
+        </Button>
+      </div>
     </header>
   );
 };
