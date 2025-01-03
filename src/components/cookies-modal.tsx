@@ -7,7 +7,10 @@ import { getCookie, setCookie } from 'development-kit/cookies';
 import { isServer } from 'development-kit/ssr-csr';
 
 const enum CookieType {
-  Policy = `policy`,
+  Necessary = `necessary`,
+  Performance = `performance`,
+  Functional = `functional`,
+  Marketing = `marketing`,
 }
 
 const oneYear = 365;
@@ -15,21 +18,21 @@ const oneYear = 365;
 const verifyAcceptance = (): boolean => {
   if (isServer()) return false;
 
-  return getCookie(CookieType.Policy) === `true`;
+  return getCookie(CookieType.Necessary) === `true`;
 };
 
 const useCookiesManagement = () => {
   const [preferences, setPreferences] = React.useState({
-    necessary: true,
-    performance: true,
-    functional: true,
-    marketing: true,
+    [CookieType.Necessary]: true,
+    [CookieType.Performance]: true,
+    [CookieType.Functional]: true,
+    [CookieType.Marketing]: true,
   });
 
   const [accepted, setAccepted] = React.useState(verifyAcceptance);
 
   const accept = (): void => {
-    setCookie(CookieType.Policy, `true`, oneYear);
+    setCookie(CookieType.Necessary, `true`, oneYear);
     setAccepted(true);
   };
 
@@ -121,7 +124,7 @@ const CookiesModal = () => {
                       className="sr-only active:[&+div]:border-white"
                       checked={value}
                       onChange={() => toggle(key as keyof typeof preferences)}
-                      disabled={key === `necessary`}
+                      disabled={key === CookieType.Necessary}
                     />
                     <div
                       className={c(
@@ -130,20 +133,21 @@ const CookiesModal = () => {
                           'bg-blue-600 dark:bg-blue-500 after:translate-x-5':
                             value,
                           'bg-gray-200 dark:bg-gray-500': !value,
-                          'opacity-50 cursor-not-allowed': key === `necessary`,
+                          'opacity-50 cursor-not-allowed':
+                            key === CookieType.Necessary,
                         },
                       )}
                     />
                   </label>
                 </div>
                 <p className="text-sm">
-                  {key === `necessary` &&
+                  {key === CookieType.Necessary &&
                     `These cookies are essential for the website to function properly. They cannot be disabled`}
-                  {key === `performance` &&
+                  {key === CookieType.Performance &&
                     `These cookies allow us to count visits and traffic sources to measure and improve the performance of our site`}
-                  {key === `functional` &&
+                  {key === CookieType.Functional &&
                     `These cookies enable the website to provide enhanced functionality and personalization`}
-                  {key === `marketing` &&
+                  {key === CookieType.Marketing &&
                     `These cookies may be set through our site by our advertising partners to build a profile of your interests`}
                 </p>
               </div>
