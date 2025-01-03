@@ -69,3 +69,12 @@ if (process.env.GA_ID) {
 }
 
 export default config;
+
+// gtagConfig: {
+//   anonymize_ip: true, // Hides user IP for GDPR compliance
+// },
+// pluginConfig: {
+//   respectDNT: false, // Disables tracking for browsers with "Do Not Track" enabled
+//   delayOnRouteUpdate: 0, // No delay for route changes
+//   head: false, // Injects the gtag script at the end of the body
+// },
