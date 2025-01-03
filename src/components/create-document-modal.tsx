@@ -1,6 +1,6 @@
 import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
-import { BiPlusCircle, BiX } from 'react-icons/bi';
+import { BiPlusCircle } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Input } from 'design-system/input';
 import { useForm } from 'development-kit/use-form';
@@ -20,37 +20,21 @@ const CreateDocumentModal = ({ onClose }: CreateDocumentModalProps) => {
     Pick<API4MarkdownPayload<'createDocument'>, 'name'>
   >({ name: `` });
 
-  const close = (): void => {
-    if (docManagementStore.is === `busy`) return;
-
-    onClose();
-  };
-
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
       await createDocument(values);
-      close();
+      onClose();
     } catch {}
   };
 
   return (
-    <Modal onEscape={close}>
+    <Modal disabled={docManagementStore.is === `busy`} onClose={onClose}>
+      <Modal.Header
+        title="Create Document"
+        closeButtonTitle="Close document adding"
+      />
       <form className="flex flex-col" onSubmit={handleSubmit}>
-        <div className="flex items-center mb-4">
-          <h6 className="text-xl mr-8">Create Document</h6>
-          <Button
-            type="button"
-            i={2}
-            s={1}
-            title="Close document adding"
-            className="ml-auto"
-            disabled={docManagementStore.is === `busy`}
-            onClick={close}
-          >
-            <BiX />
-          </Button>
-        </div>
         <Field
           label="Document Name*"
           hint={
