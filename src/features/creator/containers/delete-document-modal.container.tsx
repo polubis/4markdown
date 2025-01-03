@@ -13,13 +13,19 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose(): void }) => {
 
   const disabled = docManagementStore.is === `busy`;
 
+  const close = (): void => {
+    if (disabled) return;
+
+    onClose();
+  };
+
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    deleteDocument(onClose);
+    deleteDocument(close);
   };
 
   return (
-    <Modal disabled={disabled} onClose={onClose}>
+    <Modal disabled={disabled} onClose={close}>
       <Modal.Header
         title="Document Removal"
         closeButtonTitle="Close document removal"
