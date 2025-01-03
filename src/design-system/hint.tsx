@@ -19,7 +19,7 @@ const Hint = ({ className, trigger: Trigger, content: Content }: HintProps) => {
         {typeof Trigger === `function` ? <Trigger {...toggler} /> : Trigger}
       </i>
       {toggler.opened && Content && (
-        <Modal onEscape={toggler.close}>
+        <Modal onClose={toggler.close}>
           <Content {...toggler} />
         </Modal>
       )}

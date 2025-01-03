@@ -3,7 +3,6 @@ import { Modal } from 'design-system/modal';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
-import { BiX } from 'react-icons/bi';
 import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -13,7 +12,7 @@ import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
 import { uploadImageAct } from 'acts/upload-image.act';
 import { useUploadImageState } from 'store/upload-image';
 
-const imagesStoreRestrictions = {
+const IMAGE_RULES = {
   type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
   size: 4,
 } as const;
@@ -26,8 +25,8 @@ const ImageUploaderAuthContainer = () => {
   const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
-    accept: imagesStoreRestrictions.type,
-    maxSize: imagesStoreRestrictions.size,
+    accept: IMAGE_RULES.type,
+    maxSize: IMAGE_RULES.size,
     onChange: async ({ target: { files } }) => {
       if (!!files && files.length === 1) {
         const result = await uploadImageAct(files[0]);
@@ -63,9 +62,9 @@ const ImageUploaderAuthContainer = () => {
           message={
             <>
               Please ensure that the image format is valid. Supported formats
-              include <strong>{imagesStoreRestrictions.type}</strong>, with a
-              maximum file size of{` `}
-              <strong>{imagesStoreRestrictions.size} megabytes</strong>
+              include <strong>{IMAGE_RULES.type}</strong>, with a maximum file
+              size of{` `}
+              <strong>{IMAGE_RULES.size} megabytes</strong>
             </>
           }
           onClose={errorModal.close}
@@ -73,19 +72,11 @@ const ImageUploaderAuthContainer = () => {
       )}
 
       {imageModal.opened && (
-        <Modal onEscape={imageModal.close}>
-          <div className="flex items-center justify-between gap-4 mb-6">
-            <h6 className="text-xl">Image uploaded ✅</h6>
-            <Button
-              type="button"
-              i={2}
-              s={1}
-              title="Close image upload"
-              onClick={imageModal.close}
-            >
-              <BiX />
-            </Button>
-          </div>
+        <Modal onClose={imageModal.close}>
+          <Modal.Header
+            title="Image uploaded ✅"
+            closeButtonTitle="Close image upload"
+          />
           <p>
             To use <strong>uploaded image</strong> in markdown editor click
             below button.
@@ -106,4 +97,4 @@ const ImageUploaderAuthContainer = () => {
   );
 };
 
-export default ImageUploaderAuthContainer;
+export { ImageUploaderAuthContainer };

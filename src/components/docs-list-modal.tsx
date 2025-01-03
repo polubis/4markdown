@@ -1,7 +1,7 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
 import React from 'react';
-import { BiLowVision, BiRefresh, BiShow, BiWorld, BiX } from 'react-icons/bi';
+import { BiLowVision, BiRefresh, BiShow, BiWorld } from 'react-icons/bi';
 import { docStoreActions, useDocStore } from 'store/doc/doc.store';
 import { type DocsStoreOkState, useDocsStore } from 'store/docs/docs.store';
 import c from 'classnames';
@@ -9,10 +9,6 @@ import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
 import { reloadYourDocuments } from 'actions/reload-your-documents.action';
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
-
-interface DocsListModalProps {
-  onClose?(): void;
-}
 
 const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
 
@@ -24,7 +20,7 @@ const rangeLookup: Record<RangeFilter, [number, number]> = {
   'Really Old': [31, Number.MAX_VALUE],
 };
 
-const DocsListModal = ({ onClose }: DocsListModalProps) => {
+const DocsListModal = ({ onClose }: { onClose(): void }) => {
   const docsStore = useDocsStore();
   const docStore = useDocStore();
   const [activeRange, setActiveRange] = React.useState<RangeFilter>(
@@ -35,13 +31,7 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
     document: API4MarkdownDto<'getYourDocuments'>[number],
   ): void => {
     docStoreActions.setActive(document);
-    onClose?.();
-  };
-
-  const close = (): void => {
-    if (docsStore.is === `busy`) return;
-
-    onClose?.();
+    onClose();
   };
 
   const docs = React.useMemo((): DocsStoreOkState['docs'] => {
@@ -58,32 +48,23 @@ const DocsListModal = ({ onClose }: DocsListModalProps) => {
   }, [docsStore, activeRange]);
 
   return (
-    <Modal onEscape={close}>
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <h6 className="text-xl">Your Documents</h6>
-        <div className="flex gap-2">
-          <Button
-            type="button"
-            i={2}
-            s={1}
-            title="Sync documents"
-            disabled={docsStore.is === `busy`}
-            onClick={reloadYourDocuments}
-          >
-            <BiRefresh />
-          </Button>
-          <Button
-            type="button"
-            i={2}
-            s={1}
-            disabled={docsStore.is === `busy`}
-            title="Close your documents"
-            onClick={close}
-          >
-            <BiX />
-          </Button>
-        </div>
-      </div>
+    <Modal disabled={docsStore.is === `busy`} onClose={onClose}>
+      <Modal.Header
+        title="Your Documents"
+        closeButtonTitle="Close your documents"
+      >
+        <Button
+          type="button"
+          i={2}
+          s={1}
+          title="Sync documents"
+          disabled={docsStore.is === `busy`}
+          onClick={reloadYourDocuments}
+        >
+          <BiRefresh />
+        </Button>
+      </Modal.Header>
+
       {(docsStore.is === `idle` || docsStore.is === `busy`) && (
         <p className="text-2xl">Just a second (￣▽￣)...</p>
       )}

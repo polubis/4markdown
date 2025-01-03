@@ -1,9 +1,8 @@
 import React from 'react';
 import { Hint } from 'design-system/hint';
-import { BiInfoCircle, BiX } from 'react-icons/bi';
+import { BiInfoCircle } from 'react-icons/bi';
 import { Markdown } from 'components/markdown';
-import { Button } from 'design-system/button';
-import type { ToggleReturn } from 'development-kit/use-toggle';
+import { Modal } from 'design-system/modal';
 
 const md = `**Description**
 
@@ -25,20 +24,12 @@ To avoid truncation and ensure clarity, it is recommended to keep your page desc
 Based on [Ahrefs](https://ahrefs.com/) audits and articles.
 `;
 
-const Content = ({ close }: ToggleReturn) => (
+const Content = () => (
   <>
-    <header className="flex items-center mb-4">
-      <h6 className="text-xl mr-4">Details</h6>
-      <Button
-        i={2}
-        s={1}
-        className="ml-auto"
-        title="Close document permanent status change"
-        onClick={close}
-      >
-        <BiX />
-      </Button>
-    </header>
+    <Modal.Header
+      title="Details"
+      closeButtonTitle="Close document permanent status change"
+    />
     <Markdown>{md}</Markdown>
   </>
 );
