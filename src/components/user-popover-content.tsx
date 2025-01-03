@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiEdit, BiRefresh, BiX } from 'react-icons/bi';
+import { BiEdit, BiRefresh } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import { Modal } from 'design-system/modal';
@@ -22,22 +22,16 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   const yourProfileStore = yourProfileStoreSelectors.useState();
   const userProfileForm = useToggle();
 
-  const close = (): void => {
-    if (yourProfileStore.is === `busy`) return;
-
-    onClose();
-  };
-
   const signOutConfirmation = useConfirm(() => {
     logOut();
-    close();
+    onClose();
   });
 
   if (userProfileForm.opened) {
     return (
       <UserProfileFormModalContainer
         onBack={userProfileForm.close}
-        onClose={close}
+        onClose={onClose}
         onSync={() => {
           userProfileForm.close();
           reloadYourUserProfile();
@@ -47,9 +41,11 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   }
 
   return (
-    <Modal onEscape={close}>
-      <div className="flex items-center">
-        <h6 className="text-xl mr-8">Your Account</h6>
+    <Modal disabled={yourProfileStore.is === `busy`} onClose={onClose}>
+      <Modal.Header
+        title="Your Account"
+        closeButtonTitle="Close your account panel"
+      >
         <Button
           i={2}
           s={1}
@@ -70,17 +66,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
         >
           <BiRefresh />
         </Button>
-        <Button
-          i={2}
-          s={1}
-          className="ml-2"
-          title="Close your account panel"
-          disabled={yourProfileStore.is === `busy`}
-          onClick={close}
-        >
-          <BiX />
-        </Button>
-      </div>
+      </Modal.Header>
 
       {(yourProfileStore.is === `idle` || yourProfileStore.is === `busy`) && (
         <div className="mt-4 flex flex-wrap gap-2">
