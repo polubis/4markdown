@@ -2,12 +2,11 @@ import { Button } from 'design-system/button';
 import { Input } from 'design-system/input';
 import { Modal } from 'design-system/modal';
 import React from 'react';
-import { BiX } from 'react-icons/bi';
 import { deleteDocument } from 'actions/delete-document.action';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 
-const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
+const DeleteDocumentModalContainer = ({ onClose }: { onClose(): void }) => {
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
   const [name, setName] = React.useState(``);
@@ -17,7 +16,7 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
   const close = (): void => {
     if (disabled) return;
 
-    onClose?.();
+    onClose();
   };
 
   const handleConfirm: React.FormEventHandler<HTMLFormElement> = (e) => {
@@ -26,20 +25,11 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose?(): void }) => {
   };
 
   return (
-    <Modal onEscape={close}>
-      <div className="flex items-center justify-between gap-4 mb-6">
-        <h6 className="text-xl">Document Removal</h6>
-        <Button
-          type="button"
-          disabled={disabled}
-          i={2}
-          s={1}
-          title="Close document removal"
-          onClick={close}
-        >
-          <BiX />
-        </Button>
-      </div>
+    <Modal disabled={disabled} onClose={close}>
+      <Modal.Header
+        title="Document Removal"
+        closeButtonTitle="Close document removal"
+      />
       <form onSubmit={handleConfirm}>
         <p className="mb-4">
           Type <strong>{docStore.name}</strong> to remove this document
