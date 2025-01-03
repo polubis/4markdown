@@ -4,7 +4,7 @@ import React from 'react';
 import { meta } from '../../meta';
 import c from 'classnames';
 import { getCookie, setCookie } from 'development-kit/cookies';
-import { isServer } from 'development-kit/ssr-csr';
+import { isClient } from 'development-kit/ssr-csr';
 
 const enum CookieType {
   Necessary = `necessary`,
@@ -21,11 +21,9 @@ const useCookiesManagement = () => {
     [CookieType.Marketing]: true,
   });
 
-  const [accepted, setAccepted] = React.useState(() => {
-    if (isServer()) return false;
-
-    return getCookie(CookieType.Necessary) === `true`;
-  });
+  const [accepted, setAccepted] = React.useState(
+    () => isClient() && getCookie(CookieType.Necessary) === `true`,
+  );
 
   const accept = (): void => {
     const oneYear = 365;
