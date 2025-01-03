@@ -49,7 +49,6 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
         <Button
           i={2}
           s={1}
-          className="ml-auto"
           title="Open user profile settings"
           disabled={yourProfileStore.is !== `ok`}
           onClick={userProfileForm.open}
@@ -59,7 +58,6 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
         <Button
           i={2}
           s={1}
-          className="ml-2"
           title="Sync your profile"
           disabled={yourProfileStore.is === `busy`}
           onClick={reloadYourUserProfile}
