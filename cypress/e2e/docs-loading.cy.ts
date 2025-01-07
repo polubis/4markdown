@@ -107,7 +107,8 @@ describe(`Documents loading works when`, () => {
   beforeEach(() => {
     Given(`System sets pictures folder`, `docs-loading`)
       .And(`System cleans local storage`)
-      .And(`Im on page`, `home`);
+      .And(`Im on page`, `home`)
+      .And(`I accept cookies`);
   });
 
   afterEach(() => {

@@ -81,7 +81,9 @@ describe(`User profile works when`, () => {
   });
 
   beforeEach(() => {
-    Given(`System cleans local storage`).And(`Im on page`, `home`);
+    Given(`System cleans local storage`)
+      .And(`Im on page`, `home`)
+      .And(`I accept cookies`);
   });
 
   after(() => {

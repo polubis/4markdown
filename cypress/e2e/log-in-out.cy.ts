@@ -6,7 +6,9 @@ describe(`Log in and out works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
   beforeEach(() => {
-    Given(`System cleans local storage`).And(`Im on page`, `home`);
+    Given(`System cleans local storage`)
+      .And(`Im on page`, `home`)
+      .And(`I accept cookies`);
   });
 
   afterEach(() => {

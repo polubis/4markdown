@@ -6,6 +6,7 @@ describe(`Creator sync works when`, () => {
     const { Given } = Gherkin(BASE_COMMANDS);
 
     Given(`Im on page`, `home`)
+      .And(`I accept cookies`)
       .And(`I see not disabled button`, [`Sign in`])
       .When(`I click button`, [`Change theme`])
       .And(`I type in creator`, `## Markdown local storage sync test`)
