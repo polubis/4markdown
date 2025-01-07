@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
+import { type RouteUpdateArgs } from 'gatsby';
 import ErrorBoundary from './src/development-kit/error-boundary';
 import { useAuth } from './src/core/use-auth';
 import { CookiesModalLoader } from './src/components/cookies-modal-loader';
-
+import { initAnalytics } from './src/core/analytics';
 import './src/style/index.css';
 
 const ExceptionScreen = React.lazy(() =>
@@ -27,4 +28,8 @@ export const wrapPageElement = ({ element }) => {
       <CookiesModalLoader />
     </ErrorBoundary>
   );
+};
+
+export const onRouteUpdate = (_: RouteUpdateArgs) => {
+  initAnalytics();
 };

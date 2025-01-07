@@ -5,15 +5,9 @@ import { meta } from '../../meta';
 import c from 'classnames';
 import { getCookie, setCookie } from 'development-kit/cookies';
 import { isClient } from 'development-kit/ssr-csr';
+import { ACCEPTANCE_COOKIE_NAME, COOKIE_TYPE } from 'core/cookies';
 
-const ACCEPTANCE_COOKIE_NAME = `acceptance`;
 const ONE_MONTH = 365;
-const COOKIE_TYPE = {
-  NECESSARY: `necessary`,
-  PERFORMANCE: `performance`,
-  FUNCTIONAL: `functional`,
-  MARKETING: `marketing`,
-} satisfies Record<Uppercase<string>, Lowercase<string>>;
 
 const enum ViewType {
   Intro = `intro`,
