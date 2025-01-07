@@ -14,7 +14,7 @@ import { falsy } from 'development-kit/guards';
 type ModalProps = {
   children: ReactNode;
   disabled?: boolean;
-  onClose: () => void;
+  onClose?(): void;
 } & Omit<
   DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
   'children'
@@ -45,7 +45,7 @@ const Modal = ({
   const close = (): void => {
     if (disabled) return;
 
-    onClose();
+    onClose?.();
   };
 
   useScrollHide();
@@ -56,12 +56,12 @@ const Modal = ({
   return render(
     <div
       className={c(
-        `bg-black/40 dark:bg-white/20 fixed items-center justify-center flex p-4 z-20 h-[100svh] w-[100svw] left-0 top-0 overflow-auto animate-fade-in`,
+        `bg-black/40 dark:bg-white/20 fixed items-center justify-center flex py-4 z-20 h-[100svh] w-[100svw] left-0 top-0 overflow-auto animate-fade-in`,
         className,
       )}
       {...props}
     >
-      <div className="bg-white m-auto w-[100%] tn:w-[380px] dark:bg-black rounded-lg shadow-xl p-4">
+      <div className="bg-white m-auto w-[100%] tn:max-w-sm dark:bg-black rounded-lg shadow-xl p-4">
         <ModalContext.Provider
           value={{
             disabled,
@@ -80,11 +80,13 @@ const ModalHeader = ({
   closeButtonTitle,
   children,
   className,
+  skipX,
 }: {
   className?: string;
   children?: ReactNode;
   title: ReactNode;
-  closeButtonTitle: string;
+  closeButtonTitle?: string;
+  skipX?: boolean;
 }) => {
   const { close, disabled } = useModalContext();
 
@@ -93,17 +95,19 @@ const ModalHeader = ({
       <h6 className="text-xl mr-8">{title}</h6>
       <div className="flex items-center space-x-2">
         {children}
-        <Button
-          i={2}
-          s={1}
-          aria-disabled={disabled}
-          disabled={disabled}
-          title={closeButtonTitle}
-          className="ml-auto"
-          onClick={close}
-        >
-          <BiX />
-        </Button>
+        {skipX || (
+          <Button
+            i={2}
+            s={1}
+            aria-disabled={disabled}
+            disabled={disabled}
+            title={closeButtonTitle}
+            className="ml-auto"
+            onClick={close}
+          >
+            <BiX />
+          </Button>
+        )}
       </div>
     </header>
   );
