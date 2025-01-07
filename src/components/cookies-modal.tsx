@@ -6,12 +6,14 @@ import c from 'classnames';
 import { getCookie, setCookie } from 'development-kit/cookies';
 import { isClient } from 'development-kit/ssr-csr';
 
-const enum CookieType {
-  Necessary = `necessary`,
-  Performance = `performance`,
-  Functional = `functional`,
-  Marketing = `marketing`,
-}
+const ACCEPTANCE_COOKIE_NAME = `acceptance`;
+const ONE_MONTH = 365;
+const COOKIE_TYPE = {
+  NECESSARY: `necessary`,
+  PERFORMANCE: `performance`,
+  FUNCTIONAL: `functional`,
+  MARKETING: `marketing`,
+} satisfies Record<Uppercase<`${string}`>, Lowercase<`${string}`>>;
 
 const enum ViewType {
   Intro = `intro`,
@@ -20,15 +22,15 @@ const enum ViewType {
 
 const CookiesModal = () => {
   const [accepted, setAccepted] = React.useState(
-    () => isClient() && getCookie(CookieType.Necessary) === `true`,
+    () => isClient() && getCookie(ACCEPTANCE_COOKIE_NAME) === `true`,
   );
   const [view, setView] = React.useState(ViewType.Intro);
 
   const [preferences, setPreferences] = React.useState(() => ({
-    [CookieType.Necessary]: true,
-    [CookieType.Performance]: true,
-    [CookieType.Functional]: true,
-    [CookieType.Marketing]: true,
+    [COOKIE_TYPE.NECESSARY]: true,
+    [COOKIE_TYPE.PERFORMANCE]: true,
+    [COOKIE_TYPE.FUNCTIONAL]: true,
+    [COOKIE_TYPE.MARKETING]: true,
   }));
 
   const goToManagement = (): void => {
@@ -40,14 +42,12 @@ const CookiesModal = () => {
   };
 
   const accept = (): void => {
-    const oneYear = 365;
-
-    setCookie(CookieType.Necessary, `true`, oneYear);
+    setCookie(ACCEPTANCE_COOKIE_NAME, `true`, ONE_MONTH);
     setAccepted(true);
   };
 
   const togglePreferences = (category: keyof typeof preferences): void => {
-    if (category === CookieType.Necessary) return;
+    if (category === COOKIE_TYPE.NECESSARY) return;
 
     setPreferences((prev) => ({
       ...prev,
@@ -109,7 +109,7 @@ const CookiesModal = () => {
                       onChange={() =>
                         togglePreferences(key as keyof typeof preferences)
                       }
-                      disabled={key === CookieType.Necessary}
+                      disabled={key === COOKIE_TYPE.NECESSARY}
                     />
                     <div
                       className={c(
@@ -119,20 +119,20 @@ const CookiesModal = () => {
                             value,
                           'bg-gray-200 dark:bg-gray-500': !value,
                           'opacity-50 cursor-not-allowed':
-                            key === CookieType.Necessary,
+                            key === COOKIE_TYPE.NECESSARY,
                         },
                       )}
                     />
                   </label>
                 </div>
                 <p className="text-sm">
-                  {key === CookieType.Necessary &&
+                  {key === COOKIE_TYPE.NECESSARY &&
                     `These cookies are essential for the website to function properly. They cannot be disabled`}
-                  {key === CookieType.Performance &&
+                  {key === COOKIE_TYPE.PERFORMANCE &&
                     `These cookies allow us to count visits and traffic sources to measure and improve the performance of our site`}
-                  {key === CookieType.Functional &&
+                  {key === COOKIE_TYPE.FUNCTIONAL &&
                     `These cookies enable the website to provide enhanced functionality and personalization`}
-                  {key === CookieType.Marketing &&
+                  {key === COOKIE_TYPE.MARKETING &&
                     `These cookies may be set through our site by our advertising partners to build a profile of your interests`}
                 </p>
               </div>
