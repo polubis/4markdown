@@ -231,8 +231,22 @@ const BASE_COMMANDS = {
       cy.visit(`/education-zone/`);
     }
   },
+  'I interact with mouse': () => {
+    cy.get(`body`)
+      .trigger(`mouseover`)
+      .trigger(`mousedown`, { which: 1 })
+      .trigger(`mousemove`, {
+        clientX: 100,
+        clientY: 100,
+        screenX: 100,
+        screenY: 100,
+        pageX: 100,
+        pageY: 100,
+      })
+      .trigger(`mouseup`, { which: 1 });
+  },
   'I accept cookies': () => {
-    cy.get(`body`).click();
+    BASE_COMMANDS[`I interact with mouse`]();
     BASE_COMMANDS[`I click button`]([`Accept cookies`]);
   },
 } as const;
