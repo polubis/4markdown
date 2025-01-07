@@ -53,28 +53,4 @@ const config: GatsbyConfig = {
   ],
 };
 
-if (process.env.GA_ID) {
-  config.plugins?.push({
-    resolve: `gatsby-plugin-google-gtag`,
-    options: {
-      trackingIds: [process.env.GA_ID],
-      gtagConfig: {
-        anonymize_ip: true,
-      },
-      pluginConfig: {
-        respectDNT: true,
-      },
-    },
-  });
-}
-
 export default config;
-
-// gtagConfig: {
-//   anonymize_ip: true, // Hides user IP for GDPR compliance
-// },
-// pluginConfig: {
-//   respectDNT: false, // Disables tracking for browsers with "Do Not Track" enabled
-//   delayOnRouteUpdate: 0, // No delay for route changes
-//   head: false, // Injects the gtag script at the end of the body
-// },
