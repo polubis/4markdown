@@ -227,6 +227,9 @@ const BASE_COMMANDS = {
     if (name === `education-zone`) {
       cy.visit(`/education-zone/`);
     }
+
+    cy.get(`body`).click();
+    BASE_COMMANDS[`I click button`]([`Accept cookies`]);
   },
 } as const;
 
