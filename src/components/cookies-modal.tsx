@@ -60,6 +60,10 @@ const CookiesModal = () => {
     }));
   };
 
+  React.useEffect(() => {
+    initAnalytics();
+  }, []);
+
   if (accepted) return null;
 
   return (
