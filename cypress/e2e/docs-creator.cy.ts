@@ -43,7 +43,6 @@ describe(`Docs creator works when`, () => {
     - Subitem B`;
 
     Given(`Im on page`, `home`)
-      .And(`I accept cookies`)
       .And(`I see not disabled button`, [`Sign in`])
       .When(`I clear creator`)
       .And(`I type in creator`, sample)
