@@ -37,6 +37,10 @@ const CookiesModal = () => {
     setView(ViewType.Intro);
   };
 
+  const goToPolicy = (): void => {
+    setView(ViewType.Policy);
+  };
+
   const accept = (): void => {
     const performance = preferences[COOKIE_TYPE.PERFORMANCE];
 
@@ -70,7 +74,7 @@ const CookiesModal = () => {
           <button
             className="text-sm font-bold underline underline-offset-2 text-blue-800 dark:text-blue-500"
             title="Read privacy policy"
-            onClick={() => setView(ViewType.Policy)}
+            onClick={goToPolicy}
           >
             Read Our Privacy Policy
           </button>
