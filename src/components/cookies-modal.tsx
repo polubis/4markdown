@@ -13,7 +13,7 @@ const COOKIE_TYPE = {
   PERFORMANCE: `performance`,
   FUNCTIONAL: `functional`,
   MARKETING: `marketing`,
-} satisfies Record<Uppercase<`${string}`>, Lowercase<`${string}`>>;
+} satisfies Record<Uppercase<string>, Lowercase<string>>;
 
 const enum ViewType {
   Intro = `intro`,
