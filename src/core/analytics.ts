@@ -46,7 +46,7 @@ const initAnalytics = (): Promise<void> => {
 
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
     script.async = true;
-    script.id = `analytics`;
+    script.id = scriptId;
 
     document.head.appendChild(script);
 
