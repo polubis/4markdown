@@ -36,7 +36,10 @@ const CookiesModal = () => {
   };
 
   const accept = (): void => {
+    const performance = preferences[COOKIE_TYPE.PERFORMANCE];
+
     setCookie(ACCEPTANCE_COOKIE_NAME, `true`, ONE_MONTH);
+    setCookie(COOKIE_TYPE.PERFORMANCE, `` + performance, ONE_MONTH);
     setAccepted(true);
   };
 
