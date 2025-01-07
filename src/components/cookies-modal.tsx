@@ -7,6 +7,7 @@ import { isClient } from 'development-kit/ssr-csr';
 import { ACCEPTANCE_COOKIE_NAME, COOKIE_TYPE } from 'core/cookies';
 import { initAnalytics } from 'core/analytics';
 import { PrivacyPolicyContent } from './privacy-policy-content';
+import { meta } from '../../meta';
 
 const ONE_MONTH = 31;
 
@@ -67,9 +68,10 @@ const CookiesModal = () => {
         <>
           <Modal.Header title="Privacy Policy Settings" skipX />
           <p className="text-justify mb-2">
-            By clicking <strong>Accept All</strong>, you agree to the storing of
-            cookies on your device to enhance site navigation, analyze site
-            usage, and assist in our marketing efforts
+            By clicking <strong>Accept</strong>, you consent to the use of
+            cookies and agree to the <strong>{meta.appName}</strong> privacy
+            policy. These cookies are used to enhance site navigation, analyze
+            usage patterns, and support our marketing efforts
           </p>
           <button
             className="text-sm font-bold underline underline-offset-2 text-blue-800 dark:text-blue-500"

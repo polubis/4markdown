@@ -13,21 +13,16 @@ let initialized = false;
 const initAnalytics = (): Promise<void> => {
   return new Promise((resolve) => {
     const trackable = getCookie(COOKIE_TYPE.PERFORMANCE) === `true`;
-    const id = process.env.GATSBY_GA_ID;
+    const gaId = process.env.GATSBY_GA_ID;
 
-    if (!id || !trackable || initialized || navigator?.doNotTrack === `1`)
+    if (!gaId || !trackable || initialized || navigator?.doNotTrack === `1`)
       return resolve();
 
     const w = window as Window;
 
-    const script = document.createElement(`script`);
+    const scriptId = `__script-analytics__`;
 
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
-    script.async = true;
-
-    document.head.appendChild(script);
-
-    script.onload = () => {
+    const triggerAnalytics = (): void => {
       w.dataLayer = w.dataLayer || [];
 
       w.gtag = function () {
@@ -35,11 +30,28 @@ const initAnalytics = (): Promise<void> => {
       };
 
       w.gtag(`js`, new Date());
-      w.gtag(`config`, id);
+      w.gtag(`config`, gaId);
 
       initialized = true;
 
       resolve();
+    };
+
+    if (document.getElementById(scriptId)) {
+      triggerAnalytics();
+      return resolve();
+    }
+
+    const script = document.createElement(`script`);
+
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+    script.async = true;
+    script.id = `analytics`;
+
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      triggerAnalytics();
     };
   });
 };
