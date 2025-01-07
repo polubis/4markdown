@@ -48,11 +48,15 @@ const initAnalytics = (): Promise<void> => {
     script.async = true;
     script.id = scriptId;
 
-    document.head.appendChild(script);
-
     script.onload = () => {
       triggerAnalytics();
     };
+
+    script.onerror = () => {
+      resolve();
+    };
+
+    document.head.appendChild(script);
   });
 };
 
