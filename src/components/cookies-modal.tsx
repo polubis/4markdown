@@ -1,18 +1,19 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
 import React from 'react';
-import { meta } from '../../meta';
 import c from 'classnames';
 import { getCookie, setCookie } from 'development-kit/cookies';
 import { isClient } from 'development-kit/ssr-csr';
 import { ACCEPTANCE_COOKIE_NAME, COOKIE_TYPE } from 'core/cookies';
 import { initAnalytics } from 'core/analytics';
+import { PrivacyPolicyContent } from './privacy-policy-content';
 
-const ONE_MONTH = 365;
+const ONE_MONTH = 31;
 
 const enum ViewType {
   Intro = `intro`,
   Manage = `manage`,
+  Policy = `policy`,
 }
 
 const CookiesModal = () => {
@@ -66,15 +67,13 @@ const CookiesModal = () => {
             cookies on your device to enhance site navigation, analyze site
             usage, and assist in our marketing efforts
           </p>
-          <a
+          <button
             className="text-sm font-bold underline underline-offset-2 text-blue-800 dark:text-blue-500"
-            title="Go to privacy policy"
-            href={meta.routes.privacyPolicy}
-            target="_blank"
-            rel="noreferrer"
+            title="Read privacy policy"
+            onClick={() => setView(ViewType.Policy)}
           >
-            Read our Privacy Policy
-          </a>
+            Read Our Privacy Policy
+          </button>
           <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
             <Button s={2} i={2} auto onClick={goToManagement}>
               Customize
@@ -143,6 +142,19 @@ const CookiesModal = () => {
             </Button>
             <Button s={2} i={2} auto onClick={accept}>
               Accept
+            </Button>
+          </footer>
+        </>
+      )}
+
+      {view === ViewType.Policy && (
+        <>
+          <div className="[&>h1]:pb-3 [&>h2]:pb-1 markdown [&>h1]:text-5xl [&>h2]:text-4xl [&>*]:mb-3">
+            <PrivacyPolicyContent />
+          </div>
+          <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
+            <Button s={2} i={2} auto onClick={goToIntro}>
+              Back
             </Button>
           </footer>
         </>
