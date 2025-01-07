@@ -13,12 +13,13 @@ let initialized = false;
 const initAnalytics = (): Promise<void> => {
   return new Promise((resolve) => {
     const trackable = getCookie(COOKIE_TYPE.PERFORMANCE) === `true`;
+    const id = process.env.GATSBY_GA_ID;
 
-    if (!trackable || initialized || navigator?.doNotTrack === `1`)
+    if (!id || !trackable || initialized || navigator?.doNotTrack === `1`)
       return resolve();
 
     const w = window as Window;
-    const id = process.env.GATSBY_GA_ID;
+
     const script = document.createElement(`script`);
 
     script.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;

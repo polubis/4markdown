@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from 'react';
-import { type RouteUpdateArgs } from 'gatsby';
 import ErrorBoundary from './src/development-kit/error-boundary';
 import { useAuth } from './src/core/use-auth';
 import { CookiesModalLoader } from './src/components/cookies-modal-loader';
@@ -22,14 +21,14 @@ const SafeExceptionScreen = () => (
 export const wrapPageElement = ({ element }) => {
   useAuth();
 
+  React.useEffect(() => {
+    initAnalytics();
+  }, []);
+
   return (
     <ErrorBoundary fallback={SafeExceptionScreen}>
       {element}
       <CookiesModalLoader />
     </ErrorBoundary>
   );
-};
-
-export const onRouteUpdate = (_: RouteUpdateArgs) => {
-  initAnalytics();
 };
