@@ -68,7 +68,7 @@ const CookiesModal = () => {
             usage, and assist in our marketing efforts
           </p>
           <a
-            className="text-sm underline underline-offset-2 text-blue-800 dark:text-blue-500"
+            className="text-sm font-bold underline underline-offset-2 text-blue-800 dark:text-blue-500"
             title="Go to privacy policy"
             href={meta.routes.privacyPolicy}
             target="_blank"
