@@ -6,6 +6,7 @@ import c from 'classnames';
 import { getCookie, setCookie } from 'development-kit/cookies';
 import { isClient } from 'development-kit/ssr-csr';
 import { ACCEPTANCE_COOKIE_NAME, COOKIE_TYPE } from 'core/cookies';
+import { initAnalytics } from 'core/analytics';
 
 const ONE_MONTH = 365;
 
@@ -41,6 +42,7 @@ const CookiesModal = () => {
     setCookie(ACCEPTANCE_COOKIE_NAME, `true`, ONE_MONTH);
     setCookie(COOKIE_TYPE.PERFORMANCE, `` + performance, ONE_MONTH);
     setAccepted(true);
+    initAnalytics();
   };
 
   const togglePreferences = (category: keyof typeof preferences): void => {

@@ -1,6 +1,4 @@
 import React from 'react';
-import { isClient } from 'development-kit/ssr-csr';
-import { meta } from '../../meta';
 import { useOnFirstInteraction } from 'development-kit/use-on-first-interaction';
 
 const CookiesModal = React.lazy(() =>
@@ -12,11 +10,7 @@ const CookiesModal = React.lazy(() =>
 const CookiesModalLoader = () => {
   const { interacted } = useOnFirstInteraction();
 
-  if (
-    isClient() &&
-    interacted &&
-    window.location.pathname !== meta.routes.privacyPolicy
-  )
+  if (interacted)
     return (
       <React.Suspense>
         <CookiesModal />
