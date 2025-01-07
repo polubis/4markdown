@@ -47,7 +47,7 @@ const CookiesModal = () => {
   };
 
   const togglePreferences = (category: keyof typeof preferences): void => {
-    if (category === `necessary`) return;
+    if (category === CookieType.Necessary) return;
 
     setPreferences((prev) => ({
       ...prev,
