@@ -99,7 +99,7 @@ const DocumentChaptersModal = ({
         onClose={onClose}
       >
         <Modal.Header
-          className="p-4 border-b-2 border-zinc-300 dark:border-zinc-800 mb-0"
+          className="p-4 border-b-2 border-zinc-300 dark:border-zinc-800 !mb-0"
           title={`Chapter (${activeSectionIndex + 1})`}
           closeButtonTitle="Close display as a book mode (Esc)"
         />
