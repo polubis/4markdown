@@ -9,7 +9,7 @@ describe(`Docs creator works when`, () => {
   });
 
   beforeEach(() => {
-    Given(`System cleans local storage`);
+    Given(`System cleans local storage`).And(`System has accepted cookies`);
   });
 
   afterEach(() => {

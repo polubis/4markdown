@@ -127,6 +127,9 @@ const BASE_COMMANDS = {
     acc = 1;
     folder = undefined;
   },
+  'System has accepted cookies': () => {
+    cy.setCookie(`acceptance`, `true`);
+  },
   'System cleans local storage': async () => {
     cy.clearAllLocalStorage();
     cy.window().then((win) => {

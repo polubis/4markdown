@@ -12,8 +12,8 @@ describe(`Docs browse works when`, () => {
 
   beforeEach(() => {
     Given(`System cleans local storage`)
-      .And(`Im on page`, `home`)
-      .And(`I accept cookies`);
+      .And(`System has accepted cookies`)
+      .And(`Im on page`, `home`);
   });
 
   after(() => {

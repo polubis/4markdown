@@ -66,7 +66,7 @@ describe(`Docs display works when`, () => {
     Given(`System sets pictures folder`, `docs-display`)
       .And(`System cleans local storage`)
       .And(`Im on page`, `home`)
-      .And(`I accept cookies`);
+      .And(`System has accepted cookies`);
   });
 
   afterEach(() => {
