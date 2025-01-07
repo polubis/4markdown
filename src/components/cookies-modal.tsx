@@ -81,10 +81,16 @@ const CookiesModal = () => {
             Read Our Privacy Policy
           </button>
           <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
-            <Button s={2} i={2} auto onClick={goToManagement}>
+            <Button
+              s={2}
+              i={2}
+              title="Customize cookies"
+              auto
+              onClick={goToManagement}
+            >
               Customize
             </Button>
-            <Button s={2} i={2} auto onClick={accept}>
+            <Button title="Accept cookies" s={2} i={2} auto onClick={accept}>
               Accept
             </Button>
           </footer>
@@ -143,10 +149,22 @@ const CookiesModal = () => {
             ))}
           </div>
           <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
-            <Button s={2} i={2} auto onClick={goToIntro}>
+            <Button
+              s={2}
+              i={2}
+              auto
+              onClick={goToIntro}
+              title="Back to cookies intro"
+            >
               Back
             </Button>
-            <Button s={2} i={2} auto onClick={accept}>
+            <Button
+              s={2}
+              i={2}
+              auto
+              onClick={accept}
+              title="Accept customized cookies"
+            >
               Accept
             </Button>
           </footer>
@@ -159,7 +177,13 @@ const CookiesModal = () => {
             <PrivacyPolicyContent />
           </div>
           <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
-            <Button s={2} i={2} auto onClick={goToIntro}>
+            <Button
+              s={2}
+              i={2}
+              auto
+              onClick={goToIntro}
+              title="Back to cookies intro"
+            >
               Back
             </Button>
           </footer>

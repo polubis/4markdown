@@ -49,7 +49,9 @@ type ClickableControls =
   | `Add your avatar`
   | `Recent documents`
   | `Old documents`
-  | `Really Old documents`;
+  | `Really Old documents`
+  | `Accept cookies`
+  | `Accept customized cookies`;
 
 type Element =
   | `Create any content`
