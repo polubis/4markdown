@@ -49,7 +49,9 @@ type ClickableControls =
   | `Add your avatar`
   | `Recent documents`
   | `Old documents`
-  | `Really Old documents`;
+  | `Really Old documents`
+  | `Accept cookies`
+  | `Accept customized cookies`;
 
 type Element =
   | `Create any content`
@@ -124,6 +126,9 @@ const BASE_COMMANDS = {
   'System cleans pictures setup': () => {
     acc = 1;
     folder = undefined;
+  },
+  'System has accepted cookies': () => {
+    cy.setCookie(`acceptance`, `true`);
   },
   'System cleans local storage': async () => {
     cy.clearAllLocalStorage();
@@ -225,6 +230,24 @@ const BASE_COMMANDS = {
     if (name === `education-zone`) {
       cy.visit(`/education-zone/`);
     }
+  },
+  'I interact with mouse': () => {
+    cy.get(`body`)
+      .trigger(`mouseover`)
+      .trigger(`mousedown`, { which: 1 })
+      .trigger(`mousemove`, {
+        clientX: 100,
+        clientY: 100,
+        screenX: 100,
+        screenY: 100,
+        pageX: 100,
+        pageY: 100,
+      })
+      .trigger(`mouseup`, { which: 1 });
+  },
+  'I accept cookies': () => {
+    BASE_COMMANDS[`I interact with mouse`]();
+    BASE_COMMANDS[`I click button`]([`Accept cookies`]);
   },
 } as const;
 

@@ -26,7 +26,9 @@ describe(`Privacy policy works when`, () => {
   });
 
   before(() => {
-    Given(`System sets pictures folder`, `privacy-policy`);
+    Given(`System sets pictures folder`, `privacy-policy`).And(
+      `System has accepted cookies`,
+    );
   });
 
   beforeEach(() => {
