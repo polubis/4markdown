@@ -2,10 +2,22 @@ import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
 describe(`Creator sync works when`, () => {
-  it(`user see changes from local storage after page refresh`, () => {
-    const { Given } = Gherkin(BASE_COMMANDS);
+  const { Given } = Gherkin(BASE_COMMANDS);
 
-    Given(`Im on page`, `home`)
+  before(() => {
+    Given(`System sets pictures folder`, `docs-browse`);
+  });
+
+  beforeEach(() => {
+    Given(`System cleans local storage`).And(`Im on page`, `home`);
+  });
+
+  after(() => {
+    Given(`System cleans pictures setup`).And(`System cleans local storage`);
+  });
+
+  it(`user see changes from local storage after page refresh`, () => {
+    Given(`I accept cookies`)
       .And(`I see not disabled button`, [`Sign in`])
       .When(`I click button`, [`Change theme`])
       .And(`I type in creator`, `## Markdown local storage sync test`)
