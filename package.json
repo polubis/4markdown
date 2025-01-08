@@ -33,6 +33,9 @@
     "benchmark": "node benchmark.js"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.2.2",
+    "@uiw/codemirror-theme-okaidia": "^4.23.7",
+    "@uiw/react-codemirror": "^4.23.7",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "firebase": "^11.1.0",
