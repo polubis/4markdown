@@ -1,7 +1,12 @@
 import React from 'react';
 import CodeMirror, { type Extension } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
-import { vscodeDark, vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
+import {
+  vscodeDark,
+  vscodeDarkInit,
+  vscodeLight,
+  vscodeLightInit,
+} from '@uiw/codemirror-theme-vscode';
 import { python } from '@codemirror/lang-python';
 import { markdown } from '@codemirror/lang-markdown';
 
