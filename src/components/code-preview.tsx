@@ -1,21 +1,42 @@
 import React from 'react';
-import CodeMirror from '@uiw/react-codemirror';
+import CodeMirror, { type Extension } from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
-import { okaidia } from '@uiw/codemirror-theme-okaidia';
+import { vscodeDark, vscodeDarkInit } from '@uiw/codemirror-theme-vscode';
+import { python } from '@codemirror/lang-python';
+import { markdown } from '@codemirror/lang-markdown';
 
-const extensions = [
-  javascript({ jsx: true }), // Add cursor visibility option to remove the cursor
-];
+type Language = `javascript` | `typescript` | `markdown` | `python`;
 
 type CodePreviewProps = {
+  language: Language;
   children: string;
 };
 
-const CodePreview = ({ children }: CodePreviewProps) => {
+const getLanguageMode = (language: Language): Extension => {
+  switch (language) {
+    case `python`:
+      return python();
+    case `typescript`:
+      return javascript({ typescript: true });
+    case `markdown`:
+      return markdown();
+    case `javascript`:
+      return javascript();
+    default:
+      throw Error(`Language parameter is required`);
+  }
+};
+
+const CodePreview = ({ language, children }: CodePreviewProps) => {
+  const extensions = React.useMemo(
+    () => [vscodeDark, getLanguageMode(language)],
+    [language],
+  );
+
   return (
     <CodeMirror
-      value={children}
-      theme={okaidia}
+      value={children.trimEnd()}
+      theme={vscodeDarkInit()}
       readOnly
       extensions={extensions}
     />

@@ -102,7 +102,13 @@ const OPTIONS: MarkdownToJSX.Options = {
         {children}
       </table>
     ),
-    code: ({ children }) => <CodePreview>{children}</CodePreview>,
+    code: ({ children, className }) => (
+      <CodePreview
+        language={className ? className.split(`-`)[1] : `javascript`}
+      >
+        {children}
+      </CodePreview>
+    ),
     td: ({ children }) => <td className="text-center px-2 py-2">{children}</td>,
     th: ({ children }) => <th className="px-2 py-2">{children}</th>,
     blockquote: ({ children }) => (

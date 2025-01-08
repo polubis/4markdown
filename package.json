@@ -34,7 +34,9 @@
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.2",
-    "@uiw/codemirror-theme-okaidia": "^4.23.7",
+    "@codemirror/lang-markdown": "^6.3.1",
+    "@codemirror/lang-python": "^6.1.6",
+    "@uiw/codemirror-theme-vscode": "^4.23.7",
     "@uiw/react-codemirror": "^4.23.7",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
