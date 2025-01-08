@@ -1,37 +1,12 @@
-import React, {
-  type ReactNode,
-  type HTMLAttributes,
-  type DetailedHTMLProps,
-  type ReactElement,
-} from 'react';
+import React, { type ReactNode, type ReactElement } from 'react';
 import type { MarkdownToJSX } from 'markdown-to-jsx';
 import MarkdownRenderer from 'markdown-to-jsx';
-import { highlightElement } from 'prismjs';
 import c from 'classnames';
 import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
-
-const Code = ({
-  children,
-}: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
-  const ref = React.useRef<HTMLElement | null>(null);
-
-  React.useLayoutEffect(() => {
-    if (!ref.current) {
-      throw Error(`Cannot highlight because there is a missing wrapper.`);
-    }
-
-    highlightElement(ref.current);
-  }, [children]);
-
-  return (
-    <code ref={ref} className="language-javascript">
-      {children}
-    </code>
-  );
-};
+import { CodePreview } from './code-preview';
 
 const isReactElement = (
   node: unknown,
@@ -127,7 +102,7 @@ const OPTIONS: MarkdownToJSX.Options = {
         {children}
       </table>
     ),
-    code: Code,
+    code: ({ children }) => <CodePreview>{children}</CodePreview>,
     td: ({ children }) => <td className="text-center px-2 py-2">{children}</td>,
     th: ({ children }) => <th className="px-2 py-2">{children}</th>,
     blockquote: ({ children }) => (
