@@ -12,22 +12,30 @@ import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-java';
+import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-jsx';
+import { falsy } from 'development-kit/guards';
 
 const Code = ({
   children,
+  className = `lang-javascript`,
 }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
 
   React.useLayoutEffect(() => {
-    if (!ref.current) {
-      throw Error(`Cannot highlight because there is a missing wrapper.`);
-    }
-
-    highlightElement(ref.current);
+    const codeElement = ref.current;
+    falsy(codeElement, `Cannot highlight because there is a missing wrapper`);
+    highlightElement(codeElement);
   }, [children]);
 
+  const [, langId] = className.split(`-`);
+  const langClassName = `language-${langId}`;
+  console.log(langClassName);
   return (
-    <code ref={ref} className="language-javascript">
+    <code ref={ref} className={langClassName}>
       {children}
     </code>
   );
