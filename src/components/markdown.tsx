@@ -12,6 +12,9 @@ import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
+import ErrorBoundary from 'development-kit/error-boundary';
 
 const Code = ({
   children,
@@ -78,8 +81,22 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const MathBlock = ({ children }: { children: string[] }) => {
+  const latexCode = children[0]?.trim();
+
+  return (
+    <ErrorBoundary fallback={() => null}>
+      <div
+        dangerouslySetInnerHTML={{
+          __html: katex.renderToString(latexCode, { throwOnError: false }),
+        }}
+      />
+    </ErrorBoundary>
+  );
+};
+
 const OPTIONS: MarkdownToJSX.Options = {
-  disableParsingRawHTML: true,
+  disableParsingRawHTML: false,
   overrides: {
     h1: ({ children }) => (
       <h1 className="text-5xl break-words pb-3">{children}</h1>
@@ -139,6 +156,9 @@ const OPTIONS: MarkdownToJSX.Options = {
         <pre className="p-4">{children}</pre>
       </div>
     ),
+    $$: () => <div className="bg-red-400">siema</div>,
+    math: ({ children }) => <MathBlock>{children}</MathBlock>,
+    mathInline: () => <div className="bg-red-400">siema</div>,
   },
 };
 
