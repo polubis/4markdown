@@ -21,6 +21,7 @@ describe(`Creator sync works when`, () => {
   it(`user see changes from local storage after page refresh`, () => {
     Given(`I see not disabled button`, [`Sign in`])
       .When(`I click button`, [`Change theme`])
+      .And(`I clear creator`)
       .And(`I type in creator`, `## Markdown local storage sync test`)
       .Then(`I see text`, [
         `## Markdown local storage sync test`,
