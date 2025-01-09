@@ -9,7 +9,9 @@ describe(`Creator sync works when`, () => {
   });
 
   beforeEach(() => {
-    Given(`System cleans local storage`).And(`Im on page`, `home`);
+    Given(`System cleans local storage`)
+      .And(`System has accepted cookies`)
+      .And(`Im on page`, `home`);
   });
 
   after(() => {
@@ -17,8 +19,7 @@ describe(`Creator sync works when`, () => {
   });
 
   it(`user see changes from local storage after page refresh`, () => {
-    Given(`I accept cookies`)
-      .And(`I see not disabled button`, [`Sign in`])
+    Given(`I see not disabled button`, [`Sign in`])
       .When(`I click button`, [`Change theme`])
       .And(`I type in creator`, `## Markdown local storage sync test`)
       .Then(`I see text`, [
