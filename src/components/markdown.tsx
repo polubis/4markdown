@@ -182,7 +182,7 @@ const OPTIONS: MarkdownToJSX.Options = {
         <pre className="p-4">{children}</pre>
       </div>
     ),
-    math: ({ children }) => <MathBlock>{children}</MathBlock>,
+    math: MathBlock,
     mathInline: InlineMath,
   },
 };
