@@ -12,6 +12,8 @@ import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 const Code = ({
   children,
@@ -20,7 +22,7 @@ const Code = ({
 
   React.useLayoutEffect(() => {
     if (!ref.current) {
-      throw Error(`Cannot highlight because there is a missing wrapper.`);
+      throw Error(`Cannot highlight because there is a missing wrapper`);
     }
 
     highlightElement(ref.current);
@@ -78,8 +80,49 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const getSyntax = (syntax: unknown): string | undefined => {
+  if (Array.isArray(syntax) && typeof syntax[0] === `string`) {
+    return syntax[0].trim();
+  }
+};
+
+const MathBlock = ({ children }: { children: unknown }) => {
+  const syntax = getSyntax(children);
+
+  if (syntax) {
+    return (
+      <p
+        className="flex justify-center"
+        dangerouslySetInnerHTML={{
+          __html: katex.renderToString(syntax, {
+            throwOnError: false,
+            displayMode: true,
+          }),
+        }}
+      />
+    );
+  }
+};
+
+const InlineMath = ({ children }: { children: unknown }) => {
+  const syntax = getSyntax(children);
+
+  if (syntax) {
+    return (
+      <span
+        dangerouslySetInnerHTML={{
+          __html: katex.renderToString(syntax, {
+            throwOnError: false,
+            displayMode: false,
+          }),
+        }}
+      />
+    );
+  }
+};
+
 const OPTIONS: MarkdownToJSX.Options = {
-  disableParsingRawHTML: true,
+  disableParsingRawHTML: false,
   overrides: {
     h1: ({ children }) => (
       <h1 className="text-5xl break-words pb-3">{children}</h1>
@@ -139,6 +182,8 @@ const OPTIONS: MarkdownToJSX.Options = {
         <pre className="p-4">{children}</pre>
       </div>
     ),
+    math: MathBlock,
+    mathInline: InlineMath,
   },
 };
 
@@ -153,10 +198,21 @@ const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
 
 M.className = `markdown`;
 
+const preprocessMath = (markdown: string): string =>
+  markdown
+    .replace(/\$\$([\s\S]+?)\$\$/g, `<math>$1</math>`)
+    .replace(/\$([^$]+)\$/g, `<mathInline>$1</mathInline>`);
+
 const Markdown = ({ className, children }: MarkdownProps) => {
   return (
-    <div className={c(M.className, className)}>
-      <M>{children}</M>
+    <div
+      className={c(
+        M.className,
+        `[&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`,
+        className,
+      )}
+    >
+      <M>{preprocessMath(children)}</M>
     </div>
   );
 };
