@@ -122,7 +122,7 @@ const InlineMath = ({ children }: { children: unknown }) => {
 };
 
 const OPTIONS: MarkdownToJSX.Options = {
-  disableParsingRawHTML: true,
+  disableParsingRawHTML: false,
   overrides: {
     h1: ({ children }) => (
       <h1 className="text-5xl break-words pb-3">{children}</h1>
@@ -205,7 +205,13 @@ const preprocessMath = (markdown: string): string =>
 
 const Markdown = ({ className, children }: MarkdownProps) => {
   return (
-    <div className={c(M.className, className)}>
+    <div
+      className={c(
+        M.className,
+        `[&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`,
+        className,
+      )}
+    >
       <M>{preprocessMath(children)}</M>
     </div>
   );
