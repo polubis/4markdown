@@ -83,36 +83,33 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
 
 const MathBlock = ({ children }: { children: string[] }) => {
   console.log(children);
-  if (children.length === 0) return null;
+  if (!children || children.length === 0) return null;
+
   return (
-    <ErrorBoundary fallback={() => <span>Wrong formula syntax</span>}>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: katex.renderToString(children[0].trim(), {
-            throwOnError: false,
-          }),
-        }}
-      />
-    </ErrorBoundary>
+    <p
+      dangerouslySetInnerHTML={{
+        __html: katex.renderToString(children[0].trim(), {
+          throwOnError: false,
+        }),
+      }}
+    />
   );
 };
 
 const InlineMath = ({ children }: { children: string[] }) => {
   console.log(children);
 
-  if (children.length === 0) return null;
+  if (!children || children.length === 0) return null;
 
   return (
-    <ErrorBoundary fallback={() => <span>Wrong formula syntax</span>}>
-      <span
-        dangerouslySetInnerHTML={{
-          __html: katex.renderToString(children[0].trim(), {
-            throwOnError: false,
-            displayMode: false,
-          }),
-        }}
-      />
-    </ErrorBoundary>
+    <span
+      dangerouslySetInnerHTML={{
+        __html: katex.renderToString(children[0].trim(), {
+          throwOnError: false,
+          displayMode: false,
+        }),
+      }}
+    />
   );
 };
 
