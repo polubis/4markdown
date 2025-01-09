@@ -80,32 +80,43 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const MathBlock = ({ children }: { children: string[] }) => {
-  if (!children || children.length === 0) return null;
-
-  return (
-    <p
-      dangerouslySetInnerHTML={{
-        __html: katex.renderToString(children[0].trim(), {
-          throwOnError: false,
-        }),
-      }}
-    />
-  );
+const getSyntax = (syntax: unknown): string | undefined => {
+  if (Array.isArray(syntax) && typeof syntax[0] === `string`) {
+    return syntax[0].trim();
+  }
 };
 
-const InlineMath = ({ children }: { children: string[] }) => {
-  if (!children || children.length === 0) return null;
+const MathBlock = ({ children }: { children: unknown }) => {
+  const syntax = getSyntax(children);
 
-  return (
-    <span
-      dangerouslySetInnerHTML={{
-        __html: katex.renderToString(children[0].trim(), {
-          throwOnError: false,
-        }),
-      }}
-    />
-  );
+  if (syntax) {
+    return (
+      <p
+        className="flex justify-center"
+        dangerouslySetInnerHTML={{
+          __html: katex.renderToString(syntax, {
+            throwOnError: false,
+          }),
+        }}
+      />
+    );
+  }
+};
+
+const InlineMath = ({ children }: { children: unknown }) => {
+  const syntax = getSyntax(children);
+
+  if (syntax) {
+    return (
+      <span
+        dangerouslySetInnerHTML={{
+          __html: katex.renderToString(syntax, {
+            throwOnError: false,
+          }),
+        }}
+      />
+    );
+  }
 };
 
 const OPTIONS: MarkdownToJSX.Options = {
