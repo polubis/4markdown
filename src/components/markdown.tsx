@@ -82,13 +82,34 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
 };
 
 const MathBlock = ({ children }: { children: string[] }) => {
-  const latexCode = children[0]?.trim();
-
+  console.log(children);
+  if (children.length === 0) return null;
   return (
-    <ErrorBoundary fallback={() => null}>
+    <ErrorBoundary fallback={() => <span>Wrong formula syntax</span>}>
       <div
         dangerouslySetInnerHTML={{
-          __html: katex.renderToString(latexCode, { throwOnError: false }),
+          __html: katex.renderToString(children[0].trim(), {
+            throwOnError: false,
+          }),
+        }}
+      />
+    </ErrorBoundary>
+  );
+};
+
+const InlineMath = ({ children }: { children: string[] }) => {
+  console.log(children);
+
+  if (children.length === 0) return null;
+
+  return (
+    <ErrorBoundary fallback={() => <span>Wrong formula syntax</span>}>
+      <span
+        dangerouslySetInnerHTML={{
+          __html: katex.renderToString(children[0].trim(), {
+            throwOnError: false,
+            displayMode: false,
+          }),
         }}
       />
     </ErrorBoundary>
@@ -96,7 +117,7 @@ const MathBlock = ({ children }: { children: string[] }) => {
 };
 
 const OPTIONS: MarkdownToJSX.Options = {
-  disableParsingRawHTML: false,
+  disableParsingRawHTML: true,
   overrides: {
     h1: ({ children }) => (
       <h1 className="text-5xl break-words pb-3">{children}</h1>
@@ -156,9 +177,8 @@ const OPTIONS: MarkdownToJSX.Options = {
         <pre className="p-4">{children}</pre>
       </div>
     ),
-    $$: () => <div className="bg-red-400">siema</div>,
     math: ({ children }) => <MathBlock>{children}</MathBlock>,
-    mathInline: () => <div className="bg-red-400">siema</div>,
+    mathInline: InlineMath,
   },
 };
 
@@ -173,10 +193,15 @@ const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
 
 M.className = `markdown`;
 
+const preprocessMath = (markdown: string) =>
+  markdown
+    .replace(/\$\$([\s\S]+?)\$\$/g, `<math>$1</math>`)
+    .replace(/\$([^$]+)\$/g, `<mathInline>$1</mathInline>`);
+
 const Markdown = ({ className, children }: MarkdownProps) => {
   return (
     <div className={c(M.className, className)}>
-      <M>{children}</M>
+      <M>{preprocessMath(children)}</M>
     </div>
   );
 };
