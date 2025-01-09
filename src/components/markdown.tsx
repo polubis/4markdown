@@ -14,7 +14,6 @@ import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
-import ErrorBoundary from 'development-kit/error-boundary';
 
 const Code = ({
   children,
@@ -82,7 +81,6 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
 };
 
 const MathBlock = ({ children }: { children: string[] }) => {
-  console.log(children);
   if (!children || children.length === 0) return null;
 
   return (
@@ -97,8 +95,6 @@ const MathBlock = ({ children }: { children: string[] }) => {
 };
 
 const InlineMath = ({ children }: { children: string[] }) => {
-  console.log(children);
-
   if (!children || children.length === 0) return null;
 
   return (
@@ -106,7 +102,6 @@ const InlineMath = ({ children }: { children: string[] }) => {
       dangerouslySetInnerHTML={{
         __html: katex.renderToString(children[0].trim(), {
           throwOnError: false,
-          displayMode: false,
         }),
       }}
     />
@@ -114,7 +109,7 @@ const InlineMath = ({ children }: { children: string[] }) => {
 };
 
 const OPTIONS: MarkdownToJSX.Options = {
-  disableParsingRawHTML: true,
+  disableParsingRawHTML: false,
   overrides: {
     h1: ({ children }) => (
       <h1 className="text-5xl break-words pb-3">{children}</h1>
@@ -190,7 +185,7 @@ const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
 
 M.className = `markdown`;
 
-const preprocessMath = (markdown: string) =>
+const preprocessMath = (markdown: string): string =>
   markdown
     .replace(/\$\$([\s\S]+?)\$\$/g, `<math>$1</math>`)
     .replace(/\$([^$]+)\$/g, `<mathInline>$1</mathInline>`);
