@@ -96,6 +96,7 @@ const MathBlock = ({ children }: { children: unknown }) => {
         dangerouslySetInnerHTML={{
           __html: katex.renderToString(syntax, {
             throwOnError: false,
+            displayMode: true,
           }),
         }}
       />
@@ -112,6 +113,7 @@ const InlineMath = ({ children }: { children: unknown }) => {
         dangerouslySetInnerHTML={{
           __html: katex.renderToString(syntax, {
             throwOnError: false,
+            displayMode: false,
           }),
         }}
       />
