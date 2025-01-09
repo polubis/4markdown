@@ -22,7 +22,7 @@ const Code = ({
 
   React.useLayoutEffect(() => {
     if (!ref.current) {
-      throw Error(`Cannot highlight because there is a missing wrapper.`);
+      throw Error(`Cannot highlight because there is a missing wrapper`);
     }
 
     highlightElement(ref.current);
@@ -122,7 +122,7 @@ const InlineMath = ({ children }: { children: unknown }) => {
 };
 
 const OPTIONS: MarkdownToJSX.Options = {
-  disableParsingRawHTML: false,
+  disableParsingRawHTML: true,
   overrides: {
     h1: ({ children }) => (
       <h1 className="text-5xl break-words pb-3">{children}</h1>
