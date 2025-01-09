@@ -200,7 +200,9 @@ const BASE_COMMANDS = {
     ).type(value);
   },
   'I type in creator': (value: string) => {
-    cy.get(`textarea[aria-label="creator"]`).type(value);
+    cy.get(`textarea[aria-label="creator"]`)
+      .invoke(`val`, value)
+      .trigger(`input`);
   },
   'I see empty creator': () => {
     cy.get(`textarea[aria-label="creator"]`).should(`be.empty`);
@@ -247,7 +249,7 @@ const BASE_COMMANDS = {
   },
   'I accept cookies': () => {
     BASE_COMMANDS[`I interact with mouse`]();
-    BASE_COMMANDS[`I click button`]([`Accept cookies`]);
+    BASE_COMMANDS[`I click button`]([`Clear content`, `Accept cookies`]);
   },
 } as const;
 
