@@ -2,65 +2,6 @@ body {
   background: var(--white);
 }
 
-.comment,
-.prolog,
-.doctype,
-.cdata {
-  color: #437e28;
-}
-
-.punctuation {
-  color: #333;
-}
-
-.namespace {
-  opacity: 0.7;
-}
-
-.property,
-.tag,
-.constant,
-.symbol,
-.deleted {
-  color: #88310f;
-}
-
-.boolean,
-.number {
-  color: #357e70;
-}
-
-.selector,
-.attr-name,
-.string,
-.char,
-.builtin,
-.inserted {
-  color: #88310f;
-}
-
-.operator,
-.entity,
-.url,
-.variable {
-  color: #333;
-}
-
-.atrule,
-.attr-value,
-.function {
-  color: #025481;
-}
-
-.keyword {
-  color: #00334e;
-}
-
-.regex,
-.important {
-  color: #ce9178;
-}
-
 body .active-link {
   color: #00501d;
 }

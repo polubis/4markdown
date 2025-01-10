@@ -14,6 +14,7 @@ import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
+import 'prismjs/themes/prism-okaidia.css';
 
 const Code = ({
   children,
@@ -111,7 +112,7 @@ const OPTIONS: MarkdownToJSX.Options = {
     ),
     code: Code,
     pre: ({ children }) => (
-      <div className="relative border-zinc-300 dark:border-zinc-700 border-2 rounded-md group">
+      <div className="relative group">
         <SnippetCopyButton>{children}</SnippetCopyButton>
         <pre>{children}</pre>
       </div>

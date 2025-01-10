@@ -11,17 +11,17 @@ module.exports = {
   darkMode: `class`,
   theme: {
     extend: {
-      typography: {
+      typography: (theme) => ({
         DEFAULT: {
           css: {
             maxWidth: `100ch`,
             pre: {
-              background: `unset`,
+              background: theme(`colors.black`),
               margin: 0,
             },
           },
         },
-      },
+      }),
       screens: {
         tn: `400px`,
       },
