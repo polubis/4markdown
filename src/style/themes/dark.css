@@ -2,6 +2,10 @@ body.dark {
   background: var(--black);
 }
 
+body.dark :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i) {
+  color: var(--white);
+}
+
 body.dark .active-link {
   color: rgb(34 197 94);
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from 'react-icons/bi';
-import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
@@ -77,7 +76,7 @@ const DocumentLayoutContainer = () => {
             ))}
           </section>
         )}
-        <article className={c(`mx-auto`)}>
+        <article>
           <M>{code}</M>
         </article>
         {author?.bio && author?.displayName && (
