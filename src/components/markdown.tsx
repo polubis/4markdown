@@ -127,26 +127,24 @@ type MarkdownProps = {
   children: string;
 };
 
-const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
-  return <MarkdownRenderer options={OPTIONS}>{children}</MarkdownRenderer>;
-};
-
-M.className = `markdown`;
-
 const preprocessMath = (markdown: string): string =>
   markdown
     .replace(/\$\$([\s\S]+?)\$\$/g, `<math>$1</math>`)
     .replace(/\$([^$]+)\$/g, `<mathInline>$1</mathInline>`);
 
+const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
+  return (
+    <MarkdownRenderer options={OPTIONS}>
+      {preprocessMath(children)}
+    </MarkdownRenderer>
+  );
+};
+
+M.className = `markdown [&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`;
+
 const Markdown = ({ className, children }: MarkdownProps) => {
   return (
-    <div
-      className={c(
-        M.className,
-        `[&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`,
-        className,
-      )}
-    >
+    <div className={c(M.className, className)}>
       <M>{preprocessMath(children)}</M>
     </div>
   );
