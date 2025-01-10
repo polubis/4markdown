@@ -11,9 +11,6 @@ module.exports = {
   darkMode: `class`,
   theme: {
     extend: {
-      maxWidth: {
-        prose: `100ch`,
-      },
       typography: {
         DEFAULT: {
           css: {
