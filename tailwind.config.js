@@ -20,7 +20,7 @@ module.exports = {
             maxWidth: `100ch`,
             pre: {
               background: `unset`,
-              // paddingTop: 0,
+              margin: 0,
             },
           },
         },
