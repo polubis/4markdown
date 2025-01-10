@@ -10,6 +10,7 @@ import { CreationLinkContainer } from 'containers/creation-link.container';
 import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 import { DocumentLayoutProvider } from 'providers/document-layout.provider';
 import { DocumentLayoutContainer } from 'containers/document-layout.container';
+import { AppFooterContainer } from 'containers/app-footer.container';
 
 interface DocumentPageProps {
   pageContext: {
@@ -28,6 +29,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
       <DocumentLayoutProvider document={pageContext.doc}>
         <DocumentLayoutContainer />
       </DocumentLayoutProvider>
+      <AppFooterContainer />
     </>
   );
 };
