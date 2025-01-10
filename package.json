@@ -33,6 +33,7 @@
     "benchmark": "node benchmark.js"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "firebase": "^11.1.0",
@@ -61,10 +62,10 @@
     "@testing-library/user-event": "^14.5.2",
     "@types/cypress-image-snapshot": "^3.1.9",
     "@types/jest": "^29.5.14",
+    "@types/katex": "^0.16.7",
     "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^22.10.5",
     "@types/prismjs": "^1.26.5",
-    "@types/katex": "^0.16.7",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^6.7.2",

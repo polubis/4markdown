@@ -31,5 +31,5 @@ module.exports = {
       shake: `shake 0.5s ease-in-out`,
     },
   },
-  plugins: [],
+  plugins: [require(`@tailwindcss/typography`)],
 };
