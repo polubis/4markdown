@@ -2,10 +2,6 @@ body.dark {
   background: var(--black);
 }
 
-body.dark :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i, code, pre) {
-  color: var(--white);
-}
-
 body.dark p code,
 body.dark td code {
   background: #151515;
@@ -68,29 +64,6 @@ body.dark .keyword {
 body.dark .regex,
 body.dark .important {
   color: #ce9178;
-}
-
-body.dark .markdown table tr {
-  border-bottom: 1px solid #3d3d3d;
-}
-
-body.dark .markdown table tr th,
-body.dark .markdown table tr td {
-  border: 1px solid #3d3d3d;
-  color: var(--white);
-}
-
-body.dark .markdown table tr:nth-child(2n) {
-  background: #1c1c1c;
-}
-
-body.dark .markdown blockquote {
-  background: #242323;
-  border-left-color: #3d3d3d;
-}
-
-body.dark .markdown > span {
-  color: var(--white);
 }
 
 body.dark .active-link {

@@ -2,10 +2,6 @@ body {
   background: var(--white);
 }
 
-body :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i, code, pre) {
-  color: var(--black);
-}
-
 p code,
 td code {
   background: #e0e0e0;
@@ -68,29 +64,6 @@ td code {
 .regex,
 .important {
   color: #ce9178;
-}
-
-.markdown table tr {
-  border-bottom: 1px solid #989898;
-}
-
-.markdown table tr th,
-.markdown table tr td {
-  border: 1px solid #989898;
-  color: var(--black);
-}
-
-.markdown table tr:nth-child(2n) {
-  background: #dcdcdc;
-}
-
-.markdown blockquote {
-  background: #e7e7e7;
-  border-left-color: #989898;
-}
-
-.markdown > span {
-  color: var(--black);
 }
 
 body .active-link {
