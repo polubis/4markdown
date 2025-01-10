@@ -2,11 +2,6 @@ body {
   background: var(--white);
 }
 
-p code,
-td code {
-  background: #e0e0e0;
-}
-
 .comment,
 .prolog,
 .doctype,

@@ -36,8 +36,8 @@ const DocumentLayoutContainer = () => {
 
   return (
     <>
-      <main className="p-4 my-6">
-        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-prose mx-auto">
+      <main className="p-4 my-6 prose mx-auto">
+        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start">
           <Button
             title="Open in documents creator"
             s={2}
@@ -69,19 +69,19 @@ const DocumentLayoutContainer = () => {
             )}
           </Button>
         </section>
-        <DocumentRatingContainer className="mb-6 justify-end max-w-prose mx-auto" />
+        <DocumentRatingContainer className="mb-6 justify-end" />
         {document.visibility === `permanent` && (
-          <section className="flex flex-wrap gap-2 items-center mb-4 max-w-prose mx-auto">
+          <section className="flex flex-wrap gap-2 items-center mb-4">
             {document.tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
             ))}
           </section>
         )}
-        <article className={c(`mx-auto prose`)}>
+        <article className={c(`mx-auto`)}>
           <M>{code}</M>
         </article>
         {author?.bio && author?.displayName && (
-          <section className="mt-12 max-w-prose mx-auto">
+          <section className="mt-12">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
               <Avatar
                 className="shrink-0 bg-gray-300 dark:bg-slate-800"
@@ -92,9 +92,7 @@ const DocumentLayoutContainer = () => {
               />
               <div className="flex flex-col overflow-hidden">
                 <i>About Author</i>
-                <strong className="mb-1 text-black dark:text-white">
-                  {author.displayName}
-                </strong>
+                <strong className="mb-1">{author.displayName}</strong>
                 <p>{author.bio}</p>
                 <div className="flex space-x-2 mt-4">
                   <UserSocials
@@ -110,7 +108,7 @@ const DocumentLayoutContainer = () => {
             </div>
           </section>
         )}
-        <DocumentRatingContainer className="mt-10 justify-end max-w-prose mx-auto" />
+        <DocumentRatingContainer className="mt-10 justify-end" />
       </main>
       <ScrollToTop />
       {sectionsModal.opened && (

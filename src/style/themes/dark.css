@@ -2,11 +2,6 @@ body.dark {
   background: var(--black);
 }
 
-body.dark p code,
-body.dark td code {
-  background: #151515;
-}
-
 body.dark .comment,
 body.dark .prolog,
 body.dark .doctype,

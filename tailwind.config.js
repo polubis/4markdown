@@ -18,6 +18,10 @@ module.exports = {
         DEFAULT: {
           css: {
             maxWidth: `100ch`,
+            pre: {
+              background: `unset`,
+              // paddingTop: 0,
+            },
           },
         },
       },
