@@ -3,6 +3,7 @@ import React from 'react';
 import ErrorBoundary from './src/development-kit/error-boundary';
 import { useAuth } from './src/core/use-auth';
 import { CookiesModalLoader } from './src/components/cookies-modal-loader';
+import 'katex/dist/katex.min.css';
 import './src/style/index.css';
 
 const ExceptionScreen = React.lazy(() =>
