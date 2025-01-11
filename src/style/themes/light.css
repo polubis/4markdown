@@ -1,8 +1,5 @@
 body {
   background: var(--white);
-}
-
-body :is(h1, h2, h3, h4, h5, h6, p, li, a, label, input, i, code, pre, .katex) {
   color: var(--black);
 }
 
