@@ -4,16 +4,16 @@ import React, {
   type DetailedHTMLProps,
   type ReactElement,
 } from 'react';
-import type { MarkdownToJSX } from 'markdown-to-jsx';
-import MarkdownRenderer from 'markdown-to-jsx';
 import { highlightElement } from 'prismjs';
 import c from 'classnames';
 import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
 import { BiCheck, BiCopyAlt } from 'react-icons/bi';
 import { useCopy } from 'development-kit/use-copy';
-import katex from 'katex';
-import 'katex/dist/katex.min.css';
+import ReactMarkdown, { type Options } from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 const Code = ({
   children,
@@ -80,50 +80,10 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const getSyntax = (syntax: unknown): string | undefined => {
-  if (Array.isArray(syntax) && typeof syntax[0] === `string`) {
-    return syntax[0].trim();
-  }
-};
-
-const MathBlock = ({ children }: { children: unknown }) => {
-  const syntax = getSyntax(children);
-
-  if (syntax) {
-    return (
-      <p
-        className="flex justify-center"
-        dangerouslySetInnerHTML={{
-          __html: katex.renderToString(syntax, {
-            throwOnError: false,
-            displayMode: true,
-          }),
-        }}
-      />
-    );
-  }
-};
-
-const InlineMath = ({ children }: { children: unknown }) => {
-  const syntax = getSyntax(children);
-
-  if (syntax) {
-    return (
-      <span
-        dangerouslySetInnerHTML={{
-          __html: katex.renderToString(syntax, {
-            throwOnError: false,
-            displayMode: false,
-          }),
-        }}
-      />
-    );
-  }
-};
-
-const OPTIONS: MarkdownToJSX.Options = {
-  disableParsingRawHTML: false,
-  overrides: {
+const OPTIONS: Options = {
+  remarkPlugins: [remarkGfm, remarkMath],
+  rehypePlugins: [rehypeKatex],
+  components: {
     h1: ({ children }) => (
       <h1 className="text-5xl break-words pb-3">{children}</h1>
     ),
@@ -182,8 +142,6 @@ const OPTIONS: MarkdownToJSX.Options = {
         <pre className="p-4">{children}</pre>
       </div>
     ),
-    math: MathBlock,
-    mathInline: InlineMath,
   },
 };
 
@@ -192,16 +150,11 @@ type MarkdownProps = {
   children: string;
 };
 
-const preprocessMath = (markdown: string): string =>
-  markdown
-    .replace(/\$\$([\s\S]+?)\$\$/g, `<math>$1</math>`)
-    .replace(/\$([^$]+)\$/g, `<mathInline>$1</mathInline>`);
-
 const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
   return (
-    <MarkdownRenderer options={OPTIONS}>
-      {preprocessMath(children)}
-    </MarkdownRenderer>
+    <div>
+      <ReactMarkdown {...OPTIONS}>{children}</ReactMarkdown>
+    </div>
   );
 };
 
@@ -210,7 +163,7 @@ M.className = `markdown [&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!te
 const Markdown = ({ className, children }: MarkdownProps) => {
   return (
     <div className={c(M.className, className)}>
-      <M>{preprocessMath(children)}</M>
+      <M>{children}</M>
     </div>
   );
 };
