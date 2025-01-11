@@ -53,18 +53,6 @@ describe(`Docs creator works when`, () => {
         2. Sub-subitem II
     - Subitem B`;
 
-    const math = `$$\\overline{x} = \\frac{1}{n} \\sum_{i x_{i}$$
-
-Some paragraph text
-
-$$
-\\overline{x} = \\frac{1}{n} \\sum_{i x_{i}
-$$
-
-- **Standard Deviation**: A $\\frac{1}{4}$ measure of how widely values are
-<script>alert('XSS')</script>
-<a href="javascript:alert('XSS')">Click me</a>`;
-
     const code = `It's some code example with \`inline=a\`:
 
 \`\`\`
@@ -79,10 +67,12 @@ controller(\`users/{id}\`, async (_, rawPayload) => {
 });
 \`\`\``;
 
-    Given(`Im on page`, `home`)
-      .And(`I see not disabled button`, [`Sign in`])
-      .When(`I test creator syntax`, lists)
-      .And(`I test creator syntax`, math)
-      .And(`I test creator syntax`, code);
+    cy.readFile(`cypress/samples/math.md`).then((math) => {
+      Given(`Im on page`, `home`)
+        .And(`I see not disabled button`, [`Sign in`])
+        .When(`I test creator syntax`, lists)
+        .And(`I test creator syntax`, math)
+        .And(`I test creator syntax`, code);
+    });
   });
 });
