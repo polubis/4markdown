@@ -84,45 +84,14 @@ const OPTIONS: Options = {
   remarkPlugins: [remarkGfm, remarkMath],
   rehypePlugins: [rehypeKatex],
   components: {
-    h1: ({ children }) => (
-      <h1 className="text-5xl break-words pb-3">{children}</h1>
-    ),
-    h2: ({ children }) => (
-      <h2 className="text-4xl break-words pb-1">{children}</h2>
-    ),
-    h3: ({ children }) => <h3 className="text-3xl break-words">{children}</h3>,
-    h4: ({ children }) => <h4 className="text-2xl break-words">{children}</h4>,
-    h5: ({ children }) => <h5 className="text-xl break-words">{children}</h5>,
-    h6: ({ children }) => <h6 className="text-lg break-words">{children}</h6>,
-    p: ({ children }) => (
-      <p
-        className={c(`break-words text-justify md:text-left`, {
-          'flex flex-col': isDescribedImage(children),
-        })}
-      >
-        {children}
-      </p>
-    ),
-    em: ({ children }) => <em>{children}</em>,
-    strong: ({ children }) => <strong>{children}</strong>,
-    ul: ({ children }) => <ul>{children}</ul>,
-    ol: ({ children }) => <ol>{children}</ol>,
-    li: ({ children }) => <li>{children}</li>,
-    del: ({ children }) => <del>{children}</del>,
     a: ({ children, href }) => (
-      <a
-        className="underline underline-offset-3 cursor-pointer break-words"
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={href} target="_blank" rel="noopener noreferrer">
         {children}
       </a>
     ),
     img: ({ src, alt }) => (
       <picture>
-        {/* @TODO: Think about showing different size of images. */}
-        <img loading="lazy" className="max-w-[100%]" src={src} alt={alt} />
+        <img loading="lazy" src={src} alt={alt} />
       </picture>
     ),
     table: ({ children }) => (
