@@ -3,6 +3,13 @@
 @tailwind components;
 
 @layer components {
+  .prose {
+    :not(pre) > code[class*='language-'],
+    pre[class*='language-'] {
+      background: #171717;
+    }
+  }
+
   .prose code::before,
   .prose code::after {
     @apply content-none;
