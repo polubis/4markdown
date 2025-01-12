@@ -36,7 +36,7 @@ const DocumentLayoutContainer = () => {
   return (
     <>
       <main className="p-4 my-6">
-        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-4xl mx-auto">
+        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-[65ch] mx-auto">
           <Button
             title="Open in documents creator"
             s={2}
@@ -68,9 +68,9 @@ const DocumentLayoutContainer = () => {
             )}
           </Button>
         </section>
-        <DocumentRatingContainer className="mb-6 justify-end max-w-4xl mx-auto" />
+        <DocumentRatingContainer className="mb-6 justify-end max-w-[65ch] mx-auto" />
         {document.visibility === `permanent` && (
-          <section className="flex flex-wrap gap-2 items-center mb-4 max-w-4xl mx-auto">
+          <section className="flex flex-wrap gap-2 items-center mb-4 max-w-[65ch] mx-auto">
             {document.tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
             ))}
@@ -78,7 +78,7 @@ const DocumentLayoutContainer = () => {
         )}
         <Markdown className="mx-auto">{code}</Markdown>
         {author?.bio && author?.displayName && (
-          <section className="mt-12 max-w-4xl mx-auto">
+          <section className="mt-12 max-w-[65ch] mx-auto">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
               <Avatar
                 className="shrink-0 bg-gray-300 dark:bg-slate-800"
@@ -107,7 +107,7 @@ const DocumentLayoutContainer = () => {
             </div>
           </section>
         )}
-        <DocumentRatingContainer className="mt-10 justify-end max-w-4xl mx-auto" />
+        <DocumentRatingContainer className="mt-10 justify-end max-w-[65ch] mx-auto" />
       </main>
       <ScrollToTop />
       {sectionsModal.opened && (
