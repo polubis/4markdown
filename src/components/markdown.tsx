@@ -14,6 +14,7 @@ import ReactMarkdown, { type Options } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { falsy } from 'development-kit/guards';
 
 const Code = ({
   children,
@@ -21,11 +22,9 @@ const Code = ({
   const ref = React.useRef<HTMLElement | null>(null);
 
   React.useLayoutEffect(() => {
-    if (!ref.current) {
-      throw Error(`Cannot highlight because there is a missing wrapper`);
-    }
-
-    highlightElement(ref.current);
+    const container = ref.current;
+    falsy(container, `Cannot highlight because there is a missing wrapper`);
+    highlightElement(container);
   }, [children]);
 
   return (
