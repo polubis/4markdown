@@ -94,17 +94,7 @@ const OPTIONS: Options = {
         <img loading="lazy" src={src} alt={alt} />
       </picture>
     ),
-    table: ({ children }) => (
-      <table className="max-w-[100%] w-[max-content] border-spacing-0 border-collapse overflow-auto block">
-        {children}
-      </table>
-    ),
     code: Code,
-    td: ({ children }) => <td className="text-center px-2 py-2">{children}</td>,
-    th: ({ children }) => <th className="px-2 py-2">{children}</th>,
-    blockquote: ({ children }) => (
-      <blockquote className="px-3 py-2 border-l-4">{children}</blockquote>
-    ),
     pre: ({ children }) => (
       <div className="relative border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md group">
         <SnippetCopyButton>{children}</SnippetCopyButton>
