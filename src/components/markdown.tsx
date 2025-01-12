@@ -35,26 +35,6 @@ const Code = ({
   );
 };
 
-const isReactElement = (
-  node: unknown,
-): node is ReactElement<unknown, () => ReactNode> =>
-  typeof node === `object` && node !== null && !!(node as ReactElement).type;
-
-const isDescribedImage = (nodes: ReactNode): boolean => {
-  if (!Array.isArray(nodes)) {
-    return false;
-  }
-
-  const img = nodes[0];
-  const em = nodes[2];
-
-  if (!isReactElement(img) || !isReactElement(em)) {
-    return false;
-  }
-
-  return img.type.name === `img` && em.type.name === `em`;
-};
-
 const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   const [state, save] = useCopy();
 
@@ -96,9 +76,9 @@ const OPTIONS: Options = {
     ),
     code: Code,
     pre: ({ children }) => (
-      <div className="relative border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-gray-950 border-2 rounded-md group">
+      <div className="relative group">
         <SnippetCopyButton>{children}</SnippetCopyButton>
-        <pre className="p-4">{children}</pre>
+        <pre>{children}</pre>
       </div>
     ),
   },
