@@ -3,6 +3,10 @@
 @tailwind components;
 
 @layer components {
+  .prose {
+    max-width: 100%;
+  }
+
   .prose code::before,
   .prose code::after {
     content: '';
