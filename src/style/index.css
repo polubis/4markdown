@@ -2,6 +2,26 @@
 @tailwind utilities;
 @tailwind components;
 
+@layer components {
+  .prose code::before,
+  .prose code::after {
+    content: '';
+  }
+
+  .prose table {
+    overflow: auto;
+    display: block;
+  }
+
+  .prose td {
+    white-space: nowrap;
+  }
+
+  .prose a {
+    overflow-wrap: break-word;
+  }
+}
+
 @import './setup.css';
 @import './themes/dark.css';
 @import './themes/light.css';

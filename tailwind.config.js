@@ -15,16 +15,6 @@ module.exports = {
         DEFAULT: {
           css: {
             maxWidth: `90ch`,
-            a: {
-              overflowWrap: `break-word`,
-            },
-            table: {
-              overflow: `auto`,
-              display: `block`,
-            },
-            td: {
-              whiteSpace: `no-wrap`,
-            },
           },
         },
       }),
