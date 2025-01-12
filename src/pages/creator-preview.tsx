@@ -13,8 +13,8 @@ const CreatorPreviewPage = () => {
   const { code } = useDocumentCreatorState();
 
   return (
-    <main className="max-w-2xl mx-auto">
-      <Markdown className="p-4">{code}</Markdown>
+    <main>
+      <Markdown className="p-4 mx-auto">{code}</Markdown>
     </main>
   );
 };
