@@ -3,10 +3,6 @@
 @tailwind components;
 
 @layer components {
-  .prose pre {
-    background: red;
-  }
-
   .prose code::before,
   .prose code::after {
     @apply content-none;
