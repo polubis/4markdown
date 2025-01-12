@@ -76,7 +76,7 @@ const DocumentLayoutContainer = () => {
             ))}
           </section>
         )}
-        <Markdown className="!max-w-4xl mx-auto">{code}</Markdown>
+        <Markdown className="mx-auto">{code}</Markdown>
         {author?.bio && author?.displayName && (
           <section className="mt-12 max-w-4xl mx-auto">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
