@@ -11,6 +11,9 @@ module.exports = {
   darkMode: `class`,
   theme: {
     extend: {
+      maxWidth: {
+        prose: `65ch`,
+      },
       screens: {
         tn: `400px`,
       },
