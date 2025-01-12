@@ -14,9 +14,7 @@ const PrivacyPolicyView = () => {
         <EducationRankLinkContainer />
         <EducationZoneLinkContainer />
       </AppNavigation>
-      <main className="p-4 my-6 mx-auto prose dark:prose-invert">
-        <PrivacyPolicyContent />
-      </main>
+      <PrivacyPolicyContent />
       <AppFooterContainer />
     </>
   );
