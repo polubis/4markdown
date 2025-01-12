@@ -88,22 +88,18 @@ type MarkdownProps = {
   children: string;
 };
 
-const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
-  return (
-    <div>
-      <ReactMarkdown {...OPTIONS}>{children}</ReactMarkdown>
-    </div>
-  );
-};
-
-M.className = `[&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`;
-
 const Markdown = ({ className, children }: MarkdownProps) => {
   return (
-    <div className={c(M.className, className)}>
-      <M>{children}</M>
-    </div>
+    <ReactMarkdown
+      className={c(
+        `[&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`,
+        className,
+      )}
+      {...OPTIONS}
+    >
+      {children}
+    </ReactMarkdown>
   );
 };
 
-export { Markdown, M };
+export { Markdown };

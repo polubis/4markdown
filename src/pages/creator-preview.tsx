@@ -3,10 +3,9 @@ import type { HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
 import { meta } from '../../meta';
-import { M } from 'components/markdown';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
-import c from 'classnames';
 import { useDocumentCreatorState } from 'store/document-creator';
+import { Markdown } from 'components/markdown';
 
 const CreatorPreviewPage = () => {
   useCreatorLocalStorageSync();
@@ -15,9 +14,7 @@ const CreatorPreviewPage = () => {
 
   return (
     <main className="max-w-2xl mx-auto">
-      <section className={c(M.className, `p-4`)}>
-        <M>{code}</M>
-      </section>
+      <Markdown className="p-4">{code}</Markdown>
     </main>
   );
 };

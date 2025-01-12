@@ -2,7 +2,6 @@ import React from 'react';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from 'react-icons/bi';
-import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
@@ -13,9 +12,9 @@ import { meta } from '../../meta';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { SocialShare } from 'components/social-share';
 import { DocumentRatingContainer } from 'containers/document-rating.container';
-import { M } from 'components/markdown';
 import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
+import { Markdown } from 'components/markdown';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`../components/document-chapters-modal`).then((m) => ({
@@ -77,9 +76,7 @@ const DocumentLayoutContainer = () => {
             ))}
           </section>
         )}
-        <article className={c(`max-w-4xl mx-auto`, M.className)}>
-          <M>{code}</M>
-        </article>
+        <Markdown className="!max-w-4xl mx-auto">{code}</Markdown>
         {author?.bio && author?.displayName && (
           <section className="mt-12 max-w-4xl mx-auto">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
