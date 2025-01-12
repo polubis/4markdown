@@ -3,22 +3,25 @@
 @tailwind components;
 
 @layer components {
+  .prose pre {
+    background: red;
+  }
+
   .prose code::before,
   .prose code::after {
-    content: '';
+    @apply content-none;
   }
 
   .prose table {
-    overflow: auto;
-    display: block;
+    @apply overflow-auto block;
   }
 
   .prose td {
-    white-space: nowrap;
+    @apply whitespace-nowrap;
   }
 
   .prose a {
-    overflow-wrap: break-word;
+    @apply break-words;
   }
 }
 
