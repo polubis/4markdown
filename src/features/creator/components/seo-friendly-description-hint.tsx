@@ -30,7 +30,7 @@ const Content = () => (
       title="Details"
       closeButtonTitle="Close document permanent status change"
     />
-    <Markdown>{md}</Markdown>
+    <Markdown className="prose dark:prose-invert">{md}</Markdown>
   </>
 );
 
