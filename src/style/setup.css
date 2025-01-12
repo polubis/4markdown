@@ -24,66 +24,6 @@ body {
   background: #555;
 }
 
-.markdown ol {
-  counter-reset: numbers;
-}
-
-.markdown ol > li {
-  counter-increment: numbers;
-}
-
-.markdown ol > li::before {
-  content: counter(numbers) '. ';
-}
-
-.markdown ul > li:before {
-  content: '- ';
-  display: contents;
-}
-
-.markdown p code,
-.markdown td code {
-  padding: 2px 6px;
-  cursor: pointer;
-}
-
-.markdown p picture {
-  display: inline-block;
-}
-
-.markdown > div > * {
-  margin-bottom: 12px;
-}
-
-.markdown > div > *:first-child {
-  margin-top: 0;
-}
-
-.markdown :is(h1, h2, h3, h4, h5, h6) {
-  margin-top: 20px;
-}
-
-.markdown picture + em {
-  margin-top: 8px;
-}
-
-.markdown li ol,
-.markdown li ul {
-  margin-left: 16px;
-}
-
-.markdown li {
-  margin-bottom: 4px;
-}
-
-.markdown pre {
-  overflow: auto;
-}
-
-.markdown :not(pre) > code {
-  white-space: normal;
-}
-
 @keyframes lrotate {
   100% {
     transform: rotate(1turn);

@@ -158,7 +158,7 @@ const M = ({ children }: Pick<MarkdownProps, 'children'>) => {
   );
 };
 
-M.className = `markdown [&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`;
+M.className = `[&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`;
 
 const Markdown = ({ className, children }: MarkdownProps) => {
   return (

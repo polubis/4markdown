@@ -202,9 +202,9 @@ const CreatorView = () => {
           />
           <div
             className={c(
-              `w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
+              `w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800 prose dark:prose-invert`,
               { hidden: divideMode === `code` },
-              { 'max-w-4xl mx-auto': divideMode === `preview` },
+              { 'mx-auto': divideMode === `preview` },
               {
                 'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
                   divideMode === `both`,
