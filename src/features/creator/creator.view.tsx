@@ -206,7 +206,7 @@ const CreatorView = () => {
               { hidden: divideMode === `code` },
               { 'mx-auto': divideMode === `preview` },
               {
-                'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0':
+                'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0 !max-w-full':
                   divideMode === `both`,
               },
             )}
