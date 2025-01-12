@@ -200,9 +200,10 @@ const CreatorView = () => {
               triggerPreviewScroll(e.target as HTMLTextAreaElement);
             }}
           />
-          <div
+
+          <Markdown
             className={c(
-              `w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800 prose dark:prose-invert`,
+              `w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
               { hidden: divideMode === `code` },
               { 'mx-auto': divideMode === `preview` },
               {
@@ -211,8 +212,8 @@ const CreatorView = () => {
               },
             )}
           >
-            <Markdown>{code}</Markdown>
-          </div>
+            {code}
+          </Markdown>
         </section>
       </main>
     </>
