@@ -3,10 +3,6 @@
 @tailwind components;
 
 @layer components {
-  .prose {
-    max-width: 100%;
-  }
-
   .prose code::before,
   .prose code::after {
     content: '';
@@ -26,6 +22,37 @@
   }
 }
 
-@import './setup.css';
+:root {
+  --white: #fff;
+  --black: #000;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@keyframes lrotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.loader {
+  animation: lrotate 1s infinite linear;
+}
+
 @import './themes/dark.css';
 @import './themes/light.css';
