@@ -6,7 +6,14 @@
   .prose {
     :not(pre) > code[class*='language-'],
     pre[class*='language-'] {
-      background: #171717;
+      background: #181818;
+    }
+  }
+
+  body.dark .prose {
+    :not(pre) > code[class*='language-'],
+    pre[class*='language-'] {
+      background: #292f35;
     }
   }
 
