@@ -39,7 +39,7 @@ const CheatSheetModal = ({ onClose }: CheatSheetModalProps) => {
       )}
       {cheatsheet.is === `ok` && <Markdown>{cheatsheet.content}</Markdown>}
       {cheatsheet.is === `fail` && (
-        <p className="text-xl text-red-600 dark:text-red-400 text-center">
+        <p className="text-xl text-red-600 dark:text-red-400 text-center mb-4">
           Something went wrong... Close and try again
         </p>
       )}
