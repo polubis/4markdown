@@ -11,6 +11,9 @@ module.exports = {
   darkMode: `class`,
   theme: {
     extend: {
+      maxWidth: {
+        prose: `65ch`,
+      },
       screens: {
         tn: `400px`,
       },
@@ -20,16 +23,10 @@ module.exports = {
         '0%': { opacity: 0 },
         '100%': { opacity: 1 },
       },
-      shake: {
-        '0%, 100%': { transform: `translateY(0)` },
-        '70%, 90%': { transform: `translateY(-4px)` },
-        '20%, 80%': { transform: `translateY(4px)` },
-      },
     },
     animation: {
       'fade-in': `fade-in 0.3s ease-in-out`,
-      shake: `shake 0.5s ease-in-out`,
     },
   },
-  plugins: [],
+  plugins: [require(`@tailwindcss/typography`)],
 };

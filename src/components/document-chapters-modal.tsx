@@ -103,9 +103,7 @@ const DocumentChaptersModal = ({
           title={`Chapter (${activeSectionIndex + 1})`}
           closeButtonTitle="Close display as a book mode (Esc)"
         />
-        <section className="p-4">
-          <Markdown>{content}</Markdown>
-        </section>
+        <Markdown className="p-4 !max-w-full">{content}</Markdown>
         <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
           <Button
             i={2}

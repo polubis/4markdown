@@ -33,6 +33,7 @@
     "benchmark": "node benchmark.js"
   },
   "dependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "firebase": "^11.1.0",

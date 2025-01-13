@@ -13,7 +13,7 @@ describe(`Privacy policy works when`, () => {
       cy.contains(text).scrollIntoView();
     },
     'I see policy headings': () => {
-      cy.get(`.markdown > h1, .markdown > h2`).each((h) => {
+      cy.get(`.prose > h1, .prose > h2`).each((h) => {
         cy.contains(h.text()).scrollIntoView();
         Given(`System takes picture`);
       });

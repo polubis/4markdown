@@ -2,7 +2,6 @@ import React from 'react';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from 'react-icons/bi';
-import c from 'classnames';
 import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
@@ -13,9 +12,9 @@ import { meta } from '../../meta';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { SocialShare } from 'components/social-share';
 import { DocumentRatingContainer } from 'containers/document-rating.container';
-import { M } from 'components/markdown';
 import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
+import { Markdown } from 'components/markdown';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`../components/document-chapters-modal`).then((m) => ({
@@ -37,7 +36,7 @@ const DocumentLayoutContainer = () => {
   return (
     <>
       <main className="p-4 my-6">
-        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-4xl mx-auto">
+        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-prose mx-auto">
           <Button
             title="Open in documents creator"
             s={2}
@@ -69,19 +68,17 @@ const DocumentLayoutContainer = () => {
             )}
           </Button>
         </section>
-        <DocumentRatingContainer className="mb-6 justify-end max-w-4xl mx-auto" />
+        <DocumentRatingContainer className="mb-6 justify-end max-w-prose mx-auto" />
         {document.visibility === `permanent` && (
-          <section className="flex flex-wrap gap-2 items-center mb-4 max-w-4xl mx-auto">
+          <section className="flex flex-wrap gap-2 items-center mb-4 max-w-prose mx-auto">
             {document.tags.map((tag) => (
               <Badge key={tag}>{tag}</Badge>
             ))}
           </section>
         )}
-        <article className={c(`max-w-4xl mx-auto`, M.className)}>
-          <M>{code}</M>
-        </article>
+        <Markdown className="mx-auto">{code}</Markdown>
         {author?.bio && author?.displayName && (
-          <section className="mt-12 max-w-4xl mx-auto">
+          <section className="mt-12 max-w-prose mx-auto">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
               <Avatar
                 className="shrink-0 bg-gray-300 dark:bg-slate-800"
@@ -110,7 +107,7 @@ const DocumentLayoutContainer = () => {
             </div>
           </section>
         )}
-        <DocumentRatingContainer className="mt-10 justify-end max-w-4xl mx-auto" />
+        <DocumentRatingContainer className="mt-10 justify-end max-w-prose mx-auto" />
       </main>
       <ScrollToTop />
       {sectionsModal.opened && (
