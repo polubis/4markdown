@@ -1,8 +1,8 @@
 # Markdown Cheatsheet
 
-Supporting [GitHub](https://github.com) flavored syntax 100% 💥💚 (I hope). If you encounter any issues, please contact us on our [LinkedIn](${meta.linkedInUrl}).
+Supporting [GitHub](https://github.com) flavored syntax 100% 💥💚 (I hope). If you encounter any issues, please contact us on our [LinkedIn](https://www.linkedin.com/company/greenon-software).
 
-The editor works really well with the [Grammarly Extension](${meta.grammarlyUrl}) for grammar. We recommend giving it a try.
+The editor works really well with the [Grammarly Extension](https://chromewebstore.google.com/detail/grammarly-grammar-checker/kbfnbcaeplbcioakkpcpgfkobkghlhen?pli=1) for grammar. We recommend giving it a try.
 
 ## Typography
 
@@ -120,6 +120,6 @@ and it gives you
 
 ## Thanks for using our editor!
 
-Like our [LinkedIn](${meta.linkedInUrl}) profile or join [Discord](${meta.discordUrl}) channel. In addition, we're working on other applications and we have an education platform that creates content for free - [${meta.company}](${meta.companyUrl})! 
+Like our [LinkedIn](https://www.linkedin.com/company/greenon-software) profile or join [Discord](https://discord.com/invite/PxXQayT3x3) channel. In addition, we're working on other applications and we have an education platform that creates content for free - [GreenOn Software](https://greenonsoftware.com)! 
 
-Any suggestions, comments, or ideas for improvement? Feel free to join our [Discord](${meta.discordUrl}) or add info on [LinkedIn](${meta.linkedInUrl}) profile. If you want to contribute, here you have a repository: [${meta.appName} repository](${meta.sourceCodeUrl}).
+Any suggestions, comments, or ideas for improvement? Feel free to join our [Discord](https://discord.com/invite/PxXQayT3x3) or add info on [LinkedIn](https://www.linkedin.com/company/greenon-software) profile. If you want to contribute, here you have a repository: [${meta.appName} repository](https://github.com/polubis/4markdown).
