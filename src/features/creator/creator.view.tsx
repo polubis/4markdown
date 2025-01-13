@@ -20,7 +20,6 @@ import {
 import { Button } from 'design-system/button';
 import c from 'classnames';
 import { useConfirm } from 'development-kit/use-confirm';
-import { TemplatesPopover } from './components/templates-popover';
 import AddDocPopover from 'components/add-doc-popover';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { DocBarContainer } from './containers/doc-bar.container';
@@ -146,7 +145,6 @@ const CreatorView = () => {
       <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
-          <TemplatesPopover />
           <Button i={1} s={2} title="Change view display" onClick={divide}>
             {divideMode === `both` && (
               <BiBookContent className="rotate-90 md:rotate-0" />
@@ -199,7 +197,7 @@ const CreatorView = () => {
           <div className="flex flex-col">
             <header
               className={c(
-                `flex items-center h-[48px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
+                `flex items-center h-[50px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
               )}
             >
               <Button s="auto" className="p-1" i={1} title="Heading">
