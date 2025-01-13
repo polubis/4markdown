@@ -156,23 +156,6 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
           >
             Source Code
           </ButtonLink>
-          <ButtonLink
-            to={meta.ytVideoTutorialUrl}
-            target="_blank"
-            title="YouTube tutorial video"
-            rel="noopener noreferrer"
-          >
-            Tutorial
-          </ButtonLink>
-          <ButtonLink
-            to={meta.ytChannelUrl}
-            target="_blank"
-            className="mb-6"
-            title={`${meta.appName} YouTube`}
-            rel="noopener noreferrer"
-          >
-            YouTube
-          </ButtonLink>
           <a
             href={meta.companyUrl}
             target="_blank"
