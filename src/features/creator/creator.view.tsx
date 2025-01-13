@@ -15,6 +15,7 @@ import {
   BiSolidBookContent,
   BiSolidQuoteAltLeft,
   BiSolidQuoteLeft,
+  BiStrikethrough,
   BiWindows,
 } from 'react-icons/bi';
 import { Button } from 'design-system/button';
@@ -204,52 +205,40 @@ const CreatorView = () => {
                 `flex items-center h-[48px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
               )}
             >
-              <Button s="auto" className="p-1" i={1} title="Insert heading">
+              <Button s="auto" className="p-1" i={1} title="Heading">
                 <BiHeading size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Insert bold">
+              <Button s="auto" className="p-1" i={1} title="Bold">
                 <BiBold size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Insert italic">
+              <Button s="auto" className="p-1" i={1} title="Italic">
                 <BiItalic size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Insert quote">
+              <Button s="auto" className="p-1" i={1} title="Quote">
                 <BiSolidQuoteAltLeft size={20} />
               </Button>
+              <Button s="auto" className="p-1" i={1} title="Striketrough">
+                <BiStrikethrough size={20} />
+              </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
-              <Button s="auto" className="p-1" i={1} title="Insert code">
+              <Button s="auto" className="p-1" i={1} title="Code">
                 <BiCode size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Insert link">
+              <Button s="auto" className="p-1" i={1} title="Link">
                 <BiLink size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
-              <Button
-                s="auto"
-                className="p-1"
-                i={1}
-                title="Insert ordered list"
-              >
+              <Button s="auto" className="p-1" i={1} title="Ordered list">
                 <BiListOl size={20} />
               </Button>
-              <Button
-                s="auto"
-                className="p-1"
-                i={1}
-                title="Insert unordered list"
-              >
+              <Button s="auto" className="p-1" i={1} title="Unordered list">
                 <BiListUl size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Insert task list">
+              <Button s="auto" className="p-1" i={1} title="Task list">
                 <BiListCheck size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
-              <Button
-                s="auto"
-                className="p-1"
-                i={1}
-                title="Markdown cheatsheet"
-              >
+              <Button s="auto" className="p-1" i={1} title="Cheatsheet">
                 <BiInfoCircle size={20} />
               </Button>
             </header>
