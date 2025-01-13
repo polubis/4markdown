@@ -201,7 +201,7 @@ const CreatorView = () => {
           <div className="flex flex-col">
             <header
               className={c(
-                `flex items-center gap-1 px-3 py-1.5 border-b-2 border-zinc-300 dark:border-zinc-800`,
+                `flex items-center h-[48px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
               )}
             >
               <Button s="auto" className="p-1" i={1} title="Insert heading">
