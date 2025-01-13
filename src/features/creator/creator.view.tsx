@@ -127,7 +127,17 @@ const CreatorView = () => {
   };
 
   const insertMarkdownSyntax =
-    (syntax: `heading` | `bold` | `italic` | `strike` | `quote` | `code`) =>
+    (
+      syntax:
+        | `heading`
+        | `bold`
+        | `italic`
+        | `strike`
+        | `quote`
+        | `code`
+        | `math`
+        | `link`,
+    ) =>
     (): void => {
       const creator = creatorRef.current;
 
@@ -151,6 +161,12 @@ const CreatorView = () => {
         },
         code: () => {
           copy(`\`\`\`\n\n\`\`\``);
+        },
+        math: () => {
+          copy(`$$\n\n$$`);
+        },
+        link: () => {
+          copy(`![]()`);
         },
       };
 
@@ -181,7 +197,7 @@ const CreatorView = () => {
         </React.Suspense>
       )}
       {copyState.is === `copied` && (
-        <Status>Copied! Now put cursor and paste</Status>
+        <Status>Copied! Now put cursor in creator and paste</Status>
       )}
       <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
@@ -302,10 +318,17 @@ const CreatorView = () => {
                 className="p-1"
                 i={1}
                 title="Math / Latex syntax"
+                onClick={insertMarkdownSyntax(`math`)}
               >
                 <BiMath size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Link">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Link"
+                onClick={insertMarkdownSyntax(`link`)}
+              >
                 <BiLink size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
