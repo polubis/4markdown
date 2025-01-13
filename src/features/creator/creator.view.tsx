@@ -5,7 +5,6 @@ import {
   BiBookContent,
   BiCode,
   BiHeading,
-  BiImageAdd,
   BiInfoCircle,
   BiItalic,
   BiLink,
@@ -147,7 +146,6 @@ const CreatorView = () => {
       <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
-          <ImageUploaderContainer />
           <TemplatesPopover />
           <Button i={1} s={2} title="Change view display" onClick={divide}>
             {divideMode === `both` && (
@@ -220,9 +218,7 @@ const CreatorView = () => {
                 <BiStrikethrough size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
-              <Button s="auto" className="p-1" i={1} title="Image">
-                <BiImageAdd size={20} />
-              </Button>
+              <ImageUploaderContainer />
               <Button s="auto" className="p-1" i={1} title="Code">
                 <BiCode size={20} />
               </Button>
