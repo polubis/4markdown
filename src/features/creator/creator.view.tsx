@@ -136,7 +136,10 @@ const CreatorView = () => {
         | `quote`
         | `code`
         | `math`
-        | `link`,
+        | `link`
+        | `ol`
+        | `ul`
+        | `todo`,
     ) =>
     (): void => {
       const creator = creatorRef.current;
@@ -167,6 +170,15 @@ const CreatorView = () => {
         },
         link: () => {
           copy(`![]()`);
+        },
+        ol: () => {
+          copy(`1. \n2. \n3. `);
+        },
+        ul: () => {
+          copy(`- \n- \n- `);
+        },
+        todo: () => {
+          copy(`- [x] a\n- [ ] b\n- [x] c`);
         },
       };
 
@@ -332,13 +344,31 @@ const CreatorView = () => {
                 <BiLink size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
-              <Button s="auto" className="p-1" i={1} title="Ordered list">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Ordered list"
+                onClick={insertMarkdownSyntax(`ol`)}
+              >
                 <BiListOl size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Unordered list">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Unordered list"
+                onClick={insertMarkdownSyntax(`ul`)}
+              >
                 <BiListUl size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Task list">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Task list"
+                onClick={insertMarkdownSyntax(`todo`)}
+              >
                 <BiListCheck size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
