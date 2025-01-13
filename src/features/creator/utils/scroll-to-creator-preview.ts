@@ -13,7 +13,7 @@ const scrollToCreatorPreview = debounce((input: HTMLTextAreaElement): void => {
   const content = removeMdFromLine(lines[cursor - 1]);
 
   const elements = Array.from(
-    document.querySelectorAll(`.markdown > div > *:is(h1,h2,h3,h4,h5,h6)`),
+    document.querySelectorAll(`.prose > *:is(h1,h2,h3,h4,h5,h6)`),
   );
 
   for (const element of elements) {

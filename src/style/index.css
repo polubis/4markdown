@@ -2,6 +2,69 @@
 @tailwind utilities;
 @tailwind components;
 
-@import './setup.css';
+@layer components {
+  .prose {
+    :not(pre) > code[class*='language-'],
+    pre[class*='language-'] {
+      background: #181818;
+    }
+  }
+
+  body.dark .prose {
+    :not(pre) > code[class*='language-'],
+    pre[class*='language-'] {
+      background: #2c3945;
+    }
+  }
+
+  .prose code::before,
+  .prose code::after {
+    @apply content-none;
+  }
+
+  .prose table {
+    @apply overflow-auto block;
+  }
+
+  .prose td {
+    @apply whitespace-nowrap;
+  }
+
+  .prose a {
+    @apply break-words;
+  }
+}
+
+:root {
+  --white: #fff;
+  --black: #000;
+}
+
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@keyframes lrotate {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+.loader {
+  animation: lrotate 1s infinite linear;
+}
+
 @import './themes/dark.css';
 @import './themes/light.css';
