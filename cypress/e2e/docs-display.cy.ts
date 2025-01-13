@@ -55,7 +55,7 @@ describe(`Docs display works when`, () => {
       cy.get(`strong`).contains(title).click();
     },
     'I see document preview correctly displayed': () => {
-      cy.get(`.markdown > div > h1, .markdown > div > h2`).each((h) => {
+      cy.get(`.prose > h1, .prose > h2`).each((h) => {
         cy.contains(h.text()).scrollIntoView();
         Given(`System takes picture`);
       });
