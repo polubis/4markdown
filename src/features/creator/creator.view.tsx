@@ -34,9 +34,16 @@ import { changeAction } from 'store/document-creator/actions';
 import { useDocumentCreatorState } from 'store/document-creator';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
+import { useToggle } from 'development-kit/use-toggle';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
+);
+
+const CheatsheetModal = React.lazy(() =>
+  import(`./components/cheatsheet-modal`).then((m) => ({
+    default: m.CheatSheetModal,
+  })),
 );
 
 type DivideMode = 'both' | 'preview' | 'code';
@@ -54,6 +61,8 @@ const CreatorView = () => {
 
   const clearConfirm = useConfirm(() => changeAction(``));
   const resetConfirm = useConfirm(() => changeAction(initialCode));
+
+  const cheatsheetModal = useToggle();
 
   const triggerPreviewScroll = async (
     input: HTMLTextAreaElement,
@@ -203,14 +212,20 @@ const CreatorView = () => {
 
   return (
     <>
+      {copyState.is === `copied` && (
+        <Status>Copied! Now put cursor in creator and paste</Status>
+      )}
       {docManagementStore.is === `fail` && (
         <React.Suspense>
           <CreatorErrorModalContainer />
         </React.Suspense>
       )}
-      {copyState.is === `copied` && (
-        <Status>Copied! Now put cursor in creator and paste</Status>
+      {cheatsheetModal.opened && (
+        <React.Suspense>
+          <CheatsheetModal onClose={cheatsheetModal.close} />
+        </React.Suspense>
       )}
+
       <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
