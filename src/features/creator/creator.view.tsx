@@ -1,6 +1,15 @@
 import React from 'react';
 import { Markdown } from 'components/markdown';
-import { BiBookContent, BiSolidBookContent, BiWindows } from 'react-icons/bi';
+import {
+  BiBold,
+  BiBookContent,
+  BiHeading,
+  BiInfoCircle,
+  BiInfoSquare,
+  BiItalic,
+  BiSolidBookContent,
+  BiWindows,
+} from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import c from 'classnames';
 import { useConfirm } from 'development-kit/use-confirm';
@@ -14,6 +23,7 @@ import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
 import { changeAction } from 'store/document-creator/actions';
 import { useDocumentCreatorState } from 'store/document-creator';
+import { Bar } from 'design-system/bar';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -184,23 +194,47 @@ const CreatorView = () => {
           <label className="hidden" htmlFor="creator" id="creator">
             Creator
           </label>
-          <textarea
-            ref={creatorRef}
-            aria-labelledby="creator"
-            defaultValue={code}
-            aria-label="creator"
-            spellCheck="false"
-            className={c(
-              `p-4 border-r-0 resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
-              { hidden: divideMode === `preview` },
-            )}
-            onChange={changeCode}
-            onKeyDown={maintainTabs}
-            onClick={(e) => {
-              triggerPreviewScroll(e.target as HTMLTextAreaElement);
-            }}
-          />
-
+          <div className="flex flex-col">
+            <header
+              className={c(
+                `flex items-center space-x-1 px-3 py-1.5 border-b-2 border-zinc-300 dark:border-zinc-800`,
+              )}
+            >
+              <Button s="auto" className="p-1" i={1} title="Insert heading">
+                <BiHeading size={20} />
+              </Button>
+              <Button s="auto" className="p-1" i={1} title="Insert bold">
+                <BiBold size={20} />
+              </Button>
+              <Button s="auto" className="p-1" i={1} title="Insert italic">
+                <BiItalic size={20} />
+              </Button>
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Markdown cheatsheet"
+              >
+                <BiInfoCircle size={20} />
+              </Button>
+            </header>
+            <textarea
+              ref={creatorRef}
+              aria-labelledby="creator"
+              defaultValue={code}
+              aria-label="creator"
+              spellCheck="false"
+              className={c(
+                `p-4 border-r-0 h-full resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
+                { hidden: divideMode === `preview` },
+              )}
+              onChange={changeCode}
+              onKeyDown={maintainTabs}
+              onClick={(e) => {
+                triggerPreviewScroll(e.target as HTMLTextAreaElement);
+              }}
+            />
+          </div>
           <Markdown
             className={c(
               `w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,

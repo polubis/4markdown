@@ -98,14 +98,6 @@ const AppFooterContainer = () => {
             </a>
             <a
               className="hover:underline underline-offset-2"
-              href={meta.mdCheatsheet}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Markdown Cheatsheet
-            </a>
-            <a
-              className="hover:underline underline-offset-2"
               href={meta.ytVideoTutorialUrl}
               target="_blank"
               rel="noopener noreferrer"

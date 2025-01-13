@@ -140,14 +140,6 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Grammarly Extension
           </ButtonLink>
           <ButtonLink
-            to={meta.mdCheatsheet}
-            target="_blank"
-            title="Markdown Cheatsheet"
-            rel="noopener noreferrer"
-          >
-            Markdown Cheatsheet
-          </ButtonLink>
-          <ButtonLink
             to={meta.routes.privacyPolicy}
             title="Check privacy policy"
             component={(props) => (
