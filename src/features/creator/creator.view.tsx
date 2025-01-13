@@ -1,11 +1,11 @@
 import React from 'react';
 import { Markdown } from 'components/markdown';
 import {
-  BiAbacus,
   BiBold,
   BiBookContent,
   BiCode,
   BiHeading,
+  BiImageAdd,
   BiInfoCircle,
   BiItalic,
   BiLink,
@@ -31,7 +31,6 @@ import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
 import { changeAction } from 'store/document-creator/actions';
 import { useDocumentCreatorState } from 'store/document-creator';
-import { Bar } from 'design-system/bar';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -221,6 +220,9 @@ const CreatorView = () => {
                 <BiStrikethrough size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
+              <Button s="auto" className="p-1" i={1} title="Image">
+                <BiImageAdd size={20} />
+              </Button>
               <Button s="auto" className="p-1" i={1} title="Code">
                 <BiCode size={20} />
               </Button>
