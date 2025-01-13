@@ -33,6 +33,7 @@ import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync'
 import { changeAction } from 'store/document-creator/actions';
 import { useDocumentCreatorState } from 'store/document-creator';
 import { useCopy } from 'development-kit/use-copy';
+import { Status } from 'design-system/status';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -43,14 +44,13 @@ type DivideMode = 'both' | 'preview' | 'code';
 const CreatorView = () => {
   useCreatorLocalStorageSync();
 
-  const [, copy] = useCopy();
+  const [copyState, copy] = useCopy();
 
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = useDocumentCreatorState();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
-  const creatorFocusDirty = React.useRef(false);
 
   const clearConfirm = useConfirm(() => changeAction(``));
   const resetConfirm = useConfirm(() => changeAction(initialCode));
@@ -141,10 +141,6 @@ const CreatorView = () => {
     }
   };
 
-  const markCreatorFocusAsDirty = (): void => {
-    creatorFocusDirty.current = true;
-  };
-
   React.useEffect(() => {
     const creatorField = creatorRef.current;
 
@@ -167,6 +163,9 @@ const CreatorView = () => {
         <React.Suspense>
           <CreatorErrorModalContainer />
         </React.Suspense>
+      )}
+      {copyState.is === `copied` && (
+        <Status>Copied! Now put cursor and paste</Status>
       )}
       <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
@@ -296,7 +295,6 @@ const CreatorView = () => {
               onClick={(e) => {
                 triggerPreviewScroll(e.target as HTMLTextAreaElement);
               }}
-              onFocus={markCreatorFocusAsDirty}
             />
           </div>
           <Markdown
