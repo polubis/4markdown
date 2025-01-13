@@ -3,11 +3,15 @@ import { Markdown } from 'components/markdown';
 import {
   BiBold,
   BiBookContent,
+  BiCode,
   BiHeading,
   BiInfoCircle,
   BiInfoSquare,
   BiItalic,
   BiLink,
+  BiListCheck,
+  BiListOl,
+  BiListUl,
   BiSolidBookContent,
   BiSolidQuoteAltLeft,
   BiSolidQuoteLeft,
@@ -194,9 +198,6 @@ const CreatorView = () => {
               divideMode === `both`,
           })}
         >
-          <label className="hidden" htmlFor="creator" id="creator">
-            Creator
-          </label>
           <div className="flex flex-col">
             <header
               className={c(
@@ -215,8 +216,32 @@ const CreatorView = () => {
               <Button s="auto" className="p-1" i={1} title="Insert quote">
                 <BiSolidQuoteAltLeft size={20} />
               </Button>
+              <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
+              <Button s="auto" className="p-1" i={1} title="Insert code">
+                <BiCode size={20} />
+              </Button>
               <Button s="auto" className="p-1" i={1} title="Insert link">
                 <BiLink size={20} />
+              </Button>
+              <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Insert ordered list"
+              >
+                <BiListOl size={20} />
+              </Button>
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Insert unordered list"
+              >
+                <BiListUl size={20} />
+              </Button>
+              <Button s="auto" className="p-1" i={1} title="Insert task list">
+                <BiListCheck size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
               <Button
@@ -228,6 +253,9 @@ const CreatorView = () => {
                 <BiInfoCircle size={20} />
               </Button>
             </header>
+            <label className="hidden" htmlFor="creator" id="creator">
+              Creator
+            </label>
             <textarea
               ref={creatorRef}
               aria-labelledby="creator"
