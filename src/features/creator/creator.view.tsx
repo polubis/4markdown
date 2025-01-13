@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {
+  type ChangeEventHandler,
+  type KeyboardEventHandler,
+} from 'react';
 import { Markdown } from 'components/markdown';
 import {
   BiBold,
@@ -29,6 +32,7 @@ import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
 import { changeAction } from 'store/document-creator/actions';
 import { useDocumentCreatorState } from 'store/document-creator';
+import { useCopy } from 'development-kit/use-copy';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -39,11 +43,14 @@ type DivideMode = 'both' | 'preview' | 'code';
 const CreatorView = () => {
   useCreatorLocalStorageSync();
 
+  const [, copy] = useCopy();
+
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = useDocumentCreatorState();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
+  const creatorFocusDirty = React.useRef(false);
 
   const clearConfirm = useConfirm(() => changeAction(``));
   const resetConfirm = useConfirm(() => changeAction(initialCode));
@@ -78,7 +85,7 @@ const CreatorView = () => {
     setDivideMode(`both`);
   };
 
-  const maintainTabs: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+  const maintainTabs: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     const target = e.target as HTMLTextAreaElement;
 
     triggerPreviewScroll(target);
@@ -100,7 +107,7 @@ const CreatorView = () => {
     target.selectionStart = target.selectionEnd = start + 1;
   };
 
-  const changeCode: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+  const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
     const timeout = timeoutRef.current;
 
     timeout && clearTimeout(timeout);
@@ -117,6 +124,25 @@ const CreatorView = () => {
       `_blank`,
       `width=${screen.availWidth},height=${screen.availHeight}`,
     );
+  };
+
+  const insertMarkdownSyntax = (syntax: `heading`) => (): void => {
+    const creator = creatorRef.current;
+
+    if (!creator) return;
+
+    switch (syntax) {
+      case `heading`: {
+        const valueToReplace = `### `;
+
+        copy(valueToReplace);
+        break;
+      }
+    }
+  };
+
+  const markCreatorFocusAsDirty = (): void => {
+    creatorFocusDirty.current = true;
   };
 
   React.useEffect(() => {
@@ -200,7 +226,13 @@ const CreatorView = () => {
                 `flex items-center h-[50px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
               )}
             >
-              <Button s="auto" className="p-1" i={1} title="Heading">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Heading"
+                onClick={insertMarkdownSyntax(`heading`)}
+              >
                 <BiHeading size={20} />
               </Button>
               <Button s="auto" className="p-1" i={1} title="Bold">
@@ -264,6 +296,7 @@ const CreatorView = () => {
               onClick={(e) => {
                 triggerPreviewScroll(e.target as HTMLTextAreaElement);
               }}
+              onFocus={markCreatorFocusAsDirty}
             />
           </div>
           <Markdown
