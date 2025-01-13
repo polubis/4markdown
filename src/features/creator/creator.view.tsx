@@ -1,20 +1,20 @@
 import React from 'react';
 import { Markdown } from 'components/markdown';
 import {
+  BiAbacus,
   BiBold,
   BiBookContent,
   BiCode,
   BiHeading,
   BiInfoCircle,
-  BiInfoSquare,
   BiItalic,
   BiLink,
   BiListCheck,
   BiListOl,
   BiListUl,
+  BiMath,
   BiSolidBookContent,
   BiSolidQuoteAltLeft,
-  BiSolidQuoteLeft,
   BiStrikethrough,
   BiWindows,
 } from 'react-icons/bi';
@@ -223,6 +223,14 @@ const CreatorView = () => {
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
               <Button s="auto" className="p-1" i={1} title="Code">
                 <BiCode size={20} />
+              </Button>
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Math / Latex syntax"
+              >
+                <BiMath size={20} />
               </Button>
               <Button s="auto" className="p-1" i={1} title="Link">
                 <BiLink size={20} />
