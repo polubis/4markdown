@@ -63,6 +63,11 @@ const OPTIONS: Options = {
   remarkPlugins: [remarkGfm, remarkMath],
   rehypePlugins: [rehypeKatex],
   components: {
+    a: ({ children, href }) => (
+      <a href={href} target="_blank" rel="noopener noreferrer">
+        {children}
+      </a>
+    ),
     img: ({ src, alt }) => <img loading="lazy" src={src} alt={alt} />,
     code: Code,
     pre: ({ children }) => (
