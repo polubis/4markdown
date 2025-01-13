@@ -126,20 +126,36 @@ const CreatorView = () => {
     );
   };
 
-  const insertMarkdownSyntax = (syntax: `heading`) => (): void => {
-    const creator = creatorRef.current;
+  const insertMarkdownSyntax =
+    (syntax: `heading` | `bold` | `italic` | `strike` | `quote` | `code`) =>
+    (): void => {
+      const creator = creatorRef.current;
 
-    if (!creator) return;
+      if (!creator) return;
 
-    switch (syntax) {
-      case `heading`: {
-        const valueToReplace = `### `;
+      const operationsMap: Record<typeof syntax, () => void> = {
+        heading: () => {
+          copy(`### `);
+        },
+        bold: () => {
+          copy(`** **`);
+        },
+        italic: () => {
+          copy(`* *`);
+        },
+        strike: () => {
+          copy(`~~ ~~`);
+        },
+        quote: () => {
+          copy(`> `);
+        },
+        code: () => {
+          copy(`\`\`\`\n\n\`\`\``);
+        },
+      };
 
-        copy(valueToReplace);
-        break;
-      }
-    }
-  };
+      operationsMap[syntax]();
+    };
 
   React.useEffect(() => {
     const creatorField = creatorRef.current;
@@ -234,21 +250,51 @@ const CreatorView = () => {
               >
                 <BiHeading size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Bold">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Bold"
+                onClick={insertMarkdownSyntax(`bold`)}
+              >
                 <BiBold size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Italic">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Italic"
+                onClick={insertMarkdownSyntax(`italic`)}
+              >
                 <BiItalic size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Quote">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Quote"
+                onClick={insertMarkdownSyntax(`quote`)}
+              >
                 <BiSolidQuoteAltLeft size={20} />
               </Button>
-              <Button s="auto" className="p-1" i={1} title="Striketrough">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Striketrough"
+                onClick={insertMarkdownSyntax(`strike`)}
+              >
                 <BiStrikethrough size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
               <ImageUploaderContainer />
-              <Button s="auto" className="p-1" i={1} title="Code">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Code"
+                onClick={insertMarkdownSyntax(`code`)}
+              >
                 <BiCode size={20} />
               </Button>
               <Button
