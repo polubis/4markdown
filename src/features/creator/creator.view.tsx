@@ -225,7 +225,6 @@ const CreatorView = () => {
           <CheatsheetModal onClose={cheatsheetModal.close} />
         </React.Suspense>
       )}
-
       <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
@@ -387,7 +386,13 @@ const CreatorView = () => {
                 <BiListCheck size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
-              <Button s="auto" className="p-1" i={1} title="Cheatsheet">
+              <Button
+                s="auto"
+                className="p-1"
+                i={1}
+                title="Cheatsheet"
+                onClick={cheatsheetModal.open}
+              >
                 <BiInfoCircle size={20} />
               </Button>
             </header>

@@ -7,7 +7,7 @@ The editor works really well with the [Grammarly Extension](https://chromewebsto
 ## Typography
 
 1. **Separate sections** with `enter` (line breaks)
-2. To create different **headings**, use the `#` symbol. To determine size, use **"#, ##, ###, ####, #####"** or **"######"**
+2. To create different **headings**, use the `#` symbol. To determine size, use **#, ##, ###, ####, #####** or **######**
 3. Use different text formatters
    1. **Bold** - Wrap text with \*\*content here\*\*
    2. *Italics* - Wrap text with \*content here\*
@@ -15,9 +15,9 @@ The editor works really well with the [Grammarly Extension](https://chromewebsto
    4. `const a = 5` - Wrap inline code with \`inline code here\`
    5. ~~Strikethrough~~ - Wrap text with \~\~content here\~\~
    6. $overline{x} = \frac{1}{n}\left(\sum_{i=1}^{n}{x_{i}}\right)$ - Wrap math syntax with \$overline{x} = \frac{1}{n}\left(\sum_{i=1}^{n}{x_{i}}\right)\$
-   7. [Website link](https://4markdown.com) - Use following syntax **\[title\]\(link\)**.
+   7. [Website link](https://4markdown.com) - Use following syntax \[title\]\(link\)
 4. Be careful to avoid unnecessary whitespace characters. These may cause content to display incorrectly
-5. If you want to escape parsing, use **"\\"** before the symbol. For example, to disable parsing a heading, use **"\\#"**. This applies to other symbols as well
+5. If you want to escape parsing, use **\\** before the symbol. For example, to disable parsing a heading, use **\\#**. This applies to other symbols as well
 
 ## Lists
 
@@ -53,7 +53,7 @@ The editor works really well with the [Grammarly Extension](https://chromewebsto
 
 ## Blocks
 
-1. To render a block of code, you need to use **\`\`\`block code goes here\`\`\`**. Remember to add **\`\`\`**`enter`**\`\`\`** between the blocks
+1. To render a block of code, you need to use \`\`\`block code goes here\`\`\`. Remember to add \`\`\`**`enter`**\`\`\` between the blocks
 
 ```
 The comments marker "//" is added to allow the display of "```" in the snippet. 
@@ -66,7 +66,7 @@ if (a > 5) return;
 //``` 
 ```
 
-2. To render math syntax in a block, you need to use **\$\$math syntax goes here\$\$**. Remember to add a line break, as you would in the **block of code** case
+2. To render math syntax in a block, you need to use \$\$math syntax goes here\$\$. Remember to add a line break, as you would in the **block of code** case
 
 ```
 $$
@@ -102,7 +102,7 @@ and it provides you with
 | Emily White | 25  | *Australia*  | Data Analyst   |
 | Sam Brown   | 37  | `Germany`    | Project Lead   |
 
-4. To render an image, you can use the `![alt](url)*description*` syntax. The **description** is optional
+4. To render an image, you can use the \!\[alt\]\(url\)\*description\* syntax. The **description** is optional
 
 ```
 ![image alt](image url) // Add here enter for better formatting
@@ -114,7 +114,7 @@ and it gives you
 ![Application logo](/logo-thumbnail.webp)
 *Application logo*
 
-5. To display a quote, use the **"\> quote sentence"** syntax. It will give you:
+5. To display a quote, use the \> quote sentence syntax. It will give you
 
 > The best developers understand the value of pair programming.
 
@@ -122,4 +122,4 @@ and it gives you
 
 Like our [LinkedIn](https://www.linkedin.com/company/greenon-software) profile or join [Discord](https://discord.com/invite/PxXQayT3x3) channel. In addition, we're working on other applications and we have an education platform that creates content for free - [GreenOn Software](https://greenonsoftware.com)! 
 
-Any suggestions, comments, or ideas for improvement? Feel free to join our [Discord](https://discord.com/invite/PxXQayT3x3) or add info on [LinkedIn](https://www.linkedin.com/company/greenon-software) profile. If you want to contribute, here you have a repository: [${meta.appName} repository](https://github.com/polubis/4markdown).
+Any suggestions, comments, or ideas for improvement? Feel free to join our [Discord](https://discord.com/invite/PxXQayT3x3) or add info on [LinkedIn](https://www.linkedin.com/company/greenon-software) profile. If you want to contribute, here you have a repository: [4markdown repository](https://github.com/polubis/4markdown).
