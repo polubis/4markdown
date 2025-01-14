@@ -3,7 +3,6 @@ import { Modal } from 'design-system/modal';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
-import { UploadImageButton } from '../components/upload-image-button';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
 import { useCopy } from 'development-kit/use-copy';
@@ -11,6 +10,7 @@ import { Status } from 'design-system/status';
 import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
 import { uploadImageAct } from 'acts/upload-image.act';
 import { useUploadImageState } from 'store/upload-image';
+import { UploadImageButton } from '../components/upload-image-button';
 
 const IMAGE_RULES = {
   type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),

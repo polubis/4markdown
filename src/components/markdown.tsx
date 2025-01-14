@@ -68,11 +68,7 @@ const OPTIONS: Options = {
         {children}
       </a>
     ),
-    img: ({ src, alt }) => (
-      <picture>
-        <img loading="lazy" src={src} alt={alt} />
-      </picture>
-    ),
+    img: ({ src, alt }) => <img loading="lazy" src={src} alt={alt} />,
     code: Code,
     pre: ({ children }) => (
       <div className="relative group">

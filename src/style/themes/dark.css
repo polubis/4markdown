@@ -1,6 +1,6 @@
 body.dark {
-  background: var(--black);
-  color: var(--white);
+  background: #040404;
+  color: #ffffff;
 }
 
 body.dark .active-link {
