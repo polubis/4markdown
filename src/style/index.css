@@ -3,6 +3,30 @@
 @tailwind components;
 
 @layer components {
+  .prose h1 {
+    @apply text-4xl md:text-5xl;
+  }
+
+  .prose h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  .prose h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  .prose h4 {
+    @apply text-xl md:text-2xl;
+  }
+
+  .prose h5 {
+    @apply text-lg md:text-xl font-bold;
+  }
+
+  .prose h6 {
+    @apply md:text-lg font-bold;
+  }
+
   .prose {
     :not(pre) > code[class*='language-'],
     pre[class*='language-'] {
