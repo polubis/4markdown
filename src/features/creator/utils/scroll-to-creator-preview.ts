@@ -12,9 +12,7 @@ const scrollToCreatorPreview = debounce((input: HTMLTextAreaElement): void => {
   const lines = input.value.split(`\n`);
   const content = removeMdFromLine(lines[cursor - 1]);
 
-  const elements = Array.from(
-    document.querySelectorAll(`.prose > *:is(h1,h2,h3,h4,h5,h6)`),
-  );
+  const elements = Array.from(document.querySelectorAll(`.markdown > *`));
 
   for (const element of elements) {
     const textContent = element.textContent

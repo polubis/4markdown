@@ -424,7 +424,7 @@ const CreatorView = () => {
           </div>
           <Markdown
             className={c(
-              `w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
+              `markdown w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
               { hidden: divideMode === `code` },
               { 'mx-auto': divideMode === `preview` },
               {
