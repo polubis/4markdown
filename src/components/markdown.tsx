@@ -4,7 +4,7 @@ import React, {
   type DetailedHTMLProps,
   type ReactElement,
 } from 'react';
-import { highlightElement } from 'prismjs';
+import { highlightAll } from 'prismjs';
 import c from 'classnames';
 import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
@@ -14,24 +14,11 @@ import ReactMarkdown, { type Options } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import { falsy } from 'development-kit/guards';
 
 const Code = ({
   children,
 }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
-  const ref = React.useRef<HTMLElement | null>(null);
-
-  React.useLayoutEffect(() => {
-    const container = ref.current;
-    falsy(container, `Cannot highlight because there is a missing wrapper`);
-    highlightElement(container);
-  }, [children]);
-
-  return (
-    <code ref={ref} className="language-javascript">
-      {children}
-    </code>
-  );
+  return <code className="language-javascript">{children}</code>;
 };
 
 const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
@@ -85,6 +72,10 @@ type MarkdownProps = {
 };
 
 const Markdown = ({ className, children }: MarkdownProps) => {
+  React.useLayoutEffect(() => {
+    highlightAll();
+  }, [children]);
+
   return (
     <ReactMarkdown
       className={c(
