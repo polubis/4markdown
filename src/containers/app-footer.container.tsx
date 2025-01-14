@@ -96,6 +96,22 @@ const AppFooterContainer = () => {
             >
               Grammarly Extension
             </a>
+            <a
+              className="hover:underline underline-offset-2"
+              href={meta.mdCheatsheet}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Markdown Cheatsheet
+            </a>
+            <a
+              className="hover:underline underline-offset-2"
+              href={meta.ytVideoTutorialUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Tutorial
+            </a>
           </Column>
           <Column title="Navigation">
             <Link
@@ -152,6 +168,14 @@ const AppFooterContainer = () => {
               rel="noopener noreferrer"
             >
               Facebook
+            </a>
+            <a
+              className="hover:underline underline-offset-2"
+              href={meta.ytChannelUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              YouTube
             </a>
           </Column>
         </div>

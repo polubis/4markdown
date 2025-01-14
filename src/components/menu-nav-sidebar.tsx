@@ -140,6 +140,14 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Grammarly Extension
           </ButtonLink>
           <ButtonLink
+            to={meta.mdCheatsheet}
+            target="_blank"
+            title="Markdown Cheatsheet"
+            rel="noopener noreferrer"
+          >
+            Markdown Cheatsheet
+          </ButtonLink>
+          <ButtonLink
             to={meta.routes.privacyPolicy}
             title="Check privacy policy"
             component={(props) => (
@@ -155,6 +163,23 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             rel="noopener noreferrer"
           >
             Source Code
+          </ButtonLink>
+          <ButtonLink
+            to={meta.ytVideoTutorialUrl}
+            target="_blank"
+            title="YouTube tutorial video"
+            rel="noopener noreferrer"
+          >
+            Tutorial
+          </ButtonLink>
+          <ButtonLink
+            to={meta.ytChannelUrl}
+            target="_blank"
+            className="mb-6"
+            title={`${meta.appName} YouTube`}
+            rel="noopener noreferrer"
+          >
+            YouTube
           </ButtonLink>
           <a
             href={meta.companyUrl}
