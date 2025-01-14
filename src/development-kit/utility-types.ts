@@ -37,8 +37,6 @@ type Result<
   TFailData extends MaybeObject = { error: ParsedError },
 > = Awaited<AsyncResult<TOkData, TFailData>>;
 
-type Timeout = ReturnType<typeof setTimeout>;
-
 export type {
   NonNullableProperties,
   Prettify,
@@ -46,5 +44,4 @@ export type {
   Nullable,
   AsyncResult,
   Result,
-  Timeout,
 };
