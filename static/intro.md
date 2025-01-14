@@ -51,7 +51,7 @@ The editor works really well with the [Grammarly Extension](https://chromewebsto
 
 ## Blocks
 
-1. To render a block of code, you need to use \`\`\`block code goes here\`\`\`. Remember to add \`\`\`**`enter`**\`\`\` between the blocks
+1. To render a block of code, use \`\`\`block code goes here\`\`\`. Remember to add \`\`\`**`enter`**\`\`\` between the blocks. You can optionally specify a language using \`\`\`language\`\`\`. The default is `JavaScript`
 
 ```
 The comments marker "//" is added to allow the display of "```" in the snippet. 
@@ -61,8 +61,25 @@ Normally, you don't need this
 const a = 5;
 
 if (a > 5) return;
-//``` 
+//```
+
+// or
+
+//```typescript // Language is optional (JavaScript is default)
+const a = 5;
+
+if (a > 5) return;
+//```
 ```
+
+currently we're supporting following languages
+
+- C
+- C#
+- JavaScript (default)
+- PHP
+- Python
+- TypeScript
 
 2. To render math syntax in a block, you need to use \$\$math syntax goes here\$\$. Remember to add a line break, as you would in the **block of code** case
 
