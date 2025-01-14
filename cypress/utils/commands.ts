@@ -50,7 +50,9 @@ type ClickableControls =
   | `Old documents`
   | `Really Old documents`
   | `Accept cookies`
-  | `Accept customized cookies`;
+  | `Accept customized cookies`
+  | `Cheatsheet`
+  | `Close markdown cheatsheet`;
 
 type Element =
   | `Create any content`
