@@ -12,7 +12,7 @@ const SandboxPage = () => {
   useCreatorLocalStorageSync();
   const { render } = usePortal();
   const { code } = useDocumentCreatorState();
-  console.log(code);
+
   return (
     <>
       {render(
