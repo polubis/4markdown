@@ -120,6 +120,7 @@ describe(`User profile works when`, () => {
       ])
       .When(`I click button`, [`Open user profile settings`])
       .And(`I clear profile`)
-      .Then(`I see no profile section`);
+      .Then(`I see no profile section`)
+      .And(`System takes picture`);
   });
 });
