@@ -203,7 +203,8 @@ const BASE_COMMANDS = {
   'I type in creator': (value: string) => {
     cy.get(`textarea[aria-label="creator"]`)
       .invoke(`val`, value)
-      .trigger(`input`);
+      .trigger(`input`)
+      .blur();
   },
   'I see empty creator': () => {
     cy.get(`textarea[aria-label="creator"]`).should(`be.empty`);

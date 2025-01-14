@@ -5,6 +5,9 @@ import { Gherkin } from '../utils/gherkin';
 describe(`Docs creator works when`, () => {
   const { Given } = Gherkin({
     ...BASE_COMMANDS,
+    'I scroll to': (text: string) => {
+      cy.contains(text).scrollIntoView();
+    },
     'I test creator syntax': (content: string) => {
       Given(`I clear creator`)
         .And(`I type in creator`, content)
@@ -34,6 +37,13 @@ describe(`Docs creator works when`, () => {
   it(`user is able to create nested lists`, () => {
     const names = [`lists`, `math`, `code`, `headings`] as const;
 
+    const cheatsheetText = [
+      `Typography`,
+      `Lists`,
+      `Blocks`,
+      `Thanks for using our editor!`,
+    ];
+
     Cypress.Promise.all<string>(
       names.map((name) => cy.readFile(`cypress/samples/${name}.md`)),
     ).then(([lists, math, code, headings]) => {
@@ -44,20 +54,18 @@ describe(`Docs creator works when`, () => {
         .And(`I test creator syntax`, code)
         .And(`I test creator syntax`, headings)
         .When(`I click button`, [`Cheatsheet`])
-        .Then(`I see text`, [
-          `Typography`,
-          `Lists`,
-          `Blocks`,
-          `Thanks for using our editor!`,
-        ])
+        .Then(`I see text`, cheatsheetText)
         .And(`System takes picture`)
+        .When(`I scroll to`, cheatsheetText[0])
+        .Then(`System takes picture`)
+        .When(`I scroll to`, cheatsheetText[1])
+        .Then(`System takes picture`)
+        .When(`I scroll to`, cheatsheetText[2])
+        .Then(`System takes picture`)
+        .When(`I scroll to`, cheatsheetText[3])
+        .Then(`System takes picture`)
         .When(`I click button`, [`Close markdown cheatsheet`])
-        .Then(`I not see text`, [
-          `Typography`,
-          `Lists`,
-          `Blocks`,
-          `Thanks for using our editor!`,
-        ]);
+        .Then(`I not see text`, cheatsheetText);
     });
   });
 });
