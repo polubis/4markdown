@@ -35,7 +35,7 @@ import { useDocumentCreatorState } from 'store/document-creator';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { useToggle } from 'development-kit/use-toggle';
-import { scrollToCreatorPreview } from './utils/scroll-to-creator-preview';
+import { useScrollToPreview } from './utils/use-scroll-to-preview';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -60,6 +60,8 @@ const CreatorView = () => {
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 
+  const [scrollToPreview] = useScrollToPreview();
+
   const clearConfirm = useConfirm(() => changeAction(``));
   const resetConfirm = useConfirm(() => changeAction(initialCode));
 
@@ -74,7 +76,7 @@ const CreatorView = () => {
       return;
     }
 
-    scrollToCreatorPreview(input);
+    scrollToPreview(input);
   };
 
   const divide = (): void => {
@@ -401,7 +403,7 @@ const CreatorView = () => {
               onChange={changeCode}
               onKeyDown={maintainTabs}
               onClick={(e) => {
-                triggerPreviewScroll(e.currentTarget);
+                scrollToPreview(e.currentTarget);
               }}
             />
           </div>
