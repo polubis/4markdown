@@ -1,5 +1,3 @@
-# Markdown Cheatsheet
-
 Supporting [GitHub](https://github.com) flavored syntax 100% 💥💚 (I hope). If you encounter any issues, please contact us on our [LinkedIn](https://www.linkedin.com/company/greenon-software).
 
 The editor works really well with the [Grammarly Extension](https://chromewebstore.google.com/detail/grammarly-grammar-checker/kbfnbcaeplbcioakkpcpgfkobkghlhen?pli=1) for grammar. We recommend giving it a try.
@@ -114,7 +112,12 @@ and it gives you
 ![Application logo](/logo-thumbnail.webp)
 *Application logo*
 
-5. To display a quote, use the \> quote sentence syntax. It will give you
+5. To display a quote, you can use following syntax
+
+```
+// Remember about space
+> The best developers understand the value of pair programming
+```
 
 > The best developers understand the value of pair programming.
 
