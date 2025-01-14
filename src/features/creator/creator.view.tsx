@@ -213,6 +213,7 @@ const CreatorView = () => {
       <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
+          <ImageUploaderContainer />
           <Button i={1} s={2} title="Change view display" onClick={divide}>
             {divideMode === `both` && (
               <BiBookContent className="rotate-90 md:rotate-0" />
@@ -321,7 +322,6 @@ const CreatorView = () => {
                 <BiStrikethrough size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
-              <ImageUploaderContainer />
               <Button
                 s="auto"
                 className="p-1"
