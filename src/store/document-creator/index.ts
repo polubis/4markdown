@@ -8,6 +8,8 @@ Separate every paragraph/section of text with \`enter\`. Suppose you want to cre
 
 It works great with the [Grammarly Chrome Extension](${meta.grammarlyUrl}) - this is for people who don't know **English** language well as me 🤝. 
 
+To dive deeper through editor features watch the following [Video](${meta.ytVideoTutorialUrl}) on our [YouTube channel](${meta.ytChannelUrl}).
+
 ## How to add inline code?
 
 To add inline code use the "\`" symbol to wrap concrete text. For example:
