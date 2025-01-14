@@ -35,6 +35,7 @@ import { useDocumentCreatorState } from 'store/document-creator';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { useToggle } from 'development-kit/use-toggle';
+import { scrollToCreatorPreview } from './utils/scroll-to-creator-preview';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -73,10 +74,6 @@ const CreatorView = () => {
       return;
     }
 
-    const { scrollToCreatorPreview } = await import(
-      `./utils/scroll-to-creator-preview`
-    );
-
     scrollToCreatorPreview(input);
   };
 
@@ -95,25 +92,13 @@ const CreatorView = () => {
   };
 
   const maintainTabs: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if (e.key === `Tab`) {
+      e.preventDefault();
+    }
+
     const target = e.target as HTMLTextAreaElement;
 
     triggerPreviewScroll(target);
-
-    if (e.key !== `Tab`) {
-      return;
-    }
-
-    e.preventDefault();
-
-    const start = target.selectionStart;
-    const end = target.selectionEnd;
-
-    const newValue =
-      code.substring(0, start) + ` `.repeat(4) + code.substring(end);
-
-    changeAction(newValue);
-
-    target.selectionStart = target.selectionEnd = start + 1;
   };
 
   const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -424,7 +409,7 @@ const CreatorView = () => {
           </div>
           <Markdown
             className={c(
-              `w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
+              `markdown w-full p-4 overflow-auto border-zinc-300 dark:border-zinc-800`,
               { hidden: divideMode === `code` },
               { 'mx-auto': divideMode === `preview` },
               {
