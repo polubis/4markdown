@@ -96,9 +96,7 @@ const CreatorView = () => {
       e.preventDefault();
     }
 
-    const target = e.target as HTMLTextAreaElement;
-
-    triggerPreviewScroll(target);
+    triggerPreviewScroll(e.currentTarget);
   };
 
   const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -403,7 +401,7 @@ const CreatorView = () => {
               onChange={changeCode}
               onKeyDown={maintainTabs}
               onClick={(e) => {
-                triggerPreviewScroll(e.target as HTMLTextAreaElement);
+                triggerPreviewScroll(e.currentTarget);
               }}
             />
           </div>
