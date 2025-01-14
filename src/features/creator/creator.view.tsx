@@ -35,7 +35,7 @@ import { useDocumentCreatorState } from 'store/document-creator';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { useToggle } from 'development-kit/use-toggle';
-import { scrollToCreatorPreview } from './utils/scroll-to-creator-preview';
+import { useScrollToPreview } from './utils/use-scroll-to-preview';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -60,6 +60,8 @@ const CreatorView = () => {
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 
+  const [scrollToPreview] = useScrollToPreview();
+
   const clearConfirm = useConfirm(() => changeAction(``));
   const resetConfirm = useConfirm(() => changeAction(initialCode));
 
@@ -74,7 +76,7 @@ const CreatorView = () => {
       return;
     }
 
-    scrollToCreatorPreview(input);
+    scrollToPreview(input);
   };
 
   const divide = (): void => {
@@ -96,9 +98,7 @@ const CreatorView = () => {
       e.preventDefault();
     }
 
-    const target = e.target as HTMLTextAreaElement;
-
-    triggerPreviewScroll(target);
+    triggerPreviewScroll(e.currentTarget);
   };
 
   const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -213,6 +213,7 @@ const CreatorView = () => {
       <main className="flex md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
+          <ImageUploaderContainer />
           <Button i={1} s={2} title="Change view display" onClick={divide}>
             {divideMode === `both` && (
               <BiBookContent className="rotate-90 md:rotate-0" />
@@ -321,7 +322,6 @@ const CreatorView = () => {
                 <BiStrikethrough size={20} />
               </Button>
               <div className="h-4 border-l border-zinc-300 dark:border-zinc-800 mx-1" />
-              <ImageUploaderContainer />
               <Button
                 s="auto"
                 className="p-1"
@@ -403,7 +403,7 @@ const CreatorView = () => {
               onChange={changeCode}
               onKeyDown={maintainTabs}
               onClick={(e) => {
-                triggerPreviewScroll(e.target as HTMLTextAreaElement);
+                scrollToPreview(e.currentTarget);
               }}
             />
           </div>
