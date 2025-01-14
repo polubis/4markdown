@@ -79,6 +79,15 @@ currentBenchmark().then((currentBenchmark) => {
 
     const chunksDiff = Object.entries(newBenchmark.chunks).reduce(
       (acc, [key, value]) => {
+        if (currentBenchmark.chunks[key] === undefined) {
+          acc[key] = {
+            sizesAsString: value.sizesAsString,
+            totalSize: `+${value.totalSize}`,
+          };
+
+          return acc;
+        }
+
         if (value.totalSize !== currentBenchmark.chunks[key].totalSize) {
           const totalChunksGroupDiff = twoDecimal(
             value.totalSize - currentBenchmark.chunks[key].totalSize,
