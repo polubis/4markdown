@@ -34,7 +34,7 @@ const scrollToPreview = debounce((input: HTMLTextAreaElement): void => {
       break;
     }
   }
-}, 3000);
+}, 750);
 
 const useScrollToPreview = () => {
   React.useEffect(() => {
