@@ -277,6 +277,7 @@ const CreatorView = () => {
           className={c(`grid h-[calc(100svh-72px-50px)]`, {
             'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
               divideMode === `both`,
+            'grid-cols-1 grid-rows-1': divideMode !== `both`,
           })}
         >
           <div
