@@ -5,10 +5,13 @@ import { Gherkin } from '../utils/gherkin';
 describe(`Docs creator works when`, () => {
   const { Given } = Gherkin({
     ...BASE_COMMANDS,
+    'I scroll to': (text: string) => {
+      cy.contains(text).scrollIntoView();
+    },
     'I test creator syntax': (content: string) => {
       Given(`I clear creator`)
         .And(`I type in creator`, content)
-        .Then(`I wait`, 2000)
+        .Then(`I wait`, 1000)
         .And(`System takes picture`)
         .When(`I click button`, [`Change theme`])
         .Then(`System takes picture`);
@@ -32,47 +35,37 @@ describe(`Docs creator works when`, () => {
   });
 
   it(`user is able to create nested lists`, () => {
-    const lists = `Some text
+    const names = [`lists`, `math`, `code`, `headings`] as const;
 
-1. First Item
-    - Subitem A $1/4$
-    - Subitem B
-        1. Sub-subitem I
-        2. Sub-subitem II
-    - Subitem C
-2. Second Item
-    - [ ] Subitem A
-    - [x] Subitem B
-        1. Sub-subitem I
-        2. Sub-subitem II
-3. Third Item
-    - Subitem A
-        1. Sub-subitem I
-        - Deepest Sub-sub-subitem a
-        - Deepest Sub-sub-subitem b
-        2. Sub-subitem II
-    - Subitem B`;
+    const cheatsheetText = [
+      `Typography`,
+      `Lists`,
+      `Blocks`,
+      `Thanks for using our editor!`,
+    ];
 
-    const code = `It's some code example with \`inline=a\`:
-
-\`\`\`
-// Some imagined framework code
-controller(\`users/{id}\`, async (_, rawPayload) => {
-  // Validation
-  const { id } = parse(rawPayload);
-  // Getting user from DB by "id"
-  const user = await getUser(id);
-
-  return user;
-});
-\`\`\``;
-
-    cy.readFile(`cypress/samples/math.md`).then((math) => {
+    Cypress.Promise.all<string>(
+      names.map((name) => cy.readFile(`cypress/samples/${name}.md`)),
+    ).then(([lists, math, code, headings]) => {
       Given(`Im on page`, `home`)
         .And(`I see not disabled button`, [`Sign in`])
         .When(`I test creator syntax`, lists)
         .And(`I test creator syntax`, math)
-        .And(`I test creator syntax`, code);
+        .And(`I test creator syntax`, code)
+        .And(`I test creator syntax`, headings)
+        .When(`I click button`, [`Cheatsheet`])
+        .Then(`I see text`, cheatsheetText)
+        .And(`System takes picture`)
+        .When(`I scroll to`, cheatsheetText[0])
+        .Then(`System takes picture`)
+        .When(`I scroll to`, cheatsheetText[1])
+        .Then(`System takes picture`)
+        .When(`I scroll to`, cheatsheetText[2])
+        .Then(`System takes picture`)
+        .When(`I scroll to`, cheatsheetText[3])
+        .Then(`System takes picture`)
+        .When(`I click button`, [`Close markdown cheatsheet`])
+        .Then(`I not see text`, cheatsheetText);
     });
   });
 });
