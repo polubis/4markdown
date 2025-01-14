@@ -3,6 +3,8 @@ import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
 describe(`Privacy policy works when`, () => {
+  const policyPageId = `[privacy-policy]:container`;
+
   const { Given } = Gherkin({
     ...BASE_COMMANDS,
     'Im on privacy policy page': () => {
@@ -13,7 +15,9 @@ describe(`Privacy policy works when`, () => {
       cy.contains(text).scrollIntoView();
     },
     'I see policy headings': () => {
-      cy.get(`.prose > h1, .prose > h2`).each((h) => {
+      cy.get(
+        `[data-testid="${policyPageId}"] > h1, [data-testid="${policyPageId}"] > h2`,
+      ).each((h) => {
         cy.contains(h.text()).scrollIntoView();
         Given(`System takes picture`);
       });
