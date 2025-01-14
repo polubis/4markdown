@@ -1,29 +1,15 @@
-import debounce from 'lodash.debounce';
+const JUMP = 25;
 
-const replaceRegex = /\*|#|`|_/g;
+const scrollToCreatorPreview = (input: HTMLTextAreaElement): void => {
+  const markdownElement = document.querySelector(`.markdown`);
 
-const removeMdFromLine = (value: string): string =>
-  value.replace(replaceRegex, ``).trim();
+  if (!markdownElement) return;
 
-const scrollToCreatorPreview = debounce((input: HTMLTextAreaElement): void => {
-  const cursor = input.value
-    .substring(0, input.selectionStart)
-    .split(`\n`).length;
-  const lines = input.value.split(`\n`);
-  const content = removeMdFromLine(lines[cursor - 1]);
+  const caretPosition = input.selectionStart;
+  const textBeforeCursor = input.value.slice(0, caretPosition);
+  const rowNumber = textBeforeCursor.split(`\n`).length - 1;
 
-  const elements = Array.from(document.querySelectorAll(`.markdown > *`));
-
-  for (const element of elements) {
-    const textContent = element.textContent
-      ? removeMdFromLine(element.textContent)
-      : ``;
-
-    if (content === textContent) {
-      element.scrollIntoView({ behavior: `smooth` });
-      break;
-    }
-  }
-}, 750);
+  markdownElement.scrollTop = rowNumber * JUMP;
+};
 
 export { scrollToCreatorPreview };

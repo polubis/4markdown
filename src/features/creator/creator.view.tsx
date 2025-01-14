@@ -1,7 +1,4 @@
-import React, {
-  type ChangeEventHandler,
-  type KeyboardEventHandler,
-} from 'react';
+import React, { type UIEventHandler, type ChangeEventHandler } from 'react';
 import { Markdown } from 'components/markdown';
 import {
   BiBold,
@@ -64,20 +61,24 @@ const CreatorView = () => {
 
   const cheatsheetModal = useToggle();
 
-  const triggerPreviewScroll = async (
-    input: HTMLTextAreaElement,
-  ): Promise<void> => {
+  const triggerPreviewScroll: UIEventHandler<HTMLTextAreaElement> = (e) => {
     const DESKTOP_WIDTH = 1024;
 
     if (divideMode !== `both` || window.innerWidth < DESKTOP_WIDTH) {
       return;
     }
 
-    const { scrollToCreatorPreview } = await import(
-      `./utils/scroll-to-creator-preview`
-    );
+    const scrollTop = e.currentTarget.scrollTop;
+    const scrollHeight = e.currentTarget.scrollHeight;
+    const clientHeight = e.currentTarget.clientHeight;
+    const scrolledPercentage =
+      (scrollTop / (scrollHeight - clientHeight)) * 100;
 
-    scrollToCreatorPreview(input);
+    const markdownElement = document.querySelector(`.markdown`);
+
+    if (!markdownElement) return;
+
+    markdownElement.scrollTop = scrolledPercentage;
   };
 
   const divide = (): void => {
@@ -92,28 +93,6 @@ const CreatorView = () => {
     }
 
     setDivideMode(`both`);
-  };
-
-  const maintainTabs: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-    const target = e.target as HTMLTextAreaElement;
-
-    triggerPreviewScroll(target);
-
-    if (e.key !== `Tab`) {
-      return;
-    }
-
-    e.preventDefault();
-
-    const start = target.selectionStart;
-    const end = target.selectionEnd;
-
-    const newValue =
-      code.substring(0, start) + ` `.repeat(4) + code.substring(end);
-
-    changeAction(newValue);
-
-    target.selectionStart = target.selectionEnd = start + 1;
   };
 
   const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -208,6 +187,12 @@ const CreatorView = () => {
     return () => {
       timeout && clearTimeout(timeout);
     };
+  }, []);
+
+  React.useEffect(() => {
+    const markdownElement = document.querySelector(`.markdown`);
+
+    if (!markdownElement) return;
   }, []);
 
   return (
@@ -416,10 +401,7 @@ const CreatorView = () => {
                 `p-4 border-r-0 h-full resize-none bg-transparent focus:outline-none text-lg`,
               )}
               onChange={changeCode}
-              onKeyDown={maintainTabs}
-              onClick={(e) => {
-                triggerPreviewScroll(e.target as HTMLTextAreaElement);
-              }}
+              onScroll={triggerPreviewScroll}
             />
           </div>
           <Markdown
