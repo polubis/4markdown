@@ -35,11 +35,6 @@
   }
 }
 
-:root {
-  --white: #fff;
-  --black: #000;
-}
-
 ::-webkit-scrollbar {
   @apply w-2 h-2;
 }

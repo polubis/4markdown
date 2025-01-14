@@ -413,7 +413,7 @@ const CreatorView = () => {
               aria-label="creator"
               spellCheck="false"
               className={c(
-                `p-4 border-r-0 h-full resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
+                `p-4 border-r-0 h-full resize-none bg-transparent focus:outline-none text-lg`,
               )}
               onChange={changeCode}
               onKeyDown={maintainTabs}
