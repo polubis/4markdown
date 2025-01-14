@@ -12,8 +12,6 @@ const useScrollToPreview = () => {
   const highlightRef = React.useRef<ReturnType<typeof debounce> | null>(null);
 
   const scroll = (input: HTMLTextAreaElement): void => {
-    scrollTimeoutRef.current?.cancel();
-
     scrollTimeoutRef.current = debounce((input: HTMLTextAreaElement): void => {
       const hasScroll = input.scrollHeight > input.clientHeight;
 
@@ -41,13 +39,11 @@ const useScrollToPreview = () => {
         if (content === textContent) {
           element.scrollIntoView({ behavior: `smooth` });
 
-          const style = element.getAttribute(`style`) ?? ``;
-
-          element.setAttribute(`style`, `background-color: yellow;`);
+          element.classList.add(`animate-fade-in`);
 
           highlightRef.current = debounce((element: Element) => {
-            element.setAttribute(`style`, style);
-          }, 1000);
+            element.classList.remove(`animate-fade-in`);
+          }, 2000);
 
           highlightRef.current(element);
           break;
