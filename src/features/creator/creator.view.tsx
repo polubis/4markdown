@@ -233,9 +233,11 @@ const CreatorView = () => {
               <BiBookContent className="rotate-90 md:rotate-0" />
             )}
             {divideMode === `code` && (
-              <BiSolidBookContent className="rotate-180" />
+              <BiSolidBookContent className="rotate-90 md:rotate-180" />
             )}
-            {divideMode === `preview` && <BiSolidBookContent />}
+            {divideMode === `preview` && (
+              <BiSolidBookContent className="-rotate-90 md:rotate-0" />
+            )}
           </Button>
 
           <Button
