@@ -277,7 +277,11 @@ const CreatorView = () => {
               divideMode === `both`,
           })}
         >
-          <div className="flex flex-col">
+          <div
+            className={c(`flex flex-col`, {
+              hidden: divideMode === `preview`,
+            })}
+          >
             <header
               className={c(
                 `flex items-center h-[50px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
@@ -407,7 +411,6 @@ const CreatorView = () => {
               spellCheck="false"
               className={c(
                 `p-4 border-r-0 h-full resize-none focus:outline-none dark:bg-black bg-white text-lg text-black dark:text-white`,
-                { hidden: divideMode === `preview` },
               )}
               onChange={changeCode}
               onKeyDown={maintainTabs}
