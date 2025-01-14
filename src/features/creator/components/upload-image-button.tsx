@@ -7,8 +7,8 @@ interface UploadImageButtonProps
 
 const UploadImageButton = (props: UploadImageButtonProps) => {
   return (
-    <Button {...props} s="auto" className="p-1" i={1} title="Upload image">
-      <BiImageAdd size={20} />
+    <Button {...props} i={1} s={2} title="Upload image">
+      <BiImageAdd />
     </Button>
   );
 };
