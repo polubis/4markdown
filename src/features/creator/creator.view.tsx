@@ -16,19 +16,33 @@ import { useScrollToPreview } from './utils/use-scroll-to-preview';
 import { usePortal } from 'development-kit/use-portal';
 import MoreNav from 'components/more-nav';
 import UserPopover from 'components/user-popover';
-import { CreatorToolbox } from './components/creator-toolbox';
+import {
+  CreatorToolbox,
+  type CreatorToolboxProps,
+} from './components/creator-toolbox';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
 import { BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useMobileSection } from './utils/use-mobile-section';
 import { MobileCreatorToolbox } from './components/mobile-creator-toolbox';
+import { useCopy } from 'development-kit/use-copy';
+import { useToggle } from 'development-kit/use-toggle';
+import { Status } from 'design-system/status';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
 
+const CheatSheetModal = React.lazy(() =>
+  import(`./components/cheatsheet-modal`).then((m) => ({
+    default: m.CheatSheetModal,
+  })),
+);
+
 const CreatorView = () => {
+  const [copyState, copy] = useCopy();
+  const cheatsheetModal = useToggle();
   const [mobileSectionVisible] = useMobileSection();
   const [scrollToPreview] = useScrollToPreview();
 
@@ -82,6 +96,14 @@ const CreatorView = () => {
     );
   };
 
+  const handleToolboxItemClick: CreatorToolboxProps['onClick'] = (syntax) => {
+    if (syntax) {
+      copy(syntax);
+    } else {
+      cheatsheetModal.open();
+    }
+  };
+
   React.useEffect(() => {
     const creatorField = creatorRef.current;
 
@@ -100,9 +122,17 @@ const CreatorView = () => {
 
   return (
     <>
+      {copyState.is === `copied` && (
+        <Status>Copied! Now put cursor in creator and paste</Status>
+      )}
       {docManagementStore.is === `fail` && (
         <React.Suspense>
           <CreatorErrorModalContainer />
+        </React.Suspense>
+      )}
+      {cheatsheetModal.opened && (
+        <React.Suspense>
+          <CheatSheetModal onClose={cheatsheetModal.close} />
         </React.Suspense>
       )}
       {render(
@@ -114,7 +144,10 @@ const CreatorView = () => {
           )}
         >
           <header className="h-full flex-col gap-1 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 hidden md:flex overflow-auto">
-            <CreatorToolbox creator={creatorRef.current} />
+            <CreatorToolbox
+              creator={creatorRef.current}
+              onClick={handleToolboxItemClick}
+            />
           </header>
           <label className="hidden" htmlFor="creator" id="creator">
             Creator
@@ -159,7 +192,10 @@ const CreatorView = () => {
               </Link>
               <AddDocPopover />
               <ImageUploaderContainer />
-              <MobileCreatorToolbox creator={creatorRef.current} />
+              <MobileCreatorToolbox
+                creator={creatorRef.current}
+                onClick={handleToolboxItemClick}
+              />
               <Button
                 className="md:flex hidden"
                 title="Open in separate window"

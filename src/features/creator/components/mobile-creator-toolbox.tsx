@@ -5,12 +5,15 @@ import React from 'react';
 import { BiText } from 'react-icons/bi';
 import { CreatorToolbox, type CreatorToolboxProps } from './creator-toolbox';
 
-type MobileCreatorToolboxProps = {
-  creator: CreatorToolboxProps['creator'];
-};
-
-const MobileCreatorToolbox = ({ creator }: MobileCreatorToolboxProps) => {
+const MobileCreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
   const toolbox = useToggle();
+
+  const handleToolboxItemClick: CreatorToolboxProps['onClick'] = (
+    syntax,
+  ): void => {
+    toolbox.close();
+    onClick(syntax);
+  };
 
   return (
     <div className="relative md:hidden">
@@ -22,7 +25,7 @@ const MobileCreatorToolbox = ({ creator }: MobileCreatorToolboxProps) => {
           className="bottom-0 left-0 right-0 flex flex-wrap items-center justify-center gap-2 w-full rounded-br-none rounded-bl-none"
           onBackdropClick={toolbox.close}
         >
-          <CreatorToolbox creator={creator} />
+          <CreatorToolbox creator={creator} onClick={handleToolboxItemClick} />
         </Popover>
       )}
     </div>

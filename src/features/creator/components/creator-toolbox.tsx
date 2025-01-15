@@ -1,8 +1,5 @@
-import { Button } from 'design-system/button';
-import { Status } from 'design-system/status';
-import { useCopy } from 'development-kit/use-copy';
-import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
+import { Button } from 'design-system/button';
 import {
   BiBold,
   BiCode,
@@ -18,13 +15,7 @@ import {
   BiStrikethrough,
 } from 'react-icons/bi';
 
-const CheatsheetModal = React.lazy(() =>
-  import(`./cheatsheet-modal`).then((m) => ({
-    default: m.CheatSheetModal,
-  })),
-);
-
-type CreatorToolboxSyntax =
+type CreatorToolboxSyntaxKey =
   | `heading`
   | `bold`
   | `italic`
@@ -39,66 +30,55 @@ type CreatorToolboxSyntax =
 
 type CreatorToolboxProps = {
   creator: HTMLTextAreaElement | null;
-  onClick?(syntax: CreatorToolboxSyntax): void;
+  onClick(syntax: string | null): void;
 };
 
 const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
-  const [copyState, copy] = useCopy();
-  const cheatsheetModal = useToggle();
+  const insertMarkdownSyntax =
+    (syntaxKey: CreatorToolboxSyntaxKey) => (): void => {
+      if (!creator) return;
 
-  const insertMarkdownSyntax = (syntax: CreatorToolboxSyntax) => (): void => {
-    if (!creator) return;
+      const operationsMap: Record<CreatorToolboxSyntaxKey, () => void> = {
+        heading: () => {
+          onClick(`### `);
+        },
+        bold: () => {
+          onClick(`** **`);
+        },
+        italic: () => {
+          onClick(`* *`);
+        },
+        strike: () => {
+          onClick(`~~ ~~`);
+        },
+        quote: () => {
+          onClick(`> `);
+        },
+        code: () => {
+          onClick(`\`\`\`\n\n\`\`\``);
+        },
+        math: () => {
+          onClick(`$$\n\n$$`);
+        },
+        link: () => {
+          onClick(`![]()`);
+        },
+        ol: () => {
+          onClick(`1. \n2. \n3. `);
+        },
+        ul: () => {
+          onClick(`- \n- \n- `);
+        },
+        todo: () => {
+          onClick(`- [x] a\n- [ ] b\n- [x] c`);
+        },
+      };
 
-    const operationsMap: Record<typeof syntax, () => void> = {
-      heading: () => {
-        copy(`### `);
-      },
-      bold: () => {
-        copy(`** **`);
-      },
-      italic: () => {
-        copy(`* *`);
-      },
-      strike: () => {
-        copy(`~~ ~~`);
-      },
-      quote: () => {
-        copy(`> `);
-      },
-      code: () => {
-        copy(`\`\`\`\n\n\`\`\``);
-      },
-      math: () => {
-        copy(`$$\n\n$$`);
-      },
-      link: () => {
-        copy(`![]()`);
-      },
-      ol: () => {
-        copy(`1. \n2. \n3. `);
-      },
-      ul: () => {
-        copy(`- \n- \n- `);
-      },
-      todo: () => {
-        copy(`- [x] a\n- [ ] b\n- [x] c`);
-      },
+      operationsMap[syntaxKey]();
     };
-
-    operationsMap[syntax]();
-    onClick?.(syntax);
-  };
 
   return (
     <>
-      {copyState.is === `copied` && (
-        <Status>Copied! Now put cursor in creator and paste</Status>
-      )}
-      {cheatsheetModal.opened && (
-        <React.Suspense>
-          <CheatsheetModal onClose={cheatsheetModal.close} />
-        </React.Suspense>
-      )}
       <Button
         s="auto"
         className="p-1"
@@ -203,7 +183,7 @@ const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
         className="p-1"
         i={1}
         title="Cheatsheet"
-        onClick={cheatsheetModal.open}
+        onClick={() => onClick(null)}
       >
         <BiInfoCircle size={20} />
       </Button>
