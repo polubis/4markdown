@@ -210,7 +210,7 @@ const CreatorView = () => {
           <CheatsheetModal onClose={cheatsheetModal.close} />
         </React.Suspense>
       )}
-      <main className="flex md:flex-col flex-col-reverse">
+      <main className="flex h-[100svh] md:flex-col flex-col-reverse">
         <CreatorNavigation>
           <AddDocPopover />
           <ImageUploaderContainer />
@@ -260,7 +260,7 @@ const CreatorView = () => {
         </CreatorNavigation>
         <DocBarContainer />
         <section
-          className={c(`grid h-[calc(100svh-72px-50px)]`, {
+          className={c(`grid h-[calc(100%-72px-50px)]`, {
             'md:grid-cols-2 grid-cols-1 grid-rows-2 md:grid-rows-1':
               divideMode === `both`,
             'grid-cols-1 grid-rows-1': divideMode !== `both`,
@@ -273,7 +273,7 @@ const CreatorView = () => {
           >
             <header
               className={c(
-                `flex items-center h-[50px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
+                `flex items-center h-[62px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
               )}
             >
               <Button
