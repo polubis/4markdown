@@ -174,7 +174,7 @@ const CreatorView = () => {
       {render(
         <div
           className={c(
-            `flex dark:bg-black bg-white fixed bottom-[122px] md:top-[122px] md:bottom-0 left-0 right-0 md:right-[50%] h-[260px] md:h-full border-t border-zinc-300 dark:border-zinc-800 md:border-t-0 border-r-0 md:border-r transition-all`,
+            `flex dark:bg-black bg-white fixed bottom-[122px] md:top-[122px] md:bottom-0 left-0 right-0 md:right-[50%] h-[260px] md:h-[calc(100%-122px)] border-t border-zinc-300 dark:border-zinc-800 md:border-t-0 border-r-0 md:border-r transition-all`,
             { 'translate-y-0': mobileSectionVisible },
             { 'translate-y-full': !mobileSectionVisible },
           )}
