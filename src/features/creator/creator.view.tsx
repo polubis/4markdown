@@ -22,7 +22,7 @@ import {
 } from './components/creator-toolbox';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
-import { BiAddToQueue, BiWindows } from 'react-icons/bi';
+import { BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
 import { useToggle } from 'development-kit/use-toggle';
@@ -42,7 +42,7 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useToggle();
   const [scrollToPreview] = useScrollToPreview();
-  const [view, setView] = React.useState<`creator` | `preview`>(`creator`);
+  const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   const { render } = usePortal();
 
@@ -187,7 +187,10 @@ const CreatorView = () => {
                 s={2}
                 onClick={toggleView}
               >
-                <BiAddToQueue />
+                {view === `creator` && <BiSolidBookContent />}
+                {view === `preview` && (
+                  <BiSolidBookContent className="rotate-180" />
+                )}
               </Button>
               <Button
                 className="md:flex hidden"
