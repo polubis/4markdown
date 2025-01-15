@@ -12,6 +12,7 @@ import { isMd } from 'design-system/viewports';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import MoreNav from 'components/more-nav';
+import UserPopover from 'components/user-popover';
 
 const headerSectionClasses = `px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`;
 
@@ -97,7 +98,10 @@ const SandboxPage = () => {
           )}
         >
           <div className={c(`h-[72px]`, headerSectionClasses)}>
-            <MoreNav />
+            <nav className="flex items-center">
+              <UserPopover />
+              <MoreNav />
+            </nav>
           </div>
           <div className={c(`h-[50px]`, headerSectionClasses)}>bottom</div>
         </header>,
