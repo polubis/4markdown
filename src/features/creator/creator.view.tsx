@@ -3,38 +3,15 @@ import React, {
   type KeyboardEventHandler,
 } from 'react';
 import { Markdown } from 'components/markdown';
-import {
-  BiBold,
-  BiBookContent,
-  BiCode,
-  BiHeading,
-  BiInfoCircle,
-  BiItalic,
-  BiLink,
-  BiListCheck,
-  BiListOl,
-  BiListUl,
-  BiMath,
-  BiSolidBookContent,
-  BiSolidQuoteAltLeft,
-  BiStrikethrough,
-  BiWindows,
-} from 'react-icons/bi';
-import { Button } from 'design-system/button';
 import c from 'classnames';
 import { useConfirm } from 'development-kit/use-confirm';
 import AddDocPopover from 'components/add-doc-popover';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { DocBarContainer } from './containers/doc-bar.container';
 import { ImageUploaderContainer } from './containers/image-uploader.container';
-import { CreatorNavigation } from './components/creator-navigation';
 import { meta } from '../../../meta';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
 import { changeAction } from 'store/document-creator/actions';
 import { useDocumentCreatorState } from 'store/document-creator';
-import { useCopy } from 'development-kit/use-copy';
-import { Status } from 'design-system/status';
-import { useToggle } from 'development-kit/use-toggle';
 import { useScrollToPreview } from './utils/use-scroll-to-preview';
 import throttle from 'lodash.throttle';
 import { isMd } from 'design-system/viewports';
@@ -42,17 +19,10 @@ import debounce from 'lodash.debounce';
 import { usePortal } from 'development-kit/use-portal';
 import MoreNav from 'components/more-nav';
 import UserPopover from 'components/user-popover';
-
-const headerSectionClasses = `px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`;
+import { CreatorToolbox } from './components/creator-toolbox';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
-);
-
-const CheatsheetModal = React.lazy(() =>
-  import(`./components/cheatsheet-modal`).then((m) => ({
-    default: m.CheatSheetModal,
-  })),
 );
 
 type DivideMode = 'both' | 'preview' | 'code';
@@ -113,8 +83,6 @@ const CreatorView = () => {
 
   useCreatorLocalStorageSync();
 
-  const [copyState, copy] = useCopy();
-
   const docManagementStore = useDocManagementStore();
   const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = useDocumentCreatorState();
@@ -125,8 +93,6 @@ const CreatorView = () => {
 
   const clearConfirm = useConfirm(() => changeAction(``));
   const resetConfirm = useConfirm(() => changeAction(initialCode));
-
-  const cheatsheetModal = useToggle();
 
   const triggerPreviewScroll = async (
     input: HTMLTextAreaElement,
@@ -181,65 +147,6 @@ const CreatorView = () => {
     );
   };
 
-  const insertMarkdownSyntax =
-    (
-      syntax:
-        | `heading`
-        | `bold`
-        | `italic`
-        | `strike`
-        | `quote`
-        | `code`
-        | `math`
-        | `link`
-        | `ol`
-        | `ul`
-        | `todo`,
-    ) =>
-    (): void => {
-      const creator = creatorRef.current;
-
-      if (!creator) return;
-
-      const operationsMap: Record<typeof syntax, () => void> = {
-        heading: () => {
-          copy(`### `);
-        },
-        bold: () => {
-          copy(`** **`);
-        },
-        italic: () => {
-          copy(`* *`);
-        },
-        strike: () => {
-          copy(`~~ ~~`);
-        },
-        quote: () => {
-          copy(`> `);
-        },
-        code: () => {
-          copy(`\`\`\`\n\n\`\`\``);
-        },
-        math: () => {
-          copy(`$$\n\n$$`);
-        },
-        link: () => {
-          copy(`![]()`);
-        },
-        ol: () => {
-          copy(`1. \n2. \n3. `);
-        },
-        ul: () => {
-          copy(`- \n- \n- `);
-        },
-        todo: () => {
-          copy(`- [x] a\n- [ ] b\n- [x] c`);
-        },
-      };
-
-      operationsMap[syntax]();
-    };
-
   React.useEffect(() => {
     const creatorField = creatorRef.current;
 
@@ -258,17 +165,9 @@ const CreatorView = () => {
 
   return (
     <>
-      {copyState.is === `copied` && (
-        <Status>Copied! Now put cursor in creator and paste</Status>
-      )}
       {docManagementStore.is === `fail` && (
         <React.Suspense>
           <CreatorErrorModalContainer />
-        </React.Suspense>
-      )}
-      {cheatsheetModal.opened && (
-        <React.Suspense>
-          <CheatsheetModal onClose={cheatsheetModal.close} />
         </React.Suspense>
       )}
       {render(
@@ -279,115 +178,8 @@ const CreatorView = () => {
             { 'translate-y-full': !mobileSectionVisible },
           )}
         >
-          <header className="w-[50px] h-full flex flex-col justify-center border-zinc-300 dark:border-zinc-800 border-r py-4">
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Heading"
-              onClick={insertMarkdownSyntax(`heading`)}
-            >
-              <BiHeading size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Bold"
-              onClick={insertMarkdownSyntax(`bold`)}
-            >
-              <BiBold size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Italic"
-              onClick={insertMarkdownSyntax(`italic`)}
-            >
-              <BiItalic size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Quote"
-              onClick={insertMarkdownSyntax(`quote`)}
-            >
-              <BiSolidQuoteAltLeft size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Striketrough"
-              onClick={insertMarkdownSyntax(`strike`)}
-            >
-              <BiStrikethrough size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Code"
-              onClick={insertMarkdownSyntax(`code`)}
-            >
-              <BiCode size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Math / Latex syntax"
-              onClick={insertMarkdownSyntax(`math`)}
-            >
-              <BiMath size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Link"
-              onClick={insertMarkdownSyntax(`link`)}
-            >
-              <BiLink size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Ordered list"
-              onClick={insertMarkdownSyntax(`ol`)}
-            >
-              <BiListOl size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Unordered list"
-              onClick={insertMarkdownSyntax(`ul`)}
-            >
-              <BiListUl size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Task list"
-              onClick={insertMarkdownSyntax(`todo`)}
-            >
-              <BiListCheck size={20} />
-            </Button>
-            <Button
-              s="auto"
-              className="p-1"
-              i={1}
-              title="Cheatsheet"
-              onClick={cheatsheetModal.open}
-            >
-              <BiInfoCircle size={20} />
-            </Button>
+          <header className="h-full flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-r py-4 px-2 hidden md:flex">
+            <CreatorToolbox creator={creatorRef.current} />
           </header>
           <label className="hidden" htmlFor="creator" id="creator">
             Creator

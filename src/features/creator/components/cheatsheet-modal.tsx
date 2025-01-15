@@ -28,11 +28,15 @@ const CheatSheetModal = ({ onClose }: CheatSheetModalProps) => {
   }, []);
 
   return (
-    <>
-      {/* <Modal.Header
+    <Modal
+      data-testid="[cheatsheet-modal]:container"
+      className="[&>*]:w-[100%] [&>*]:max-w-prose"
+      onClose={onClose}
+    >
+      <Modal.Header
         title="Markdown Cheatsheet"
         closeButtonTitle="Close markdown cheatsheet"
-      /> */}
+      />
 
       {(cheatsheet.is === `idle` || cheatsheet.is === `busy`) && (
         <Loader className="my-6 mx-auto" size="xl" />
@@ -43,7 +47,7 @@ const CheatSheetModal = ({ onClose }: CheatSheetModalProps) => {
           Something went wrong... Close and try again
         </p>
       )}
-    </>
+    </Modal>
   );
 };
 
