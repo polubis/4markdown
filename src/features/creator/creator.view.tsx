@@ -164,7 +164,7 @@ const CreatorView = () => {
             { 'translate-y-full': !mobileSectionVisible },
           )}
         >
-          <header className="h-full flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-r py-4 px-2.5 hidden md:flex">
+          <header className="h-full flex-col gap-1 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 hidden md:flex overflow-auto">
             <CreatorToolbox creator={creatorRef.current} />
           </header>
           <label className="hidden" htmlFor="creator" id="creator">
@@ -188,7 +188,7 @@ const CreatorView = () => {
       {render(
         <header
           className={c(
-            `flex flex-col-reverse md:flex-col fixed bottom-0 md:top-0 md:bottom-[unset] left-0 right-0`,
+            `flex flex-col-reverse md:flex-col fixed bottom-0 md:top-0 md:bottom-[unset] left-0 right-0 bg-zinc-50 dark:bg-zinc-950`,
           )}
         >
           <div
