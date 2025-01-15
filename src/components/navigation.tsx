@@ -17,7 +17,7 @@ const Navigation = ({ className, children }: NavigationProps) => {
   return (
     <header
       className={c(
-        `flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800`,
+        `flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 h-[72px] border-zinc-300 dark:border-zinc-800`,
         className,
       )}
     >

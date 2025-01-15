@@ -188,7 +188,7 @@ const CreatorView = () => {
       {render(
         <header
           className={c(
-            `flex flex-col-reverse md:flex-col fixed bg-zinc-100 dark:bg-gray-950 bottom-0 md:top-0 md:bottom-[unset] left-0 right-0 transition-all`,
+            `flex flex-col-reverse md:flex-col fixed bottom-0 md:top-0 md:bottom-[unset] left-0 right-0 transition-all`,
           )}
         >
           <div
