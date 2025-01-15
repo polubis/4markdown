@@ -24,11 +24,11 @@ import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
 import { BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
-import { useMobileSection } from './utils/use-mobile-section';
 import { MobileCreatorToolbox } from './components/mobile-creator-toolbox';
 import { useCopy } from 'development-kit/use-copy';
 import { useToggle } from 'development-kit/use-toggle';
 import { Status } from 'design-system/status';
+import { isMd } from 'design-system/viewports';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -43,7 +43,6 @@ const CheatSheetModal = React.lazy(() =>
 const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useToggle();
-  const [mobileSectionVisible] = useMobileSection();
   const [scrollToPreview] = useScrollToPreview();
 
   const { render } = usePortal();
@@ -61,13 +60,7 @@ const CreatorView = () => {
   const triggerPreviewScroll = async (
     input: HTMLTextAreaElement,
   ): Promise<void> => {
-    const DESKTOP_WIDTH = 1024;
-
-    if (window.innerWidth < DESKTOP_WIDTH) {
-      return;
-    }
-
-    scrollToPreview(input);
+    isMd() && scrollToPreview(input);
   };
 
   const maintainTabs: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
@@ -138,9 +131,7 @@ const CreatorView = () => {
       {render(
         <div
           className={c(
-            `flex dark:bg-black bg-white fixed bottom-[122px] md:top-[122px] md:bottom-0 left-0 right-0 md:right-[50%] h-[260px] md:h-[calc(100%-122px)] border-t border-zinc-300 dark:border-zinc-800 md:border-t-0 border-r-0 md:border-r transition-transform`,
-            { 'translate-y-0': mobileSectionVisible },
-            { 'translate-y-full': !mobileSectionVisible },
+            `flex dark:bg-black bg-white fixed top-0 md:top-[122px] left-0 right-0 md:right-[50%] h-[240px] md:h-[calc(100%-122px)] border-b border-zinc-300 dark:border-zinc-800 md:border-b-0 border-r-0 md:border-r`,
           )}
         >
           <header className="h-full flex-col gap-1 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 hidden md:flex overflow-auto">
@@ -162,7 +153,7 @@ const CreatorView = () => {
             onChange={changeCode}
             onKeyDown={maintainTabs}
             onClick={(e) => {
-              scrollToPreview(e.currentTarget);
+              triggerPreviewScroll(e.currentTarget);
             }}
           />
         </div>,
@@ -243,7 +234,7 @@ const CreatorView = () => {
           </nav>
         </header>,
       )}
-      <main className="md:mt-[122px] mb-[382px] md:mb-0">
+      <main className="md:mt-[122px] mt-[240px] md:mb-0 mb-[122px]">
         <Markdown className="markdown mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
           {code}
         </Markdown>
