@@ -303,13 +303,26 @@ const CreatorView = () => {
             `flex flex-col-reverse md:flex-col fixed bg-zinc-100 dark:bg-gray-950 bottom-0 md:top-0 md:bottom-[unset] left-0 right-0 transition-all`,
           )}
         >
-          <div className={c(`h-[72px]`, headerSectionClasses)}>
-            <nav className="flex items-center">
+          <div
+            className={c(
+              `h-[72px] justify-between px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`,
+            )}
+          >
+            <nav className="flex items-center gap-2">
+              <ImageUploaderContainer />
+            </nav>
+            <nav className="flex items-center gap-2">
               <UserPopover />
               <MoreNav />
             </nav>
           </div>
-          <div className={c(`h-[50px]`, headerSectionClasses)}>bottom</div>
+          <div
+            className={c(
+              `h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`,
+            )}
+          >
+            bottom
+          </div>
         </header>,
       )}
       <main className="md:mt-[122px] mb-[388px] md:mb-0">
