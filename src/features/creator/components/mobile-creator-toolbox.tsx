@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import Popover from 'design-system/popover';
 import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
-import { BiText } from 'react-icons/bi';
+import { BiAddToQueue } from 'react-icons/bi';
 import { CreatorToolbox, type CreatorToolboxProps } from './creator-toolbox';
 
 const MobileCreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
@@ -18,7 +18,7 @@ const MobileCreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
   return (
     <div className="relative md:hidden">
       <Button title="Open markdown toolbox" i={1} s={2} onClick={toolbox.open}>
-        <BiText />
+        <BiAddToQueue />
       </Button>
       {toolbox.opened && (
         <Popover
