@@ -7,7 +7,7 @@ import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { seeInDocumentsCreatorAct } from 'acts/see-in-documents-creator.act';
-import { navigate } from 'core/navigate';
+import { navigate } from 'gatsby';
 import { meta } from '../../meta';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { SocialShare } from 'components/social-share';
