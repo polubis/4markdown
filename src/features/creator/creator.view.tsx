@@ -24,7 +24,6 @@ import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
 import { BiAddToQueue, BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
-import { MobileCreatorToolbox } from './components/mobile-creator-toolbox';
 import { useCopy } from 'development-kit/use-copy';
 import { useToggle } from 'development-kit/use-toggle';
 import { Status } from 'design-system/status';
@@ -130,7 +129,7 @@ const CreatorView = () => {
         <div
           className={c(
             view === `preview` ? `translate-x-full` : `translate-x-0`,
-            `md:translate-x-0 flex dark:bg-black bg-white fixed top-0 md:top-[122px] left-0 right-0 md:right-[50%] h-[calc(100%-122px)] border-zinc-300 dark:border-zinc-800 border-r-0 md:border-r`,
+            `md:translate-x-0 transition-transform flex dark:bg-black bg-white fixed top-0 md:top-[122px] left-0 right-0 md:right-[50%] h-[calc(100%-122px)] border-zinc-300 dark:border-zinc-800 border-r-0 md:border-r`,
           )}
         >
           <header className="h-full flex flex-col gap-1.5 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 overflow-y-auto flex-shrink-0">
