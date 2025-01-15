@@ -137,7 +137,7 @@ const CreatorView = () => {
             Creator
           </label>
           <textarea
-            className="resize-none w-full h-full bg-transparent focus:outline-none p-4 md:text-base text-sm transition-all focus:h-[60vh] dark:bg-black bg-white focus:border-b border-zinc-300 dark:border-zinc-800"
+            className="resize-none w-full h-full dark:bg-black bg-white focus:outline-none p-4 md:text-base text-sm"
             ref={creatorRef}
             aria-labelledby="creator"
             defaultValue={code}
