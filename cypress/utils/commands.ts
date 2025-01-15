@@ -6,6 +6,7 @@ type ClickableControls =
   | `Copy headings markdown`
   | `Copy link markdown`
   | `Copy image markdown`
+  | `Open markdown toolbox`
   | `Copy code markdown`
   | `Copy table markdown`
   | `Navigation`

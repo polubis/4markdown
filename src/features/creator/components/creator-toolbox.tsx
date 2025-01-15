@@ -26,9 +26,10 @@ const CheatsheetModal = React.lazy(() =>
 
 type CreatorToolboxProps = {
   creator: HTMLTextAreaElement | null;
+  onClick?(): void;
 };
 
-const CreatorToolbox = ({ creator }: CreatorToolboxProps) => {
+const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useToggle();
 
@@ -87,6 +88,7 @@ const CreatorToolbox = ({ creator }: CreatorToolboxProps) => {
       };
 
       operationsMap[syntax]();
+      onClick?.();
     };
 
   return (
@@ -211,4 +213,5 @@ const CreatorToolbox = ({ creator }: CreatorToolboxProps) => {
   );
 };
 
+export type { CreatorToolboxProps };
 export { CreatorToolbox };

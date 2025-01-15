@@ -22,6 +22,7 @@ import { Button } from 'design-system/button';
 import { BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useMobileSection } from './utils/use-mobile-section';
+import { MobileCreatorToolbox } from './components/mobile-creator-toolbox';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -158,6 +159,7 @@ const CreatorView = () => {
               </Link>
               <AddDocPopover />
               <ImageUploaderContainer />
+              <MobileCreatorToolbox creator={creatorRef.current} />
               <Button
                 className="md:flex hidden"
                 title="Open in separate window"
