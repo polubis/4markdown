@@ -12,12 +12,8 @@ import { isMd } from 'design-system/viewports';
 
 const headerSectionClasses = `px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`;
 
-const SandboxPage = () => {
-  useCreatorLocalStorageSync();
-  const { render } = usePortal();
-  const { code } = useDocumentCreatorState();
-
-  const [mobileSectionVisible, setMobileSectionVisible] = React.useState(true);
+const useMobileSection = () => {
+  const [opened, setOpened] = React.useState(true);
 
   React.useEffect(() => {
     if (isMd()) return;
@@ -41,7 +37,7 @@ const SandboxPage = () => {
       const isGoingTop = prevY > y;
       const isNearBottom = progress > 90;
 
-      setMobileSectionVisible(isGoingTop || isNearBottom);
+      setOpened(isGoingTop || isNearBottom);
 
       prevY = y;
     };
@@ -52,6 +48,16 @@ const SandboxPage = () => {
       window.removeEventListener(`scroll`, manageMobileSection);
     };
   }, []);
+
+  return [opened, setOpened] as const;
+};
+
+const SandboxPage = () => {
+  useCreatorLocalStorageSync();
+  const { render } = usePortal();
+  const { code } = useDocumentCreatorState();
+
+  const [mobileSectionVisible] = useMobileSection();
 
   return (
     <>
