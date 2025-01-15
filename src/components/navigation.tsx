@@ -21,7 +21,7 @@ const Navigation = ({ className, children }: NavigationProps) => {
         className,
       )}
     >
-      <Link to={meta.routes.home} className="shrink-0 sm:flex hidden mr-3">
+      <Link to={meta.routes.home} className="shrink-0 sm:flex hidden mr-2">
         <img
           className="w-8 h-8"
           rel="preload"

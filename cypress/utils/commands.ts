@@ -1,7 +1,6 @@
 type ClickableControls =
   | 'Clear content'
   | 'Reset content'
-  | `Change view display`
   | `Create new document`
   | `Open in separate window`
   | `Copy headings markdown`
