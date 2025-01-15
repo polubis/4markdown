@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDocStore } from 'store/doc/doc.store';
 import { useAuthStore } from 'store/auth/auth.store';
-import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { getYourDocuments } from 'actions/get-your-documents.action';
 
@@ -33,7 +32,7 @@ const DocBarContainer = () => {
           {docStore.is === `idle` ? (
             <>
               <h6
-                className="font-bold text-lg md:text-xl max-w-[260px] truncate mr-4"
+                className="font-bold text-lg max-w-[260px] truncate mr-4"
                 title="Markdown Editor"
               >
                 Markdown Editor
@@ -49,8 +48,8 @@ const DocBarContainer = () => {
           )}
         </>
       )}
-      {(authStore.is === `idle` || authStore.is === `unauthorized`) && (
-        <h6 className="font-bold text-lg md:text-xl" title="Markdown Editor">
+      {authStore.is === `unauthorized` && (
+        <h6 className="font-bold text-lg" title="Markdown Editor">
           Markdown Editor
         </h6>
       )}
