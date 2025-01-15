@@ -31,6 +31,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
       )}
 
       <aside
+        data-testid="[menu-nav-sidebar]:container"
         className={c(
           `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[280px] overflow-y-auto transition-transform duration-300`,
           opened ? `-translate-x-0` : `translate-x-full`,

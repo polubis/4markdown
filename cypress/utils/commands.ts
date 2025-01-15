@@ -82,6 +82,20 @@ const BASE_COMMANDS = {
   'I sign in': () => {
     BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
   },
+  'I open app navigation': () => {
+    BASE_COMMANDS[`I click button`]([`Navigation`]);
+  },
+  'I change theme': () => {
+    BASE_COMMANDS[`I open app navigation`]();
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`)
+      .should(`be.visible`)
+      .then(() => {
+        BASE_COMMANDS[`I click button`]([`Change theme`, `Close navigation`]);
+        cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
+          `not.be.visible`,
+        );
+      });
+  },
   'I click button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
       cy.get(`button[title="${title}"]`).click();
