@@ -26,7 +26,10 @@ const SandboxPage = () => {
         </header>,
       )}
       {render(
-        <div className="fixed top-[122px] left-0 right-[50%] bottom-0">
+        <div className="flex flex-col fixed top-[122px] left-0 right-[50%] bottom-0">
+          <header className="h-[50px] flex items-center border-zinc-300 dark:border-zinc-800 border-b px-4">
+            content
+          </header>
           <textarea
             className="resize-none w-full h-full bg-transparent focus:outline-none p-4"
             value={code}
