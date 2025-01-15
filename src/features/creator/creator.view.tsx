@@ -279,9 +279,119 @@ const CreatorView = () => {
             { 'translate-y-full': !mobileSectionVisible },
           )}
         >
-          <header className="w-[50px] h-full flex justify-center border-zinc-300 dark:border-zinc-800 border-r py-4">
-            xd
+          <header className="w-[50px] h-full flex flex-col justify-center border-zinc-300 dark:border-zinc-800 border-r py-4">
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Heading"
+              onClick={insertMarkdownSyntax(`heading`)}
+            >
+              <BiHeading size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Bold"
+              onClick={insertMarkdownSyntax(`bold`)}
+            >
+              <BiBold size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Italic"
+              onClick={insertMarkdownSyntax(`italic`)}
+            >
+              <BiItalic size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Quote"
+              onClick={insertMarkdownSyntax(`quote`)}
+            >
+              <BiSolidQuoteAltLeft size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Striketrough"
+              onClick={insertMarkdownSyntax(`strike`)}
+            >
+              <BiStrikethrough size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Code"
+              onClick={insertMarkdownSyntax(`code`)}
+            >
+              <BiCode size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Math / Latex syntax"
+              onClick={insertMarkdownSyntax(`math`)}
+            >
+              <BiMath size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Link"
+              onClick={insertMarkdownSyntax(`link`)}
+            >
+              <BiLink size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Ordered list"
+              onClick={insertMarkdownSyntax(`ol`)}
+            >
+              <BiListOl size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Unordered list"
+              onClick={insertMarkdownSyntax(`ul`)}
+            >
+              <BiListUl size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Task list"
+              onClick={insertMarkdownSyntax(`todo`)}
+            >
+              <BiListCheck size={20} />
+            </Button>
+            <Button
+              s="auto"
+              className="p-1"
+              i={1}
+              title="Cheatsheet"
+              onClick={cheatsheetModal.open}
+            >
+              <BiInfoCircle size={20} />
+            </Button>
           </header>
+          <label className="hidden" htmlFor="creator" id="creator">
+            Creator
+          </label>
           <textarea
             className="resize-none w-full h-full bg-transparent focus:outline-none p-4 md:text-base text-sm"
             ref={creatorRef}
@@ -305,12 +415,14 @@ const CreatorView = () => {
         >
           <div
             className={c(
-              `h-[72px] justify-between px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`,
+              `h-[72px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex justify-between gap-2`,
             )}
           >
             <nav className="flex items-center gap-2">
+              <AddDocPopover />
               <ImageUploaderContainer />
             </nav>
+            <div />
             <nav className="flex items-center gap-2">
               <UserPopover />
               <MoreNav />
