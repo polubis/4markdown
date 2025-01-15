@@ -21,12 +21,13 @@ import MoreNav from 'components/more-nav';
 import UserPopover from 'components/user-popover';
 import { CreatorToolbox } from './components/creator-toolbox';
 import { DocBarContainer } from './containers/doc-bar.container';
+import { Button } from 'design-system/button';
+import { BiWindows } from 'react-icons/bi';
+import { Link } from 'gatsby';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
-
-type DivideMode = 'both' | 'preview' | 'code';
 
 const useMobileSection = () => {
   const [opened, setOpened] = React.useState(true);
@@ -85,7 +86,6 @@ const CreatorView = () => {
   useCreatorLocalStorageSync();
 
   const docManagementStore = useDocManagementStore();
-  const [divideMode, setDivideMode] = React.useState<DivideMode>(`both`);
   const { code, initialCode } = useDocumentCreatorState();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
@@ -100,25 +100,11 @@ const CreatorView = () => {
   ): Promise<void> => {
     const DESKTOP_WIDTH = 1024;
 
-    if (divideMode !== `both` || window.innerWidth < DESKTOP_WIDTH) {
+    if (window.innerWidth < DESKTOP_WIDTH) {
       return;
     }
 
     scrollToPreview(input);
-  };
-
-  const divide = (): void => {
-    if (divideMode === `both`) {
-      setDivideMode(`code`);
-      return;
-    }
-
-    if (divideMode === `code`) {
-      setDivideMode(`preview`);
-      return;
-    }
-
-    setDivideMode(`both`);
   };
 
   const maintainTabs: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
@@ -140,7 +126,6 @@ const CreatorView = () => {
   };
 
   const openNewWindow = (): void => {
-    setDivideMode(`code`);
     window.open(
       meta.routes.creator.preview,
       `_blank`,
@@ -154,7 +139,7 @@ const CreatorView = () => {
     if (creatorField) {
       creatorField.value = code;
     }
-  }, [code, divideMode]);
+  }, [code]);
 
   React.useEffect(() => {
     const timeout = timeoutRef.current;
@@ -212,8 +197,50 @@ const CreatorView = () => {
             )}
           >
             <nav className="flex items-center gap-2">
+              <Link
+                to={meta.routes.home}
+                className="shrink-0 sm:flex hidden mr-3"
+              >
+                <img
+                  className="w-8 h-8"
+                  rel="preload"
+                  src="/favicon-32x32.png"
+                  alt="Logo"
+                />
+              </Link>
               <AddDocPopover />
               <ImageUploaderContainer />
+              <Button
+                className="md:flex hidden"
+                title="Open in separate window"
+                i={1}
+                s={2}
+                onClick={openNewWindow}
+              >
+                <BiWindows />
+              </Button>
+              <Button
+                i={2}
+                s={2}
+                auto
+                className="md:flex hidden"
+                disabled={code === ``}
+                title="Clear content"
+                onClick={clearConfirm.confirm}
+              >
+                {clearConfirm.opened ? `Sure?` : `Clear`}
+              </Button>
+              <Button
+                i={2}
+                s={2}
+                auto
+                className="md:flex hidden"
+                disabled={code === initialCode}
+                title="Reset content"
+                onClick={resetConfirm.confirm}
+              >
+                {resetConfirm.opened ? `Sure?` : `Reset`}
+              </Button>
             </nav>
             <div />
             <nav className="flex items-center gap-2">
