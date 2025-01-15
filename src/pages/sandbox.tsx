@@ -73,23 +73,11 @@ const SandboxPage = () => {
   return (
     <>
       {render(
-        <header
-          className={c(
-            `flex flex-col-reverse md:flex-col fixed bg-zinc-100 dark:bg-gray-950 bottom-0 md:top-0 md:bottom-[unset] left-0 right-0`,
-            { 'animate-fade-in': mobileSectionVisible },
-            { 'opacity-0': !mobileSectionVisible },
-          )}
-        >
-          <div className={c(`h-[72px]`, headerSectionClasses)}>top</div>
-          <div className={c(`h-[50px]`, headerSectionClasses)}>bottom</div>
-        </header>,
-      )}
-      {render(
         <div
           className={c(
-            `flex bg-white fixed bottom-[122px] md:top-[122px] md:bottom-0 left-0 right-0 md:right-[50%] h-[260px] md:h-full border-t border-zinc-300 dark:border-zinc-800 md:border-t-0`,
-            { 'animate-fade-in': mobileSectionVisible },
-            { 'opacity-0': !mobileSectionVisible },
+            `flex bg-white fixed bottom-[122px] md:top-[122px] md:bottom-0 left-0 right-0 md:right-[50%] h-[260px] md:h-full border-t border-zinc-300 dark:border-zinc-800 md:border-t-0 transition-all`,
+            { 'translate-y-0': mobileSectionVisible },
+            { 'translate-y-full': !mobileSectionVisible },
           )}
         >
           <header className="w-[50px] h-full flex justify-center border-zinc-300 dark:border-zinc-800 border-r py-4">
@@ -101,7 +89,16 @@ const SandboxPage = () => {
           ></textarea>
         </div>,
       )}
-
+      {render(
+        <header
+          className={c(
+            `flex flex-col-reverse md:flex-col fixed bg-zinc-100 dark:bg-gray-950 bottom-0 md:top-0 md:bottom-[unset] left-0 right-0 transition-all`,
+          )}
+        >
+          <div className={c(`h-[72px]`, headerSectionClasses)}>top</div>
+          <div className={c(`h-[50px]`, headerSectionClasses)}>bottom</div>
+        </header>,
+      )}
       <main className="md:mt-[122px] mb-[388px] md:mb-0">
         <Markdown className="mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
           {code}
