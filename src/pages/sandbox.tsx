@@ -24,7 +24,7 @@ const SandboxPage = () => {
           <div className={c(`h-[50px]`, headerSectionClasses)}>bottom</div>
         </header>,
       )}
-      {render(
+      {/* {render(
         <div className="flex fixed bottom-[122px] top-0 md:top-[122px] md:bottom-0 left-0 right-0 md:right-[50%] ">
           <header className="w-[64px] h-full flex justify-center border-zinc-300 dark:border-zinc-800 border-r py-4">
             xd
@@ -34,10 +34,12 @@ const SandboxPage = () => {
             value={code}
           ></textarea>
         </div>,
-      )}
-      {/* <main className="mt-[122px]">
-        <Markdown className="ml-auto !max-w-[50%] p-4">{code}</Markdown>
-      </main> */}
+      )} */}
+      <main className="md:mt-[122px] mb-[122px] md:mb-0">
+        <Markdown className="mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
+          {code}
+        </Markdown>
+      </main>
     </>
   );
 };
