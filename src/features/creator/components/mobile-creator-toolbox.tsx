@@ -19,7 +19,7 @@ const MobileCreatorToolbox = ({ creator }: MobileCreatorToolboxProps) => {
       </Button>
       {toolbox.opened && (
         <Popover
-          className="bottom-0 left-0 right-0 flex flex-wrap gap-2 w-full rounded-br-none rounded-bl-none"
+          className="bottom-0 left-0 right-0 flex flex-wrap items-center justify-center gap-2 w-full rounded-br-none rounded-bl-none"
           onBackdropClick={toolbox.close}
         >
           <CreatorToolbox creator={creator} />
