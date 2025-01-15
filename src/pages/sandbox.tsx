@@ -7,6 +7,9 @@ import { usePortal } from 'development-kit/use-portal';
 import { useDocumentCreatorState } from 'store/document-creator';
 import { Markdown } from 'components/markdown';
 import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync';
+import c from 'classnames';
+
+const headerSectionClasses = `px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`;
 
 const SandboxPage = () => {
   useCreatorLocalStorageSync();
@@ -16,13 +19,9 @@ const SandboxPage = () => {
   return (
     <>
       {render(
-        <header className="fixed bg-zinc-100 dark:bg-gray-950 top-0 left-0 right-0">
-          <div className="px-4 h-[72px] border-b border-zinc-300 dark:border-zinc-800 flex items-center">
-            top
-          </div>
-          <div className="px-4 h-[50px] border-b border-zinc-300 dark:border-zinc-800 flex items-center">
-            bottom
-          </div>
+        <header className="fixed bg-zinc-100 dark:bg-gray-950 bottom-0 md:top-0 md:bottom-[unset] left-0 right-0">
+          <div className={c(`h-[72px]`, headerSectionClasses)}>top</div>
+          <div className={c(`h-[50px]`, headerSectionClasses)}>bottom</div>
         </header>,
       )}
       {render(
