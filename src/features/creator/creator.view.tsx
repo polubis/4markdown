@@ -230,7 +230,7 @@ const CreatorView = () => {
           </nav>
         </header>,
       )}
-      <main className="md:mt-[122px] mb-[388px] md:mb-0">
+      <main className="md:mt-[122px] mb-[382px] md:mb-0">
         <Markdown className="mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
           {code}
         </Markdown>
