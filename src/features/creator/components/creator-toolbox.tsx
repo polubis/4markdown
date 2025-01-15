@@ -24,72 +24,70 @@ const CheatsheetModal = React.lazy(() =>
   })),
 );
 
+type CreatorToolboxSyntax =
+  | `heading`
+  | `bold`
+  | `italic`
+  | `strike`
+  | `quote`
+  | `code`
+  | `math`
+  | `link`
+  | `ol`
+  | `ul`
+  | `todo`;
+
 type CreatorToolboxProps = {
   creator: HTMLTextAreaElement | null;
-  onClick?(): void;
+  onClick?(syntax: CreatorToolboxSyntax): void;
 };
 
 const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useToggle();
 
-  const insertMarkdownSyntax =
-    (
-      syntax:
-        | `heading`
-        | `bold`
-        | `italic`
-        | `strike`
-        | `quote`
-        | `code`
-        | `math`
-        | `link`
-        | `ol`
-        | `ul`
-        | `todo`,
-    ) =>
-    (): void => {
-      if (!creator) return;
+  const insertMarkdownSyntax = (syntax: CreatorToolboxSyntax) => (): void => {
+    if (!creator) return;
 
-      const operationsMap: Record<typeof syntax, () => void> = {
-        heading: () => {
-          copy(`### `);
-        },
-        bold: () => {
-          copy(`** **`);
-        },
-        italic: () => {
-          copy(`* *`);
-        },
-        strike: () => {
-          copy(`~~ ~~`);
-        },
-        quote: () => {
-          copy(`> `);
-        },
-        code: () => {
-          copy(`\`\`\`\n\n\`\`\``);
-        },
-        math: () => {
-          copy(`$$\n\n$$`);
-        },
-        link: () => {
-          copy(`![]()`);
-        },
-        ol: () => {
-          copy(`1. \n2. \n3. `);
-        },
-        ul: () => {
-          copy(`- \n- \n- `);
-        },
-        todo: () => {
-          copy(`- [x] a\n- [ ] b\n- [x] c`);
-        },
-      };
-
-      operationsMap[syntax]();
-      onClick?.();
+    const operationsMap: Record<typeof syntax, () => void> = {
+      heading: () => {
+        copy(`### `);
+      },
+      bold: () => {
+        copy(`** **`);
+      },
+      italic: () => {
+        copy(`* *`);
+      },
+      strike: () => {
+        copy(`~~ ~~`);
+      },
+      quote: () => {
+        copy(`> `);
+      },
+      code: () => {
+        copy(`\`\`\`\n\n\`\`\``);
+      },
+      math: () => {
+        copy(`$$\n\n$$`);
+      },
+      link: () => {
+        copy(`![]()`);
+      },
+      ol: () => {
+        copy(`1. \n2. \n3. `);
+      },
+      ul: () => {
+        copy(`- \n- \n- `);
+      },
+      todo: () => {
+        copy(`- [x] a\n- [ ] b\n- [x] c`);
+      },
     };
+
+    operationsMap[syntax]();
+    onClick?.(syntax);
+  };
 
   return (
     <>
