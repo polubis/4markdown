@@ -182,7 +182,7 @@ const CreatorView = () => {
             onClick={(e) => {
               scrollToPreview(e.currentTarget);
             }}
-          ></textarea>
+          />
         </div>,
       )}
       {render(

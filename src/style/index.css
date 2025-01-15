@@ -5,7 +5,7 @@
 /* @ Light */
 
 body {
-  @apply bg-zinc-100 text-black;
+  @apply bg-zinc-50 text-black;
 }
 
 body .active-link {
