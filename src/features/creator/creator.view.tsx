@@ -22,7 +22,7 @@ import {
 } from './components/creator-toolbox';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
-import { BiWindows } from 'react-icons/bi';
+import { BiAddToQueue, BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { MobileCreatorToolbox } from './components/mobile-creator-toolbox';
 import { useCopy } from 'development-kit/use-copy';
@@ -43,6 +43,7 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useToggle();
   const [scrollToPreview] = useScrollToPreview();
+  const [view, setView] = React.useState<`creator` | `preview`>(`creator`);
 
   const { render } = usePortal();
 
@@ -90,6 +91,10 @@ const CreatorView = () => {
     }
   };
 
+  const toggleView = (): void => {
+    setView((prevView) => (prevView === `preview` ? `creator` : `preview`));
+  };
+
   React.useEffect(() => {
     const creatorField = creatorRef.current;
 
@@ -124,10 +129,11 @@ const CreatorView = () => {
       {render(
         <div
           className={c(
-            `flex dark:bg-black bg-white fixed top-0 md:top-[122px] left-0 right-0 md:right-[50%] h-[240px] md:h-[calc(100%-122px)] border-b border-zinc-300 dark:border-zinc-800 md:border-b-0 border-r-0 md:border-r`,
+            view === `preview` ? `translate-x-full` : `translate-x-0`,
+            `md:translate-x-0 flex dark:bg-black bg-white fixed top-0 md:top-[122px] left-0 right-0 md:right-[50%] h-[calc(100%-122px)] border-zinc-300 dark:border-zinc-800 border-r-0 md:border-r`,
           )}
         >
-          <header className="h-full flex-col gap-1 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 hidden md:flex overflow-auto">
+          <header className="h-full flex flex-col gap-1.5 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 overflow-y-auto flex-shrink-0">
             <CreatorToolbox
               creator={creatorRef.current}
               onClick={handleToolboxItemClick}
@@ -176,10 +182,14 @@ const CreatorView = () => {
               </Link>
               <AddDocPopover />
               <ImageUploaderContainer />
-              <MobileCreatorToolbox
-                creator={creatorRef.current}
-                onClick={handleToolboxItemClick}
-              />
+              <Button
+                title="Start editing markdown"
+                i={1}
+                s={2}
+                onClick={toggleView}
+              >
+                <BiAddToQueue />
+              </Button>
               <Button
                 className="md:flex hidden"
                 title="Open in separate window"
@@ -227,7 +237,7 @@ const CreatorView = () => {
           </nav>
         </header>,
       )}
-      <main className="md:mt-[122px] mt-[240px] md:mb-0 mb-[122px]">
+      <main className="md:mt-[122px] md:mb-0 mb-[122px]">
         <Markdown className="markdown mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
           {code}
         </Markdown>
