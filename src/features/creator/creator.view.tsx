@@ -80,6 +80,7 @@ const useMobileSection = () => {
 
 const CreatorView = () => {
   const [mobileSectionVisible] = useMobileSection();
+  const [scrollToPreview] = useScrollToPreview();
 
   const { render } = usePortal();
 
@@ -89,8 +90,6 @@ const CreatorView = () => {
   const { code, initialCode } = useDocumentCreatorState();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
-
-  const [scrollToPreview] = useScrollToPreview();
 
   const clearConfirm = useConfirm(() => changeAction(``));
   const resetConfirm = useConfirm(() => changeAction(initialCode));
@@ -258,7 +257,7 @@ const CreatorView = () => {
         </header>,
       )}
       <main className="md:mt-[122px] mb-[382px] md:mb-0">
-        <Markdown className="mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
+        <Markdown className="markdown mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
           {code}
         </Markdown>
       </main>

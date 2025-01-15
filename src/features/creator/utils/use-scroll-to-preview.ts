@@ -30,7 +30,7 @@ const scrollToPreview = debounce((input: HTMLTextAreaElement): void => {
     const textContent = removeMdFromLine(element.textContent);
 
     if (content === textContent) {
-      element.scrollIntoView({ behavior: `smooth` });
+      element.scrollIntoView({ behavior: `smooth`, block: `center` });
       break;
     }
   }
