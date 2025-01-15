@@ -1,11 +1,10 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import Backdrop from 'design-system/backdrop';
 import { Link } from 'gatsby';
 import { ButtonLink } from 'design-system/button-link';
 import c from 'classnames';
-import { useScrollHide } from 'development-kit/use-scroll-hide';
 import { CompanyLogo } from './company-logo';
 import { meta } from '../../meta';
 
@@ -14,20 +13,10 @@ interface MenuNavSidebarProps {
   opened?: boolean;
 }
 
-const ScrollHide = ({ children }: { children: ReactNode }) => {
-  useScrollHide();
-
-  return <>{children}</>;
-};
-
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
   return (
     <>
-      {opened && (
-        <ScrollHide>
-          <Backdrop onClick={onClose} />
-        </ScrollHide>
-      )}
+      {opened && <Backdrop onClick={onClose} />}
 
       <aside
         className={c(
