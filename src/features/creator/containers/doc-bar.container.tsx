@@ -49,7 +49,7 @@ const DocBarContainer = () => {
         </>
       )}
       {authStore.is === `unauthorized` && (
-        <h6 className="font-bold text-lg" title="Markdown Editor">
+        <h6 className="font-bold text-lg truncate mr-4" title="Markdown Editor">
           Markdown Editor
         </h6>
       )}
