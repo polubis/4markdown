@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { Button } from 'design-system/button';
 import { BiMoon, BiSun, BiX } from 'react-icons/bi';
 import Backdrop from 'design-system/backdrop';
@@ -8,16 +8,27 @@ import c from 'classnames';
 import { CompanyLogo } from './company-logo';
 import { meta } from '../../meta';
 import { ThemeProvider } from 'design-system/theme-provider';
+import { useScrollHide } from 'development-kit/use-scroll-hide';
 
 interface MenuNavSidebarProps {
   onClose(): void;
   opened?: boolean;
 }
 
+const ScrollHide = ({ children }: { children: ReactNode }) => {
+  useScrollHide();
+
+  return <>{children}</>;
+};
+
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
   return (
     <>
-      {opened && <Backdrop onClick={onClose} />}
+      {opened && (
+        <ScrollHide>
+          <Backdrop onClick={onClose} />
+        </ScrollHide>
+      )}
 
       <aside
         className={c(
