@@ -28,7 +28,6 @@ import { MobileCreatorToolbox } from './components/mobile-creator-toolbox';
 import { useCopy } from 'development-kit/use-copy';
 import { useToggle } from 'development-kit/use-toggle';
 import { Status } from 'design-system/status';
-import { isMd } from 'design-system/viewports';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -57,18 +56,12 @@ const CreatorView = () => {
   const clearConfirm = useConfirm(() => changeAction(``));
   const resetConfirm = useConfirm(() => changeAction(initialCode));
 
-  const triggerPreviewScroll = async (
-    input: HTMLTextAreaElement,
-  ): Promise<void> => {
-    isMd() && scrollToPreview(input);
-  };
-
   const maintainTabs: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if (e.key === `Tab`) {
       e.preventDefault();
     }
 
-    triggerPreviewScroll(e.currentTarget);
+    scrollToPreview(e.currentTarget);
   };
 
   const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -144,7 +137,7 @@ const CreatorView = () => {
             Creator
           </label>
           <textarea
-            className="resize-none w-full h-full bg-transparent focus:outline-none p-4 md:text-base text-sm"
+            className="resize-none w-full h-full bg-transparent focus:outline-none p-4 md:text-base text-sm transition-all focus:h-[60vh] dark:bg-black bg-white focus:border-b border-zinc-300 dark:border-zinc-800"
             ref={creatorRef}
             aria-labelledby="creator"
             defaultValue={code}
@@ -153,7 +146,7 @@ const CreatorView = () => {
             onChange={changeCode}
             onKeyDown={maintainTabs}
             onClick={(e) => {
-              triggerPreviewScroll(e.currentTarget);
+              scrollToPreview(e.currentTarget);
             }}
           />
         </div>,
