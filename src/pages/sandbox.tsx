@@ -11,6 +11,7 @@ import c from 'classnames';
 import { isMd } from 'design-system/viewports';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
+import MoreNav from 'components/more-nav';
 
 const headerSectionClasses = `px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`;
 
@@ -95,7 +96,9 @@ const SandboxPage = () => {
             `flex flex-col-reverse md:flex-col fixed bg-zinc-100 dark:bg-gray-950 bottom-0 md:top-0 md:bottom-[unset] left-0 right-0 transition-all`,
           )}
         >
-          <div className={c(`h-[72px]`, headerSectionClasses)}>top</div>
+          <div className={c(`h-[72px]`, headerSectionClasses)}>
+            <MoreNav />
+          </div>
           <div className={c(`h-[50px]`, headerSectionClasses)}>bottom</div>
         </header>,
       )}
