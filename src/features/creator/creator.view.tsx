@@ -20,6 +20,7 @@ import { usePortal } from 'development-kit/use-portal';
 import MoreNav from 'components/more-nav';
 import UserPopover from 'components/user-popover';
 import { CreatorToolbox } from './components/creator-toolbox';
+import { DocBarContainer } from './containers/doc-bar.container';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -173,12 +174,12 @@ const CreatorView = () => {
       {render(
         <div
           className={c(
-            `flex dark:bg-black bg-white fixed bottom-[122px] md:top-[122px] md:bottom-0 left-0 right-0 md:right-[50%] h-[260px] md:h-full border-t border-zinc-300 dark:border-zinc-800 md:border-t-0 transition-all`,
+            `flex dark:bg-black bg-white fixed bottom-[122px] md:top-[122px] md:bottom-0 left-0 right-0 md:right-[50%] h-[260px] md:h-full border-t border-zinc-300 dark:border-zinc-800 md:border-t-0 border-r-0 md:border-r transition-all`,
             { 'translate-y-0': mobileSectionVisible },
             { 'translate-y-full': !mobileSectionVisible },
           )}
         >
-          <header className="h-full flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-r py-4 px-2 hidden md:flex">
+          <header className="h-full flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-r py-4 px-2.5 hidden md:flex">
             <CreatorToolbox creator={creatorRef.current} />
           </header>
           <label className="hidden" htmlFor="creator" id="creator">
@@ -220,13 +221,13 @@ const CreatorView = () => {
               <MoreNav />
             </nav>
           </div>
-          <div
+          <nav
             className={c(
               `h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`,
             )}
           >
-            bottom
-          </div>
+            <DocBarContainer />
+          </nav>
         </header>,
       )}
       <main className="md:mt-[122px] mb-[388px] md:mb-0">
