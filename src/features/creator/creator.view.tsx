@@ -13,9 +13,6 @@ import { useCreatorLocalStorageSync } from 'core/use-creator-local-storage-sync'
 import { changeAction } from 'store/document-creator/actions';
 import { useDocumentCreatorState } from 'store/document-creator';
 import { useScrollToPreview } from './utils/use-scroll-to-preview';
-import throttle from 'lodash.throttle';
-import { isMd } from 'design-system/viewports';
-import debounce from 'lodash.debounce';
 import { usePortal } from 'development-kit/use-portal';
 import MoreNav from 'components/more-nav';
 import UserPopover from 'components/user-popover';
@@ -24,59 +21,11 @@ import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
 import { BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
+import { useMobileSection } from './utils/use-mobile-section';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
-
-const useMobileSection = () => {
-  const [opened, setOpened] = React.useState(true);
-
-  React.useEffect(() => {
-    let isMdViewport = isMd();
-
-    const getScrollY = (): number =>
-      window.scrollY || document.documentElement.scrollTop;
-
-    let prevY = getScrollY();
-
-    const manageMobileSection = throttle((): void => {
-      if (isMdViewport) return;
-
-      const y = getScrollY();
-
-      const totalHeight =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-
-      const progress = Number.parseFloat(((y / totalHeight) * 100).toFixed(2));
-
-      const isGoingTop = prevY > y;
-      const isNearBottom = progress > 90;
-
-      setOpened(isGoingTop || isNearBottom);
-
-      prevY = y;
-    }, 150);
-
-    const determineViewport = debounce((): void => {
-      isMdViewport = isMd();
-      setOpened(true);
-    }, 500);
-
-    window.addEventListener(`scroll`, manageMobileSection);
-    window.addEventListener(`resize`, determineViewport);
-
-    return () => {
-      window.removeEventListener(`scroll`, manageMobileSection);
-      window.addEventListener(`resize`, determineViewport);
-      manageMobileSection.cancel();
-      determineViewport.cancel();
-    };
-  }, []);
-
-  return [opened, setOpened] as const;
-};
 
 const CreatorView = () => {
   const [mobileSectionVisible] = useMobileSection();
