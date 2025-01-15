@@ -199,7 +199,7 @@ const CreatorView = () => {
             <nav className="flex items-center gap-2">
               <Link
                 to={meta.routes.home}
-                className="shrink-0 sm:flex hidden mr-3"
+                className="shrink-0 sm:flex hidden mr-2"
               >
                 <img
                   className="w-8 h-8"
