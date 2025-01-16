@@ -24,7 +24,7 @@ describe(`Creator sync works when`, () => {
   });
 
   before(() => {
-    Given(`System sets pictures folder`, `docs-browse`);
+    Given(`System sets pictures folder`, `creator-sync`);
   });
 
   beforeEach(() => {
