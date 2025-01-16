@@ -99,12 +99,12 @@ const DocumentChaptersModal = ({
         onClose={onClose}
       >
         <Modal.Header
-          className="p-4 border-b-2 border-zinc-300 dark:border-zinc-800 !mb-0"
+          className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
           title={`Chapter (${activeSectionIndex + 1})`}
           closeButtonTitle="Close display as a book mode (Esc)"
         />
         <Markdown className="p-4 !max-w-full">{content}</Markdown>
-        <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t-2 border-zinc-300 dark:border-zinc-800">
+        <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800">
           <Button
             i={2}
             s={1}

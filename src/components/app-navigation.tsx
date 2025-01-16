@@ -7,7 +7,7 @@ interface AppNavigationProps {
 
 const AppNavigation = ({ children }: AppNavigationProps) => {
   return (
-    <Navigation className="border-b-2">
+    <Navigation className="border-b">
       <div className="flex items-center space-x-5 sm:pl-5">{children}</div>
     </Navigation>
   );
