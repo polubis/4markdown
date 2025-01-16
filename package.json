@@ -30,7 +30,8 @@
     "test:e2e-run-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "lint:ci": "npm run lint",
-    "benchmark": "node benchmark.js"
+    "benchmark": "node benchmark.js",
+    "verify": "npm run build && npm run serve"
   },
   "dependencies": {
     "@tailwindcss/typography": "^0.5.16",

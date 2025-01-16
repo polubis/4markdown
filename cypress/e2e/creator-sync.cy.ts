@@ -5,7 +5,7 @@ describe(`Creator sync works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
   before(() => {
-    Given(`System sets pictures folder`, `docs-browse`);
+    Given(`System sets pictures folder`, `creator-sync`);
   });
 
   beforeEach(() => {
