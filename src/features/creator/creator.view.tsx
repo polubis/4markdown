@@ -126,6 +126,11 @@ const CreatorView = () => {
           <CheatSheetModal onClose={cheatsheetModal.close} />
         </React.Suspense>
       )}
+      <main className="md:mt-[122px] md:mb-0 mb-[122px]">
+        <Markdown className="markdown mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
+          {code}
+        </Markdown>
+      </main>
       <div
         className={c(
           view === `preview` ? `translate-x-full` : `translate-x-0`,
@@ -265,11 +270,6 @@ const CreatorView = () => {
           <DocBarContainer />
         </nav>
       </header>
-      <main className="md:mt-[122px] md:mb-0 mb-[122px]">
-        <Markdown className="markdown mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
-          {code}
-        </Markdown>
-      </main>
     </>
   );
 };
