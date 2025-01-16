@@ -5,7 +5,7 @@ import { useDocManagementStore } from 'store/doc-management/doc-management.store
 import { docStoreSelectors } from 'store/doc/doc.store';
 import c from 'classnames';
 import { formatDistance } from 'date-fns';
-import { navigate } from 'core/navigate';
+import { navigate } from 'gatsby';
 import { Tabs } from 'design-system/tabs';
 import { useToggle } from 'development-kit/use-toggle';
 import { PublicConfirmationContainer } from 'features/creator/containers/public-confirmation.container';
