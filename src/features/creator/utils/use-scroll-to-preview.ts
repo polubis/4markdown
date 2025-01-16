@@ -2,6 +2,7 @@ import React from 'react';
 
 import debounce from 'lodash.debounce';
 import { useToggle } from 'development-kit/use-toggle';
+import { isServer } from 'development-kit/ssr-csr';
 
 const removeMdFromLine = (value: string): string =>
   value.replace(/\*|#|`|_/g, ``).trim();
@@ -37,14 +38,37 @@ const scrollToPreview = debounce((input: HTMLTextAreaElement): void => {
   }
 }, 750);
 
+const AUTO_SCROLL_KEY = `autoScrolling`;
+
+const readBrowserSavedSettings = (): boolean => {
+  if (isServer()) return false;
+
+  try {
+    const readedSetting = localStorage.getItem(AUTO_SCROLL_KEY);
+
+    if (readedSetting === null) return false;
+
+    return JSON.parse(readedSetting);
+  } catch {
+    return false;
+  }
+};
+
 const useScrollToPreview = () => {
-  const scroll = useToggle();
+  const [opened] = React.useState(readBrowserSavedSettings);
+  const scroll = useToggle({ opened });
 
   const triggerScroll = (input: HTMLTextAreaElement): void => {
     if (scroll.closed) return;
 
     scrollToPreview(input);
   };
+
+  React.useEffect(() => {
+    try {
+      localStorage.setItem(AUTO_SCROLL_KEY, JSON.stringify(scroll.opened));
+    } catch {}
+  }, [scroll.opened]);
 
   React.useEffect(() => {
     return () => {
