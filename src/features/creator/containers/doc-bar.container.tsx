@@ -1,8 +1,6 @@
-import { Bar } from 'design-system/bar';
 import React from 'react';
 import { useDocStore } from 'store/doc/doc.store';
 import { useAuthStore } from 'store/auth/auth.store';
-import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { getYourDocuments } from 'actions/get-your-documents.action';
 
@@ -27,14 +25,22 @@ const DocBarContainer = () => {
   }, [authStore]);
 
   return (
-    <Bar className="h-[50px]">
+    <>
       {authStore.is === `idle` && <DocBarLoader />}
       {authStore.is === `authorized` && (
         <>
           {docStore.is === `idle` ? (
-            <DocBarRow title="Markdown Editor">
-              <YourDocumentsContainer />
-            </DocBarRow>
+            <>
+              <h6
+                className="font-bold text-lg max-w-[260px] truncate mr-4"
+                title="Markdown Editor"
+              >
+                Markdown Editor
+              </h6>
+              <div className="flex items-center gap-2">
+                <YourDocumentsContainer />
+              </div>
+            </>
           ) : (
             <React.Suspense fallback={<DocBarLoader />}>
               <ActiveDocumentBarContainer />
@@ -42,8 +48,12 @@ const DocBarContainer = () => {
           )}
         </>
       )}
-      {authStore.is === `unauthorized` && <DocBarRow title="Markdown Editor" />}
-    </Bar>
+      {authStore.is === `unauthorized` && (
+        <h6 className="font-bold text-lg truncate mr-4" title="Markdown Editor">
+          Markdown Editor
+        </h6>
+      )}
+    </>
   );
 };
 

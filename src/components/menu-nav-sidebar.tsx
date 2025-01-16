@@ -1,13 +1,14 @@
 import React, { type ReactNode } from 'react';
 import { Button } from 'design-system/button';
-import { BiX } from 'react-icons/bi';
+import { BiMoon, BiSun, BiX } from 'react-icons/bi';
 import Backdrop from 'design-system/backdrop';
 import { Link } from 'gatsby';
 import { ButtonLink } from 'design-system/button-link';
 import c from 'classnames';
-import { useScrollHide } from 'development-kit/use-scroll-hide';
 import { CompanyLogo } from './company-logo';
 import { meta } from '../../meta';
+import { ThemeProvider } from 'design-system/theme-provider';
+import { useScrollHide } from 'development-kit/use-scroll-hide';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -30,15 +31,16 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
       )}
 
       <aside
+        data-testid="[menu-nav-sidebar]:container"
         className={c(
           `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[280px] overflow-y-auto transition-transform duration-300`,
           opened ? `-translate-x-0` : `translate-x-full`,
         )}
       >
-        <div className="p-4 flex items-center h-[72px]">
+        <div className="p-4 flex gap-2 items-center h-[72px]">
           <Link
             to={meta.routes.home}
-            className="flex items-center hover:underline underline-offset-2"
+            className="flex items-center hover:underline underline-offset-2 mr-auto"
           >
             <img
               rel="preload"
@@ -47,15 +49,22 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
               alt={meta.appName}
               title={meta.title}
             />
-            <p className="text-xl ml-3 font-bold">{meta.appName}</p>
+            <p className="text-lg ml-3 font-bold">{meta.appName}</p>
           </Link>
-          <Button
-            className="ml-auto"
-            i={2}
-            s={2}
-            title="Close navigation"
-            onClick={onClose}
-          >
+          <ThemeProvider>
+            {({ theme, set }) => (
+              <Button
+                i={2}
+                s={1}
+                title="Change theme"
+                disabled={theme === null}
+                onClick={() => set(theme === `light` ? `dark` : `light`)}
+              >
+                {theme === `dark` ? <BiSun /> : <BiMoon />}
+              </Button>
+            )}
+          </ThemeProvider>
+          <Button i={2} s={1} title="Close navigation" onClick={onClose}>
             <BiX />
           </Button>
         </div>
