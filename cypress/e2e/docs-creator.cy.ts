@@ -13,7 +13,7 @@ describe(`Docs creator works when`, () => {
         .And(`I type in creator`, content)
         .Then(`I wait`, 1000)
         .And(`System takes picture`)
-        .When(`I click button`, [`Change theme`])
+        .When(`I change theme`)
         .Then(`System takes picture`);
     },
   });
