@@ -17,11 +17,11 @@ const Navigation = ({ className, children }: NavigationProps) => {
   return (
     <header
       className={c(
-        `flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 bg-zinc-200 dark:bg-gray-950 h-[72px] border-zinc-300 dark:border-zinc-800`,
+        `flex items-center overflow-x-auto py-2 pl-4 pr-0 sm:pr-4 h-[72px] border-zinc-300 dark:border-zinc-800`,
         className,
       )}
     >
-      <Link to={meta.routes.home} className="shrink-0 sm:flex hidden mr-3">
+      <Link to={meta.routes.home} className="shrink-0 sm:flex hidden mr-2">
         <img
           className="w-8 h-8"
           rel="preload"
@@ -29,7 +29,7 @@ const Navigation = ({ className, children }: NavigationProps) => {
           alt="Logo"
         />
       </Link>
-      <nav className="flex gap-3 w-full items-center">
+      <nav className="flex gap-2 w-full items-center">
         {children}
         <ThemeProvider>
           {({ theme, set }) => (
