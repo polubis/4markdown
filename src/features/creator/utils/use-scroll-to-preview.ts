@@ -1,6 +1,7 @@
 import React from 'react';
 
 import debounce from 'lodash.debounce';
+import { useToggle } from 'development-kit/use-toggle';
 
 const removeMdFromLine = (value: string): string =>
   value.replace(/\*|#|`|_/g, ``).trim();
@@ -37,13 +38,21 @@ const scrollToPreview = debounce((input: HTMLTextAreaElement): void => {
 }, 750);
 
 const useScrollToPreview = () => {
+  const scroll = useToggle();
+
+  const triggerScroll = (input: HTMLTextAreaElement): void => {
+    if (scroll.closed) return;
+
+    scrollToPreview(input);
+  };
+
   React.useEffect(() => {
     return () => {
       scrollToPreview.cancel();
     };
   }, []);
 
-  return [scrollToPreview] as const;
+  return [scroll, triggerScroll] as const;
 };
 
 export { useScrollToPreview };

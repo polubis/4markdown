@@ -41,7 +41,7 @@ const CheatSheetModal = React.lazy(() =>
 const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useToggle();
-  const [scrollToPreview] = useScrollToPreview();
+  const [autoScrolling, autoScroll] = useScrollToPreview();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   const { render } = usePortal();
@@ -61,7 +61,7 @@ const CreatorView = () => {
       e.preventDefault();
     }
 
-    scrollToPreview(e.currentTarget);
+    autoScroll(e.currentTarget);
   };
 
   const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -88,6 +88,10 @@ const CreatorView = () => {
     } else {
       cheatsheetModal.open();
     }
+  };
+
+  const toggleAutoScroll = (): void => {
+    autoScrolling.toggle();
   };
 
   const toggleView = (): void => {
@@ -133,6 +137,34 @@ const CreatorView = () => {
           )}
         >
           <header className="h-full flex flex-col gap-1.5 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 overflow-y-auto flex-shrink-0">
+            <Button
+              title="Auto scrolling"
+              i={1}
+              s={1}
+              className={c({
+                '!text-green-700 dark:!text-green-400': autoScrolling.opened,
+              })}
+              onClick={toggleAutoScroll}
+            >
+              <svg
+                width="26"
+                height="26"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  className="fill-current"
+                  d="M9.17184 16.8179L7.75684 18.2319L11.9998 22.4749L16.2428 18.2319L14.8278 16.8179L11.9998 19.6469L9.17184 16.8179ZM14.8278 7.1819L16.2428 5.7679L11.9998 1.5249L7.75684 5.7679L9.17184 7.1819L11.9998 4.3539L14.8278 7.1819Z"
+                />
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M12 9C12.7956 9 13.5587 9.31607 14.1213 9.87868C14.6839 10.4413 15 11.2044 15 12C15 12.7956 14.6839 13.5587 14.1213 14.1213C13.5587 14.6839 12.7956 15 12 15C11.2044 15 10.4413 14.6839 9.87868 14.1213C9.31607 13.5587 9 12.7956 9 12C9 11.2044 9.31607 10.4413 9.87868 9.87868C10.4413 9.31607 11.2044 9 12 9ZM12 11C12.2652 11 12.5196 11.1054 12.7071 11.2929C12.8946 11.4804 13 11.7348 13 12C13 12.2652 12.8946 12.5196 12.7071 12.7071C12.5196 12.8946 12.2652 13 12 13C11.7348 13 11.4804 12.8946 11.2929 12.7071C11.1054 12.5196 11 12.2652 11 12C11 11.7348 11.1054 11.4804 11.2929 11.2929C11.4804 11.1054 11.7348 11 12 11Z"
+                  className="fill-current"
+                />
+              </svg>
+            </Button>
             <CreatorToolbox
               creator={creatorRef.current}
               onClick={handleToolboxItemClick}
@@ -151,7 +183,7 @@ const CreatorView = () => {
             onChange={changeCode}
             onKeyDown={maintainTabs}
             onClick={(e) => {
-              scrollToPreview(e.currentTarget);
+              autoScroll(e.currentTarget);
             }}
           />
         </div>,
@@ -182,6 +214,7 @@ const CreatorView = () => {
               <AddDocPopover />
               <ImageUploaderContainer />
               <Button
+                className="flex md:hidden"
                 title="Start editing markdown"
                 i={1}
                 s={2}
@@ -202,7 +235,7 @@ const CreatorView = () => {
                 <BiWindows />
               </Button>
               <Button
-                i={2}
+                i={1}
                 s={2}
                 auto
                 className="md:flex hidden"
@@ -213,7 +246,7 @@ const CreatorView = () => {
                 {clearConfirm.opened ? `Sure?` : `Clear`}
               </Button>
               <Button
-                i={2}
+                i={1}
                 s={2}
                 auto
                 className="md:flex hidden"
