@@ -6,7 +6,6 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { docStoreSelectors } from 'store/doc/doc.store';
 import { useDocsStore } from 'store/docs/docs.store';
-import { DocBarRow } from '../components/doc-bar-row';
 import { YourDocumentsContainer } from './your-documents.container';
 import { useForm } from 'development-kit/use-form';
 import { updateDocumentCode } from 'actions/update-document-code.action';
@@ -96,36 +95,44 @@ const ActiveDocumentBarContainer = () => {
           </Button>
         </form>
       ) : (
-        <DocBarRow title={docStore.name}>
-          <Button
-            i={1}
-            s={1}
-            title="Change document name"
-            disabled={nonInteractive}
-            onClick={handleEditOpen}
+        <>
+          <h6
+            className="font-bold text-lg max-w-[260px] truncate mr-4"
+            title={docStore.name}
           >
-            <BiEdit />
-          </Button>
-          <Button
-            i={1}
-            s={1}
-            disabled={nonInteractive || !creatorStore.changed}
-            title="Save changes"
-            onClick={updateDocumentCode}
-          >
-            <BiSave />
-          </Button>
-          <YourDocumentsContainer />
-          <Button
-            i={1}
-            s={1}
-            disabled={nonInteractive}
-            title="More document options"
-            onClick={morePopover.open}
-          >
-            <BiDotsHorizontal />
-          </Button>
-        </DocBarRow>
+            {docStore.name}
+          </h6>
+          <div className="flex items-center gap-2">
+            <Button
+              i={1}
+              s={1}
+              title="Change document name"
+              disabled={nonInteractive}
+              onClick={handleEditOpen}
+            >
+              <BiEdit />
+            </Button>
+            <Button
+              i={1}
+              s={1}
+              disabled={nonInteractive || !creatorStore.changed}
+              title="Save changes"
+              onClick={updateDocumentCode}
+            >
+              <BiSave />
+            </Button>
+            <YourDocumentsContainer />
+            <Button
+              i={1}
+              s={1}
+              disabled={nonInteractive}
+              title="More document options"
+              onClick={morePopover.open}
+            >
+              <BiDotsHorizontal />
+            </Button>
+          </div>
+        </>
       )}
 
       {morePopover.opened && (

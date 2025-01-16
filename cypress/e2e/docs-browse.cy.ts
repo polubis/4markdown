@@ -76,7 +76,7 @@ describe(`Docs browse works when`, () => {
       .When(`I select document`, documentName1)
       .Then(`I not see text`, [`Your Documents`])
       .And(`I see text`, [documentName1])
-      .When(`I click button`, [`Change theme`])
+      .When(`I change theme`)
       .And(`I click button`, [
         `More document options`,
         `Delete current document`,
