@@ -273,7 +273,7 @@ const CreatorView = () => {
           >
             <header
               className={c(
-                `flex items-center h-[50px] gap-1 px-3 border-b-2 border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
+                `flex items-center h-[50px] gap-1 px-3 border-b border-zinc-300 dark:border-zinc-800 overflow-x-auto`,
               )}
             >
               <Button
@@ -413,7 +413,7 @@ const CreatorView = () => {
               { hidden: divideMode === `code` },
               { 'mx-auto': divideMode === `preview` },
               {
-                'md:border-l-2 row-start-1 md:row-start-auto border-b-2 md:border-b-0 !max-w-full':
+                'md:border-l row-start-1 md:row-start-auto border-b md:border-b-0 !max-w-full':
                   divideMode === `both`,
               },
             )}
