@@ -1,33 +1,41 @@
 import React from 'react';
 
-type KeyCombo = string[];
+type OnMatch = (event: KeyboardEvent) => void;
 
-const useComboPress = (combo: KeyCombo, callback: () => void) => {
+type KeysCombo = string[];
+
+const useComboPress = (combo: KeysCombo, onMatch: OnMatch) => {
+  const pressedKeys = React.useRef(new Set<string>());
+  const handleMatch = React.useRef<OnMatch>();
+
+  handleMatch.current = (event: KeyboardEvent): void => {
+    pressedKeys.current.add(event.key.toLowerCase());
+
+    const isComboPressed = combo.every((key) =>
+      pressedKeys.current.has(key.toLowerCase()),
+    );
+
+    isComboPressed && onMatch(event);
+  };
+
   React.useEffect(() => {
-    const keys = new Set<string>();
-
-    const downHandler = (event: KeyboardEvent): void => {
-      keys.add(event.key.toLowerCase());
-
-      const isComboPressed = combo.every((key) => keys.has(key.toLowerCase()));
-
-      if (isComboPressed) {
-        callback();
-      }
+    const handlePress = (event: KeyboardEvent): void => {
+      handleMatch.current?.(event);
     };
 
-    const upHandler = (event: KeyboardEvent): void => {
-      keys.delete(event.key.toLowerCase());
+    const handleUp = (event: KeyboardEvent): void => {
+      pressedKeys.current.delete(event.key.toLowerCase());
     };
 
-    window.addEventListener(`keydown`, downHandler);
-    window.addEventListener(`keyup`, upHandler);
+    window.addEventListener(`keydown`, handlePress);
+    window.addEventListener(`keyup`, handleUp);
 
     return () => {
-      window.removeEventListener(`keydown`, downHandler);
-      window.removeEventListener(`keyup`, upHandler);
+      window.removeEventListener(`keydown`, handlePress);
+      window.removeEventListener(`keyup`, handleUp);
     };
-  }, [combo, callback]);
+  }, []);
 };
 
+export type { OnMatch };
 export { useComboPress };
