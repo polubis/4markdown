@@ -28,9 +28,9 @@ import {
 } from 'store/update-your-profile/update-your-profile.store';
 import { updateYourUserProfile } from 'actions/update-your-user-profile.action';
 import { useSimpleFeature } from 'development-kit/use-simple-feature';
-import { type YourProfileOkState } from 'store/your-profile/models';
-import { useYourProfileState } from 'store/your-profile';
-import { yourOkUserProfileSelector } from 'store/your-profile/selectors';
+import { type YourUserProfileOkState } from 'store/your-user-profile/models';
+import { useYourUserProfileState } from 'store/your-user-profile';
+import { yourOkUserProfileSelector } from 'store/your-user-profile/selectors';
 
 interface UserProfileFormModalContainerProps {
   onClose(): void;
@@ -55,7 +55,7 @@ const urlValidator = [optional(noEdgeSpaces, url)];
 const createInitialValues = ({
   user,
   mdate,
-}: YourProfileOkState): UserProfileFormValues => ({
+}: YourUserProfileOkState): UserProfileFormValues => ({
   displayName: user?.displayName ?? ``,
   bio: user?.bio ?? ``,
   avatar: { type: `noop` },
@@ -83,7 +83,7 @@ const UserProfileFormModalContainer = ({
   onBack,
   onSync,
 }: UserProfileFormModalContainerProps) => {
-  const yourProfileStore = useYourProfileState(yourOkUserProfileSelector);
+  const yourProfileStore = useYourUserProfileState(yourOkUserProfileSelector);
   const updateYourProfileStore = updateYourProfileStoreSelectors.useState();
   const [avatarPreview, setAvatarPreview] = React.useState(
     yourProfileStore.user?.avatar?.lg.src ?? ``,
