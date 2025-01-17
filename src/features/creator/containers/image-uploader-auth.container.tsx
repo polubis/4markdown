@@ -16,10 +16,8 @@ const allowedExtensions = IMAGE_EXTENSIONS.map(
   (extension) => `image/${extension}`,
 );
 
-const IMAGE_RULES = {
-  type: allowedExtensions.join(`, `),
-  size: 4,
-} as const;
+const accept = allowedExtensions.join(`, `);
+const maxSize = 4;
 
 const readImageAsBase64FromClipboard = async (): Promise<string | null> => {
   const clipboardItems = await navigator.clipboard.read();
@@ -51,8 +49,8 @@ const ImageUploaderAuthContainer = () => {
   });
 
   const [upload] = useFileInput({
-    accept: IMAGE_RULES.type,
-    maxSize: IMAGE_RULES.size,
+    accept,
+    maxSize,
     onChange: async ({ target: { files } }) => {
       if (!!files && files.length === 1) {
         if (uploadImageStatus.is !== `idle`) return;
@@ -115,9 +113,9 @@ const ImageUploaderAuthContainer = () => {
           message={
             <>
               Please ensure that the image format is valid. Supported formats
-              include <strong>{IMAGE_RULES.type}</strong>, with a maximum file
-              size of{` `}
-              <strong>{IMAGE_RULES.size} megabytes</strong>
+              include <strong>{accept}</strong>, with a maximum file size of
+              {` `}
+              <strong>{maxSize} megabytes</strong>
             </>
           }
           onClose={close}
