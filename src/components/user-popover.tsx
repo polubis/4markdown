@@ -4,9 +4,9 @@ import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { YourAvatarContainer } from '../containers/your-avatar.container';
-import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import { logIn } from 'actions/log-in.action';
 import { useSimpleFeature } from 'development-kit/use-simple-feature';
+import { useYourProfileState } from 'store/your-profile';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
@@ -14,7 +14,7 @@ const UserPopover = ({ className }: { className?: string }) => {
   const menu = useSimpleFeature();
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
-  const yourProfileStore = yourProfileStoreSelectors.useState();
+  const yourProfileStore = useYourProfileState();
 
   const handleClick = () => {
     if (authStore.is === `idle`) return;

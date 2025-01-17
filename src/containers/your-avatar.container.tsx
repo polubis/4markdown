@@ -2,7 +2,7 @@ import type { AvatarSize } from 'design-system/avatar';
 import { Avatar } from 'design-system/avatar';
 import React from 'react';
 import { getYourUserProfile } from 'actions/get-your-user-profile.action';
-import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
+import { useYourProfileState } from 'store/your-profile';
 
 interface YourAvatarContainerProps {
   size: AvatarSize;
@@ -11,27 +11,27 @@ interface YourAvatarContainerProps {
 const alt = `Your avatar`;
 
 const YourAvatarContainer = ({ size }: YourAvatarContainerProps) => {
-  const yourProfileStore = yourProfileStoreSelectors.useState();
+  const yourProfile = useYourProfileState();
 
   React.useEffect(() => {
     getYourUserProfile();
   }, []);
 
-  if (yourProfileStore.is !== `ok`) {
+  if (yourProfile.is !== `ok`) {
     return <Avatar size={size} alt={alt} />;
   }
 
-  return yourProfileStore.user?.avatar ? (
+  return yourProfile.user?.avatar ? (
     <Avatar
       size={size}
-      key={yourProfileStore.user.avatar[size].id}
-      src={yourProfileStore.user.avatar[size].src}
+      key={yourProfile.user.avatar[size].id}
+      src={yourProfile.user.avatar[size].src}
       alt={alt}
     />
-  ) : yourProfileStore.user?.displayName ? (
+  ) : yourProfile.user?.displayName ? (
     <Avatar
       size={size}
-      char={yourProfileStore.user.displayName.charAt(0)}
+      char={yourProfile.user.displayName.charAt(0)}
       alt={alt}
     />
   ) : (
