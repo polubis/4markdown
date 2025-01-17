@@ -242,7 +242,7 @@ const CreatorView = () => {
               title="Clear content"
               onClick={clearConfirm.confirm}
             >
-              {clearConfirm.opened ? `Sure?` : `Clear`}
+              {clearConfirm.isOn ? `Sure?` : `Clear`}
             </Button>
             <Button
               i={1}
@@ -253,7 +253,7 @@ const CreatorView = () => {
               title="Reset content"
               onClick={resetConfirm.confirm}
             >
-              {resetConfirm.opened ? `Sure?` : `Reset`}
+              {resetConfirm.isOn ? `Sure?` : `Reset`}
             </Button>
           </nav>
           <div />
