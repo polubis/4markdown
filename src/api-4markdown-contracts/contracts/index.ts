@@ -73,11 +73,8 @@ type UploadImageContract = Contract<
 >;
 
 type GetYourUserProfileContract = Contract<
-  `getYourUserProfile`,
-  {
-    profile: UserProfileDto;
-    mdate: Date;
-  } | null
+  `getYourUserProfileV2`,
+  UserProfileDto | null
 >;
 type UpdateYourUserProfileContract = Contract<
   `updateYourUserProfile`,

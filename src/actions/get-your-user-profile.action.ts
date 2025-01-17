@@ -7,7 +7,7 @@ import type { API4MarkdownContractKey } from 'api-4markdown-contracts';
 
 const getYourUserProfile = async (): Promise<void> => {
   try {
-    const key: API4MarkdownContractKey = `getYourUserProfile`;
+    const key: API4MarkdownContractKey = `getYourUserProfileV2`;
 
     const { is } = yourProfileStoreSelectors.state();
 
@@ -16,10 +16,7 @@ const getYourUserProfile = async (): Promise<void> => {
     const cachedProfile = getCache(key);
 
     if (cachedProfile !== null) {
-      yourProfileStoreActions.ok({
-        mdate: cachedProfile?.mdate ?? null,
-        user: cachedProfile?.profile ?? null,
-      });
+      yourProfileStoreActions.ok(cachedProfile);
       return;
     }
 
@@ -29,10 +26,7 @@ const getYourUserProfile = async (): Promise<void> => {
 
     setCache(key, profile);
 
-    yourProfileStoreActions.ok({
-      mdate: profile?.mdate ?? null,
-      user: profile?.profile ?? null,
-    });
+    yourProfileStoreActions.ok(profile);
   } catch (error: unknown) {
     yourProfileStoreActions.fail(error);
   }

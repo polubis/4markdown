@@ -1,11 +1,10 @@
 import { parseError } from 'api-4markdown';
-import type { Date, UserProfileDto } from 'api-4markdown-contracts';
+import type { API4MarkdownDto } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 import { create } from 'zustand';
 
 type YourProfileStoreState = Transaction<{
-  user: UserProfileDto | null;
-  mdate: Date | null;
+  user: API4MarkdownDto<'getYourUserProfileV2'>;
 }>;
 type YourProfileStoreOkState = Extract<YourProfileStoreState, { is: 'ok' }>;
 
@@ -24,8 +23,8 @@ const yourProfileStoreActions = {
     set({ is: `idle` });
   },
   busy: () => set({ is: `busy` }),
-  ok: ({ mdate, user }: Pick<YourProfileStoreOkState, 'mdate' | 'user'>) => {
-    set({ is: `ok`, user, mdate });
+  ok: (user: YourProfileStoreOkState['user']) => {
+    set({ is: `ok`, user });
   },
   fail: (error: unknown) => set({ is: `fail`, error: parseError(error) }),
 };
