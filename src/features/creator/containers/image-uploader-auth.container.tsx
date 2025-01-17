@@ -12,11 +12,32 @@ import { useUploadImageState } from 'store/upload-image';
 import { UploadImageButton } from '../components/upload-image-button';
 import { useSimpleFeature } from 'development-kit/use-simple-feature';
 import { useFeature } from 'development-kit/use-feature';
+import { readFileAsBase64 } from 'development-kit/file-reading';
+import { useComboPress } from 'development-kit/use-combo-press';
 
 const IMAGE_RULES = {
   type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
   size: 4,
 } as const;
+
+const readImageAsBase64FromClipboard = async (): Promise<string | null> => {
+  const clipboardItems = await navigator.clipboard.read();
+
+  for (const item of clipboardItems) {
+    if (
+      item.types.includes(`image/png`) ||
+      item.types.includes(`image/jpeg`) ||
+      item.types.includes(`image/jpg`) ||
+      item.types.includes(`image/gif`) ||
+      item.types.includes(`image/webp`)
+    ) {
+      const blob = await item.getType(item.types[0]);
+      return await readFileAsBase64(blob);
+    }
+  }
+
+  return null;
+};
 
 const ImageUploaderAuthContainer = () => {
   const imageModal = useFeature<ImageDto>();
@@ -25,12 +46,25 @@ const ImageUploaderAuthContainer = () => {
   const imageState = useUploadImageState();
   const [copyState, copy] = useCopy();
 
+  useComboPress([`control`, `v`], async () => {
+    console.log(imageState);
+    if (imageState.is !== `idle`) return;
+
+    const image = await readImageAsBase64FromClipboard();
+
+    if (!image) return;
+
+    const result = await uploadImageAct(image);
+
+    result.is === `ok` ? imageModal.on(result.data) : errorModal.on();
+  });
+
   const [upload] = useFileInput({
     accept: IMAGE_RULES.type,
     maxSize: IMAGE_RULES.size,
     onChange: async ({ target: { files } }) => {
       if (!!files && files.length === 1) {
-        const result = await uploadImageAct(files[0]);
+        const result = await uploadImageAct(await readFileAsBase64(files[0]));
         result.is === `ok` ? imageModal.on(result.data) : errorModal.on();
       }
     },

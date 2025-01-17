@@ -1,4 +1,4 @@
-const readFileAsBase64 = (file: File): Promise<string> => {
+const readFileAsBase64 = (file: File | Blob): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
