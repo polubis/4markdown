@@ -2,10 +2,7 @@ import React from 'react';
 
 type Setter<TState> = TState | (() => TState);
 
-type FeatureOnState = { is: `on` };
-type FeatureOffState = { is: `off` };
-
-type SimpleFeatureState = FeatureOnState | FeatureOffState;
+type SimpleFeatureState = boolean;
 type SimpleFeatureActions = {
   on(): void;
   off(): void;
@@ -13,41 +10,37 @@ type SimpleFeatureActions = {
   reset(): void;
   set(setter: Setter<SimpleFeatureState>): void;
 };
-type SimpleFeature = SimpleFeatureState &
-  SimpleFeatureActions & { isOn: boolean; isOff: boolean };
+type SimpleFeature = SimpleFeatureActions & { isOff: boolean; isOn: boolean };
 
 const useSimpleFeature = (
-  defaultState: Setter<SimpleFeatureState> = { is: `off` },
+  defaultState: Setter<SimpleFeatureState> = false,
 ): SimpleFeature => {
   const initState = React.useRef(defaultState);
-  const [state, setState] = React.useState(defaultState);
+  const [isOn, setIsOn] = React.useState(defaultState);
 
   const on: SimpleFeatureActions['on'] = React.useCallback(() => {
-    setState({ is: `on` });
+    setIsOn(true);
   }, []);
 
   const off: SimpleFeatureActions['off'] = React.useCallback(() => {
-    setState({ is: `off` });
+    setIsOn(false);
   }, []);
 
   const toggle: SimpleFeatureActions['toggle'] = React.useCallback(() => {
-    setState((prevState) =>
-      prevState.is === `on` ? { is: `off` } : { is: `on` },
-    );
+    setIsOn((prevIsOpen) => !prevIsOpen);
   }, []);
 
   const reset: SimpleFeatureActions['reset'] = React.useCallback(() => {
-    setState(initState.current);
+    setIsOn(initState.current);
   }, []);
 
   return {
-    ...state,
-    isOn: state.is === `on`,
-    isOff: state.is === `off`,
+    isOn,
+    isOff: !isOn,
     on,
     off,
     toggle,
-    set: setState,
+    set: setIsOn,
     reset,
   };
 };
