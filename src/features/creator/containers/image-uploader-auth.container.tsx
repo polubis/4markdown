@@ -38,7 +38,7 @@ const readImageAsBase64FromClipboard = async (): Promise<string | null> => {
 
 const ImageUploaderAuthContainer = () => {
   const uploadImageStatus = useUploadImageState();
-  const [copyState, copy] = useCopy();
+  const [copyState, copy, resetClipboard] = useCopy();
 
   useComboPress([`control`, `v`], async () => {
     if (uploadImageStatus.is !== `idle`) return;
@@ -55,6 +55,7 @@ const ImageUploaderAuthContainer = () => {
     maxSize: IMAGE_RULES.size,
     onChange: async ({ target: { files } }) => {
       if (!!files && files.length === 1) {
+        if (uploadImageStatus.is !== `idle`) return;
         await uploadImageAct(await readFileAsBase64(files[0]));
       }
     },
@@ -74,6 +75,11 @@ const ImageUploaderAuthContainer = () => {
     useUploadImageState.reset();
   };
 
+  const close = async (): Promise<void> => {
+    await resetClipboard();
+    useUploadImageState.reset();
+  };
+
   return (
     <>
       {copyState.is === `copied` && <Status>Image copied</Status>}
@@ -81,7 +87,7 @@ const ImageUploaderAuthContainer = () => {
       {uploadImageStatus.is === `busy` && <Status>Uploading image...</Status>}
 
       {uploadImageStatus.is === `ok` && (
-        <Modal onClose={useUploadImageState.reset}>
+        <Modal onClose={close}>
           <Modal.Header
             title="Image uploaded ✅"
             closeButtonTitle="Close image upload"
@@ -114,7 +120,7 @@ const ImageUploaderAuthContainer = () => {
               <strong>{IMAGE_RULES.size} megabytes</strong>
             </>
           }
-          onClose={useUploadImageState.reset}
+          onClose={close}
         />
       )}
 
