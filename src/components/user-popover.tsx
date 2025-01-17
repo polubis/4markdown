@@ -4,9 +4,9 @@ import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { YourAvatarContainer } from '../containers/your-avatar.container';
-import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import { logIn } from 'actions/log-in.action';
 import { useSimpleFeature } from 'development-kit/use-simple-feature';
+import { useYourUserProfileState } from 'store/your-user-profile';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
@@ -14,7 +14,7 @@ const UserPopover = ({ className }: { className?: string }) => {
   const menu = useSimpleFeature();
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
-  const yourProfileStore = yourProfileStoreSelectors.useState();
+  const yourUserProfile = useYourUserProfileState();
 
   const handleClick = () => {
     if (authStore.is === `idle`) return;
@@ -36,7 +36,7 @@ const UserPopover = ({ className }: { className?: string }) => {
         disabled={
           authStore.is === `idle` ||
           docsStore.is === `busy` ||
-          yourProfileStore.is === `busy`
+          yourUserProfile.is === `busy`
         }
         title={
           authStore.is === `authorized` ? `User details and options` : `Sign in`
