@@ -3,8 +3,8 @@ import { authStoreActions } from 'store/auth/auth.store';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
-import { yourProfileStoreActions } from 'store/your-profile/your-profile.store';
 import { initializeAPI } from 'api-4markdown';
+import { useYourUserProfileState } from 'store/your-user-profile';
 
 const useAuth = () => {
   const [api] = React.useState(initializeAPI);
@@ -23,7 +23,7 @@ const useAuth = () => {
       docStoreActions.reset();
       docManagementStoreActions.idle();
       docsStoreActions.idle();
-      yourProfileStoreActions.idle();
+      useYourUserProfileState.reset();
       authStoreActions.unauthorize();
     });
 

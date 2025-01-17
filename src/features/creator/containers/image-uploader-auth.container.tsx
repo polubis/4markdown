@@ -22,7 +22,7 @@ const ImageUploaderAuthContainer = () => {
   const imageModal = useFeature<ImageDto>();
   const errorModal = useSimpleFeature();
   const docsStore = useDocsStore();
-  const imagesState = useUploadImageState();
+  const imageState = useUploadImageState();
   const [copyState, copy] = useCopy();
 
   const [upload] = useFileInput({
@@ -48,10 +48,10 @@ const ImageUploaderAuthContainer = () => {
   return (
     <>
       {copyState.is === `copied` && <Status>Image copied</Status>}
-      {imagesState.is === `busy` && <Status>Uploading image...</Status>}
+      {imageState.is === `busy` && <Status>Uploading image...</Status>}
 
       <UploadImageButton
-        disabled={docsStore.is === `busy` || imagesState.is === `busy`}
+        disabled={docsStore.is === `busy` || imageState.is === `busy`}
         onClick={upload}
       />
 
