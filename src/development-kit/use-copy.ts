@@ -39,13 +39,11 @@ interface ClipboardConfig {
 
 type CopyHandler = (value: CopyValue) => Promise<void>;
 
-type CopyReturn = [ClipboardState, CopyHandler];
-
 const useCopy = (
   { cleansAfter }: ClipboardConfig = {
     cleansAfter: 2500,
   },
-): CopyReturn => {
+) => {
   const [state, setState] = useState<ClipboardState>(() =>
     isClient()
       ? navigator?.clipboard
@@ -82,11 +80,17 @@ const useCopy = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const reset = async (): Promise<void> => {
+    try {
+      await navigator?.clipboard.writeText(``);
+    } catch {}
+  };
+
   useEffect(() => {
     cleanUpTimeout();
   }, []);
 
-  return [state, copy];
+  return [state, copy, reset] as const;
 };
 
 export { useCopy };

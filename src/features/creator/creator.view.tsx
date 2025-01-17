@@ -87,10 +87,6 @@ const CreatorView = () => {
     }
   };
 
-  const toggleAutoScroll = (): void => {
-    autoScrolling.toggle();
-  };
-
   const toggleView = (): void => {
     setView((prevView) => (prevView === `preview` ? `creator` : `preview`));
   };
@@ -145,7 +141,7 @@ const CreatorView = () => {
             className={c({
               '!text-green-700 dark:!text-green-400': autoScrolling.isOn,
             })}
-            onClick={toggleAutoScroll}
+            onClick={autoScrolling.toggle}
           >
             <svg
               width="26"
