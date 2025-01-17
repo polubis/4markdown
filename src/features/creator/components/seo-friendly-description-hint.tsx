@@ -39,12 +39,12 @@ const SeoFriendlyDescriptionHint = () => {
     <Hint
       className="flex justify-between"
       content={Content}
-      trigger={({ open }) => (
+      trigger={({ on }) => (
         <>
           110-160 characters
           <button
             type="button"
-            onClick={open}
+            onClick={on}
             title="Open SEO description explanation"
           >
             <BiInfoCircle size={20} className="ml-3 shrink-0" />

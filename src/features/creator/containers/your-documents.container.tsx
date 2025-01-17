@@ -3,7 +3,7 @@ import { Button } from 'design-system/button';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { BiCollection } from 'react-icons/bi';
-import { useToggle } from 'development-kit/use-toggle';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const DocsListModal = React.lazy(
   () => import(`../../../components/docs-list-modal`),
@@ -12,7 +12,7 @@ const DocsListModal = React.lazy(
 const YourDocumentsContainer = () => {
   const docManagementStore = useDocManagementStore();
   const docsStore = useDocsStore();
-  const modal = useToggle();
+  const modal = useSimpleFeature();
 
   return (
     <>
@@ -21,14 +21,14 @@ const YourDocumentsContainer = () => {
         s={1}
         disabled={docManagementStore.is === `busy` || docsStore.is === `busy`}
         title="Your documents"
-        onClick={modal.open}
+        onClick={modal.on}
       >
         <BiCollection className="rotate-180" />
       </Button>
 
-      {modal.opened && (
+      {modal.isOn && (
         <React.Suspense>
-          <DocsListModal onClose={modal.close} />
+          <DocsListModal onClose={modal.off} />
         </React.Suspense>
       )}
     </>

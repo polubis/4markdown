@@ -4,12 +4,12 @@ import {
   triggerDocumentCreation,
 } from 'core/creation-management';
 import { Button } from 'design-system/button';
-import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { logIn } from 'actions/log-in.action';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const CreateDocumentModal = React.lazy(() =>
   import(`./create-document-modal`).then((m) => ({
@@ -20,13 +20,13 @@ const CreateDocumentModal = React.lazy(() =>
 const AddDocPopover = () => {
   const docManagementStore = useDocManagementStore();
   const authStore = useAuthStore();
-  const menu = useToggle();
+  const menu = useSimpleFeature();
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
     if (authStore.is === `idle`) return;
 
     if (authStore.is === `authorized`) {
-      menu.open();
+      menu.on();
       return;
     }
 
@@ -35,17 +35,17 @@ const AddDocPopover = () => {
   };
 
   React.useEffect(() => {
-    if (authStore.is !== `authorized` || menu.opened) return;
+    if (authStore.is !== `authorized` || menu.isOn) return;
 
     if (!isDocumentCreationActive()) return;
 
     resetDocumentCreation();
-    menu.open();
+    menu.on();
   }, [authStore.is, menu]);
 
   React.useEffect(() => {
     if (docManagementStore.is === `fail`) {
-      menu.close();
+      menu.off();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [docManagementStore]);
@@ -55,9 +55,9 @@ const AddDocPopover = () => {
       <Button i={1} s={2} title="Create new document" onClick={handleClick}>
         <BiPlus />
       </Button>
-      {menu.opened && (
+      {menu.isOn && (
         <React.Suspense>
-          <CreateDocumentModal onClose={menu.close} />
+          <CreateDocumentModal onClose={menu.off} />
         </React.Suspense>
       )}
     </>

@@ -2,7 +2,6 @@ import React from 'react';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
 import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from 'react-icons/bi';
-import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
@@ -15,6 +14,7 @@ import { DocumentRatingContainer } from 'containers/document-rating.container';
 import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`../components/document-chapters-modal`).then((m) => ({
@@ -25,7 +25,7 @@ const DocumentChaptersModal = React.lazy(() =>
 const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
   const { code, author } = document;
-  const sectionsModal = useToggle();
+  const sectionsModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
 
   const openInDocumentsCreator = (): void => {
@@ -49,7 +49,7 @@ const DocumentLayoutContainer = () => {
             title="Display this document like a book"
             s={2}
             i={2}
-            onClick={sectionsModal.open}
+            onClick={sectionsModal.on}
           >
             <BiBook />
           </Button>
@@ -110,9 +110,9 @@ const DocumentLayoutContainer = () => {
         <DocumentRatingContainer className="mt-10 justify-end max-w-prose mx-auto" />
       </main>
       <ScrollToTop />
-      {sectionsModal.opened && (
+      {sectionsModal.isOn && (
         <React.Suspense>
-          <DocumentChaptersModal onClose={sectionsModal.close}>
+          <DocumentChaptersModal onClose={sectionsModal.off}>
             {code}
           </DocumentChaptersModal>
         </React.Suspense>

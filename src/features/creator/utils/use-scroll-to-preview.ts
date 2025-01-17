@@ -1,8 +1,8 @@
 import React from 'react';
 
 import debounce from 'lodash.debounce';
-import { useToggle } from 'development-kit/use-toggle';
 import { isServer } from 'development-kit/ssr-csr';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const removeMdFromLine = (value: string): string =>
   value.replace(/\*|#|`|_/g, ``).trim();
@@ -56,19 +56,19 @@ const readBrowserSavedSettings = (): boolean => {
 
 const useScrollToPreview = () => {
   const [opened] = React.useState(readBrowserSavedSettings);
-  const scroll = useToggle({ opened });
+  const scroll = useSimpleFeature(opened);
 
   const triggerScroll = (input: HTMLTextAreaElement): void => {
-    if (scroll.closed) return;
+    if (scroll.isOff) return;
 
     scrollToPreview(input);
   };
 
   React.useEffect(() => {
     try {
-      localStorage.setItem(AUTO_SCROLL_KEY, JSON.stringify(scroll.opened));
+      localStorage.setItem(AUTO_SCROLL_KEY, JSON.stringify(scroll.isOn));
     } catch {}
-  }, [scroll.opened]);
+  }, [scroll.isOn]);
 
   React.useEffect(() => {
     return () => {
