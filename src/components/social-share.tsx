@@ -7,11 +7,11 @@ import {
   BiShare,
   BiText,
 } from 'react-icons/bi';
-import { useToggle } from 'development-kit/use-toggle';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 import Popover from 'design-system/popover';
 import { Status } from 'design-system/status';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const getLinkedInUrl = (): string =>
   `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;
@@ -26,7 +26,7 @@ const getRedditUrl = (): string =>
   `https://www.reddit.com/submit?url=${encodeURIComponent(window.location.href)}&title=Check%20this%20out!`;
 
 const SocialShare = () => {
-  const panel = useToggle();
+  const panel = useSimpleFeature();
   const [copyState, copy] = useCopy();
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -43,7 +43,7 @@ const SocialShare = () => {
 
     timeoutRef.current = setTimeout(() => {
       window.open(url(), `_blank`);
-      panel.close();
+      panel.off();
     }, 1000);
   };
 
@@ -51,7 +51,7 @@ const SocialShare = () => {
     copy(
       `I’ve found a great article! Here’s the link: ${window.location.href}`,
     );
-    panel.close();
+    panel.off();
   };
 
   React.useEffect(() => {
@@ -66,14 +66,14 @@ const SocialShare = () => {
         title="Share this document on social media platforms"
         i={2}
         s={2}
-        onClick={panel.open}
+        onClick={panel.on}
       >
         <BiShare />
       </Button>
-      {panel.opened && (
+      {panel.isOn && (
         <Popover
           className="!absolute flex gap-2 translate-y-2.5 -right-12 sm:right-auto"
-          onBackdropClick={panel.close}
+          onBackdropClick={panel.off}
         >
           <Button
             s={1}

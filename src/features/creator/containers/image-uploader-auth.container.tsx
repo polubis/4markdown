@@ -1,7 +1,6 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
 import { useFileInput } from 'development-kit/use-file-input';
-import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import ErrorModal from 'components/error-modal';
 import { useDocsStore } from 'store/docs/docs.store';
@@ -11,6 +10,8 @@ import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
 import { uploadImageAct } from 'acts/upload-image.act';
 import { useUploadImageState } from 'store/upload-image';
 import { UploadImageButton } from '../components/upload-image-button';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
+import { useFeature } from 'development-kit/use-feature';
 
 const IMAGE_RULES = {
   type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
@@ -18,8 +19,8 @@ const IMAGE_RULES = {
 } as const;
 
 const ImageUploaderAuthContainer = () => {
-  const imageModal = useToggle<ImageDto | null>();
-  const errorModal = useToggle();
+  const imageModal = useFeature<ImageDto>();
+  const errorModal = useSimpleFeature();
   const docsStore = useDocsStore();
   const imagesState = useUploadImageState();
   const [copyState, copy] = useCopy();
@@ -30,20 +31,18 @@ const ImageUploaderAuthContainer = () => {
     onChange: async ({ target: { files } }) => {
       if (!!files && files.length === 1) {
         const result = await uploadImageAct(files[0]);
-        result.is === `ok`
-          ? imageModal.openWithData(result.data)
-          : errorModal.open();
+        result.is === `ok` ? imageModal.on(result.data) : errorModal.on();
       }
     },
-    onError: errorModal.open,
+    onError: errorModal.on,
   });
 
   const copyAndClose = (): void => {
-    if (!imageModal.data)
+    if (imageModal.is === `off`)
       throw Error(`There is no data assigned to image modal`);
 
     copy(`![Alt](${imageModal.data.url})\n*Description*`);
-    imageModal.close();
+    imageModal.off();
   };
 
   return (
@@ -56,7 +55,7 @@ const ImageUploaderAuthContainer = () => {
         onClick={upload}
       />
 
-      {errorModal.opened && (
+      {errorModal.isOn && (
         <ErrorModal
           heading="Invalid image"
           message={
@@ -67,12 +66,12 @@ const ImageUploaderAuthContainer = () => {
               <strong>{IMAGE_RULES.size} megabytes</strong>
             </>
           }
-          onClose={errorModal.close}
+          onClose={errorModal.off}
         />
       )}
 
-      {imageModal.opened && (
-        <Modal onClose={imageModal.close}>
+      {imageModal.is === `on` && (
+        <Modal onClose={imageModal.off}>
           <Modal.Header
             title="Image uploaded ✅"
             closeButtonTitle="Close image upload"

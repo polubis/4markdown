@@ -1,25 +1,27 @@
 import React, { type ReactNode, type ComponentType } from 'react';
-import type { ToggleReturn } from 'development-kit/use-toggle';
-import { useToggle } from 'development-kit/use-toggle';
 import { Modal } from './modal';
 import c from 'classnames';
+import {
+  type SimpleFeature,
+  useSimpleFeature,
+} from 'development-kit/use-simple-feature';
 
 interface HintProps {
   className?: string;
-  content?: ComponentType<ToggleReturn>;
-  trigger: ComponentType<ToggleReturn> | ReactNode;
+  content?: ComponentType<SimpleFeature>;
+  trigger: ComponentType<SimpleFeature> | ReactNode;
 }
 
 const Hint = ({ className, trigger: Trigger, content: Content }: HintProps) => {
-  const toggler = useToggle();
+  const toggler = useSimpleFeature();
 
   return (
     <>
       <i className={c(`text-sm`, className)}>
         {typeof Trigger === `function` ? <Trigger {...toggler} /> : Trigger}
       </i>
-      {toggler.opened && Content && (
-        <Modal onClose={toggler.close}>
+      {toggler.isOn && Content && (
+        <Modal onClose={toggler.off}>
           <Content {...toggler} />
         </Modal>
       )}

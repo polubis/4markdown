@@ -1,5 +1,4 @@
 import { Button } from 'design-system/button';
-import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
@@ -11,6 +10,7 @@ import { useForm } from 'development-kit/use-form';
 import { updateDocumentCode } from 'actions/update-document-code.action';
 import { updateDocumentName } from 'actions/update-document-name.action';
 import { useDocumentCreatorState } from 'store/document-creator';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),
@@ -30,9 +30,9 @@ const ActiveDocumentBarContainer = () => {
   const creatorStore = useDocumentCreatorState();
   const [{ values, invalid, untouched }, { inject, set, reconfigure }] =
     useForm({ name: docStore.name });
-  const edition = useToggle();
-  const morePopover = useToggle();
-  const deleteModal = useToggle();
+  const edition = useSimpleFeature();
+  const morePopover = useSimpleFeature();
+  const deleteModal = useSimpleFeature();
 
   const handleNameChangeConfirm: React.FormEventHandler<
     HTMLFormElement
@@ -40,17 +40,17 @@ const ActiveDocumentBarContainer = () => {
     e.preventDefault();
     try {
       await updateDocumentName(values.name);
-      edition.close();
+      edition.off();
     } catch {}
   };
 
   const handleEditOpen: React.MouseEventHandler<HTMLButtonElement> = () => {
     reconfigure({ name: docStore.name });
-    edition.open();
+    edition.on();
   };
 
   const handleEditClose: React.MouseEventHandler<HTMLButtonElement> = () => {
-    edition.close();
+    edition.off();
     set({ name: `` });
   };
 
@@ -65,7 +65,7 @@ const ActiveDocumentBarContainer = () => {
 
   return (
     <>
-      {edition.opened ? (
+      {edition.isOn ? (
         <form className="flex items-center" onSubmit={handleNameChangeConfirm}>
           <input
             className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
@@ -127,7 +127,7 @@ const ActiveDocumentBarContainer = () => {
               s={1}
               disabled={nonInteractive}
               title="More document options"
-              onClick={morePopover.open}
+              onClick={morePopover.on}
             >
               <BiDotsHorizontal />
             </Button>
@@ -135,21 +135,21 @@ const ActiveDocumentBarContainer = () => {
         </>
       )}
 
-      {morePopover.opened && (
+      {morePopover.isOn && (
         <React.Suspense>
           <DocumentDetailsContainer
             onOpen={() => {
-              deleteModal.open();
-              morePopover.close();
+              deleteModal.on();
+              morePopover.off();
             }}
-            onClose={morePopover.close}
+            onClose={morePopover.off}
           />
         </React.Suspense>
       )}
 
-      {deleteModal.opened && (
+      {deleteModal.isOn && (
         <React.Suspense>
-          <DeleteDocumentModalContainer onClose={deleteModal.close} />
+          <DeleteDocumentModalContainer onClose={deleteModal.off} />
         </React.Suspense>
       )}
     </>

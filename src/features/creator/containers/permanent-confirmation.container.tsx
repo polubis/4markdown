@@ -1,10 +1,10 @@
 import { Button } from 'design-system/button';
-import { useToggle } from 'development-kit/use-toggle';
 import React, { type FormEventHandler } from 'react';
 import { BiX } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { meta } from '../../../../meta';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 interface PermanentConfirmationContainerProps {
   onConfirm(): void;
@@ -18,21 +18,21 @@ const PermanentConfirmationContainer = ({
   onClose,
 }: PermanentConfirmationContainerProps) => {
   const docManagementStore = useDocManagementStore();
-  const formSection = useToggle();
+  const formSection = useSimpleFeature();
 
   const openFormSection: FormEventHandler<HTMLFormElement> = async (
     e,
   ): Promise<void> => {
     e.preventDefault();
-    formSection.open();
+    formSection.on();
   };
 
-  if (formSection.opened) {
+  if (formSection.isOn) {
     return (
       <PermamentDocFormContainer
         onClose={onClose}
         onConfirm={onConfirm}
-        onBack={formSection.close}
+        onBack={formSection.off}
       />
     );
   }

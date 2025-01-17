@@ -20,7 +20,6 @@ import {
 } from 'development-kit/form';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
-import { useToggle } from 'development-kit/use-toggle';
 import type { NonNullableProperties } from 'development-kit/utility-types';
 import React from 'react';
 import {
@@ -30,6 +29,7 @@ import {
 import { updateYourUserProfile } from 'actions/update-your-user-profile.action';
 import type { YourProfileStoreOkState } from 'store/your-profile/your-profile.store';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 interface UserProfileFormModalContainerProps {
   onClose(): void;
@@ -87,7 +87,7 @@ const UserProfileFormModalContainer = ({
   const [avatarPreview, setAvatarPreview] = React.useState(
     yourProfileStore.user?.avatar?.lg.src ?? ``,
   );
-  const avatarErrorModal = useToggle();
+  const avatarErrorModal = useSimpleFeature();
   const [{ invalid, values, untouched, result }, { inject, set }] =
     useForm<UserProfileFormValues>(
       createInitialValues(yourProfileStore),
@@ -139,14 +139,14 @@ const UserProfileFormModalContainer = ({
               },
             });
           } catch {
-            avatarErrorModal.open();
+            avatarErrorModal.on();
           }
         }
       };
 
       uploadAndOpen();
     },
-    onError: avatarErrorModal.open,
+    onError: avatarErrorModal.on,
   });
 
   const removeAvatar = (): void => {
@@ -160,7 +160,7 @@ const UserProfileFormModalContainer = ({
 
   return (
     <>
-      {updateYourProfileStore.is !== `fail` && avatarErrorModal.closed && (
+      {updateYourProfileStore.is !== `fail` && avatarErrorModal.isOff && (
         <Modal disabled={updateYourProfileStore.is === `busy`} onClose={close}>
           <Modal.Header
             title="Your Profile Edition"
@@ -304,7 +304,7 @@ const UserProfileFormModalContainer = ({
         />
       )}
 
-      {avatarErrorModal.opened && (
+      {avatarErrorModal.isOn && (
         <ErrorModal
           heading="Invalid avatar"
           message={
@@ -315,7 +315,7 @@ const UserProfileFormModalContainer = ({
               <strong>{avatarRestrictions.size} megabytes</strong>
             </>
           }
-          onClose={avatarErrorModal.close}
+          onClose={avatarErrorModal.off}
         />
       )}
     </>
