@@ -2,16 +2,16 @@ import { Button } from 'design-system/button';
 import React from 'react';
 import { BiLogInCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
+import { useToggle } from 'development-kit/use-toggle';
 import { useDocsStore } from 'store/docs/docs.store';
 import { YourAvatarContainer } from '../containers/your-avatar.container';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import { logIn } from 'actions/log-in.action';
-import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
 const UserPopover = ({ className }: { className?: string }) => {
-  const menu = useSimpleFeature();
+  const menu = useToggle();
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
   const yourProfileStore = yourProfileStoreSelectors.useState();
@@ -20,7 +20,7 @@ const UserPopover = ({ className }: { className?: string }) => {
     if (authStore.is === `idle`) return;
 
     if (authStore.is === `authorized`) {
-      menu.on();
+      menu.open();
       return;
     }
 
@@ -48,9 +48,9 @@ const UserPopover = ({ className }: { className?: string }) => {
           <BiLogInCircle />
         )}
       </Button>
-      {menu.isOn && (
+      {menu.opened && (
         <React.Suspense>
-          <UserPopoverContent onClose={menu.off} />
+          <UserPopoverContent onClose={menu.close} />
         </React.Suspense>
       )}
     </>
