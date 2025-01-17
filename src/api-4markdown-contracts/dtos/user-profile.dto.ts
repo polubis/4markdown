@@ -15,7 +15,6 @@ type Avatar = {
 };
 
 type UserProfileDto = {
-  id: Id;
   displayName: string | null;
   bio: string | null;
   avatar: Avatar | null;
