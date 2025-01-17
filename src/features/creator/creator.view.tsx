@@ -24,8 +24,8 @@ import { Button } from 'design-system/button';
 import { BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
-import { useToggle } from 'development-kit/use-toggle';
 import { Status } from 'design-system/status';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -39,7 +39,7 @@ const CheatSheetModal = React.lazy(() =>
 
 const CreatorView = () => {
   const [copyState, copy] = useCopy();
-  const cheatsheetModal = useToggle();
+  const cheatsheetModal = useSimpleFeature();
   const [autoScrolling, autoScroll] = useScrollToPreview();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
@@ -83,7 +83,7 @@ const CreatorView = () => {
     if (syntax) {
       copy(syntax);
     } else {
-      cheatsheetModal.open();
+      cheatsheetModal.on();
     }
   };
 
@@ -121,9 +121,9 @@ const CreatorView = () => {
           <CreatorErrorModalContainer />
         </React.Suspense>
       )}
-      {cheatsheetModal.opened && (
+      {cheatsheetModal.isOn && (
         <React.Suspense>
-          <CheatSheetModal onClose={cheatsheetModal.close} />
+          <CheatSheetModal onClose={cheatsheetModal.off} />
         </React.Suspense>
       )}
       <main className="md:mt-[122px] md:mb-0 mb-[122px]">
@@ -143,7 +143,7 @@ const CreatorView = () => {
             i={1}
             s={1}
             className={c({
-              '!text-green-700 dark:!text-green-400': autoScrolling.opened,
+              '!text-green-700 dark:!text-green-400': autoScrolling.isOn,
             })}
             onClick={toggleAutoScroll}
           >
