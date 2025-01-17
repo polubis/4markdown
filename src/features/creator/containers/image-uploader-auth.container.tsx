@@ -12,8 +12,12 @@ import { UploadImageButton } from '../components/upload-image-button';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import { useComboPress } from 'development-kit/use-combo-press';
 
+const allowedExtensions = IMAGE_EXTENSIONS.map(
+  (extension) => `image/${extension}`,
+);
+
 const IMAGE_RULES = {
-  type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
+  type: allowedExtensions.join(`, `),
   size: 4,
 } as const;
 
@@ -21,13 +25,9 @@ const readImageAsBase64FromClipboard = async (): Promise<string | null> => {
   const clipboardItems = await navigator.clipboard.read();
 
   for (const item of clipboardItems) {
-    if (
-      item.types.includes(`image/png`) ||
-      item.types.includes(`image/jpeg`) ||
-      item.types.includes(`image/jpg`) ||
-      item.types.includes(`image/gif`) ||
-      item.types.includes(`image/webp`)
-    ) {
+    const element = item.types[0];
+
+    if (allowedExtensions.includes(element)) {
       const blob = await item.getType(item.types[0]);
       return await readFileAsBase64(blob);
     }
