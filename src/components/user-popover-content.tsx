@@ -161,7 +161,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
         disabled={yourProfileStore.is === `busy`}
         onClick={signOutConfirmation.confirm}
       >
-        {signOutConfirmation.opened ? `Are You Sure?` : `Sign Out`}
+        {signOutConfirmation.isOn ? `Are You Sure?` : `Sign Out`}
       </Button>
     </Modal>
   );
