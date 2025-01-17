@@ -1,40 +1,40 @@
-import { getAPI, getCache, setCache } from 'api-4markdown';
-import {
-  yourProfileStoreActions,
-  yourProfileStoreSelectors,
-} from 'store/your-profile/your-profile.store';
+import { getAPI, getCache, parseError, setCache } from 'api-4markdown';
+
 import type { API4MarkdownContractKey } from 'api-4markdown-contracts';
+import { useYourProfileState } from 'store/your-profile';
 
 const getYourUserProfile = async (): Promise<void> => {
   try {
     const key: API4MarkdownContractKey = `getYourUserProfile`;
 
-    const { is } = yourProfileStoreSelectors.state();
+    const { is } = useYourProfileState.get();
 
     if (is !== `idle`) return;
 
     const cachedProfile = getCache(key);
 
     if (cachedProfile !== null) {
-      yourProfileStoreActions.ok({
+      useYourProfileState.swap({
+        is: `ok`,
         mdate: cachedProfile?.mdate ?? null,
         user: cachedProfile?.profile ?? null,
       });
       return;
     }
 
-    yourProfileStoreActions.busy();
+    useYourProfileState.swap({ is: `busy` });
 
     const profile = await getAPI().call(key)();
 
     setCache(key, profile);
 
-    yourProfileStoreActions.ok({
+    useYourProfileState.swap({
+      is: `ok`,
       mdate: profile?.mdate ?? null,
       user: profile?.profile ?? null,
     });
   } catch (error: unknown) {
-    yourProfileStoreActions.fail(error);
+    useYourProfileState.swap({ is: `fail`, error: parseError(error) });
   }
 };
 
