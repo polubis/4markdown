@@ -48,7 +48,7 @@ const UserPopover = ({ className }: { className?: string }) => {
           <BiLogInCircle />
         )}
       </Button>
-      {menu.is === `on` && (
+      {menu.isOn && (
         <React.Suspense>
           <UserPopoverContent onClose={menu.off} />
         </React.Suspense>

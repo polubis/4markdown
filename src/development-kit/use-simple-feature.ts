@@ -13,7 +13,8 @@ type SimpleFeatureActions = {
   reset(): void;
   set(setter: Setter<SimpleFeatureState>): void;
 };
-type SimpleFeature = SimpleFeatureState & SimpleFeatureActions;
+type SimpleFeature = SimpleFeatureState &
+  SimpleFeatureActions & { isOn: boolean; isOff: boolean };
 
 const useSimpleFeature = (
   defaultState: Setter<SimpleFeatureState> = { is: `off` },
@@ -39,7 +40,16 @@ const useSimpleFeature = (
     setState(initState.current);
   }, []);
 
-  return { ...state, on, off, toggle, set: setState, reset };
+  return {
+    ...state,
+    isOn: state.is === `on`,
+    isOff: state.is === `off`,
+    on,
+    off,
+    toggle,
+    set: setState,
+    reset,
+  };
 };
 
 export { useSimpleFeature };
