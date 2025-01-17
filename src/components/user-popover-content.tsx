@@ -4,12 +4,12 @@ import { BiEdit, BiRefresh } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import { yourProfileStoreSelectors } from 'store/your-profile/your-profile.store';
 import { Modal } from 'design-system/modal';
-import { useToggle } from 'development-kit/use-toggle';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
 import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import { reloadYourUserProfile } from 'actions/reload-your-user-profile.action';
 import { logOut } from 'actions/log-out.action';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const DetailLoader = () => (
   <div className="flex space-x-1 h-6">
@@ -20,20 +20,20 @@ const DetailLoader = () => (
 
 const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   const yourProfileStore = yourProfileStoreSelectors.useState();
-  const userProfileForm = useToggle();
+  const userProfileForm = useSimpleFeature();
 
   const signOutConfirmation = useConfirm(() => {
     logOut();
     onClose();
   });
 
-  if (userProfileForm.opened) {
+  if (userProfileForm.isOn) {
     return (
       <UserProfileFormModalContainer
-        onBack={userProfileForm.close}
+        onBack={userProfileForm.off}
         onClose={onClose}
         onSync={() => {
-          userProfileForm.close();
+          userProfileForm.off();
           reloadYourUserProfile();
         }}
       />
@@ -51,7 +51,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
           s={1}
           title="Open user profile settings"
           disabled={yourProfileStore.is !== `ok`}
-          onClick={userProfileForm.open}
+          onClick={userProfileForm.on}
         >
           <BiEdit />
         </Button>
@@ -124,7 +124,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                 s={1}
                 auto
                 title="Create your user profile"
-                onClick={userProfileForm.open}
+                onClick={userProfileForm.on}
               >
                 Create
               </Button>
