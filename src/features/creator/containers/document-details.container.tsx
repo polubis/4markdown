@@ -7,13 +7,13 @@ import c from 'classnames';
 import { formatDistance } from 'date-fns';
 import { navigate } from 'gatsby';
 import { Tabs } from 'design-system/tabs';
-import { useToggle } from 'development-kit/use-toggle';
 import { PublicConfirmationContainer } from 'features/creator/containers/public-confirmation.container';
 import { PrivateConfirmationContainer } from 'features/creator/containers/private-confirmation.container';
 import { PermanentConfirmationContainer } from 'features/creator/containers/permanent-confirmation.container';
 import { Modal } from 'design-system/modal';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { meta } from '../../../../meta';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
@@ -24,51 +24,51 @@ const DocumentDetailsContainer = ({
   onClose,
   onOpen,
 }: DocumentDetailsContainerProps) => {
-  const privateConfirmation = useToggle();
-  const permanentConfirmation = useToggle();
-  const publicConfirmation = useToggle();
+  const privateConfirmation = useSimpleFeature();
+  const permanentConfirmation = useSimpleFeature();
+  const publicConfirmation = useSimpleFeature();
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
-  const permamentDocumentEdition = useToggle();
+  const permamentDocumentEdition = useSimpleFeature();
 
   return (
     <Modal disabled={docManagementStore.is === `busy`} onClose={onClose}>
-      {permamentDocumentEdition.opened && (
+      {permamentDocumentEdition.isOn && (
         <PermamentDocFormContainer
-          onBack={permamentDocumentEdition.close}
-          onConfirm={permamentDocumentEdition.close}
+          onBack={permamentDocumentEdition.off}
+          onConfirm={permamentDocumentEdition.off}
           onClose={onClose}
         />
       )}
 
-      {privateConfirmation.opened && (
+      {privateConfirmation.isOn && (
         <PrivateConfirmationContainer
-          onConfirm={privateConfirmation.close}
-          onCancel={privateConfirmation.close}
+          onConfirm={privateConfirmation.off}
+          onCancel={privateConfirmation.off}
           onClose={onClose}
         />
       )}
 
-      {permanentConfirmation.opened && (
+      {permanentConfirmation.isOn && (
         <PermanentConfirmationContainer
-          onConfirm={permanentConfirmation.close}
-          onCancel={permanentConfirmation.close}
+          onConfirm={permanentConfirmation.off}
+          onCancel={permanentConfirmation.off}
           onClose={onClose}
         />
       )}
 
-      {publicConfirmation.opened && (
+      {publicConfirmation.isOn && (
         <PublicConfirmationContainer
-          onConfirm={publicConfirmation.close}
-          onCancel={publicConfirmation.close}
+          onConfirm={publicConfirmation.off}
+          onCancel={publicConfirmation.off}
           onClose={onClose}
         />
       )}
 
-      {permanentConfirmation.closed &&
-        publicConfirmation.closed &&
-        privateConfirmation.closed &&
-        permamentDocumentEdition.closed && (
+      {permanentConfirmation.isOff &&
+        publicConfirmation.isOff &&
+        privateConfirmation.isOff &&
+        permamentDocumentEdition.isOff && (
           <>
             <Modal.Header
               title="Details"
@@ -89,7 +89,7 @@ const DocumentDetailsContainer = ({
                   s={1}
                   disabled={docManagementStore.is === `busy`}
                   title="Edit current document"
-                  onClick={permamentDocumentEdition.open}
+                  onClick={permamentDocumentEdition.on}
                 >
                   <BiPencil />
                 </Button>
@@ -173,7 +173,7 @@ const DocumentDetailsContainer = ({
                 onClick={
                   docStore.visibility === `private`
                     ? undefined
-                    : privateConfirmation.open
+                    : privateConfirmation.on
                 }
                 disabled={docManagementStore.is === `busy`}
               >
@@ -185,7 +185,7 @@ const DocumentDetailsContainer = ({
                 onClick={
                   docStore.visibility === `public`
                     ? undefined
-                    : publicConfirmation.open
+                    : publicConfirmation.on
                 }
                 disabled={docManagementStore.is === `busy`}
               >
@@ -197,7 +197,7 @@ const DocumentDetailsContainer = ({
                 onClick={
                   docStore.visibility === `permanent`
                     ? undefined
-                    : permanentConfirmation.open
+                    : permanentConfirmation.on
                 }
                 disabled={docManagementStore.is === `busy`}
               >

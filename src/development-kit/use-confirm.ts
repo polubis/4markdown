@@ -1,8 +1,8 @@
 import React from 'react';
-import { useToggle } from './use-toggle';
+import { useSimpleFeature } from './use-simple-feature';
 
 const useConfirm = (action: () => void) => {
-  const toggler = useToggle();
+  const toggler = useSimpleFeature();
   const timeout = React.useRef<null | any>(null);
 
   const cleanTimeouts = (): void => {
@@ -14,16 +14,16 @@ const useConfirm = (action: () => void) => {
   const confirm = (): void => {
     cleanTimeouts();
 
-    if (toggler.opened) {
+    if (toggler.isOn) {
       action();
-      toggler.close();
+      toggler.off();
       return;
     }
 
-    toggler.open();
+    toggler.on();
 
     timeout.current = setTimeout(() => {
-      toggler.close();
+      toggler.off();
     }, 4000);
   };
 

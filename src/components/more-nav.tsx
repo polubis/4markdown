@@ -1,18 +1,18 @@
 import { Button } from 'design-system/button';
-import { useToggle } from 'development-kit/use-toggle';
 import React from 'react';
 import { BiMenu } from 'react-icons/bi';
 import MenuNavSidebar from './menu-nav-sidebar';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const MoreNav = () => {
-  const menu = useToggle();
+  const menu = useSimpleFeature();
 
   return (
     <>
       <Button i={1} s={2} title="Navigation" onClick={menu.toggle}>
         <BiMenu />
       </Button>
-      <MenuNavSidebar opened={menu.opened} onClose={menu.close} />
+      <MenuNavSidebar opened={menu.isOn} onClose={menu.off} />
     </>
   );
 };
