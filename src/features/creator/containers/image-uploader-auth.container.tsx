@@ -3,75 +3,89 @@ import { Modal } from 'design-system/modal';
 import { useFileInput } from 'development-kit/use-file-input';
 import React from 'react';
 import ErrorModal from 'components/error-modal';
-import { useDocsStore } from 'store/docs/docs.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
+import { IMAGE_EXTENSIONS } from 'api-4markdown-contracts';
 import { uploadImageAct } from 'acts/upload-image.act';
 import { useUploadImageState } from 'store/upload-image';
 import { UploadImageButton } from '../components/upload-image-button';
-import { useSimpleFeature } from 'development-kit/use-simple-feature';
-import { useFeature } from 'development-kit/use-feature';
+import { readFileAsBase64 } from 'development-kit/file-reading';
+import { useComboPress } from 'development-kit/use-combo-press';
 
-const IMAGE_RULES = {
-  type: IMAGE_EXTENSIONS.map((extension) => `image/${extension}`).join(`, `),
-  size: 4,
-} as const;
+const allowedExtensions = IMAGE_EXTENSIONS.map(
+  (extension) => `image/${extension}`,
+);
+
+const accept = allowedExtensions.join(`, `);
+const maxSize = 4;
+
+const readImageAsBase64FromClipboard = async (): Promise<string | null> => {
+  const clipboardItems = await navigator.clipboard.read();
+
+  for (const item of clipboardItems) {
+    const element = item.types[0];
+
+    if (allowedExtensions.includes(element)) {
+      const blob = await item.getType(item.types[0]);
+      return await readFileAsBase64(blob);
+    }
+  }
+
+  return null;
+};
 
 const ImageUploaderAuthContainer = () => {
-  const imageModal = useFeature<ImageDto>();
-  const errorModal = useSimpleFeature();
-  const docsStore = useDocsStore();
-  const imageState = useUploadImageState();
-  const [copyState, copy] = useCopy();
+  const uploadImageStatus = useUploadImageState();
+  const [copyState, copy, resetClipboard] = useCopy();
+
+  useComboPress([`control`, `v`], async () => {
+    if (uploadImageStatus.is !== `idle`) return;
+
+    const image = await readImageAsBase64FromClipboard();
+
+    if (!image) return;
+
+    await uploadImageAct(image);
+  });
 
   const [upload] = useFileInput({
-    accept: IMAGE_RULES.type,
-    maxSize: IMAGE_RULES.size,
+    accept,
+    maxSize,
     onChange: async ({ target: { files } }) => {
       if (!!files && files.length === 1) {
-        const result = await uploadImageAct(files[0]);
-        result.is === `ok` ? imageModal.on(result.data) : errorModal.on();
+        if (uploadImageStatus.is !== `idle`) return;
+        await uploadImageAct(await readFileAsBase64(files[0]));
       }
     },
-    onError: errorModal.on,
+    onError: () =>
+      useUploadImageState.swap({
+        is: `fail`,
+        error: { symbol: `unknown`, content: `Unknown`, message: `Unknown` },
+      }),
   });
 
   const copyAndClose = (): void => {
-    if (imageModal.is === `off`)
+    if (uploadImageStatus.is !== `ok`)
       throw Error(`There is no data assigned to image modal`);
 
-    copy(`![Alt](${imageModal.data.url})\n*Description*`);
-    imageModal.off();
+    copy(`![Alt](${uploadImageStatus.url})\n*Description*`);
+
+    useUploadImageState.reset();
+  };
+
+  const close = async (): Promise<void> => {
+    await resetClipboard();
+    useUploadImageState.reset();
   };
 
   return (
     <>
       {copyState.is === `copied` && <Status>Image copied</Status>}
-      {imageState.is === `busy` && <Status>Uploading image...</Status>}
 
-      <UploadImageButton
-        disabled={docsStore.is === `busy` || imageState.is === `busy`}
-        onClick={upload}
-      />
+      {uploadImageStatus.is === `busy` && <Status>Uploading image...</Status>}
 
-      {errorModal.isOn && (
-        <ErrorModal
-          heading="Invalid image"
-          message={
-            <>
-              Please ensure that the image format is valid. Supported formats
-              include <strong>{IMAGE_RULES.type}</strong>, with a maximum file
-              size of{` `}
-              <strong>{IMAGE_RULES.size} megabytes</strong>
-            </>
-          }
-          onClose={errorModal.off}
-        />
-      )}
-
-      {imageModal.is === `on` && (
-        <Modal onClose={imageModal.off}>
+      {uploadImageStatus.is === `ok` && (
+        <Modal onClose={close}>
           <Modal.Header
             title="Image uploaded ✅"
             closeButtonTitle="Close image upload"
@@ -92,6 +106,26 @@ const ImageUploaderAuthContainer = () => {
           </Button>
         </Modal>
       )}
+
+      {uploadImageStatus.is === `fail` && (
+        <ErrorModal
+          heading="Invalid image"
+          message={
+            <>
+              Please ensure that the image format is valid. Supported formats
+              include <strong>{accept}</strong>, with a maximum file size of
+              {` `}
+              <strong>{maxSize} megabytes</strong>
+            </>
+          }
+          onClose={close}
+        />
+      )}
+
+      <UploadImageButton
+        disabled={uploadImageStatus.is === `busy`}
+        onClick={upload}
+      />
     </>
   );
 };
