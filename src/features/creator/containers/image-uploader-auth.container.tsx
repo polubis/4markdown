@@ -3,15 +3,12 @@ import { Modal } from 'design-system/modal';
 import { useFileInput } from 'development-kit/use-file-input';
 import React from 'react';
 import ErrorModal from 'components/error-modal';
-import { useDocsStore } from 'store/docs/docs.store';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import { IMAGE_EXTENSIONS, type ImageDto } from 'api-4markdown-contracts';
+import { IMAGE_EXTENSIONS } from 'api-4markdown-contracts';
 import { uploadImageAct } from 'acts/upload-image.act';
 import { useUploadImageState } from 'store/upload-image';
 import { UploadImageButton } from '../components/upload-image-button';
-import { useSimpleFeature } from 'development-kit/use-simple-feature';
-import { useFeature } from 'development-kit/use-feature';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import { useComboPress } from 'development-kit/use-combo-press';
 
@@ -40,23 +37,17 @@ const readImageAsBase64FromClipboard = async (): Promise<string | null> => {
 };
 
 const ImageUploaderAuthContainer = () => {
-  const imageModal = useFeature<ImageDto>();
-  const errorModal = useSimpleFeature();
-  const docsStore = useDocsStore();
-  const imageState = useUploadImageState();
+  const uploadImageStatus = useUploadImageState();
   const [copyState, copy] = useCopy();
 
   useComboPress([`control`, `v`], async () => {
-    console.log(imageState);
-    if (imageState.is !== `idle`) return;
+    if (uploadImageStatus.is !== `idle`) return;
 
     const image = await readImageAsBase64FromClipboard();
 
     if (!image) return;
 
-    const result = await uploadImageAct(image);
-
-    result.is === `ok` ? imageModal.on(result.data) : errorModal.on();
+    await uploadImageAct(image);
   });
 
   const [upload] = useFileInput({
@@ -64,48 +55,33 @@ const ImageUploaderAuthContainer = () => {
     maxSize: IMAGE_RULES.size,
     onChange: async ({ target: { files } }) => {
       if (!!files && files.length === 1) {
-        const result = await uploadImageAct(await readFileAsBase64(files[0]));
-        result.is === `ok` ? imageModal.on(result.data) : errorModal.on();
+        await uploadImageAct(await readFileAsBase64(files[0]));
       }
     },
-    onError: errorModal.on,
+    onError: () =>
+      useUploadImageState.swap({
+        is: `fail`,
+        error: { symbol: `unknown`, content: `Unknown`, message: `Unknown` },
+      }),
   });
 
   const copyAndClose = (): void => {
-    if (imageModal.is === `off`)
+    if (uploadImageStatus.is !== `ok`)
       throw Error(`There is no data assigned to image modal`);
 
-    copy(`![Alt](${imageModal.data.url})\n*Description*`);
-    imageModal.off();
+    copy(`![Alt](${uploadImageStatus.url})\n*Description*`);
+
+    useUploadImageState.reset();
   };
 
   return (
     <>
       {copyState.is === `copied` && <Status>Image copied</Status>}
-      {imageState.is === `busy` && <Status>Uploading image...</Status>}
 
-      <UploadImageButton
-        disabled={docsStore.is === `busy` || imageState.is === `busy`}
-        onClick={upload}
-      />
+      {uploadImageStatus.is === `busy` && <Status>Uploading image...</Status>}
 
-      {errorModal.isOn && (
-        <ErrorModal
-          heading="Invalid image"
-          message={
-            <>
-              Please ensure that the image format is valid. Supported formats
-              include <strong>{IMAGE_RULES.type}</strong>, with a maximum file
-              size of{` `}
-              <strong>{IMAGE_RULES.size} megabytes</strong>
-            </>
-          }
-          onClose={errorModal.off}
-        />
-      )}
-
-      {imageModal.is === `on` && (
-        <Modal onClose={imageModal.off}>
+      {uploadImageStatus.is === `ok` && (
+        <Modal onClose={useUploadImageState.reset}>
           <Modal.Header
             title="Image uploaded ✅"
             closeButtonTitle="Close image upload"
@@ -126,6 +102,26 @@ const ImageUploaderAuthContainer = () => {
           </Button>
         </Modal>
       )}
+
+      {uploadImageStatus.is === `fail` && (
+        <ErrorModal
+          heading="Invalid image"
+          message={
+            <>
+              Please ensure that the image format is valid. Supported formats
+              include <strong>{IMAGE_RULES.type}</strong>, with a maximum file
+              size of{` `}
+              <strong>{IMAGE_RULES.size} megabytes</strong>
+            </>
+          }
+          onClose={useUploadImageState.reset}
+        />
+      )}
+
+      <UploadImageButton
+        disabled={uploadImageStatus.is === `busy`}
+        onClick={upload}
+      />
     </>
   );
 };
