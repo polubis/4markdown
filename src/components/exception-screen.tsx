@@ -3,6 +3,7 @@ import React from 'react';
 
 const resetAll = (): void => {
   localStorage.clear();
+  sessionStorage.clear();
   window.location.reload();
 };
 
