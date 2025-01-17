@@ -45,4 +45,5 @@ const useSimpleFeature = (
   };
 };
 
+export type { SimpleFeature };
 export { useSimpleFeature };
