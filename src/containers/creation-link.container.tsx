@@ -3,19 +3,19 @@ import { BiArrowBack, BiArrowToBottom, BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { Link } from 'gatsby';
 import { meta } from '../../meta';
-import { useToggle } from 'development-kit/use-toggle';
 import c from 'classnames';
 import { triggerDocumentCreation } from 'core/creation-management';
 import { docStoreSelectors } from 'store/doc/doc.store';
+import { useSimpleFeature } from 'development-kit/use-simple-feature';
 
 const CreationLinkContainer = () => {
-  const menu = useToggle();
+  const menu = useSimpleFeature();
   const docStore = docStoreSelectors.state();
 
   return (
     <>
       <Button auto i={2} s={2} title="Create any content" onClick={menu.toggle}>
-        {menu.opened ? (
+        {menu.isOn ? (
           <BiArrowToBottom className="animate-fade-in" />
         ) : (
           <BiPlus />
@@ -25,7 +25,7 @@ const CreationLinkContainer = () => {
       <div
         className={c(
           `absolute z-10 max-w-[280px] -left-[4px] sm:left-[60px]`,
-          menu.opened ? `top-[64px] animate-fade-in` : `-top-full`,
+          menu.isOn ? `top-[64px] animate-fade-in` : `-top-full`,
         )}
       >
         <ul className="bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 rounded-md border-2">
