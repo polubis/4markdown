@@ -5,13 +5,13 @@ import { useYourUserProfileState } from 'store/your-user-profile';
 
 // @TODO[PRIO=3]: [Align user profile namings].
 const updateYourUserProfile = async (
-  payload: API4MarkdownPayload<'updateYourUserProfile'>,
+  payload: API4MarkdownPayload<'updateYourUserProfileV2'>,
   onOk?: () => void,
 ): Promise<void> => {
   try {
     updateYourProfileStoreActions.busy();
 
-    const { mdate, profile } = await getAPI().call(`updateYourUserProfile`)(
+    const { mdate, profile } = await getAPI().call(`updateYourUserProfileV2`)(
       payload,
     );
 

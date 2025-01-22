@@ -80,7 +80,7 @@ type GetYourUserProfileContract = Contract<
   } | null
 >;
 type UpdateYourUserProfileContract = Contract<
-  `updateYourUserProfile`,
+  `updateYourUserProfileV2`,
   {
     profile: UserProfileDto;
     mdate: Date;
