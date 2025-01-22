@@ -19,7 +19,10 @@ import {
 } from 'development-kit/form';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
-import type { NonNullableProperties } from 'development-kit/utility-types';
+import type {
+  NonNullableProperties,
+  Prettify,
+} from 'development-kit/utility-types';
 import React from 'react';
 import {
   updateYourProfileStoreActions,
@@ -37,10 +40,12 @@ interface UserProfileFormModalContainerProps {
   onSync(): void;
 }
 
-type UserProfileFormValues = Omit<
-  NonNullableProperties<API4MarkdownPayload<'updateYourUserProfileV2'>>,
-  'mdate'
-> & { mdate: API4MarkdownPayload<'updateYourUserProfileV2'>['mdate'] };
+type UserProfileFormValues = Prettify<
+  Omit<
+    NonNullableProperties<API4MarkdownPayload<'updateYourUserProfileV2'>>,
+    'mdate'
+  > & { mdate: API4MarkdownPayload<'updateYourUserProfileV2'>['mdate'] }
+>;
 
 const avatarFormats = [`png`, `jpeg`, `jpg`, `webp`] as const;
 const avatarRestrictions = {
@@ -88,11 +93,10 @@ const UserProfileFormModalContainer = ({
     yourProfileStore.user?.avatar?.lg.src ?? ``,
   );
   const avatarErrorModal = useSimpleFeature();
-  const [{ invalid, values, untouched, result }, { inject, set }] =
-    useForm<UserProfileFormValues>(
-      createInitialValues(yourProfileStore),
-      validators,
-    );
+  const [{ invalid, values, untouched, result }, { inject, set }] = useForm(
+    createInitialValues(yourProfileStore),
+    validators,
+  );
 
   const close = (): void => {
     updateYourProfileStoreActions.idle();
