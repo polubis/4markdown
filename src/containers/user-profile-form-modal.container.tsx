@@ -12,10 +12,7 @@ import type { ValidatorsSetup } from 'development-kit/form';
 import { maxLength, minLength, optional, url } from 'development-kit/form';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
-import type {
-  NonNullableProperties,
-  Prettify,
-} from 'development-kit/utility-types';
+import type { NonNullableProperties } from 'development-kit/utility-types';
 import React from 'react';
 import {
   updateYourProfileStoreActions,
@@ -33,20 +30,25 @@ interface UserProfileFormModalContainerProps {
   onSync(): void;
 }
 
-type UserProfileFormValues = Prettify<
-  Omit<
-    NonNullableProperties<API4MarkdownPayload<'updateYourUserProfileV2'>>,
-    'mdate'
-  > & { mdate: API4MarkdownPayload<'updateYourUserProfileV2'>['mdate'] }
->;
+type UserProfileFormValues = NonNullableProperties<
+  Pick<
+    API4MarkdownPayload<'updateYourUserProfileV2'>,
+    | 'displayName'
+    | 'bio'
+    | 'avatar'
+    | 'blogUrl'
+    | 'fbUrl'
+    | 'githubUrl'
+    | 'linkedInUrl'
+    | 'twitterUrl'
+  >
+> & { mdate: API4MarkdownPayload<'updateYourUserProfileV2'>['mdate'] };
 
 const avatarFormats = [`png`, `jpeg`, `jpg`, `webp`] as const;
 const avatarRestrictions = {
   type: avatarFormats.map((extension) => `image/${extension}`).join(`, `),
   size: 4,
 };
-
-const urlValidator = [optional(url)];
 
 // @TODO[PRIO=4]: [Simplify this component logic].
 const createInitialValues = ({
@@ -63,6 +65,8 @@ const createInitialValues = ({
   blogUrl: user?.blogUrl ?? ``,
   mdate,
 });
+
+const urlValidator = [optional(url)];
 
 const validators: ValidatorsSetup<UserProfileFormValues> = {
   displayName: [optional(minLength(2), maxLength(30))],

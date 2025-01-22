@@ -85,7 +85,16 @@ type UpdateYourUserProfileContract = Contract<
     profile: UserProfileDto;
     mdate: Date;
   },
-  Omit<UserProfileDto, 'avatar'> & {
+  Pick<
+    UserProfileDto,
+    | 'bio'
+    | 'blogUrl'
+    | 'displayName'
+    | 'fbUrl'
+    | 'githubUrl'
+    | 'linkedInUrl'
+    | 'twitterUrl'
+  > & {
     mdate: Date | null;
     avatar:
       | {
