@@ -13,7 +13,6 @@ import {
   base64,
   maxLength,
   minLength,
-  nickname,
   noEdgeSpaces,
   optional,
   url,
@@ -69,8 +68,8 @@ const createInitialValues = ({
 
 const validators: ValidatorsSetup<UserProfileFormValues> = {
   avatar: [(value) => (value.type === `update` ? base64(value.data) : null)],
-  displayName: [optional(noEdgeSpaces, minLength(2), maxLength(25), nickname)],
-  bio: [optional(noEdgeSpaces, minLength(60), maxLength(300))],
+  displayName: [optional(minLength(2), maxLength(30))],
+  bio: [optional(minLength(20), maxLength(500))],
   githubUrl: urlValidator,
   blogUrl: urlValidator,
   linkedInUrl: urlValidator,
