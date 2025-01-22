@@ -13,7 +13,6 @@ import {
   base64,
   maxLength,
   minLength,
-  noEdgeSpaces,
   optional,
   url,
 } from 'development-kit/form';
@@ -53,7 +52,7 @@ const avatarRestrictions = {
   size: 4,
 };
 
-const urlValidator = [optional(noEdgeSpaces, url)];
+const urlValidator = [optional(url)];
 
 // @TODO[PRIO=4]: [Simplify this component logic].
 const createInitialValues = ({
