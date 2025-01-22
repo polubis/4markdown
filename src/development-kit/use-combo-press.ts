@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 type OnMatch = (event: KeyboardEvent) => void;
 
 type KeysCombo = string[];
 
 const useComboPress = (combo: KeysCombo, onMatch: OnMatch) => {
-  const pressedKeys = useRef(new Set<string>());
-  const handleMatch = useRef<OnMatch>();
+  const pressedKeys = React.useRef(new Set<string>());
+  const handleMatch = React.useRef<OnMatch>();
 
-  useEffect(() => {
+  React.useEffect(() => {
     handleMatch.current = (event: KeyboardEvent): void => {
       pressedKeys.current.add(event.key.toLowerCase());
 
@@ -20,7 +20,7 @@ const useComboPress = (combo: KeysCombo, onMatch: OnMatch) => {
     };
   }, [combo, onMatch]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handlePress = (event: KeyboardEvent): void => {
       handleMatch.current!(event);
     };
