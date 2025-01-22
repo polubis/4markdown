@@ -9,13 +9,7 @@ import { Status } from 'design-system/status';
 import { Textarea } from 'design-system/textarea';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import type { ValidatorsSetup } from 'development-kit/form';
-import {
-  base64,
-  maxLength,
-  minLength,
-  optional,
-  url,
-} from 'development-kit/form';
+import { maxLength, minLength, optional, url } from 'development-kit/form';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
 import type {
@@ -71,7 +65,6 @@ const createInitialValues = ({
 });
 
 const validators: ValidatorsSetup<UserProfileFormValues> = {
-  avatar: [(value) => (value.type === `update` ? base64(value.data) : null)],
   displayName: [optional(minLength(2), maxLength(30))],
   bio: [optional(minLength(20), maxLength(500))],
   githubUrl: urlValidator,
