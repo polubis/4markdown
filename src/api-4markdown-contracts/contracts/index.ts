@@ -80,12 +80,21 @@ type GetYourUserProfileContract = Contract<
   } | null
 >;
 type UpdateYourUserProfileContract = Contract<
-  `updateYourUserProfile`,
+  `updateYourUserProfileV2`,
   {
     profile: UserProfileDto;
     mdate: Date;
   },
-  Omit<UserProfileDto, 'avatar'> & {
+  Pick<
+    UserProfileDto,
+    | 'bio'
+    | 'blogUrl'
+    | 'displayName'
+    | 'fbUrl'
+    | 'githubUrl'
+    | 'linkedInUrl'
+    | 'twitterUrl'
+  > & {
     mdate: Date | null;
     avatar:
       | {

@@ -1,29 +1,33 @@
 import React from 'react';
 
-type OnMatch = (event: KeyboardEvent) => void;
-
 type KeysCombo = string[];
+
+type OnMatch = (key: KeysCombo[number]) => void;
 
 const useComboPress = (combo: KeysCombo, onMatch: OnMatch) => {
   const pressedKeys = React.useRef(new Set<string>());
   const handleMatch = React.useRef<OnMatch>();
 
-  handleMatch.current = (event: KeyboardEvent): void => {
-    pressedKeys.current.add(event.key.toLowerCase());
+  React.useEffect(() => {
+    handleMatch.current = (key: string): void => {
+      pressedKeys.current.add(key);
 
-    const isComboPressed = combo.every((key) =>
-      pressedKeys.current.has(key.toLowerCase()),
-    );
+      const isComboPressed = combo.every((key) => pressedKeys.current.has(key));
 
-    isComboPressed && onMatch(event);
-  };
+      isComboPressed && onMatch(key);
+    };
+  }, [combo, onMatch]);
 
   React.useEffect(() => {
     const handlePress = (event: KeyboardEvent): void => {
-      handleMatch.current?.(event);
+      if (!event.key) return;
+
+      handleMatch.current!(event.key.toLowerCase());
     };
 
     const handleUp = (event: KeyboardEvent): void => {
+      if (!event.key) return;
+
       pressedKeys.current.delete(event.key.toLowerCase());
     };
 
@@ -37,5 +41,4 @@ const useComboPress = (combo: KeysCombo, onMatch: OnMatch) => {
   }, []);
 };
 
-export type { OnMatch };
 export { useComboPress };
