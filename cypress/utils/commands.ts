@@ -87,8 +87,8 @@ const BASE_COMMANDS = {
   },
   'I change viewport': (width: number, height: number) => {
     cy.viewport(width, height);
-    cy.window().should(`have.property`, `innerWidth`, width); // Assert width is updated
-    cy.window().should(`have.property`, `innerHeight`, height); // Assert height is updated
+    cy.window().should(`have.property`, `innerWidth`, width);
+    cy.window().should(`have.property`, `innerHeight`, height);
   },
   'I see text in creator': (value: string) => {
     cy.get(`textarea[aria-label="creator"]`)
