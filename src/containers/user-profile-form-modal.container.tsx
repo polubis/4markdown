@@ -18,11 +18,11 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { updateYourUserProfile } from 'actions/update-your-user-profile.action';
 import { useSimpleFeature } from 'development-kit/use-simple-feature';
 import { type YourUserProfileOkState } from 'store/your-user-profile/models';
 import { useYourUserProfileState } from 'store/your-user-profile';
 import { yourOkUserProfileSelector } from 'store/your-user-profile/selectors';
+import { updateYourUserProfileAct } from 'acts/update-your-user-profile.act';
 
 interface UserProfileFormModalContainerProps {
   onClose(): void;
@@ -107,20 +107,19 @@ const UserProfileFormModalContainer = ({
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
-    updateYourUserProfile(
-      {
-        displayName: values.displayName || null,
-        bio: values.bio || null,
-        twitterUrl: values.twitterUrl || null,
-        fbUrl: values.fbUrl || null,
-        githubUrl: values.githubUrl || null,
-        blogUrl: values.blogUrl || null,
-        linkedInUrl: values.linkedInUrl || null,
-        avatar: values.avatar,
-        mdate: values.mdate,
-      },
-      back,
-    );
+    const result = await updateYourUserProfileAct({
+      displayName: values.displayName || null,
+      bio: values.bio || null,
+      twitterUrl: values.twitterUrl || null,
+      fbUrl: values.fbUrl || null,
+      githubUrl: values.githubUrl || null,
+      blogUrl: values.blogUrl || null,
+      linkedInUrl: values.linkedInUrl || null,
+      avatar: values.avatar,
+      mdate: values.mdate,
+    });
+
+    result.is === `ok` && back();
   };
 
   const [uploadAvatar] = useFileInput({
