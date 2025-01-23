@@ -21,7 +21,6 @@ function Gherkin<C extends Commands, D extends Data>(commands: C) {
   }
 
   function Given<K extends keyof C>(key: K, ...args: Parameters<C[K]>) {
-    cy.log(key as string);
     commands[key](...args);
 
     return {
@@ -32,7 +31,6 @@ function Gherkin<C extends Commands, D extends Data>(commands: C) {
   }
 
   function Then<K extends keyof C>(key: K, ...args: Parameters<C[K]>) {
-    cy.log(key as string);
     commands[key](...args);
 
     return {
@@ -42,7 +40,6 @@ function Gherkin<C extends Commands, D extends Data>(commands: C) {
   }
 
   function When<K extends keyof C>(key: K, ...args: Parameters<C[K]>) {
-    cy.log(key as string);
     commands[key](...args);
 
     return {
@@ -52,7 +49,6 @@ function Gherkin<C extends Commands, D extends Data>(commands: C) {
   }
 
   function And<K extends keyof C>(key: K, ...args: Parameters<C[K]>) {
-    cy.log(key as string);
     commands[key](...args);
 
     return {

@@ -67,7 +67,10 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
       </Modal.Header>
 
       {(yourUserProfile.is === `idle` || yourUserProfile.is === `busy`) && (
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div
+          className="mt-4 flex flex-wrap gap-2"
+          data-testid="[user-profile]:profile-loading"
+        >
           <DetailLoader />
           <DetailLoader />
           <DetailLoader />
@@ -79,7 +82,10 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
       {yourUserProfile.is === `ok` && (
         <>
           {yourUserProfile.user?.displayName && yourUserProfile.user?.bio ? (
-            <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden">
+            <div
+              className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden"
+              data-testid="[user-profile]:profile-ready"
+            >
               <Avatar
                 size="lg"
                 alt="Your avatar"
@@ -107,7 +113,10 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
               </footer>
             </div>
           ) : (
-            <div className="mt-4 border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+            <div
+              className="mt-4 border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4"
+              data-testid="[user-profile]:no-profile-yet"
+            >
               <h6 className="text-yellow-600 dark:text-yellow-400 font-bold">
                 Make Yourself visible
               </h6>

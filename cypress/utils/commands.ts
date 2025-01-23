@@ -1,5 +1,6 @@
 type ClickableControls =
   | 'Clear content'
+  | 'Sync your profile'
   | 'Reset content'
   | `Create new document`
   | `Open in separate window`
@@ -52,7 +53,8 @@ type ClickableControls =
   | `Accept cookies`
   | `Accept customized cookies`
   | `Cheatsheet`
-  | `Close markdown cheatsheet`;
+  | `Close markdown cheatsheet`
+  | `Close error screen`;
 
 type Element =
   | `Create any content`
@@ -73,11 +75,31 @@ type Endpoint =
 let acc = 1;
 let folder: string | undefined;
 
+type Section =
+  | `[user-profile]:no-profile-yet`
+  | `[user-profile]:profile-loading`
+  | `[user-profile]:profile-ready`
+  | `[user-profile-form]:container`;
+
 const BASE_COMMANDS = {
+  'I change to default viewport': () => {
+    BASE_COMMANDS[`I change viewport`](1000, 600);
+  },
+  'I change viewport': (width: number, height: number) => {
+    cy.viewport(width, height);
+    cy.window().should(`have.property`, `innerWidth`, width);
+    cy.window().should(`have.property`, `innerHeight`, height);
+  },
   'I see text in creator': (value: string) => {
     cy.get(`textarea[aria-label="creator"]`)
       .invoke(`val`)
       .should(`include`, value);
+  },
+  'I see section': (section: Section) => {
+    cy.get(`[data-testid="${section}"]`).should(`exist`);
+  },
+  'I not see section': (section: Section) => {
+    cy.get(`[data-testid="${section}"]`).should(`not.exist`);
   },
   'I sign in': () => {
     BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);

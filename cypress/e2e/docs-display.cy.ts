@@ -37,6 +37,10 @@ const getPublicDocResponse: { result: PublicDocumentDto } = {
 
 const getUserProfileResponse: { result: UserProfileDto } = {
   result: {
+    id: `e9799f7b-013e-4231-88fe-e2072514f96a`,
+    displayNameSlug: null,
+    cdate: `2025-01-22T13:43:25.337Z`,
+    mdate: `2025-01-22T13:43:25.337Z`,
     avatar: null,
     displayName: null,
     bio: null,
