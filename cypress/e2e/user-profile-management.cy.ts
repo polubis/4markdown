@@ -39,8 +39,6 @@ describe(`User profile works when`, () => {
       .And(`I see section`, `[user-profile]:no-profile-yet`)
       .When(`I click button`, [`Create your user profile`])
       .Then(`I see section`, `[user-profile-form]:container`)
-      .And(`I change viewport`, 1200, 1400)
-      .And(`System takes picture`)
-      .And(`I change to default viewport`);
+      .And(`System takes picture`);
   });
 });
