@@ -9,15 +9,7 @@ import { Status } from 'design-system/status';
 import { Textarea } from 'design-system/textarea';
 import { readFileAsBase64 } from 'development-kit/file-reading';
 import type { ValidatorsSetup } from 'development-kit/form';
-import {
-  base64,
-  maxLength,
-  minLength,
-  nickname,
-  noEdgeSpaces,
-  optional,
-  url,
-} from 'development-kit/form';
+import { maxLength, minLength, optional, url } from 'development-kit/form';
 import { useFileInput } from 'development-kit/use-file-input';
 import { useForm } from 'development-kit/use-form';
 import type { NonNullableProperties } from 'development-kit/utility-types';
@@ -26,11 +18,12 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { updateYourUserProfile } from 'actions/update-your-user-profile.action';
 import { useSimpleFeature } from 'development-kit/use-simple-feature';
 import { type YourUserProfileOkState } from 'store/your-user-profile/models';
 import { useYourUserProfileState } from 'store/your-user-profile';
 import { yourOkUserProfileSelector } from 'store/your-user-profile/selectors';
+import { updateYourUserProfileAct } from 'acts/update-your-user-profile.act';
+import { Hint } from 'design-system/hint';
 
 interface UserProfileFormModalContainerProps {
   onClose(): void;
@@ -38,18 +31,25 @@ interface UserProfileFormModalContainerProps {
   onSync(): void;
 }
 
-type UserProfileFormValues = Omit<
-  NonNullableProperties<API4MarkdownPayload<'updateYourUserProfile'>>,
-  'mdate'
-> & { mdate: API4MarkdownPayload<'updateYourUserProfile'>['mdate'] };
+type UserProfileFormValues = NonNullableProperties<
+  Pick<
+    API4MarkdownPayload<'updateYourUserProfileV2'>,
+    | 'displayName'
+    | 'bio'
+    | 'avatar'
+    | 'blogUrl'
+    | 'fbUrl'
+    | 'githubUrl'
+    | 'linkedInUrl'
+    | 'twitterUrl'
+  >
+> & { mdate: API4MarkdownPayload<'updateYourUserProfileV2'>['mdate'] };
 
 const avatarFormats = [`png`, `jpeg`, `jpg`, `webp`] as const;
 const avatarRestrictions = {
   type: avatarFormats.map((extension) => `image/${extension}`).join(`, `),
   size: 4,
 };
-
-const urlValidator = [optional(noEdgeSpaces, url)];
 
 // @TODO[PRIO=4]: [Simplify this component logic].
 const createInitialValues = ({
@@ -67,15 +67,41 @@ const createInitialValues = ({
   mdate,
 });
 
+const limits: Record<
+  keyof Pick<UserProfileFormValues, 'displayName' | 'bio'>,
+  { min: number; max: number }
+> = {
+  displayName: {
+    min: 2,
+    max: 30,
+  },
+  bio: {
+    min: 20,
+    max: 500,
+  },
+};
+
+const urlValidator = [optional(url)];
+
 const validators: ValidatorsSetup<UserProfileFormValues> = {
-  avatar: [(value) => (value.type === `update` ? base64(value.data) : null)],
-  displayName: [optional(noEdgeSpaces, minLength(2), maxLength(25), nickname)],
-  bio: [optional(noEdgeSpaces, minLength(60), maxLength(300))],
+  displayName: [
+    optional(
+      minLength(limits.displayName.min),
+      maxLength(limits.displayName.max),
+    ),
+  ],
+  bio: [optional(minLength(limits.bio.min), maxLength(limits.bio.max))],
   githubUrl: urlValidator,
   blogUrl: urlValidator,
   linkedInUrl: urlValidator,
   fbUrl: urlValidator,
   twitterUrl: urlValidator,
+};
+
+const displayCounting = (value: string): string => {
+  const trimmed = value.trim();
+
+  return trimmed.length > 0 ? `(${trimmed.length})` : ``;
 };
 
 const UserProfileFormModalContainer = ({
@@ -89,11 +115,10 @@ const UserProfileFormModalContainer = ({
     yourProfileStore.user?.avatar?.lg.src ?? ``,
   );
   const avatarErrorModal = useSimpleFeature();
-  const [{ invalid, values, untouched, result }, { inject, set }] =
-    useForm<UserProfileFormValues>(
-      createInitialValues(yourProfileStore),
-      validators,
-    );
+  const [{ invalid, values, untouched, result }, { inject, set }] = useForm(
+    createInitialValues(yourProfileStore),
+    validators,
+  );
 
   const close = (): void => {
     updateYourProfileStoreActions.idle();
@@ -108,20 +133,19 @@ const UserProfileFormModalContainer = ({
   const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
 
-    updateYourUserProfile(
-      {
-        displayName: values.displayName || null,
-        bio: values.bio || null,
-        twitterUrl: values.twitterUrl || null,
-        fbUrl: values.fbUrl || null,
-        githubUrl: values.githubUrl || null,
-        blogUrl: values.blogUrl || null,
-        linkedInUrl: values.linkedInUrl || null,
-        avatar: values.avatar,
-        mdate: values.mdate,
-      },
-      back,
-    );
+    const result = await updateYourUserProfileAct({
+      displayName: values.displayName || null,
+      bio: values.bio || null,
+      twitterUrl: values.twitterUrl || null,
+      fbUrl: values.fbUrl || null,
+      githubUrl: values.githubUrl || null,
+      blogUrl: values.blogUrl || null,
+      linkedInUrl: values.linkedInUrl || null,
+      avatar: values.avatar,
+      mdate: values.mdate,
+    });
+
+    result.is === `ok` && back();
   };
 
   const [uploadAvatar] = useFileInput({
@@ -165,9 +189,9 @@ const UserProfileFormModalContainer = ({
         <Modal disabled={updateYourProfileStore.is === `busy`} onClose={close}>
           <Modal.Header
             title="Your Profile Edition"
-            closeButtonTitle="Your Profile Edition"
+            closeButtonTitle="Close your profile form"
           />
-          <form onSubmit={save}>
+          <form onSubmit={save} data-testid="[user-profile-form]:container">
             <div className="flex flex-col space-y-3 mt-8">
               <Field className="items-center mx-auto [&>label]:mb-2">
                 <Button
@@ -203,13 +227,27 @@ const UserProfileFormModalContainer = ({
                   </Button>
                 )}
               </Field>
-              <Field label={`Display Name`}>
+              <Field
+                label={`Display Name ${displayCounting(values.displayName)}`}
+                hint={
+                  <Hint
+                    trigger={`Enter any characters with a length between ${limits.displayName.min} and ${limits.displayName.max}`}
+                  />
+                }
+              >
                 <Input
                   placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
                   {...inject(`displayName`)}
                 />
               </Field>
-              <Field label={`Bio`}>
+              <Field
+                label={`Bio ${displayCounting(values.bio)}`}
+                hint={
+                  <Hint
+                    trigger={`Enter any characters with a length between ${limits.bio.min} and ${limits.bio.max}`}
+                  />
+                }
+              >
                 <Textarea
                   placeholder="Example: I like programming and playing computer games..."
                   {...inject(`bio`)}
