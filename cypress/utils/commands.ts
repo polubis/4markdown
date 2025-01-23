@@ -1,5 +1,6 @@
 type ClickableControls =
   | 'Clear content'
+  | 'Sync your profile'
   | 'Reset content'
   | `Create new document`
   | `Open in separate window`
@@ -73,11 +74,18 @@ type Endpoint =
 let acc = 1;
 let folder: string | undefined;
 
+type Section =
+  | `[user-profile]:no-profile-yet`
+  | `[user-profile]:profile-loading`;
+
 const BASE_COMMANDS = {
   'I see text in creator': (value: string) => {
     cy.get(`textarea[aria-label="creator"]`)
       .invoke(`val`)
       .should(`include`, value);
+  },
+  'I see section': (section: Section) => {
+    cy.get(`[data-testid="${section}"]`).should(`be.visible`);
   },
   'I sign in': () => {
     BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
