@@ -23,6 +23,7 @@ import { type YourUserProfileOkState } from 'store/your-user-profile/models';
 import { useYourUserProfileState } from 'store/your-user-profile';
 import { yourOkUserProfileSelector } from 'store/your-user-profile/selectors';
 import { updateYourUserProfileAct } from 'acts/update-your-user-profile.act';
+import { Hint } from 'design-system/hint';
 
 interface UserProfileFormModalContainerProps {
   onClose(): void;
@@ -66,16 +67,41 @@ const createInitialValues = ({
   mdate,
 });
 
+const limits: Record<
+  keyof Pick<UserProfileFormValues, 'displayName' | 'bio'>,
+  { min: number; max: number }
+> = {
+  displayName: {
+    min: 2,
+    max: 30,
+  },
+  bio: {
+    min: 20,
+    max: 500,
+  },
+};
+
 const urlValidator = [optional(url)];
 
 const validators: ValidatorsSetup<UserProfileFormValues> = {
-  displayName: [optional(minLength(2), maxLength(30))],
-  bio: [optional(minLength(20), maxLength(500))],
+  displayName: [
+    optional(
+      minLength(limits.displayName.min),
+      maxLength(limits.displayName.max),
+    ),
+  ],
+  bio: [optional(minLength(limits.bio.min), maxLength(limits.bio.max))],
   githubUrl: urlValidator,
   blogUrl: urlValidator,
   linkedInUrl: urlValidator,
   fbUrl: urlValidator,
   twitterUrl: urlValidator,
+};
+
+const displayCounting = (value: string): string => {
+  const trimmed = value.trim();
+
+  return trimmed.length > 0 ? `(${trimmed.length})` : ``;
 };
 
 const UserProfileFormModalContainer = ({
@@ -201,13 +227,27 @@ const UserProfileFormModalContainer = ({
                   </Button>
                 )}
               </Field>
-              <Field label={`Display Name`}>
+              <Field
+                label={`Display Name ${displayCounting(values.displayName)}`}
+                hint={
+                  <Hint
+                    trigger={`Enter any characters with a length between ${limits.displayName.min} and ${limits.displayName.max}`}
+                  />
+                }
+              >
                 <Input
                   placeholder="Examples: tom1994, work_work, pro-grammer, ...etc"
                   {...inject(`displayName`)}
                 />
               </Field>
-              <Field label={`Bio`}>
+              <Field
+                label={`Bio ${displayCounting(values.bio)}`}
+                hint={
+                  <Hint
+                    trigger={`Enter any characters with a length between ${limits.bio.min} and ${limits.bio.max}`}
+                  />
+                }
+              >
                 <Textarea
                   placeholder="Example: I like programming and playing computer games..."
                   {...inject(`bio`)}
