@@ -189,7 +189,7 @@ const UserProfileFormModalContainer = ({
         <Modal disabled={updateYourProfileStore.is === `busy`} onClose={close}>
           <Modal.Header
             title="Your Profile Edition"
-            closeButtonTitle="Your Profile Edition"
+            closeButtonTitle="Close your profile form"
           />
           <form onSubmit={save} data-testid="[user-profile-form]:container">
             <div className="flex flex-col space-y-3 mt-8">

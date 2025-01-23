@@ -82,7 +82,10 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
       {yourUserProfile.is === `ok` && (
         <>
           {yourUserProfile.user?.displayName && yourUserProfile.user?.bio ? (
-            <div className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden">
+            <div
+              className="mt-4 flex items-center flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden"
+              data-testid="[user-profile]:profile-ready"
+            >
               <Avatar
                 size="lg"
                 alt="Your avatar"

@@ -53,7 +53,8 @@ type ClickableControls =
   | `Accept cookies`
   | `Accept customized cookies`
   | `Cheatsheet`
-  | `Close markdown cheatsheet`;
+  | `Close markdown cheatsheet`
+  | `Close error screen`;
 
 type Element =
   | `Create any content`
@@ -77,6 +78,7 @@ let folder: string | undefined;
 type Section =
   | `[user-profile]:no-profile-yet`
   | `[user-profile]:profile-loading`
+  | `[user-profile]:profile-ready`
   | `[user-profile-form]:container`;
 
 const BASE_COMMANDS = {
@@ -94,7 +96,10 @@ const BASE_COMMANDS = {
       .should(`include`, value);
   },
   'I see section': (section: Section) => {
-    cy.get(`[data-testid="${section}"]`).should(`be.visible`);
+    cy.get(`[data-testid="${section}"]`).should(`exist`);
+  },
+  'I not see section': (section: Section) => {
+    cy.get(`[data-testid="${section}"]`).should(`not.exist`);
   },
   'I sign in': () => {
     BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
