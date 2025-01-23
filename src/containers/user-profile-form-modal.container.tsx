@@ -191,7 +191,7 @@ const UserProfileFormModalContainer = ({
             title="Your Profile Edition"
             closeButtonTitle="Your Profile Edition"
           />
-          <form onSubmit={save}>
+          <form onSubmit={save} data-testid="[user-profile-form]:container">
             <div className="flex flex-col space-y-3 mt-8">
               <Field className="items-center mx-auto [&>label]:mb-2">
                 <Button
