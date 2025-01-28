@@ -127,7 +127,7 @@ const MindmapPreviewContainer = () => {
       onNodesChange={updateNodesAction}
       //   onEdgesChange={mindmapCreatorStoreActions.updateEdges}
       //   onConnect={mindmapCreatorStoreActions.connectNodes}
-      nodeTypes={nodeTypes[`x`]}
+      nodeTypes={nodeTypes[`y`]}
       edgeTypes={edgeTypes}
       fitView
       //   minZoom={viewInformation.minZoom}
