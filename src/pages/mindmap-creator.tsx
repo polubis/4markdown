@@ -3,9 +3,10 @@ import type { HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
 import { meta } from '../../meta';
+import { MindmapCreatorView } from 'features/mindmap-creator/mindmap-creator.view';
 
 const MindmapCreatorPage = () => {
-  return null;
+  return <MindmapCreatorView />;
 };
 
 export default MindmapCreatorPage;
