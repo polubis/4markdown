@@ -59,8 +59,8 @@ type MakeMindmap<
 type MindmapAuthor = UserProfileDto | null;
 
 type Mindmap =
-  | MakeMindmap<`private`>
-  | MakeMindmap<`public`, { author: MindmapAuthor }>
+  | MakeMindmap<`private`, { description: string | null }>
+  | MakeMindmap<`public`, { description: string | null; author: MindmapAuthor }>
   | MakeMindmap<
       `permanent`,
       {
