@@ -7,6 +7,7 @@ import type {
   Tags,
   Url,
   UserProfileDto,
+  Visibility,
 } from 'api-4markdown-contracts';
 import type { Prettify } from 'development-kit/utility-types';
 
@@ -44,7 +45,7 @@ type DoneEdge = MakeEdge<`done`>;
 type MindmapEdge = UnvisitedEdge | VisitedEdge | DoneEdge;
 
 type MakeMindmap<
-  TVisibility extends string,
+  TVisibility extends Visibility,
   TData extends Record<string, unknown> = {},
 > = TData & {
   id: Id;
@@ -59,10 +60,13 @@ type MakeMindmap<
 type MindmapAuthor = UserProfileDto | null;
 
 type Mindmap =
-  | MakeMindmap<`private`, { description: string | null }>
-  | MakeMindmap<`public`, { description: string | null; author: MindmapAuthor }>
+  | MakeMindmap<Visibility.Private, { description: string | null }>
   | MakeMindmap<
-      `permanent`,
+      Visibility.Public,
+      { description: string | null; author: MindmapAuthor }
+    >
+  | MakeMindmap<
+      Visibility.Permanent,
       {
         path: Path;
         description: string;
