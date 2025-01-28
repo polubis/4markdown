@@ -2,8 +2,6 @@ import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import React from 'react';
 import { defaultMindmap } from '../sample-data';
 
-type MindmapPreviewContainerProps = {};
-
 const MindmapPreviewContainer = () => {
   return (
     <ReactFlow
