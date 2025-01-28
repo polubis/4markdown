@@ -65,7 +65,6 @@ const UnvisitedEdge = ({
   sourceY,
   targetX,
   targetY,
-  selected,
 }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
     sourceX,
@@ -73,8 +72,6 @@ const UnvisitedEdge = ({
     targetX,
     targetY,
   });
-
-  console.log(selected);
 
   return (
     <>
