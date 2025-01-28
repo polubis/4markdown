@@ -15,6 +15,7 @@ import c from 'classnames';
 import { meta } from '../../../../meta';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
 
 const VisitedEdge = ({ id, sourceX, sourceY, targetX, targetY }) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -114,13 +115,17 @@ const edgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
+  const mindmapCreatorState = useMindmapCreatorState();
+    
+  if (!activeMindmap) return null;
+
   return (
     <ReactFlow
       id="mindmap-preview"
       //   key={mindmap.orientation}
-      nodes={defaultMindmap.nodes}
-      edges={defaultMindmap.edges}
-      //   onNodesChange={mindmapCreatorStoreActions.updateNodes}
+      nodes={activeMindmap.nodes}
+      edges={activeMindmap.edges}
+      onNodesChange={updateNodes}
       //   onEdgesChange={mindmapCreatorStoreActions.updateEdges}
       //   onConnect={mindmapCreatorStoreActions.connectNodes}
       nodeTypes={nodeTypes[`x`]}
