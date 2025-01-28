@@ -5,7 +5,7 @@ import Meta from 'components/meta';
 import { meta } from '../../meta';
 
 const MindmapCreatorPage = () => {
-  return <div>Mindmap Creator Page</div>;
+  return null;
 };
 
 export default MindmapCreatorPage;
