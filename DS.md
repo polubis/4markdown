@@ -233,3 +233,5 @@ type GetYourDocumentsContract = Contract<
 type GetYourDocumentDto = API4MarkdownDto<`getYourDocuments`>;
 type GetYourDocumentPayload = API4MarkdownPayload<`getYourDocuments`>;
 ```
+
+4. All utility types used to create contracts should be stored in separate files by entity their represent

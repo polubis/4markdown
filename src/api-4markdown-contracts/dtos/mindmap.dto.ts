@@ -40,8 +40,8 @@ type MindmapNode = DocumentNode | ExternalNode | EmbeddedNode | NestedNode;
 
 type UnvisitedEdge = MakeEdge<`unvisited`>;
 type VisitedEdge = MakeEdge<`visited`>;
-type CheckedEdge = MakeEdge<`checked`>;
-type MindmapEdge = UnvisitedEdge | VisitedEdge | CheckedEdge;
+type DoneEdge = MakeEdge<`done`>;
+type MindmapEdge = UnvisitedEdge | VisitedEdge | DoneEdge;
 
 type MakeMindmap<
   TVisibility extends string,
@@ -79,7 +79,7 @@ export type {
   EmbeddedNode,
   UnvisitedEdge,
   VisitedEdge,
-  CheckedEdge,
+  DoneEdge,
   MindmapEdge,
   MindmapAuthor,
 };
