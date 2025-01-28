@@ -1,6 +1,7 @@
 import {
   applyEdgeChanges,
   applyNodeChanges,
+  type Connection,
   type EdgeChange,
   type NodeChange,
 } from '@xyflow/react';
@@ -9,13 +10,14 @@ import { mindmapReadySelector } from './selectors';
 import type { Mindmap } from 'api-4markdown-contracts';
 import type { MindmapCreatorOkState } from './models';
 
-const getOkState = (): MindmapCreatorOkState =>
-  mindmapReadySelector(useMindmapCreatorState.get());
+const { set, get } = useMindmapCreatorState;
+
+const getOkState = (): MindmapCreatorOkState => mindmapReadySelector(get());
 
 const updateNodesAction = (changes: NodeChange[]): void => {
   const { mindmap } = getOkState();
 
-  useMindmapCreatorState.set({
+  set({
     mindmap: {
       ...mindmap,
       nodes: applyNodeChanges(changes, mindmap.nodes) as Mindmap['nodes'],
@@ -26,7 +28,7 @@ const updateNodesAction = (changes: NodeChange[]): void => {
 const updateEdgesAction = (changes: EdgeChange[]): void => {
   const { mindmap } = getOkState();
 
-  useMindmapCreatorState.set({
+  set({
     mindmap: {
       ...mindmap,
       edges: applyEdgeChanges(changes, mindmap.edges) as Mindmap['edges'],
@@ -34,4 +36,23 @@ const updateEdgesAction = (changes: EdgeChange[]): void => {
   });
 };
 
-export { updateNodesAction, updateEdgesAction };
+const connectNodesAction = ({ source, target }: Connection): void => {
+  const { mindmap } = getOkState();
+
+  set({
+    mindmap: {
+      ...mindmap,
+      edges: [
+        ...mindmap.edges,
+        {
+          id: new Date().toISOString(),
+          type: `unvisited`,
+          source,
+          target,
+        },
+      ],
+    },
+  });
+};
+
+export { updateNodesAction, updateEdgesAction, connectNodesAction };

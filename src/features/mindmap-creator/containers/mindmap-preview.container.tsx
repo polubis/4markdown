@@ -17,6 +17,7 @@ import { BiX } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
 import {
+  connectNodesAction,
   updateEdgesAction,
   updateNodesAction,
 } from 'store/mindmap-creator/actions';
@@ -129,7 +130,7 @@ const MindmapPreviewContainer = () => {
       edges={mindmap.edges}
       onNodesChange={updateNodesAction}
       onEdgesChange={updateEdgesAction}
-      //   onConnect={mindmapCreatorStoreActions.connectNodes}
+      onConnect={connectNodesAction}
       nodeTypes={nodeTypes[`y`]}
       edgeTypes={edgeTypes}
       fitView

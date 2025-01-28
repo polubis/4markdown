@@ -10,7 +10,7 @@ const defaultMindmap: Mindmap = {
   edges: [
     {
       id: `2024-09-02T07:27:45.696Z`,
-      type: `unvisited`,
+      type: `visited`,
       source: `2024-09-02T07:27:37.297Z`,
       target: `2024-09-02T07:27:41.792Z`,
     },
