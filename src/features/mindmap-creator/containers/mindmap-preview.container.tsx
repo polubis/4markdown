@@ -65,6 +65,7 @@ const UnvisitedEdge = ({
   sourceY,
   targetX,
   targetY,
+  selected,
 }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
     sourceX,
@@ -73,12 +74,15 @@ const UnvisitedEdge = ({
     targetY,
   });
 
+  console.log(selected);
+
   return (
     <>
       <BaseEdge
         className="!stroke-zinc-400 dark:!stroke-zinc-700"
         id={id}
         path={edgePath}
+        strokeDasharray={5}
       />
       <EdgeLabelRenderer>
         <Button
