@@ -1,5 +1,5 @@
-import { ReactFlowProvider } from '@xyflow/react';
 import React from 'react';
+import { ReactFlowProvider } from '@xyflow/react';
 import { MindmapPreviewContainer } from './containers/mindmap-preview.container';
 import { Button } from 'design-system/button';
 import { BiPlus } from 'react-icons/bi';
@@ -21,6 +21,10 @@ const MindmapCreatorView = () => {
   );
 };
 
-MindmapCreatorView.Provider = ReactFlowProvider;
+const ConnectedMindmapCreatorView = () => (
+  <ReactFlowProvider>
+    <MindmapCreatorView />
+  </ReactFlowProvider>
+);
 
-export { MindmapCreatorView };
+export { ConnectedMindmapCreatorView as MindmapCreatorView };

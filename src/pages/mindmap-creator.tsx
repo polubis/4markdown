@@ -6,11 +6,7 @@ import { meta } from '../../meta';
 import { MindmapCreatorView } from 'features/mindmap-creator/mindmap-creator.view';
 
 const MindmapCreatorPage = () => {
-  return (
-    <MindmapCreatorView.Provider>
-      <MindmapCreatorView />
-    </MindmapCreatorView.Provider>
-  );
+  return <MindmapCreatorView />;
 };
 
 export default MindmapCreatorPage;
