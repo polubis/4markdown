@@ -1,19 +1,10 @@
 import { ReactFlowProvider } from '@xyflow/react';
-import React, { type ComponentType } from 'react';
+import React from 'react';
 
-const WithReactFlowProvider = <P extends object>(
-  Component: ComponentType<P>,
-) => {
-  const WrappedComponent = (props: P) => (
-    <ReactFlowProvider>
-      <Component {...props} />
-    </ReactFlowProvider>
-  );
-
-  return WrappedComponent;
-};
-const MindmapCreatorView = WithReactFlowProvider(() => {
+const MindmapCreatorView = () => {
   return <main></main>;
-});
+};
+
+MindmapCreatorView.Provider = ReactFlowProvider;
 
 export { MindmapCreatorView };
