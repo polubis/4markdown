@@ -7,7 +7,7 @@ import {
 } from '@xyflow/react';
 import { useMindmapCreatorState } from '.';
 import { mindmapReadySelector } from './selectors';
-import type { Mindmap } from 'api-4markdown-contracts';
+import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
 import type { MindmapCreatorOkState } from './models';
 
 const { set, get } = useMindmapCreatorState;
@@ -55,4 +55,20 @@ const connectNodesAction = ({ source, target }: Connection): void => {
   });
 };
 
-export { updateNodesAction, updateEdgesAction, connectNodesAction };
+const removeNodesConnectionAction = (id: MindmapNode['id']): void => {
+  const { mindmap } = getOkState();
+
+  set({
+    mindmap: {
+      ...mindmap,
+      edges: mindmap.edges.filter((edge) => edge.id !== id),
+    },
+  });
+};
+
+export {
+  updateNodesAction,
+  updateEdgesAction,
+  connectNodesAction,
+  removeNodesConnectionAction,
+};
