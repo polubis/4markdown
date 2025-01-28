@@ -3,14 +3,17 @@ import { ReactFlowProvider } from '@xyflow/react';
 import { MindmapPreviewContainer } from './containers/mindmap-preview.container';
 import { Button } from 'design-system/button';
 import { BiPlus } from 'react-icons/bi';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { getMindmapAct } from 'acts/get-mindmap.act';
 
 import './mindmap-creator.css';
-import { useMindmapCreatorState } from 'store/mindmap-creator';
 
 const MindmapCreatorView = () => {
   const { is } = useMindmapCreatorState();
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    getMindmapAct();
+  }, []);
 
   return (
     <div className="mindmap-creator">
