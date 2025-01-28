@@ -10,12 +10,13 @@ import {
   ReactFlow,
 } from '@xyflow/react';
 import React from 'react';
-import { defaultMindmap } from '../sample-data';
 import c from 'classnames';
 import { meta } from '../../../../meta';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
+import { updateNodesAction } from 'store/mindmap-creator/actions';
 
 const VisitedEdge = ({ id, sourceX, sourceY, targetX, targetY }) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -115,8 +116,8 @@ const edgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
-  const mindmapCreatorState = useMindmapCreatorState();
-    
+  const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
+
   if (!activeMindmap) return null;
 
   return (
@@ -125,7 +126,7 @@ const MindmapPreviewContainer = () => {
       //   key={mindmap.orientation}
       nodes={activeMindmap.nodes}
       edges={activeMindmap.edges}
-      onNodesChange={updateNodes}
+      onNodesChange={updateNodesAction}
       //   onEdgesChange={mindmapCreatorStoreActions.updateEdges}
       //   onConnect={mindmapCreatorStoreActions.connectNodes}
       nodeTypes={nodeTypes[`x`]}

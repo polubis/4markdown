@@ -5,8 +5,13 @@ import { Button } from 'design-system/button';
 import { BiPlus } from 'react-icons/bi';
 
 import './mindmap-creator.css';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
 
 const MindmapCreatorView = () => {
+  const { is } = useMindmapCreatorState();
+
+  React.useEffect(() => {}, []);
+
   return (
     <div className="mindmap-creator">
       <aside>
@@ -15,7 +20,9 @@ const MindmapCreatorView = () => {
         </Button>
       </aside>
       <main>
-        <MindmapPreviewContainer />
+        {(is === `idle` || is === `busy`) && <div> Loading...</div>}
+        {is === `ok` && <MindmapPreviewContainer />}
+        {is === `fail` && <div>Error</div>}
       </main>
     </div>
   );
