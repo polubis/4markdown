@@ -116,16 +116,14 @@ const edgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
-  const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
-
-  if (!activeMindmap) return null;
+  const { mindmap } = useMindmapCreatorState(mindmapReadySelector);
 
   return (
     <ReactFlow
       id="mindmap-preview"
       //   key={mindmap.orientation}
-      nodes={activeMindmap.nodes}
-      edges={activeMindmap.edges}
+      nodes={mindmap.nodes}
+      edges={mindmap.edges}
       onNodesChange={updateNodesAction}
       //   onEdgesChange={mindmapCreatorStoreActions.updateEdges}
       //   onConnect={mindmapCreatorStoreActions.connectNodes}
