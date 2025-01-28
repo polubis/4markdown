@@ -8,6 +8,7 @@ import {
   Handle,
   MiniMap,
   type NodeProps,
+  type NodeTypes,
   Position,
   ReactFlow,
 } from '@xyflow/react';
@@ -24,6 +25,22 @@ import {
   updateEdgesAction,
   updateNodesAction,
 } from 'store/mindmap-creator/actions';
+import type { DocumentNode } from 'api-4markdown-contracts';
+
+// type MindmapNodeTypes = {
+//   [Key in MindmapNodeType]: ComponentType<
+//     NodeProps<Node<Extract<MindmapNode, { type: Key }>['data']>>
+//   >;
+// };
+
+// type MindmapEdgeTypes = {
+//   [Key in MindmapEdgeType]: ComponentType<
+//     EdgeProps & {
+//       data: {};
+//       type: MindmapEdgeType;
+//     }
+//   >;
+// };
 
 const VisitedEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -100,7 +117,10 @@ const UnvisitedEdge = ({
   );
 };
 
-const DocumentNode = ({ data: { name, description }, selected }: NodeProps) => (
+const DocumentNodeTile = ({
+  data: { name, description },
+  selected,
+}: NodeProps<DocumentNode>) => (
   <div
     className={c(
       `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 w-[280px]`,
@@ -118,14 +138,14 @@ const DocumentNode = ({ data: { name, description }, selected }: NodeProps) => (
   </div>
 );
 
-const DocumentNodeX = (props: NodeProps) => (
+const DocumentNodeTileX = (props: NodeProps<DocumentNode>) => (
   <>
     <Handle
       className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-2.5 h-8 !left-[1px] rounded-md"
       type="target"
       position={Position.Left}
     />
-    <DocumentNode {...props} />
+    <DocumentNodeTile {...props} />
     <Handle
       className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 !right-[1px] rounded-full"
       type="source"
@@ -134,14 +154,14 @@ const DocumentNodeX = (props: NodeProps) => (
   </>
 );
 
-const DocumentNodeY = (props: NodeProps) => (
+const DocumentNodeTileY = (props: NodeProps<DocumentNode>) => (
   <>
     <Handle
       className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-8 h-2.5 !top-[1px] rounded-md"
       type="target"
       position={Position.Top}
     />
-    <DocumentNode {...props} />
+    <DocumentNodeTile {...props} />
     <Handle
       className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
       type="source"
@@ -152,10 +172,10 @@ const DocumentNodeY = (props: NodeProps) => (
 
 const nodeTypes = {
   x: {
-    document: DocumentNodeX,
+    document: DocumentNodeTileX,
   },
   y: {
-    document: DocumentNodeY,
+    document: DocumentNodeTileY,
   },
 };
 
@@ -176,7 +196,7 @@ const MindmapPreviewContainer = () => {
       onNodesChange={updateNodesAction}
       onEdgesChange={updateEdgesAction}
       onConnect={connectNodesAction}
-      nodeTypes={nodeTypes[`y`]}
+      nodeTypes={nodeTypes.y as NodeTypes}
       edgeTypes={edgeTypes}
       fitView
       //   minZoom={viewInformation.minZoom}
