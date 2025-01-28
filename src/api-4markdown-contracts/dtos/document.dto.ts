@@ -2,7 +2,7 @@ import type {
   Id,
   Name,
   Date,
-  MarkdownCode,
+  MarkdownContent,
   Description,
   Tags,
   Path,
@@ -13,7 +13,7 @@ import type { UserProfileDto } from './user-profile.dto';
 type Base = {
   id: Id;
   name: Name;
-  code: MarkdownCode;
+  code: MarkdownContent;
   mdate: Date;
   cdate: Date;
   path: Path;

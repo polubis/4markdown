@@ -14,9 +14,7 @@ const HomePage = (_: HomePageProps) => {
   return <CreatorView />;
 };
 
-export default HomePage;
-
-export const Head: HeadFC = () => {
+const Head: HeadFC = () => {
   return (
     <Meta
       appName={meta.appName}
@@ -29,3 +27,6 @@ export const Head: HeadFC = () => {
     />
   );
 };
+
+export { Head };
+export default HomePage;

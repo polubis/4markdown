@@ -1,3 +1,7 @@
+## Exporting and Importing
+
+1. All should be exported at the bottom of the file (always)
+
 ## Working with State Management
 
 To make code consistent, the following standardized structure for the store must be applied:
@@ -154,4 +158,78 @@ The following rules should be applied:
 ```typescript
 // A component used primarily for readability, to avoid large chunks of JSX
 const SocialShare = ({ content }: { content: string }) => {};
+```
+
+## Working with Contracts
+
+1. Create some utility types that are reused accross contracts
+
+```typescript
+type Node<TType extends string, TData extends Record<string, unknown>> = {
+  id: Id;
+  position: {
+    x: number;
+    y: number;
+  };
+  type: TType;
+  data: Prettify<
+    TData & {
+      name: string;
+      description: string;
+    }
+  >;
+};
+
+type Edge<TType extends string> = {
+  id: Id;
+  type: TType;
+  source: Id;
+  target: Id;
+};
+
+type DocumentNode = Node<`document`, { document: DocumentDto }>;
+type ExternalNode = Node<`external`, { url: Url }>;
+type EmbeddedNode = Node<`embedded`, { content: MarkdownContent }>;
+type NestedNode = Node<`nested`, { id: Id }>;
+type MindmapNode = DocumentNode | ExternalNode | EmbeddedNode | NestedNode;
+
+type UnvisitedEdge = Edge<`unvisited`>;
+type VisitedEdge = Edge<`visited`>;
+type CheckedEdge = Edge<`checked`>;
+type MindmapEdge = UnvisitedEdge | VisitedEdge | CheckedEdge;
+
+type Mindmap = {
+  id: Id;
+  name: string;
+  nodes: MindmapNode[];
+  edges: MindmapEdge[];
+};
+
+export type {
+  Mindmap,
+  MindmapNode,
+  DocumentNode,
+  ExternalNode,
+  EmbeddedNode,
+};
+```
+
+2. Use them in contract file
+
+```typescript
+type GetYourDocumentsContract = Contract<
+  `getYourDocuments`,
+  (
+    | PrivateDocument
+    | Omit<PublicDocument, 'author' | 'rating'>
+    | Omit<PermanentDocument, 'author' | 'rating'>
+  )[]
+>;
+```
+
+3. Read contract values via utility extracting types
+
+```typescript
+type GetYourDocumentDto = API4MarkdownDto<`getYourDocuments`>;
+type GetYourDocumentPayload = API4MarkdownPayload<`getYourDocuments`>;
 ```
