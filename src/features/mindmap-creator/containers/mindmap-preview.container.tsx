@@ -16,7 +16,10 @@ import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
-import { updateNodesAction } from 'store/mindmap-creator/actions';
+import {
+  updateEdgesAction,
+  updateNodesAction,
+} from 'store/mindmap-creator/actions';
 
 const VisitedEdge = ({ id, sourceX, sourceY, targetX, targetY }) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -125,7 +128,7 @@ const MindmapPreviewContainer = () => {
       nodes={mindmap.nodes}
       edges={mindmap.edges}
       onNodesChange={updateNodesAction}
-      //   onEdgesChange={mindmapCreatorStoreActions.updateEdges}
+      onEdgesChange={updateEdgesAction}
       //   onConnect={mindmapCreatorStoreActions.connectNodes}
       nodeTypes={nodeTypes[`y`]}
       edgeTypes={edgeTypes}
