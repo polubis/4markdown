@@ -98,6 +98,10 @@ const openNestedMindmapAction = (id: Mindmap['id']): void => {
   set({ browsedMindmaps: [otherMindmap, defaultMindmap] });
 };
 
+const setMindmapAction = (activeMindmap: Mindmap): void => {
+  set({ activeMindmap });
+};
+
 export {
   updateNodesAction,
   updateEdgesAction,
@@ -105,4 +109,5 @@ export {
   removeNodesConnectionAction,
   toggleMindmapNodeAction,
   openNestedMindmapAction,
+  setMindmapAction,
 };

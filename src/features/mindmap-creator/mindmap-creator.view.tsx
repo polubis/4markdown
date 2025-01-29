@@ -7,6 +7,7 @@ import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { getMindmapAct } from 'acts/get-mindmap.act';
 
 import './mindmap-creator.css';
+import { setMindmapAction } from 'store/mindmap-creator/actions';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
@@ -30,7 +31,12 @@ const MindmapCreatorView = () => {
           <>
             <header>
               {mindmapCreator.browsedMindmaps.map((mindmap) => (
-                <Button key={mindmap.id} i={1} s={1}>
+                <Button
+                  key={mindmap.id}
+                  i={1}
+                  s={1}
+                  onClick={() => setMindmapAction(mindmap)}
+                >
                   {mindmap.name}
                 </Button>
               ))}
