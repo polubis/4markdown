@@ -9,6 +9,7 @@ import { useMindmapCreatorState } from '.';
 import { mindmapReadySelector } from './selectors';
 import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
 import type { MindmapCreatorOkState } from './models';
+import { defaultMindmap } from './config';
 
 const { set, get } = useMindmapCreatorState;
 
@@ -92,10 +93,16 @@ const toggleMindmapNodeAction = (id: MindmapNode['id'] | null): void => {
   set({ activeMindmapNode });
 };
 
+const openNestedMindmapAction = (id: Mindmap['id']): void => {
+  console.log(id);
+  set({ browsedMindmaps: [defaultMindmap] });
+};
+
 export {
   updateNodesAction,
   updateEdgesAction,
   connectNodesAction,
   removeNodesConnectionAction,
   toggleMindmapNodeAction,
+  openNestedMindmapAction,
 };

@@ -3,18 +3,17 @@ import React from 'react';
 import type { NestedNodeViewModel } from '../models';
 import { HandleX, HandleY } from '../components/handles';
 import { NodeTile } from '../components/node-tile';
-import { toggleMindmapNodeAction } from 'store/mindmap-creator/actions';
+import { openNestedMindmapAction } from 'store/mindmap-creator/actions';
 
 type NestedNodeTileContainerProps = NodeProps<NestedNodeViewModel>;
 
 const NestedNodeTileContainer = ({
-  id,
-  data: { name, description },
+  data: { name, description, id: mindmapId },
   selected,
 }: NestedNodeTileContainerProps) => (
-  <div onClick={() => toggleMindmapNodeAction(id)}>
+  <div onClick={() => openNestedMindmapAction(mindmapId)}>
     <NodeTile selected={selected}>
-      <NodeTile.Label>Embedded Resource</NodeTile.Label>
+      <NodeTile.Label>Other Mindmap</NodeTile.Label>
       <NodeTile.Name>{name}</NodeTile.Name>
       {description && (
         <NodeTile.Description>{description}</NodeTile.Description>
