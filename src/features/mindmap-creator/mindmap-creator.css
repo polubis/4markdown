@@ -2,18 +2,6 @@
 
 .mindmap-creator {
   @apply grid h-screen grid-cols-[60px_1fr];
-
-  > aside {
-    @apply flex justify-center p-4 border-r border-zinc-300 dark:border-zinc-800;
-  }
-
-  > main {
-    @apply flex flex-col;
-
-    > header {
-      @apply h-12 flex items-center border-zinc-300 dark:border-zinc-800 border-b px-4;
-    }
-  }
 }
 
 .react-flow__panel {

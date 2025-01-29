@@ -1,6 +1,6 @@
 import { parseError } from 'api-4markdown';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { defaultMindmap } from 'store/mindmap-creator/config';
+import { defaultMindmap, otherMindmap } from 'store/mindmap-creator/config';
 
 const getMindmapAct = async (): Promise<void> => {
   try {
@@ -8,7 +8,7 @@ const getMindmapAct = async (): Promise<void> => {
     useMindmapCreatorState.swap({
       is: `ok`,
       activeMindmap: defaultMindmap,
-      browsedMindmaps: [],
+      browsedMindmaps: [defaultMindmap, otherMindmap],
       activeMindmapNode: null,
     });
   } catch (error: unknown) {

@@ -255,7 +255,7 @@ const defaultMindmap: Mindmap = {
 };
 
 const otherMindmap: Mindmap = {
-  id: `0a3ca785-baf5-418d-8c1a-90521117d3c1`,
+  id: `0a3ca785-baf5-418d-8c1a-905223`,
   name: `Other mindmap`,
   description: null,
   visibility: Visibility.Private,
