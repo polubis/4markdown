@@ -21,7 +21,7 @@ type MakeNode<TType extends string, TData extends Record<string, unknown>> = {
   data: Prettify<
     TData & {
       name: string;
-      description: string;
+      description: string | null;
     }
   >;
 };
