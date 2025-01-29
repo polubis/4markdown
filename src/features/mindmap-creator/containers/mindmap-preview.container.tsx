@@ -8,6 +8,7 @@ import {
   MiniMap,
   type NodeTypes,
   ReactFlow,
+  useReactFlow,
 } from '@xyflow/react';
 import React from 'react';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
