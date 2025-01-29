@@ -74,8 +74,20 @@ const toggleMindmapNodeAction = (id: MindmapNode['id'] | null): void => {
 
   const { activeMindmap } = getOkState();
 
-  const activeMindmapNode =
-    activeMindmap.nodes.find((node) => node.id === id) ?? null;
+  const activeMindmapNode = activeMindmap.nodes.find((node) => node.id === id);
+
+  if (!activeMindmapNode) {
+    set({ activeMindmapNode: null });
+    return;
+  }
+
+  if (
+    activeMindmapNode.type === `external` ||
+    activeMindmapNode.type === `nested`
+  ) {
+    set({ activeMindmapNode: null });
+    return;
+  }
 
   set({ activeMindmapNode });
 };
