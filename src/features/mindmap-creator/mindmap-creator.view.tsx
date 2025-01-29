@@ -26,7 +26,18 @@ const MindmapCreatorView = () => {
         {(mindmapCreator.is === `idle` || mindmapCreator.is === `busy`) && (
           <div> Loading...</div>
         )}
-        {mindmapCreator.is === `ok` && <MindmapPreviewContainer />}
+        {mindmapCreator.is === `ok` && (
+          <>
+            <header>
+              {mindmapCreator.browsedMindmaps.map((mindmap) => (
+                <Button key={mindmap.id} i={1} s={1}>
+                  {mindmap.name}
+                </Button>
+              ))}
+            </header>
+            <MindmapPreviewContainer />
+          </>
+        )}
         {mindmapCreator.is === `fail` && <div>Error</div>}
       </main>
     </div>
