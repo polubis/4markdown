@@ -94,17 +94,9 @@ const defaultMindmap: Mindmap = {
       data: {
         name: `20240822T05K58K20943Z`,
         description: ``,
-        document: {
-          id: `484dae9f-df23-4c27-98eb-439a634eb9bd`,
-          name: `20240822T05K58K20943Z`,
-          cdate: `2024-08-22T05:58:32.391Z`,
-          mdate: `2024-08-22T05:58:32.391Z`,
-          visibility: `private`,
-          path: `/my-content/`,
-          code: `## My content`,
-        },
+        url: `https:4///dasd.com`,
       },
-      type: `document`,
+      type: `external`,
     },
     {
       id: `2024-09-02T07:27:48.816Z`,

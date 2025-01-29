@@ -13,11 +13,15 @@ const DocumentNodeTileContainer = ({
   data: { name, description },
   selected,
 }: DocumentNodeTileContainerProps) => (
-  <NodeTile selected={selected} id={id} onClick={toggleMindmapNodeAction}>
-    <NodeTile.Label>{meta.appName} Document</NodeTile.Label>
-    <NodeTile.Name>{name}</NodeTile.Name>
-    {description && <NodeTile.Description>{description}</NodeTile.Description>}
-  </NodeTile>
+  <div onClick={() => toggleMindmapNodeAction(id)}>
+    <NodeTile selected={selected}>
+      <NodeTile.Label>{meta.appName} Document</NodeTile.Label>
+      <NodeTile.Name>{name}</NodeTile.Name>
+      {description && (
+        <NodeTile.Description>{description}</NodeTile.Description>
+      )}
+    </NodeTile>
+  </div>
 );
 
 const DocumentNodeTileContainerX = (props: DocumentNodeTileContainerProps) => (

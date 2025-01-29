@@ -23,6 +23,10 @@ import {
   DocumentNodeTileContainerY,
 } from './document-node-tile.container';
 import { RemoveEdgeTriggerContainer } from './remove-edge-trigger.container';
+import {
+  ExternalNodeTileX,
+  ExternalNodeTileY,
+} from '../components/external-node-tile';
 
 // type MindmapNodeTypes = {
 //   [Key in MindmapNodeType]: ComponentType<
@@ -111,10 +115,6 @@ const UnvisitedEdge = ({
     </>
   );
 };
-
-const ExternalNodeTileX = () => {};
-
-const ExternalNodeTileY = () => {};
 
 const nodeTypes = {
   x: {

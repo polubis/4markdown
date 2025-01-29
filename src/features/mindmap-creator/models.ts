@@ -1,5 +1,6 @@
-import type { DocumentNode } from 'api-4markdown-contracts';
+import type { DocumentNode, ExternalNode } from 'api-4markdown-contracts';
 
 type DocumentNodeViewModel = DocumentNode & { selected: boolean };
+type ExternalNodeViewModel = ExternalNode & { selected: boolean };
 
-export type { DocumentNodeViewModel };
+export type { DocumentNodeViewModel, ExternalNodeViewModel };
