@@ -2,7 +2,7 @@ import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 
 type MindmapCreatorState = Transaction<{
-  mindmap: Mindmap;
+  activeMindmap: Mindmap;
   activeMindmapNode: MindmapNode | null;
 }>;
 

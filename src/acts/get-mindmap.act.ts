@@ -7,7 +7,7 @@ const getMindmapAct = async (): Promise<void> => {
     useMindmapCreatorState.swap({ is: `busy` });
     useMindmapCreatorState.swap({
       is: `ok`,
-      mindmap: defaultMindmap,
+      activeMindmap: defaultMindmap,
       activeMindmapNode: null,
     });
   } catch (error: unknown) {

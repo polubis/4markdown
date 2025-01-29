@@ -34,6 +34,10 @@ import {
   EmbeddedNodeTileContainerX,
   EmbeddedNodeTileContainerY,
 } from './embedded-node-tile.container';
+import {
+  NestedNodeTileContainerX,
+  NestedNodeTileContainerY,
+} from './nested-node-tile.container';
 
 // type MindmapNodeTypes = {
 //   [Key in MindmapNodeType]: ComponentType<
@@ -136,13 +140,13 @@ const nodeTypes: MindmapNodeTypes = {
     document: DocumentNodeTileContainerX,
     external: ExternalNodeTileX,
     embedded: EmbeddedNodeTileContainerX,
-    nested: ExternalNodeTileY,
+    nested: NestedNodeTileContainerX,
   },
   y: {
     document: DocumentNodeTileContainerY,
     external: ExternalNodeTileY,
     embedded: EmbeddedNodeTileContainerY,
-    nested: ExternalNodeTileY,
+    nested: NestedNodeTileContainerY,
   },
 };
 
@@ -153,18 +157,18 @@ const edgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
-  const { mindmap } = useMindmapCreatorState(mindmapReadySelector);
+  const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
 
   return (
     <>
       <ReactFlow
         //   key={mindmap.orientation}
-        nodes={mindmap.nodes}
-        edges={mindmap.edges}
+        nodes={activeMindmap.nodes}
+        edges={activeMindmap.edges}
         onNodesChange={updateNodesAction}
         onEdgesChange={updateEdgesAction}
         onConnect={connectNodesAction}
-        nodeTypes={nodeTypes.y as NodeTypes}
+        nodeTypes={nodeTypes[activeMindmap.orientation] as NodeTypes}
         edgeTypes={edgeTypes}
         fitView
         //   minZoom={viewInformation.minZoom}

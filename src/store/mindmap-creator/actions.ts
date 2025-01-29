@@ -15,35 +15,35 @@ const { set, get } = useMindmapCreatorState;
 const getOkState = (): MindmapCreatorOkState => mindmapReadySelector(get());
 
 const updateNodesAction = (changes: NodeChange[]): void => {
-  const { mindmap } = getOkState();
+  const { activeMindmap } = getOkState();
 
   set({
-    mindmap: {
-      ...mindmap,
-      nodes: applyNodeChanges(changes, mindmap.nodes) as Mindmap['nodes'],
+    activeMindmap: {
+      ...activeMindmap,
+      nodes: applyNodeChanges(changes, activeMindmap.nodes) as Mindmap['nodes'],
     },
   });
 };
 
 const updateEdgesAction = (changes: EdgeChange[]): void => {
-  const { mindmap } = getOkState();
+  const { activeMindmap } = getOkState();
 
   set({
-    mindmap: {
-      ...mindmap,
-      edges: applyEdgeChanges(changes, mindmap.edges) as Mindmap['edges'],
+    activeMindmap: {
+      ...activeMindmap,
+      edges: applyEdgeChanges(changes, activeMindmap.edges) as Mindmap['edges'],
     },
   });
 };
 
 const connectNodesAction = ({ source, target }: Connection): void => {
-  const { mindmap } = getOkState();
+  const { activeMindmap } = getOkState();
 
   set({
-    mindmap: {
-      ...mindmap,
+    activeMindmap: {
+      ...activeMindmap,
       edges: [
-        ...mindmap.edges,
+        ...activeMindmap.edges,
         {
           id: new Date().toISOString(),
           type: `unvisited`,
@@ -56,12 +56,12 @@ const connectNodesAction = ({ source, target }: Connection): void => {
 };
 
 const removeNodesConnectionAction = (id: MindmapNode['id']): void => {
-  const { mindmap } = getOkState();
+  const { activeMindmap } = getOkState();
 
   set({
-    mindmap: {
-      ...mindmap,
-      edges: mindmap.edges.filter((edge) => edge.id !== id),
+    activeMindmap: {
+      ...activeMindmap,
+      edges: activeMindmap.edges.filter((edge) => edge.id !== id),
     },
   });
 };
@@ -72,10 +72,10 @@ const toggleMindmapNodeAction = (id: MindmapNode['id'] | null): void => {
     return;
   }
 
-  const { mindmap } = getOkState();
+  const { activeMindmap } = getOkState();
 
   const activeMindmapNode =
-    mindmap.nodes.find((node) => node.id === id) ?? null;
+    activeMindmap.nodes.find((node) => node.id === id) ?? null;
 
   set({ activeMindmapNode });
 };
