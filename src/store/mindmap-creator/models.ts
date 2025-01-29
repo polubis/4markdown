@@ -1,10 +1,14 @@
-import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
+import type {
+  DocumentNode,
+  EmbeddedNode,
+  Mindmap,
+} from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 
 type MindmapCreatorState = Transaction<{
   activeMindmap: Mindmap;
   browsedMindmaps: Mindmap[];
-  activeMindmapNode: MindmapNode | null;
+  activeMindmapNode: DocumentNode | EmbeddedNode | null;
 }>;
 
 type MindmapCreatorOkState = Extract<MindmapCreatorState, { is: `ok` }>;

@@ -12,7 +12,7 @@ const ActiveNodePreviewContainer = () => {
   const { activeMindmapNode } = useMindmapCreatorState(mindmapReadySelector);
   const { render } = usePortal();
 
-  if (!activeMindmapNode || activeMindmapNode.type !== `document`) return null;
+  if (!activeMindmapNode) return null;
 
   return render(
     <aside
@@ -33,7 +33,11 @@ const ActiveNodePreviewContainer = () => {
         </Button>
       </div>
       <div className="p-4 pb-0 flex flex-col gap-2 h-[calc(100svh-72px)]">
-        <Markdown>{activeMindmapNode.data.document.code}</Markdown>
+        <Markdown>
+          {activeMindmapNode.type === `document`
+            ? activeMindmapNode.data.document.code
+            : activeMindmapNode.data.content}
+        </Markdown>
       </div>
     </aside>,
   );
