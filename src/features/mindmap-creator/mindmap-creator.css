@@ -11,7 +11,7 @@
     @apply flex flex-col;
 
     > header {
-      @apply h-10 flex items-center border-zinc-300 dark:border-zinc-800 border-b px-4;
+      @apply h-12 flex items-center border-zinc-300 dark:border-zinc-800 border-b px-4;
     }
   }
 }
