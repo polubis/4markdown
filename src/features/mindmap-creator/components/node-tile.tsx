@@ -4,8 +4,12 @@ import c from 'classnames';
 const NodeTile = ({
   selected,
   children,
+  id,
+  onClick,
 }: {
+  id: string;
   selected: boolean;
+  onClick(id: string): void;
   children: ReactNode;
 }) => {
   return (
@@ -16,6 +20,7 @@ const NodeTile = ({
           ? `border-black dark:border-white`
           : `border-zinc-300 dark:border-zinc-800`,
       )}
+      onClick={() => onClick(id)}
     >
       {children}
     </div>

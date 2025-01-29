@@ -8,7 +8,6 @@ import {
   MiniMap,
   type NodeTypes,
   ReactFlow,
-  useReactFlow,
 } from '@xyflow/react';
 import React from 'react';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
@@ -20,9 +19,9 @@ import {
 } from 'store/mindmap-creator/actions';
 import { ActiveNodePreviewContainer } from './active-node-preview.container';
 import {
-  DocumentNodeTileX,
-  DocumentNodeTileY,
-} from '../components/document-node-tile';
+  DocumentNodeTileContainerX,
+  DocumentNodeTileContainerY,
+} from './document-node-tile.container';
 import { RemoveEdgeTriggerContainer } from './remove-edge-trigger.container';
 
 // type MindmapNodeTypes = {
@@ -119,11 +118,11 @@ const ExternalNodeTileY = () => {};
 
 const nodeTypes = {
   x: {
-    document: DocumentNodeTileX,
+    document: DocumentNodeTileContainerX,
     external: ExternalNodeTileX,
   },
   y: {
-    document: DocumentNodeTileY,
+    document: DocumentNodeTileContainerY,
     external: ExternalNodeTileY,
   },
 };
