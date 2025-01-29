@@ -5,7 +5,11 @@ import { defaultMindmap } from 'store/mindmap-creator/config';
 const getMindmapAct = async (): Promise<void> => {
   try {
     useMindmapCreatorState.swap({ is: `busy` });
-    useMindmapCreatorState.swap({ is: `ok`, mindmap: defaultMindmap });
+    useMindmapCreatorState.swap({
+      is: `ok`,
+      mindmap: defaultMindmap,
+      activeMindmapNode: null,
+    });
   } catch (error: unknown) {
     useMindmapCreatorState.swap({ is: `fail`, error: parseError(error) });
   }

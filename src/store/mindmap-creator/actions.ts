@@ -66,9 +66,24 @@ const removeNodesConnectionAction = (id: MindmapNode['id']): void => {
   });
 };
 
+const toggleMindmapNodeAction = (id: MindmapNode['id'] | null): void => {
+  if (!id) {
+    set({ activeMindmapNode: null });
+    return;
+  }
+
+  const { mindmap } = getOkState();
+
+  const activeMindmapNode =
+    mindmap.nodes.find((node) => node.id === id) ?? null;
+
+  set({ activeMindmapNode });
+};
+
 export {
   updateNodesAction,
   updateEdgesAction,
   connectNodesAction,
   removeNodesConnectionAction,
+  toggleMindmapNodeAction,
 };

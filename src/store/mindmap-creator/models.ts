@@ -1,8 +1,9 @@
-import type { Mindmap } from 'api-4markdown-contracts';
+import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 
 type MindmapCreatorState = Transaction<{
   mindmap: Mindmap;
+  activeMindmapNode: MindmapNode | null;
 }>;
 
 type MindmapCreatorOkState = Extract<MindmapCreatorState, { is: `ok` }>;

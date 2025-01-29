@@ -21,11 +21,13 @@ import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
 import {
   connectNodesAction,
+  toggleMindmapNodeAction,
   removeNodesConnectionAction,
   updateEdgesAction,
   updateNodesAction,
 } from 'store/mindmap-creator/actions';
 import type { DocumentNode } from 'api-4markdown-contracts';
+import { ActiveNodePreviewContainer } from './active-node-preview.container';
 
 // type MindmapNodeTypes = {
 //   [Key in MindmapNodeType]: ComponentType<
@@ -152,6 +154,7 @@ const UnvisitedEdge = ({
 };
 
 const DocumentNodeTile = ({
+  id,
   data: { name, description },
   selected,
 }: NodeProps<DocumentNode>) => (
@@ -163,6 +166,7 @@ const DocumentNodeTile = ({
         : `border-zinc-300 dark:border-zinc-800`,
     )}
     title={name}
+    onClick={() => toggleMindmapNodeAction(id)}
   >
     <p className="text-sm capitalize mb-0.5 italic line-clamp-4">
       {meta.appName} Document
@@ -223,24 +227,26 @@ const MindmapPreviewContainer = () => {
   const { mindmap } = useMindmapCreatorState(mindmapReadySelector);
 
   return (
-    <ReactFlow
-      id="mindmap-preview"
-      //   key={mindmap.orientation}
-      nodes={mindmap.nodes}
-      edges={mindmap.edges}
-      onNodesChange={updateNodesAction}
-      onEdgesChange={updateEdgesAction}
-      onConnect={connectNodesAction}
-      nodeTypes={nodeTypes.y as NodeTypes}
-      edgeTypes={edgeTypes}
-      fitView
-      //   minZoom={viewInformation.minZoom}
-      //   maxZoom={viewInformation.maxZoom}
-    >
-      <Controls />
-      <Background />
-      <MiniMap />
-    </ReactFlow>
+    <>
+      <ReactFlow
+        //   key={mindmap.orientation}
+        nodes={mindmap.nodes}
+        edges={mindmap.edges}
+        onNodesChange={updateNodesAction}
+        onEdgesChange={updateEdgesAction}
+        onConnect={connectNodesAction}
+        nodeTypes={nodeTypes.y as NodeTypes}
+        edgeTypes={edgeTypes}
+        fitView
+        //   minZoom={viewInformation.minZoom}
+        //   maxZoom={viewInformation.maxZoom}
+      >
+        <Controls />
+        <Background />
+        <MiniMap />
+      </ReactFlow>
+      <ActiveNodePreviewContainer />
+    </>
   );
 };
 
