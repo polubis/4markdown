@@ -10,8 +10,11 @@ const TabsNavigationContainer = () => {
     useMindmapCreatorState(mindmapReadySelector);
 
   return (
-    <header className="h-12 flex border-zinc-300 dark:border-zinc-800 border-b px-4">
-      <nav className="h-full">
+    <header className="h-14 flex border-zinc-300 dark:border-zinc-800 border-b px-4">
+      <nav className="h-full flex items-center">
+        <h1 className="text-xl max-w-[260px] truncate mr-4">
+          {activeMindmap.name}
+        </h1>
         {browsedMindmaps.map((mindmap) => (
           <button
             key={mindmap.id}
