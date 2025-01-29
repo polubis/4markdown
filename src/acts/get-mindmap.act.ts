@@ -8,6 +8,7 @@ const getMindmapAct = async (): Promise<void> => {
     useMindmapCreatorState.swap({
       is: `ok`,
       activeMindmap: defaultMindmap,
+      browsedMindmaps: [],
       activeMindmapNode: null,
     });
   } catch (error: unknown) {

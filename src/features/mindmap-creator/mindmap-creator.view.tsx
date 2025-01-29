@@ -9,7 +9,7 @@ import { getMindmapAct } from 'acts/get-mindmap.act';
 import './mindmap-creator.css';
 
 const MindmapCreatorView = () => {
-  const { is } = useMindmapCreatorState();
+  const mindmapCreator = useMindmapCreatorState();
 
   React.useEffect(() => {
     getMindmapAct();
@@ -23,9 +23,11 @@ const MindmapCreatorView = () => {
         </Button>
       </aside>
       <main>
-        {(is === `idle` || is === `busy`) && <div> Loading...</div>}
-        {is === `ok` && <MindmapPreviewContainer />}
-        {is === `fail` && <div>Error</div>}
+        {(mindmapCreator.is === `idle` || mindmapCreator.is === `busy`) && (
+          <div> Loading...</div>
+        )}
+        {mindmapCreator.is === `ok` && <MindmapPreviewContainer />}
+        {mindmapCreator.is === `fail` && <div>Error</div>}
       </main>
     </div>
   );
