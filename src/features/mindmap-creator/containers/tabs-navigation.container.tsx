@@ -9,15 +9,10 @@ const TabsNavigationContainer = () => {
   const { browsedMindmaps, activeMindmap } =
     useMindmapCreatorState(mindmapReadySelector);
 
-  const tabs = React.useMemo(
-    () => [activeMindmap, ...browsedMindmaps],
-    [activeMindmap, browsedMindmaps],
-  );
-
   return (
     <header className="h-12 flex border-zinc-300 dark:border-zinc-800 border-b px-4">
       <nav className="h-full">
-        {tabs.map((mindmap) => (
+        {browsedMindmaps.map((mindmap) => (
           <button
             key={mindmap.id}
             className={c(
