@@ -12,7 +12,7 @@ import {
   Position,
   ReactFlow,
 } from '@xyflow/react';
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import c from 'classnames';
 import { meta } from '../../../../meta';
 import { Button } from 'design-system/button';
@@ -26,7 +26,7 @@ import {
   updateEdgesAction,
   updateNodesAction,
 } from 'store/mindmap-creator/actions';
-import type { DocumentNode } from 'api-4markdown-contracts';
+import type { DocumentNode, MindmapNode } from 'api-4markdown-contracts';
 import { ActiveNodePreviewContainer } from './active-node-preview.container';
 
 // type MindmapNodeTypes = {
@@ -43,6 +43,40 @@ import { ActiveNodePreviewContainer } from './active-node-preview.container';
 //     }
 //   >;
 // };
+
+type DocumentNodeTileProps = NodeProps<DocumentNode> & { selected: boolean };
+
+const HandleX = ({ children }: { children: ReactNode }) => (
+  <>
+    <Handle
+      className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-2.5 h-8 !left-[1px] rounded-md"
+      type="target"
+      position={Position.Left}
+    />
+    {children}
+    <Handle
+      className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 !right-[1px] rounded-full"
+      type="source"
+      position={Position.Right}
+    />
+  </>
+);
+
+const HandleY = ({ children }: { children: ReactNode }) => (
+  <>
+    <Handle
+      className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-8 h-2.5 !top-[1px] rounded-md"
+      type="target"
+      position={Position.Top}
+    />
+    {children}
+    <Handle
+      className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
+      type="source"
+      position={Position.Bottom}
+    />
+  </>
+);
 
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -153,67 +187,84 @@ const UnvisitedEdge = ({
   );
 };
 
+const NodeTile = ({
+  selected,
+  children,
+  id,
+  onClick,
+}: {
+  id: MindmapNode['id'];
+  selected: boolean;
+  onClick(id: MindmapNode['id']): void;
+  children: ReactNode;
+}) => {
+  return (
+    <div
+      className={c(
+        `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 w-[280px]`,
+        selected
+          ? `border-black dark:border-white`
+          : `border-zinc-300 dark:border-zinc-800`,
+      )}
+      onClick={() => onClick(id)}
+    >
+      {children}
+    </div>
+  );
+};
+
+// eslint-disable-next-line react/display-name
+NodeTile.Name = ({ children }: { children: ReactNode }) => {
+  return <h6 className="font-bold line-clamp-2">{children}</h6>;
+};
+// eslint-disable-next-line react/display-name
+NodeTile.Label = ({ children }: { children: ReactNode }) => {
+  return (
+    <p className="text-sm capitalize mb-0.5 italic line-clamp-4">{children}</p>
+  );
+};
+
+// eslint-disable-next-line react/display-name
+NodeTile.Description = ({ children }: { children: ReactNode }) => {
+  return <p className="mt-1">{children}</p>;
+};
+
 const DocumentNodeTile = ({
   id,
   data: { name, description },
   selected,
-}: NodeProps<DocumentNode>) => (
-  <div
-    className={c(
-      `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 w-[280px]`,
-      selected
-        ? `border-black dark:border-white`
-        : `border-zinc-300 dark:border-zinc-800`,
-    )}
-    title={name}
-    onClick={() => toggleMindmapNodeAction(id)}
-  >
-    <p className="text-sm capitalize mb-0.5 italic line-clamp-4">
-      {meta.appName} Document
-    </p>
-    <h6 className="font-bold line-clamp-2">{name}</h6>
-    {description && <p className="mt-1">{description}</p>}
-  </div>
+}: DocumentNodeTileProps) => (
+  <NodeTile selected={selected} id={id} onClick={toggleMindmapNodeAction}>
+    <NodeTile.Label>{meta.appName} Document</NodeTile.Label>
+    <NodeTile.Name>{name}</NodeTile.Name>
+    {description && <NodeTile.Description>{description}</NodeTile.Description>}
+  </NodeTile>
 );
 
-const DocumentNodeTileX = (props: NodeProps<DocumentNode>) => (
-  <>
-    <Handle
-      className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-2.5 h-8 !left-[1px] rounded-md"
-      type="target"
-      position={Position.Left}
-    />
+const DocumentNodeTileX = (props: DocumentNodeTileProps) => (
+  <HandleX>
     <DocumentNodeTile {...props} />
-    <Handle
-      className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 !right-[1px] rounded-full"
-      type="source"
-      position={Position.Right}
-    />
-  </>
+  </HandleX>
 );
 
-const DocumentNodeTileY = (props: NodeProps<DocumentNode>) => (
-  <>
-    <Handle
-      className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-8 h-2.5 !top-[1px] rounded-md"
-      type="target"
-      position={Position.Top}
-    />
+const DocumentNodeTileY = (props: DocumentNodeTileProps) => (
+  <HandleY>
     <DocumentNodeTile {...props} />
-    <Handle
-      className="!bg-zinc-200 dark:!bg-gray-950 border-zinc-400 dark:border-zinc-700 border-2 w-4 h-4 rounded-full"
-      type="source"
-      position={Position.Bottom}
-    />
-  </>
+  </HandleY>
 );
+
+const ExternalNodeTileX = () => {};
+
+const ExternalNodeTileY = () => {};
 
 const nodeTypes = {
   x: {
     document: DocumentNodeTileX,
+    external: ExternalNodeTileX,
   },
   y: {
     document: DocumentNodeTileY,
+    external: ExternalNodeTileY,
   },
 };
 
