@@ -39,21 +39,6 @@ import {
   NestedNodeTileContainerY,
 } from './nested-node-tile.container';
 
-// type MindmapNodeTypes = {
-//   [Key in MindmapNodeType]: ComponentType<
-//     NodeProps<Node<Extract<MindmapNode, { type: Key }>['data']>>
-//   >;
-// };
-
-// type MindmapEdgeTypes = {
-//   [Key in MindmapEdgeType]: ComponentType<
-//     EdgeProps & {
-//       data: {};
-//       type: MindmapEdgeType;
-//     }
-//   >;
-// };
-
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
     sourceX,
