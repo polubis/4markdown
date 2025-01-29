@@ -22,7 +22,7 @@ const defaultMindmap: Mindmap = {
     },
     {
       id: `2024-09-02T07:28:02.792Z`,
-      type: `unvisited`,
+      type: `done`,
       source: `2024-09-02T07:27:37.297Z`,
       target: `2024-09-02T07:27:56.168Z`,
     },

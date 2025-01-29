@@ -42,6 +42,23 @@ import type { DocumentNode } from 'api-4markdown-contracts';
 //   >;
 // };
 
+const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
+  const [edgePath] = getSimpleBezierPath({
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+  });
+
+  return (
+    <BaseEdge
+      className="!stroke-green-400 dark:!stroke-green-700"
+      id={id}
+      path={edgePath}
+    />
+  );
+};
+
 const VisitedEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
     sourceX,
@@ -182,6 +199,7 @@ const nodeTypes = {
 const edgeTypes = {
   visited: VisitedEdge,
   unvisited: UnvisitedEdge,
+  done: DoneEdge,
 };
 
 const MindmapPreviewContainer = () => {
