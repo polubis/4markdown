@@ -43,7 +43,7 @@ import type { DocumentNode } from 'api-4markdown-contracts';
 // };
 
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
-  const [edgePath] = getSimpleBezierPath({
+  const [edgePath, labelX, labelY] = getSimpleBezierPath({
     sourceX,
     sourceY,
     targetX,
@@ -51,11 +51,28 @@ const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   });
 
   return (
-    <BaseEdge
-      className="!stroke-green-400 dark:!stroke-green-700"
-      id={id}
-      path={edgePath}
-    />
+    <>
+      <BaseEdge
+        className="!stroke-green-400 dark:!stroke-green-700"
+        id={id}
+        path={edgePath}
+      />
+      <EdgeLabelRenderer>
+        <Button
+          i={2}
+          s="auto"
+          rounded
+          style={{
+            transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
+            pointerEvents: `all`,
+          }}
+          className="nodrag nopan absolute h-5 w-5"
+          onClick={() => removeNodesConnectionAction(id)}
+        >
+          <BiX />
+        </Button>
+      </EdgeLabelRenderer>
+    </>
   );
 };
 
