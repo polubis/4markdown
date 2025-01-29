@@ -6,10 +6,11 @@ import {
   type EdgeProps,
   getSimpleBezierPath,
   MiniMap,
+  type NodeProps,
   type NodeTypes,
   ReactFlow,
 } from '@xyflow/react';
-import React from 'react';
+import React, { type ComponentType } from 'react';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
 import {
@@ -27,6 +28,12 @@ import {
   ExternalNodeTileX,
   ExternalNodeTileY,
 } from '../components/external-node-tile';
+import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
+import type { NodeViewModel } from '../models';
+import {
+  EmbeddedNodeTileContainerX,
+  EmbeddedNodeTileContainerY,
+} from './embedded-node-tile.container';
 
 // type MindmapNodeTypes = {
 //   [Key in MindmapNodeType]: ComponentType<
@@ -116,14 +123,26 @@ const UnvisitedEdge = ({
   );
 };
 
-const nodeTypes = {
+type MindmapNodeTypes = {
+  [Orientation in Mindmap['orientation']]: {
+    [Type in MindmapNode['type']]: ComponentType<
+      NodeProps<Extract<NodeViewModel, { type: Type }>>
+    >;
+  };
+};
+
+const nodeTypes: MindmapNodeTypes = {
   x: {
     document: DocumentNodeTileContainerX,
     external: ExternalNodeTileX,
+    embedded: EmbeddedNodeTileContainerX,
+    nested: ExternalNodeTileY,
   },
   y: {
     document: DocumentNodeTileContainerY,
     external: ExternalNodeTileY,
+    embedded: EmbeddedNodeTileContainerY,
+    nested: ExternalNodeTileY,
   },
 };
 

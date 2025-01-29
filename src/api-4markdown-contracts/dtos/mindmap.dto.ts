@@ -11,7 +11,7 @@ import type {
 } from 'api-4markdown-contracts';
 import type { Prettify } from 'development-kit/utility-types';
 
-type MakeNode<TType extends string, TData extends Record<string, unknown>> = {
+type MakeNode<TType extends string, TData extends Record<string, any>> = {
   id: Id;
   position: {
     x: number;
@@ -46,12 +46,13 @@ type MindmapEdge = UnvisitedEdge | VisitedEdge | DoneEdge;
 
 type MakeMindmap<
   TVisibility extends Visibility,
-  TData extends Record<string, unknown> = {},
+  TData extends Record<string, any> = {},
 > = TData & {
   id: Id;
   cdate: Date;
   mdate: Date;
   name: string;
+  orientation: `x` | `y`;
   nodes: MindmapNode[];
   edges: MindmapEdge[];
   visibility: TVisibility;
@@ -80,6 +81,7 @@ export type {
   MindmapNode,
   DocumentNode,
   ExternalNode,
+  NestedNode,
   EmbeddedNode,
   UnvisitedEdge,
   VisitedEdge,

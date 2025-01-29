@@ -6,6 +6,7 @@ const defaultMindmap: Mindmap = {
   description: null,
   visibility: Visibility.Private,
   cdate: `2025-01-24T14:06:10.550Z`,
+  orientation: `y`,
   mdate: `2025-01-24T14:06:10.550Z`,
   edges: [
     {
@@ -128,17 +129,9 @@ const defaultMindmap: Mindmap = {
       data: {
         name: `20240821T13K05K09508Z`,
         description: ``,
-        document: {
-          id: `c6826ac8-e643-47f2-a0d8-45522171fbc7`,
-          name: `20240821T13K05K09508Z`,
-          cdate: `2024-08-21T13:05:29.333Z`,
-          mdate: `2024-08-21T13:05:29.333Z`,
-          path: `/my-content/`,
-          visibility: `private`,
-          code: `## My content`,
-        },
+        content: `# dasdda adds`,
       },
-      type: `document`,
+      type: `embedded`,
     },
     {
       id: `2024-09-02T07:30:12.153Z`,
