@@ -9,7 +9,7 @@ import { useMindmapCreatorState } from '.';
 import { mindmapReadySelector } from './selectors';
 import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
 import type { MindmapCreatorOkState } from './models';
-import { defaultMindmap } from './config';
+import { defaultMindmap, otherMindmap } from './config';
 
 const { set, get } = useMindmapCreatorState;
 
@@ -93,9 +93,9 @@ const toggleMindmapNodeAction = (id: MindmapNode['id'] | null): void => {
   set({ activeMindmapNode });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const openNestedMindmapAction = (id: Mindmap['id']): void => {
-  console.log(id);
-  set({ browsedMindmaps: [defaultMindmap] });
+  set({ browsedMindmaps: [otherMindmap, defaultMindmap] });
 };
 
 export {
