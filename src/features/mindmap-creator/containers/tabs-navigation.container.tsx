@@ -4,17 +4,22 @@ import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
 import c from 'classnames';
 import { setMindmapAction } from 'store/mindmap-creator/actions';
+import { BiChevronRight } from 'react-icons/bi';
 
 const TabsNavigationContainer = () => {
-  const { browsedMindmaps, activeMindmap } =
+  const { browsedMindmaps, activeMindmap, initialMindmap } =
     useMindmapCreatorState(mindmapReadySelector);
 
   return (
     <header className="h-14 flex border-zinc-300 dark:border-zinc-800 border-b px-4">
       <nav className="h-full flex items-center">
-        <h1 className="text-xl max-w-[260px] truncate mr-4">
-          {activeMindmap.name}
-        </h1>
+        <button
+          key="initial-mindmap"
+          className="text-xl flex items-center max-w-[260px] truncate mr-4"
+          onClick={() => setMindmapAction(initialMindmap)}
+        >
+          {initialMindmap.name} <BiChevronRight />
+        </button>
         {browsedMindmaps.map((mindmap) => (
           <button
             key={mindmap.id}

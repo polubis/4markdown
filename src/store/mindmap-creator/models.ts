@@ -7,6 +7,7 @@ import type { Transaction } from 'development-kit/utility-types';
 
 type MindmapCreatorState = Transaction<{
   activeMindmap: Mindmap;
+  initialMindmap: Mindmap;
   browsedMindmaps: Mindmap[];
   activeMindmapNode: DocumentNode | EmbeddedNode | null;
 }>;
