@@ -10,6 +10,7 @@ const getMindmapAct = async (): Promise<void> => {
       activeMindmap: defaultMindmap,
       initialMindmap: defaultMindmap,
       browsedMindmaps: [],
+      pendingMindmaps: {},
       activeMindmapNode: null,
     });
   } catch (error: unknown) {
