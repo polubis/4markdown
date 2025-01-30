@@ -9,12 +9,6 @@ const getNestedMindmapAct = async (
 ): Promise<void> => {
   const { activeMindmap } = mindmapReadySelector(useMindmapCreatorState.get());
 
-  const foundNode = activeMindmap.nodes.find((node) => node.id === nodeId);
-
-  if (!foundNode) {
-    return;
-  }
-
   try {
     useMindmapCreatorState.set({
       activeMindmap: {
@@ -22,8 +16,11 @@ const getNestedMindmapAct = async (
         nodes: activeMindmap.nodes.map((node) =>
           node.id === nodeId
             ? {
-                ...foundNode,
-                type: `pending`,
+                ...node,
+                data: {
+                  ...node.data,
+                  loading: true,
+                },
               }
             : node,
         ),
@@ -35,13 +32,17 @@ const getNestedMindmapAct = async (
     useMindmapCreatorState.set({
       activeMindmap: {
         ...activeMindmap,
-        nodes: [
-          ...activeMindmap.nodes.map((node) =>
-            node.id === nodeId ? foundNode : node,
-          ),
-          //   ...otherMindmap.nodes,
-        ],
-        // edges: [...activeMindmap.edges, ...otherMindmap.edges],
+        nodes: activeMindmap.nodes.map((node) =>
+          node.id === nodeId
+            ? {
+                ...node,
+                data: {
+                  ...node.data,
+                  loading: false,
+                },
+              }
+            : node,
+        ),
       },
     });
   } catch {}
