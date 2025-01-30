@@ -28,7 +28,7 @@ import {
   ExternalNodeTileX,
   ExternalNodeTileY,
 } from '../components/external-node-tile';
-import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
+import type { Mindmap } from 'api-4markdown-contracts';
 import type { NodeViewModel } from '../models';
 import {
   EmbeddedNodeTileContainerX,
@@ -38,6 +38,10 @@ import {
   NestedNodeTileContainerX,
   NestedNodeTileContainerY,
 } from './nested-node-tile.container';
+import {
+  PendingNodeTileX,
+  PendingNodeTileY,
+} from '../components/pending-node-tile';
 
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -114,7 +118,7 @@ const UnvisitedEdge = ({
 
 type MindmapNodeTypes = {
   [Orientation in Mindmap['orientation']]: {
-    [Type in MindmapNode['type']]: ComponentType<
+    [Type in NodeViewModel['type']]: ComponentType<
       NodeProps<Extract<NodeViewModel, { type: Type }>>
     >;
   };
@@ -126,12 +130,14 @@ const nodeTypes: MindmapNodeTypes = {
     external: ExternalNodeTileX,
     embedded: EmbeddedNodeTileContainerX,
     nested: NestedNodeTileContainerX,
+    pending: PendingNodeTileX,
   },
   y: {
     document: DocumentNodeTileContainerY,
     external: ExternalNodeTileY,
     embedded: EmbeddedNodeTileContainerY,
     nested: NestedNodeTileContainerY,
+    pending: PendingNodeTileY,
   },
 };
 

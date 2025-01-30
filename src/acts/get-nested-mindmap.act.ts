@@ -1,36 +1,50 @@
-import type { Mindmap } from 'api-4markdown-contracts';
+import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
 import { mock } from 'development-kit/mock';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { otherMindmap } from 'store/mindmap-creator/config';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
 
-const getNestedMindmapAct = async (id: Mindmap['id']): Promise<void> => {
-  const { pendingMindmaps } = mindmapReadySelector(
-    useMindmapCreatorState.get(),
-  );
+const getNestedMindmapAct = async (
+  nodeId: MindmapNode['id'],
+): Promise<void> => {
+  const { activeMindmap } = mindmapReadySelector(useMindmapCreatorState.get());
+
+  const foundNode = activeMindmap.nodes.find((node) => node.id === nodeId);
+
+  if (!foundNode) {
+    return;
+  }
 
   try {
     useMindmapCreatorState.set({
-      pendingMindmaps: { ...pendingMindmaps, [id]: true },
+      activeMindmap: {
+        ...activeMindmap,
+        nodes: activeMindmap.nodes.map((node) =>
+          node.id === nodeId
+            ? {
+                ...foundNode,
+                type: `pending`,
+              }
+            : node,
+        ),
+      },
     });
 
-    await mock({ delay: 1500 })({})({});
-
-    const newPendingMindmaps = { ...pendingMindmaps };
-
-    delete newPendingMindmaps[id];
+    await mock({ delay: 1 })({})({});
 
     useMindmapCreatorState.set({
-      pendingMindmaps: newPendingMindmaps,
+      activeMindmap: {
+        ...activeMindmap,
+        nodes: [
+          ...activeMindmap.nodes.map((node) =>
+            node.id === nodeId ? foundNode : node,
+          ),
+          //   ...otherMindmap.nodes,
+        ],
+        // edges: [...activeMindmap.edges, ...otherMindmap.edges],
+      },
     });
-  } catch (error: unknown) {
-    const newPendingMindmaps = { ...pendingMindmaps };
-
-    delete newPendingMindmaps[id];
-
-    useMindmapCreatorState.set({
-      pendingMindmaps: newPendingMindmaps,
-    });
-  }
+  } catch {}
 };
 
 export { getNestedMindmapAct };

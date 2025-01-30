@@ -8,11 +8,12 @@ import { getNestedMindmapAct } from 'acts/get-nested-mindmap.act';
 type NestedNodeTileContainerProps = NodeProps<NestedNodeViewModel>;
 
 const NestedNodeTileContainer = ({
-  data: { name, description, id: mindmapId },
+  id: nodeId,
+  data: { name, description },
   selected,
 }: NestedNodeTileContainerProps) => {
   return (
-    <div onClick={() => getNestedMindmapAct(mindmapId)}>
+    <div onClick={() => getNestedMindmapAct(nodeId)}>
       <NodeTile selected={selected}>
         <NodeTile.Label>Other Mindmap</NodeTile.Label>
         <NodeTile.Name>{name}</NodeTile.Name>
