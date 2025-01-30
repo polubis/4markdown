@@ -38,10 +38,6 @@ import {
   NestedNodeTileContainerX,
   NestedNodeTileContainerY,
 } from './nested-node-tile.container';
-import {
-  PendingNodeTileX,
-  PendingNodeTileY,
-} from '../components/pending-node-tile';
 
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -130,14 +126,12 @@ const nodeTypes: MindmapNodeTypes = {
     external: ExternalNodeTileX,
     embedded: EmbeddedNodeTileContainerX,
     nested: NestedNodeTileContainerX,
-    pending: PendingNodeTileX,
   },
   y: {
     document: DocumentNodeTileContainerY,
     external: ExternalNodeTileY,
     embedded: EmbeddedNodeTileContainerY,
     nested: NestedNodeTileContainerY,
-    pending: PendingNodeTileY,
   },
 };
 
