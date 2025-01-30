@@ -6,6 +6,7 @@ import { getMindmapAct } from 'acts/get-mindmap.act';
 import { TabsNavigationContainer } from './containers/tabs-navigation.container';
 
 import './mindmap-creator.css';
+import { MindmapModalsProvider } from './providers/mindmap-widgets.provider';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
@@ -35,7 +36,9 @@ const MindmapCreatorView = () => {
 
 const ConnectedMindmapCreatorView = () => (
   <ReactFlowProvider>
-    <MindmapCreatorView />
+    <MindmapModalsProvider>
+      <MindmapCreatorView />
+    </MindmapModalsProvider>
   </ReactFlowProvider>
 );
 
