@@ -1,6 +1,7 @@
 import type { MindmapNode } from 'api-4markdown-contracts';
 import { mock } from 'development-kit/mock';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { otherMindmap } from 'store/mindmap-creator/config';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
 
 const getNestedMindmapAct = async (
@@ -31,17 +32,21 @@ const getNestedMindmapAct = async (
     useMindmapCreatorState.set({
       activeMindmap: {
         ...activeMindmap,
-        nodes: activeMindmap.nodes.map((node) =>
-          node.id === nodeId
-            ? ({
-                ...node,
-                data: {
-                  ...node.data,
-                  loading: false,
-                },
-              } as MindmapNode)
-            : node,
-        ),
+        nodes: [
+          ...activeMindmap.nodes.map((node) =>
+            node.id === nodeId
+              ? ({
+                  ...node,
+                  data: {
+                    ...node.data,
+                    loading: false,
+                  },
+                } as MindmapNode)
+              : node,
+          ),
+          ...otherMindmap.nodes,
+        ],
+        edges: [...otherMindmap.edges],
       },
     });
   } catch {}
