@@ -1,11 +1,11 @@
 import type { NodeProps } from '@xyflow/react';
 import React from 'react';
-import type { EmbeddedNodeViewModel } from '../models';
 import { HandleX, HandleY } from '../components/handles';
 import { NodeTile } from '../components/node-tile';
 import { toggleMindmapNodeAction } from 'store/mindmap-creator/actions';
+import { type EmbeddedNode } from 'api-4markdown-contracts';
 
-type EmbeddedNodeTileContainerProps = NodeProps<EmbeddedNodeViewModel>;
+type EmbeddedNodeTileContainerProps = NodeProps<EmbeddedNode>;
 
 const EmbeddedNodeTileContainer = ({
   id,

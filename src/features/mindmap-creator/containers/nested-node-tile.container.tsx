@@ -1,11 +1,11 @@
 import type { NodeProps } from '@xyflow/react';
 import React from 'react';
-import type { NestedNodeViewModel } from '../models';
 import { HandleX, HandleY } from '../components/handles';
 import { NodeTile } from '../components/node-tile';
 import { getNestedMindmapAct } from 'acts/get-nested-mindmap.act';
+import type { NestedNode } from 'api-4markdown-contracts';
 
-type NestedNodeTileContainerProps = NodeProps<NestedNodeViewModel>;
+type NestedNodeTileContainerProps = NodeProps<NestedNode>;
 
 const NestedNodeTileContainer = ({
   id: nodeId,

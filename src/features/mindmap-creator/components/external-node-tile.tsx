@@ -1,10 +1,10 @@
 import React from 'react';
 import { HandleX, HandleY } from './handles';
 import { type NodeProps } from '@xyflow/react';
-import { type ExternalNodeViewModel } from '../models';
 import { NodeTile } from './node-tile';
+import { type ExternalNode } from 'api-4markdown-contracts';
 
-type ExternalNodeTileProps = NodeProps<ExternalNodeViewModel>;
+type ExternalNodeTileProps = NodeProps<ExternalNode>;
 
 const ExternalNodeTile = ({
   selected,

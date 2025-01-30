@@ -18,9 +18,11 @@ type MakeNode<TType extends string, TData extends Record<string, any>> = {
     y: number;
   };
   type: TType;
+  selected: boolean;
   data: Prettify<
     TData & {
       name: string;
+      loading: boolean;
       description: string | null;
     }
   >;

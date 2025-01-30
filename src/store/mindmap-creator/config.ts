@@ -71,9 +71,11 @@ const otherMindmap: Mindmap = {
         x: -251.2454699432884,
         y: -575.6769977307954,
       },
+      selected: false,
       data: {
         name: `20240822T06K46K48423Z`,
         description: ``,
+        loading: false,
         document: {
           id: `0b2a9bfe-361e-40d9-a880-89df383b63e5`,
           name: `20240822T06K46K48423Z`,
@@ -88,12 +90,14 @@ const otherMindmap: Mindmap = {
     },
     {
       id: `2024-09-02T07:27:41.792Z`,
+      selected: false,
       position: {
         x: -295.2326086519489,
         y: 0.8923987913104554,
       },
       data: {
         name: `20240822T05K58K20943Z`,
+        loading: false,
         description: ``,
         url: `https:4///dasd.com`,
       },
@@ -101,6 +105,7 @@ const otherMindmap: Mindmap = {
     },
     {
       id: `2024-09-02T07:27:48.816Z`,
+      selected: false,
       position: {
         x: 15.351801673599283,
         y: 24.008153616380355,
@@ -108,6 +113,7 @@ const otherMindmap: Mindmap = {
       data: {
         name: `20240822T06K46K48423Z`,
         description: `dasdsdsadasdasdasasd`,
+        loading: false,
         document: {
           id: `0b2a9bfe-361e-40d9-a880-89df383b63e5`,
           name: `20240822T06K46K48423Z`,
@@ -122,11 +128,13 @@ const otherMindmap: Mindmap = {
     },
     {
       id: `2024-09-02T07:27:56.168Z`,
+      selected: false,
       position: {
         x: -618.7895184509166,
         y: -5.2762347986934515,
       },
       data: {
+        loading: false,
         name: `20240821T13K05K09508Z`,
         description: ``,
         content: `# dasdda adds`,
@@ -207,7 +215,9 @@ const defaultMindmap: Mindmap = {
         x: -251.2454699432884,
         y: -575.6769977307954,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240822T06K46K48423Z`,
         description: ``,
         document: {
@@ -228,7 +238,9 @@ const defaultMindmap: Mindmap = {
         x: -295.2326086519489,
         y: 0.8923987913104554,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240822T05K58K20943Z`,
         description: ``,
         url: `https:4///dasd.com`,
@@ -241,7 +253,9 @@ const defaultMindmap: Mindmap = {
         x: 15.351801673599283,
         y: 24.008153616380355,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240822T06K46K48423Z`,
         description: `dasdsdsadasdasdasasd`,
         document: {
@@ -262,7 +276,9 @@ const defaultMindmap: Mindmap = {
         x: -618.7895184509166,
         y: -5.2762347986934515,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240821T13K05K09508Z`,
         description: ``,
         content: `# dasdda adds`,
@@ -275,7 +291,9 @@ const defaultMindmap: Mindmap = {
         x: -8.957057704121553,
         y: 413.77702936180253,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240822T05K58K20943Z`,
         description: ``,
         id: otherMindmap.id,
@@ -288,7 +306,9 @@ const defaultMindmap: Mindmap = {
         x: -541.4609824557458,
         y: 440.5989673451501,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240821T13K05K09508Z`,
         description: ``,
         document: {
@@ -309,7 +329,9 @@ const defaultMindmap: Mindmap = {
         x: 328.81033860310225,
         y: 21.897789558817436,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240822T05K58K20943Z`,
         description: `dasas ddas asdas asdsa asasdas dasdassdsadasd asasd adasd asdasd asdasd asd`,
         document: {
@@ -330,7 +352,9 @@ const defaultMindmap: Mindmap = {
         x: 638.1570937147762,
         y: 68.82852016424823,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240822T05K58K20943Z`,
         description: ``,
         document: {
@@ -351,7 +375,9 @@ const defaultMindmap: Mindmap = {
         x: 938.784660583905,
         y: 53.17831089021175,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240821T13K05K09508Z`,
         description: ``,
         document: {
@@ -372,7 +398,9 @@ const defaultMindmap: Mindmap = {
         x: 1240.332879649968,
         y: 16.143218036301704,
       },
+      selected: false,
       data: {
+        loading: false,
         name: `20240822T05K58K20943Z`,
         description: ``,
         document: {

@@ -28,8 +28,7 @@ import {
   ExternalNodeTileX,
   ExternalNodeTileY,
 } from '../components/external-node-tile';
-import type { Mindmap } from 'api-4markdown-contracts';
-import type { NodeViewModel } from '../models';
+import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
 import {
   EmbeddedNodeTileContainerX,
   EmbeddedNodeTileContainerY,
@@ -114,8 +113,8 @@ const UnvisitedEdge = ({
 
 type MindmapNodeTypes = {
   [Orientation in Mindmap['orientation']]: {
-    [Type in NodeViewModel['type']]: ComponentType<
-      NodeProps<Extract<NodeViewModel, { type: Type }>>
+    [Type in MindmapNode['type']]: ComponentType<
+      NodeProps<Extract<MindmapNode, { type: Type }>>
     >;
   };
 };
