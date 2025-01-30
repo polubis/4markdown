@@ -37,6 +37,7 @@ import {
   NestedNodeTileContainerX,
   NestedNodeTileContainerY,
 } from './nested-node-tile.container';
+import { MindmapToolboxContainer } from './mindmap-toolbox.container';
 
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -162,6 +163,7 @@ const MindmapPreviewContainer = () => {
         <Background />
         <MiniMap />
       </ReactFlow>
+      <MindmapToolboxContainer />
       <ActiveNodePreviewContainer />
     </>
   );
