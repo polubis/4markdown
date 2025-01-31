@@ -71,9 +71,13 @@ const CreationLinkContainer = () => {
             <p className="mt-1 text-sm">Coming soon</p>
           </li>
 
-          <li className="relative flex flex-col p-3">
-            <h6>Mindmap</h6>
-            <p className="mt-1 text-sm">Coming soon</p>
+          <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3">
+            <Link to={meta.routes.mindmap.new}>
+              <h6 className="text-md">Mindmap</h6>
+              <p className="mt-1 text-sm">
+                Organize your thoughts and resources in mindmaps
+              </p>
+            </Link>
           </li>
         </ul>
       </div>

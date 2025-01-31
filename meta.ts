@@ -19,7 +19,8 @@ export const meta = {
   mdCheatsheet: `https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet`,
   routes: {
     mindmap: {
-      creator: `mindmap-creator`,
+      new: `/new-mindmap/`,
+      creator: `/mindmap-creator/`,
     },
     sandbox: `/sandbox/`,
     creator: {
