@@ -24,7 +24,7 @@ const CreationLinkContainer = () => {
       </Button>
       <div
         className={c(
-          `absolute z-10 max-w-[280px] -left-[4px] sm:left-[60px]`,
+          `absolute z-10 max-w-[280px] -left-[4px] sm:left-[56px]`,
           menu.isOn ? `top-[64px] animate-fade-in` : `-top-full`,
         )}
       >
