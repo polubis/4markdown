@@ -1,3 +1,5 @@
+import { createMindmapAct } from 'acts/create-mindmap.act';
+import { type API4MarkdownPayload } from 'api-4markdown-contracts';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { CreationLinkContainer } from 'containers/creation-link.container';
@@ -8,15 +10,49 @@ import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
+import { maxLength, minLength, optional } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
-import React from 'react';
-import { BiPlusCircle } from 'react-icons/bi';
+import { type Transaction } from 'development-kit/utility-types';
+import React, { type FormEventHandler } from 'react';
+import { BiError, BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
+
+const limits = {
+  name: {
+    min: 10,
+    max: 25,
+  },
+  descrition: {
+    min: 1,
+    max: 30,
+  },
+} as const;
 
 const NewMindmapView = () => {
-  const [, { inject }] = useForm({
-    name: ``,
-    description: ``,
-  });
+  const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
+
+  const [{ values, untouched, invalid }, { inject }] = useForm<
+    API4MarkdownPayload<`createMindmap`>
+  >(
+    {
+      name: ``,
+      description: ``,
+    },
+    {
+      name: [minLength(limits.name.min), maxLength(limits.name.max)],
+      description: [
+        optional(
+          minLength(limits.descrition.min),
+          maxLength(limits.descrition.max),
+        ),
+      ],
+    },
+  );
+
+  const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    setOperation({ is: `busy` });
+    setOperation(await createMindmapAct(values));
+  };
 
   return (
     <>
@@ -28,7 +64,7 @@ const NewMindmapView = () => {
       <main className="p-4 min-h-svh flex flex-col justify-center">
         <section className="w-full md:w-[360px] mx-auto rounded-md border-zinc-300 dark:border-zinc-800 border p-4">
           <h2 className="text-xl mb-4">Create Mindmap</h2>
-          <form className="flex flex-col gap-3">
+          <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
             <Field label="Name*">
               <Input
                 placeholder={`My Mindmap, Basics of Computer Science, ...etc`}
@@ -56,6 +92,15 @@ const NewMindmapView = () => {
               />
             </Field>
             <footer className="mt-6">
+              {operation.is === `fail` && (
+                <p className="flex gap-2 justify-center mb-4 items-center text-red-600 dark:text-red-400">
+                  <BiErrorAlt
+                    className="translate-y-[1px] shrink-0"
+                    size={20}
+                  />
+                  {operation.error.message}
+                </p>
+              )}
               <Button
                 type="submit"
                 i={2}
@@ -63,6 +108,7 @@ const NewMindmapView = () => {
                 className="w-full"
                 auto
                 title="Confirm mindmap creation"
+                disabled={operation.is === `busy` || untouched || invalid}
               >
                 Create
                 <BiPlusCircle />
