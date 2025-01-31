@@ -7,7 +7,7 @@ import {
 } from '@xyflow/react';
 import { useMindmapCreatorState } from '.';
 import { mindmapReadySelector } from './selectors';
-import type { Mindmap, MindmapNode } from 'api-4markdown-contracts';
+import type { MindmapDto, MindmapNode } from 'api-4markdown-contracts';
 import type { MindmapCreatorOkState } from './models';
 
 const { set, get } = useMindmapCreatorState;
@@ -20,7 +20,10 @@ const updateNodesAction = (changes: NodeChange[]): void => {
   set({
     activeMindmap: {
       ...activeMindmap,
-      nodes: applyNodeChanges(changes, activeMindmap.nodes) as Mindmap['nodes'],
+      nodes: applyNodeChanges(
+        changes,
+        activeMindmap.nodes,
+      ) as MindmapDto['nodes'],
     },
   });
 };
@@ -31,7 +34,10 @@ const updateEdgesAction = (changes: EdgeChange[]): void => {
   set({
     activeMindmap: {
       ...activeMindmap,
-      edges: applyEdgeChanges(changes, activeMindmap.edges) as Mindmap['edges'],
+      edges: applyEdgeChanges(
+        changes,
+        activeMindmap.edges,
+      ) as MindmapDto['edges'],
     },
   });
 };
@@ -92,7 +98,7 @@ const toggleMindmapNodeAction = (id: MindmapNode['id'] | null): void => {
   set({ activeMindmapNode });
 };
 
-const setMindmapAction = (activeMindmap: Mindmap): void => {
+const setMindmapAction = (activeMindmap: MindmapDto): void => {
   set({ activeMindmap });
 };
 

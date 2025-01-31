@@ -1,6 +1,6 @@
-import { Visibility, type Mindmap } from 'api-4markdown-contracts';
+import { Visibility, type MindmapDto } from 'api-4markdown-contracts';
 
-const otherMindmap: Mindmap = {
+const otherMindmap: MindmapDto = {
   id: `0a3ca785-baf5-418d-8c1a-90522323213`,
   name: `Other mindmap`,
   description: null,
@@ -144,7 +144,7 @@ const otherMindmap: Mindmap = {
   ],
 };
 
-const defaultMindmap: Mindmap = {
+const defaultMindmap: MindmapDto = {
   id: `0a3ca785-baf5-418d-8c1a-90521117d3c1`,
   name: `It's default mindmap`,
   description: null,

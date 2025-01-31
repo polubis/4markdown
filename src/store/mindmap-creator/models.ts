@@ -1,14 +1,14 @@
 import type {
   DocumentNode,
   EmbeddedNode,
-  Mindmap,
+  MindmapDto,
 } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 
 type MindmapCreatorState = Transaction<{
-  activeMindmap: Mindmap;
-  initialMindmap: Mindmap;
-  browsedMindmaps: Mindmap[];
+  activeMindmap: MindmapDto;
+  initialMindmap: MindmapDto;
+  browsedMindmaps: MindmapDto[];
   activeMindmapNode: DocumentNode | EmbeddedNode | null;
 }>;
 
