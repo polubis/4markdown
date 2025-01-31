@@ -5,7 +5,7 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { YourAvatarContainer } from '../containers/your-avatar.container';
 import { logIn } from 'actions/log-in.action';
-import { useSimpleFeature } from 'development-kit/use-simple-feature';
+import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
 import { useYourUserProfileState } from 'store/your-user-profile';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));

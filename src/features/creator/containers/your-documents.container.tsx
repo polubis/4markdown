@@ -3,7 +3,7 @@ import { Button } from 'design-system/button';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { useDocsStore } from 'store/docs/docs.store';
 import { BiCollection } from 'react-icons/bi';
-import { useSimpleFeature } from 'development-kit/use-simple-feature';
+import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
 
 const DocsListModal = React.lazy(
   () => import(`../../../components/docs-list-modal`),
