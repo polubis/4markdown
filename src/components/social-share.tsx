@@ -11,7 +11,7 @@ import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 import Popover from 'design-system/popover';
 import { Status } from 'design-system/status';
-import { useSimpleFeature } from 'development-kit/use-simple-feature';
+import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
 
 const getLinkedInUrl = (): string =>
   `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`;

@@ -4,7 +4,7 @@ import c from 'classnames';
 import {
   type SimpleFeature,
   useSimpleFeature,
-} from 'development-kit/use-simple-feature';
+} from '@greenonsoftware/first-class-hooks';
 
 interface HintProps {
   className?: string;

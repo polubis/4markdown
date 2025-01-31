@@ -1,5 +1,5 @@
 import { context } from 'development-kit/context';
-import { useSimpleFeature } from 'development-kit/use-simple-feature';
+import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
 
 const [MindmapModalsProvider, useMindmapModalsContext] = context(() => {
   return {

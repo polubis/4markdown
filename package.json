@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",
+    "@greenonsoftware/first-class-hooks": "^0.0.4",
     "@tailwindcss/typography": "^0.5.16",
     "@xyflow/react": "^12.4.2",
     "classnames": "^2.5.1",
