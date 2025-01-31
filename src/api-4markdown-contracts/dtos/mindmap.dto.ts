@@ -62,7 +62,7 @@ type MakeMindmap<
 
 type MindmapAuthor = UserProfileDto | null;
 
-type Mindmap =
+type MindmapDto =
   | MakeMindmap<Visibility.Private, { description: string | null }>
   | MakeMindmap<
       Visibility.Public,
@@ -79,7 +79,7 @@ type Mindmap =
     >;
 
 export type {
-  Mindmap,
+  MindmapDto,
   MindmapNode,
   DocumentNode,
   ExternalNode,
