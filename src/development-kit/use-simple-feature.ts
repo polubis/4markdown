@@ -15,7 +15,7 @@ type SimpleFeature = SimpleFeatureActions & { isOff: boolean; isOn: boolean };
 const useSimpleFeature = (
   defaultState: Setter<SimpleFeatureState> = false,
 ): SimpleFeature => {
-  const initState = React.useRef(defaultState);
+  const [initState] = React.useState(defaultState);
   const [isOn, setIsOn] = React.useState(defaultState);
 
   const on: SimpleFeatureActions['on'] = React.useCallback(() => {
@@ -31,8 +31,8 @@ const useSimpleFeature = (
   }, []);
 
   const reset: SimpleFeatureActions['reset'] = React.useCallback(() => {
-    setIsOn(initState.current);
-  }, []);
+    setIsOn(initState);
+  }, [initState]);
 
   return {
     isOn,
