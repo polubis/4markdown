@@ -25,7 +25,7 @@ import { BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import { useSimpleFeature } from 'development-kit/use-simple-feature';
+import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
