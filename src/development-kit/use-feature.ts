@@ -17,7 +17,7 @@ type Feature<TData> = FeatureState<TData> & FeatureActions<TData>;
 const useFeature = <TData>(
   defaultState: Setter<FeatureState<TData>> = { is: `off` },
 ): Feature<TData> => {
-  const initState = React.useRef(defaultState);
+  const [initState] = React.useState(defaultState);
   const [state, setState] = React.useState(defaultState);
 
   const on: FeatureActions<TData>['on'] = React.useCallback((data) => {
@@ -29,8 +29,8 @@ const useFeature = <TData>(
   }, []);
 
   const reset: FeatureActions<TData>['reset'] = React.useCallback(() => {
-    setState(initState.current);
-  }, []);
+    setState(initState);
+  }, [initState]);
 
   return { ...state, on, off, set: setState, reset };
 };

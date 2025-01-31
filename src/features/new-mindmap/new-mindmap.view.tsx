@@ -14,7 +14,7 @@ import { maxLength, minLength, optional } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
 import { type Transaction } from 'development-kit/utility-types';
 import React, { type FormEventHandler } from 'react';
-import { BiError, BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
+import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
 
 const limits = {
   name: {
