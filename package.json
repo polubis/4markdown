@@ -34,6 +34,7 @@
     "verify": "npm run build && npm run serve"
   },
   "dependencies": {
+    "@greenonsoftware/first-class-hooks": "^0.0.4",
     "@tailwindcss/typography": "^0.5.16",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
