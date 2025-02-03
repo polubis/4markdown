@@ -223,7 +223,13 @@ type NoInternetError = {
   message: string;
 };
 
-type ParsedError = KnownError | UnknownError | NoInternetError;
+type ClientError = {
+  symbol: 'client-error';
+  content: string;
+  message: string;
+};
+
+type ParsedError = KnownError | UnknownError | NoInternetError | ClientError;
 
 export type {
   API4MarkdownContracts,
