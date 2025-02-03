@@ -1,3 +1,4 @@
+import { logIn } from 'actions/log-in.action';
 import { createMindmapAct } from 'acts/create-mindmap.act';
 import { type API4MarkdownPayload } from 'api-4markdown-contracts';
 import { AppNavigation } from 'components/app-navigation';
@@ -15,6 +16,7 @@ import { useForm } from 'development-kit/use-form';
 import { type Transaction } from 'development-kit/utility-types';
 import React, { type FormEventHandler } from 'react';
 import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
+import { useAuthStore } from 'store/auth/auth.store';
 
 const limits = {
   name: {
@@ -28,6 +30,7 @@ const limits = {
 } as const;
 
 const NewMindmapView = () => {
+  const authStore = useAuthStore();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
   const [{ values, untouched, invalid }, { inject }] = useForm<
@@ -50,9 +53,17 @@ const NewMindmapView = () => {
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    setOperation({ is: `busy` });
-    setOperation(await createMindmapAct(values));
+
+    if (authStore.is === `authorized`) {
+      setOperation({ is: `busy` });
+      setOperation(await createMindmapAct(values));
+      return;
+    }
+
+    await logIn();
   };
+
+  React.useEffect(() => {}, []);
 
   return (
     <>
