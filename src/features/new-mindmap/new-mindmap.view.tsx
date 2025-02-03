@@ -71,7 +71,20 @@ const NewMindmapView = () => {
             <strong>avoid sensitive data</strong>
           </p>
           <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
-            <Field label="Name*">
+            <Field
+              label="Name*"
+              hint={
+                <Hint
+                  trigger={
+                    <>
+                      {limits.name.min} - {limits.name.max}
+                      {` `}
+                      characters
+                    </>
+                  }
+                />
+              }
+            >
               <Input
                 placeholder={`My Mindmap, Basics of Computer Science, ...etc`}
                 {...inject(`name`)}
