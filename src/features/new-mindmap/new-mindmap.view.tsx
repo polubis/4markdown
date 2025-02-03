@@ -69,7 +69,10 @@ const NewMindmapView = () => {
     });
 
     setOperation(result);
-    navigate(meta.routes.mindmap.creator);
+
+    if (result.is === `ok`) {
+      navigate(`${meta.routes.mindmap.creator}?id=${result.data.id}`);
+    }
   }, [values]);
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
