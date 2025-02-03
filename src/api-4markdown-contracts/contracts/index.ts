@@ -22,7 +22,7 @@ type CreateMindmapContract = Contract<
   PrivateMindmapDto,
   {
     name: string;
-    description: string;
+    description: string | null;
   }
 >;
 

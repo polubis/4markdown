@@ -13,7 +13,10 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { maxLength, minLength, optional } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
-import { type Transaction } from 'development-kit/utility-types';
+import {
+  type NonNullableProperties,
+  type Transaction,
+} from 'development-kit/utility-types';
 import React, { type FormEventHandler } from 'react';
 import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
@@ -30,11 +33,12 @@ const limits = {
 } as const;
 
 const NewMindmapView = () => {
+  const wantToCreateAfterLogIn = React.useRef(false);
   const authStore = useAuthStore();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
   const [{ values, untouched, invalid }, { inject }] = useForm<
-    API4MarkdownPayload<`createMindmap`>
+    NonNullableProperties<API4MarkdownPayload<`createMindmap`>>
   >(
     {
       name: ``,
@@ -51,19 +55,38 @@ const NewMindmapView = () => {
     },
   );
 
+  const createMindmap = React.useCallback(async (): Promise<void> => {
+    setOperation({ is: `busy` });
+
+    const name = values.name.trim();
+    const description = values.description.trim();
+
+    setOperation(
+      await createMindmapAct({
+        name,
+        description: description.length === 0 ? null : description,
+      }),
+    );
+  }, [values]);
+
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     if (authStore.is === `authorized`) {
-      setOperation({ is: `busy` });
-      setOperation(await createMindmapAct(values));
+      createMindmap();
       return;
     }
 
+    wantToCreateAfterLogIn.current = true;
     await logIn();
   };
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    if (wantToCreateAfterLogIn.current && authStore.is === `authorized`) {
+      wantToCreateAfterLogIn.current = false;
+      createMindmap();
+    }
+  }, [authStore, createMindmap]);
 
   return (
     <>
