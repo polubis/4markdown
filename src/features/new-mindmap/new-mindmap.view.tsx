@@ -63,20 +63,20 @@ const NewMindmapView = () => {
     const name = values.name.trim();
     const description = values.description.trim();
 
-    setOperation(
-      await createMindmapAct({
-        name,
-        description: description.length === 0 ? null : description,
-      }),
-    );
+    const result = await createMindmapAct({
+      name,
+      description: description.length === 0 ? null : description,
+    });
+
+    setOperation(result);
+    navigate(meta.routes.mindmap.creator);
   }, [values]);
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
     if (authStore.is === `authorized`) {
-      await createMindmap();
-      navigate(meta.routes.mindmap.creator);
+      createMindmap();
       return;
     }
 
