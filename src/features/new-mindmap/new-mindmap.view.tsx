@@ -63,7 +63,13 @@ const NewMindmapView = () => {
       </AppNavigation>
       <main className="p-4 min-h-svh flex flex-col justify-center">
         <section className="w-full md:w-[360px] mx-auto rounded-md border-zinc-300 dark:border-zinc-800 border p-4">
-          <h2 className="text-xl mb-4">Create Mindmap</h2>
+          <h2 className="text-xl mb-2">Create Mindmap</h2>
+          <p className="text-sm mb-4">
+            Mindmap will be created in <strong>private mode</strong>. Visible
+            only to you, but data inside is{` `}
+            <strong>not encrypted</strong> -{` `}
+            <strong>avoid sensitive data</strong>
+          </p>
           <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
             <Field label="Name*">
               <Input
@@ -77,10 +83,9 @@ const NewMindmapView = () => {
                 <Hint
                   trigger={
                     <>
-                      Mindmap will be created in <strong>private mode</strong>.
-                      Visible only to you, but data inside is{` `}
-                      <strong>not encrypted</strong> -{` `}
-                      <strong>avoid sensitive data</strong>
+                      {limits.descrition.min} - {limits.descrition.max}
+                      {` `}
+                      characters
                     </>
                   }
                 />
@@ -93,7 +98,7 @@ const NewMindmapView = () => {
             </Field>
             <footer className="mt-6">
               {operation.is === `fail` && (
-                <p className="flex gap-2 text-sm justify-center mb-4 items-center bg-red-200 dark:bg-red-700 p-2 rounded-md">
+                <p className="flex gap-2 text-sm justify-center mb-4 items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
                   <BiErrorAlt className="shrink-0" size={20} />
                   {operation.error.message}
                 </p>
