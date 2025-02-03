@@ -6,11 +6,11 @@ import { getMindmapAct } from 'acts/get-mindmap.act';
 import { TabsNavigationContainer } from './containers/tabs-navigation.container';
 import { MindmapModalsProvider } from './providers/mindmap-widgets.provider';
 import { Loader } from 'design-system/loader';
-
-import './mindmap-creator.css';
 import { navigate } from 'gatsby';
 import { meta } from '../../../meta';
 import { Button } from 'design-system/button';
+
+import './mindmap-creator.css';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();

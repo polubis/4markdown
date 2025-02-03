@@ -36,7 +36,6 @@ const getMindmapAct = async (): Promise<void> => {
     }
 
     if (
-      id && 
       mindmapCreatorState.is === `ok` &&
       id === mindmapCreatorState.activeMindmap.id
     ) {
