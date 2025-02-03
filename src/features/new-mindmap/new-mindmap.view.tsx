@@ -18,12 +18,12 @@ import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
 
 const limits = {
   name: {
-    min: 10,
-    max: 25,
+    min: 1,
+    max: 70,
   },
   descrition: {
-    min: 1,
-    max: 30,
+    min: 110,
+    max: 160,
   },
 } as const;
 
