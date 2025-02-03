@@ -8,12 +8,15 @@ import { MindmapModalsProvider } from './providers/mindmap-widgets.provider';
 import { Loader } from 'design-system/loader';
 
 import './mindmap-creator.css';
+import { navigate } from 'gatsby';
+import { meta } from '../../../meta';
+import { Button } from 'design-system/button';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
 
   React.useEffect(() => {
-    // getMindmapAct();
+    getMindmapAct();
   }, []);
 
   return (
@@ -36,7 +39,25 @@ const MindmapCreatorView = () => {
             <MindmapPreviewContainer />
           </>
         )}
-        {mindmapCreator.is === `fail` && <div>Error</div>}
+        {mindmapCreator.is === `fail` && (
+          <div className="flex flex-col justify-center items-center h-full">
+            <div className="p-4 flex flex-col items-center max-w-[420px]">
+              <h6 className="text-xl text-center">
+                {mindmapCreator.error.message}
+              </h6>
+              <Button
+                title="Create new mindmap"
+                className="mt-4"
+                auto
+                s={2}
+                i={2}
+                onClick={() => navigate(meta.routes.mindmap.new)}
+              >
+                Create New Mindmap
+              </Button>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
