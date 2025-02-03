@@ -20,6 +20,8 @@ import {
 import React, { type FormEventHandler } from 'react';
 import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
+import { navigate } from 'gatsby';
+import { meta } from '../../../meta';
 
 const limits = {
   name: {
@@ -73,7 +75,8 @@ const NewMindmapView = () => {
     e.preventDefault();
 
     if (authStore.is === `authorized`) {
-      createMindmap();
+      await createMindmap();
+      navigate(meta.routes.mindmap.creator);
       return;
     }
 
