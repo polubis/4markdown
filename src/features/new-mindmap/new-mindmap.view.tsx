@@ -93,11 +93,8 @@ const NewMindmapView = () => {
             </Field>
             <footer className="mt-6">
               {operation.is === `fail` && (
-                <p className="flex gap-2 justify-center mb-4 items-center text-red-600 dark:text-red-400">
-                  <BiErrorAlt
-                    className="translate-y-[1px] shrink-0"
-                    size={20}
-                  />
+                <p className="flex gap-2 text-sm justify-center mb-4 items-center bg-red-200 dark:bg-red-700 p-2 rounded-md">
+                  <BiErrorAlt className="shrink-0" size={20} />
                   {operation.error.message}
                 </p>
               )}
