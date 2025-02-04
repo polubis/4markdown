@@ -24,11 +24,13 @@ const getMindmapAct = async (): Promise<void> => {
     const mindmapCreatorState = useMindmapCreatorState.get();
 
     if (!id) {
+      const message = `There is no mindmap id in the URL`;
+
       useMindmapCreatorState.swap({
         is: `fail`,
         error: {
-          message: `There is no mindmap id in the URL`,
-          content: `There is no mindmap id in the URL`,
+          message,
+          content: message,
           symbol: `client-error`,
         },
       });
