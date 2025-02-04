@@ -11,6 +11,7 @@ import { meta } from '../../../meta';
 import { Button } from 'design-system/button';
 
 import './mindmap-creator.css';
+import { EmptyNodesMindmapContainer } from './containers/empty-nodes-mindmap.container';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
@@ -22,25 +23,29 @@ const MindmapCreatorView = () => {
   return (
     <div className="mindmap-creator">
       <aside className="flex justify-center p-4 border-r border-zinc-300 dark:border-zinc-800"></aside>
-      <main className="flex flex-col">
+      <main className="flex flex-col relative">
         {(mindmapCreator.is === `idle` || mindmapCreator.is === `busy`) && (
-          <div className="flex flex-col justify-center items-center h-full">
+          <section className="flex flex-col justify-center items-center h-full">
             <div className="p-4 flex flex-col items-center">
               <h6 className="text-xl text-center">
                 Loading mindmap to preview
               </h6>
               <Loader className="mt-6" size="xl" />
             </div>
-          </div>
+          </section>
         )}
         {mindmapCreator.is === `ok` && (
           <>
             <TabsNavigationContainer />
-            <MindmapPreviewContainer />
+            {mindmapCreator.activeMindmap.nodes.length === 0 ? (
+              <EmptyNodesMindmapContainer />
+            ) : (
+              <MindmapPreviewContainer />
+            )}
           </>
         )}
         {mindmapCreator.is === `fail` && (
-          <div className="flex flex-col justify-center items-center h-full">
+          <section className="flex flex-col justify-center items-center h-full">
             <div className="p-4 flex flex-col items-center max-w-[420px]">
               <h6 className="text-xl text-center">
                 {mindmapCreator.error.message}
@@ -56,7 +61,7 @@ const MindmapCreatorView = () => {
                 Create New Mindmap
               </Button>
             </div>
-          </div>
+          </section>
         )}
       </main>
     </div>
