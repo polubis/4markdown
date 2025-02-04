@@ -9,7 +9,7 @@
 }
 
 .react-flow__controls-button {
-  @apply h-7 w-7 outline-2 outline-black dark:outline-white enabled:focus:outline rounded-full bg-gray-300 dark:bg-slate-800 dark:text-white;
+  @apply h-7 w-7 outline-2 outline-black dark:outline-white enabled:focus:outline rounded-md bg-gray-300 dark:bg-slate-800 dark:text-white;
 }
 
 .react-flow__attribution {
