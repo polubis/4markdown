@@ -9,12 +9,12 @@ const MindmapToolboxContainer = () => {
   const { creation } = useMindmapModalsContext();
 
   return render(
-    <nav className="fixed flex justify-center space-x-2 bottom-0 rounded-tr-md rounded-tl-md p-2 max-w-sm mx-auto left-0 right-0 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 border">
-      <Button i={1} s={2} onClick={creation.on} title="Add new mindmap node">
-        <BiAddToQueue />
-      </Button>
-      <Button i={1} s={2} title="Save mindmap changes">
+    <nav className="fixed flex justify-center space-x-2 bottom-0 py-2 max-w-sm mx-auto left-0 right-0">
+      <Button i={2} s={2} title="Save mindmap changes">
         <BiSave />
+      </Button>
+      <Button i={2} s={2} onClick={creation.on} title="Add new mindmap node">
+        <BiAddToQueue />
       </Button>
     </nav>,
   );
