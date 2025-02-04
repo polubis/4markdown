@@ -67,6 +67,7 @@ type MakeMindmap<
   mdate: Date;
   name: string;
   orientation: `x` | `y`;
+  path: Path;
   nodes: MindmapNode[];
   edges: MindmapEdge[];
   visibility: TVisibility;
@@ -87,7 +88,6 @@ type PublicMindmapDto = MakeMindmap<
 type PermanentMindmapDto = MakeMindmap<
   Visibility.Permanent,
   {
-    path: Path;
     description: string;
     tags: Tags;
     author: MindmapAuthor;
