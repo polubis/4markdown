@@ -48,6 +48,7 @@ const limits = {
 } as const;
 
 const EmbeddedForm = () => {
+  const { creation } = useMindmapModalsContext();
   const { setActiveType } = useLocalContext();
   const [{ values, untouched, invalid }, { inject }] = useForm(
     {
@@ -73,6 +74,7 @@ const EmbeddedForm = () => {
       ...values,
       loading: false,
     });
+    creation.off();
   };
 
   return (
