@@ -13,9 +13,9 @@ import { navigate } from 'gatsby';
 import { meta } from '../../../meta';
 import { Button } from 'design-system/button';
 import { EmptyNodesMindmapContainer } from './containers/empty-nodes-mindmap.container';
+import { CreateNodeModalContainer } from './containers/create-node-modal.container';
 
 import './mindmap-creator.css';
-import { CreateNodeModalContainer } from './containers/create-node-modal.container';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
