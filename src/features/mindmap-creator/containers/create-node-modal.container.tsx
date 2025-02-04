@@ -16,6 +16,18 @@ import { Textarea } from 'design-system/textarea';
 import { Button } from 'design-system/button';
 import { BiPlusCircle } from 'react-icons/bi';
 import { addNewNodeAction } from 'store/mindmap-creator/actions';
+import { context } from 'development-kit/context';
+
+const [LocalProvider, useLocalContext] = context(() => {
+  const [activeType, setActiveType] = React.useState<MindmapNodeType | null>(
+    null,
+  );
+
+  return {
+    activeType,
+    setActiveType,
+  };
+});
 
 const descriptions: Record<MindmapNodeType, string> = {
   document: `Create node from ${meta.appName} document`,
@@ -36,6 +48,7 @@ const limits = {
 } as const;
 
 const EmbeddedForm = () => {
+  const { setActiveType } = useLocalContext();
   const [{ values, untouched, invalid }, { inject }] = useForm(
     {
       name: ``,
@@ -50,7 +63,6 @@ const EmbeddedForm = () => {
           maxLength(limits.descrition.max),
         ),
       ],
-      content: [],
     },
   );
 
@@ -133,6 +145,7 @@ const EmbeddedForm = () => {
             s={2}
             auto
             title="Back to node type selection"
+            onClick={() => setActiveType(null)}
           >
             Back
           </Button>
@@ -168,9 +181,7 @@ const FormRenderer = ({ type }: { type: MindmapNodeType }) => {
 
 const CreateNodeModalContainer = () => {
   const { creation } = useMindmapModalsContext();
-  const [activeType, setActiveType] = React.useState<MindmapNodeType | null>(
-    null,
-  );
+  const { activeType, setActiveType } = useLocalContext();
 
   return (
     <Modal disabled={false} onClose={creation.off}>
@@ -201,4 +212,10 @@ const CreateNodeModalContainer = () => {
   );
 };
 
-export { CreateNodeModalContainer };
+const ConnectedCreateNodeModalContainer = () => (
+  <LocalProvider>
+    <CreateNodeModalContainer />
+  </LocalProvider>
+);
+
+export { ConnectedCreateNodeModalContainer as CreateNodeModalContainer };
