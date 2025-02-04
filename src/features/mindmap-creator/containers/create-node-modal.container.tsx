@@ -58,8 +58,8 @@ const EmbeddedForm = () => {
     e.preventDefault();
 
     addNewNodeAction(`embedded`, {
-      loading: false,
       ...values,
+      loading: false,
     });
   };
 
