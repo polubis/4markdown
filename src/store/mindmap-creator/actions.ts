@@ -7,7 +7,12 @@ import {
 } from '@xyflow/react';
 import { useMindmapCreatorState } from '.';
 import { mindmapReadySelector } from './selectors';
-import type { MindmapDto, MindmapNode } from 'api-4markdown-contracts';
+import type {
+  EmbeddedNode,
+  MindmapDto,
+  MindmapNode,
+  MindmapNodeType,
+} from 'api-4markdown-contracts';
 import type { MindmapCreatorOkState } from './models';
 
 const { set, get } = useMindmapCreatorState;
@@ -102,6 +107,42 @@ const setMindmapAction = (activeMindmap: MindmapDto): void => {
   set({ activeMindmap });
 };
 
+const addNewNodeAction = <TType extends MindmapNodeType>(
+  type: TType,
+  data: Extract<MindmapNode, { type: TType }>['data'],
+): void => {
+  const { activeMindmap } = getOkState();
+  const id = new Date().toISOString();
+
+  if (type === `embedded`) {
+    set({
+      activeMindmap: {
+        ...activeMindmap,
+        nodes: [
+          ...activeMindmap.nodes,
+          {
+            id,
+            position: {
+              x: 0,
+              y: 0,
+            },
+            selected: true,
+            data,
+            type,
+          } as EmbeddedNode,
+        ],
+      },
+    });
+  }
+};
+
+addNewNodeAction(`embedded`, {
+  loading: false,
+  content: ``,
+  description: ``,
+  name: `Test`,
+});
+
 export {
   updateNodesAction,
   updateEdgesAction,
@@ -109,4 +150,5 @@ export {
   removeNodesConnectionAction,
   toggleMindmapNodeAction,
   setMindmapAction,
+  addNewNodeAction,
 };
