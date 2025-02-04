@@ -15,6 +15,7 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { Button } from 'design-system/button';
 import { BiPlusCircle } from 'react-icons/bi';
+import { addNewNodeAction } from 'store/mindmap-creator/actions';
 
 const descriptions: Record<MindmapNodeType, string> = {
   document: `Create node from ${meta.appName} document`,
@@ -55,6 +56,11 @@ const EmbeddedForm = () => {
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
+    addNewNodeAction(`embedded`, {
+      loading: false,
+      ...values,
+    });
   };
 
   return (

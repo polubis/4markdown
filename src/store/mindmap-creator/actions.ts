@@ -136,13 +136,6 @@ const addNewNodeAction = <TType extends MindmapNodeType>(
   }
 };
 
-addNewNodeAction(`embedded`, {
-  loading: false,
-  content: ``,
-  description: ``,
-  name: `Test`,
-});
-
 export {
   updateNodesAction,
   updateEdgesAction,
