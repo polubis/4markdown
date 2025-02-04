@@ -80,7 +80,7 @@ const EmbeddedForm = () => {
   return (
     <>
       <Modal.Header
-        title="Embedded node data (2)"
+        title="Embedded node data (2/2)"
         closeButtonTitle="Cancel node creation"
       />
       <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
@@ -190,7 +190,7 @@ const CreateNodeModalContainer = () => {
       {activeType === null ? (
         <>
           <Modal.Header
-            title="Select Node Type (1)"
+            title="Select Node Type (1/2)"
             closeButtonTitle="Cancel node creation"
           />
 
