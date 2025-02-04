@@ -11,7 +11,19 @@ import type {
 } from 'api-4markdown-contracts';
 import type { Prettify } from 'development-kit/utility-types';
 
-type MakeNode<TType extends string, TData extends Record<string, any>> = {
+export const mindmapNodeTypes = [
+  `document`,
+  `external`,
+  `embedded`,
+  `nested`,
+] as const;
+
+export type MindmapNodeType = (typeof mindmapNodeTypes)[number];
+
+type MakeNode<
+  TType extends MindmapNodeType,
+  TData extends Record<string, any>,
+> = {
   id: Id;
   position: {
     x: number;
