@@ -26,6 +26,17 @@ type CreateMindmapContract = Contract<
   }
 >;
 
+type UpdateMindmapShapePayload = Pick<
+  MindmapDto,
+  'mdate' | 'id' | 'nodes' | 'edges'
+>;
+
+type UpdateMindmapShapeContract = Contract<
+  `updateMindmapShape`,
+  MindmapDto,
+  UpdateMindmapShapePayload
+>;
+
 type GetYourDocumentsContract = Contract<
   `getYourDocuments`,
   (
@@ -137,7 +148,8 @@ type API4MarkdownContracts =
   | UpdateYourUserProfileContract
   | RateDocumentContract
   | UpdateDocumentNameContract
-  | CreateMindmapContract;
+  | CreateMindmapContract
+  | UpdateMindmapShapeContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -248,6 +260,7 @@ export type {
   UpdateDocumentVisibilityContract,
   UploadImageContract,
   GetYourUserProfileContract,
+  UpdateMindmapShapeContract,
   UpdateYourUserProfileContract,
   RateDocumentContract,
   UpdateDocumentNameContract,
