@@ -6,6 +6,7 @@ import { useMindmapModalsContext } from '../providers/mindmap-widgets.provider';
 import type { Transaction } from 'development-kit/utility-types';
 import { ScreenLoader } from 'design-system/screen-loader';
 import { updateMindmapShapeAct } from 'acts/update-mindmap-shape.act';
+import ErrorModal from 'components/error-modal';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
@@ -19,6 +20,18 @@ const MindmapToolboxContainer = () => {
 
   if (operation.is === `busy`) {
     return render(<ScreenLoader />);
+  }
+
+  if (operation.is === `fail`) {
+    return (
+      <ErrorModal
+        heading="Cannot update mindmap shape"
+        message={operation.error.message}
+        onClose={() => {
+          setOperation({ is: `idle` });
+        }}
+      />
+    );
   }
 
   return render(
