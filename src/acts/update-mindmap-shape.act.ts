@@ -9,7 +9,7 @@ const updateMindmapShapeAct = async (): AsyncResult => {
       useMindmapCreatorState.get(),
     );
 
-    const data = await getAPI().call(`updateMindmapShape`)({
+    const response = await getAPI().call(`updateMindmapShape`)({
       id: activeMindmap.id,
       mdate: activeMindmap.mdate,
       nodes: activeMindmap.nodes,
@@ -17,7 +17,10 @@ const updateMindmapShapeAct = async (): AsyncResult => {
     });
 
     useMindmapCreatorState.set({
-      activeMindmap: data,
+      activeMindmap: {
+        ...activeMindmap,
+        mdate: response.mdate,
+      },
     });
 
     return { is: `ok` };
