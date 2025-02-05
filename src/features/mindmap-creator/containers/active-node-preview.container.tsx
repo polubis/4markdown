@@ -18,7 +18,7 @@ const ActiveNodePreviewContainer = () => {
     <aside
       data-testid="[mindmap-preview]:side-content"
       className={c(
-        `fixed top-0 right-0 h-full overflow-y-auto border-l border-zinc-300 dark:border-zinc-800 bg-white dark:bg-black max-w-xl`,
+        `fixed top-0 right-0 h-full min-w-[280px] overflow-y-auto border-l border-zinc-300 dark:border-zinc-800 bg-white dark:bg-black max-w-xl`,
       )}
     >
       <div className="p-4 flex gap-2 items-center h-[72px]">
@@ -26,6 +26,7 @@ const ActiveNodePreviewContainer = () => {
         <Button
           i={2}
           s={1}
+          className="ml-auto"
           title="Close navigation"
           onClick={() => toggleMindmapNodeAction(null)}
         >
