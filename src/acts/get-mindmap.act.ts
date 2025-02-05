@@ -14,6 +14,7 @@ const loadMindmap = async (): Promise<void> => {
     initialMindmap: defaultMindmap,
     browsedMindmaps: [],
     activeMindmapNode: null,
+    updating: { is: `idle` },
   });
 };
 
