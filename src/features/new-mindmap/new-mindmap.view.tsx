@@ -66,11 +66,12 @@ const NewMindmapView = () => {
       tags: splittedTags.length === 0 ? null : splittedTags,
     });
 
-    setOperation(result);
-
     if (result.is === `ok`) {
       navigate(`${meta.routes.mindmap.creator}?id=${result.data.id}`);
+      return;
     }
+
+    setOperation(result);
   }, [values]);
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
