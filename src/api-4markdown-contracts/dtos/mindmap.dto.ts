@@ -11,14 +11,14 @@ import type {
 } from 'api-4markdown-contracts';
 import type { Prettify } from 'development-kit/utility-types';
 
-const mindmapNodeTypes = [
+const MINDMAP_NODE_TYPES = [
   `document`,
   `external`,
   `embedded`,
   `nested`,
 ] as const;
 
-type MindmapNodeType = (typeof mindmapNodeTypes)[number];
+type MindmapNodeType = (typeof MINDMAP_NODE_TYPES)[number];
 
 type MakeNode<
   TType extends MindmapNodeType,
@@ -75,7 +75,7 @@ type MindmapDto = {
   tags: Tags | null;
 };
 
-export { mindmapNodeTypes };
+export { MINDMAP_NODE_TYPES };
 export type {
   MindmapNodeType,
   MindmapDto,

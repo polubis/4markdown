@@ -3,7 +3,7 @@ import type { ComponentType, FormEventHandler } from 'react';
 import React from 'react';
 import { useMindmapModalsContext } from '../providers/mindmap-widgets.provider';
 import {
-  mindmapNodeTypes,
+  MINDMAP_NODE_TYPES,
   type MindmapNodeType,
 } from 'api-4markdown-contracts';
 import { meta } from '../../../../meta';
@@ -195,7 +195,7 @@ const CreateNodeModalContainer = () => {
           />
 
           <section className="flex flex-col gap-3">
-            {mindmapNodeTypes.map((type) => (
+            {MINDMAP_NODE_TYPES.map((type) => (
               <button
                 className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                 key={type}
