@@ -1,6 +1,5 @@
 import { logIn } from 'actions/log-in.action';
 import { createMindmapAct } from 'acts/create-mindmap.act';
-import { type API4MarkdownPayload } from 'api-4markdown-contracts';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
 import { CreationLinkContainer } from 'containers/creation-link.container';
@@ -13,10 +12,7 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { maxLength, minLength, optional } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
-import {
-  type NonNullableProperties,
-  type Transaction,
-} from 'development-kit/utility-types';
+import { type Transaction } from 'development-kit/utility-types';
 import React, { type FormEventHandler } from 'react';
 import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
@@ -39,12 +35,11 @@ const NewMindmapView = () => {
   const authStore = useAuthStore();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
-  const [{ values, untouched, invalid }, { inject }] = useForm<
-    NonNullableProperties<API4MarkdownPayload<`createMindmap`>>
-  >(
+  const [{ values, untouched, invalid }, { inject }] = useForm(
     {
       name: ``,
       description: ``,
+      tags: ``,
     },
     {
       name: [minLength(limits.name.min), maxLength(limits.name.max)],
@@ -62,10 +57,13 @@ const NewMindmapView = () => {
 
     const name = values.name.trim();
     const description = values.description.trim();
+    const tags = values.tags.trim();
+    const splittedTags = tags.split(`,`);
 
     const result = await createMindmapAct({
       name,
       description: description.length === 0 ? null : description,
+      tags: splittedTags.length === 0 ? null : splittedTags,
     });
 
     setOperation(result);
@@ -93,6 +91,15 @@ const NewMindmapView = () => {
       createMindmap();
     }
   }, [authStore, createMindmap]);
+
+  const splittedTags = React.useMemo(
+    () =>
+      values.tags
+        .split(`,`)
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0).length,
+    [values.tags],
+  );
 
   return (
     <>
@@ -147,6 +154,17 @@ const NewMindmapView = () => {
               <Textarea
                 placeholder="My private or public roadmap for learning something important to me..."
                 {...inject(`description`)}
+              />
+            </Field>
+            <Field
+              label={splittedTags === 0 ? `Tags` : `Tags (${splittedTags})`}
+              hint={
+                <Hint trigger={`Comma-separated, 1-10 tags, each unique`} />
+              }
+            >
+              <Input
+                placeholder="React, ruby-on-rails, c++, c# ...etc"
+                {...inject(`tags`)}
               />
             </Field>
             <footer className="mt-6">

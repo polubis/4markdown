@@ -20,10 +20,7 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
 type CreateMindmapContract = Contract<
   `createMindmap`,
   MindmapDto,
-  {
-    name: string;
-    description: string | null;
-  }
+  Pick<MindmapDto, 'name' | 'description' | 'tags'>
 >;
 
 type UpdateMindmapShapePayload = Pick<
