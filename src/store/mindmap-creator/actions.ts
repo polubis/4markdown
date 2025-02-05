@@ -57,7 +57,7 @@ const connectNodesAction = ({ source, target }: Connection): void => {
         ...activeMindmap.edges,
         {
           id: new Date().toISOString(),
-          type: `unvisited`,
+          type: `visited`,
           source,
           target,
         },
