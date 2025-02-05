@@ -8,7 +8,7 @@ import type {
   UserProfileDto,
   DocumentRatingCategory,
   DocumentRatingDto,
-  PrivateMindmapDto,
+  MindmapDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -19,7 +19,7 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
 
 type CreateMindmapContract = Contract<
   `createMindmap`,
-  PrivateMindmapDto,
+  MindmapDto,
   {
     name: string;
     description: string | null;
