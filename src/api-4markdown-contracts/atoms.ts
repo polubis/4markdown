@@ -16,7 +16,6 @@ const enum Visibility {
 }
 
 export { Visibility };
-
 export type {
   Id,
   Name,
