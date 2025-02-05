@@ -10,7 +10,6 @@ type MindmapCreatorState = Transaction<{
   initialMindmap: MindmapDto;
   browsedMindmaps: MindmapDto[];
   activeMindmapNode: DocumentNode | EmbeddedNode | null;
-  updating: Transaction;
 }>;
 
 type MindmapCreatorOkState = Extract<MindmapCreatorState, { is: `ok` }>;
