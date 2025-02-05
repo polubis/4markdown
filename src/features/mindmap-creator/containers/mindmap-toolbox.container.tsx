@@ -7,6 +7,7 @@ import type { Transaction } from 'development-kit/utility-types';
 import { ScreenLoader } from 'design-system/screen-loader';
 import { updateMindmapShapeAct } from 'acts/update-mindmap-shape.act';
 import ErrorModal from 'components/error-modal';
+import { getMindmapAct } from 'acts/get-mindmap.act';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
@@ -25,8 +26,21 @@ const MindmapToolboxContainer = () => {
   if (operation.is === `fail`) {
     return (
       <ErrorModal
-        heading="Cannot update mindmap shape"
+        heading="Ups, something went wrong"
         message={operation.error.message}
+        footer={
+          operation.error.symbol === `out-of-date` && (
+            <Button
+              i={2}
+              s={2}
+              auto
+              title="Sync mindmap"
+              onClick={getMindmapAct}
+            >
+              Sync
+            </Button>
+          )
+        }
         onClose={() => {
           setOperation({ is: `idle` });
         }}
