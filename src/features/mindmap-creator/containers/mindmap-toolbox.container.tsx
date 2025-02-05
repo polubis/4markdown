@@ -26,7 +26,7 @@ const MindmapToolboxContainer = () => {
   if (operation.is === `fail`) {
     return (
       <ErrorModal
-        heading="Ups, something went wrong"
+        heading="Cannot update mindmap shape"
         message={operation.error.message}
         footer={
           operation.error.symbol === `out-of-date` && (
