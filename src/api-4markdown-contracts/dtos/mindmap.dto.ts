@@ -58,10 +58,9 @@ type VisitedEdge = MakeEdge<`visited`>;
 type DoneEdge = MakeEdge<`done`>;
 type MindmapEdge = UnvisitedEdge | VisitedEdge | DoneEdge;
 
-type MakeMindmap<
-  TVisibility extends Visibility,
-  TData extends Record<string, any> = {},
-> = TData & {
+type MindmapAuthor = UserProfileDto | null;
+
+type MindmapDto = {
   id: Id;
   cdate: Date;
   mdate: Date;
@@ -70,36 +69,13 @@ type MakeMindmap<
   path: Path;
   nodes: MindmapNode[];
   edges: MindmapEdge[];
-  visibility: TVisibility;
+  visibility: Visibility;
+  author: MindmapAuthor;
+  description: string | null;
+  tags: Tags | null;
 };
 
-type MindmapAuthor = UserProfileDto | null;
-
-type PrivateMindmapDto = MakeMindmap<
-  Visibility.Private,
-  { description: string | null }
->;
-
-type PublicMindmapDto = MakeMindmap<
-  Visibility.Public,
-  { description: string | null; author: MindmapAuthor }
->;
-
-type PermanentMindmapDto = MakeMindmap<
-  Visibility.Permanent,
-  {
-    description: string;
-    tags: Tags;
-    author: MindmapAuthor;
-  }
->;
-
-type MindmapDto = PrivateMindmapDto | PublicMindmapDto | PermanentMindmapDto;
-
 export type {
-  PrivateMindmapDto,
-  PublicMindmapDto,
-  PermanentMindmapDto,
   MindmapDto,
   MindmapNode,
   DocumentNode,
