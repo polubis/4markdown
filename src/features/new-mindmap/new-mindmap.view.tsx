@@ -58,7 +58,7 @@ const NewMindmapView = () => {
     const name = values.name.trim();
     const description = values.description.trim();
     const tags = values.tags.trim();
-    const splittedTags = tags.split(`,`);
+    const splittedTags = tags.length === 0 ? [] : tags.split(`,`);
 
     const result = await createMindmapAct({
       name,
