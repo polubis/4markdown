@@ -13,6 +13,7 @@ import {
   type PermanentDocumentDto,
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
+import { randomUUID } from 'crypto';
 
 const createAhrefsAutoIndexFile = (): void => {
   const indexNowKey = process.env.INDEX_NOW_KEY;
@@ -96,6 +97,12 @@ const createBenchmarkFile = (): void => {
   );
 
   console.log(`Build benchmark file created`);
+};
+
+export const onPreBootstrap: GatsbyNode['onPreBootstrap'] = () => {
+  const buildId = randomUUID();
+
+  process.env.GATSBY_BUILD_ID = buildId;
 };
 
 export const onPostBuild: GatsbyNode['onPostBuild'] = () => {
