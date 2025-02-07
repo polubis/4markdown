@@ -14,7 +14,7 @@ import type {
   MindmapNodeType,
 } from 'api-4markdown-contracts';
 import type { MindmapCreatorOkState } from './models';
-import { generateSessionStampId } from 'core/generate-session-stamp-id';
+import { generateIdFromSessionStamp } from 'core/session-stamps';
 
 const { set, get } = useMindmapCreatorState;
 
@@ -57,7 +57,7 @@ const connectNodesAction = ({ source, target }: Connection): void => {
       edges: [
         ...activeMindmap.edges,
         {
-          id: generateSessionStampId(),
+          id: generateIdFromSessionStamp(),
           type: `visited`,
           source,
           target,
@@ -113,7 +113,7 @@ const addNewNodeAction = <TType extends MindmapNodeType>(
   data: Extract<MindmapNode, { type: TType }>['data'],
 ): void => {
   const { activeMindmap } = getOkState();
-  const id = generateSessionStampId();
+  const id = generateIdFromSessionStamp();
 
   if (type === `embedded`) {
     set({
