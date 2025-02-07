@@ -70,8 +70,14 @@ const EmbeddedForm = () => {
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
+    const name = values.name.trim();
+    const description = values.description.trim();
+    const content = values.content.trim();
+
     addNewNodeAction(`embedded`, {
-      ...values,
+      name,
+      description: description.length === 0 ? null : description,
+      content,
       loading: false,
     });
     creation.off();
