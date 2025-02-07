@@ -15,6 +15,7 @@ const createMindmapAct = async (
       initialMindmap: data,
       browsedMindmaps: [],
       activeMindmapNode: null,
+      savingEnabled: false,
     });
 
     return { is: `ok`, data };
