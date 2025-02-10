@@ -2,7 +2,6 @@ import React from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
 import { MindmapPreviewContainer } from './containers/mindmap-preview.container';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { getMindmapAct } from 'acts/get-mindmap.act';
 import { TabsNavigationContainer } from './containers/tabs-navigation.container';
 import {
   MindmapModalsProvider,
@@ -14,15 +13,18 @@ import { meta } from '../../../meta';
 import { Button } from 'design-system/button';
 import { EmptyNodesMindmapContainer } from './containers/empty-nodes-mindmap.container';
 import { CreateNodeModalContainer } from './containers/create-node-modal.container';
+import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
+import { useYourMindmapsState } from 'store/your-mindmaps';
 
 import './mindmap-creator.css';
 
 const MindmapCreatorView = () => {
+  const yourMindmaps = useYourMindmapsState();
   const mindmapCreator = useMindmapCreatorState();
   const { creation } = useMindmapModalsContext();
 
   React.useEffect(() => {
-    getMindmapAct();
+    getYourMindmapsAct();
   }, []);
 
   return (
@@ -30,7 +32,10 @@ const MindmapCreatorView = () => {
       <div className="mindmap-creator">
         <aside className="flex justify-center p-4 border-r border-zinc-300 dark:border-zinc-800"></aside>
         <main className="flex flex-col relative">
-          {(mindmapCreator.is === `idle` || mindmapCreator.is === `busy`) && (
+          {(mindmapCreator.is === `idle` ||
+            mindmapCreator.is === `busy` ||
+            yourMindmaps.is === `idle` ||
+            yourMindmaps.is === `busy`) && (
             <section className="flex flex-col justify-center items-center h-full">
               <div className="p-4 flex flex-col items-center">
                 <h6 className="text-xl text-center">
@@ -55,6 +60,25 @@ const MindmapCreatorView = () => {
               <div className="p-4 flex flex-col items-center max-w-[420px]">
                 <h6 className="text-xl text-center">
                   {mindmapCreator.error.message}
+                </h6>
+                <Button
+                  title="Create new mindmap"
+                  className="mt-4"
+                  auto
+                  s={2}
+                  i={2}
+                  onClick={() => navigate(meta.routes.mindmap.new)}
+                >
+                  Create New Mindmap
+                </Button>
+              </div>
+            </section>
+          )}
+          {yourMindmaps.is === `fail` && (
+            <section className="flex flex-col justify-center items-center h-full">
+              <div className="p-4 flex flex-col items-center max-w-[420px]">
+                <h6 className="text-xl text-center">
+                  {yourMindmaps.error.message}
                 </h6>
                 <Button
                   title="Create new mindmap"
