@@ -1,9 +1,9 @@
-import type { MindmapCreatorOkState, MindmapCreatorState } from './models';
+import type { MindmapCreatorActiveState, MindmapCreatorState } from './models';
 
 const mindmapReadySelector = (
   state: MindmapCreatorState,
-): MindmapCreatorOkState => {
-  if (state.is === `ok`) return state;
+): MindmapCreatorActiveState => {
+  if (state.is === `active`) return state;
 
   throw Error(`Invalid state read attempt in mindmap creation`);
 };

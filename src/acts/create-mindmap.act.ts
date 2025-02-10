@@ -10,7 +10,7 @@ const createMindmapAct = async (
     const data = await getAPI().call(`createMindmap`)(payload);
 
     useMindmapCreatorState.swap({
-      is: `ok`,
+      is: `active`,
       activeMindmap: data,
       initialMindmap: data,
       browsedMindmaps: [],

@@ -13,12 +13,12 @@ import type {
   MindmapNode,
   MindmapNodeType,
 } from 'api-4markdown-contracts';
-import type { MindmapCreatorOkState } from './models';
+import type { MindmapCreatorActiveState } from './models';
 import { generateIdFromSessionStamp } from 'core/session-stamps';
 
 const { set, get } = useMindmapCreatorState;
 
-const getOkState = (): MindmapCreatorOkState => mindmapReadySelector(get());
+const getOkState = (): MindmapCreatorActiveState => mindmapReadySelector(get());
 
 const updateNodesAction = (changes: NodeChange[]): void => {
   const { activeMindmap } = getOkState();

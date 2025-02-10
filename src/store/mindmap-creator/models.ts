@@ -3,16 +3,17 @@ import type {
   EmbeddedNode,
   MindmapDto,
 } from 'api-4markdown-contracts';
-import type { Transaction } from 'development-kit/utility-types';
 
-type MindmapCreatorState = Transaction<{
+type StateBase = {
   activeMindmap: MindmapDto;
   initialMindmap: MindmapDto;
   browsedMindmaps: MindmapDto[];
   activeMindmapNode: DocumentNode | EmbeddedNode | null;
   savingEnabled: boolean;
-}>;
+};
 
-type MindmapCreatorOkState = Extract<MindmapCreatorState, { is: `ok` }>;
+type MindmapCreatorState = { is: `unset` } | ({ is: `active` } & StateBase);
 
-export type { MindmapCreatorState, MindmapCreatorOkState };
+type MindmapCreatorActiveState = Extract<MindmapCreatorState, { is: `active` }>;
+
+export type { MindmapCreatorState, MindmapCreatorActiveState };
