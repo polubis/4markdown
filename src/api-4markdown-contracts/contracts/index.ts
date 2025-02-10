@@ -17,6 +17,14 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   payload: TPayload;
 };
 
+type GetYourMindmapsContract = Contract<
+  `getYourMindmaps`,
+  {
+    mindmapsCount: number;
+    mindmaps: MindmapDto[];
+  }
+>;
+
 type CreateMindmapContract = Contract<
   `createMindmap`,
   MindmapDto,
@@ -146,7 +154,8 @@ type API4MarkdownContracts =
   | RateDocumentContract
   | UpdateDocumentNameContract
   | CreateMindmapContract
-  | UpdateMindmapShapeContract;
+  | UpdateMindmapShapeContract
+  | GetYourMindmapsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -259,6 +268,7 @@ export type {
   GetYourUserProfileContract,
   UpdateMindmapShapeContract,
   UpdateYourUserProfileContract,
+  GetYourMindmapsContract,
   RateDocumentContract,
   UpdateDocumentNameContract,
   API4MarkdownContractCall,
