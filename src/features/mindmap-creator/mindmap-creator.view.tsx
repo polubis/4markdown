@@ -15,6 +15,7 @@ import { EmptyNodesMindmapContainer } from './containers/empty-nodes-mindmap.con
 import { CreateNodeModalContainer } from './containers/create-node-modal.container';
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useYourMindmapsState } from 'store/your-mindmaps';
+import { getMindmapAct } from 'acts/get-mindmap.act';
 
 import './mindmap-creator.css';
 
@@ -25,6 +26,7 @@ const MindmapCreatorView = () => {
 
   React.useEffect(() => {
     getYourMindmapsAct();
+    getMindmapAct();
   }, []);
 
   return (
