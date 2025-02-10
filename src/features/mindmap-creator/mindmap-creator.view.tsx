@@ -8,13 +8,12 @@ import {
   useMindmapModalsContext,
 } from './providers/mindmap-widgets.provider';
 import { Loader } from 'design-system/loader';
-import { navigate } from 'gatsby';
-import { meta } from '../../../meta';
 import { Button } from 'design-system/button';
 import { EmptyNodesMindmapContainer } from './containers/empty-nodes-mindmap.container';
 import { CreateNodeModalContainer } from './containers/create-node-modal.container';
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useYourMindmapsState } from 'store/your-mindmaps';
+import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 
 import './mindmap-creator.css';
 
@@ -81,7 +80,7 @@ const ConnectedMindmapCreatorView = () => {
                 auto
                 s={2}
                 i={2}
-                onClick={() => navigate(meta.routes.mindmap.new)}
+                onClick={reloadYourMindmapsAct}
               >
                 Try Agian
               </Button>
