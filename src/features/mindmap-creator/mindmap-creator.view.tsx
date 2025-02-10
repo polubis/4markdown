@@ -54,12 +54,10 @@ const ConnectedMindmapCreatorView = () => {
     <div className="mindmap-creator">
       <aside className="flex justify-center p-4 border-r border-zinc-300 dark:border-zinc-800"></aside>
       <main className="flex flex-col relative">
-        {(yourMindmaps.is === `idle` || yourMindmaps.is === `busy`) && (
+        {yourMindmaps.is === `busy` && (
           <section className="flex flex-col justify-center items-center h-full">
             <div className="p-4 flex flex-col items-center">
-              <h6 className="text-xl text-center">
-                Loading mindmap to preview
-              </h6>
+              <h6 className="text-xl text-center">Loading your mindmaps</h6>
               <Loader className="mt-6" size="xl" />
             </div>
           </section>
