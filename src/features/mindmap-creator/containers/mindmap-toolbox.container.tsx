@@ -7,6 +7,7 @@ import type { Transaction } from 'development-kit/utility-types';
 import { ScreenLoader } from 'design-system/screen-loader';
 import { updateMindmapShapeAct } from 'acts/update-mindmap-shape.act';
 import ErrorModal from 'components/error-modal';
+import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
@@ -34,9 +35,7 @@ const MindmapToolboxContainer = () => {
               s={2}
               auto
               title="Sync mindmap"
-              onClick={() => {
-                // TODO
-              }}
+              onClick={reloadYourMindmapsAct}
             >
               Sync
             </Button>
