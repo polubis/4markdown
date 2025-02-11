@@ -14,7 +14,7 @@ import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
   const { savingDisabled } = useMindmapCreatorState(mindmapReadySelector);
-  const { creation } = useMindmapModalsContext();
+  const { nodeCreation } = useMindmapModalsContext();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
   const updateMindmapShape = async (): Promise<void> => {
@@ -62,7 +62,12 @@ const MindmapToolboxContainer = () => {
       >
         <BiSave />
       </Button>
-      <Button i={2} s={2} onClick={creation.on} title="Add new mindmap node">
+      <Button
+        i={2}
+        s={2}
+        onClick={nodeCreation.on}
+        title="Add new mindmap node"
+      >
         <BiAddToQueue />
       </Button>
     </nav>,

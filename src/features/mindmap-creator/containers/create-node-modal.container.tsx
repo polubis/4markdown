@@ -48,7 +48,7 @@ const limits = {
 } as const;
 
 const EmbeddedForm = () => {
-  const { creation } = useMindmapModalsContext();
+  const { nodeCreation } = useMindmapModalsContext();
   const { setActiveType } = useLocalContext();
   const [{ values, untouched, invalid }, { inject }] = useForm(
     {
@@ -80,7 +80,7 @@ const EmbeddedForm = () => {
       content,
       loading: false,
     });
-    creation.off();
+    nodeCreation.off();
   };
 
   return (
@@ -188,11 +188,11 @@ const FormRenderer = ({ type }: { type: MindmapNodeType }) => {
 };
 
 const CreateNodeModalContainer = () => {
-  const { creation } = useMindmapModalsContext();
+  const { nodeCreation } = useMindmapModalsContext();
   const { activeType, setActiveType } = useLocalContext();
 
   return (
-    <Modal disabled={false} onClose={creation.off}>
+    <Modal disabled={false} onClose={nodeCreation.off}>
       {activeType === null ? (
         <>
           <Modal.Header

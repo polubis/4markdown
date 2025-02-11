@@ -33,7 +33,7 @@ import './mindmap-creator.css';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
-  const { creation } = useMindmapModalsContext();
+  const { nodeCreation } = useMindmapModalsContext();
   const yourMindmaps = useYourMindmapsState(yourMindmapsReadySelector);
 
   if (mindmapCreator.is === `unset`) {
@@ -107,7 +107,7 @@ const MindmapCreatorView = () => {
       ) : (
         <MindmapPreviewContainer />
       )}
-      {creation.isOn && <CreateNodeModalContainer />}
+      {nodeCreation.isOn && <CreateNodeModalContainer />}
     </>
   );
 };

@@ -3,7 +3,7 @@ import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
 
 const [MindmapModalsProvider, useMindmapModalsContext] = context(() => {
   return {
-    creation: useSimpleFeature(),
+    nodeCreation: useSimpleFeature(),
   };
 });
 
