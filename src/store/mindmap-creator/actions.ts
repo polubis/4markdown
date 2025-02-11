@@ -105,7 +105,16 @@ const toggleMindmapNodeAction = (id: MindmapNode['id'] | null): void => {
     return;
   }
 
-  set({ activeMindmapNode });
+  set({
+    activeMindmapNode,
+    activeMindmap: {
+      ...activeMindmap,
+      nodes: activeMindmap.nodes.map((node) => ({
+        ...node,
+        selected: false,
+      })),
+    },
+  });
 };
 
 const initializeMindmapAction = (mindmap: MindmapDto): void => {
