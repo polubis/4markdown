@@ -15,10 +15,47 @@ import type {
 } from 'api-4markdown-contracts';
 import type { MindmapCreatorActiveState } from './models';
 import { generateIdFromSessionStamp } from 'core/session-stamps';
-
+import Dagre from '@dagrejs/dagre';
 const { set, get, swap } = useMindmapCreatorState;
 
 const getOkState = (): MindmapCreatorActiveState => mindmapReadySelector(get());
+
+const makeSkeleton = ({
+  nodes,
+  edges,
+  orientation,
+}: Pick<MindmapDto, 'nodes' | 'edges' | 'orientation'>) => {
+  const graph = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
+
+  graph.setGraph({
+    rankdir: orientation === `x` ? `LR` : `TB`,
+    ranksep: 100,
+    nodesep: 50,
+  });
+
+  edges.forEach((edge) => graph.setEdge(edge.source, edge.target));
+  nodes.forEach((node) =>
+    graph.setNode(node.id, {
+      ...node,
+      width: node.measured?.width ?? 0,
+      height: node.measured?.height ?? 0,
+    }),
+  );
+
+  Dagre.layout(graph);
+
+  return {
+    nodes: nodes.map((node) => {
+      const position = graph.node(node.id);
+
+      const x = position.x - (node.measured?.width ?? 0) / 2;
+      const y = position.y - (node.measured?.height ?? 0) / 2;
+
+      return { ...node, position: { x, y } };
+    }),
+    edges,
+  };
+};
 
 const updateNodesAction = (changes: NodeChange[]): void => {
   const { activeMindmap } = getOkState();
@@ -183,6 +220,17 @@ const removeSelectedNodesAction = (): void => {
   });
 };
 
+const alignToSkeletonAction = (): void => {
+  const { activeMindmap } = getOkState();
+
+  set({
+    activeMindmap: {
+      ...activeMindmap,
+      ...makeSkeleton(activeMindmap),
+    },
+  });
+};
+
 export {
   updateNodesAction,
   updateEdgesAction,
@@ -193,4 +241,5 @@ export {
   addNewNodeAction,
   initializeMindmapAction,
   removeSelectedNodesAction,
+  alignToSkeletonAction,
 };

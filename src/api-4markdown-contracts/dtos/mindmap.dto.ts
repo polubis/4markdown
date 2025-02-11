@@ -29,6 +29,10 @@ type MakeNode<
     x: number;
     y: number;
   };
+  measured?: {
+    height: number;
+    width: number;
+  };
   type: TType;
   selected: boolean;
   data: Prettify<

@@ -1,7 +1,7 @@
 import { Button } from 'design-system/button';
 import { usePortal } from 'development-kit/use-portal';
 import React from 'react';
-import { BiAddToQueue, BiSave, BiTrash } from 'react-icons/bi';
+import { BiAddToQueue, BiMove, BiSave, BiTrash } from 'react-icons/bi';
 import { useMindmapModalsContext } from '../providers/mindmap-widgets.provider';
 import type { Transaction } from 'development-kit/utility-types';
 import { ScreenLoader } from 'design-system/screen-loader';
@@ -10,6 +10,7 @@ import ErrorModal from 'components/error-modal';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
+import { alignToSkeletonAction } from 'store/mindmap-creator/actions';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
@@ -61,16 +62,15 @@ const MindmapToolboxContainer = () => {
     <nav className="fixed flex justify-center space-x-2 bottom-0 py-2 max-w-sm mx-auto left-0 right-0">
       <Button
         i={2}
-        disabled={!hasSelectedNode}
-        s={2}
-        title="Remove selected nodes"
-        onClick={nodesRemovalConfirm.on}
+        s={1}
+        title="Center mindmap"
+        onClick={alignToSkeletonAction}
       >
-        <BiTrash />
+        <BiMove />
       </Button>
       <Button
         i={2}
-        s={2}
+        s={1}
         title="Save mindmap changes"
         disabled={savingDisabled}
         onClick={updateMindmapShape}
@@ -79,7 +79,16 @@ const MindmapToolboxContainer = () => {
       </Button>
       <Button
         i={2}
-        s={2}
+        disabled={!hasSelectedNode}
+        s={1}
+        title="Remove selected nodes"
+        onClick={nodesRemovalConfirm.on}
+      >
+        <BiTrash />
+      </Button>
+      <Button
+        i={2}
+        s={1}
         onClick={nodeCreation.on}
         title="Add new mindmap node"
       >
