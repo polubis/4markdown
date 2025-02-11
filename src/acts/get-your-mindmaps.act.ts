@@ -1,28 +1,7 @@
 import { getAPI, getCache, parseError, setCache } from 'api-4markdown';
 
-import type {
-  API4MarkdownContractKey,
-  API4MarkdownDto,
-} from 'api-4markdown-contracts';
-import { useMindmapCreatorState } from 'store/mindmap-creator';
+import type { API4MarkdownContractKey } from 'api-4markdown-contracts';
 import { useYourMindmapsState } from 'store/your-mindmaps';
-
-const makeFirstMindmapActive = (
-  mindmaps: API4MarkdownDto<`getYourMindmaps`>['mindmaps'],
-): void => {
-  const [firstMindmap] = mindmaps;
-
-  if (!firstMindmap) return;
-
-  useMindmapCreatorState.swap({
-    is: `active`,
-    activeMindmap: firstMindmap,
-    initialMindmap: firstMindmap,
-    browsedMindmaps: [],
-    activeMindmapNode: null,
-    savingEnabled: false,
-  });
-};
 
 const getYourMindmapsAct = async (): Promise<void> => {
   try {
@@ -39,7 +18,6 @@ const getYourMindmapsAct = async (): Promise<void> => {
         is: `ok`,
         ...cachedMindmaps,
       });
-      makeFirstMindmapActive(cachedMindmaps.mindmaps);
       return;
     }
 
@@ -53,7 +31,6 @@ const getYourMindmapsAct = async (): Promise<void> => {
       is: `ok`,
       ...response,
     });
-    makeFirstMindmapActive(response.mindmaps);
   } catch (error: unknown) {
     useYourMindmapsState.swap({ is: `fail`, error: parseError(error) });
   }
