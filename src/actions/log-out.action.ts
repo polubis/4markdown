@@ -4,7 +4,7 @@ import { getAPI, removeCache } from 'api-4markdown';
 const logOut = async (): Promise<void> => {
   try {
     await getAPI().logOut();
-    removeCache(`getYourUserProfile`, `getYourDocuments`);
+    removeCache(`getYourUserProfile`, `getYourDocuments`, `getYourMindmaps`);
   } catch {}
 };
 
