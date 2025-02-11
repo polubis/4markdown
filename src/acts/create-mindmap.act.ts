@@ -5,7 +5,7 @@ import type {
   MindmapDto,
 } from 'api-4markdown-contracts';
 import { type AsyncResult } from 'development-kit/utility-types';
-import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { initializeMindmapAction } from 'store/mindmap-creator/actions';
 import { useYourMindmapsState } from 'store/your-mindmaps';
 
 const createMindmapAct = async (
@@ -14,14 +14,7 @@ const createMindmapAct = async (
   try {
     const data = await getAPI().call(`createMindmap`)(payload);
 
-    useMindmapCreatorState.swap({
-      is: `active`,
-      activeMindmap: data,
-      initialMindmap: data,
-      browsedMindmaps: [],
-      activeMindmapNode: null,
-      savingEnabled: false,
-    });
+    initializeMindmapAction(data);
 
     const yourMindmaps = useYourMindmapsState.get();
 

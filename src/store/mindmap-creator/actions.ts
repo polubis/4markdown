@@ -16,7 +16,7 @@ import type {
 import type { MindmapCreatorActiveState } from './models';
 import { generateIdFromSessionStamp } from 'core/session-stamps';
 
-const { set, get } = useMindmapCreatorState;
+const { set, get, swap } = useMindmapCreatorState;
 
 const getOkState = (): MindmapCreatorActiveState => mindmapReadySelector(get());
 
@@ -104,6 +104,17 @@ const toggleMindmapNodeAction = (id: MindmapNode['id'] | null): void => {
   set({ activeMindmapNode });
 };
 
+const initializeMindmapAction = (mindmap: MindmapDto): void => {
+  swap({
+    is: `active`,
+    activeMindmap: mindmap,
+    initialMindmap: mindmap,
+    browsedMindmaps: [],
+    activeMindmapNode: null,
+    savingEnabled: false,
+  });
+};
+
 const setMindmapAction = (activeMindmap: MindmapDto): void => {
   set({ activeMindmap });
 };
@@ -145,4 +156,5 @@ export {
   toggleMindmapNodeAction,
   setMindmapAction,
   addNewNodeAction,
+  initializeMindmapAction,
 };

@@ -14,26 +14,34 @@ import { CreateNodeModalContainer } from './containers/create-node-modal.contain
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useYourMindmapsState } from 'store/your-mindmaps';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
-import { BiPlus, BiPlusCircle } from 'react-icons/bi';
+import {
+  BiLowVision,
+  BiPlus,
+  BiPlusCircle,
+  BiShow,
+  BiWorld,
+} from 'react-icons/bi';
 import { navigate } from 'gatsby';
 import { meta } from '../../../meta';
 import { yourMindmapsReadySelector } from 'store/your-mindmaps/selectors';
 import { AppNavigation } from 'components/app-navigation';
+import { useAuthStore } from 'store/auth/auth.store';
+import { formatDistance } from 'date-fns';
+import { initializeMindmapAction } from 'store/mindmap-creator/actions';
 
 import './mindmap-creator.css';
-import { useAuthStore } from 'store/auth/auth.store';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
   const { creation } = useMindmapModalsContext();
   const yourMindmaps = useYourMindmapsState(yourMindmapsReadySelector);
-  console.log(yourMindmaps);
+
   if (mindmapCreator.is === `unset`) {
     if (yourMindmaps.mindmaps.length === 0) {
       return (
         <section className="flex flex-col justify-center items-center h-full">
           <div className="p-4 flex flex-col items-center max-w-[420px]">
-            <h6 className="text-xl text-center">You have 0 mindmaps</h6>
+            <h6 className="text-xl text-center">You Have 0 Mindmaps</h6>
             <p className="text-center mt-1 mb-2">
               Don&apos;t worry, click the button below to create your first one.
             </p>
@@ -54,7 +62,38 @@ const MindmapCreatorView = () => {
     } else {
       return (
         <section className="flex flex-col justify-center items-center h-full">
-          LiSt of mindmaps to select
+          <h1 className="text-xl mb-6">Your Mindmaps</h1>
+          <ul className="flex flex-wrap gap-3">
+            {yourMindmaps.mindmaps.map((mindmap) => (
+              <li
+                className="flex min-w-[260px] flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800"
+                title={mindmap.name}
+                key={mindmap.id}
+                onClick={() => initializeMindmapAction(mindmap)}
+              >
+                <div className="flex justify-between mb-0.5">
+                  <span className="text-sm capitalize">
+                    Edited{` `}
+                    {formatDistance(new Date(), mindmap.mdate, {
+                      addSuffix: true,
+                    })}
+                    {` `}
+                    ago
+                  </span>
+                  {mindmap.visibility === `private` && (
+                    <BiLowVision size="20" title="This document is private" />
+                  )}
+                  {mindmap.visibility === `public` && (
+                    <BiShow size="20" title="This document is public" />
+                  )}
+                  {mindmap.visibility === `permanent` && (
+                    <BiWorld size="20" title="This document is permanent" />
+                  )}
+                </div>
+                <strong>{mindmap.name}</strong>
+              </li>
+            ))}
+          </ul>
         </section>
       );
     }
@@ -97,7 +136,7 @@ const ConnectedMindmapCreatorView = () => {
         {yourMindmaps.is === `busy` && (
           <section className="flex flex-col justify-center items-center h-full">
             <div className="p-4 flex flex-col items-center">
-              <h6 className="text-xl text-center">Loading your mindmaps</h6>
+              <h6 className="text-xl text-center">Loading Your Mindmaps</h6>
               <Loader className="mt-6" size="xl" />
             </div>
           </section>
