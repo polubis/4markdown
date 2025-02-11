@@ -66,13 +66,13 @@ const MindmapCreatorView = () => {
           <ul className="flex flex-wrap gap-3">
             {yourMindmaps.mindmaps.map((mindmap) => (
               <li
-                className="flex min-w-[260px] flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800"
+                className="flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800"
                 title={mindmap.name}
                 key={mindmap.id}
                 onClick={() => initializeMindmapAction(mindmap)}
               >
                 <div className="flex justify-between mb-0.5">
-                  <span className="text-sm capitalize">
+                  <span className="text-sm capitalize mr-6">
                     Edited{` `}
                     {formatDistance(new Date(), mindmap.mdate, {
                       addSuffix: true,
