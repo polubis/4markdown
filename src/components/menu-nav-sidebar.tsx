@@ -157,6 +157,15 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             Markdown Cheatsheet
           </ButtonLink>
           <ButtonLink
+            to={meta.routes.mindmap.creator}
+            title="Navigate to mindmap creator"
+            component={(props) => (
+              <Link activeClassName="active-button-link" {...props} />
+            )}
+          >
+            Mindmap Creator
+          </ButtonLink>
+          <ButtonLink
             to={meta.routes.privacyPolicy}
             title="Check privacy policy"
             component={(props) => (

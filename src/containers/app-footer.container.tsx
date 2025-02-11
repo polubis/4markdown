@@ -139,6 +139,13 @@ const AppFooterContainer = () => {
             <Link
               activeClassName="active-link"
               className="hover:underline underline-offset-2"
+              to={meta.routes.mindmap.creator}
+            >
+              Mindmap Creator
+            </Link>
+            <Link
+              activeClassName="active-link"
+              className="hover:underline underline-offset-2"
               to={meta.routes.privacyPolicy}
             >
               Privacy Policy
