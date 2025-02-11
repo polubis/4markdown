@@ -163,10 +163,22 @@ const addNewNodeAction = <TType extends MindmapNodeType>(
 const removeSelectedNodesAction = (): void => {
   const { activeMindmap } = getOkState();
 
+  const newNodes = activeMindmap.nodes.filter((node) => !node.selected);
+  const newNodesIds = newNodes.reduce<Record<MindmapNode['id'], boolean>>(
+    (acc, node) => {
+      acc[node.id] = true;
+      return acc;
+    },
+    {},
+  );
+
   set({
     activeMindmap: {
       ...activeMindmap,
-      nodes: activeMindmap.nodes.filter((node) => !node.selected),
+      nodes: newNodes,
+      edges: activeMindmap.edges.filter(
+        ({ source, target }) => newNodesIds[source] && newNodesIds[target],
+      ),
     },
   });
 };
