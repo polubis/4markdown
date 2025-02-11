@@ -9,11 +9,12 @@ type NestedNodeTileContainerProps = NodeProps<NestedNode>;
 
 const NestedNodeTileContainer = ({
   id: nodeId,
+  selected,
   data: { name, description, loading },
 }: NestedNodeTileContainerProps) => {
   return (
     <div onClick={() => getNestedMindmapAct(nodeId)}>
-      <NodeTile>
+      <NodeTile selected={selected}>
         <NodeTile.Label>
           {loading ? `Loading and Rendering...` : `Other Mindmap`}
         </NodeTile.Label>

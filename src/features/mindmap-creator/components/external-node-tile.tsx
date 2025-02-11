@@ -7,11 +7,12 @@ import { type ExternalNode } from 'api-4markdown-contracts';
 type ExternalNodeTileProps = NodeProps<ExternalNode>;
 
 const ExternalNodeTile = ({
+  selected,
   data: { url, description, name },
 }: ExternalNodeTileProps) => {
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
-      <NodeTile>
+      <NodeTile selected={selected}>
         <NodeTile.Label>External Resource</NodeTile.Label>
         <NodeTile.Name>{name}</NodeTile.Name>
         {description && (
