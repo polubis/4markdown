@@ -14,18 +14,20 @@ import { CreateNodeModalContainer } from './containers/create-node-modal.contain
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useYourMindmapsState } from 'store/your-mindmaps';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
-import { BiPlusCircle } from 'react-icons/bi';
+import { BiPlus, BiPlusCircle } from 'react-icons/bi';
 import { navigate } from 'gatsby';
 import { meta } from '../../../meta';
 import { yourMindmapsReadySelector } from 'store/your-mindmaps/selectors';
+import { AppNavigation } from 'components/app-navigation';
 
 import './mindmap-creator.css';
+import { useAuthStore } from 'store/auth/auth.store';
 
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
   const { creation } = useMindmapModalsContext();
   const yourMindmaps = useYourMindmapsState(yourMindmapsReadySelector);
-
+  console.log(yourMindmaps);
   if (mindmapCreator.is === `unset`) {
     if (yourMindmaps.mindmaps.length === 0) {
       return (
@@ -72,16 +74,26 @@ const MindmapCreatorView = () => {
 };
 
 const ConnectedMindmapCreatorView = () => {
+  const authStore = useAuthStore();
   const yourMindmaps = useYourMindmapsState();
 
   React.useEffect(() => {
-    getYourMindmapsAct();
-  }, []);
+    if (authStore.is === `authorized`) getYourMindmapsAct();
+  }, [authStore]);
 
   return (
-    <div className="mindmap-creator">
-      <aside className="flex justify-center p-4 border-r border-zinc-300 dark:border-zinc-800"></aside>
-      <main className="flex flex-col relative">
+    <>
+      <AppNavigation>
+        <Button
+          i={2}
+          s={2}
+          auto
+          onClick={() => navigate(meta.routes.mindmap.new)}
+        >
+          <BiPlus /> New Mindmap
+        </Button>
+      </AppNavigation>
+      <main className="mindmap-creator flex flex-col relative">
         {yourMindmaps.is === `busy` && (
           <section className="flex flex-col justify-center items-center h-full">
             <div className="p-4 flex flex-col items-center">
@@ -117,7 +129,7 @@ const ConnectedMindmapCreatorView = () => {
           </section>
         )}
       </main>
-    </div>
+    </>
   );
 };
 

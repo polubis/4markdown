@@ -1,7 +1,7 @@
 @import '@xyflow/react/dist/base.css';
 
 .mindmap-creator {
-  @apply grid h-screen grid-cols-[60px_1fr];
+  height: calc(100svh - 72px);
 }
 
 .react-flow__panel {
