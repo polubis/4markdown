@@ -19,7 +19,14 @@ const EmbeddedNodeTileContainer = ({
     <NodeTile.Name>{name}</NodeTile.Name>
     {description && <NodeTile.Description>{description}</NodeTile.Description>}
     <NodeTile.Toolbox>
-      <Button i={1} s={1} rounded onClick={() => toggleMindmapNodeAction(id)}>
+      <Button
+        i={2}
+        s={1}
+        onClick={(e) => {
+          e.stopPropagation();
+          toggleMindmapNodeAction(id);
+        }}
+      >
         <BiArrowToRight />
       </Button>
     </NodeTile.Toolbox>

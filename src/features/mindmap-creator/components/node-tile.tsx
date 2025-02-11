@@ -1,13 +1,7 @@
 import React, { type ReactNode } from 'react';
 import c from 'classnames';
 
-const NodeTile = ({
-  selected,
-  children,
-}: {
-  selected: boolean;
-  children: ReactNode;
-}) => {
+const NodeTile = ({ children }: { selected: boolean; children: ReactNode }) => {
   return (
     <div
       className={c(

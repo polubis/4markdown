@@ -15,7 +15,6 @@ const RemoveEdgeTriggerContainer = ({
   <Button
     i={2}
     s="auto"
-    rounded
     style={{
       transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
       pointerEvents: `all`,
