@@ -4,6 +4,14 @@
   height: calc(100svh - 72px);
 }
 
+.node-tile-toolbox {
+  opacity: 0;
+}
+
+.node-tile:hover > .node-tile-toolbox {
+  opacity: 1;
+}
+
 .react-flow__panel {
   @apply m-3 space-y-2;
 }

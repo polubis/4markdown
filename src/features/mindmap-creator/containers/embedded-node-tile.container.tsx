@@ -4,6 +4,8 @@ import { HandleX, HandleY } from '../components/handles';
 import { NodeTile } from '../components/node-tile';
 import { toggleMindmapNodeAction } from 'store/mindmap-creator/actions';
 import { type EmbeddedNode } from 'api-4markdown-contracts';
+import { Button } from 'design-system/button';
+import { BiArrowToRight } from 'react-icons/bi';
 
 type EmbeddedNodeTileContainerProps = NodeProps<EmbeddedNode>;
 
@@ -12,15 +14,16 @@ const EmbeddedNodeTileContainer = ({
   data: { name, description },
   selected,
 }: EmbeddedNodeTileContainerProps) => (
-  <div onClick={() => toggleMindmapNodeAction(id)}>
-    <NodeTile selected={selected}>
-      <NodeTile.Label>Embedded Resource</NodeTile.Label>
-      <NodeTile.Name>{name}</NodeTile.Name>
-      {description && (
-        <NodeTile.Description>{description}</NodeTile.Description>
-      )}
-    </NodeTile>
-  </div>
+  <NodeTile selected={selected}>
+    <NodeTile.Label>Embedded Resource</NodeTile.Label>
+    <NodeTile.Name>{name}</NodeTile.Name>
+    {description && <NodeTile.Description>{description}</NodeTile.Description>}
+    <NodeTile.Toolbox>
+      <Button i={1} s={1} rounded onClick={() => toggleMindmapNodeAction(id)}>
+        <BiArrowToRight />
+      </Button>
+    </NodeTile.Toolbox>
+  </NodeTile>
 );
 
 const EmbeddedNodeTileContainerX = (props: EmbeddedNodeTileContainerProps) => (
