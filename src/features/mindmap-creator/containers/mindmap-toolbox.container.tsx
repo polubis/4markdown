@@ -8,9 +8,12 @@ import { ScreenLoader } from 'design-system/screen-loader';
 import { updateMindmapShapeAct } from 'acts/update-mindmap-shape.act';
 import ErrorModal from 'components/error-modal';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
+  const { savingDisabled } = useMindmapCreatorState(mindmapReadySelector);
   const { creation } = useMindmapModalsContext();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
@@ -20,7 +23,7 @@ const MindmapToolboxContainer = () => {
   };
 
   if (operation.is === `busy`) {
-    return render(<ScreenLoader />);
+    return <ScreenLoader />;
   }
 
   if (operation.is === `fail`) {
@@ -54,6 +57,7 @@ const MindmapToolboxContainer = () => {
         i={2}
         s={2}
         title="Save mindmap changes"
+        disabled={savingDisabled}
         onClick={updateMindmapShape}
       >
         <BiSave />

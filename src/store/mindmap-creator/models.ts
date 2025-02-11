@@ -7,7 +7,7 @@ import type {
 type StateBase = {
   activeMindmap: MindmapDto;
   activeMindmapNode: DocumentNode | EmbeddedNode | null;
-  savingEnabled: boolean;
+  savingDisabled: boolean;
 };
 
 type MindmapCreatorState = { is: `unset` } | ({ is: `active` } & StateBase);
