@@ -207,8 +207,8 @@ const CreateNodeModalContainer = () => {
                 key={type}
                 onClick={() => setActiveType(type)}
               >
-                <h6 className="capitalize">{type}</h6>
-                <p className="mt-1 text-sm">{descriptions[type]}</p>
+                <h6 className="capitalize text-left">{type}</h6>
+                <p className="mt-1 text-sm text-left">{descriptions[type]}</p>
               </button>
             ))}
           </section>
