@@ -11,10 +11,9 @@ type DocumentNodeTileContainerProps = NodeProps<DocumentNode>;
 const DocumentNodeTileContainer = ({
   id,
   data: { name, description },
-  selected,
 }: DocumentNodeTileContainerProps) => (
   <div onClick={() => toggleMindmapNodeAction(id)}>
-    <NodeTile selected={selected}>
+    <NodeTile>
       <NodeTile.Label>{meta.appName} Document</NodeTile.Label>
       <NodeTile.Name>{name}</NodeTile.Name>
       {description && (

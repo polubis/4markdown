@@ -1,11 +1,11 @@
 import React, { type ReactNode } from 'react';
 import c from 'classnames';
 
-const NodeTile = ({ children }: { selected: boolean; children: ReactNode }) => {
+const NodeTile = ({ children }: { children: ReactNode }) => {
   return (
     <div
       className={c(
-        `node-tile cursor-move flex flex-col border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:bg-gray-950 w-[280px] border-zinc-300 dark:border-zinc-800 hover:border-black dark:hover:border-white`,
+        `node-tile cursor-move flex flex-col border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:bg-gray-950 w-[280px] border-zinc-300 dark:border-zinc-800`,
       )}
     >
       {children}

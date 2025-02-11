@@ -12,9 +12,8 @@ type EmbeddedNodeTileContainerProps = NodeProps<EmbeddedNode>;
 const EmbeddedNodeTileContainer = ({
   id,
   data: { name, description },
-  selected,
 }: EmbeddedNodeTileContainerProps) => (
-  <NodeTile selected={selected}>
+  <NodeTile>
     <NodeTile.Label>Embedded Resource</NodeTile.Label>
     <NodeTile.Name>{name}</NodeTile.Name>
     {description && <NodeTile.Description>{description}</NodeTile.Description>}
