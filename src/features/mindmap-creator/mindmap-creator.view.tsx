@@ -28,12 +28,23 @@ import { AppNavigation } from 'components/app-navigation';
 import { useAuthStore } from 'store/auth/auth.store';
 import { formatDistance } from 'date-fns';
 import { initializeMindmapAction } from 'store/mindmap-creator/actions';
+import { RemoveNodesModalContainer } from './containers/remove-nodes-modal.container';
 
 import './mindmap-creator.css';
 
+const MindmapModals = () => {
+  const { nodeCreation, nodesRemovalConfirm } = useMindmapModalsContext();
+
+  return (
+    <>
+      {nodeCreation.isOn && <CreateNodeModalContainer />}
+      {nodesRemovalConfirm.isOn && <RemoveNodesModalContainer />}
+    </>
+  );
+};
+
 const MindmapCreatorView = () => {
   const mindmapCreator = useMindmapCreatorState();
-  const { nodeCreation } = useMindmapModalsContext();
   const yourMindmaps = useYourMindmapsState(yourMindmapsReadySelector);
 
   if (mindmapCreator.is === `unset`) {
@@ -107,7 +118,7 @@ const MindmapCreatorView = () => {
       ) : (
         <MindmapPreviewContainer />
       )}
-      {nodeCreation.isOn && <CreateNodeModalContainer />}
+      <MindmapModals />
     </>
   );
 };

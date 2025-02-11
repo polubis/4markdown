@@ -15,7 +15,7 @@ const MindmapToolboxContainer = () => {
   const { render } = usePortal();
   const { savingDisabled, activeMindmap } =
     useMindmapCreatorState(mindmapReadySelector);
-  const { nodeCreation } = useMindmapModalsContext();
+  const { nodeCreation, nodesRemovalConfirm } = useMindmapModalsContext();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
   const updateMindmapShape = async (): Promise<void> => {
@@ -64,7 +64,7 @@ const MindmapToolboxContainer = () => {
         disabled={!hasSelectedNode}
         s={2}
         title="Remove selected nodes"
-        onClick={updateMindmapShape}
+        onClick={nodesRemovalConfirm.on}
       >
         <BiTrash />
       </Button>

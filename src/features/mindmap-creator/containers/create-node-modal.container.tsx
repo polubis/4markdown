@@ -192,7 +192,7 @@ const CreateNodeModalContainer = () => {
   const { activeType, setActiveType } = useLocalContext();
 
   return (
-    <Modal disabled={false} onClose={nodeCreation.off}>
+    <Modal onClose={nodeCreation.off}>
       {activeType === null ? (
         <>
           <Modal.Header

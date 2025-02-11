@@ -160,6 +160,17 @@ const addNewNodeAction = <TType extends MindmapNodeType>(
   }
 };
 
+const removeSelectedNodesAction = (): void => {
+  const { activeMindmap } = getOkState();
+
+  set({
+    activeMindmap: {
+      ...activeMindmap,
+      nodes: activeMindmap.nodes.filter((node) => !node.selected),
+    },
+  });
+};
+
 export {
   updateNodesAction,
   updateEdgesAction,
@@ -169,4 +180,5 @@ export {
   setMindmapAction,
   addNewNodeAction,
   initializeMindmapAction,
+  removeSelectedNodesAction,
 };
