@@ -108,8 +108,6 @@ const initializeMindmapAction = (mindmap: MindmapDto): void => {
   swap({
     is: `active`,
     activeMindmap: mindmap,
-    initialMindmap: mindmap,
-    browsedMindmaps: [],
     activeMindmapNode: null,
     savingEnabled: false,
   });
