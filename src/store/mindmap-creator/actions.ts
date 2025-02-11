@@ -133,7 +133,7 @@ const addNewNodeAction = <TType extends MindmapNodeType>(
       activeMindmap: {
         ...activeMindmap,
         nodes: [
-          ...activeMindmap.nodes,
+          ...activeMindmap.nodes.map((node) => ({ ...node, selected: false })),
           {
             id,
             position: {
