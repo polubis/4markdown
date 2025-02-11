@@ -156,8 +156,6 @@ const MindmapPreviewContainer = () => {
         nodeTypes={nodeTypes[activeMindmap.orientation] as NodeTypes}
         edgeTypes={edgeTypes}
         fitView
-        //   minZoom={viewInformation.minZoom}
-        //   maxZoom={viewInformation.maxZoom}
       >
         <Controls />
         <Background />
