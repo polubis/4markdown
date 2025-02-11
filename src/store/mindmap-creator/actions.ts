@@ -217,6 +217,27 @@ const removeSelectedNodesAction = (): void => {
         ({ source, target }) => newNodesIds[source] && newNodesIds[target],
       ),
     },
+    savingDisabled: false,
+  });
+};
+
+const toggleOrientationAction = (): void => {
+  const { activeMindmap } = getOkState();
+
+  const orientation = activeMindmap.orientation === `x` ? `y` : `x`;
+  const newActiveMindmap = makeSkeleton({
+    nodes: activeMindmap.nodes,
+    edges: activeMindmap.edges,
+    orientation,
+  });
+
+  set({
+    activeMindmap: {
+      ...activeMindmap,
+      ...newActiveMindmap,
+      orientation,
+    },
+    savingDisabled: false,
   });
 };
 
@@ -228,6 +249,7 @@ const alignToSkeletonAction = (): void => {
       ...activeMindmap,
       ...makeSkeleton(activeMindmap),
     },
+    savingDisabled: false,
   });
 };
 
@@ -242,4 +264,5 @@ export {
   initializeMindmapAction,
   removeSelectedNodesAction,
   alignToSkeletonAction,
+  toggleOrientationAction,
 };

@@ -1,7 +1,12 @@
 import { Button } from 'design-system/button';
 import { usePortal } from 'development-kit/use-portal';
 import React from 'react';
-import { BiAddToQueue, BiMove, BiSave, BiTrash } from 'react-icons/bi';
+import {
+  BiAddToQueue,
+  BiHorizontalRight,
+  BiSave,
+  BiTrash,
+} from 'react-icons/bi';
 import { useMindmapModalsContext } from '../providers/mindmap-widgets.provider';
 import type { Transaction } from 'development-kit/utility-types';
 import { ScreenLoader } from 'design-system/screen-loader';
@@ -10,7 +15,9 @@ import ErrorModal from 'components/error-modal';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
-import { alignToSkeletonAction } from 'store/mindmap-creator/actions';
+import { toggleOrientationAction } from 'store/mindmap-creator/actions';
+import { useReactFlow } from '@xyflow/react';
+import c from 'classnames';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
@@ -18,10 +25,18 @@ const MindmapToolboxContainer = () => {
     useMindmapCreatorState(mindmapReadySelector);
   const { nodeCreation, nodesRemovalConfirm } = useMindmapModalsContext();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
+  const { fitView } = useReactFlow();
 
   const updateMindmapShape = async (): Promise<void> => {
     setOperation({ is: `busy` });
     setOperation(await updateMindmapShapeAct());
+  };
+
+  const toggleOrientation = (): void => {
+    toggleOrientationAction();
+    window.requestAnimationFrame(() => {
+      fitView();
+    });
   };
 
   const hasSelectedNode = React.useMemo(
@@ -60,13 +75,12 @@ const MindmapToolboxContainer = () => {
 
   return render(
     <nav className="fixed flex justify-center space-x-2 bottom-0 py-2 max-w-sm mx-auto left-0 right-0">
-      <Button
-        i={2}
-        s={1}
-        title="Center mindmap"
-        onClick={alignToSkeletonAction}
-      >
-        <BiMove />
+      <Button i={2} s={1} title="Center mindmap" onClick={toggleOrientation}>
+        <BiHorizontalRight
+          className={c({
+            'rotate-90': activeMindmap.orientation === `y`,
+          })}
+        />
       </Button>
       <Button
         i={2}
