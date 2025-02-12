@@ -1,5 +1,4 @@
 import { getAPI, parseError, setCache } from 'api-4markdown';
-import type { MindmapDto } from 'api-4markdown-contracts';
 import { type AsyncResult } from 'development-kit/utility-types';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
@@ -14,17 +13,12 @@ const updateMindmapShapeAct = async (): AsyncResult => {
       useMindmapCreatorState.get(),
     );
 
-    const { mdate } = await getAPI().call(`updateMindmapShape`)({
+    const updatedMindmap = await getAPI().call(`updateMindmapShape`)({
       id: activeMindmap.id,
       mdate: activeMindmap.mdate,
       nodes: activeMindmap.nodes,
       edges: activeMindmap.edges,
     });
-
-    const updatedMindmap: MindmapDto = {
-      ...activeMindmap,
-      mdate,
-    };
 
     const updatedYourMindmaps = yourMindmaps.mindmaps.map((mindmap) =>
       mindmap.id === updatedMindmap.id ? updatedMindmap : mindmap,
