@@ -163,10 +163,6 @@ const initializeMindmapAction = (mindmap: MindmapDto): void => {
   });
 };
 
-const setMindmapAction = (activeMindmap: MindmapDto): void => {
-  set({ activeMindmap });
-};
-
 const addNewNodeAction = <TType extends MindmapNodeType>(
   type: TType,
   data: Extract<MindmapNode, { type: TType }>['data'],
@@ -259,7 +255,6 @@ export {
   connectNodesAction,
   removeNodesConnectionAction,
   toggleMindmapNodeAction,
-  setMindmapAction,
   addNewNodeAction,
   initializeMindmapAction,
   removeSelectedNodesAction,
