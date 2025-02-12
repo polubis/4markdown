@@ -33,7 +33,7 @@ type CreateMindmapContract = Contract<
 
 type UpdateMindmapShapePayload = Pick<
   MindmapDto,
-  'mdate' | 'id' | 'nodes' | 'edges'
+  'mdate' | 'id' | 'nodes' | 'edges' | 'orientation'
 >;
 
 type UpdateMindmapShapeContract = Contract<

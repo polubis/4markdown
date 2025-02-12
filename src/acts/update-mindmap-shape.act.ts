@@ -18,6 +18,7 @@ const updateMindmapShapeAct = async (): AsyncResult => {
       mdate: activeMindmap.mdate,
       nodes: activeMindmap.nodes,
       edges: activeMindmap.edges,
+      orientation: activeMindmap.orientation,
     });
 
     const updatedYourMindmaps = yourMindmaps.mindmaps.map((mindmap) =>

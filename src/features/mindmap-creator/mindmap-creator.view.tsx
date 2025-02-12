@@ -181,7 +181,11 @@ const ConnectedMindmapCreatorView = () => {
     </>
   );
 };
-
+// Orientation is not saved.
+// Conect name edition
+// Add center feature
+// Align models correctly UI/BE
+// Allow to update description and visibility
 const ProtectedMindmapCreatorView = () => {
   const authStore = useAuthStore();
 

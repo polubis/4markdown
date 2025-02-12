@@ -79,6 +79,7 @@ const EmbeddedForm = () => {
       description: description.length === 0 ? null : description,
       content,
       loading: false,
+      path: `/unset/`,
     });
     nodeCreation.off();
   };
