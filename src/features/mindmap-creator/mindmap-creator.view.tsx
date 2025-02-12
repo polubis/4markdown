@@ -189,6 +189,8 @@ const ConnectedMindmapCreatorView = () => {
 // Align models correctly UI/BE
 // Allow to update description and visibility
 // Align modal and pending statuses in creator view
+// Przeniesc liste mindmapek na oddzielny widok
+// Dodac auto save jak przy usuwaniu jest po procesie 0 noedow
 const ProtectedMindmapCreatorView = () => {
   const authStore = useAuthStore();
 
