@@ -188,7 +188,6 @@ const ConnectedMindmapCreatorView = () => {
 // Add center feature
 // Align models correctly UI/BE
 // Allow to update description and visibility
-// Reload mindmaps contains bugs with cache
 const ProtectedMindmapCreatorView = () => {
   const authStore = useAuthStore();
 
