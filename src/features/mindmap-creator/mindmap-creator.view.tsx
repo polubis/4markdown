@@ -15,6 +15,8 @@ import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useYourMindmapsState } from 'store/your-mindmaps';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import {
+  BiCategory,
+  BiCommand,
   BiLowVision,
   BiPlus,
   BiPlusCircle,
@@ -133,13 +135,11 @@ const ConnectedMindmapCreatorView = () => {
   return (
     <>
       <AppNavigation>
-        <Button
-          i={2}
-          s={2}
-          auto
-          onClick={() => navigate(meta.routes.mindmap.new)}
-        >
-          <BiPlus /> New Mindmap
+        <Button i={1} s={2} onClick={() => navigate(meta.routes.mindmap.new)}>
+          <BiPlus />
+        </Button>
+        <Button i={1} s={2} onClick={() => navigate(meta.routes.mindmap.new)}>
+          <BiCategory />
         </Button>
       </AppNavigation>
       <main className="mindmap-creator flex flex-col relative">
