@@ -6,7 +6,7 @@ import {
   type NodeChange,
 } from '@xyflow/react';
 import { useMindmapCreatorState } from '.';
-import { mindmapReadySelector } from './selectors';
+import { mindmapCreatorReadySelector } from './selectors';
 import type {
   EmbeddedNode,
   MindmapDto,
@@ -16,9 +16,11 @@ import type {
 import type { MindmapCreatorActiveState } from './models';
 import { generateIdFromSessionStamp } from 'core/session-stamps';
 import Dagre from '@dagrejs/dagre';
+
 const { set, get, swap } = useMindmapCreatorState;
 
-const getOkState = (): MindmapCreatorActiveState => mindmapReadySelector(get());
+const getOkState = (): MindmapCreatorActiveState =>
+  mindmapCreatorReadySelector(get());
 
 const makeSkeleton = ({
   nodes,

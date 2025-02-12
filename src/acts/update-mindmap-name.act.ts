@@ -2,7 +2,7 @@ import { getAPI, parseError, setCache } from 'api-4markdown';
 import type { MindmapDto } from 'api-4markdown-contracts';
 import { type AsyncResult } from 'development-kit/utility-types';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
+import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
 import { useYourMindmapsState } from 'store/your-mindmaps';
 import { yourMindmapsReadySelector } from 'store/your-mindmaps/selectors';
 
@@ -10,7 +10,7 @@ const updateMindmapNameAct = async (name: MindmapDto['name']): AsyncResult => {
   try {
     const yourMindmaps = yourMindmapsReadySelector(useYourMindmapsState.get());
 
-    const { activeMindmap } = mindmapReadySelector(
+    const { activeMindmap } = mindmapCreatorReadySelector(
       useMindmapCreatorState.get(),
     );
 

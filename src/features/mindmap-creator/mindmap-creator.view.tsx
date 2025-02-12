@@ -30,16 +30,19 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { formatDistance } from 'date-fns';
 import { initializeMindmapAction } from 'store/mindmap-creator/actions';
 import { RemoveNodesModalContainer } from './containers/remove-nodes-modal.container';
+import { MindmapsListModalContainer } from './containers/mindmaps-list-modal.container';
 
 import './mindmap-creator.css';
 
 const MindmapModals = () => {
-  const { nodeCreation, nodesRemovalConfirm } = useMindmapModalsContext();
+  const { nodeCreation, nodesRemovalConfirm, mindmapsListModal } =
+    useMindmapModalsContext();
 
   return (
     <>
       {nodeCreation.isOn && <CreateNodeModalContainer />}
       {nodesRemovalConfirm.isOn && <RemoveNodesModalContainer />}
+      {mindmapsListModal.isOn && <MindmapsListModalContainer />}
     </>
   );
 };
@@ -126,6 +129,7 @@ const MindmapCreatorView = () => {
 
 const ConnectedMindmapCreatorView = () => {
   const yourMindmaps = useYourMindmapsState();
+  const { mindmapsListModal } = useMindmapModalsContext();
 
   React.useEffect(() => {
     getYourMindmapsAct();
@@ -137,7 +141,7 @@ const ConnectedMindmapCreatorView = () => {
         <Button i={1} s={2} onClick={() => navigate(meta.routes.mindmap.new)}>
           <BiPlus />
         </Button>
-        <Button i={1} s={2} onClick={() => navigate(meta.routes.mindmap.new)}>
+        <Button i={1} s={2} onClick={mindmapsListModal.on}>
           <BiCategory />
         </Button>
       </AppNavigation>
@@ -152,9 +156,7 @@ const ConnectedMindmapCreatorView = () => {
         )}
         {yourMindmaps.is === `ok` && (
           <ReactFlowProvider>
-            <MindmapModalsProvider>
-              <MindmapCreatorView />
-            </MindmapModalsProvider>
+            <MindmapCreatorView />
           </ReactFlowProvider>
         )}
         {yourMindmaps.is === `fail` && (
@@ -191,7 +193,9 @@ const ProtectedMindmapCreatorView = () => {
   const authStore = useAuthStore();
 
   return authStore.is === `authorized` ? (
-    <ConnectedMindmapCreatorView />
+    <MindmapModalsProvider>
+      <ConnectedMindmapCreatorView />
+    </MindmapModalsProvider>
   ) : (
     <>
       <AppNavigation>

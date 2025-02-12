@@ -1,7 +1,7 @@
 import React, { type FormEventHandler } from 'react';
 
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
+import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
 import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
 import { Button } from 'design-system/button';
 import { BiCheck, BiX } from 'react-icons/bi';
@@ -11,7 +11,7 @@ import type { Transaction } from 'development-kit/utility-types';
 
 const EditNameForm = ({ onClose }: { onClose(): void }) => {
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
-  const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
+  const { activeMindmap } = useMindmapCreatorState(mindmapCreatorReadySelector);
   const [{ values, invalid, untouched }, { inject }] = useForm({
     name: activeMindmap.name,
   });
@@ -62,7 +62,7 @@ const EditNameForm = ({ onClose }: { onClose(): void }) => {
 
 const TabsNavigationContainer = () => {
   const edition = useSimpleFeature();
-  const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
+  const { activeMindmap } = useMindmapCreatorState(mindmapCreatorReadySelector);
 
   return (
     <header className="h-[50px] flex items-center border-zinc-300 dark:border-zinc-800 border-b px-4">

@@ -12,7 +12,7 @@ import {
 } from '@xyflow/react';
 import React, { type ComponentType } from 'react';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
+import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
 import {
   connectNodesAction,
   updateEdgesAction,
@@ -142,7 +142,7 @@ const edgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
-  const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
+  const { activeMindmap } = useMindmapCreatorState(mindmapCreatorReadySelector);
 
   return (
     <>

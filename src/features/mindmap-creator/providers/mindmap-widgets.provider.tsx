@@ -5,6 +5,7 @@ const [MindmapModalsProvider, useMindmapModalsContext] = context(() => {
   return {
     nodesRemovalConfirm: useSimpleFeature(),
     nodeCreation: useSimpleFeature(),
+    mindmapsListModal: useSimpleFeature(),
   };
 });
 

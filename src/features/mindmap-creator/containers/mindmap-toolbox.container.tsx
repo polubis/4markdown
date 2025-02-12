@@ -14,7 +14,7 @@ import { updateMindmapShapeAct } from 'acts/update-mindmap-shape.act';
 import ErrorModal from 'components/error-modal';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { mindmapReadySelector } from 'store/mindmap-creator/selectors';
+import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
 import { toggleOrientationAction } from 'store/mindmap-creator/actions';
 import { useReactFlow } from '@xyflow/react';
 import c from 'classnames';
@@ -22,7 +22,7 @@ import c from 'classnames';
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
   const { savingDisabled, activeMindmap } =
-    useMindmapCreatorState(mindmapReadySelector);
+    useMindmapCreatorState(mindmapCreatorReadySelector);
   const { nodeCreation, nodesRemovalConfirm } = useMindmapModalsContext();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
   const { fitView } = useReactFlow();
