@@ -144,6 +144,9 @@ const ConnectedMindmapCreatorView = () => {
         <Button i={1} s={2} onClick={mindmapsListModal.on}>
           <BiCategory />
         </Button>
+        <button className="py-2 px-4 rounded-md border dark:border-gray-300 dark:text-gray-300 text-gray-800 border-gray-800">
+          It&apos;s Beta :X (Report Bug If Any, Please)
+        </button>
       </AppNavigation>
       <main className="mindmap-creator flex flex-col relative">
         {(yourMindmaps.is === `idle` || yourMindmaps.is === `busy`) && (
