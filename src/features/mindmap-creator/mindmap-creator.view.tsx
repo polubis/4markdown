@@ -190,7 +190,10 @@ const ConnectedMindmapCreatorView = () => {
 // Allow to update description and visibility
 // Align modal and pending statuses in creator view
 // Przeniesc liste mindmapek na oddzielny widok
+// Wyrownac modele?
 // Dodac auto save jak przy usuwaniu jest po procesie 0 noedow
+// Ulepszyc display contentu
+// Dodac kontent edytion nie w textarea ale w creatorze?
 const ProtectedMindmapCreatorView = () => {
   const authStore = useAuthStore();
 
