@@ -194,6 +194,7 @@ const ConnectedMindmapCreatorView = () => {
 // Dodac auto save jak przy usuwaniu jest po procesie 0 noedow
 // Ulepszyc display contentu
 // Dodac kontent edytion nie w textarea ale w creatorze?
+// Udpate flags w jednym miejscu - disble na edytor to samo error?
 const ProtectedMindmapCreatorView = () => {
   const authStore = useAuthStore();
 
