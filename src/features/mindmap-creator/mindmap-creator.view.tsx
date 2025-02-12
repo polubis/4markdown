@@ -187,6 +187,7 @@ const ConnectedMindmapCreatorView = () => {
 // Add center feature
 // Align models correctly UI/BE
 // Allow to update description and visibility
+// Align modal and pending statuses in creator view
 const ProtectedMindmapCreatorView = () => {
   const authStore = useAuthStore();
 
