@@ -25,6 +25,12 @@ type GetYourMindmapsContract = Contract<
   }
 >;
 
+type UpdateMindmapNameContract = Contract<
+  `updateMindmapName`,
+  MindmapDto,
+  Pick<MindmapDto, 'name' | 'mdate' | 'id'>
+>;
+
 type CreateMindmapContract = Contract<
   `createMindmap`,
   MindmapDto,
@@ -155,7 +161,8 @@ type API4MarkdownContracts =
   | UpdateDocumentNameContract
   | CreateMindmapContract
   | UpdateMindmapShapeContract
-  | GetYourMindmapsContract;
+  | GetYourMindmapsContract
+  | UpdateMindmapNameContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -256,21 +263,6 @@ export type {
   API4MarkdownPayload,
   API4MarkdownResult,
   API4MarkdownCacheSignature,
-  CreateMindmapContract,
-  GetYourDocumentsContract,
-  GetAccessibleDocumentContract,
-  GetPermanentDocumentsContract,
-  DeleteDocumentContract,
-  UpdateDocumentCodeContract,
-  CreateDocumentContract,
-  UpdateDocumentVisibilityContract,
-  UploadImageContract,
-  GetYourUserProfileContract,
-  UpdateMindmapShapeContract,
-  UpdateYourUserProfileContract,
-  GetYourMindmapsContract,
-  RateDocumentContract,
-  UpdateDocumentNameContract,
   API4MarkdownContractCall,
   ParsedError,
   UnknownError,

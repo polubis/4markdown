@@ -6,19 +6,26 @@ import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
 import { Button } from 'design-system/button';
 import { BiCheck, BiX } from 'react-icons/bi';
 import { useForm } from 'development-kit/use-form';
+import { updateMindmapNameAct } from 'acts/update-mindmap-name.act';
+import type { Transaction } from 'development-kit/utility-types';
 
 const EditNameForm = ({ onClose }: { onClose(): void }) => {
+  const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
   const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
-  const [{ invalid, untouched }, { inject }] = useForm({
+  const [{ values, invalid, untouched }, { inject }] = useForm({
     name: activeMindmap.name,
   });
 
   const saveMindmapChange: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    try {
-      // await updateDocumentName(values.name);
-      onClose();
-    } catch {}
+
+    setOperation({ is: `busy` });
+
+    const result = await updateMindmapNameAct(values.name);
+
+    setOperation(result);
+
+    result.is === `ok` && onClose();
   };
 
   return (
@@ -33,7 +40,7 @@ const EditNameForm = ({ onClose }: { onClose(): void }) => {
         i={1}
         s={1}
         className="mr-1 ml-3"
-        disabled={invalid || untouched}
+        disabled={invalid || untouched || operation.is === `busy`}
         title="Confirm mindmap name change"
         type="submit"
       >
@@ -44,6 +51,7 @@ const EditNameForm = ({ onClose }: { onClose(): void }) => {
         s={1}
         title="Close mindmap name edition"
         type="button"
+        disabled={operation.is === `busy`}
         onClick={onClose}
       >
         <BiX />
