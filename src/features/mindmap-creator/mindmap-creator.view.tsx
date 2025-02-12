@@ -16,7 +16,6 @@ import { useYourMindmapsState } from 'store/your-mindmaps';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import {
   BiCategory,
-  BiCommand,
   BiLowVision,
   BiPlus,
   BiPlusCircle,
