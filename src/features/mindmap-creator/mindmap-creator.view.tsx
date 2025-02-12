@@ -124,12 +124,11 @@ const MindmapCreatorView = () => {
 };
 
 const ConnectedMindmapCreatorView = () => {
-  const authStore = useAuthStore();
   const yourMindmaps = useYourMindmapsState();
 
   React.useEffect(() => {
-    if (authStore.is === `authorized`) getYourMindmapsAct();
-  }, [authStore]);
+    getYourMindmapsAct();
+  }, []);
 
   return (
     <>
@@ -144,7 +143,7 @@ const ConnectedMindmapCreatorView = () => {
         </Button>
       </AppNavigation>
       <main className="mindmap-creator flex flex-col relative">
-        {yourMindmaps.is === `busy` && (
+        {(yourMindmaps.is === `idle` || yourMindmaps.is === `busy`) && (
           <section className="flex flex-col justify-center items-center h-full">
             <div className="p-4 flex flex-col items-center">
               <h6 className="text-xl text-center">Loading Your Mindmaps</h6>
@@ -183,4 +182,19 @@ const ConnectedMindmapCreatorView = () => {
   );
 };
 
-export { ConnectedMindmapCreatorView as MindmapCreatorView };
+const ProtectedMindmapCreatorView = () => {
+  const authStore = useAuthStore();
+
+  return authStore.is === `authorized` ? (
+    <ConnectedMindmapCreatorView />
+  ) : (
+    <>
+      <AppNavigation>
+        <div>Sign In to create mindmaps</div>
+      </AppNavigation>
+      <main className="bg-red-500">Sign in to create mindmaps!</main>
+    </>
+  );
+};
+
+export { ProtectedMindmapCreatorView as MindmapCreatorView };
