@@ -19,15 +19,12 @@ const RemoveNodesModalContainer = () => {
         closeButtonTitle="Cancel nodes removal"
       />
       <p className="mt-4 mb-1">
-        Setting visibility to <strong>permanent</strong> makes your document
-        available on <strong>Google</strong> with a static URL based on its
-        name.
+        You&apos;ve selected some nodes in the mind map. Confirming this action
+        will{` `}
+        <strong>permanently remove them</strong> and trigger{` `}
+        <strong>a save</strong>.
       </p>
-      <p className="mb-1">
-        You can change the document status later, but indexing or removal from
-        {` `}
-        Google may take <strong>1-14 days</strong>.
-      </p>
+      <p className="mb-1">Are you sure you want to proceed?</p>
       <footer className="mt-6 flex">
         <Button
           className="ml-auto"
