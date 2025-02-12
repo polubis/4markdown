@@ -7,6 +7,7 @@ import type {
 import { type AsyncResult } from 'development-kit/utility-types';
 import { initializeMindmapAction } from 'store/mindmap-creator/actions';
 import { useYourMindmapsState } from 'store/your-mindmaps';
+import { yourMindmapsReadySelector } from 'store/your-mindmaps/selectors';
 
 const createMindmapAct = async (
   payload: API4MarkdownPayload<`createMindmap`>,
@@ -16,21 +17,19 @@ const createMindmapAct = async (
 
     initializeMindmapAction(data);
 
-    const yourMindmaps = useYourMindmapsState.get();
+    const yourMindmaps = yourMindmapsReadySelector(useYourMindmapsState.get());
 
-    if (yourMindmaps.is === `ok`) {
-      const updatedMindmapData: API4MarkdownDto<`getYourMindmaps`> = {
-        mindmapsCount: yourMindmaps.mindmaps.length + 1,
-        mindmaps: [data, ...yourMindmaps.mindmaps],
-      };
+    const updatedMindmapData: API4MarkdownDto<`getYourMindmaps`> = {
+      mindmapsCount: yourMindmaps.mindmaps.length + 1,
+      mindmaps: [data, ...yourMindmaps.mindmaps],
+    };
 
-      useYourMindmapsState.swap({
-        ...yourMindmaps,
-        ...updatedMindmapData,
-      });
+    useYourMindmapsState.swap({
+      ...yourMindmaps,
+      ...updatedMindmapData,
+    });
 
-      setCache(`getYourMindmaps`, updatedMindmapData);
-    }
+    setCache(`getYourMindmaps`, updatedMindmapData);
 
     return { is: `ok`, data };
   } catch (error: unknown) {

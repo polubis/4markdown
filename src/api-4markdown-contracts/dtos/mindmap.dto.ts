@@ -38,6 +38,7 @@ type MakeNode<
   data: Prettify<
     TData & {
       name: string;
+      path: Path;
       loading: boolean;
       description: string | null;
     }
