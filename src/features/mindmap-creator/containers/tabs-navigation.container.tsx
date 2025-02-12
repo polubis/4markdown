@@ -8,7 +8,10 @@ import { BiCheck, BiX } from 'react-icons/bi';
 import { useForm } from 'development-kit/use-form';
 
 const EditNameForm = ({ onClose }: { onClose(): void }) => {
-  const [{ values, invalid, untouched }, { inject }] = useForm({ name: `` });
+  const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
+  const [{ invalid, untouched }, { inject }] = useForm({
+    name: activeMindmap.name,
+  });
 
   const saveMindmapChange: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -54,20 +57,18 @@ const TabsNavigationContainer = () => {
   const { activeMindmap } = useMindmapCreatorState(mindmapReadySelector);
 
   return (
-    <header className="h-[50px] flex border-zinc-300 dark:border-zinc-800 border-b px-4">
-      <nav className="h-full flex items-center">
-        {edition.isOn ? (
-          <EditNameForm onClose={edition.off} />
-        ) : (
-          <button
-            className="text-lg flex items-center max-w-[260px] truncate mr-2 hover:underline underline-offset-4"
-            onClick={edition.on}
-            title={`Edit ${activeMindmap.name} mindmap`}
-          >
-            {activeMindmap.name}
-          </button>
-        )}
-      </nav>
+    <header className="h-[50px] flex items-center border-zinc-300 dark:border-zinc-800 border-b px-4">
+      {edition.isOn ? (
+        <EditNameForm onClose={edition.off} />
+      ) : (
+        <button
+          className="text-lg max-w-[260px] truncate mr-2 hover:underline underline-offset-4"
+          onClick={edition.on}
+          title={`Edit ${activeMindmap.name} mindmap`}
+        >
+          {activeMindmap.name}
+        </button>
+      )}
     </header>
   );
 };
