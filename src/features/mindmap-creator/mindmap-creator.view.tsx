@@ -181,7 +181,6 @@ const ConnectedMindmapCreatorView = () => {
     </>
   );
 };
-// Conect name edition
 // Connect picking from URL
 // Improve displaying list of mindmaps
 // Add option to re-sync mindmaps as in other views
