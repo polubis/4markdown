@@ -7,6 +7,8 @@ import { yourMindmapsReadySelector } from 'store/your-mindmaps/selectors';
 
 const updateMindmapShapeAct = async (): AsyncResult => {
   try {
+    useMindmapCreatorState.set({ saving: true });
+
     const yourMindmaps = yourMindmapsReadySelector(useYourMindmapsState.get());
 
     const { activeMindmap } = mindmapCreatorReadySelector(
@@ -28,6 +30,7 @@ const updateMindmapShapeAct = async (): AsyncResult => {
     useMindmapCreatorState.set({
       activeMindmap: updatedMindmap,
       savingDisabled: true,
+      saving: false,
     });
     useYourMindmapsState.set({
       mindmaps: updatedYourMindmaps,
@@ -40,7 +43,9 @@ const updateMindmapShapeAct = async (): AsyncResult => {
 
     return { is: `ok` };
   } catch (error: unknown) {
-    return { is: `fail`, error: parseError(error) };
+    const parsedError = parseError(error);
+    useMindmapCreatorState.set({ saving: false, error: parsedError });
+    return { is: `fail`, error: parsedError };
   }
 };
 

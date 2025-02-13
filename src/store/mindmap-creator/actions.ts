@@ -229,6 +229,12 @@ const alignToSkeletonAction = (): void => {
   });
 };
 
+const closeErrorAction = (): void => {
+  set({
+    error: null,
+  });
+};
+
 export {
   updateNodesAction,
   updateEdgesAction,
@@ -239,4 +245,5 @@ export {
   initializeMindmapAction,
   alignToSkeletonAction,
   toggleOrientationAction,
+  closeErrorAction,
 };

@@ -8,11 +8,7 @@ import {
   BiTrash,
 } from 'react-icons/bi';
 import { useMindmapModalsContext } from '../providers/mindmap-widgets.provider';
-import type { Transaction } from 'development-kit/utility-types';
-import { ScreenLoader } from 'design-system/screen-loader';
 import { updateMindmapShapeAct } from 'acts/update-mindmap-shape.act';
-import ErrorModal from 'components/error-modal';
-import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
 import { toggleOrientationAction } from 'store/mindmap-creator/actions';
@@ -21,17 +17,11 @@ import c from 'classnames';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
-  const { savingDisabled, activeMindmap } = useMindmapCreatorState(
+  const { savingDisabled, activeMindmap, saving } = useMindmapCreatorState(
     mindmapCreatorReadySelector,
   );
   const { nodeCreation, nodesRemovalConfirm } = useMindmapModalsContext();
-  const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
   const { fitView } = useReactFlow();
-
-  const updateMindmapShape = async (): Promise<void> => {
-    setOperation({ is: `busy` });
-    setOperation(await updateMindmapShapeAct());
-  };
 
   const toggleOrientation = (): void => {
     toggleOrientationAction();
@@ -45,34 +35,7 @@ const MindmapToolboxContainer = () => {
     [activeMindmap],
   );
 
-  if (operation.is === `busy`) {
-    return <ScreenLoader />;
-  }
-
-  if (operation.is === `fail`) {
-    return (
-      <ErrorModal
-        heading="Cannot update mindmap shape"
-        message={operation.error.message}
-        footer={
-          operation.error.symbol === `out-of-date` && (
-            <Button
-              i={2}
-              s={2}
-              auto
-              title="Sync mindmap"
-              onClick={reloadYourMindmapsAct}
-            >
-              Sync
-            </Button>
-          )
-        }
-        onClose={() => {
-          setOperation({ is: `idle` });
-        }}
-      />
-    );
-  }
+  if (saving) return null;
 
   return render(
     <nav className="fixed flex justify-center space-x-2 bottom-0 py-2 max-w-sm mx-auto left-0 right-0">
@@ -88,7 +51,7 @@ const MindmapToolboxContainer = () => {
         s={1}
         title="Save mindmap changes"
         disabled={savingDisabled}
-        onClick={updateMindmapShape}
+        onClick={updateMindmapShapeAct}
       >
         <BiSave />
       </Button>

@@ -41,8 +41,9 @@ const updateMindmapNameAct = async (name: MindmapDto['name']): AsyncResult => {
 
     return { is: `ok` };
   } catch (error: unknown) {
-    useMindmapCreatorState.set({ saving: false });
-    return { is: `fail`, error: parseError(error) };
+    const parsedError = parseError(error);
+    useMindmapCreatorState.set({ saving: false, error: parsedError });
+    return { is: `fail`, error: parsedError };
   }
 };
 
