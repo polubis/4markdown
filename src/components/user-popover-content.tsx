@@ -8,7 +8,7 @@ import { Avatar } from 'design-system/avatar';
 import { UserSocials } from './user-socials';
 import { reloadYourUserProfile } from 'actions/reload-your-user-profile.action';
 import { logOut } from 'actions/log-out.action';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { useYourUserProfileState } from 'store/your-user-profile';
 
 const DetailLoader = () => (

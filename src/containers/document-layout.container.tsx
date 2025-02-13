@@ -14,7 +14,7 @@ import { DocumentRatingContainer } from 'containers/document-rating.container';
 import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const DocumentChaptersModal = React.lazy(() =>
   import(`../components/document-chapters-modal`).then((m) => ({

@@ -18,7 +18,7 @@ import {
   updateYourProfileStoreActions,
   updateYourProfileStoreSelectors,
 } from 'store/update-your-profile/update-your-profile.store';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { type YourUserProfileOkState } from 'store/your-user-profile/models';
 import { useYourUserProfileState } from 'store/your-user-profile';
 import { yourOkUserProfileSelector } from 'store/your-user-profile/selectors';
