@@ -9,7 +9,6 @@ import type { MindmapDto } from 'api-4markdown-contracts';
 import { useYourMindmapsState } from 'store/your-mindmaps';
 import { yourMindmapsReadySelector } from 'store/your-mindmaps/selectors';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
 import { useMindmapModalsContext } from '../providers/mindmap-widgets.provider';
 import { initializeMindmapAction } from 'store/mindmap-creator/actions';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
@@ -26,7 +25,7 @@ const rangeLookup: Record<RangeFilter, [number, number]> = {
 
 const MindmapsListModalContainer = () => {
   const mindmapsState = useYourMindmapsState(yourMindmapsReadySelector);
-  const { activeMindmap } = useMindmapCreatorState(mindmapCreatorReadySelector);
+  const mindmapCreator = useMindmapCreatorState();
   const { mindmapsListModal } = useMindmapModalsContext();
   const [activeRange, setActiveRange] = React.useState<RangeFilter>(
     rangeFilters[0],
@@ -84,7 +83,8 @@ const MindmapsListModalContainer = () => {
             <li
               className={c(
                 `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3`,
-                activeMindmap.id === mindmap.id
+                mindmapCreator.is === `active` &&
+                  mindmapCreator.activeMindmap.id === mindmap.id
                   ? `bg-green-700 text-white border-green-700`
                   : `bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`,
               )}

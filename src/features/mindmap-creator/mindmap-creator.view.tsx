@@ -122,7 +122,6 @@ const MindmapCreatorView = () => {
       ) : (
         <MindmapPreviewContainer />
       )}
-      <MindmapModals />
     </>
   );
 };
@@ -182,22 +181,11 @@ const ConnectedMindmapCreatorView = () => {
           </section>
         )}
       </main>
+      <MindmapModals />
     </>
   );
 };
-// Connect picking from URL
-// Improve displaying list of mindmaps
-// Add option to re-sync mindmaps as in other views
-// Add center feature
-// Align models correctly UI/BE
-// Allow to update description and visibility
-// Align modal and pending statuses in creator view
-// Przeniesc liste mindmapek na oddzielny widok
-// Wyrownac modele?
-// Dodac auto save jak przy usuwaniu jest po procesie 0 noedow
-// Ulepszyc display contentu
-// Dodac kontent edytion nie w textarea ale w creatorze?
-// Udpate flags w jednym miejscu - disble na edytor to samo error?
+
 const ProtectedMindmapCreatorView = () => {
   const authStore = useAuthStore();
 
