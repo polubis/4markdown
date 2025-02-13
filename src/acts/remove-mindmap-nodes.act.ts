@@ -1,13 +1,13 @@
 import type { MindmapNode } from 'api-4markdown-contracts';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
-import { updateMindmapShapeAct } from './update-mindmap-shape.act';
-import { parseError } from 'api-4markdown';
+import { getAPI, parseError } from 'api-4markdown';
+import type { AsyncResult } from 'development-kit/utility-types';
 
-const removeMindmapNodesAct = async (): Promise<
-  ReturnType<typeof updateMindmapShapeAct>
-> => {
+const removeMindmapNodesAct = async (): AsyncResult => {
   try {
+    useMindmapCreatorState.set({ saving: true });
+
     const { activeMindmap } = mindmapCreatorReadySelector(
       useMindmapCreatorState.get(),
     );
@@ -21,19 +21,26 @@ const removeMindmapNodesAct = async (): Promise<
       {},
     );
 
-    useMindmapCreatorState.set({
-      activeMindmap: {
-        ...activeMindmap,
-        nodes: newNodes,
-        edges: activeMindmap.edges.filter(
-          ({ source, target }) => newNodesIds[source] && newNodesIds[target],
-        ),
-      },
-      savingDisabled: false,
+    const updatedMindmap = await getAPI().call(`updateMindmapShape`)({
+      id: activeMindmap.id,
+      mdate: activeMindmap.mdate,
+      nodes: newNodes,
+      edges: activeMindmap.edges.filter(
+        ({ source, target }) => newNodesIds[source] && newNodesIds[target],
+      ),
+      orientation: activeMindmap.orientation,
     });
 
-    return updateMindmapShapeAct();
+    useMindmapCreatorState.set({
+      activeMindmap: updatedMindmap,
+      savingDisabled: false,
+      saving: true,
+    });
+    return { is: `ok` };
   } catch (error: unknown) {
+    useMindmapCreatorState.set({
+      saving: false,
+    });
     return { is: `fail`, error: parseError(error) };
   }
 };
