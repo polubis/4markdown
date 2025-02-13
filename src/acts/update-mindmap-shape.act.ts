@@ -29,7 +29,6 @@ const updateMindmapShapeAct = async (): AsyncResult => {
 
     useMindmapCreatorState.set({
       activeMindmap: updatedMindmap,
-      savingDisabled: true,
       saving: false,
     });
     useYourMindmapsState.set({

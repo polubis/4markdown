@@ -17,7 +17,7 @@ import c from 'classnames';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
-  const { savingDisabled, activeMindmap, saving } = useMindmapCreatorState(
+  const { activeMindmap, saving } = useMindmapCreatorState(
     mindmapCreatorReadySelector,
   );
   const { nodeCreation, nodesRemovalConfirm } = useMindmapModalsContext();
@@ -50,7 +50,7 @@ const MindmapToolboxContainer = () => {
         i={2}
         s={1}
         title="Save mindmap changes"
-        disabled={savingDisabled}
+        disabled={false}
         onClick={updateMindmapShapeAct}
       >
         <BiSave />

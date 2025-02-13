@@ -61,6 +61,7 @@ const makeSkeleton = ({
 
 const updateNodesAction = (changes: NodeChange[]): void => {
   const { activeMindmap } = getOkState();
+  console.log(changes);
 
   set({
     activeMindmap: {
@@ -70,7 +71,6 @@ const updateNodesAction = (changes: NodeChange[]): void => {
         activeMindmap.nodes,
       ) as MindmapDto['nodes'],
     },
-    savingDisabled: false,
   });
 };
 
@@ -85,7 +85,6 @@ const updateEdgesAction = (changes: EdgeChange[]): void => {
         activeMindmap.edges,
       ) as MindmapDto['edges'],
     },
-    savingDisabled: false,
   });
 };
 
@@ -105,7 +104,6 @@ const connectNodesAction = ({ source, target }: Connection): void => {
         },
       ],
     },
-    savingDisabled: false,
   });
 };
 
@@ -117,7 +115,6 @@ const removeNodesConnectionAction = (id: MindmapNode['id']): void => {
       ...activeMindmap,
       edges: activeMindmap.edges.filter((edge) => edge.id !== id),
     },
-    savingDisabled: false,
   });
 };
 
@@ -161,7 +158,6 @@ const initializeMindmapAction = (mindmap: MindmapDto): void => {
     is: `active`,
     activeMindmap: mindmap,
     activeMindmapNode: null,
-    savingDisabled: true,
     error: null,
     saving: false,
   });
@@ -192,7 +188,6 @@ const addNewNodeAction = <TType extends MindmapNodeType>(
           } as EmbeddedNode,
         ],
       },
-      savingDisabled: false,
     });
   }
 };
@@ -213,7 +208,6 @@ const toggleOrientationAction = (): void => {
       ...newActiveMindmap,
       orientation,
     },
-    savingDisabled: false,
   });
 };
 
@@ -225,7 +219,6 @@ const alignToSkeletonAction = (): void => {
       ...activeMindmap,
       ...makeSkeleton(activeMindmap),
     },
-    savingDisabled: false,
   });
 };
 

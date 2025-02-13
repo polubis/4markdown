@@ -8,7 +8,6 @@ import type {
 type StateBase = {
   activeMindmap: MindmapDto;
   activeMindmapNode: DocumentNode | EmbeddedNode | null;
-  savingDisabled: boolean;
   saving: boolean;
   error: null | ParsedError;
 };

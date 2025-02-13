@@ -27,7 +27,6 @@ const updateMindmapNameAct = async (name: MindmapDto['name']): AsyncResult => {
 
     useMindmapCreatorState.set({
       activeMindmap: updatedMindmap,
-      savingDisabled: true,
       saving: false,
     });
     useYourMindmapsState.set({
