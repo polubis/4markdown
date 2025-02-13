@@ -154,7 +154,7 @@ const MindmapPreviewContainer = () => {
   return (
     <>
       <ReactFlow
-        key={activeMindmap.orientation}
+        key={`${activeMindmap.id} + ${activeMindmap.orientation}`}
         nodes={activeMindmap.nodes}
         edges={activeMindmap.edges}
         onNodesChange={updateNodesAction}
