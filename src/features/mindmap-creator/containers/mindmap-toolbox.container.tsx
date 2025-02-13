@@ -21,8 +21,9 @@ import c from 'classnames';
 
 const MindmapToolboxContainer = () => {
   const { render } = usePortal();
-  const { savingDisabled, activeMindmap } =
-    useMindmapCreatorState(mindmapCreatorReadySelector);
+  const { savingDisabled, activeMindmap } = useMindmapCreatorState(
+    mindmapCreatorReadySelector,
+  );
   const { nodeCreation, nodesRemovalConfirm } = useMindmapModalsContext();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
   const { fitView } = useReactFlow();

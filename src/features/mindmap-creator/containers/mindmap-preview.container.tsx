@@ -38,6 +38,7 @@ import {
   NestedNodeTileContainerY,
 } from './nested-node-tile.container';
 import { MindmapToolboxContainer } from './mindmap-toolbox.container';
+import { ScreenLoader } from 'design-system/screen-loader';
 
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -142,7 +143,9 @@ const edgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
-  const { activeMindmap } = useMindmapCreatorState(mindmapCreatorReadySelector);
+  const { activeMindmap, saving } = useMindmapCreatorState(
+    mindmapCreatorReadySelector,
+  );
 
   return (
     <>
@@ -163,6 +166,7 @@ const MindmapPreviewContainer = () => {
       </ReactFlow>
       <MindmapToolboxContainer />
       <ActiveNodePreviewContainer />
+      {saving && <ScreenLoader />}
     </>
   );
 };

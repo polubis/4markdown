@@ -162,6 +162,8 @@ const initializeMindmapAction = (mindmap: MindmapDto): void => {
     activeMindmap: mindmap,
     activeMindmapNode: null,
     savingDisabled: true,
+    error: null,
+    saving: false,
   });
 };
 
