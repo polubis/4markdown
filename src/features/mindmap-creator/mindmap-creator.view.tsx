@@ -79,11 +79,12 @@ const MindmapCreatorView = () => {
         <section className="flex flex-col justify-center items-center h-full p-4 overflow-y-auto">
           <h1 className="text-xl mb-6">Your Mindmaps</h1>
           <ul className="flex justify-center flex-wrap gap-3">
-            {yourMindmaps.mindmaps.map((mindmap) => (
+            {yourMindmaps.mindmaps.map((mindmap, index) => (
               <li
-                className="flex flex-col w-[280px] cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800"
+                className="animate-fade-in opacity-0 flex flex-col w-[280px] cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800"
                 title={mindmap.name}
                 key={mindmap.id}
+                style={{ animationDelay: `${index * 0.05}s` }}
                 onClick={() => initializeMindmapAction(mindmap)}
               >
                 <div className="flex justify-between mb-0.5">
