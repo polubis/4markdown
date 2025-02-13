@@ -61,7 +61,6 @@ const makeSkeleton = ({
 
 const updateNodesAction = (changes: NodeChange[]): void => {
   const { activeMindmap } = getOkState();
-  console.log(changes);
 
   set({
     activeMindmap: {
