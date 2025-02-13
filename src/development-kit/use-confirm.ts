@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const useConfirm = (action: () => void) => {
   const toggler = useSimpleFeature();

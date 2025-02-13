@@ -13,7 +13,7 @@ import { PermanentConfirmationContainer } from 'features/creator/containers/perm
 import { Modal } from 'design-system/modal';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { meta } from '../../../../meta';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
