@@ -2,7 +2,7 @@ import { Button } from 'design-system/button';
 import React from 'react';
 import { BiMenu } from 'react-icons/bi';
 import MenuNavSidebar from './menu-nav-sidebar';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const MoreNav = () => {
   const menu = useSimpleFeature();

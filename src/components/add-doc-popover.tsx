@@ -9,7 +9,7 @@ import { BiPlus } from 'react-icons/bi';
 import { useAuthStore } from 'store/auth/auth.store';
 import { logIn } from 'actions/log-in.action';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const CreateDocumentModal = React.lazy(() =>
   import(`./create-document-modal`).then((m) => ({

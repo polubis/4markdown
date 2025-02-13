@@ -6,7 +6,7 @@ import { meta } from '../../meta';
 import c from 'classnames';
 import { triggerDocumentCreation } from 'core/creation-management';
 import { docStoreSelectors } from 'store/doc/doc.store';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const CreationLinkContainer = () => {
   const menu = useSimpleFeature();
