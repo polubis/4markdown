@@ -2,7 +2,7 @@ import React, { type FormEventHandler } from 'react';
 
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { Button } from 'design-system/button';
 import { BiCheck, BiX } from 'react-icons/bi';
 import { useForm } from 'development-kit/use-form';
