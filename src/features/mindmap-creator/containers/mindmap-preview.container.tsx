@@ -14,7 +14,6 @@ import React, { type ComponentType } from 'react';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
 import {
-  closeErrorAction,
   connectNodesAction,
   updateEdgesAction,
   updateNodesAction,
@@ -39,10 +38,6 @@ import {
   NestedNodeTileContainerY,
 } from './nested-node-tile.container';
 import { MindmapToolboxContainer } from './mindmap-toolbox.container';
-import { ScreenLoader } from 'design-system/screen-loader';
-import ErrorModal from 'components/error-modal';
-import { Button } from 'design-system/button';
-import { restartMindmapCreatorAct } from 'acts/restart-mindmap-creator.act';
 
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -147,9 +142,7 @@ const edgeTypes = {
 };
 
 const MindmapPreviewContainer = () => {
-  const { activeMindmap, saving, error } = useMindmapCreatorState(
-    mindmapCreatorReadySelector,
-  );
+  const { activeMindmap } = useMindmapCreatorState(mindmapCreatorReadySelector);
 
   return (
     <>
@@ -170,27 +163,6 @@ const MindmapPreviewContainer = () => {
       </ReactFlow>
       <MindmapToolboxContainer />
       <ActiveNodePreviewContainer />
-      {saving && <ScreenLoader />}
-      {error && (
-        <ErrorModal
-          heading="Cannot update mindmap shape"
-          message={error.message}
-          footer={
-            error.symbol === `out-of-date` && (
-              <Button
-                i={2}
-                s={2}
-                auto
-                title="Sync mindmap"
-                onClick={restartMindmapCreatorAct}
-              >
-                Sync
-              </Button>
-            )
-          }
-          onClose={closeErrorAction}
-        />
-      )}
     </>
   );
 };

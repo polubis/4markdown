@@ -27,22 +27,53 @@ import { yourMindmapsReadySelector } from 'store/your-mindmaps/selectors';
 import { AppNavigation } from 'components/app-navigation';
 import { useAuthStore } from 'store/auth/auth.store';
 import { formatDistance } from 'date-fns';
-import { initializeMindmapAction } from 'store/mindmap-creator/actions';
+import {
+  closeErrorAction,
+  initializeMindmapAction,
+} from 'store/mindmap-creator/actions';
 import { RemoveNodesModalContainer } from './containers/remove-nodes-modal.container';
 import { MindmapsListModalContainer } from './containers/mindmaps-list-modal.container';
+import { restartMindmapCreatorAct } from 'acts/restart-mindmap-creator.act';
+import { ScreenLoader } from 'design-system/screen-loader';
+import ErrorModal from 'components/error-modal';
 
 import './mindmap-creator.css';
-import { restartMindmapCreatorAct } from 'acts/restart-mindmap-creator.act';
 
 const MindmapModals = () => {
   const { nodeCreation, nodesRemovalConfirm, mindmapsListModal } =
     useMindmapModalsContext();
+  const mindmapCreator = useMindmapCreatorState();
 
   return (
     <>
       {nodeCreation.isOn && <CreateNodeModalContainer />}
       {nodesRemovalConfirm.isOn && <RemoveNodesModalContainer />}
       {mindmapsListModal.isOn && <MindmapsListModalContainer />}
+      {mindmapCreator.is === `active` && (
+        <>
+          {mindmapCreator.saving && <ScreenLoader />}
+          {mindmapCreator.error && (
+            <ErrorModal
+              heading="Cannot update mindmap shape"
+              message={mindmapCreator.error.message}
+              footer={
+                mindmapCreator.error.symbol === `out-of-date` && (
+                  <Button
+                    i={2}
+                    s={2}
+                    auto
+                    title="Sync mindmap"
+                    onClick={restartMindmapCreatorAct}
+                  >
+                    Sync
+                  </Button>
+                )
+              }
+              onClose={closeErrorAction}
+            />
+          )}
+        </>
+      )}
     </>
   );
 };

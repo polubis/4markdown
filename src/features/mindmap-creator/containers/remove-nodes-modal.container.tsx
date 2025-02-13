@@ -3,14 +3,19 @@ import { Modal } from 'design-system/modal';
 import React from 'react';
 import { useMindmapModalsContext } from '../providers/mindmap-widgets.provider';
 import { removeMindmapNodesAct } from 'acts/remove-mindmap-nodes.act';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { mindmapCreatorReadySelector } from 'store/mindmap-creator/selectors';
 
 const RemoveNodesModalContainer = () => {
   const { nodesRemovalConfirm } = useMindmapModalsContext();
+  const { saving } = useMindmapCreatorState(mindmapCreatorReadySelector);
 
   const confirmNodesRemoval = async (): Promise<void> => {
     const result = await removeMindmapNodesAct();
     result.is === `ok` && nodesRemovalConfirm.off();
   };
+
+  if (saving) return null;
 
   return (
     <Modal onClose={nodesRemovalConfirm.off}>
