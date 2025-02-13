@@ -10,7 +10,7 @@ import { useForm } from 'development-kit/use-form';
 import { updateDocumentCode } from 'actions/update-document-code.action';
 import { updateDocumentName } from 'actions/update-document-name.action';
 import { useDocumentCreatorState } from 'store/document-creator';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const DocumentDetailsContainer = React.lazy(
   () => import(`./document-details.container`),

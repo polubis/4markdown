@@ -2,7 +2,7 @@ import React from 'react';
 
 import debounce from 'lodash.debounce';
 import { isServer } from 'development-kit/ssr-csr';
-import { useSimpleFeature } from '@greenonsoftware/first-class-hooks';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const removeMdFromLine = (value: string): string =>
   value.replace(/\*|#|`|_/g, ``).trim();
