@@ -13,7 +13,6 @@ import { EmptyNodesMindmapContainer } from './containers/empty-nodes-mindmap.con
 import { CreateNodeModalContainer } from './containers/create-node-modal.container';
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useYourMindmapsState } from 'store/your-mindmaps';
-import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import {
   BiCategory,
   BiLowVision,
@@ -33,6 +32,7 @@ import { RemoveNodesModalContainer } from './containers/remove-nodes-modal.conta
 import { MindmapsListModalContainer } from './containers/mindmaps-list-modal.container';
 
 import './mindmap-creator.css';
+import { restartMindmapCreatorAct } from 'acts/restart-mindmap-creator.act';
 
 const MindmapModals = () => {
   const { nodeCreation, nodesRemovalConfirm, mindmapsListModal } =
@@ -174,7 +174,7 @@ const ConnectedMindmapCreatorView = () => {
                 auto
                 s={2}
                 i={2}
-                onClick={reloadYourMindmapsAct}
+                onClick={restartMindmapCreatorAct}
               >
                 Try Agian
               </Button>

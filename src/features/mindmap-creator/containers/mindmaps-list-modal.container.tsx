@@ -11,7 +11,7 @@ import { yourMindmapsReadySelector } from 'store/your-mindmaps/selectors';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { useMindmapModalsContext } from '../providers/mindmap-widgets.provider';
 import { initializeMindmapAction } from 'store/mindmap-creator/actions';
-import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
+import { restartMindmapCreatorAct } from 'acts/restart-mindmap-creator.act';
 
 const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
 
@@ -58,7 +58,7 @@ const MindmapsListModalContainer = () => {
           i={2}
           s={1}
           title="Sync mindmaps"
-          onClick={reloadYourMindmapsAct}
+          onClick={restartMindmapCreatorAct}
         >
           <BiRefresh />
         </Button>

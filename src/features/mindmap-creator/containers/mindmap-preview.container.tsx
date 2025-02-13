@@ -42,6 +42,7 @@ import { MindmapToolboxContainer } from './mindmap-toolbox.container';
 import { ScreenLoader } from 'design-system/screen-loader';
 import ErrorModal from 'components/error-modal';
 import { Button } from 'design-system/button';
+import { restartMindmapCreatorAct } from 'acts/restart-mindmap-creator.act';
 
 const DoneEdge = ({ id, sourceX, sourceY, targetX, targetY }: EdgeProps) => {
   const [edgePath, labelX, labelY] = getSimpleBezierPath({
@@ -181,9 +182,7 @@ const MindmapPreviewContainer = () => {
                 s={2}
                 auto
                 title="Sync mindmap"
-                onClick={() => {
-                  // Create 
-                }}
+                onClick={restartMindmapCreatorAct}
               >
                 Sync
               </Button>
