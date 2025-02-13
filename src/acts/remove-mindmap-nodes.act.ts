@@ -34,8 +34,9 @@ const removeMindmapNodesAct = async (): AsyncResult => {
     useMindmapCreatorState.set({
       activeMindmap: updatedMindmap,
       savingDisabled: false,
-      saving: true,
+      saving: false,
     });
+
     return { is: `ok` };
   } catch (error: unknown) {
     useMindmapCreatorState.set({
