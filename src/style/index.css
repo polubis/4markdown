@@ -51,7 +51,7 @@ body.dark .active-button-link:hover {
 /* @ General */
 
 ::-webkit-scrollbar {
-  @apply w-2 h-2;
+  @apply w-2 h-1;
 }
 
 ::-webkit-scrollbar-track {
@@ -134,5 +134,9 @@ body.dark .active-button-link:hover {
 
   .prose a {
     @apply break-words;
+  }
+
+  .prose .katex-display {
+    @apply overflow-x-auto overflow-y-hidden py-1;
   }
 }

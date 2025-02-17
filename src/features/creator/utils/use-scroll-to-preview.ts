@@ -2,7 +2,6 @@ import React from 'react';
 
 import debounce from 'lodash.debounce';
 import { isServer } from 'development-kit/ssr-csr';
-import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const removeMdFromLine = (value: string): string =>
   value.replace(/\*|#|`|_/g, ``).trim();
@@ -38,45 +37,40 @@ const scrollToPreview = debounce((input: HTMLTextAreaElement): void => {
   }
 }, 750);
 
-const AUTO_SCROLL_KEY = `autoScrolling`;
+const AUTO_SCROLL_KEY = `auto-scrolling`;
 
 const readBrowserSavedSettings = (): boolean => {
   if (isServer()) return false;
-
-  try {
-    const readedSetting = localStorage.getItem(AUTO_SCROLL_KEY);
-
-    if (readedSetting === null) return false;
-
-    return JSON.parse(readedSetting);
-  } catch {
-    return false;
-  }
+  return Boolean(Number.parseInt(localStorage.getItem(AUTO_SCROLL_KEY) ?? `0`));
 };
 
 const useScrollToPreview = () => {
-  const [opened] = React.useState(readBrowserSavedSettings);
-  const scroll = useSimpleFeature(opened);
-
-  const triggerScroll = (input: HTMLTextAreaElement): void => {
-    if (scroll.isOff) return;
-
-    scrollToPreview(input);
-  };
+  const [isOn, setIsOn] = React.useState(false);
 
   React.useEffect(() => {
-    try {
-      localStorage.setItem(AUTO_SCROLL_KEY, JSON.stringify(scroll.isOn));
-    } catch {}
-  }, [scroll.isOn]);
-
-  React.useEffect(() => {
+    setIsOn(readBrowserSavedSettings);
     return () => {
       scrollToPreview.cancel();
     };
   }, []);
 
-  return [scroll, triggerScroll] as const;
+  return React.useMemo(
+    () => ({
+      isOn,
+      scroll: (input: HTMLTextAreaElement): void => {
+        if (!isOn) return;
+        scrollToPreview(input);
+      },
+      toggle: (): void => {
+        const newIsOn = !isOn;
+
+        setIsOn(newIsOn);
+
+        localStorage.setItem(AUTO_SCROLL_KEY, newIsOn ? `1` : `0`);
+      },
+    }),
+    [isOn],
+  );
 };
 
 export { useScrollToPreview };
