@@ -40,7 +40,7 @@ const CheatSheetModal = React.lazy(() =>
 const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
-  const [autoScrolling, autoScroll] = useScrollToPreview();
+  const autoScroller = useScrollToPreview();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   useCreatorLocalStorageSync();
@@ -58,7 +58,7 @@ const CreatorView = () => {
       e.preventDefault();
     }
 
-    autoScroll(e.currentTarget);
+    autoScroller.scroll(e.currentTarget);
   };
 
   const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -135,13 +135,13 @@ const CreatorView = () => {
       >
         <header className="h-full flex flex-col gap-1.5 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 overflow-y-auto flex-shrink-0">
           <Button
-            title="Auto scrolling"
+            title="Turn on/off auto scrolling"
             i={1}
             s={1}
             className={c({
-              '!text-green-700 dark:!text-green-400': autoScrolling.isOn,
+              '!text-green-700 dark:!text-green-400': autoScroller.isOn,
             })}
-            onClick={autoScrolling.toggle}
+            onClick={autoScroller.toggle}
           >
             <svg
               width="26"
@@ -180,7 +180,7 @@ const CreatorView = () => {
           onChange={changeCode}
           onKeyDown={maintainTabs}
           onClick={(e) => {
-            autoScroll(e.currentTarget);
+            autoScroller.scroll(e.currentTarget);
           }}
         />
       </div>

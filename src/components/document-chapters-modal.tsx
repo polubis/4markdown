@@ -35,28 +35,26 @@ const DocumentChaptersModal = ({
 
   const chapters = React.useMemo(() => {
     const parts = children.split(`\n`);
+    const headingPositions: number[] = [];
 
-    const intro = parts
-      .slice(
-        0,
-        parts.findIndex((part) => /^##\s.+$/.test(part)),
-      )
-      .join(`\n`)
-      .trim();
+    let introEnd = parts.length;
 
-    const rest = parts
-      .reduce<number[]>((acc, part, index) => {
-        if (/^##\s.+$/.test(part)) {
-          acc.push(index);
+    for (let i = 0; i < parts.length; i++) {
+      if (/^##\s.+$/.test(parts[i])) {
+        headingPositions.push(i);
+
+        if (introEnd === parts.length) {
+          introEnd = i;
         }
+      }
+    }
 
-        return acc;
-      }, [])
-      .map((start, index, positions) => {
-        const end = positions[index + 1] ?? parts.length - 1;
+    const intro = parts.slice(0, introEnd).join(`\n`).trim();
 
-        return parts.slice(start, end).join(`\n`).trim();
-      });
+    const rest = headingPositions.map((start, index) => {
+      const end = headingPositions[index + 1] ?? parts.length;
+      return parts.slice(start, end).join(`\n`).trim();
+    });
 
     return [intro, ...rest];
   }, [children]);
