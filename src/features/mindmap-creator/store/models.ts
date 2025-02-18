@@ -28,10 +28,20 @@ type MakeNode<TType extends string, TData extends Record<string, any>> = {
   data: TData;
 };
 
+type MindmapCreatorEmbeddedNode = MakeNode<
+  `embedded`,
+  NodeDataBase & { content: string | null }
+>;
+
+type MindmapCreatorExternalNode = MakeNode<
+  `external`,
+  NodeDataBase & { url: string }
+>;
+
 type MindmapCreatorEdge = MakeEdge<`solid`>;
 type MindmapCreatorNode =
-  | MakeNode<`embedded`, NodeDataBase & { content: string | null }>
-  | MakeNode<`external`, NodeDataBase & { url: string }>;
+  | MindmapCreatorEmbeddedNode
+  | MindmapCreatorExternalNode;
 
 type MindmapCreatorStore = {
   orientation: `x` | `y`;
@@ -39,4 +49,10 @@ type MindmapCreatorStore = {
   edges: MindmapCreatorEdge[];
 };
 
-export type { MindmapCreatorStore };
+export type {
+  MindmapCreatorStore,
+  MindmapCreatorNode,
+  MindmapCreatorEmbeddedNode,
+  MindmapCreatorExternalNode,
+  MindmapCreatorEdge,
+};

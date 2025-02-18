@@ -1,12 +1,12 @@
 import React from 'react';
 import c from 'classnames';
 import { Link } from 'gatsby';
-import { meta } from '../../../meta';
 import { BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import UserPopover from 'components/user-popover';
 import MoreNav from 'components/more-nav';
 import { MindmapCreatorContainer } from './containers/mindmap-creator.container';
+import { meta } from '../../../meta';
 
 import './mindmap-creator.css';
 
