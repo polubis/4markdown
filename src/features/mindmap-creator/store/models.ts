@@ -47,6 +47,7 @@ type MindmapCreatorStore = {
   orientation: `x` | `y`;
   nodes: MindmapCreatorNode[];
   edges: MindmapCreatorEdge[];
+  nodeForm: { is: `closed` } | { is: `active` };
 };
 
 export type {

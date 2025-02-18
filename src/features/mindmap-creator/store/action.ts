@@ -51,4 +51,21 @@ const addNewExternalNodeAction = (
   });
 };
 
-export { addNewEmbeddedNodeAction, addNewExternalNodeAction };
+const closeNodeFormAction = (): void => {
+  set({
+    nodeForm: { is: `closed` },
+  });
+};
+
+const openNodeFormAction = (): void => {
+  set({
+    nodeForm: { is: `active` },
+  });
+};
+
+export {
+  addNewEmbeddedNodeAction,
+  addNewExternalNodeAction,
+  closeNodeFormAction,
+  openNodeFormAction,
+};

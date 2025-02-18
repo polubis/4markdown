@@ -5,6 +5,7 @@ const useMindmapCreatorStore = state<MindmapCreatorStore>({
   orientation: `x`,
   nodes: [],
   edges: [],
+  nodeForm: { is: `closed` },
 });
 
 export { useMindmapCreatorStore };
