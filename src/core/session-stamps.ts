@@ -1,7 +1,9 @@
 import React from 'react';
 import { isClient } from 'development-kit/ssr-csr';
 
-const generateIdFromSessionStamp = (): string => {
+type SUID = `${number}:${number}`;
+
+const suid = (): SUID => {
   const sessionId = (window as any).__sessionStamp__;
 
   if (typeof sessionId !== `number`) throw Error(`Cannot read build id`);
@@ -9,7 +11,7 @@ const generateIdFromSessionStamp = (): string => {
   return `${sessionId}:${performance.now()}`;
 };
 
-const useSessionStampIdGeneration = (): void => {
+const useSUIDGeneration = (): void => {
   React.useEffect(() => {
     if (isClient()) {
       (window as any).__sessionStamp__ = performance.now();
@@ -17,4 +19,5 @@ const useSessionStampIdGeneration = (): void => {
   }, []);
 };
 
-export { generateIdFromSessionStamp, useSessionStampIdGeneration };
+export type { SUID };
+export { suid, useSUIDGeneration };
