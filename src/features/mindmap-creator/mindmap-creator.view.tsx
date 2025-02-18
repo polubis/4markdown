@@ -12,7 +12,7 @@ import './mindmap-creator.css';
 const MindmapCreatorView = () => {
   return (
     <>
-      <main className="md:mt-[122px] md:mb-0 mb-[122px] bg-red-500">
+      <main className="md:mt-[122px] md:mb-0 mb-[122px] h-[calc(100svh-50px-72px)]">
         content
       </main>
       <header
