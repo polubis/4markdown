@@ -6,6 +6,7 @@ import { BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import UserPopover from 'components/user-popover';
 import MoreNav from 'components/more-nav';
+import { MindmapCreatorContainer } from './containers/mindmap-creator.container';
 
 import './mindmap-creator.css';
 
@@ -13,7 +14,7 @@ const MindmapCreatorView = () => {
   return (
     <>
       <main className="md:mt-[122px] md:mb-0 mb-[122px] h-[calc(100svh-50px-72px)]">
-        content
+        <MindmapCreatorContainer />
       </main>
       <header
         className={c(
