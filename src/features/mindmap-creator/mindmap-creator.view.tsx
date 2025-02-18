@@ -7,6 +7,8 @@ import { Button } from 'design-system/button';
 import UserPopover from 'components/user-popover';
 import MoreNav from 'components/more-nav';
 
+import './mindmap-creator.css';
+
 const MindmapCreatorView = () => {
   return (
     <>
