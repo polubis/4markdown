@@ -3,6 +3,7 @@ import React from 'react';
 import ErrorBoundary from './src/development-kit/error-boundary';
 import { useAuth } from './src/core/use-auth';
 import { CookiesModalLoader } from './src/components/cookies-modal-loader';
+import { useSessionStampIdGeneration } from './src/core/session-stamps';
 import 'katex/dist/katex.min.css';
 import 'prismjs/themes/prism-okaidia.css';
 import './src/style/index.css';
@@ -20,6 +21,7 @@ const SafeExceptionScreen = () => (
 );
 
 export const wrapPageElement = ({ element }) => {
+  useSessionStampIdGeneration();
   useAuth();
 
   return (

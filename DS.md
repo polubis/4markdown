@@ -1,3 +1,7 @@
+## Exporting and Importing
+
+1. All should be exported at the bottom of the file (always)
+
 ## Working with State Management
 
 To make code consistent, the following standardized structure for the store must be applied:
