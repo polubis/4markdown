@@ -1,9 +1,18 @@
-import { suid } from 'development-kit/suid';
+import { type SUID, suid } from 'development-kit/suid';
 import { useMindmapCreatorStore } from '.';
 import type {
+  MindmapCreatorEdge,
   MindmapCreatorEmbeddedNode,
   MindmapCreatorExternalNode,
+  MindmapCreatorNode,
 } from './models';
+import {
+  applyEdgeChanges,
+  applyNodeChanges,
+  type Connection,
+  type EdgeChange,
+  type NodeChange,
+} from '@xyflow/react';
 
 const { get, set } = useMindmapCreatorStore;
 
@@ -65,9 +74,44 @@ const openNodeFormAction = (): void => {
   });
 };
 
+const updateNodesAction = (changes: NodeChange[]): void => {
+  const { nodes } = get();
+
+  set({
+    nodes: applyNodeChanges(changes, nodes) as MindmapCreatorNode[],
+  });
+};
+
+const updateEdgesAction = (changes: EdgeChange[]): void => {
+  const { edges } = get();
+
+  set({
+    edges: applyEdgeChanges(changes, edges) as MindmapCreatorEdge[],
+  });
+};
+
+const connectNodesAction = ({ source, target }: Connection): void => {
+  const { edges } = get();
+
+  set({
+    edges: [
+      ...edges,
+      {
+        id: suid(),
+        type: `solid`,
+        source: source as SUID,
+        target: target as SUID,
+      },
+    ],
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
   closeNodeFormAction,
   openNodeFormAction,
+  updateNodesAction,
+  updateEdgesAction,
+  connectNodesAction,
 };

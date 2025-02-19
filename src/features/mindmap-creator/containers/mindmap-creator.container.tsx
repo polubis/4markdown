@@ -6,7 +6,12 @@ import { usePortal } from 'development-kit/use-portal';
 import { Button } from 'design-system/button';
 import { BiAddToQueue, BiHorizontalRight, BiTrash } from 'react-icons/bi';
 import c from 'classnames';
-import { openNodeFormAction } from '../store/action';
+import {
+  connectNodesAction,
+  openNodeFormAction,
+  updateEdgesAction,
+  updateNodesAction,
+} from '../store/action';
 import type {
   MindmapCreatorEdge,
   MindmapCreatorNode,
@@ -101,9 +106,9 @@ const MindmapCreatorContainer = () => {
         key={orientation}
         nodes={nodes}
         edges={edges}
-        //   onNodesChange={updateNodesAction}
-        //   onEdgesChange={updateEdgesAction}
-        //   onConnect={connectNodesAction}
+        onNodesChange={updateNodesAction}
+        onEdgesChange={updateEdgesAction}
+        onConnect={connectNodesAction}
         nodeTypes={mindmapNodeTypes[orientation] as NodeTypes}
         edgeTypes={edgeTypes as EdgeTypes}
         fitView
