@@ -11,7 +11,7 @@ import {
   openNodeFormAction,
   updateEdgesAction,
   updateNodesAction,
-} from '../store/action';
+} from '../store/actions';
 import type {
   MindmapCreatorEdge,
   MindmapCreatorNode,

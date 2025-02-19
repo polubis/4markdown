@@ -1,12 +1,15 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
+import { removeEdgeAction } from '../store/actions';
+import type { MindmapCreatorEdge } from '../store/models';
 
 const RemoveEdgeTriggerContainer = ({
   labelX,
   labelY,
+  id,
 }: {
-  id: string;
+  id: MindmapCreatorEdge['id'];
   labelX: number;
   labelY: number;
 }) => (
@@ -18,7 +21,7 @@ const RemoveEdgeTriggerContainer = ({
       pointerEvents: `all`,
     }}
     className="nodrag nopan absolute h-5 w-5"
-    onClick={() => {}}
+    onClick={() => removeEdgeAction(id)}
   >
     <BiX />
   </Button>

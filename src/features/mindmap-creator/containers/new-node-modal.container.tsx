@@ -15,7 +15,7 @@ import {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
   closeNodeFormAction,
-} from '../store/action';
+} from '../store/actions';
 
 const [LocalProvider, useLocalContext] = context(() => {
   const [activeType, setActiveType] = React.useState<
