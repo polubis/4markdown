@@ -2,7 +2,7 @@ import { Modal } from 'design-system/modal';
 import type { ComponentType, FormEventHandler } from 'react';
 import React from 'react';
 import { useForm } from 'development-kit/use-form';
-import { maxLength, minLength, optional } from 'development-kit/form';
+import { maxLength, minLength, optional, url } from 'development-kit/form';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 import { Input } from 'design-system/input';
@@ -11,7 +11,11 @@ import { Button } from 'design-system/button';
 import { BiPlusCircle } from 'react-icons/bi';
 import { context } from 'development-kit/context';
 import { type MindmapCreatorNode } from '../store/models';
-import { addNewEmbeddedNodeAction, closeNodeFormAction } from '../store/action';
+import {
+  addNewEmbeddedNodeAction,
+  addNewExternalNodeAction,
+  closeNodeFormAction,
+} from '../store/action';
 
 const [LocalProvider, useLocalContext] = context(() => {
   const [activeType, setActiveType] = React.useState<
@@ -34,6 +38,123 @@ const limits = {
     max: 160,
   },
 } as const;
+
+const ExternalForm = () => {
+  const { setActiveType } = useLocalContext();
+
+  const [{ values, untouched, invalid }, { inject }] = useForm(
+    {
+      name: ``,
+      description: ``,
+      url: ``,
+    },
+    {
+      name: [minLength(limits.name.min), maxLength(limits.name.max)],
+      description: [
+        optional(
+          minLength(limits.descrition.min),
+          maxLength(limits.descrition.max),
+        ),
+      ],
+      url: [url],
+    },
+  );
+
+  const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+
+    const name = values.name.trim();
+    const description = values.description.trim();
+    const url = values.url.trim();
+
+    addNewExternalNodeAction({
+      name,
+      description: description.length === 0 ? null : description,
+      url,
+      path: `/unset/`,
+    });
+  };
+
+  return (
+    <>
+      <Modal.Header
+        title="External node data (2/2)"
+        closeButtonTitle="Cancel node creation"
+      />
+      <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
+        <Field
+          label="Name*"
+          hint={
+            <Hint
+              trigger={
+                <>
+                  {limits.name.min} - {limits.name.max}
+                  {` `}
+                  characters
+                </>
+              }
+            />
+          }
+        >
+          <Input
+            placeholder={`My Notes, Basics of Computer Science, ...etc`}
+            {...inject(`name`)}
+          />
+        </Field>
+        <Field
+          label="Description"
+          hint={
+            <Hint
+              trigger={
+                <>
+                  {limits.descrition.min} - {limits.descrition.max}
+                  {` `}
+                  characters
+                </>
+              }
+            />
+          }
+        >
+          <Textarea
+            placeholder="My handy description for learning something valuable..."
+            {...inject(`description`)}
+          />
+        </Field>
+        <Field label="Link To Resource*">
+          <Input
+            placeholder={`https://cool-articles.com/article/`}
+            {...inject(`url`)}
+          />
+        </Field>
+        <footer className="flex space-x-3 mt-6">
+          <Button
+            type="button"
+            i={1}
+            className="flex-1"
+            s={2}
+            auto
+            title="Back to node type selection"
+            onClick={() => setActiveType(null)}
+          >
+            Back
+          </Button>
+          <Button
+            type="submit"
+            className="flex-1"
+            i={2}
+            s={2}
+            auto
+            title="Confirm node creation"
+            disabled={untouched || invalid}
+          >
+            Create
+            <BiPlusCircle />
+          </Button>
+        </footer>
+      </form>
+    </>
+  );
+};
 
 const EmbeddedForm = () => {
   const { setActiveType } = useLocalContext();
@@ -91,7 +212,7 @@ const EmbeddedForm = () => {
           }
         >
           <Input
-            placeholder={`My Mindmap, Basics of Computer Science, ...etc`}
+            placeholder={`My Notes, Basics of Computer Science, ...etc`}
             {...inject(`name`)}
           />
         </Field>
@@ -110,7 +231,7 @@ const EmbeddedForm = () => {
           }
         >
           <Textarea
-            placeholder="My private or public roadmap for learning something important to me..."
+            placeholder="My handy description for learning something valuable..."
             {...inject(`description`)}
           />
         </Field>
@@ -163,7 +284,7 @@ const EmbeddedForm = () => {
 
 const forms: Record<MindmapCreatorNode['type'], ComponentType> = {
   embedded: EmbeddedForm,
-  external: EmbeddedForm,
+  external: ExternalForm,
 };
 
 const FormRenderer = ({ type }: Pick<MindmapCreatorNode, 'type'>) => {
