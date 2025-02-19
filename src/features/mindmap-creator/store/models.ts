@@ -38,7 +38,9 @@ type MindmapCreatorExternalNode = MakeNode<
   NodeDataBase & { url: string }
 >;
 
-type MindmapCreatorEdge = MakeEdge<`solid`>;
+type MindmapCreatorSolidEdge = MakeEdge<`solid`>;
+
+type MindmapCreatorEdge = MindmapCreatorSolidEdge;
 type MindmapCreatorNode =
   | MindmapCreatorEmbeddedNode
   | MindmapCreatorExternalNode;
@@ -56,4 +58,5 @@ export type {
   MindmapCreatorEmbeddedNode,
   MindmapCreatorExternalNode,
   MindmapCreatorEdge,
+  MindmapCreatorSolidEdge,
 };

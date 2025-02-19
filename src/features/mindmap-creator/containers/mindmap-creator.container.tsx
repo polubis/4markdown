@@ -1,11 +1,26 @@
+import type { EdgeProps, EdgeTypes, NodeProps, NodeTypes } from '@xyflow/react';
 import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
-import React from 'react';
+import React, { type ComponentType } from 'react';
 import { useMindmapCreatorStore } from '../store';
 import { usePortal } from 'development-kit/use-portal';
 import { Button } from 'design-system/button';
 import { BiAddToQueue, BiHorizontalRight, BiTrash } from 'react-icons/bi';
 import c from 'classnames';
 import { openNodeFormAction } from '../store/action';
+import type {
+  MindmapCreatorEdge,
+  MindmapCreatorNode,
+  MindmapCreatorStore,
+} from '../store/models';
+import {
+  ExternalNodeTileX,
+  ExternalNodeTileY,
+} from '../components/external-node-tile';
+import {
+  EmbeddedNodeTileContainerX,
+  EmbeddedNodeTileContainerY,
+} from './embedded-node-tile.container';
+import { SolidEdgeContainer } from './solid-edge.container';
 
 const NewNodeModalContainer = React.lazy(() =>
   import(`./new-node-modal.container`).then((m) => ({
@@ -48,6 +63,35 @@ const ToolboxContainer = () => {
   );
 };
 
+type MindmapNodeTypes = {
+  [Orientation in MindmapCreatorStore['orientation']]: {
+    [Type in MindmapCreatorNode['type']]: ComponentType<
+      NodeProps<Extract<MindmapCreatorNode, { type: Type }>>
+    >;
+  };
+};
+
+type MindmapEdgeTypes = {
+  [Type in MindmapCreatorEdge['type']]: ComponentType<
+    EdgeProps<Extract<MindmapCreatorEdge, { type: Type }>>
+  >;
+};
+
+const mindmapNodeTypes: MindmapNodeTypes = {
+  x: {
+    external: ExternalNodeTileX,
+    embedded: EmbeddedNodeTileContainerX,
+  },
+  y: {
+    external: ExternalNodeTileY,
+    embedded: EmbeddedNodeTileContainerY,
+  },
+};
+
+const edgeTypes: MindmapEdgeTypes = {
+  solid: SolidEdgeContainer,
+};
+
 const MindmapCreatorContainer = () => {
   const { orientation, nodes, edges, nodeForm } = useMindmapCreatorStore();
 
@@ -60,8 +104,8 @@ const MindmapCreatorContainer = () => {
         //   onNodesChange={updateNodesAction}
         //   onEdgesChange={updateEdgesAction}
         //   onConnect={connectNodesAction}
-        //   nodeTypes={nodeTypes[activeMindmap.orientation] as NodeTypes}
-        //   edgeTypes={edgeTypes}
+        nodeTypes={mindmapNodeTypes[orientation] as NodeTypes}
+        edgeTypes={edgeTypes as EdgeTypes}
         fitView
       >
         <Controls />
