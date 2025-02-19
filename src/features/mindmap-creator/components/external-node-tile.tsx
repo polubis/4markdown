@@ -3,6 +3,8 @@ import { HandleX, HandleY } from './handles';
 import { type NodeProps } from '@xyflow/react';
 import { NodeTile } from './node-tile';
 import type { MindmapCreatorExternalNode } from '../store/models';
+import { Button } from 'design-system/button';
+import { BiArrowToTop } from 'react-icons/bi';
 
 type ExternalNodeTileProps = NodeProps<MindmapCreatorExternalNode>;
 
@@ -11,15 +13,31 @@ const ExternalNodeTile = ({
   data: { url, description, name },
 }: ExternalNodeTileProps) => {
   return (
-    <a href={url} target="_blank" rel="noopener noreferrer">
-      <NodeTile selected={selected}>
-        <NodeTile.Label>External Resource</NodeTile.Label>
-        <NodeTile.Name>{name}</NodeTile.Name>
-        {description && (
-          <NodeTile.Description>{description}</NodeTile.Description>
-        )}
-      </NodeTile>
-    </a>
+    <NodeTile selected={selected}>
+      <NodeTile.Label>External Resource</NodeTile.Label>
+      <NodeTile.Name>{name}</NodeTile.Name>
+      {description && (
+        <NodeTile.Description>{description}</NodeTile.Description>
+      )}
+      <NodeTile.Toolbox>
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open linked material in a new tab"
+        >
+          <Button
+            i={2}
+            s={1}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <BiArrowToTop className="rotate-45" />
+          </Button>
+        </a>
+      </NodeTile.Toolbox>
+    </NodeTile>
   );
 };
 
