@@ -5,6 +5,13 @@ import { usePortal } from 'development-kit/use-portal';
 import { Button } from 'design-system/button';
 import { BiAddToQueue, BiHorizontalRight, BiTrash } from 'react-icons/bi';
 import c from 'classnames';
+import { openNodeFormAction } from '../store/action';
+
+const NewNodeModalContainer = React.lazy(() =>
+  import(`./new-node-modal.container`).then((m) => ({
+    default: m.NewNodeModalContainer,
+  })),
+);
 
 const ToolboxContainer = () => {
   const { render } = usePortal();
@@ -32,7 +39,7 @@ const ToolboxContainer = () => {
       <Button
         i={2}
         s={1}
-        // onClick={nodeCreation.on}
+        onClick={openNodeFormAction}
         title="Add new mindmap node"
       >
         <BiAddToQueue />
@@ -42,7 +49,7 @@ const ToolboxContainer = () => {
 };
 
 const MindmapCreatorContainer = () => {
-  const { orientation, nodes, edges } = useMindmapCreatorStore();
+  const { orientation, nodes, edges, nodeForm } = useMindmapCreatorStore();
 
   return (
     <>
@@ -62,6 +69,11 @@ const MindmapCreatorContainer = () => {
         <MiniMap className="hidden md:block" />
       </ReactFlow>
       <ToolboxContainer />
+      {nodeForm.is === `active` && (
+        <React.Suspense>
+          <NewNodeModalContainer />
+        </React.Suspense>
+      )}
     </>
   );
 };

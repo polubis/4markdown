@@ -1,27 +1,33 @@
-import React, { type ReactNode } from 'react';
+import React from 'react';
+import { type ReactNode, useContext, createContext, useMemo } from 'react';
 
-const context = <TValueHook extends (...args: any[]) => any>(
-  useValueHook: TValueHook,
-) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const context = <TValueHook extends () => any>(useValueHook: TValueHook) => {
   type TContextValue = ReturnType<TValueHook>;
 
-  const Context = React.createContext<TContextValue | null>(null);
+  const DynamicContext = createContext<TContextValue | null>(null);
 
-  const Provider = ({ children }: { children: ReactNode }) => {
+  const DynamicProvider = ({ children }: { children: ReactNode }) => {
     const value = useValueHook();
+    const memoizedValue = useMemo(() => value, [value]);
 
-    return <Context.Provider value={value}>{children}</Context.Provider>;
+    return (
+      <DynamicContext.Provider value={memoizedValue}>
+        {children}
+      </DynamicContext.Provider>
+    );
   };
 
-  const useContext = (): TContextValue => {
-    const ctx = React.useContext(Context);
+  const useDynamicContext = (): TContextValue => {
+    const ctx = useContext(DynamicContext);
 
-    if (!ctx) throw Error(`Lack of provider at the top of components tree`);
+    if (!ctx)
+      throw new Error(`Missing provider at the top of the component tree`);
 
     return ctx;
   };
 
-  return [Provider, useContext] as const;
+  return [DynamicProvider, useDynamicContext] as const;
 };
 
 export { context };
