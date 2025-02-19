@@ -11,11 +11,7 @@ import { Button } from 'design-system/button';
 import { BiPlusCircle } from 'react-icons/bi';
 import { context } from 'development-kit/context';
 import { type MindmapCreatorNode } from '../store/models';
-import {
-  addNewEmbeddedNodeAction,
-  closeNodeFormAction,
-  openNodeFormAction,
-} from '../store/action';
+import { addNewEmbeddedNodeAction, closeNodeFormAction } from '../store/action';
 
 const [LocalProvider, useLocalContext] = context(() => {
   const [activeType, setActiveType] = React.useState<
@@ -71,8 +67,6 @@ const EmbeddedForm = () => {
       content,
       path: `/unset/`,
     });
-
-    openNodeFormAction();
   };
 
   return (

@@ -26,6 +26,7 @@ const addNewEmbeddedNodeAction = (
         type: `embedded`,
       },
     ],
+    nodeForm: { is: `closed` },
   });
 };
 
@@ -48,6 +49,7 @@ const addNewExternalNodeAction = (
         type: `external`,
       },
     ],
+    nodeForm: { is: `closed` },
   });
 };
 
