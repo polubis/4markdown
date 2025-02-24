@@ -1,7 +1,7 @@
 import type {
   EmbeddedNode,
   ExternalNode,
-  MindmapDto,
+  SolidEdge,
 } from 'api-4markdown-contracts';
 
 type NodeBase = {
@@ -9,11 +9,14 @@ type NodeBase = {
     height: number;
     width: number;
   };
-  selected: boolean;
+  selected?: boolean;
 };
 
 type MindmapCreatorEmbeddedNode = EmbeddedNode & NodeBase;
 type MindmapCreatorExternalNode = ExternalNode & NodeBase;
+
+type MindmapCreatorSolidEdge = SolidEdge;
+type MindmapCreatorEdge = MindmapCreatorSolidEdge;
 
 type MindmapCreatorNode =
   | MindmapCreatorEmbeddedNode
@@ -22,7 +25,7 @@ type MindmapCreatorNode =
 type MindmapCreatorState = {
   orientation: `x` | `y`;
   nodes: MindmapCreatorNode[];
-  edges: MindmapDto['edges'];
+  edges: MindmapCreatorEdge[];
   nodeForm: { is: `closed` } | { is: `active` };
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
   mindmapForm: { is: `closed` } | { is: `active` };
@@ -33,4 +36,6 @@ export type {
   MindmapCreatorNode,
   MindmapCreatorEmbeddedNode,
   MindmapCreatorExternalNode,
+  MindmapCreatorEdge,
+  MindmapCreatorSolidEdge,
 };

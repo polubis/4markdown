@@ -47,7 +47,7 @@ type EmbeddedNode = MakeNode<
 >;
 type MindmapNode = ExternalNode | EmbeddedNode;
 
-type SolidEdge = MakeEdge<`done`>;
+type SolidEdge = MakeEdge<`solid`>;
 type MindmapEdge = SolidEdge;
 
 type MindmapAuthor = UserProfileDto | null;
@@ -74,6 +74,7 @@ export type {
   MindmapNode,
   ExternalNode,
   EmbeddedNode,
+  SolidEdge,
   MindmapEdge,
   MindmapAuthor,
 };
