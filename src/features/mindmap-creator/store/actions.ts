@@ -176,6 +176,34 @@ const rotateViewAction = (): void => {
   });
 };
 
+const startNodesRemovalAction = (): void => {
+  set({ nodesRemovalConfirmation: { is: `active` } });
+};
+
+const cancelNodesRemovalAction = (): void => {
+  set({ nodesRemovalConfirmation: { is: `closed` } });
+};
+
+const removeSelectedNodesAction = (): void => {
+  const { nodes, edges } = get();
+
+  const newNodes = nodes.filter((node) => !node.selected);
+  const newNodesIds = newNodes.reduce<
+    Record<MindmapCreatorNode['id'], boolean>
+  >((acc, node) => {
+    acc[node.id] = true;
+    return acc;
+  }, {});
+  const newEdges = edges.filter(
+    ({ source, target }) => newNodesIds[source] && newNodesIds[target],
+  );
+
+  set({
+    nodes: newNodes,
+    edges: newEdges,
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -186,4 +214,7 @@ export {
   connectNodesAction,
   removeEdgeAction,
   rotateViewAction,
+  startNodesRemovalAction,
+  cancelNodesRemovalAction,
+  removeSelectedNodesAction,
 };

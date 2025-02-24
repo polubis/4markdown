@@ -10,6 +10,7 @@ import {
   connectNodesAction,
   openNodeFormAction,
   rotateViewAction,
+  startNodesRemovalAction,
   updateEdgesAction,
   updateNodesAction,
 } from '../store/actions';
@@ -28,6 +29,7 @@ import {
 } from './embedded-node-tile.container';
 import { SolidEdgeContainer } from './solid-edge.container';
 import { selectedNodesSelector } from '../store/selectors';
+import { NodesRemovalConfirmationContainer } from './nodes-removal-confirmation.container';
 
 const NewNodeModalContainer = React.lazy(() =>
   import(`./new-node-modal.container`).then((m) => ({
@@ -44,6 +46,7 @@ const RemoveSelectedNodesContainer = () => {
       disabled={selectedNodes.length === 0}
       s={1}
       title="Remove selected nodes"
+      onClick={startNodesRemovalAction}
     >
       <BiTrash />
     </Button>
@@ -106,7 +109,8 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapCreatorContainer = () => {
-  const { orientation, nodes, edges, nodeForm } = useMindmapCreatorState();
+  const { orientation, nodes, edges, nodeForm, nodesRemovalConfirmation } =
+    useMindmapCreatorState();
 
   return (
     <>
@@ -130,6 +134,9 @@ const MindmapCreatorContainer = () => {
         <React.Suspense>
           <NewNodeModalContainer />
         </React.Suspense>
+      )}
+      {nodesRemovalConfirmation.is === `active` && (
+        <NodesRemovalConfirmationContainer />
       )}
     </>
   );

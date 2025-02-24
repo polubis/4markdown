@@ -6,6 +6,7 @@ const useMindmapCreatorState = state<MindmapCreatorState>({
   nodes: [],
   edges: [],
   nodeForm: { is: `closed` },
+  nodesRemovalConfirmation: { is: `closed` },
 });
 
 export { useMindmapCreatorState };

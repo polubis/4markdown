@@ -50,6 +50,7 @@ type MindmapCreatorState = {
   nodes: MindmapCreatorNode[];
   edges: MindmapCreatorEdge[];
   nodeForm: { is: `closed` } | { is: `active` };
+  nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
 };
 
 export type {
