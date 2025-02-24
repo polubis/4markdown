@@ -45,7 +45,7 @@ type MindmapCreatorNode =
   | MindmapCreatorEmbeddedNode
   | MindmapCreatorExternalNode;
 
-type MindmapCreatorStore = {
+type MindmapCreatorState = {
   orientation: `x` | `y`;
   nodes: MindmapCreatorNode[];
   edges: MindmapCreatorEdge[];
@@ -53,7 +53,7 @@ type MindmapCreatorStore = {
 };
 
 export type {
-  MindmapCreatorStore,
+  MindmapCreatorState,
   MindmapCreatorNode,
   MindmapCreatorEmbeddedNode,
   MindmapCreatorExternalNode,

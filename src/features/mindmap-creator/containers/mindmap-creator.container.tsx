@@ -15,7 +15,7 @@ import {
 import type {
   MindmapCreatorEdge,
   MindmapCreatorNode,
-  MindmapCreatorStore,
+  MindmapCreatorState,
 } from '../store/models';
 import {
   ExternalNodeTileX,
@@ -69,7 +69,7 @@ const ToolboxContainer = () => {
 };
 
 type MindmapNodeTypes = {
-  [Orientation in MindmapCreatorStore['orientation']]: {
+  [Orientation in MindmapCreatorState['orientation']]: {
     [Type in MindmapCreatorNode['type']]: ComponentType<
       NodeProps<Extract<MindmapCreatorNode, { type: Type }>>
     >;

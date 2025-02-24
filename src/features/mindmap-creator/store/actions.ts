@@ -5,7 +5,7 @@ import type {
   MindmapCreatorEmbeddedNode,
   MindmapCreatorExternalNode,
   MindmapCreatorNode,
-  MindmapCreatorStore,
+  MindmapCreatorState,
 } from './models';
 import {
   applyEdgeChanges,
@@ -22,7 +22,7 @@ const rotateView = ({
   nodes,
   edges,
   orientation,
-}: Pick<MindmapCreatorStore, 'edges' | 'nodes' | 'orientation'>) => {
+}: Pick<MindmapCreatorState, 'edges' | 'nodes' | 'orientation'>) => {
   const graph = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 
   graph.setGraph({

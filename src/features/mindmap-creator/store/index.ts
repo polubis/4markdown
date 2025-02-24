@@ -1,7 +1,7 @@
 import { state } from 'development-kit/state';
-import type { MindmapCreatorStore } from './models';
+import type { MindmapCreatorState } from './models';
 
-const useMindmapCreatorStore = state<MindmapCreatorStore>({
+const useMindmapCreatorStore = state<MindmapCreatorState>({
   orientation: `y`,
   nodes: [],
   edges: [],
