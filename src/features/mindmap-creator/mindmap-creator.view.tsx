@@ -15,25 +15,49 @@ import { useMindmapCreatorState } from './store';
 
 import './mindmap-creator.css';
 
+const ADD_MINDMAP_KEY = `add-mindmap`;
+
+const isMindmapCreationActive = (): boolean =>
+  sessionStorage.getItem(ADD_MINDMAP_KEY) === `1`;
+
+const triggerMindmapCreation = (): void => {
+  sessionStorage.setItem(ADD_MINDMAP_KEY, `1`);
+};
+
+const resetMindmapCreation = (): void => {
+  sessionStorage.removeItem(ADD_MINDMAP_KEY);
+};
+
 const AddNewMindmapContainer = () => {
   const authStore = useAuthStore();
   const { mindmapForm } = useMindmapCreatorState();
 
   const startMindmapCreation: MouseEventHandler<HTMLButtonElement> = () => {
-    if (authStore.is === `idle`) return;
-
     if (authStore.is === `authorized`) {
       openMindmapFormAction();
       return;
     }
 
+    triggerMindmapCreation();
     logIn();
   };
+
+  React.useEffect(() => {
+    if (
+      authStore.is === `authorized` &&
+      mindmapForm.is === `closed` &&
+      isMindmapCreationActive()
+    ) {
+      resetMindmapCreation();
+      openMindmapFormAction();
+    }
+  }, [authStore.is, mindmapForm.is]);
 
   return (
     <>
       <Button
         i={1}
+        disabled={authStore.is === `idle`}
         s={2}
         title="Create new mindmap"
         onClick={startMindmapCreation}
