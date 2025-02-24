@@ -24,6 +24,10 @@ const addNewEmbeddedNodeAction = (
   set({
     nodes: [
       ...nodes,
+      ...nodes.map((node) => ({
+        ...node,
+        selected: false,
+      })),
       {
         id: suid(),
         position: {
