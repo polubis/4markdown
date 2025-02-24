@@ -27,12 +27,28 @@ import {
   EmbeddedNodeTileContainerY,
 } from './embedded-node-tile.container';
 import { SolidEdgeContainer } from './solid-edge.container';
+import { selectedNodesSelector } from '../store/selectors';
 
 const NewNodeModalContainer = React.lazy(() =>
   import(`./new-node-modal.container`).then((m) => ({
     default: m.NewNodeModalContainer,
   })),
 );
+
+const RemoveSelectedNodesContainer = () => {
+  const selectedNodes = useMindmapCreatorStore(selectedNodesSelector);
+
+  return (
+    <Button
+      i={2}
+      disabled={selectedNodes.length === 0}
+      s={1}
+      title="Remove selected nodes"
+    >
+      <BiTrash />
+    </Button>
+  );
+};
 
 const ToolboxContainer = () => {
   const { render } = usePortal();
@@ -47,16 +63,7 @@ const ToolboxContainer = () => {
           })}
         />
       </Button>
-
-      <Button
-        i={2}
-        // disabled={!hasSelectedNode}
-        s={1}
-        title="Remove selected nodes"
-        // onClick={nodesRemovalConfirm.on}
-      >
-        <BiTrash />
-      </Button>
+      <RemoveSelectedNodesContainer />
       <Button
         i={2}
         s={1}
