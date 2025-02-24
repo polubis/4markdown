@@ -201,6 +201,7 @@ const removeSelectedNodesAction = (): void => {
   set({
     nodes: newNodes,
     edges: newEdges,
+    nodesRemovalConfirmation: { is: `closed` },
   });
 };
 
