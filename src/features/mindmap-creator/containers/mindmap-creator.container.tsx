@@ -55,17 +55,9 @@ const RemoveSelectedNodesContainer = () => {
 
 const ToolboxContainer = () => {
   const { render } = usePortal();
-  const { orientation } = useMindmapCreatorState();
 
   return render(
     <nav className="fixed flex justify-center space-x-2 py-2 max-w-sm mx-auto bottom-[126px] right-4 md:right-0 md:left-0 md:bottom-0">
-      <Button i={2} s={1} title="Center mindmap" onClick={rotateViewAction}>
-        <BiHorizontalRight
-          className={c({
-            'rotate-90': orientation === `y`,
-          })}
-        />
-      </Button>
       <RemoveSelectedNodesContainer />
       <Button
         i={2}
@@ -125,7 +117,15 @@ const MindmapCreatorContainer = () => {
         edgeTypes={edgeTypes as EdgeTypes}
         fitView
       >
-        <Controls />
+        <Controls>
+          <Button i={2} s={1} title="Center mindmap" onClick={rotateViewAction}>
+            <BiHorizontalRight
+              className={c({
+                'rotate-90': orientation === `y`,
+              })}
+            />
+          </Button>
+        </Controls>
         <Background />
         <MiniMap className="hidden md:block" />
       </ReactFlow>
