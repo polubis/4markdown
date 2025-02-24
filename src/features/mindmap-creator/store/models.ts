@@ -1,46 +1,20 @@
-import type { SUID } from 'development-kit/suid';
+import type {
+  EmbeddedNode,
+  ExternalNode,
+  MindmapDto,
+} from 'api-4markdown-contracts';
 
-type NodeDataBase = {
-  name: string;
-  path: `/${string}/`;
-  description: string | null;
-};
-
-type MakeEdge<TType extends string> = {
-  id: SUID;
-  type: TType;
-  source: SUID;
-  target: SUID;
-};
-
-type MakeNode<TType extends string, TData extends Record<string, any>> = {
-  id: SUID;
-  position: {
-    x: number;
-    y: number;
-  };
+type NodeBase = {
   measured?: {
     height: number;
     width: number;
   };
-  type: TType;
   selected: boolean;
-  data: TData;
 };
 
-type MindmapCreatorEmbeddedNode = MakeNode<
-  `embedded`,
-  NodeDataBase & { content: string | null }
->;
+type MindmapCreatorEmbeddedNode = EmbeddedNode & NodeBase;
+type MindmapCreatorExternalNode = ExternalNode & NodeBase;
 
-type MindmapCreatorExternalNode = MakeNode<
-  `external`,
-  NodeDataBase & { url: string }
->;
-
-type MindmapCreatorSolidEdge = MakeEdge<`solid`>;
-
-type MindmapCreatorEdge = MindmapCreatorSolidEdge;
 type MindmapCreatorNode =
   | MindmapCreatorEmbeddedNode
   | MindmapCreatorExternalNode;
@@ -48,7 +22,7 @@ type MindmapCreatorNode =
 type MindmapCreatorState = {
   orientation: `x` | `y`;
   nodes: MindmapCreatorNode[];
-  edges: MindmapCreatorEdge[];
+  edges: MindmapDto['edges'];
   nodeForm: { is: `closed` } | { is: `active` };
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
   mindmapForm: { is: `closed` } | { is: `active` };
@@ -59,6 +33,4 @@ export type {
   MindmapCreatorNode,
   MindmapCreatorEmbeddedNode,
   MindmapCreatorExternalNode,
-  MindmapCreatorEdge,
-  MindmapCreatorSolidEdge,
 };

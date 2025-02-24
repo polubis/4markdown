@@ -8,6 +8,7 @@ import type {
   UserProfileDto,
   DocumentRatingCategory,
   DocumentRatingDto,
+  MindmapDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -15,6 +16,12 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   dto: TDto;
   payload: TPayload;
 };
+
+type CreateMindmapContract = Contract<
+  `createMindmap`,
+  MindmapDto,
+  Pick<MindmapDto, 'name' | 'description' | 'tags' | 'nodes' | 'edges'>
+>;
 
 type GetYourDocumentsContract = Contract<
   `getYourDocuments`,
@@ -115,6 +122,7 @@ type RateDocumentContract = Contract<
 >;
 
 type API4MarkdownContracts =
+  | CreateMindmapContract
   | GetYourDocumentsContract
   | GetAccessibleDocumentContract
   | GetPermanentDocumentsContract
@@ -221,18 +229,6 @@ export type {
   API4MarkdownPayload,
   API4MarkdownResult,
   API4MarkdownCacheSignature,
-  GetYourDocumentsContract,
-  GetAccessibleDocumentContract,
-  GetPermanentDocumentsContract,
-  DeleteDocumentContract,
-  UpdateDocumentCodeContract,
-  CreateDocumentContract,
-  UpdateDocumentVisibilityContract,
-  UploadImageContract,
-  GetYourUserProfileContract,
-  UpdateYourUserProfileContract,
-  RateDocumentContract,
-  UpdateDocumentNameContract,
   API4MarkdownContractCall,
   ParsedError,
   UnknownError,
