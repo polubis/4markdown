@@ -10,6 +10,7 @@ import React, { type FormEventHandler } from 'react';
 import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
 import { Modal } from 'design-system/modal';
 import { closeMindmapFormAction } from 'store/mindmap-creator/actions';
+import { createMindmapAct } from 'acts/create-mindmap.act';
 
 const limits = {
   name: {
@@ -58,7 +59,9 @@ const NewMindmapModalContainer = () => {
       tags: splittedTags.length === 0 ? null : splittedTags,
     });
 
-    setOperation(result);
+    if (result.is === `fail`) {
+      setOperation(result);
+    }
   };
 
   const splittedTags = React.useMemo(
