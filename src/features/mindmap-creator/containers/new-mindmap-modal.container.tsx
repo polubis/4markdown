@@ -1,4 +1,3 @@
-import { logIn } from 'actions/log-in.action';
 import { Button } from 'design-system/button';
 import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
@@ -9,7 +8,6 @@ import { useForm } from 'development-kit/use-form';
 import { type Transaction } from 'development-kit/utility-types';
 import React, { type FormEventHandler } from 'react';
 import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
-import { useAuthStore } from 'store/auth/auth.store';
 import { Modal } from 'design-system/modal';
 import { closeMindmapFormAction } from '../store/actions';
 
@@ -25,8 +23,6 @@ const limits = {
 } as const;
 
 const NewMindmapModalContainer = () => {
-  const wantToCreateAfterLogIn = React.useRef(false);
-  const authStore = useAuthStore();
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
   const [{ values, untouched, invalid }, { inject }] = useForm(
@@ -49,10 +45,10 @@ const NewMindmapModalContainer = () => {
   const createMindmap = React.useCallback(async (): Promise<void> => {
     setOperation({ is: `busy` });
 
-    const name = values.name.trim();
-    const description = values.description.trim();
+    // const name = values.name.trim();
+    // const description = values.description.trim();
     const tags = values.tags.trim();
-    const splittedTags = tags.length === 0 ? [] : tags.split(`,`);
+    // const splittedTags = tags.length === 0 ? [] : tags.split(`,`);
 
     // const result = await createMindmapAct({
     //   name,
@@ -70,22 +66,8 @@ const NewMindmapModalContainer = () => {
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-
-    if (authStore.is === `authorized`) {
-      createMindmap();
-      return;
-    }
-
-    wantToCreateAfterLogIn.current = true;
-    await logIn();
+    createMindmap();
   };
-
-  React.useEffect(() => {
-    if (wantToCreateAfterLogIn.current && authStore.is === `authorized`) {
-      wantToCreateAfterLogIn.current = false;
-      createMindmap();
-    }
-  }, [authStore, createMindmap]);
 
   const splittedTags = React.useMemo(
     () =>
