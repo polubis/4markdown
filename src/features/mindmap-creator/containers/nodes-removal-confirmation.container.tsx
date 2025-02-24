@@ -4,7 +4,7 @@ import React from 'react';
 import {
   cancelNodesRemovalAction,
   removeSelectedNodesAction,
-} from '../store/actions';
+} from 'store/mindmap-creator/actions';
 
 const NodesRemovalConfirmationContainer = () => {
   return (

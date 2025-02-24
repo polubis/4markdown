@@ -10,12 +10,12 @@ import { Textarea } from 'design-system/textarea';
 import { Button } from 'design-system/button';
 import { BiPlusCircle } from 'react-icons/bi';
 import { context } from 'development-kit/context';
-import { type MindmapCreatorNode } from '../store/models';
+import { type MindmapCreatorNode } from 'store/mindmap-creator/models';
 import {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
   closeNodeFormAction,
-} from '../store/actions';
+} from 'store/mindmap-creator/actions';
 
 const [LocalProvider, useLocalContext] = context(() => {
   const [activeType, setActiveType] = React.useState<

@@ -5,7 +5,7 @@ import {
   type EdgeProps,
 } from '@xyflow/react';
 import React from 'react';
-import type { MindmapCreatorSolidEdge } from '../store/models';
+import type { MindmapCreatorSolidEdge } from 'store/mindmap-creator/models';
 import { RemoveEdgeTriggerContainer } from './remove-edge-trigger.container';
 
 type SolidEdgeContainerProps = EdgeProps<MindmapCreatorSolidEdge>;

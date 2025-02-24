@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'design-system/button';
 import { BiX } from 'react-icons/bi';
-import { removeEdgeAction } from '../store/actions';
-import type { MindmapCreatorEdge } from '../store/models';
+import { removeEdgeAction } from 'store/mindmap-creator/actions';
+import type { MindmapCreatorEdge } from 'store/mindmap-creator/models';
 
 const RemoveEdgeTriggerContainer = ({
   labelX,

@@ -9,9 +9,9 @@ import { MindmapCreatorContainer } from './containers/mindmap-creator.container'
 import { useAuthStore } from 'store/auth/auth.store';
 import { logIn } from 'actions/log-in.action';
 import { meta } from '../../../meta';
-import { openMindmapFormAction } from './store/actions';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { openMindmapFormAction } from 'store/mindmap-creator/actions';
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
-import { useMindmapCreatorState } from './store';
 
 import './mindmap-creator.css';
 

@@ -1,7 +1,7 @@
 import type { EdgeProps, EdgeTypes, NodeProps, NodeTypes } from '@xyflow/react';
 import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import React, { type ComponentType } from 'react';
-import { useMindmapCreatorState } from '../store';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { usePortal } from 'development-kit/use-portal';
 import { Button } from 'design-system/button';
 import { BiAddToQueue, BiHorizontalRight, BiTrash } from 'react-icons/bi';
@@ -13,12 +13,12 @@ import {
   startNodesRemovalAction,
   updateEdgesAction,
   updateNodesAction,
-} from '../store/actions';
+} from 'store/mindmap-creator/actions';
 import type {
   MindmapCreatorEdge,
   MindmapCreatorNode,
   MindmapCreatorState,
-} from '../store/models';
+} from 'store/mindmap-creator/models';
 import {
   ExternalNodeTileX,
   ExternalNodeTileY,
@@ -28,7 +28,7 @@ import {
   EmbeddedNodeTileContainerY,
 } from './embedded-node-tile.container';
 import { SolidEdgeContainer } from './solid-edge.container';
-import { selectedNodesSelector } from '../store/selectors';
+import { selectedNodesSelector } from 'store/mindmap-creator/selectors';
 import { NodesRemovalConfirmationContainer } from './nodes-removal-confirmation.container';
 
 const NewNodeModalContainer = React.lazy(() =>

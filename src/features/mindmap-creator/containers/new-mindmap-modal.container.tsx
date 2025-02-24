@@ -9,7 +9,7 @@ import { type Transaction } from 'development-kit/utility-types';
 import React, { type FormEventHandler } from 'react';
 import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
 import { Modal } from 'design-system/modal';
-import { closeMindmapFormAction } from '../store/actions';
+import { closeMindmapFormAction } from 'store/mindmap-creator/actions';
 
 const limits = {
   name: {

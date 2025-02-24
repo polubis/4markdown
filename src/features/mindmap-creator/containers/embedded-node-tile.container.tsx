@@ -4,7 +4,7 @@ import { HandleX, HandleY } from '../components/handles';
 import { NodeTile } from '../components/node-tile';
 import { Button } from 'design-system/button';
 import { BiArrowToRight } from 'react-icons/bi';
-import type { MindmapCreatorEmbeddedNode } from '../store/models';
+import type { MindmapCreatorEmbeddedNode } from 'store/mindmap-creator/models';
 
 type EmbeddedNodeTileContainerProps = NodeProps<MindmapCreatorEmbeddedNode>;
 
