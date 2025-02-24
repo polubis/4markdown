@@ -1,7 +1,7 @@
 import type { EdgeProps, EdgeTypes, NodeProps, NodeTypes } from '@xyflow/react';
 import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import React, { type ComponentType } from 'react';
-import { useMindmapCreatorStore } from '../store';
+import { useMindmapCreatorState } from '../store';
 import { usePortal } from 'development-kit/use-portal';
 import { Button } from 'design-system/button';
 import { BiAddToQueue, BiHorizontalRight, BiTrash } from 'react-icons/bi';
@@ -36,7 +36,7 @@ const NewNodeModalContainer = React.lazy(() =>
 );
 
 const RemoveSelectedNodesContainer = () => {
-  const selectedNodes = useMindmapCreatorStore(selectedNodesSelector);
+  const selectedNodes = useMindmapCreatorState(selectedNodesSelector);
 
   return (
     <Button
@@ -52,7 +52,7 @@ const RemoveSelectedNodesContainer = () => {
 
 const ToolboxContainer = () => {
   const { render } = usePortal();
-  const { orientation } = useMindmapCreatorStore();
+  const { orientation } = useMindmapCreatorState();
 
   return render(
     <nav className="fixed flex justify-center space-x-2 py-2 max-w-sm mx-auto bottom-[126px] right-4 md:right-0 md:left-0 md:bottom-0">
@@ -106,7 +106,7 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapCreatorContainer = () => {
-  const { orientation, nodes, edges, nodeForm } = useMindmapCreatorStore();
+  const { orientation, nodes, edges, nodeForm } = useMindmapCreatorState();
 
   return (
     <>

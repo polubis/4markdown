@@ -1,5 +1,5 @@
 import { type SUID, suid } from 'development-kit/suid';
-import { useMindmapCreatorStore } from '.';
+import { useMindmapCreatorState } from '.';
 import type {
   MindmapCreatorEdge,
   MindmapCreatorEmbeddedNode,
@@ -16,7 +16,7 @@ import {
 } from '@xyflow/react';
 import Dagre from '@dagrejs/dagre';
 
-const { get, set } = useMindmapCreatorStore;
+const { get, set } = useMindmapCreatorState;
 
 const rotateView = ({
   nodes,
