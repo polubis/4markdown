@@ -45,20 +45,20 @@ const NewMindmapModalContainer = () => {
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    // setOperation({ is: `busy` });
+    setOperation({ is: `busy` });
 
-    // const name = values.name.trim();
-    // const description = values.description.trim();
-    // const tags = values.tags.trim();
-    // const splittedTags = tags.length === 0 ? [] : tags.split(`,`);
+    const name = values.name.trim();
+    const description = values.description.trim();
+    const tags = values.tags.trim();
+    const splittedTags = tags.length === 0 ? [] : tags.split(`,`);
 
-    // const result = await createMindmapAct({
-    //   name,
-    //   description: description.length === 0 ? null : description,
-    //   tags: splittedTags.length === 0 ? null : splittedTags,
-    // });
+    const result = await createMindmapAct({
+      name,
+      description: description.length === 0 ? null : description,
+      tags: splittedTags.length === 0 ? null : splittedTags,
+    });
 
-    // setOperation(result);
+    setOperation(result);
   };
 
   const splittedTags = React.useMemo(
