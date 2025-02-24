@@ -74,7 +74,7 @@ const NewMindmapModalContainer = () => {
   );
 
   return (
-    <Modal onClose={closeMindmapFormAction}>
+    <Modal disabled={operation.is === `busy`} onClose={closeMindmapFormAction}>
       <Modal.Header
         title="Create Mindmap"
         closeButtonTitle="Cancel mindmap creation"
