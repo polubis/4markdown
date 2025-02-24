@@ -148,6 +148,7 @@ export { uploadImageAct };
 3. Combine multiple steps, state updates, actions, side effects, and API interactions in a reusable function.
 4. Acts must always have a `return type`.
 5. Acts can be synchronous (`sync`) or asynchronous (`async`).
+6. If there is a situation where logic needs to be handled across different stores, it should be moved to a separate action.
 
 ## Types and Interfaces
 

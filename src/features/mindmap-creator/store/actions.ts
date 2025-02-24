@@ -205,6 +205,18 @@ const removeSelectedNodesAction = (): void => {
   });
 };
 
+const openMindmapFormAction = (): void => {
+  set({
+    mindmapForm: { is: `active` },
+  });
+};
+
+const closeMindmapFormAction = (): void => {
+  set({
+    mindmapForm: { is: `closed` },
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -218,4 +230,6 @@ export {
   startNodesRemovalAction,
   cancelNodesRemovalAction,
   removeSelectedNodesAction,
+  openMindmapFormAction,
+  closeMindmapFormAction,
 };

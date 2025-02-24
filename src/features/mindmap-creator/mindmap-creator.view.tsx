@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type MouseEventHandler } from 'react';
 import c from 'classnames';
 import { Link } from 'gatsby';
 import { BiPlus } from 'react-icons/bi';
@@ -6,9 +6,44 @@ import { Button } from 'design-system/button';
 import UserPopover from 'components/user-popover';
 import MoreNav from 'components/more-nav';
 import { MindmapCreatorContainer } from './containers/mindmap-creator.container';
+import { useAuthStore } from 'store/auth/auth.store';
+import { logIn } from 'actions/log-in.action';
 import { meta } from '../../../meta';
+import { openMindmapFormAction } from './store/actions';
+import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
+import { useMindmapCreatorState } from './store';
 
 import './mindmap-creator.css';
+
+const AddNewMindmapContainer = () => {
+  const authStore = useAuthStore();
+  const { mindmapForm } = useMindmapCreatorState();
+
+  const startMindmapCreation: MouseEventHandler<HTMLButtonElement> = () => {
+    if (authStore.is === `idle`) return;
+
+    if (authStore.is === `authorized`) {
+      openMindmapFormAction();
+      return;
+    }
+
+    logIn();
+  };
+
+  return (
+    <>
+      <Button
+        i={1}
+        s={2}
+        title="Create new mindmap"
+        onClick={startMindmapCreation}
+      >
+        <BiPlus />
+      </Button>
+      {mindmapForm.is === `active` && <NewMindmapModalContainer />}
+    </>
+  );
+};
 
 const MindmapCreatorView = () => {
   return (
@@ -38,9 +73,7 @@ const MindmapCreatorView = () => {
                 alt="Logo"
               />
             </Link>
-            <Button i={1} s={2} title="Create new mindmap" onClick={() => {}}>
-              <BiPlus />
-            </Button>
+            <AddNewMindmapContainer />
           </nav>
           <div />
           <nav className="flex items-center gap-2">
