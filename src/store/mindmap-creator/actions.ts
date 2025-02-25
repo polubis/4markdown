@@ -15,6 +15,7 @@ import {
   type NodeChange,
 } from '@xyflow/react';
 import Dagre from '@dagrejs/dagre';
+import { type MindmapDto } from 'api-4markdown-contracts';
 
 const { get, set } = useMindmapCreatorState;
 
@@ -229,6 +230,13 @@ const closeYourMindmapsViewAction = (): void => {
   });
 };
 
+const selectMindmapAction = (id: MindmapDto['id']): void => {
+  set({
+    activeMindmap: id,
+    yourMindmapsView: { is: `closed` },
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -246,4 +254,5 @@ export {
   closeMindmapFormAction,
   openYourMindmapsViewAction,
   closeYourMindmapsViewAction,
+  selectMindmapAction,
 };

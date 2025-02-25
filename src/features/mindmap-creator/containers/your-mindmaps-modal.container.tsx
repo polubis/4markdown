@@ -8,7 +8,10 @@ import { Tabs } from 'design-system/tabs';
 import type { MindmapDto } from 'api-4markdown-contracts';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { readyMindmapsSelector } from 'store/mindmap-creator/selectors';
-import { closeYourMindmapsViewAction } from 'store/mindmap-creator/actions';
+import {
+  closeYourMindmapsViewAction,
+  selectMindmapAction,
+} from 'store/mindmap-creator/actions';
 
 const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
 
@@ -28,11 +31,6 @@ const YourMindmapsModalContainer = () => {
   const [activeRange, setActiveRange] = React.useState<RangeFilter>(
     rangeFilters[0],
   );
-
-  const selectMindmap = (mindmap: MindmapDto): void => {
-    // initializeMindmapAction(mindmap);
-    closeYourMindmapsViewAction();
-  };
 
   const mindmaps = React.useMemo((): MindmapDto[] => {
     const now = new Date();
@@ -87,7 +85,7 @@ const YourMindmapsModalContainer = () => {
               )}
               title={mindmap.name}
               key={mindmap.id}
-              onClick={() => selectMindmap(mindmap)}
+              onClick={() => selectMindmapAction(mindmap.id)}
             >
               <div className="flex justify-between mb-0.5">
                 <span className="text-sm capitalize">
