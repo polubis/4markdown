@@ -26,7 +26,13 @@ type CreateMindmapContract = Contract<
   >
 >;
 
-type GetYourMindmapsContract = Contract<`getYourMindmaps`, MindmapDto[]>;
+type GetYourMindmapsContract = Contract<
+  `getYourMindmaps`,
+  {
+    mindmapsCount: number;
+    mindmaps: MindmapDto[];
+  }
+>;
 
 type GetYourDocumentsContract = Contract<
   `getYourDocuments`,

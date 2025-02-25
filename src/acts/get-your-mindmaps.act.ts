@@ -11,10 +11,10 @@ const getYourMindmapsAct = async (): Promise<void> => {
       mindmaps: { is: `busy` },
     });
 
-    const data = await getAPI().call(`getYourMindmaps`)();
+    const response = await getAPI().call(`getYourMindmaps`)();
 
     useMindmapCreatorState.set({
-      mindmaps: { is: `ok`, data },
+      mindmaps: { is: `ok`, data: response.mindmaps },
     });
   } catch (error: unknown) {
     useMindmapCreatorState.set({
