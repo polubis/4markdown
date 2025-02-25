@@ -1,5 +1,5 @@
-import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import React from 'react';
+import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useAuthStore } from 'store/auth/auth.store';
 
 const Loader = () => (
@@ -20,12 +20,7 @@ const SubNavContainer = () => {
   return (
     <>
       {authStore.is === `idle` && <Loader />}
-      <h1
-        className="font-bold text-lg max-w-[260px] truncate"
-        title="Markdown Editor"
-      >
-        Mindmap Creator
-      </h1>
+      <h1 className="font-bold text-lg">Mindmap Creator</h1>
     </>
   );
 };
