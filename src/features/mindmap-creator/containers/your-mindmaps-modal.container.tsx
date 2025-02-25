@@ -109,7 +109,10 @@ const YourMindmapsModalContainer = () => {
   const { mindmaps } = useMindmapCreatorState();
 
   return (
-    <Modal onClose={closeYourMindmapsViewAction}>
+    <Modal
+      disabled={mindmaps.is === `busy`}
+      onClose={closeYourMindmapsViewAction}
+    >
       <Modal.Header
         title="Your Mindmaps"
         closeButtonTitle="Close your mindmaps"
@@ -119,12 +122,15 @@ const YourMindmapsModalContainer = () => {
           i={2}
           s={1}
           title="Sync mindmaps"
+          disabled={mindmaps.is === `busy`}
           onClick={reloadYourMindmapsAct}
         >
           <BiRefresh />
         </Button>
       </Modal.Header>
-      {(mindmaps.is === `idle` || mindmaps.is === `busy`) && <Loader />}
+      {(mindmaps.is === `idle` || mindmaps.is === `busy`) && (
+        <Loader className="mx-auto my-3" size="lg" />
+      )}
       {mindmaps.is === `ok` && <YourMindmapsContentContainer />}
       {mindmaps.is === `fail` && (
         <p className="text-xl text-red-600 dark:text-red-400 text-center">
