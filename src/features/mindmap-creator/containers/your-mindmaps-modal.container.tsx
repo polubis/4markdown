@@ -12,6 +12,8 @@ import {
   closeYourMindmapsViewAction,
   selectMindmapAction,
 } from 'store/mindmap-creator/actions';
+import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
+import { Loader } from 'design-system/loader';
 
 const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
 
@@ -23,11 +25,12 @@ const rangeLookup: Record<RangeFilter, [number, number]> = {
   'Really Old': [31, Number.MAX_VALUE],
 };
 
-const YourMindmapsModalContainer = () => {
+const YourMindmapsContentContainer = () => {
   const { activeMindmap } = useMindmapCreatorState();
   const mindmapsState = useMindmapCreatorState((state) =>
     readyMindmapsSelector(state.mindmaps),
   );
+
   const [activeRange, setActiveRange] = React.useState<RangeFilter>(
     rangeFilters[0],
   );
@@ -44,22 +47,7 @@ const YourMindmapsModalContainer = () => {
   }, [mindmapsState, activeRange]);
 
   return (
-    <Modal onClose={closeYourMindmapsViewAction}>
-      <Modal.Header
-        title="Your Mindmaps"
-        closeButtonTitle="Close your mindmaps"
-      >
-        <Button
-          type="button"
-          i={2}
-          s={1}
-          title="Sync mindmaps"
-          // onClick={restartMindmapCreatorAct}
-        >
-          <BiRefresh />
-        </Button>
-      </Modal.Header>
-
+    <>
       <Tabs className="mb-5">
         {rangeFilters.map((range) => (
           <Tabs.Item
@@ -112,6 +100,36 @@ const YourMindmapsModalContainer = () => {
         </ul>
       ) : (
         <h6 className="p-4 text-center">No mindmaps for selected filters</h6>
+      )}
+    </>
+  );
+};
+
+const YourMindmapsModalContainer = () => {
+  const { mindmaps } = useMindmapCreatorState();
+
+  return (
+    <Modal onClose={closeYourMindmapsViewAction}>
+      <Modal.Header
+        title="Your Mindmaps"
+        closeButtonTitle="Close your mindmaps"
+      >
+        <Button
+          type="button"
+          i={2}
+          s={1}
+          title="Sync mindmaps"
+          onClick={reloadYourMindmapsAct}
+        >
+          <BiRefresh />
+        </Button>
+      </Modal.Header>
+      {(mindmaps.is === `idle` || mindmaps.is === `busy`) && <Loader />}
+      {mindmaps.is === `ok` && <YourMindmapsContentContainer />}
+      {mindmaps.is === `fail` && (
+        <p className="text-xl text-red-600 dark:text-red-400 text-center">
+          Something went wrong... Try again with <strong>above button</strong>
+        </p>
       )}
     </Modal>
   );

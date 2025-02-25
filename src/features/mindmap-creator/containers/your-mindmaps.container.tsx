@@ -19,9 +19,7 @@ const YourMindmapsContainer = () => {
       >
         <BiCollection />
       </Button>
-      {yourMindmapsView.is === `active` && mindmaps.is === `ok` ? (
-        <YourMindmapsModalContainer />
-      ) : null}
+      {yourMindmapsView.is === `active` && <YourMindmapsModalContainer />}
     </>
   );
 };
