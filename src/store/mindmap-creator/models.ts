@@ -1,6 +1,7 @@
 import type {
   EmbeddedNode,
   ExternalNode,
+  MindmapDto,
   SolidEdge,
 } from 'api-4markdown-contracts';
 
@@ -29,6 +30,8 @@ type MindmapCreatorState = {
   nodeForm: { is: `closed` } | { is: `active` };
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
   mindmapForm: { is: `closed` } | { is: `active` };
+  mindmaps: MindmapDto[];
+  activeMindmap: MindmapDto['id'] | null;
 };
 
 export type {

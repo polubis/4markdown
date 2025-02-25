@@ -10,9 +10,10 @@ const createMindmapAct = async (
   >,
 ): AsyncResult<MindmapDto> => {
   try {
-    const { nodes, edges, orientation } = useMindmapCreatorState.get();
+    const { nodes, edges, orientation, mindmaps } =
+      useMindmapCreatorState.get();
 
-    const data = await getAPI().call(`createMindmap`)({
+    const mindmap = await getAPI().call(`createMindmap`)({
       ...payload,
       nodes,
       edges,
@@ -21,9 +22,11 @@ const createMindmapAct = async (
 
     useMindmapCreatorState.set({
       mindmapForm: { is: `closed` },
+      activeMindmap: mindmap.id,
+      mindmaps: [mindmap, ...mindmaps],
     });
 
-    return { is: `ok`, data };
+    return { is: `ok`, data: mindmap };
   } catch (error: unknown) {
     return { is: `fail`, error: parseError(error) };
   }

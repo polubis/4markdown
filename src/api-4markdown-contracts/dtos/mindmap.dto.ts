@@ -5,7 +5,6 @@ import type {
   Path,
   Tags,
   Url,
-  UserProfileDto,
   Visibility,
 } from 'api-4markdown-contracts';
 import { type SUID } from 'development-kit/suid';
@@ -50,8 +49,6 @@ type MindmapNode = ExternalNode | EmbeddedNode;
 type SolidEdge = MakeEdge<`solid`>;
 type MindmapEdge = SolidEdge;
 
-type MindmapAuthor = UserProfileDto | null;
-
 type MindmapDto = {
   id: Id;
   cdate: Date;
@@ -62,7 +59,6 @@ type MindmapDto = {
   nodes: MindmapNode[];
   edges: MindmapEdge[];
   visibility: Visibility;
-  author: MindmapAuthor;
   description: string | null;
   tags: Tags | null;
 };
@@ -76,5 +72,4 @@ export type {
   EmbeddedNode,
   SolidEdge,
   MindmapEdge,
-  MindmapAuthor,
 };
