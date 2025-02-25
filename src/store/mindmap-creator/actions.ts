@@ -237,6 +237,12 @@ const selectMindmapAction = (id: MindmapDto['id']): void => {
   });
 };
 
+const resetYourMindmapsAction = (): void => {
+  set({
+    mindmaps: { is: `idle` },
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -255,4 +261,5 @@ export {
   openYourMindmapsViewAction,
   closeYourMindmapsViewAction,
   selectMindmapAction,
+  resetYourMindmapsAction,
 };

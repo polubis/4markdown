@@ -9,6 +9,7 @@ import c from 'classnames';
 import {
   connectNodesAction,
   openNodeFormAction,
+  resetYourMindmapsAction,
   rotateViewAction,
   startNodesRemovalAction,
   updateEdgesAction,
@@ -30,6 +31,8 @@ import {
 import { SolidEdgeContainer } from './solid-edge.container';
 import { selectedNodesSelector } from 'store/mindmap-creator/selectors';
 import { NodesRemovalConfirmationContainer } from './nodes-removal-confirmation.container';
+import ErrorModal from 'components/error-modal';
+import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 
 const NewNodeModalContainer = React.lazy(() =>
   import(`./new-node-modal.container`).then((m) => ({
@@ -101,8 +104,14 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapCreatorContainer = () => {
-  const { orientation, nodes, edges, nodeForm, nodesRemovalConfirmation } =
-    useMindmapCreatorState();
+  const {
+    orientation,
+    nodes,
+    edges,
+    nodeForm,
+    nodesRemovalConfirmation,
+    mindmaps,
+  } = useMindmapCreatorState();
 
   return (
     <>
@@ -137,6 +146,24 @@ const MindmapCreatorContainer = () => {
       )}
       {nodesRemovalConfirmation.is === `active` && (
         <NodesRemovalConfirmationContainer />
+      )}
+      {mindmaps.is === `fail` && (
+        <ErrorModal
+          heading="Cannot load your mindmaps"
+          message={mindmaps.error.message}
+          footer={
+            <Button
+              i={2}
+              s={2}
+              auto
+              title="Sync mindmap"
+              onClick={reloadYourMindmapsAct}
+            >
+              Reload
+            </Button>
+          }
+          onClose={resetYourMindmapsAction}
+        />
       )}
     </>
   );
