@@ -12,9 +12,9 @@ import { meta } from '../../../meta';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { openMindmapFormAction } from 'store/mindmap-creator/actions';
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
+import { SubNavContainer } from './containers/sub-nav.container';
 
 import './mindmap-creator.css';
-import { SubNavContainer } from './containers/sub-nav.container';
 
 const ADD_MINDMAP_KEY = `add-mindmap`;
 
