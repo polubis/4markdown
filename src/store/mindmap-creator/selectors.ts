@@ -1,3 +1,4 @@
+import type { MindmapDto } from 'api-4markdown-contracts';
 import type { MindmapCreatorState } from './models';
 
 const selectedNodesSelector = (
@@ -12,4 +13,16 @@ const readyMindmapsSelector = (
   throw Error(`Invalid reading attempt in mindmap creator state`);
 };
 
-export { selectedNodesSelector, readyMindmapsSelector };
+const activeMindmapSelector = (
+  state: MindmapCreatorState,
+): MindmapDto | null => {
+  if (state.activeMindmapId === null || state.mindmaps.is !== `ok`) return null;
+
+  return (
+    state.mindmaps.data.find(
+      (mindmap) => mindmap.id === state.activeMindmapId,
+    ) ?? null
+  );
+};
+
+export { selectedNodesSelector, readyMindmapsSelector, activeMindmapSelector };
