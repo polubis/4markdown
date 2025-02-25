@@ -1,7 +1,6 @@
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import React from 'react';
 import { useAuthStore } from 'store/auth/auth.store';
-import { useMindmapCreatorState } from 'store/mindmap-creator';
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -13,7 +12,6 @@ const Loader = () => (
 
 const SubNavContainer = () => {
   const authStore = useAuthStore();
-  const { mindmaps } = useMindmapCreatorState();
 
   React.useEffect(() => {
     authStore.is === `authorized` && getYourMindmapsAct();
@@ -24,23 +22,12 @@ const SubNavContainer = () => {
       {authStore.is === `idle` && <Loader />}
       {authStore.is === `authorized` && (
         <>
-          {mindmaps.is === `ok` ? (
-            <>
-              <h1
-                className="font-bold text-lg max-w-[260px] truncate mr-4"
-                title="Markdown Editor"
-              >
-                Bla bla loaded mindmaps
-              </h1>
-            </>
-          ) : (
-            <h1
-              className="font-bold text-lg max-w-[260px] truncate mr-4"
-              title="Markdown Editor"
-            >
-              Mindmap Creator (Create Mindmaps Effortlessly)
-            </h1>
-          )}
+          <h1
+            className="font-bold text-lg max-w-[260px] truncate mr-4"
+            title="Markdown Editor"
+          >
+            Mindmap Creator (Create Mindmaps Effortlessly)
+          </h1>
         </>
       )}
       {authStore.is === `unauthorized` && (
