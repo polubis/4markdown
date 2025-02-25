@@ -3,6 +3,10 @@ import { useMindmapCreatorState } from 'store/mindmap-creator';
 
 const getYourMindmapsAct = async (): Promise<void> => {
   try {
+    const { mindmaps } = useMindmapCreatorState.get();
+
+    if (mindmaps.is === `busy` || mindmaps.is === `ok`) return;
+
     useMindmapCreatorState.set({
       mindmaps: { is: `busy` },
     });

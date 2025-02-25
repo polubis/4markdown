@@ -14,6 +14,7 @@ import { openMindmapFormAction } from 'store/mindmap-creator/actions';
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
 
 import './mindmap-creator.css';
+import { SubNavContainer } from './containers/sub-nav.container';
 
 const ADD_MINDMAP_KEY = `add-mindmap`;
 
@@ -110,7 +111,7 @@ const MindmapCreatorView = () => {
             `h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center`,
           )}
         >
-          {/* <DocBarContainer /> */}
+          <SubNavContainer />
         </nav>
       </header>
     </>
