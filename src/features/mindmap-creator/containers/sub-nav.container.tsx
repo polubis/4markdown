@@ -3,6 +3,7 @@ import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useAuthStore } from 'store/auth/auth.store';
 import { Button } from 'design-system/button';
 import { BiCollection } from 'react-icons/bi';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -13,12 +14,15 @@ const Loader = () => (
 );
 
 const YourMindmapsContainer = () => {
+  const { mindmaps } = useMindmapCreatorState();
+
   return (
     <>
       <Button
         i={1}
         s={1}
         title="Open your mindmaps"
+        disabled={mindmaps.is === `busy`}
         // onClick={startMindmapCreation}
       >
         <BiCollection />
@@ -38,11 +42,18 @@ const SubNavContainer = () => {
   return (
     <>
       {authStore.is === `idle` && <Loader />}
-      <h1 className="font-bold text-lg mr-4 truncate max-w-[260px]">
-        Mindmap Creator
-      </h1>
+
+      {authStore.is === `unauthorized` && (
+        <h1 className="font-bold text-lg mr-4 truncate max-w-[260px]">
+          Mindmap Creator
+        </h1>
+      )}
+
       {authStore.is === `authorized` && (
         <>
+          <h1 className="font-bold text-lg mr-4 truncate max-w-[260px]">
+            Mindmap Creator
+          </h1>
           <YourMindmapsContainer />
         </>
       )}
