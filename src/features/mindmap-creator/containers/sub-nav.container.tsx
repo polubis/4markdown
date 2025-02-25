@@ -20,21 +20,12 @@ const SubNavContainer = () => {
   return (
     <>
       {authStore.is === `idle` && <Loader />}
-      {authStore.is === `authorized` && (
-        <>
-          <h1
-            className="font-bold text-lg max-w-[260px] truncate mr-4"
-            title="Markdown Editor"
-          >
-            Mindmap Creator (Create Mindmaps Effortlessly)
-          </h1>
-        </>
-      )}
-      {authStore.is === `unauthorized` && (
-        <h6 className="font-bold text-lg truncate mr-4" title="Markdown Editor">
-          Markdown Editor
-        </h6>
-      )}
+      <h1
+        className="font-bold text-lg max-w-[260px] truncate"
+        title="Markdown Editor"
+      >
+        Mindmap Creator
+      </h1>
     </>
   );
 };
