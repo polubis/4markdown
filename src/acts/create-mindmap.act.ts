@@ -11,9 +11,10 @@ const createMindmapAct = async (
   >,
 ): AsyncResult<MindmapDto> => {
   try {
-    const { nodes, edges, orientation, mindmaps } = readyMindmapsSelector(
-      useMindmapCreatorState.get(),
-    );
+    const { nodes, edges, orientation, mindmaps } =
+      useMindmapCreatorState.get();
+
+    const safeMindmaps = readyMindmapsSelector(mindmaps);
 
     const mindmap = await getAPI().call(`createMindmap`)({
       ...payload,
@@ -27,7 +28,7 @@ const createMindmapAct = async (
       activeMindmap: mindmap.id,
       mindmaps: {
         is: `ok`,
-        data: [mindmap, ...mindmaps.data],
+        data: [mindmap, ...safeMindmaps.data],
       },
     });
 
