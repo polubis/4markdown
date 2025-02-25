@@ -4,8 +4,10 @@ const selectedNodesSelector = (
   state: MindmapCreatorState,
 ): MindmapCreatorState['nodes'] => state.nodes.filter((node) => node.selected);
 
-const readyMindmapsSelector = (state: MindmapCreatorState) => {
-  if (state.mindmaps.is === `ok`) return state;
+const readyMindmapsSelector = (
+  mindmaps: MindmapCreatorState['mindmaps'],
+): Extract<MindmapCreatorState['mindmaps'], { is: `ok` }> => {
+  if (mindmaps.is === `ok`) return mindmaps;
 
   throw Error(`Invalid reading attempt in mindmap creator state`);
 };
