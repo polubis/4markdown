@@ -4,6 +4,7 @@ import type {
   MindmapDto,
   SolidEdge,
 } from 'api-4markdown-contracts';
+import type { Transaction } from 'development-kit/utility-types';
 
 type NodeBase = {
   measured?: {
@@ -30,8 +31,8 @@ type MindmapCreatorState = {
   nodeForm: { is: `closed` } | { is: `active` };
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
   mindmapForm: { is: `closed` } | { is: `active` };
-  mindmaps: MindmapDto[];
   activeMindmap: MindmapDto['id'] | null;
+  mindmaps: Transaction<{ data: MindmapDto[] }>;
 };
 
 export type {

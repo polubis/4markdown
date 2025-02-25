@@ -9,7 +9,7 @@ const useMindmapCreatorState = state<MindmapCreatorState>({
   nodesRemovalConfirmation: { is: `closed` },
   mindmapForm: { is: `closed` },
   activeMindmap: null,
-  mindmaps: [],
+  mindmaps: { is: `idle` },
 });
 
 export { useMindmapCreatorState };

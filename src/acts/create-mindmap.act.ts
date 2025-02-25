@@ -2,6 +2,7 @@ import { getAPI, parseError } from 'api-4markdown';
 import type { API4MarkdownPayload, MindmapDto } from 'api-4markdown-contracts';
 import { type AsyncResult } from 'development-kit/utility-types';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { readyMindmapsSelector } from 'store/mindmap-creator/selectors';
 
 const createMindmapAct = async (
   payload: Pick<
@@ -10,8 +11,9 @@ const createMindmapAct = async (
   >,
 ): AsyncResult<MindmapDto> => {
   try {
-    const { nodes, edges, orientation, mindmaps } =
-      useMindmapCreatorState.get();
+    const { nodes, edges, orientation, mindmaps } = readyMindmapsSelector(
+      useMindmapCreatorState.get(),
+    );
 
     const mindmap = await getAPI().call(`createMindmap`)({
       ...payload,
@@ -23,7 +25,10 @@ const createMindmapAct = async (
     useMindmapCreatorState.set({
       mindmapForm: { is: `closed` },
       activeMindmap: mindmap.id,
-      mindmaps: [mindmap, ...mindmaps],
+      mindmaps: {
+        is: `ok`,
+        data: [mindmap, ...mindmaps.data],
+      },
     });
 
     return { is: `ok`, data: mindmap };

@@ -26,6 +26,8 @@ type CreateMindmapContract = Contract<
   >
 >;
 
+type GetYourMindmapsContract = Contract<`getYourMindmaps`, MindmapDto[]>;
+
 type GetYourDocumentsContract = Contract<
   `getYourDocuments`,
   (
@@ -137,7 +139,8 @@ type API4MarkdownContracts =
   | GetYourUserProfileContract
   | UpdateYourUserProfileContract
   | RateDocumentContract
-  | UpdateDocumentNameContract;
+  | UpdateDocumentNameContract
+  | GetYourMindmapsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
