@@ -26,7 +26,7 @@ const rangeLookup: Record<RangeFilter, [number, number]> = {
 };
 
 const YourMindmapsContentContainer = () => {
-  const { activeMindmap } = useMindmapCreatorState();
+  const { activeMindmapId } = useMindmapCreatorState();
   const mindmapsState = useMindmapCreatorState((state) =>
     readyMindmapsSelector(state.mindmaps),
   );
@@ -67,7 +67,7 @@ const YourMindmapsContentContainer = () => {
             <li
               className={c(
                 `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3`,
-                activeMindmap === mindmap.id
+                activeMindmapId === mindmap.id
                   ? `bg-green-700 text-white border-green-700`
                   : `bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`,
               )}

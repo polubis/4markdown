@@ -8,7 +8,7 @@ const useMindmapCreatorState = state<MindmapCreatorState>({
   nodeForm: { is: `closed` },
   nodesRemovalConfirmation: { is: `closed` },
   mindmapForm: { is: `closed` },
-  activeMindmap: null,
+  activeMindmapId: null,
   mindmaps: { is: `idle` },
   yourMindmapsView: { is: `closed` },
 });

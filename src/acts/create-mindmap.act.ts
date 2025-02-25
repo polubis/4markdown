@@ -25,7 +25,7 @@ const createMindmapAct = async (
 
     useMindmapCreatorState.set({
       mindmapForm: { is: `closed` },
-      activeMindmap: mindmap.id,
+      activeMindmapId: mindmap.id,
       mindmaps: {
         is: `ok`,
         data: [mindmap, ...safeMindmaps.data],

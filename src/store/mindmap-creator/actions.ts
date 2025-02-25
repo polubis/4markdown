@@ -232,7 +232,7 @@ const closeYourMindmapsViewAction = (): void => {
 
 const selectMindmapAction = (id: MindmapDto['id']): void => {
   set({
-    activeMindmap: id,
+    activeMindmapId: id,
     yourMindmapsView: { is: `closed` },
   });
 };
