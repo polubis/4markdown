@@ -33,6 +33,7 @@ type MindmapCreatorState = {
   mindmapForm: { is: `closed` } | { is: `active` };
   activeMindmap: MindmapDto['id'] | null;
   mindmaps: Transaction<{ data: MindmapDto[] }>;
+  yourMindmapsView: { is: `closed` } | { is: `active` };
 };
 
 export type {

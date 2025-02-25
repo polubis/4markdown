@@ -8,6 +8,7 @@ import { Tabs } from 'design-system/tabs';
 import type { MindmapDto } from 'api-4markdown-contracts';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { readyMindmapsSelector } from 'store/mindmap-creator/selectors';
+import { closeYourMindmapsViewAction } from 'store/mindmap-creator/actions';
 
 const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
 
@@ -29,8 +30,8 @@ const YourMindmapsModalContainer = () => {
   );
 
   const selectMindmap = (mindmap: MindmapDto): void => {
-    initializeMindmapAction(mindmap);
-    mindmapsListModal.off();
+    // initializeMindmapAction(mindmap);
+    closeYourMindmapsViewAction();
   };
 
   const mindmaps = React.useMemo((): MindmapDto[] => {
@@ -45,7 +46,7 @@ const YourMindmapsModalContainer = () => {
   }, [mindmapsState, activeRange]);
 
   return (
-    <Modal onClose={mindmapsListModal.off}>
+    <Modal onClose={closeYourMindmapsViewAction}>
       <Modal.Header
         title="Your Mindmaps"
         closeButtonTitle="Close your mindmaps"
@@ -55,7 +56,7 @@ const YourMindmapsModalContainer = () => {
           i={2}
           s={1}
           title="Sync mindmaps"
-          onClick={restartMindmapCreatorAct}
+          // onClick={restartMindmapCreatorAct}
         >
           <BiRefresh />
         </Button>

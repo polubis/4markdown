@@ -217,6 +217,18 @@ const closeMindmapFormAction = (): void => {
   });
 };
 
+const openYourMindmapsViewAction = (): void => {
+  set({
+    yourMindmapsView: { is: `active` },
+  });
+};
+
+const closeYourMindmapsViewAction = (): void => {
+  set({
+    yourMindmapsView: { is: `closed` },
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -232,4 +244,6 @@ export {
   removeSelectedNodesAction,
   openMindmapFormAction,
   closeMindmapFormAction,
+  openYourMindmapsViewAction,
+  closeYourMindmapsViewAction,
 };
