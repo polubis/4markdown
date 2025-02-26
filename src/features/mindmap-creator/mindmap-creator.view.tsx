@@ -99,6 +99,15 @@ const MindmapCreatorView = () => {
               />
             </Link>
             <AddNewMindmapContainer />
+            <Button
+              i={1}
+              s={2}
+              auto
+              className="md:flex hidden"
+              title="Show examples"
+            >
+              Examples
+            </Button>
           </nav>
           <div />
           <nav className="flex items-center gap-2">
