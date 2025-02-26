@@ -107,6 +107,24 @@ const MindmapCreatorView = () => {
               s={2}
               auto
               className="md:flex hidden"
+              title="Clear mindmap"
+            >
+              Clear
+            </Button>
+            <Button
+              i={1}
+              s={2}
+              auto
+              className="md:flex hidden"
+              title="Reset mindmap"
+            >
+              Reset
+            </Button>
+            <Button
+              i={1}
+              s={2}
+              auto
+              className="md:flex hidden"
               title="Show examples"
             >
               Examples
