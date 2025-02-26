@@ -16,6 +16,7 @@ import {
 } from '@xyflow/react';
 import Dagre from '@dagrejs/dagre';
 import { type MindmapDto } from 'api-4markdown-contracts';
+import { readyMindmapsSelector } from './selectors';
 
 const { get, set } = useMindmapCreatorState;
 
@@ -231,9 +232,18 @@ const closeYourMindmapsViewAction = (): void => {
 };
 
 const selectMindmapAction = (id: MindmapDto['id']): void => {
+  const mindmaps = readyMindmapsSelector(get().mindmaps);
+
+  const foundMindmap = mindmaps.data.find((mindmap) => mindmap.id === id);
+
+  if (!foundMindmap) return;
+
   set({
     activeMindmapId: id,
     yourMindmapsView: { is: `closed` },
+    nodes: foundMindmap.nodes,
+    edges: foundMindmap.edges,
+    orientation: foundMindmap.orientation,
   });
 };
 
