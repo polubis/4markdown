@@ -1,7 +1,7 @@
 import React, { type MouseEventHandler } from 'react';
 import c from 'classnames';
 import { Link } from 'gatsby';
-import { BiPlus } from 'react-icons/bi';
+import { BiDownload, BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import UserPopover from 'components/user-popover';
 import MoreNav from 'components/more-nav';
@@ -99,6 +99,9 @@ const MindmapCreatorView = () => {
               />
             </Link>
             <AddNewMindmapContainer />
+            <Button i={1} s={2} title="Download mindmap as JSON file">
+              <BiDownload />
+            </Button>
             <Button
               i={1}
               s={2}
