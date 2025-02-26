@@ -16,8 +16,7 @@ const NodesRemovalConfirmationContainer = () => {
       <p className="mt-4 mb-1">
         You&apos;ve selected some nodes in the mindmap. Confirming this action
         will{` `}
-        <strong>permanently remove them</strong> and trigger{` `}
-        <strong>a save</strong>.
+        <strong>permanently remove them</strong>.
       </p>
       <p className="mb-1">Are you sure you want to proceed?</p>
       <footer className="mt-6 flex">
