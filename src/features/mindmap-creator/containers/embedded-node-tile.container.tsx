@@ -3,7 +3,7 @@ import React from 'react';
 import { HandleX, HandleY } from '../components/handles';
 import { NodeTile } from '../components/node-tile';
 import { Button } from 'design-system/button';
-import { BiArrowToRight } from 'react-icons/bi';
+import { BiArrowToBottom } from 'react-icons/bi';
 import type { MindmapCreatorEmbeddedNode } from 'store/mindmap-creator/models';
 import { openNodePreviewAction } from 'store/mindmap-creator/actions';
 
@@ -28,7 +28,7 @@ const EmbeddedNodeTileContainer = ({
           openNodePreviewAction(data);
         }}
       >
-        <BiArrowToRight />
+        <BiArrowToBottom />
       </Button>
     </NodeTile.Toolbox>
   </NodeTile>
