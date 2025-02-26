@@ -3,7 +3,7 @@ import { HandleX, HandleY } from './handles';
 import { type NodeProps } from '@xyflow/react';
 import { NodeTile } from './node-tile';
 import { Button } from 'design-system/button';
-import { BiArrowToTop } from 'react-icons/bi';
+import { BiWorld } from 'react-icons/bi';
 import type { MindmapCreatorExternalNode } from 'store/mindmap-creator/models';
 
 type ExternalNodeTileProps = NodeProps<MindmapCreatorExternalNode>;
@@ -33,7 +33,7 @@ const ExternalNodeTile = ({
               e.stopPropagation();
             }}
           >
-            <BiArrowToTop className="rotate-45" />
+            <BiWorld />
           </Button>
         </a>
       </NodeTile.Toolbox>
