@@ -108,6 +108,7 @@ const MindmapCreatorContainer = () => {
     orientation,
     nodes,
     edges,
+    activeMindmapId,
     nodeForm,
     nodesRemovalConfirmation,
     mindmaps,
@@ -116,7 +117,7 @@ const MindmapCreatorContainer = () => {
   return (
     <>
       <ReactFlow
-        key={orientation}
+        key={activeMindmapId + orientation}
         nodes={nodes}
         edges={edges}
         onNodesChange={updateNodesAction}
