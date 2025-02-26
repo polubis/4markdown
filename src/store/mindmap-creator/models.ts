@@ -34,6 +34,7 @@ type MindmapCreatorState = {
   activeMindmapId: MindmapDto['id'] | null;
   mindmaps: Transaction<{ data: MindmapDto[] }>;
   yourMindmapsView: { is: `closed` } | { is: `active` };
+  nodePreview: { is: `closed` } | { is: `active`; node: MindmapCreatorNode };
 };
 
 export type {
