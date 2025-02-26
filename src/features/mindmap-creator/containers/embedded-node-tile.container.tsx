@@ -5,24 +5,27 @@ import { NodeTile } from '../components/node-tile';
 import { Button } from 'design-system/button';
 import { BiArrowToRight } from 'react-icons/bi';
 import type { MindmapCreatorEmbeddedNode } from 'store/mindmap-creator/models';
+import { openNodePreviewAction } from 'store/mindmap-creator/actions';
 
 type EmbeddedNodeTileContainerProps = NodeProps<MindmapCreatorEmbeddedNode>;
 
 const EmbeddedNodeTileContainer = ({
   selected,
-  data: { name, description },
+  data,
 }: EmbeddedNodeTileContainerProps) => (
   <NodeTile selected={selected}>
     <NodeTile.Label>Embedded Resource</NodeTile.Label>
-    <NodeTile.Name>{name}</NodeTile.Name>
-    {description && <NodeTile.Description>{description}</NodeTile.Description>}
+    <NodeTile.Name>{data.name}</NodeTile.Name>
+    {data.description && (
+      <NodeTile.Description>{data.description}</NodeTile.Description>
+    )}
     <NodeTile.Toolbox>
       <Button
         i={2}
         s={1}
         onClick={(e) => {
           e.stopPropagation();
-          //   toggleMindmapNodeAction(id);
+          openNodePreviewAction(data);
         }}
       >
         <BiArrowToRight />

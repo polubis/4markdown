@@ -15,12 +15,7 @@ import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
-
-const DocumentChaptersModal = React.lazy(() =>
-  import(`../components/document-chapters-modal`).then((m) => ({
-    default: m.DocumentChaptersModal,
-  })),
-);
+import { ChaptersModal } from 'components/chapters-modal';
 
 const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
@@ -112,9 +107,7 @@ const DocumentLayoutContainer = () => {
       <ScrollToTop />
       {sectionsModal.isOn && (
         <React.Suspense>
-          <DocumentChaptersModal onClose={sectionsModal.off}>
-            {code}
-          </DocumentChaptersModal>
+          <ChaptersModal onClose={sectionsModal.off}>{code}</ChaptersModal>
         </React.Suspense>
       )}
       {copyState.is === `copied` && <Status>Document markdown copied</Status>}

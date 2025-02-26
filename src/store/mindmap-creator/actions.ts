@@ -253,6 +253,20 @@ const resetYourMindmapsAction = (): void => {
   });
 };
 
+const openNodePreviewAction = (
+  data: MindmapCreatorEmbeddedNode['data'],
+): void => {
+  set({
+    nodePreview: { is: `active`, data },
+  });
+};
+
+const closeNodePreviewAction = (): void => {
+  set({
+    nodePreview: { is: `closed` },
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -272,4 +286,6 @@ export {
   closeYourMindmapsViewAction,
   selectMindmapAction,
   resetYourMindmapsAction,
+  openNodePreviewAction,
+  closeNodePreviewAction,
 };

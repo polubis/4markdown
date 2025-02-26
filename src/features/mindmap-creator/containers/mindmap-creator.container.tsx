@@ -33,6 +33,7 @@ import { selectedNodesSelector } from 'store/mindmap-creator/selectors';
 import { NodesRemovalConfirmationContainer } from './nodes-removal-confirmation.container';
 import ErrorModal from 'components/error-modal';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
+import { NodePreviewModalContainer } from './node-preview-modal.container';
 
 const NewNodeModalContainer = React.lazy(() =>
   import(`./new-node-modal.container`).then((m) => ({
@@ -166,6 +167,7 @@ const MindmapCreatorContainer = () => {
           onClose={resetYourMindmapsAction}
         />
       )}
+      <NodePreviewModalContainer />
     </>
   );
 };
