@@ -81,6 +81,7 @@ const addNewEmbeddedNodeAction = (
       },
     ],
     nodeForm: { is: `closed` },
+    changed: true,
   });
 };
 
@@ -107,6 +108,7 @@ const addNewExternalNodeAction = (
       },
     ],
     nodeForm: { is: `closed` },
+    changed: true,
   });
 };
 
@@ -127,6 +129,7 @@ const updateNodesAction = (changes: NodeChange[]): void => {
 
   set({
     nodes: applyNodeChanges(changes, nodes) as MindmapCreatorNode[],
+    changed: true,
   });
 };
 
@@ -135,6 +138,7 @@ const updateEdgesAction = (changes: EdgeChange[]): void => {
 
   set({
     edges: applyEdgeChanges(changes, edges) as MindmapCreatorEdge[],
+    changed: true,
   });
 };
 
@@ -151,6 +155,7 @@ const connectNodesAction = ({ source, target }: Connection): void => {
         target: target as SUID,
       },
     ],
+    changed: true,
   });
 };
 
@@ -159,6 +164,7 @@ const removeEdgeAction = (id: MindmapCreatorEdge['id']): void => {
 
   set({
     edges: edges.filter((edge) => edge.id !== id),
+    changed: true,
   });
 };
 
@@ -175,6 +181,7 @@ const rotateViewAction = (): void => {
   set({
     ...rotatedStructure,
     orientation: newOrientation,
+    changed: true,
   });
 };
 
@@ -204,6 +211,7 @@ const removeSelectedNodesAction = (): void => {
     nodes: newNodes,
     edges: newEdges,
     nodesRemovalConfirmation: { is: `closed` },
+    changed: true,
   });
 };
 
@@ -244,12 +252,14 @@ const selectMindmapAction = (id: MindmapDto['id']): void => {
     nodes: foundMindmap.nodes,
     edges: foundMindmap.edges,
     orientation: foundMindmap.orientation,
+    changed: false,
   });
 };
 
 const resetYourMindmapsAction = (): void => {
   set({
     mindmaps: { is: `idle` },
+    changed: true,
   });
 };
 
@@ -301,6 +311,7 @@ const resetMindmapAction = (): void => {
     nodes,
     edges,
     orientation,
+    changed: false,
   });
 };
 
