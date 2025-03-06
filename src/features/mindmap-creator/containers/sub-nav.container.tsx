@@ -14,6 +14,7 @@ import { useForm } from 'development-kit/use-form';
 import { maxLength, minLength } from 'development-kit/form';
 import { validationLimits } from '../core/validation';
 import { updateMindmapNameAct } from 'acts/update-mindmap-name.act';
+import { updateMindmapShapeAct } from 'acts/update-mindmap-shape.act';
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -77,6 +78,25 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
   );
 };
 
+const UpdateMindmapShapeContainer = () => {
+  const { operation, changed } = useMindmapCreatorState((state) => ({
+    operation: state.operation,
+    changed: state.changed,
+  }));
+
+  return (
+    <Button
+      i={1}
+      s={1}
+      title="Save mindmap changes"
+      disabled={operation.is === `busy` || !changed}
+      onClick={updateMindmapShapeAct}
+    >
+      <BiSave />
+    </Button>
+  );
+};
+
 const ActiveMindmapBarContainer = () => {
   const activeMindmap = useMindmapCreatorState(activeMindmapSelector);
   const editNameFormSection = useSimpleFeature();
@@ -101,9 +121,7 @@ const ActiveMindmapBarContainer = () => {
                 >
                   <BiEdit />
                 </Button>
-                <Button i={1} s={1} title="Save mindmap changes">
-                  <BiSave />
-                </Button>
+                <UpdateMindmapShapeContainer />
                 <YourMindmapsContainer />
                 <Button i={1} s={1} title="Open mindmap details">
                   <BiDotsHorizontal />
