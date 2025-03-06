@@ -9,6 +9,7 @@ import c from 'classnames';
 import {
   connectNodesAction,
   openNodeFormAction,
+  resetOperationAction,
   resetYourMindmapsAction,
   rotateViewAction,
   startNodesRemovalAction,
@@ -34,6 +35,7 @@ import { NodesRemovalConfirmationContainer } from './nodes-removal-confirmation.
 import ErrorModal from 'components/error-modal';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import { NodePreviewModalContainer } from './node-preview-modal.container';
+import { ScreenLoader } from 'design-system/screen-loader';
 
 const NewNodeModalContainer = React.lazy(() =>
   import(`./new-node-modal.container`).then((m) => ({
@@ -109,6 +111,7 @@ const MindmapCreatorContainer = () => {
     orientation,
     nodes,
     edges,
+    operation,
     activeMindmapId,
     nodeForm,
     nodesRemovalConfirmation,
@@ -168,6 +171,28 @@ const MindmapCreatorContainer = () => {
         />
       )}
       <NodePreviewModalContainer />
+      {operation.is === `busy` && <ScreenLoader />}
+      {operation.is === `fail` && (
+        <ErrorModal
+          heading="Ups, something went wrong"
+          message={operation.error.message}
+          footer={
+            operation.error.symbol === `out-of-date` && (
+              <Button
+                type="button"
+                i={2}
+                s={2}
+                auto
+                title="Sync your mindmaps"
+                onClick={reloadYourMindmapsAct}
+              >
+                Sync
+              </Button>
+            )
+          }
+          onClose={resetOperationAction}
+        />
+      )}
     </>
   );
 };

@@ -14,13 +14,10 @@ import {
   downloadMindmapAction,
   openMindmapFormAction,
   resetMindmapAction,
-  resetOperationAction,
 } from 'store/mindmap-creator/actions';
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
 import { SubNavContainer } from './containers/sub-nav.container';
 import { useConfirm } from 'development-kit/use-confirm';
-import ErrorModal from 'components/error-modal';
-import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 
 import './mindmap-creator.css';
 
@@ -75,34 +72,6 @@ const AddNewMindmapContainer = () => {
       </Button>
       {mindmapForm.is === `active` && <NewMindmapModalContainer />}
     </>
-  );
-};
-
-const ErrorOperationModalContainer = () => {
-  const operation = useMindmapCreatorState((state) => state.operation);
-
-  if (operation.is !== `fail`) return null;
-
-  return (
-    <ErrorModal
-      heading="Ups, something went wrong"
-      message={operation.error.message}
-      footer={
-        operation.error.symbol === `out-of-date` && (
-          <Button
-            type="button"
-            i={2}
-            s={2}
-            auto
-            title="Sync your mindmaps"
-            onClick={reloadYourMindmapsAct}
-          >
-            Sync
-          </Button>
-        )
-      }
-      onClose={resetOperationAction}
-    />
   );
 };
 
@@ -169,7 +138,6 @@ const MindmapCreatorView = () => {
           <SubNavContainer />
         </nav>
       </header>
-      <ErrorOperationModalContainer />
     </>
   );
 };
