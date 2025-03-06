@@ -29,7 +29,7 @@ type CreateMindmapContract = Contract<
 type UpdateMindmapNameContract = Contract<
   `updateMindmapName`,
   MindmapDto,
-  Pick<MindmapDto, 'name' | 'mdate'>
+  Pick<MindmapDto, 'name' | 'mdate' | 'id'>
 >;
 
 type GetYourMindmapsContract = Contract<

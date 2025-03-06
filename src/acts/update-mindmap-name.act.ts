@@ -23,6 +23,7 @@ const updateMindmapNameAct = async (
     const updatedMindmap = await getAPI().call(`updateMindmapName`)({
       ...payload,
       mdate: activeMindmap.mdate,
+      id: activeMindmap.id,
     });
 
     useMindmapCreatorState.set({
