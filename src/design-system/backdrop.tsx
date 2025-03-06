@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import c from 'classnames';
 
 interface BackdropProps {
   className?: string;
+  children?: ReactNode;
   onClick?(): void;
 }
 
-const Backdrop = ({ className, onClick }: BackdropProps) => {
+const Backdrop = ({ className, children, onClick }: BackdropProps) => {
   return (
     <div
       className={c(
@@ -14,7 +15,9 @@ const Backdrop = ({ className, onClick }: BackdropProps) => {
         className,
       )}
       onClick={onClick}
-    />
+    >
+      {children}
+    </div>
   );
 };
 
