@@ -12,6 +12,7 @@ const useMindmapCreatorState = state<MindmapCreatorState>({
   mindmaps: { is: `idle` },
   yourMindmapsView: { is: `closed` },
   nodePreview: { is: `closed` },
+  operation: { is: `idle` },
 });
 
 export { useMindmapCreatorState };

@@ -11,6 +11,8 @@ const updateMindmapNameAct = async (
   payload: Pick<API4MarkdownPayload<'updateMindmapName'>, 'name'>,
 ): AsyncResult => {
   try {
+    useMindmapCreatorState.set({ operation: { is: `busy` } });
+
     const activeMindmap = safeActiveMindmapSelector(
       useMindmapCreatorState.get(),
     );
@@ -30,11 +32,14 @@ const updateMindmapNameAct = async (
           mindmap.id === activeMindmap.id ? updatedMindmap : mindmap,
         ),
       },
+      operation: { is: `ok` },
     });
 
     return { is: `ok` };
   } catch (error: unknown) {
-    return { is: `fail`, error: parseError(error) };
+    const err = parseError(error);
+    useMindmapCreatorState.set({ operation: { is: `fail`, error: err } });
+    return { is: `fail`, error: err };
   }
 };
 

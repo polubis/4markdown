@@ -37,6 +37,7 @@ type MindmapCreatorState = {
   nodePreview:
     | { is: `closed` }
     | { is: `active`; data: MindmapCreatorEmbeddedNode['data'] };
+  operation: Transaction;
 };
 
 export type {
