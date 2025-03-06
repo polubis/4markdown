@@ -12,9 +12,11 @@ import {
 const NodePreviewModalContainer = () => {
   const nodePreview = useMindmapCreatorState((state) => state.nodePreview);
 
-  const goToNodeEdition = (): void => {
-    openNodeFormAction();
-    closeNodePreviewAction();
+  const openNodeEdition = (): void => {
+    if (nodePreview.is === `active`) {
+      openNodeFormAction();
+      closeNodePreviewAction();
+    }
   };
 
   if (nodePreview.is === `closed`) return null;
@@ -36,7 +38,7 @@ const NodePreviewModalContainer = () => {
           className="ml-auto mt-8"
           auto
           title="Go to node content edition"
-          onClick={goToNodeEdition}
+          onClick={openNodeEdition}
         >
           <BiEdit />
           Edit Node Content
