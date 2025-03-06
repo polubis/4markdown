@@ -79,10 +79,7 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
 };
 
 const UpdateMindmapShapeContainer = () => {
-  const { operation, changed } = useMindmapCreatorState((state) => ({
-    operation: state.operation,
-    changed: state.changed,
-  }));
+  const { operation, changed } = useMindmapCreatorState();
 
   return (
     <Button
