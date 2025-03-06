@@ -37,9 +37,9 @@ import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import { NodePreviewModalContainer } from './node-preview-modal.container';
 import { ScreenLoader } from 'design-system/screen-loader';
 
-const NewNodeModalContainer = React.lazy(() =>
-  import(`./new-node-modal.container`).then((m) => ({
-    default: m.NewNodeModalContainer,
+const NodeFormModalContainer = React.lazy(() =>
+  import(`./node-form-modal.container`).then((m) => ({
+    default: m.NodeFormModalContainer,
   })),
 );
 
@@ -68,7 +68,7 @@ const ToolboxContainer = () => {
       <Button
         i={2}
         s={1}
-        onClick={openNodeFormAction}
+        onClick={() => openNodeFormAction()}
         title="Add new mindmap node"
       >
         <BiAddToQueue />
@@ -146,7 +146,7 @@ const MindmapCreatorContainer = () => {
       <ToolboxContainer />
       {nodeForm.is === `active` && (
         <React.Suspense>
-          <NewNodeModalContainer />
+          <NodeFormModalContainer />
         </React.Suspense>
       )}
       {nodesRemovalConfirmation.is === `active` && (
