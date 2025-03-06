@@ -10,10 +10,12 @@ import { useAuthStore } from 'store/auth/auth.store';
 import { logIn } from 'actions/log-in.action';
 import { meta } from '../../../meta';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { openMindmapFormAction } from 'store/mindmap-creator/actions';
+import {
+  downloadMindmapAction,
+  openMindmapFormAction,
+} from 'store/mindmap-creator/actions';
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
 import { SubNavContainer } from './containers/sub-nav.container';
-import { downloadMindmapAct } from 'acts/download-mindmap.act';
 
 import './mindmap-creator.css';
 
@@ -104,7 +106,7 @@ const MindmapCreatorView = () => {
               i={1}
               s={2}
               title="Download mindmap as JSON file"
-              onClick={downloadMindmapAct}
+              onClick={downloadMindmapAction}
             >
               <BiDownload />
             </Button>
