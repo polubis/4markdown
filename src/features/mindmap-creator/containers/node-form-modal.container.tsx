@@ -17,11 +17,14 @@ import {
   closeNodeFormAction,
 } from 'store/mindmap-creator/actions';
 import { validationLimits } from '../core/validation';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
 
 const [LocalProvider, useLocalContext] = context(() => {
+  const { nodeForm } = useMindmapCreatorState();
+
   const [activeType, setActiveType] = React.useState<
     MindmapCreatorNode['type'] | null
-  >(null);
+  >(nodeForm.is === `closed` ? null : (nodeForm.data?.type ?? null));
 
   return {
     activeType,
