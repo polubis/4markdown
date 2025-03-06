@@ -11,17 +11,7 @@ import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
 import { Modal } from 'design-system/modal';
 import { closeMindmapFormAction } from 'store/mindmap-creator/actions';
 import { createMindmapAct } from 'acts/create-mindmap.act';
-
-const limits = {
-  name: {
-    min: 1,
-    max: 70,
-  },
-  descrition: {
-    min: 110,
-    max: 160,
-  },
-} as const;
+import { validationLimits } from '../core/validation';
 
 const NewMindmapModalContainer = () => {
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
@@ -33,11 +23,14 @@ const NewMindmapModalContainer = () => {
       tags: ``,
     },
     {
-      name: [minLength(limits.name.min), maxLength(limits.name.max)],
+      name: [
+        minLength(validationLimits.name.min),
+        maxLength(validationLimits.name.max),
+      ],
       description: [
         optional(
-          minLength(limits.descrition.min),
-          maxLength(limits.descrition.max),
+          minLength(validationLimits.description.min),
+          maxLength(validationLimits.description.max),
         ),
       ],
     },
@@ -92,7 +85,7 @@ const NewMindmapModalContainer = () => {
             <Hint
               trigger={
                 <>
-                  {limits.name.min} - {limits.name.max}
+                  {validationLimits.name.min} - {validationLimits.name.max}
                   {` `}
                   characters
                 </>
@@ -111,7 +104,8 @@ const NewMindmapModalContainer = () => {
             <Hint
               trigger={
                 <>
-                  {limits.descrition.min} - {limits.descrition.max}
+                  {validationLimits.description.min} -{` `}
+                  {validationLimits.description.max}
                   {` `}
                   characters
                 </>

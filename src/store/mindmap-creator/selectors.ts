@@ -25,4 +25,17 @@ const activeMindmapSelector = (
   );
 };
 
-export { selectedNodesSelector, readyMindmapsSelector, activeMindmapSelector };
+const safeActiveMindmapSelector = (state: MindmapCreatorState): MindmapDto => {
+  const mindmap = activeMindmapSelector(state);
+
+  if (!mindmap) throw Error(`Invalid reading attempt. Cannot find mindmap`);
+
+  return mindmap;
+};
+
+export {
+  selectedNodesSelector,
+  readyMindmapsSelector,
+  activeMindmapSelector,
+  safeActiveMindmapSelector,
+};
