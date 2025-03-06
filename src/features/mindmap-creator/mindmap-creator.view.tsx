@@ -18,6 +18,7 @@ import {
 } from 'store/mindmap-creator/actions';
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
 import { SubNavContainer } from './containers/sub-nav.container';
+import { useConfirm } from 'development-kit/use-confirm';
 
 import './mindmap-creator.css';
 
@@ -76,6 +77,9 @@ const AddNewMindmapContainer = () => {
 };
 
 const MindmapCreatorView = () => {
+  const clearConfirm = useConfirm(clearMindmapAction);
+  const resetConfirm = useConfirm(resetMindmapAction);
+
   return (
     <>
       <main className="md:mt-[122px] md:mb-0 mb-[122px] h-[calc(100svh-50px-72px)]">
@@ -118,9 +122,9 @@ const MindmapCreatorView = () => {
               auto
               className="md:flex hidden"
               title="Clear mindmap"
-              onClick={clearMindmapAction}
+              onClick={clearConfirm.confirm}
             >
-              Clear
+              {clearConfirm.isOn ? `Sure?` : `Clear`}
             </Button>
             <Button
               i={1}
@@ -128,9 +132,9 @@ const MindmapCreatorView = () => {
               auto
               className="md:flex hidden"
               title="Reset mindmap"
-              onClick={resetMindmapAction}
+              onClick={resetConfirm.confirm}
             >
-              Reset
+              {resetConfirm.isOn ? `Sure?` : `Reset`}
             </Button>
             <Button
               i={1}
