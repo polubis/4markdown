@@ -24,7 +24,7 @@ const updateMindmapShapeAct = async (): AsyncResult => {
     });
 
     useMindmapCreatorState.set({
-      changed: false,
+      changesCount: 0,
       mindmaps: {
         is: `ok`,
         data: yourMindmaps.data.map((mindmap) =>

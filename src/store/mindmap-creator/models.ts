@@ -30,7 +30,7 @@ type MindmapCreatorState = {
   edges: MindmapCreatorEdge[];
   nodeForm: { is: `closed` } | { is: `active` };
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
-  changed: boolean;
+  changesCount: number;
   mindmapForm: { is: `closed` } | { is: `active` };
   activeMindmapId: MindmapDto['id'] | null;
   mindmaps: Transaction<{ data: MindmapDto[] }>;

@@ -60,7 +60,7 @@ const rotateView = ({
 const addNewEmbeddedNodeAction = (
   data: MindmapCreatorEmbeddedNode['data'],
 ): void => {
-  const { nodes } = get();
+  const { nodes, changesCount } = get();
 
   set({
     nodes: [
@@ -81,14 +81,14 @@ const addNewEmbeddedNodeAction = (
       },
     ],
     nodeForm: { is: `closed` },
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
 const addNewExternalNodeAction = (
   data: MindmapCreatorExternalNode['data'],
 ): void => {
-  const { nodes } = get();
+  const { nodes, changesCount } = get();
 
   set({
     nodes: [
@@ -108,7 +108,7 @@ const addNewExternalNodeAction = (
       },
     ],
     nodeForm: { is: `closed` },
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
@@ -125,25 +125,25 @@ const openNodeFormAction = (): void => {
 };
 
 const updateNodesAction = (changes: NodeChange[]): void => {
-  const { nodes } = get();
+  const { nodes, changesCount } = get();
 
   set({
     nodes: applyNodeChanges(changes, nodes) as MindmapCreatorNode[],
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
 const updateEdgesAction = (changes: EdgeChange[]): void => {
-  const { edges } = get();
+  const { edges, changesCount } = get();
 
   set({
     edges: applyEdgeChanges(changes, edges) as MindmapCreatorEdge[],
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
 const connectNodesAction = ({ source, target }: Connection): void => {
-  const { edges } = get();
+  const { edges, changesCount } = get();
 
   set({
     edges: [
@@ -155,21 +155,21 @@ const connectNodesAction = ({ source, target }: Connection): void => {
         target: target as SUID,
       },
     ],
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
 const removeEdgeAction = (id: MindmapCreatorEdge['id']): void => {
-  const { edges } = get();
+  const { edges, changesCount } = get();
 
   set({
     edges: edges.filter((edge) => edge.id !== id),
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
 const rotateViewAction = (): void => {
-  const { orientation, nodes, edges } = get();
+  const { orientation, nodes, edges, changesCount } = get();
 
   const newOrientation = orientation === `x` ? `y` : `x`;
   const rotatedStructure = rotateView({
@@ -181,7 +181,7 @@ const rotateViewAction = (): void => {
   set({
     ...rotatedStructure,
     orientation: newOrientation,
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
@@ -194,7 +194,7 @@ const cancelNodesRemovalAction = (): void => {
 };
 
 const removeSelectedNodesAction = (): void => {
-  const { nodes, edges } = get();
+  const { nodes, edges, changesCount } = get();
 
   const newNodes = nodes.filter((node) => !node.selected);
   const newNodesIds = newNodes.reduce<
@@ -211,7 +211,7 @@ const removeSelectedNodesAction = (): void => {
     nodes: newNodes,
     edges: newEdges,
     nodesRemovalConfirmation: { is: `closed` },
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
@@ -252,7 +252,7 @@ const selectMindmapAction = (id: MindmapDto['id']): void => {
     nodes: foundMindmap.nodes,
     edges: foundMindmap.edges,
     orientation: foundMindmap.orientation,
-    changed: false,
+    changesCount: 0,
   });
 };
 
@@ -296,22 +296,25 @@ const downloadMindmapAction = (): void => {
 };
 
 const clearMindmapAction = (): void => {
+  const { changesCount } = get();
+
   set({
     nodes: [],
     edges: [],
     orientation: `y`,
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 
 const resetMindmapAction = (): void => {
+  const { changesCount } = get();
   const { nodes, edges, orientation } = getInitial();
 
   set({
     nodes,
     edges,
     orientation,
-    changed: true,
+    changesCount: changesCount + 1,
   });
 };
 

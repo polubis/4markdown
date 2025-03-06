@@ -79,14 +79,14 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
 };
 
 const UpdateMindmapShapeContainer = () => {
-  const { operation, changed } = useMindmapCreatorState();
+  const { operation, changesCount } = useMindmapCreatorState();
 
   return (
     <Button
       i={1}
       s={1}
       title="Save mindmap changes"
-      disabled={operation.is === `busy` || !changed}
+      disabled={operation.is === `busy` || changesCount < 2}
       onClick={updateMindmapShapeAct}
     >
       <BiSave />

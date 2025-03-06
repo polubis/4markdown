@@ -4,7 +4,7 @@ import type { MindmapCreatorState } from './models';
 const useMindmapCreatorState = state<MindmapCreatorState>({
   orientation: `y`,
   nodes: [],
-  changed: false,
+  changesCount: 0,
   edges: [],
   nodeForm: { is: `closed` },
   nodesRemovalConfirmation: { is: `closed` },
