@@ -40,7 +40,6 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
   ) => {
     e.preventDefault();
     const result = await updateMindmapNameAct(values);
-
     if (result.is === `ok`) onClose();
   };
 
