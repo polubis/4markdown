@@ -259,7 +259,6 @@ const selectMindmapAction = (id: MindmapDto['id']): void => {
 const resetYourMindmapsAction = (): void => {
   set({
     mindmaps: { is: `idle` },
-    changed: true,
   });
 };
 
@@ -301,6 +300,7 @@ const clearMindmapAction = (): void => {
     nodes: [],
     edges: [],
     orientation: `y`,
+    changed: true,
   });
 };
 
@@ -311,7 +311,7 @@ const resetMindmapAction = (): void => {
     nodes,
     edges,
     orientation,
-    changed: false,
+    changed: true,
   });
 };
 
