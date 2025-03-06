@@ -20,6 +20,7 @@ import { SubNavContainer } from './containers/sub-nav.container';
 import { useConfirm } from 'development-kit/use-confirm';
 
 import './mindmap-creator.css';
+import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 
 const ADD_MINDMAP_KEY = `add-mindmap`;
 
@@ -76,8 +77,13 @@ const AddNewMindmapContainer = () => {
 };
 
 const MindmapCreatorView = () => {
+  const authStore = useAuthStore();
   const clearConfirm = useConfirm(clearMindmapAction);
   const resetConfirm = useConfirm(resetMindmapAction);
+
+  React.useEffect(() => {
+    authStore.is === `authorized` && getYourMindmapsAct();
+  }, [authStore]);
 
   return (
     <>

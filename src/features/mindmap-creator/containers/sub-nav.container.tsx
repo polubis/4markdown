@@ -1,5 +1,4 @@
 import React, { type FormEventHandler } from 'react';
-import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { useAuthStore } from 'store/auth/auth.store';
 import { YourMindmapsContainer } from './your-mindmaps.container';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
@@ -141,10 +140,6 @@ const ActiveMindmapBarContainer = () => {
 
 const SubNavContainer = () => {
   const authStore = useAuthStore();
-
-  React.useEffect(() => {
-    authStore.is === `authorized` && getYourMindmapsAct();
-  }, [authStore]);
 
   return (
     <>
