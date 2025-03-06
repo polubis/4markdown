@@ -18,7 +18,7 @@ import Dagre from '@dagrejs/dagre';
 import { type MindmapDto } from 'api-4markdown-contracts';
 import { readyMindmapsSelector } from './selectors';
 
-const { get, set } = useMindmapCreatorState;
+const { get, set, getInitial } = useMindmapCreatorState;
 
 const rotateView = ({
   nodes,
@@ -268,7 +268,7 @@ const closeNodePreviewAction = (): void => {
 };
 
 const downloadMindmapAction = (): void => {
-  const { orientation, nodes, edges } = useMindmapCreatorState.get();
+  const { orientation, nodes, edges } = get();
 
   const data = {
     orientation,
@@ -284,6 +284,24 @@ const downloadMindmapAction = (): void => {
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+};
+
+const clearMindmapAction = (): void => {
+  set({
+    nodes: [],
+    edges: [],
+    orientation: `y`,
+  });
+};
+
+const resetMindmapAction = (): void => {
+  const { nodes, edges, orientation } = getInitial();
+
+  set({
+    nodes,
+    edges,
+    orientation,
+  });
 };
 
 export {
@@ -308,4 +326,6 @@ export {
   resetYourMindmapsAction,
   openNodePreviewAction,
   closeNodePreviewAction,
+  clearMindmapAction,
+  resetMindmapAction,
 };

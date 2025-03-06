@@ -11,8 +11,10 @@ import { logIn } from 'actions/log-in.action';
 import { meta } from '../../../meta';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import {
+  clearMindmapAction,
   downloadMindmapAction,
   openMindmapFormAction,
+  resetMindmapAction,
 } from 'store/mindmap-creator/actions';
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
 import { SubNavContainer } from './containers/sub-nav.container';
@@ -116,6 +118,7 @@ const MindmapCreatorView = () => {
               auto
               className="md:flex hidden"
               title="Clear mindmap"
+              onClick={clearMindmapAction}
             >
               Clear
             </Button>
@@ -125,6 +128,7 @@ const MindmapCreatorView = () => {
               auto
               className="md:flex hidden"
               title="Reset mindmap"
+              onClick={resetMindmapAction}
             >
               Reset
             </Button>
