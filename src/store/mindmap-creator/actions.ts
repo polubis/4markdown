@@ -118,9 +118,9 @@ const closeNodeFormAction = (): void => {
   });
 };
 
-const openNodeFormAction = (): void => {
+const openNodeFormAction = (data?: MindmapCreatorNode): void => {
   set({
-    nodeForm: { is: `active` },
+    nodeForm: { is: `active`, data: data ?? null },
   });
 };
 

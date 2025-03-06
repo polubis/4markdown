@@ -25,10 +25,12 @@ type MindmapCreatorNode =
   | MindmapCreatorExternalNode;
 
 type MindmapCreatorState = {
-  orientation: `x` | `y`;
+  orientation: MindmapDto['orientation'];
   nodes: MindmapCreatorNode[];
   edges: MindmapCreatorEdge[];
-  nodeForm: { is: `closed` } | { is: `active` };
+  nodeForm:
+    | { is: `closed` }
+    | { is: `active`; data: MindmapCreatorNode | null };
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
   changesCount: number;
   mindmapForm: { is: `closed` } | { is: `active` };
