@@ -19,10 +19,10 @@ import {
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
 import { SubNavContainer } from './containers/sub-nav.container';
 import { useConfirm } from 'development-kit/use-confirm';
-
-import './mindmap-creator.css';
 import ErrorModal from 'components/error-modal';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
+
+import './mindmap-creator.css';
 
 const ADD_MINDMAP_KEY = `add-mindmap`;
 

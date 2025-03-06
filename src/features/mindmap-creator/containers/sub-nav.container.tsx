@@ -36,9 +36,7 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
     },
   );
 
-  const handleNameChangeConfirm: FormEventHandler<HTMLFormElement> = async (
-    e,
-  ) => {
+  const confirmChange: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const result = await updateMindmapNameAct(values);
     if (result.is === `ok`) onClose();
@@ -47,7 +45,7 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
   const busy = operation.is === `busy`;
 
   return (
-    <form className="flex items-center" onSubmit={handleNameChangeConfirm}>
+    <form className="flex items-center" onSubmit={confirmChange}>
       <input
         className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
         autoFocus
