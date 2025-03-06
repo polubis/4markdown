@@ -13,6 +13,7 @@ import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { useForm } from 'development-kit/use-form';
 import { maxLength, minLength } from 'development-kit/form';
 import { validationLimits } from '../core/validation';
+import { updateMindmapNameAct } from 'acts/update-mindmap-name.act';
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -24,7 +25,7 @@ const Loader = () => (
 
 const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
-  const [{ invalid, untouched }, { inject }] = useForm(
+  const [{ values, invalid, untouched }, { inject }] = useForm(
     { name: activeMindmap.name },
     {
       name: [
@@ -38,10 +39,9 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
     e,
   ) => {
     e.preventDefault();
-    try {
-      // await updateDocumentName(values.name);
-      // edition.off();
-    } catch {}
+    const result = await updateMindmapNameAct(values);
+
+    if (result.is === `ok`) onClose();
   };
 
   return (
