@@ -13,6 +13,7 @@ import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { openMindmapFormAction } from 'store/mindmap-creator/actions';
 import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
 import { SubNavContainer } from './containers/sub-nav.container';
+import { downloadMindmapAct } from 'acts/download-mindmap.act';
 
 import './mindmap-creator.css';
 
@@ -99,7 +100,12 @@ const MindmapCreatorView = () => {
               />
             </Link>
             <AddNewMindmapContainer />
-            <Button i={1} s={2} title="Download mindmap as JSON file">
+            <Button
+              i={1}
+              s={2}
+              title="Download mindmap as JSON file"
+              onClick={downloadMindmapAct}
+            >
               <BiDownload />
             </Button>
             <Button
