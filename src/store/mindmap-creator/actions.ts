@@ -304,6 +304,10 @@ const resetMindmapAction = (): void => {
   });
 };
 
+const resetOperationAction = (): void => {
+  set({ operation: { is: `idle` } });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -328,4 +332,5 @@ export {
   closeNodePreviewAction,
   clearMindmapAction,
   resetMindmapAction,
+  resetOperationAction,
 };

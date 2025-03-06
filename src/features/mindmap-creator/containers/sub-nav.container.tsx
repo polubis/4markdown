@@ -24,6 +24,7 @@ const Loader = () => (
 );
 
 const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
+  const operation = useMindmapCreatorState((state) => state.operation);
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
   const [{ values, invalid, untouched }, { inject }] = useForm(
     { name: activeMindmap.name },
@@ -43,19 +44,22 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
     if (result.is === `ok`) onClose();
   };
 
+  const busy = operation.is === `busy`;
+
   return (
     <form className="flex items-center" onSubmit={handleNameChangeConfirm}>
       <input
         className="w-full px-3 py-1 placeholder:text-gray-600 dark:placeholder:text-gray-300 text-sm rounded-md bg-gray-300 dark:bg-slate-800 border-[2.5px] border-transparent focus:border-black focus:dark:border-white outline-none"
         autoFocus
         placeholder="Type mindmap name*"
+        disabled={busy}
         {...inject(`name`)}
       />
       <Button
         i={1}
         s={1}
         className="mr-1 ml-3"
-        disabled={invalid || untouched}
+        disabled={invalid || untouched || busy}
         title="Confirm mindmap name change"
         type="submit"
       >
@@ -64,6 +68,7 @@ const EditNameFormContainer = ({ onClose }: { onClose(): void }) => {
       <Button
         i={1}
         s={1}
+        disabled={busy}
         title="Close mindmap name edition"
         type="button"
         onClick={onClose}
