@@ -30,7 +30,7 @@ type MindmapCreatorState = {
   edges: MindmapCreatorEdge[];
   nodeForm:
     | { is: `closed` }
-    | { is: `active`; data: MindmapCreatorNode | null };
+    | { is: `active`; data: Pick<MindmapCreatorNode, 'data' | 'type'> | null };
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
   changesCount: number;
   mindmapForm: { is: `closed` } | { is: `active` };
