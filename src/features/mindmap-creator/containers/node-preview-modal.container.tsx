@@ -4,10 +4,18 @@ import { Modal } from 'design-system/modal';
 import React from 'react';
 import { BiEdit } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { closeNodePreviewAction } from 'store/mindmap-creator/actions';
+import {
+  closeNodePreviewAction,
+  openNodeFormAction,
+} from 'store/mindmap-creator/actions';
 
 const NodePreviewModalContainer = () => {
   const nodePreview = useMindmapCreatorState((state) => state.nodePreview);
+
+  const goToNodeEdition = (): void => {
+    openNodeFormAction();
+    closeNodePreviewAction();
+  };
 
   if (nodePreview.is === `closed`) return null;
 
@@ -28,7 +36,7 @@ const NodePreviewModalContainer = () => {
           className="ml-auto mt-8"
           auto
           title="Go to node content edition"
-          onClick={closeNodePreviewAction}
+          onClick={goToNodeEdition}
         >
           <BiEdit />
           Edit Node Content
