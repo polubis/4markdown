@@ -271,7 +271,7 @@ const EmbeddedForm = () => {
         <Modal.Header
           title={
             <>
-              Editing <strong>{nodeForm.data.name}</strong> node
+              Editing embedded <strong>{nodeForm.data.name}</strong> node
             </>
           }
           closeButtonTitle="Cancel node edition"
