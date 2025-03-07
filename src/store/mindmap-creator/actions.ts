@@ -76,16 +76,12 @@ const addNewEmbeddedNodeAction = (
 
   set({
     nodes: [
-      ...nodes,
-      ...nodes.map((node) => ({
-        ...node,
-        selected: false,
-      })),
+      ...unselectNodes(nodes),
       {
         id: suid(),
         position: {
-          x: 0,
-          y: 0,
+          x: window.innerWidth / 2,
+          y: window.innerHeight / 2,
         },
         selected: true,
         data,

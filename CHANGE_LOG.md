@@ -9,3 +9,5 @@
 [5] - add code splitting and lazy loading
 [6] - add demo when signed off
 [7] - add examples list
+[8] - bad performance invetsigate
+[9] - rewrite ID approach creation
