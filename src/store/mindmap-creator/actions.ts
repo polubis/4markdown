@@ -194,6 +194,21 @@ const rotateViewAction = (): void => {
   });
 };
 
+const alignViewAction = (): void => {
+  const { orientation, nodes, edges, changesCount } = get();
+
+  const rotatedStructure = rotateView({
+    nodes,
+    edges,
+    orientation,
+  });
+
+  set({
+    ...rotatedStructure,
+    changesCount: changesCount + 1,
+  });
+};
+
 const startNodesRemovalAction = (): void => {
   set({
     nodesRemovalConfirmation: { is: `active` },
@@ -380,6 +395,7 @@ export {
   closeNodePreviewAction,
   clearMindmapAction,
   resetMindmapAction,
+  alignViewAction,
   resetOperationAction,
   openNodeEditionAction,
   updateEmbeddedNodeAction,

@@ -4,9 +4,15 @@ import React, { type ComponentType } from 'react';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { usePortal } from 'development-kit/use-portal';
 import { Button } from 'design-system/button';
-import { BiAddToQueue, BiHorizontalRight, BiTrash } from 'react-icons/bi';
+import {
+  BiAddToQueue,
+  BiGrid,
+  BiHorizontalRight,
+  BiTrash,
+} from 'react-icons/bi';
 import c from 'classnames';
 import {
+  alignViewAction,
   connectNodesAction,
   openNodeFormAction,
   resetOperationAction,
@@ -132,12 +138,20 @@ const MindmapCreatorContainer = () => {
         fitView
       >
         <Controls>
-          <Button i={2} s={1} title="Center mindmap" onClick={rotateViewAction}>
+          <Button
+            i={2}
+            s={1}
+            title="Change mindmap orientation"
+            onClick={rotateViewAction}
+          >
             <BiHorizontalRight
               className={c({
                 'rotate-90': orientation === `y`,
               })}
             />
+          </Button>
+          <Button i={2} s={1} title="Align mindmap" onClick={alignViewAction}>
+            <BiGrid />
           </Button>
         </Controls>
         <Background />
