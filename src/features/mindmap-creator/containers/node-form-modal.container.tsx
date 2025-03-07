@@ -46,11 +46,17 @@ const ExternalForm = () => {
           description: ``,
           url: ``,
         }
-      : {
-          name: nodeForm.data.name,
-          description: nodeForm.data.description ?? ``,
-          url: `/dasad/`,
-        },
+      : nodeForm.type === `external`
+        ? {
+            name: nodeForm.data.name,
+            description: nodeForm.data.description ?? ``,
+            url: nodeForm.data.url,
+          }
+        : {
+            name: ``,
+            description: ``,
+            url: ``,
+          },
   );
 
   const [{ values, untouched, invalid }, { inject }] = useForm(initialValues, {
@@ -178,11 +184,17 @@ const EmbeddedForm = () => {
           description: ``,
           content: ``,
         }
-      : {
-          name: nodeForm.data.name,
-          description: nodeForm.data.description ?? ``,
-          content: ``,
-        },
+      : nodeForm.type === `embedded`
+        ? {
+            name: nodeForm.data.name,
+            description: nodeForm.data.description ?? ``,
+            content: nodeForm.data.content ?? ``,
+          }
+        : {
+            name: ``,
+            description: ``,
+            content: ``,
+          },
   );
 
   const [{ values, untouched, invalid }, { inject }] = useForm(initialValues, {
