@@ -7,3 +7,5 @@
 [3] - block circular paths
 [4] - add caching
 [5] - add code splitting and lazy loading
+[6] - add demo when signed off
+[7] - add examples list
