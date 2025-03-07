@@ -345,6 +345,19 @@ const updateEmbeddedNodeAction = (
   });
 };
 
+const updateExternalNodeAction = (
+  nodeToUpdate: MindmapCreatorExternalNode,
+): void => {
+  const state = get();
+
+  set({
+    nodes: state.nodes.map((node) =>
+      node.id === nodeToUpdate.id ? nodeToUpdate : node,
+    ),
+    nodeForm: { is: `closed` },
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -372,4 +385,5 @@ export {
   resetOperationAction,
   openNodeEditionAction,
   updateEmbeddedNodeAction,
+  updateExternalNodeAction,
 };

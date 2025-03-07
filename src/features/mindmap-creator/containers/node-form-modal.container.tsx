@@ -16,6 +16,7 @@ import {
   addNewExternalNodeAction,
   closeNodeFormAction,
   updateEmbeddedNodeAction,
+  updateExternalNodeAction,
 } from 'store/mindmap-creator/actions';
 import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
@@ -82,6 +83,26 @@ const ExternalForm = () => {
     const name = values.name.trim();
     const description = values.description.trim();
     const url = values.url.trim();
+
+    if (nodeForm.is === `edition`) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { is, ...node } = nodeForm;
+
+      if (node.type !== `external`) {
+        return;
+      }
+
+      updateExternalNodeAction({
+        ...node,
+        data: {
+          name,
+          description,
+          url,
+          path: node.data.path,
+        },
+      });
+      return;
+    }
 
     addNewExternalNodeAction({
       name,
