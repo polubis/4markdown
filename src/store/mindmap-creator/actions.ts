@@ -80,8 +80,8 @@ const addNewEmbeddedNodeAction = (
       {
         id: suid(),
         position: {
-          x: window.innerWidth / 2,
-          y: window.innerHeight / 2,
+          x: 0,
+          y: 0,
         },
         selected: true,
         data,

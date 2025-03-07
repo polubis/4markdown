@@ -134,6 +134,9 @@ const MindmapCreatorContainer = () => {
         key={activeMindmapId + orientation}
         nodes={nodes}
         edges={edges}
+        onViewportChange={(viewport) => {
+          console.log(viewport);
+        }}
         onNodesChange={updateNodesAction}
         onEdgesChange={updateEdgesAction}
         onConnect={connectNodesAction}
