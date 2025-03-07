@@ -11,6 +11,9 @@ type EmbeddedNodeTileContainerProps = NodeProps<MindmapCreatorEmbeddedNode>;
 
 const EmbeddedNodeTileContainer = ({
   selected,
+  id,
+  positionAbsoluteX,
+  positionAbsoluteY,
   data,
 }: EmbeddedNodeTileContainerProps) => (
   <NodeTile selected={selected}>
@@ -25,7 +28,15 @@ const EmbeddedNodeTileContainer = ({
         s={1}
         onClick={(e) => {
           e.stopPropagation();
-          openNodePreviewAction(data);
+          openNodePreviewAction({
+            type: `embedded`,
+            id,
+            data,
+            position: {
+              x: positionAbsoluteX,
+              y: positionAbsoluteY,
+            },
+          });
         }}
       >
         <BiBook />

@@ -118,11 +118,9 @@ const closeNodeFormAction = (): void => {
   });
 };
 
-const openNodeFormAction = (
-  data?: Pick<MindmapCreatorNode, 'data' | 'type'>,
-): void => {
+const openNodeFormAction = (data?: MindmapCreatorNode): void => {
   set({
-    nodeForm: data ? { is: `active`, ...data } : { is: `active` },
+    nodeForm: data ? { is: `edition`, ...data } : { is: `active` },
   });
 };
 
@@ -264,11 +262,9 @@ const resetYourMindmapsAction = (): void => {
   });
 };
 
-const openNodePreviewAction = (
-  data: MindmapCreatorEmbeddedNode['data'],
-): void => {
+const openNodePreviewAction = (data: MindmapCreatorEmbeddedNode): void => {
   set({
-    nodePreview: { is: `active`, data },
+    nodePreview: { is: `active`, ...data },
   });
 };
 

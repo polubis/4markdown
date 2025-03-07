@@ -40,7 +40,7 @@ type MindmapCreatorState = {
   yourMindmapsView: { is: `closed` } | { is: `active` };
   nodePreview:
     | { is: `closed` }
-    | { is: `active`; data: MindmapCreatorEmbeddedNode['data'] };
+    | ({ is: `active` } & MindmapCreatorEmbeddedNode);
   operation: Transaction;
 };
 

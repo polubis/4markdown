@@ -14,7 +14,7 @@ const NodePreviewModalContainer = () => {
 
   const openNodeEdition = (): void => {
     if (nodePreview.is === `active`) {
-      openNodeFormAction({ type: `embedded`, data: nodePreview.data });
+      openNodeFormAction(nodePreview);
       closeNodePreviewAction();
     }
   };
