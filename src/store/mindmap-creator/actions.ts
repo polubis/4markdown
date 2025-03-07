@@ -26,6 +26,12 @@ const unselectNodes = (nodes: MindmapCreatorNode[]): MindmapCreatorNode[] =>
     selected: false,
   }));
 
+const swapNode = (
+  nodes: MindmapCreatorNode[],
+  nodeToSwap: MindmapCreatorNode,
+): MindmapCreatorNode[] =>
+  nodes.map((node) => (node.id === nodeToSwap.id ? nodeToSwap : node));
+
 const rotateView = ({
   nodes,
   edges,
@@ -335,12 +341,8 @@ const openNodeEditionAction = (node: MindmapCreatorNode): void => {
 const updateEmbeddedNodeAction = (
   nodeToUpdate: MindmapCreatorEmbeddedNode,
 ): void => {
-  const state = get();
-
   set({
-    nodes: state.nodes.map((node) =>
-      node.id === nodeToUpdate.id ? nodeToUpdate : node,
-    ),
+    nodes: swapNode(get().nodes, nodeToUpdate),
     nodeForm: { is: `closed` },
   });
 };
@@ -348,12 +350,8 @@ const updateEmbeddedNodeAction = (
 const updateExternalNodeAction = (
   nodeToUpdate: MindmapCreatorExternalNode,
 ): void => {
-  const state = get();
-
   set({
-    nodes: state.nodes.map((node) =>
-      node.id === nodeToUpdate.id ? nodeToUpdate : node,
-    ),
+    nodes: swapNode(get().nodes, nodeToUpdate),
     nodeForm: { is: `closed` },
   });
 };
