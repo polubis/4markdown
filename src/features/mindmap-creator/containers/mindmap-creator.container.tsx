@@ -144,7 +144,7 @@ const MindmapCreatorContainer = () => {
         <MiniMap className="hidden md:block" />
       </ReactFlow>
       <ToolboxContainer />
-      {nodeForm.is === `active` && (
+      {nodeForm.is !== `closed` && (
         <React.Suspense>
           <NodeFormModalContainer />
         </React.Suspense>
