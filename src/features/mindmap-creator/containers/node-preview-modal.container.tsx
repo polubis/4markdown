@@ -2,7 +2,7 @@ import { ChaptersModal } from 'components/chapters-modal';
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
 import React from 'react';
-import { BiEdit } from 'react-icons/bi';
+import { BiEdit, BiSolidPen } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import {
   closeNodePreviewAction,
@@ -50,7 +50,14 @@ const NodePreviewModalContainer = () => {
   }
 
   return (
-    <ChaptersModal onClose={closeNodePreviewAction}>
+    <ChaptersModal
+      controls={
+        <Button i={2} s={1} auto title="Start node edition">
+          <BiEdit />
+        </Button>
+      }
+      onClose={closeNodePreviewAction}
+    >
       {nodePreview.data.content}
     </ChaptersModal>
   );
