@@ -16,7 +16,7 @@ import {
 } from '@xyflow/react';
 import Dagre from '@dagrejs/dagre';
 import { type MindmapDto } from 'api-4markdown-contracts';
-import { readyMindmapsSelector } from './selectors';
+import { readyMindmapsSelector, safeActiveMindmapSelector } from './selectors';
 
 const { get, set, getInitial } = useMindmapCreatorState;
 
@@ -327,6 +327,34 @@ const openNodeEditionAction = (node: MindmapCreatorNode): void => {
   });
 };
 
+const updateNodeAction = (nodeToUpdate: MindmapCreatorNode): void => {
+  const state = get();
+
+  const activeMindmap = safeActiveMindmapSelector(state);
+  const mindmaps = readyMindmapsSelector(state.mindmaps);
+
+  set({
+    mindmaps: {
+      is: `ok`,
+      data: mindmaps.data.map((mindmap) =>
+        mindmap.id === activeMindmap.id
+          ? {
+              ...mindmap,
+              nodes: mindmap.nodes.map((node) =>
+                node.id === nodeToUpdate.id
+                  ? {
+                      ...node,
+                      ...nodeToUpdate,
+                    }
+                  : node,
+              ),
+            }
+          : mindmap,
+      ),
+    },
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -353,4 +381,5 @@ export {
   resetMindmapAction,
   resetOperationAction,
   openNodeEditionAction,
+  updateNodeAction,
 };

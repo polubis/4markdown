@@ -15,6 +15,7 @@ import {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
   closeNodeFormAction,
+  updateNodeAction,
 } from 'store/mindmap-creator/actions';
 import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
@@ -234,6 +235,13 @@ const EmbeddedForm = () => {
     const name = values.name.trim();
     const description = values.description.trim();
     const content = values.content.trim();
+
+    if (nodeForm.is === `edition`) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { is, ...node } = nodeForm;
+      updateNodeAction(node);
+      return;
+    }
 
     addNewEmbeddedNodeAction({
       name,
