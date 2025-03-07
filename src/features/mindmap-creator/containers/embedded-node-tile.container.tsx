@@ -30,7 +30,8 @@ const EmbeddedNodeTileContainer = ({
         i={2}
         s={1}
         title="Open node edition"
-        onClick={() =>
+        onClick={(e) => {
+          e.stopPropagation();
           openNodeEditionAction({
             type: `embedded`,
             id,
@@ -39,8 +40,8 @@ const EmbeddedNodeTileContainer = ({
               y: positionAbsoluteY,
             },
             data,
-          })
-        }
+          });
+        }}
       >
         <BiEdit />
       </Button>

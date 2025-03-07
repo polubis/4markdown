@@ -124,7 +124,6 @@ const closeNodeFormAction = (): void => {
 const openNodeFormAction = (data?: MindmapCreatorNode): void => {
   set({
     nodeForm: data ? { ...data, is: `edition` } : { is: `active` },
-    nodes: unselectNodes(get().nodes),
   });
 };
 
@@ -192,7 +191,6 @@ const rotateViewAction = (): void => {
 const startNodesRemovalAction = (): void => {
   set({
     nodesRemovalConfirmation: { is: `active` },
-    nodes: unselectNodes(get().nodes),
   });
 };
 
@@ -225,7 +223,6 @@ const removeSelectedNodesAction = (): void => {
 const openMindmapFormAction = (): void => {
   set({
     mindmapForm: { is: `active` },
-    nodes: unselectNodes(get().nodes),
   });
 };
 
@@ -238,7 +235,6 @@ const closeMindmapFormAction = (): void => {
 const openYourMindmapsViewAction = (): void => {
   set({
     yourMindmapsView: { is: `active` },
-    nodes: unselectNodes(get().nodes),
   });
 };
 
@@ -274,7 +270,6 @@ const resetYourMindmapsAction = (): void => {
 const openNodePreviewAction = (data: MindmapCreatorEmbeddedNode): void => {
   set({
     nodePreview: { is: `active`, ...data },
-    nodes: unselectNodes(get().nodes),
   });
 };
 
@@ -334,7 +329,6 @@ const openNodeEditionAction = (node: MindmapCreatorNode): void => {
   set({
     nodeForm: node ? { ...node, is: `edition` } : { is: `active` },
     nodePreview: { is: `closed` },
-    nodes: unselectNodes(get().nodes),
   });
 };
 
