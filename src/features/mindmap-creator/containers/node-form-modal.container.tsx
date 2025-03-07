@@ -56,8 +56,8 @@ const ExternalForm = () => {
             url: nodeForm.data.url,
           }
         : {
-            name: ``,
-            description: ``,
+            name: nodeForm.data.name,
+            description: nodeForm.data.description ?? ``,
             url: ``,
           },
   );
@@ -210,8 +210,8 @@ const EmbeddedForm = () => {
             content: nodeForm.data.content ?? ``,
           }
         : {
-            name: ``,
-            description: ``,
+            name: nodeForm.data.name,
+            description: nodeForm.data.description ?? ``,
             content: ``,
           },
   );
