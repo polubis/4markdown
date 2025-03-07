@@ -320,6 +320,13 @@ const resetOperationAction = (): void => {
   set({ operation: { is: `idle` } });
 };
 
+const openNodeEditionAction = (node: MindmapCreatorNode): void => {
+  set({
+    nodeForm: node ? { ...node, is: `edition` } : { is: `active` },
+    nodePreview: { is: `closed` },
+  });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -345,4 +352,5 @@ export {
   clearMindmapAction,
   resetMindmapAction,
   resetOperationAction,
+  openNodeEditionAction,
 };

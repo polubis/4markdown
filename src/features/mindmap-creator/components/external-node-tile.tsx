@@ -3,25 +3,47 @@ import { HandleX, HandleY } from './handles';
 import { type NodeProps } from '@xyflow/react';
 import { NodeTile } from './node-tile';
 import { Button } from 'design-system/button';
-import { BiWorld } from 'react-icons/bi';
+import { BiEdit, BiWorld } from 'react-icons/bi';
 import type { MindmapCreatorExternalNode } from 'store/mindmap-creator/models';
+import { openNodeEditionAction } from 'store/mindmap-creator/actions';
 
 type ExternalNodeTileProps = NodeProps<MindmapCreatorExternalNode>;
 
 const ExternalNodeTile = ({
   selected,
-  data: { url, description, name },
+  id,
+  positionAbsoluteX,
+  positionAbsoluteY,
+  data,
 }: ExternalNodeTileProps) => {
   return (
     <NodeTile selected={selected}>
       <NodeTile.Label>External Resource</NodeTile.Label>
-      <NodeTile.Name>{name}</NodeTile.Name>
-      {description && (
-        <NodeTile.Description>{description}</NodeTile.Description>
+      <NodeTile.Name>{data.name}</NodeTile.Name>
+      {data.description && (
+        <NodeTile.Description>{data.description}</NodeTile.Description>
       )}
       <NodeTile.Toolbox>
+        <Button
+          i={2}
+          s={1}
+          title="Open node edition"
+          onClick={() =>
+            openNodeEditionAction({
+              type: `external`,
+              id,
+              position: {
+                x: positionAbsoluteX,
+                y: positionAbsoluteY,
+              },
+              data,
+            })
+          }
+        >
+          <BiEdit />
+        </Button>
         <a
-          href={url}
+          href={data.url}
           target="_blank"
           rel="noopener noreferrer"
           title="Open linked material in a new tab"

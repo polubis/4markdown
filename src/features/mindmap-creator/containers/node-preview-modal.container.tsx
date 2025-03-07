@@ -6,7 +6,7 @@ import { BiEdit } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import {
   closeNodePreviewAction,
-  openNodeFormAction,
+  openNodeEditionAction,
 } from 'store/mindmap-creator/actions';
 
 const NodePreviewModalContainer = () => {
@@ -16,8 +16,7 @@ const NodePreviewModalContainer = () => {
     if (nodePreview.is === `active`) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { is, ...data } = nodePreview;
-      openNodeFormAction(data);
-      closeNodePreviewAction();
+      openNodeEditionAction(data);
     }
   };
 
@@ -55,7 +54,6 @@ const NodePreviewModalContainer = () => {
         <Button
           i={2}
           s={1}
-          auto
           title="Start node edition"
           onClick={openNodeEdition}
         >
