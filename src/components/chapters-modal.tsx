@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import {
   BiArrowToLeft,
   BiArrowToRight,
@@ -23,9 +23,11 @@ const isAbleToNext = (
 
 const ChaptersModal = ({
   children,
+  controls,
   onClose,
 }: {
   children: string;
+  controls?: ReactNode;
   onClose(): void;
 }) => {
   const modalId = React.useId();
@@ -103,7 +105,9 @@ const ChaptersModal = ({
           className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
           title={`Chapter (${activeSectionIndex + 1})`}
           closeButtonTitle="Close display as a book mode (Esc)"
-        />
+        >
+          {controls}
+        </Modal.Header>
         <Markdown className="p-4 !max-w-full">{content}</Markdown>
         <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800">
           <Button
