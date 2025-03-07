@@ -8,14 +8,14 @@ import { Hint } from 'design-system/hint';
 import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { Button } from 'design-system/button';
-import { BiPlusCircle } from 'react-icons/bi';
+import { BiPlusCircle, BiSave } from 'react-icons/bi';
 import { context } from 'development-kit/context';
 import { type MindmapCreatorNode } from 'store/mindmap-creator/models';
 import {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
   closeNodeFormAction,
-  updateNodeAction,
+  updateEmbeddedNodeAction,
 } from 'store/mindmap-creator/actions';
 import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
@@ -239,7 +239,21 @@ const EmbeddedForm = () => {
     if (nodeForm.is === `edition`) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { is, ...node } = nodeForm;
-      updateNodeAction(node);
+
+      if (node.type !== `embedded`) {
+        return;
+      }
+
+      updateEmbeddedNodeAction({
+        ...node,
+        data: {
+          name,
+          description,
+          content,
+          path: node.data.path,
+        },
+      });
+
       return;
     }
 
@@ -345,18 +359,33 @@ const EmbeddedForm = () => {
           >
             Back
           </Button>
-          <Button
-            type="submit"
-            className="flex-1"
-            i={2}
-            s={2}
-            auto
-            title="Confirm node creation"
-            disabled={untouched || invalid}
-          >
-            Create
-            <BiPlusCircle />
-          </Button>
+          {nodeForm.is === `edition` ? (
+            <Button
+              type="submit"
+              className="flex-1"
+              i={2}
+              s={2}
+              auto
+              title="Confirm node update"
+              disabled={untouched || invalid}
+            >
+              Save
+              <BiSave />
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="flex-1"
+              i={2}
+              s={2}
+              auto
+              title="Confirm node creation"
+              disabled={untouched || invalid}
+            >
+              Create
+              <BiPlusCircle />
+            </Button>
+          )}
         </footer>
       </form>
     </>

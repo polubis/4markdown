@@ -327,7 +327,9 @@ const openNodeEditionAction = (node: MindmapCreatorNode): void => {
   });
 };
 
-const updateNodeAction = (nodeToUpdate: MindmapCreatorNode): void => {
+const updateEmbeddedNodeAction = (
+  nodeToUpdate: MindmapCreatorEmbeddedNode,
+): void => {
   const state = get();
 
   const activeMindmap = safeActiveMindmapSelector(state);
@@ -341,17 +343,13 @@ const updateNodeAction = (nodeToUpdate: MindmapCreatorNode): void => {
           ? {
               ...mindmap,
               nodes: mindmap.nodes.map((node) =>
-                node.id === nodeToUpdate.id
-                  ? {
-                      ...node,
-                      ...nodeToUpdate,
-                    }
-                  : node,
+                node.id === nodeToUpdate.id ? nodeToUpdate : node,
               ),
             }
           : mindmap,
       ),
     },
+    nodeForm: { is: `closed` },
   });
 };
 
@@ -381,5 +379,5 @@ export {
   resetMindmapAction,
   resetOperationAction,
   openNodeEditionAction,
-  updateNodeAction,
+  updateEmbeddedNodeAction,
 };
