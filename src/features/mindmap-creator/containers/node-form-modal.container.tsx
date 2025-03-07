@@ -167,22 +167,33 @@ const ExternalForm = () => {
           >
             Back
           </Button>
-          <Button
-            type="submit"
-            className="flex-1"
-            i={2}
-            s={2}
-            auto
-            title={
-              nodeForm.is === `edition`
-                ? `Confirm node edition`
-                : `Confirm node creation`
-            }
-            disabled={untouched || invalid}
-          >
-            Create
-            <BiPlusCircle />
-          </Button>
+          {nodeForm.is === `edition` ? (
+            <Button
+              type="submit"
+              className="flex-1"
+              i={2}
+              s={2}
+              auto
+              title="Confirm node update"
+              disabled={untouched || invalid}
+            >
+              Save
+              <BiSave />
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="flex-1"
+              i={2}
+              s={2}
+              auto
+              title="Confirm node creation"
+              disabled={untouched || invalid}
+            >
+              Create
+              <BiPlusCircle />
+            </Button>
+          )}
         </footer>
       </form>
     </>
@@ -271,7 +282,7 @@ const EmbeddedForm = () => {
         <Modal.Header
           title={
             <>
-              Editing embedded <strong>{nodeForm.data.name}</strong> node
+              Editing <strong>{nodeForm.data.name}</strong> node
             </>
           }
           closeButtonTitle="Cancel node edition"
