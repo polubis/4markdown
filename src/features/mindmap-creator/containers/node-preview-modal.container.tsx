@@ -14,7 +14,9 @@ const NodePreviewModalContainer = () => {
 
   const openNodeEdition = (): void => {
     if (nodePreview.is === `active`) {
-      openNodeFormAction(nodePreview);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { is, ...data } = nodePreview;
+      openNodeFormAction(data);
       closeNodePreviewAction();
     }
   };

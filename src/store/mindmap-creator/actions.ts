@@ -120,7 +120,7 @@ const closeNodeFormAction = (): void => {
 
 const openNodeFormAction = (data?: MindmapCreatorNode): void => {
   set({
-    nodeForm: data ? { is: `edition`, ...data } : { is: `active` },
+    nodeForm: data ? { ...data, is: `edition` } : { is: `active` },
   });
 };
 
