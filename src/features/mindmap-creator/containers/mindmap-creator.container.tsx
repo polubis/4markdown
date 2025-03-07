@@ -112,6 +112,10 @@ const edgeTypes: MindmapEdgeTypes = {
   solid: SolidEdgeContainer,
 };
 
+const fitViewOptions = {
+  duration: 1000,
+};
+
 const MindmapCreatorContainer = () => {
   const {
     orientation,
@@ -136,6 +140,7 @@ const MindmapCreatorContainer = () => {
         nodeTypes={mindmapNodeTypes[orientation] as NodeTypes}
         edgeTypes={edgeTypes as EdgeTypes}
         fitView
+        fitViewOptions={fitViewOptions}
       >
         <Controls>
           <Button
