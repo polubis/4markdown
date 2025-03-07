@@ -20,12 +20,14 @@ import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { openedNodeFormSelector } from 'store/mindmap-creator/selectors';
 
+type StepType = MindmapCreatorNode['type'] | `none`;
+
 const [LocalProvider, useLocalContext] = context(() => {
   const { nodeForm } = useMindmapCreatorState();
 
-  const [activeType, setActiveType] = React.useState<
-    MindmapCreatorNode['type'] | null
-  >(() => (nodeForm.is === `edition` ? nodeForm.type : null));
+  const [activeType, setActiveType] = React.useState<StepType>(() =>
+    nodeForm.is === `edition` ? nodeForm.type : `none`,
+  );
 
   return {
     activeType,
@@ -160,7 +162,7 @@ const ExternalForm = () => {
             s={2}
             auto
             title="Back to node type selection"
-            onClick={() => setActiveType(null)}
+            onClick={() => setActiveType(`none`)}
           >
             Back
           </Button>
@@ -331,7 +333,7 @@ const EmbeddedForm = () => {
             s={2}
             auto
             title="Back to node type selection"
-            onClick={() => setActiveType(null)}
+            onClick={() => setActiveType(`none`)}
           >
             Back
           </Button>
@@ -353,51 +355,53 @@ const EmbeddedForm = () => {
   );
 };
 
-const forms: Record<MindmapCreatorNode['type'], ComponentType> = {
-  embedded: EmbeddedForm,
-  external: ExternalForm,
+const NoneStep = () => {
+  const { setActiveType } = useLocalContext();
+
+  return (
+    <>
+      <Modal.Header
+        title="Select Node Type (1/2)"
+        closeButtonTitle="Cancel node creation"
+      />
+      <section className="flex flex-col gap-3">
+        <button
+          className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+          onClick={() => setActiveType(`embedded`)}
+        >
+          <h6 className="capitalize text-left">Embedded Node</h6>
+          <p className="mt-1 text-sm text-left">
+            Add node and its content from scratch
+          </p>
+        </button>
+        <button
+          className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+          onClick={() => setActiveType(`external`)}
+        >
+          <h6 className="capitalize text-left">External Node</h6>
+          <p className="mt-1 text-sm text-left">
+            Link external resource as mindmap node
+          </p>
+        </button>
+      </section>
+    </>
+  );
 };
 
-const FormRenderer = ({ type }: Pick<MindmapCreatorNode, 'type'>) => {
-  const Component = forms[type];
-  return <Component />;
+const forms: Record<StepType, ComponentType> = {
+  embedded: EmbeddedForm,
+  external: ExternalForm,
+  none: NoneStep,
 };
 
 const NodeFormModalContainer = () => {
-  const { activeType, setActiveType } = useLocalContext();
+  const { activeType } = useLocalContext();
+
+  const Component = forms[activeType];
 
   return (
     <Modal onClose={closeNodeFormAction}>
-      {activeType === null ? (
-        <>
-          <Modal.Header
-            title="Select Node Type (1/2)"
-            closeButtonTitle="Cancel node creation"
-          />
-          <section className="flex flex-col gap-3">
-            <button
-              className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-              onClick={() => setActiveType(`embedded`)}
-            >
-              <h6 className="capitalize text-left">Embedded Node</h6>
-              <p className="mt-1 text-sm text-left">
-                Add node and its content from scratch
-              </p>
-            </button>
-            <button
-              className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-              onClick={() => setActiveType(`external`)}
-            >
-              <h6 className="capitalize text-left">External Node</h6>
-              <p className="mt-1 text-sm text-left">
-                Link external resource as mindmap node
-              </p>
-            </button>
-          </section>
-        </>
-      ) : (
-        <FormRenderer type={activeType} />
-      )}
+      <Component />
     </Modal>
   );
 };
