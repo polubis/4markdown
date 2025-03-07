@@ -85,21 +85,16 @@ const ExternalForm = () => {
     const url = values.url.trim();
 
     if (nodeForm.is === `edition`) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { is, ...node } = nodeForm;
-
-      if (node.type !== `external`) {
-        return;
-      }
-
       updateExternalNodeAction({
-        ...node,
+        type: `external`,
+        id: nodeForm.id,
         data: {
           name,
           description,
           url,
-          path: node.data.path,
+          path: nodeForm.data.path,
         },
+        position: nodeForm.position,
       });
       return;
     }
@@ -269,21 +264,16 @@ const EmbeddedForm = () => {
     const content = values.content.trim();
 
     if (nodeForm.is === `edition`) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { is, ...node } = nodeForm;
-
-      if (node.type !== `embedded`) {
-        return;
-      }
-
       updateEmbeddedNodeAction({
-        ...node,
+        id: nodeForm.id,
+        type: `embedded`,
         data: {
           name,
           description,
           content,
-          path: node.data.path,
+          path: nodeForm.data.path,
         },
+        position: nodeForm.position,
       });
 
       return;
