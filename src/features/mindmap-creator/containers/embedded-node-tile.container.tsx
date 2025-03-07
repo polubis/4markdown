@@ -3,9 +3,12 @@ import React from 'react';
 import { HandleX, HandleY } from '../components/handles';
 import { NodeTile } from '../components/node-tile';
 import { Button } from 'design-system/button';
-import { BiBook } from 'react-icons/bi';
+import { BiBook, BiEdit } from 'react-icons/bi';
 import type { MindmapCreatorEmbeddedNode } from 'store/mindmap-creator/models';
-import { openNodePreviewAction } from 'store/mindmap-creator/actions';
+import {
+  openNodeEditionAction,
+  openNodePreviewAction,
+} from 'store/mindmap-creator/actions';
 
 type EmbeddedNodeTileContainerProps = NodeProps<MindmapCreatorEmbeddedNode>;
 
@@ -23,6 +26,24 @@ const EmbeddedNodeTileContainer = ({
       <NodeTile.Description>{data.description}</NodeTile.Description>
     )}
     <NodeTile.Toolbox>
+      <Button
+        i={2}
+        s={1}
+        title="Open node edition"
+        onClick={() =>
+          openNodeEditionAction({
+            type: `embedded`,
+            id,
+            position: {
+              x: positionAbsoluteX,
+              y: positionAbsoluteY,
+            },
+            data,
+          })
+        }
+      >
+        <BiEdit />
+      </Button>
       <Button
         i={2}
         s={1}
