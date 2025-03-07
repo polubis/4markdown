@@ -113,7 +113,7 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const fitViewOptions = {
-  duration: 1000,
+  duration: 700,
 };
 
 const MindmapCreatorContainer = () => {
@@ -131,12 +131,9 @@ const MindmapCreatorContainer = () => {
   return (
     <>
       <ReactFlow
-        key={activeMindmapId + orientation}
+        key={activeMindmapId + orientation + nodes.length}
         nodes={nodes}
         edges={edges}
-        onViewportChange={(viewport) => {
-          console.log(viewport);
-        }}
         onNodesChange={updateNodesAction}
         onEdgesChange={updateEdgesAction}
         onConnect={connectNodesAction}
