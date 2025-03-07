@@ -1,7 +1,14 @@
 import type { EdgeProps, EdgeTypes, NodeProps, NodeTypes } from '@xyflow/react';
-import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
+import {
+  Background,
+  Controls,
+  MiniMap,
+  ReactFlow,
+  ReactFlowProvider,
+  useViewport,
+} from '@xyflow/react';
 import React, { type ComponentType } from 'react';
-import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { setLastViewport, useMindmapCreatorState } from 'store/mindmap-creator';
 import { usePortal } from 'development-kit/use-portal';
 import { Button } from 'design-system/button';
 import {
@@ -117,6 +124,10 @@ const fitViewOptions = {
 };
 
 const MindmapCreatorContainer = () => {
+  const viewport = useViewport();
+
+  setLastViewport(viewport);
+
   const {
     orientation,
     nodes,
@@ -131,7 +142,7 @@ const MindmapCreatorContainer = () => {
   return (
     <>
       <ReactFlow
-        key={activeMindmapId + orientation + nodes.length}
+        key={activeMindmapId + orientation}
         nodes={nodes}
         edges={edges}
         onNodesChange={updateNodesAction}
@@ -216,4 +227,10 @@ const MindmapCreatorContainer = () => {
   );
 };
 
-export { MindmapCreatorContainer };
+const ConnectedMindmapCreatorContainer = () => (
+  <ReactFlowProvider>
+    <MindmapCreatorContainer />
+  </ReactFlowProvider>
+);
+
+export { ConnectedMindmapCreatorContainer as MindmapCreatorContainer };

@@ -1,5 +1,8 @@
 import { state } from 'development-kit/state';
 import type { MindmapCreatorState } from './models';
+import { type Viewport } from '@xyflow/react';
+
+let lastViewport: Viewport;
 
 const useMindmapCreatorState = state<MindmapCreatorState>({
   orientation: `y`,
@@ -16,4 +19,10 @@ const useMindmapCreatorState = state<MindmapCreatorState>({
   operation: { is: `idle` },
 });
 
-export { useMindmapCreatorState };
+const setLastViewport = (viewport: Viewport): void => {
+  lastViewport = viewport;
+};
+
+const getLastViewport = () => lastViewport;
+
+export { useMindmapCreatorState, setLastViewport, getLastViewport };
