@@ -1,6 +1,5 @@
 import type { MindmapDto } from 'api-4markdown-contracts';
 import type { MindmapCreatorState } from './models';
-import { falsy } from 'development-kit/guards';
 
 const selectedNodesSelector = (
   state: MindmapCreatorState,
@@ -9,12 +8,9 @@ const selectedNodesSelector = (
 const readyMindmapsSelector = (
   mindmaps: MindmapCreatorState['mindmaps'],
 ): Extract<MindmapCreatorState['mindmaps'], { is: `ok` }> => {
-  falsy(
-    mindmaps.is === `ok`,
-    `Invalid reading attempt in mindmap creator state`,
-  );
+  if (mindmaps.is === `ok`) return mindmaps;
 
-  return mindmaps;
+  throw Error(`Invalid reading attempt in mindmap creator state`);
 };
 
 const activeMindmapSelector = (
