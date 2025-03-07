@@ -25,7 +25,7 @@ const [LocalProvider, useLocalContext] = context(() => {
 
   const [activeType, setActiveType] = React.useState<
     MindmapCreatorNode['type'] | null
-  >(nodeForm.is === `edition` ? nodeForm.type : null);
+  >(() => (nodeForm.is === `edition` ? nodeForm.type : null));
 
   return {
     activeType,
@@ -90,10 +90,22 @@ const ExternalForm = () => {
 
   return (
     <>
-      <Modal.Header
-        title="External node data (2/2)"
-        closeButtonTitle="Cancel node creation"
-      />
+      {nodeForm.is === `edition` ? (
+        <Modal.Header
+          title={
+            <>
+              Editing <strong>{nodeForm.data.name}</strong> node
+            </>
+          }
+          closeButtonTitle="Cancel node edition"
+        />
+      ) : (
+        <Modal.Header
+          title="External node data (2/2)"
+          closeButtonTitle="Cancel node creation"
+        />
+      )}
+
       <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
         <Field
           label="Name*"
@@ -158,7 +170,11 @@ const ExternalForm = () => {
             i={2}
             s={2}
             auto
-            title="Confirm node creation"
+            title={
+              nodeForm.is === `edition`
+                ? `Confirm node edition`
+                : `Confirm node creation`
+            }
             disabled={untouched || invalid}
           >
             Create
@@ -227,10 +243,22 @@ const EmbeddedForm = () => {
 
   return (
     <>
-      <Modal.Header
-        title="Embedded node data (2/2)"
-        closeButtonTitle="Cancel node creation"
-      />
+      {nodeForm.is === `edition` ? (
+        <Modal.Header
+          title={
+            <>
+              Editing <strong>{nodeForm.data.name}</strong> node
+            </>
+          }
+          closeButtonTitle="Cancel node edition"
+        />
+      ) : (
+        <Modal.Header
+          title="Embedded node data (2/2)"
+          closeButtonTitle="Cancel node creation"
+        />
+      )}
+
       <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
         <Field
           label="Name*"
@@ -277,7 +305,14 @@ const EmbeddedForm = () => {
             <Hint
               trigger={
                 <>
-                  You can use <strong>markdown syntax</strong> here
+                  Paste <strong>Markdown syntax</strong> or edit in{` `}
+                  <button
+                    type="button"
+                    className="text-sm font-bold underline underline-offset-2 text-blue-800 dark:text-blue-500"
+                    title="Open in markdown editor"
+                  >
+                    Document Creator
+                  </button>
                 </>
               }
             />
