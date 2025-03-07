@@ -18,13 +18,14 @@ import {
 } from 'store/mindmap-creator/actions';
 import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { openedNodeFormSelector } from 'store/mindmap-creator/selectors';
 
 const [LocalProvider, useLocalContext] = context(() => {
   const { nodeForm } = useMindmapCreatorState();
 
   const [activeType, setActiveType] = React.useState<
     MindmapCreatorNode['type'] | null
-  >(nodeForm.is === `closed` ? null : (nodeForm.data?.type ?? null));
+  >(nodeForm.is === `edition` ? nodeForm.type : null);
 
   return {
     activeType,
@@ -34,27 +35,37 @@ const [LocalProvider, useLocalContext] = context(() => {
 
 const ExternalForm = () => {
   const { setActiveType } = useLocalContext();
-
-  const [{ values, untouched, invalid }, { inject }] = useForm(
-    {
-      name: ``,
-      description: ``,
-      url: ``,
-    },
-    {
-      name: [
-        minLength(validationLimits.name.min),
-        maxLength(validationLimits.name.max),
-      ],
-      description: [
-        optional(
-          minLength(validationLimits.description.min),
-          maxLength(validationLimits.description.max),
-        ),
-      ],
-      url: [url],
-    },
+  const nodeForm = useMindmapCreatorState((state) =>
+    openedNodeFormSelector(state.nodeForm),
   );
+
+  const [initialValues] = React.useState(() =>
+    nodeForm.is === `active`
+      ? {
+          name: ``,
+          description: ``,
+          url: ``,
+        }
+      : {
+          name: nodeForm.data.name,
+          description: nodeForm.data.description ?? ``,
+          url: `/dasad/`,
+        },
+  );
+
+  const [{ values, untouched, invalid }, { inject }] = useForm(initialValues, {
+    name: [
+      minLength(validationLimits.name.min),
+      maxLength(validationLimits.name.max),
+    ],
+    description: [
+      optional(
+        minLength(validationLimits.description.min),
+        maxLength(validationLimits.description.max),
+      ),
+    ],
+    url: [url],
+  });
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -155,25 +166,37 @@ const ExternalForm = () => {
 
 const EmbeddedForm = () => {
   const { setActiveType } = useLocalContext();
-  const [{ values, untouched, invalid }, { inject }] = useForm(
-    {
-      name: ``,
-      description: ``,
-      content: ``,
-    },
-    {
-      name: [
-        minLength(validationLimits.name.min),
-        maxLength(validationLimits.name.max),
-      ],
-      description: [
-        optional(
-          minLength(validationLimits.description.min),
-          maxLength(validationLimits.description.max),
-        ),
-      ],
-    },
+
+  const nodeForm = useMindmapCreatorState((state) =>
+    openedNodeFormSelector(state.nodeForm),
   );
+
+  const [initialValues] = React.useState(() =>
+    nodeForm.is === `active`
+      ? {
+          name: ``,
+          description: ``,
+          content: ``,
+        }
+      : {
+          name: nodeForm.data.name,
+          description: nodeForm.data.description ?? ``,
+          content: ``,
+        },
+  );
+
+  const [{ values, untouched, invalid }, { inject }] = useForm(initialValues, {
+    name: [
+      minLength(validationLimits.name.min),
+      maxLength(validationLimits.name.max),
+    ],
+    description: [
+      optional(
+        minLength(validationLimits.description.min),
+        maxLength(validationLimits.description.max),
+      ),
+    ],
+  });
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
