@@ -89,6 +89,9 @@ const ChaptersModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSectionIndex]);
 
+  const ableToPrev = isAbleToPrev(activeSectionIndex);
+  const ableToNext = isAbleToNext(activeSectionIndex, chapters.length);
+
   return (
     <>
       <Modal
@@ -115,8 +118,10 @@ const ChaptersModal = ({
               <BiCopyAlt />
             )}
           </Button>
-          <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
-          {isAbleToPrev(activeSectionIndex) && (
+          {(ableToPrev || ableToNext) && (
+            <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
+          )}
+          {ableToPrev && (
             <Button
               i={2}
               s={1}
@@ -126,7 +131,7 @@ const ChaptersModal = ({
               <BiArrowToLeft />
             </Button>
           )}
-          {isAbleToNext(activeSectionIndex, chapters.length) && (
+          {ableToNext && (
             <Button
               i={2}
               s={1}
