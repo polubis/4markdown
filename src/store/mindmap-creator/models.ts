@@ -31,7 +31,7 @@ type MindmapCreatorState = {
   nodeForm:
     | { is: `closed` }
     | { is: `active` }
-    | ({ is: `edition` } & Pick<MindmapCreatorNode, 'data' | 'type'>);
+    | ({ is: `edition` } & MindmapCreatorNode);
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
   changesCount: number;
   mindmapForm: { is: `closed` } | { is: `active` };
