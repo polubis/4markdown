@@ -28,7 +28,8 @@ const ExternalNodeTile = ({
           i={2}
           s={1}
           title="Open node edition"
-          onClick={() =>
+          onClick={(e) => {
+            e.stopPropagation();
             openNodeEditionAction({
               type: `external`,
               id,
@@ -37,8 +38,8 @@ const ExternalNodeTile = ({
                 y: positionAbsoluteY,
               },
               data,
-            })
-          }
+            });
+          }}
         >
           <BiEdit />
         </Button>
