@@ -16,7 +16,6 @@ const deleteMindmapAct = async (): Promise<void> => {
     const yourMindmaps = readyMindmapsSelector(mindmapCreatorState.mindmaps);
 
     await getAPI().call(`deleteMindmap`)({
-      mdate: activeMindmap.mdate,
       id: activeMindmap.id,
     });
 
