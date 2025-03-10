@@ -15,7 +15,7 @@ import { context } from 'development-kit/context';
 import { meta } from '../../../../meta';
 import { deleteMindmapAct } from 'acts/delete-mindmap.act';
 import { updateMindmapVisibilityAct } from 'acts/update-mindmap-visibility.act';
-import { MindmapDto } from 'api-4markdown-contracts';
+import type { MindmapDto } from 'api-4markdown-contracts';
 
 const enum ViewType {
   Details = `details`,
