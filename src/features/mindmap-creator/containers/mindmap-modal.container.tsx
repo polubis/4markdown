@@ -12,8 +12,13 @@ import { Modal } from 'design-system/modal';
 import { closeMindmapFormAction } from 'store/mindmap-creator/actions';
 import { createMindmapAct } from 'acts/create-mindmap.act';
 import { validationLimits } from '../core/validation';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { openedMindmapFormSelector } from 'store/mindmap-creator/selectors';
 
 const MindmapModalContainer = () => {
+  const mindmapForm = useMindmapCreatorState((state) =>
+    openedMindmapFormSelector(state.mindmapForm),
+  );
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
   const [{ values, untouched, invalid }, { inject }] = useForm(
@@ -68,16 +73,26 @@ const MindmapModalContainer = () => {
 
   return (
     <Modal disabled={operation.is === `busy`} onClose={closeMindmapFormAction}>
-      <Modal.Header
-        title="Create Mindmap"
-        closeButtonTitle="Cancel mindmap creation"
-      />
-      <p className="text-sm mb-4">
-        Mindmap will be created in <strong>private mode</strong>. Visible only
-        to you, but data inside is{` `}
-        <strong>not encrypted</strong> -{` `}
-        <strong>avoid sensitive data</strong>
-      </p>
+      {mindmapForm.is === `edition` ? (
+        <Modal.Header
+          title="Edit Mindmap"
+          closeButtonTitle="Cancel mindmap edition"
+        />
+      ) : (
+        <>
+          <Modal.Header
+            title="Create Mindmap"
+            closeButtonTitle="Cancel mindmap creation"
+          />
+          <p className="text-sm mb-4">
+            Mindmap will be created in <strong>private mode</strong>. Visible
+            only to you, but data inside is{` `}
+            <strong>not encrypted</strong> -{` `}
+            <strong>avoid sensitive data</strong>
+          </p>
+        </>
+      )}
+
       <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
         <Field
           label="Name*"
