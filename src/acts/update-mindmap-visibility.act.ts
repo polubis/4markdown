@@ -1,5 +1,5 @@
 import { getAPI, parseError } from 'api-4markdown';
-import type { Visibility } from 'api-4markdown-contracts';
+import type { MindmapDto } from 'api-4markdown-contracts';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import {
   readyMindmapsSelector,
@@ -7,7 +7,7 @@ import {
 } from 'store/mindmap-creator/selectors';
 
 const updateMindmapVisibilityAct = async (
-  visibility: Visibility,
+  visibility: MindmapDto['visibility'],
 ): Promise<void> => {
   try {
     useMindmapCreatorState.set({ operation: { is: `busy` } });

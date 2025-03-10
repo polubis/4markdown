@@ -5,7 +5,6 @@ import type {
   Path,
   Tags,
   Url,
-  Visibility,
 } from 'api-4markdown-contracts';
 import { type SUID } from 'development-kit/suid';
 
@@ -58,7 +57,7 @@ type MindmapDto = {
   path: Path;
   nodes: MindmapNode[];
   edges: MindmapEdge[];
-  visibility: Visibility;
+  visibility: `private` | `public` | `permanent`;
   description: string | null;
   tags: Tags | null;
 };

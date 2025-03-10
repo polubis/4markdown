@@ -9,13 +9,13 @@ import { safeActiveMindmapSelector } from 'store/mindmap-creator/selectors';
 import { navigate } from 'gatsby';
 import { formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
-import { Visibility } from 'api-4markdown-contracts';
 import { Input } from 'design-system/input';
 import { Field } from 'design-system/field';
 import { context } from 'development-kit/context';
 import { meta } from '../../../../meta';
 import { deleteMindmapAct } from 'acts/delete-mindmap.act';
 import { updateMindmapVisibilityAct } from 'acts/update-mindmap-visibility.act';
+import { MindmapDto } from 'api-4markdown-contracts';
 
 const enum ViewType {
   Details = `details`,
@@ -102,7 +102,7 @@ const MindmapDetailsViewContainer = () => {
   const disabled = operation.is === `busy`;
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
 
-  const changeVisibility = (visibility: Visibility): void => {
+  const changeVisibility = (visibility: MindmapDto['visibility']): void => {
     if (activeMindmap.visibility === visibility) return;
 
     updateMindmapVisibilityAct(visibility);
@@ -217,7 +217,7 @@ const MindmapDetailsViewContainer = () => {
         <Tabs.Item
           title="Make this mindmap private"
           active={activeMindmap.visibility === `private`}
-          onClick={() => changeVisibility(Visibility.Private)}
+          onClick={() => changeVisibility(`private`)}
           disabled={disabled}
         >
           Private
@@ -225,7 +225,7 @@ const MindmapDetailsViewContainer = () => {
         <Tabs.Item
           title="Make this mindmap public"
           active={activeMindmap.visibility === `public`}
-          onClick={() => changeVisibility(Visibility.Public)}
+          onClick={() => changeVisibility(`public`)}
           disabled={disabled}
         >
           Public
@@ -233,7 +233,7 @@ const MindmapDetailsViewContainer = () => {
         <Tabs.Item
           title="Make this mindmap permanent"
           active={activeMindmap.visibility === `permanent`}
-          onClick={() => changeVisibility(Visibility.Permanent)}
+          onClick={() => changeVisibility(`permanent`)}
           disabled={disabled}
         >
           Permanent

@@ -10,12 +10,6 @@ type Base64 = string;
 type Slug = string;
 type Url = string;
 
-const enum Visibility {
-  Private = `private`,
-  Public = `public`,
-  Permanent = `permanent`,
-}
-
 export type {
   Id,
   Name,
@@ -29,4 +23,3 @@ export type {
   Base64,
   Slug,
 };
-export { Visibility };
