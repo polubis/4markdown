@@ -34,7 +34,10 @@ type MindmapCreatorState = {
     | ({ is: `edition` } & MindmapCreatorNode);
   nodesRemovalConfirmation: { is: `closed` } | { is: `active` };
   changesCount: number;
-  mindmapForm: { is: `closed` } | { is: `active` };
+  mindmapForm:
+    | { is: `closed` }
+    | { is: `active` }
+    | ({ is: `edition` } & MindmapDto);
   activeMindmapId: MindmapDto['id'] | null;
   mindmaps: Transaction<{ data: MindmapDto[] }>;
   yourMindmapsView: { is: `closed` } | { is: `active` };

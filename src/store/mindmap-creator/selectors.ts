@@ -42,10 +42,20 @@ const openedNodeFormSelector = (
   return nodeForm;
 };
 
+const openedMindmapFormSelector = (
+  mindmapForm: MindmapCreatorState['mindmapForm'],
+): Exclude<MindmapCreatorState['mindmapForm'], { is: `closed` }> => {
+  if (mindmapForm.is === `closed`)
+    throw Error(`Invalid reading attempt in node form`);
+
+  return mindmapForm;
+};
+
 export {
   selectedNodesSelector,
   readyMindmapsSelector,
   activeMindmapSelector,
   safeActiveMindmapSelector,
   openedNodeFormSelector,
+  openedMindmapFormSelector,
 };

@@ -71,7 +71,9 @@ const AddNewMindmapContainer = () => {
       >
         <BiPlus />
       </Button>
-      {mindmapForm.is === `active` && <MindmapModalContainer />}
+      {(mindmapForm.is === `active` || mindmapForm.is === `edition`) && (
+        <MindmapModalContainer />
+      )}
     </>
   );
 };
