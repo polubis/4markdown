@@ -7,7 +7,7 @@ import { maxLength, minLength, optional } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
 import { type Transaction } from 'development-kit/utility-types';
 import React, { type FormEventHandler } from 'react';
-import { BiErrorAlt, BiPlusCircle } from 'react-icons/bi';
+import { BiErrorAlt, BiPlusCircle, BiSave } from 'react-icons/bi';
 import { Modal } from 'design-system/modal';
 import { closeMindmapFormAction } from 'store/mindmap-creator/actions';
 import { createMindmapAct } from 'acts/create-mindmap.act';
@@ -21,25 +21,34 @@ const MindmapFormModalContainer = () => {
   );
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
-  const [{ values, untouched, invalid }, { inject }] = useForm(
-    {
-      name: ``,
-      description: ``,
-      tags: ``,
-    },
-    {
-      name: [
-        minLength(validationLimits.name.min),
-        maxLength(validationLimits.name.max),
-      ],
-      description: [
-        optional(
-          minLength(validationLimits.description.min),
-          maxLength(validationLimits.description.max),
-        ),
-      ],
-    },
+  const [initialValues] = React.useState(() =>
+    mindmapForm.is === `active`
+      ? {
+          name: ``,
+          description: ``,
+          tags: ``,
+        }
+      : {
+          name: mindmapForm.name,
+          description: mindmapForm.description ?? ``,
+          tags: Array.isArray(mindmapForm.tags)
+            ? mindmapForm.tags.join(`,`)
+            : ``,
+        },
   );
+
+  const [{ values, untouched, invalid }, { inject }] = useForm(initialValues, {
+    name: [
+      minLength(validationLimits.name.min),
+      maxLength(validationLimits.name.max),
+    ],
+    description: [
+      optional(
+        minLength(validationLimits.description.min),
+        maxLength(validationLimits.description.max),
+      ),
+    ],
+  });
 
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -75,7 +84,11 @@ const MindmapFormModalContainer = () => {
     <Modal disabled={operation.is === `busy`} onClose={closeMindmapFormAction}>
       {mindmapForm.is === `edition` ? (
         <Modal.Header
-          title="Edit Mindmap"
+          title={
+            <>
+              Edit <strong>{mindmapForm.name}</strong> Mindmap
+            </>
+          }
           closeButtonTitle="Cancel mindmap edition"
         />
       ) : (
@@ -149,18 +162,33 @@ const MindmapFormModalContainer = () => {
               {operation.error.message}
             </p>
           )}
-          <Button
-            type="submit"
-            i={2}
-            s={2}
-            className="w-full"
-            auto
-            title="Confirm mindmap creation"
-            disabled={operation.is === `busy` || untouched || invalid}
-          >
-            Create
-            <BiPlusCircle />
-          </Button>
+          {mindmapForm.is === `active` ? (
+            <Button
+              type="submit"
+              i={2}
+              s={2}
+              className="w-full"
+              auto
+              title="Confirm mindmap creation"
+              disabled={operation.is === `busy` || untouched || invalid}
+            >
+              Create
+              <BiPlusCircle />
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              className="w-full"
+              i={2}
+              s={2}
+              auto
+              title="Confirm mindmap update"
+              disabled={operation.is === `busy` || untouched || invalid}
+            >
+              Save
+              <BiSave />
+            </Button>
+          )}
         </footer>
       </form>
     </Modal>
