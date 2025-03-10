@@ -41,7 +41,7 @@ type UpdateMindmapShapeContract = Contract<
 type DeleteMindmapContract = Contract<
   `deleteMindmap`,
   null,
-  Pick<MindmapDto, 'id'>
+  Pick<MindmapDto, 'mdate' | 'id'>
 >;
 
 type UpdateMindmapVisibilityContract = Contract<
