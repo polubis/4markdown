@@ -5,6 +5,7 @@ import {
   safeActiveMindmapSelector,
 } from 'store/mindmap-creator/selectors';
 
+// @TODO[PRIO=3]: [Add error parsing at the contracts library level].
 const deleteMindmapAct = async (): Promise<void> => {
   try {
     useMindmapCreatorState.set({ operation: { is: `busy` } });
