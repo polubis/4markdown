@@ -5,21 +5,21 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { maxLength, minLength, optional } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
-import { type Transaction } from 'development-kit/utility-types';
 import React, { type FormEventHandler } from 'react';
-import { BiErrorAlt, BiPlusCircle, BiSave } from 'react-icons/bi';
+import { BiPlusCircle, BiSave } from 'react-icons/bi';
 import { Modal } from 'design-system/modal';
 import { closeMindmapFormAction } from 'store/mindmap-creator/actions';
 import { createMindmapAct } from 'acts/create-mindmap.act';
 import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { openedMindmapFormSelector } from 'store/mindmap-creator/selectors';
+import { updateMindmapAct } from 'acts/update-mindmap.act';
 
 const MindmapFormModalContainer = () => {
+  const { operation } = useMindmapCreatorState();
   const mindmapForm = useMindmapCreatorState((state) =>
     openedMindmapFormSelector(state.mindmapForm),
   );
-  const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
 
   const [initialValues] = React.useState(() =>
     mindmapForm.is === `active`
@@ -50,25 +50,27 @@ const MindmapFormModalContainer = () => {
     ],
   });
 
-  const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
+  const confirmCreation: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-
-    setOperation({ is: `busy` });
 
     const name = values.name.trim();
     const description = values.description.trim();
     const tags = values.tags.trim();
     const splittedTags = tags.length === 0 ? [] : tags.split(`,`);
 
-    const result = await createMindmapAct({
+    const payload = {
       name,
       description: description.length === 0 ? null : description,
       tags: splittedTags.length === 0 ? null : splittedTags,
-    });
+    };
 
-    if (result.is === `fail`) {
-      setOperation(result);
+    if (mindmapForm.is === `active`) {
+      createMindmapAct(payload);
+
+      return;
     }
+
+    updateMindmapAct(payload);
   };
 
   const splittedTags = React.useMemo(
@@ -156,12 +158,6 @@ const MindmapFormModalContainer = () => {
           />
         </Field>
         <footer className="mt-6">
-          {operation.is === `fail` && (
-            <p className="flex gap-2 text-sm justify-center mb-4 items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
-              <BiErrorAlt className="shrink-0" size={20} />
-              {operation.error.message}
-            </p>
-          )}
           {mindmapForm.is === `active` ? (
             <Button
               type="submit"

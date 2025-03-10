@@ -1,6 +1,5 @@
 import { getAPI, parseError } from 'api-4markdown';
-import type { API4MarkdownPayload, MindmapDto } from 'api-4markdown-contracts';
-import { type AsyncResult } from 'development-kit/utility-types';
+import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { readyMindmapsSelector } from 'store/mindmap-creator/selectors';
 
@@ -9,8 +8,10 @@ const createMindmapAct = async (
     API4MarkdownPayload<`createMindmap`>,
     'description' | 'name' | 'tags'
   >,
-): AsyncResult<MindmapDto> => {
+): Promise<void> => {
   try {
+    useMindmapCreatorState.set({ operation: { is: `busy` } });
+
     const { nodes, edges, orientation, mindmaps } =
       useMindmapCreatorState.get();
 
@@ -30,11 +31,12 @@ const createMindmapAct = async (
         is: `ok`,
         data: [mindmap, ...safeMindmaps.data],
       },
+      operation: { is: `ok` },
     });
-
-    return { is: `ok`, data: mindmap };
   } catch (error: unknown) {
-    return { is: `fail`, error: parseError(error) };
+    useMindmapCreatorState.set({
+      operation: { is: `fail`, error: parseError(error) },
+    });
   }
 };
 
