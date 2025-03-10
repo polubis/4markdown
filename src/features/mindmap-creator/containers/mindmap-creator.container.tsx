@@ -49,6 +49,7 @@ import ErrorModal from 'components/error-modal';
 import { reloadYourMindmapsAct } from 'acts/reload-your-mindmaps.act';
 import { NodePreviewModalContainer } from './node-preview-modal.container';
 import { ScreenLoader } from 'design-system/screen-loader';
+import { MindmapDetailsModalContainer } from './mindmap-details-modal.container';
 
 const NodeFormModalContainer = React.lazy(() =>
   import(`./node-form-modal.container`).then((m) => ({
@@ -133,6 +134,7 @@ const MindmapCreatorContainer = () => {
     nodes,
     edges,
     operation,
+    mindmapDetails,
     activeMindmapId,
     nodeForm,
     nodesRemovalConfirmation,
@@ -179,6 +181,7 @@ const MindmapCreatorContainer = () => {
           <NodeFormModalContainer />
         </React.Suspense>
       )}
+      {mindmapDetails.is === `on` && <MindmapDetailsModalContainer />}
       {nodesRemovalConfirmation.is === `active` && (
         <NodesRemovalConfirmationContainer />
       )}

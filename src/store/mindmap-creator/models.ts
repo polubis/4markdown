@@ -42,6 +42,7 @@ type MindmapCreatorState = {
     | { is: `closed` }
     | ({ is: `active` } & MindmapCreatorEmbeddedNode);
   operation: Transaction;
+  mindmapDetails: { is: `on` } | { is: `off` };
 };
 
 export type {

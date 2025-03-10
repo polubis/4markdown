@@ -17,6 +17,7 @@ const useMindmapCreatorState = state<MindmapCreatorState>({
   yourMindmapsView: { is: `closed` },
   nodePreview: { is: `closed` },
   operation: { is: `idle` },
+  mindmapDetails: { is: `off` },
 });
 
 const setLastViewport = (viewport: Viewport): void => {

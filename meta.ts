@@ -20,6 +20,7 @@ export const meta = {
   routes: {
     mindmaps: {
       creator: `/mindmap-creator/`,
+      preview: `/mindmap-preview/`,
     },
     sandbox: `/sandbox/`,
     creator: {

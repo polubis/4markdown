@@ -14,6 +14,7 @@ import { maxLength, minLength } from 'development-kit/form';
 import { validationLimits } from '../core/validation';
 import { updateMindmapNameAct } from 'acts/update-mindmap-name.act';
 import { updateMindmapShapeAct } from 'acts/update-mindmap-shape.act';
+import { openMindmapDetailsAction } from 'store/mindmap-creator/actions';
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -119,7 +120,12 @@ const ActiveMindmapBarContainer = () => {
                 </Button>
                 <UpdateMindmapShapeContainer />
                 <YourMindmapsContainer />
-                <Button i={1} s={1} title="Open mindmap details">
+                <Button
+                  i={1}
+                  s={1}
+                  title="Open mindmap details"
+                  onClick={openMindmapDetailsAction}
+                >
                   <BiDotsHorizontal />
                 </Button>
               </div>

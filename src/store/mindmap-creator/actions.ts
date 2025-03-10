@@ -367,6 +367,14 @@ const updateExternalNodeAction = (
   });
 };
 
+const openMindmapDetailsAction = (): void => {
+  set({ mindmapDetails: { is: `on` } });
+};
+
+const closeMindmapDetailsAction = (): void => {
+  set({ mindmapDetails: { is: `off` } });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -396,4 +404,6 @@ export {
   openNodeEditionAction,
   updateEmbeddedNodeAction,
   updateExternalNodeAction,
+  openMindmapDetailsAction,
+  closeMindmapDetailsAction,
 };
