@@ -15,7 +15,7 @@ import {
   openMindmapFormAction,
   resetMindmapAction,
 } from 'store/mindmap-creator/actions';
-import { NewMindmapModalContainer } from './containers/new-mindmap-modal.container';
+import { MindmapModalContainer } from './containers/new-mindmap-modal.container';
 import { SubNavContainer } from './containers/sub-nav.container';
 import { useConfirm } from 'development-kit/use-confirm';
 
@@ -71,7 +71,7 @@ const AddNewMindmapContainer = () => {
       >
         <BiPlus />
       </Button>
-      {mindmapForm.is === `active` && <NewMindmapModalContainer />}
+      {mindmapForm.is === `active` && <MindmapModalContainer />}
     </>
   );
 };
