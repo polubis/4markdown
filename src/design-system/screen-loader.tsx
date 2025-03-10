@@ -13,7 +13,7 @@ const ScreenLoader = ({ className }: ScreenLoaderProps) => {
   const { render } = usePortal();
 
   return render(
-    <Backdrop className="flex items-center justify-center">
+    <Backdrop className="flex items-center justify-center z-50">
       <Loader size="lg" className={c(className)} />
     </Backdrop>,
   );

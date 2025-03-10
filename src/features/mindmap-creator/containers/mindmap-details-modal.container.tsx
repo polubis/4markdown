@@ -14,6 +14,7 @@ import { Input } from 'design-system/input';
 import { Field } from 'design-system/field';
 import { context } from 'development-kit/context';
 import { meta } from '../../../../meta';
+import { deleteMindmapAct } from 'acts/delete-mindmap.act';
 
 const enum ViewType {
   Details = `details`,
@@ -44,7 +45,7 @@ const DeleteMindmapView = () => {
 
   const handleConfirm: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    // deleteDocument(close);
+    deleteMindmapAct();
   };
 
   return (
