@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
-import React, { type ReactNode } from 'react';
+import React, { type FormEventHandler } from 'react';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { closeMindmapDetailsAction } from 'store/mindmap-creator/actions';
@@ -11,6 +11,9 @@ import { meta } from '../../../../meta';
 import { formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
 import { Visibility } from 'api-4markdown-contracts';
+import { Input } from 'design-system/input';
+import { Field } from 'design-system/field';
+import { context } from 'development-kit/context';
 
 const enum ViewType {
   Details = `details`,
@@ -18,17 +21,81 @@ const enum ViewType {
   Delete = `delete`,
 }
 
-const ViewHeader = ({ children }: { children: ReactNode }) => (
-  <Modal.Header
-    title="Mindmap details"
-    closeButtonTitle="Close mindmap details"
-  >
-    {children}
-  </Modal.Header>
-);
+const [FeatureProvider, useFeatureContext] = context(() => {
+  const [view, setView] = React.useState(ViewType.Details);
+
+  return {
+    view,
+    setView,
+  };
+});
+
+const DeleteMindmapView = () => {
+  const { setView } = useFeatureContext();
+  const { operation } = useMindmapCreatorState();
+  const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
+  const [name, setName] = React.useState(``);
+
+  const disabled = operation.is === `busy`;
+
+  const close = (): void => {
+    setView(ViewType.Details);
+  };
+
+  const handleConfirm: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    // deleteDocument(close);
+  };
+
+  return (
+    <>
+      <Modal.Header
+        title="Remove Mindmap"
+        closeButtonTitle="Close mindmap details"
+      />
+      <form onSubmit={handleConfirm}>
+        <p className="mb-4">
+          Type <strong>{activeMindmap.name}</strong> to remove this mindmap
+        </p>
+        <Field label="Mindmap Name*">
+          <Input
+            placeholder="Type mindmap name"
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+          />
+        </Field>
+        <footer className="mt-6 flex">
+          <Button
+            className="ml-auto"
+            type="button"
+            i={1}
+            s={2}
+            auto
+            disabled={disabled}
+            title="Cancel mindmap removal"
+            onClick={close}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="ml-2"
+            i={2}
+            s={2}
+            auto
+            title="Confirm mindmap removal"
+            disabled={name !== activeMindmap.name || disabled}
+          >
+            Remove
+          </Button>
+        </footer>
+      </form>
+    </>
+  );
+};
 
 const MindmapDetailsModalContainer = () => {
-  const [view, setView] = React.useState(ViewType.Details);
+  const { view, setView } = useFeatureContext();
   const { operation } = useMindmapCreatorState();
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
 
@@ -45,7 +112,10 @@ const MindmapDetailsModalContainer = () => {
     <Modal disabled={disabled} onClose={closeMindmapDetailsAction}>
       {view === ViewType.Details && (
         <>
-          <ViewHeader>
+          <Modal.Header
+            title="Mindmap Details"
+            closeButtonTitle="Close mindmap details"
+          >
             <Button
               disabled={disabled}
               i={2}
@@ -64,7 +134,7 @@ const MindmapDetailsModalContainer = () => {
             >
               <BiPencil />
             </Button>
-          </ViewHeader>
+          </Modal.Header>
           <section className="flex flex-col space-y-1">
             <p>
               Name: <strong>{activeMindmap.name}</strong>
@@ -176,8 +246,17 @@ const MindmapDetailsModalContainer = () => {
           </Tabs>
         </>
       )}
+      {view === ViewType.Delete && <DeleteMindmapView />}
     </Modal>
   );
 };
 
-export { MindmapDetailsModalContainer };
+const ConnectedMindmapDetailsModalContainer = () => {
+  return (
+    <FeatureProvider>
+      <MindmapDetailsModalContainer />
+    </FeatureProvider>
+  );
+};
+
+export { ConnectedMindmapDetailsModalContainer as MindmapDetailsModalContainer };
