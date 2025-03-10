@@ -52,7 +52,7 @@ type UpdateMindmapVisibilityContract = Contract<
 
 type UpdateMindmapContract = Contract<
   'updateMindmap',
-  Pick<MindmapDto, 'mdate' | 'name' | 'description' | 'tags'>,
+  Pick<MindmapDto, 'mdate' | 'name' | 'description' | 'tags' | 'path'>,
   Pick<MindmapDto, 'mdate' | 'name' | 'description' | 'tags' | 'id'>
 >;
 
