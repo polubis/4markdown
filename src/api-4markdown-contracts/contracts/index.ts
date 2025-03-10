@@ -44,6 +44,12 @@ type DeleteMindmapContract = Contract<
   Pick<MindmapDto, 'mdate' | 'id'>
 >;
 
+type UpdateMindmapVisibilityContract = Contract<
+  `updateMindmapVisibility`,
+  Pick<MindmapDto, 'mdate'>,
+  Pick<MindmapDto, 'mdate' | 'id' | `visibility`>
+>;
+
 type GetYourMindmapsContract = Contract<
   `getYourMindmaps`,
   {
@@ -167,7 +173,8 @@ type API4MarkdownContracts =
   | GetYourMindmapsContract
   | UpdateMindmapNameContract
   | UpdateMindmapShapeContract
-  | DeleteMindmapContract;
+  | DeleteMindmapContract
+  | UpdateMindmapVisibilityContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

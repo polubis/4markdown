@@ -15,6 +15,7 @@ import { Field } from 'design-system/field';
 import { context } from 'development-kit/context';
 import { meta } from '../../../../meta';
 import { deleteMindmapAct } from 'acts/delete-mindmap.act';
+import { updateMindmapVisibilityAct } from 'acts/update-mindmap-visibility.act';
 
 const enum ViewType {
   Details = `details`,
@@ -103,8 +104,7 @@ const MindmapDetailsModalContainer = () => {
   const changeVisibility = (visibility: Visibility): void => {
     if (activeMindmap.visibility === visibility) return;
 
-    // Do the visibility update
-    console.log(`update`);
+    updateMindmapVisibilityAct(visibility);
   };
 
   const disabled = operation.is === `busy`;
