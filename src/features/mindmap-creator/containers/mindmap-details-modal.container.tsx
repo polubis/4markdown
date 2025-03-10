@@ -4,7 +4,10 @@ import React, { type FormEventHandler } from 'react';
 import c from 'classnames';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
-import { closeMindmapDetailsAction } from 'store/mindmap-creator/actions';
+import {
+  closeMindmapDetailsAction,
+  openMindmapFormAction,
+} from 'store/mindmap-creator/actions';
 import { safeActiveMindmapSelector } from 'store/mindmap-creator/selectors';
 import { navigate } from 'gatsby';
 import { formatDistance } from 'date-fns';
@@ -128,7 +131,7 @@ const MindmapDetailsViewContainer = () => {
           i={2}
           s={1}
           title="Edit mindmap"
-          // onClick={() => setView(ViewType.Edit)}
+          onClick={() => openMindmapFormAction(activeMindmap)}
         >
           <BiPencil />
         </Button>

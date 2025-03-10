@@ -15,12 +15,12 @@ import {
   openMindmapFormAction,
   resetMindmapAction,
 } from 'store/mindmap-creator/actions';
-import { MindmapModalContainer } from './containers/mindmap-modal.container';
+import { MindmapFormModalContainer } from './containers/mindmap-form-modal.container';
 import { SubNavContainer } from './containers/sub-nav.container';
 import { useConfirm } from 'development-kit/use-confirm';
+import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 
 import './mindmap-creator.css';
-import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 
 const ADD_MINDMAP_KEY = `add-mindmap`;
 
@@ -72,7 +72,7 @@ const AddNewMindmapContainer = () => {
         <BiPlus />
       </Button>
       {(mindmapForm.is === `active` || mindmapForm.is === `edition`) && (
-        <MindmapModalContainer />
+        <MindmapFormModalContainer />
       )}
     </>
   );

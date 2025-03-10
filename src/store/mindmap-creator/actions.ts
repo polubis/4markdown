@@ -237,9 +237,10 @@ const removeSelectedNodesAction = (): void => {
   });
 };
 
-const openMindmapFormAction = (): void => {
+const openMindmapFormAction = (mindmap?: MindmapDto): void => {
   set({
-    mindmapForm: { is: `active` },
+    mindmapForm: mindmap ? { ...mindmap, is: `edition` } : { is: `active` },
+    mindmapDetails: { is: `off` },
   });
 };
 
@@ -344,7 +345,7 @@ const resetOperationAction = (): void => {
 
 const openNodeEditionAction = (node: MindmapCreatorNode): void => {
   set({
-    nodeForm: node ? { ...node, is: `edition` } : { is: `active` },
+    nodeForm: { ...node, is: `edition` },
     nodePreview: { is: `closed` },
   });
 };
