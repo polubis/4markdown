@@ -1,19 +1,19 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
 import React, { type FormEventHandler } from 'react';
+import c from 'classnames';
 import { BiPencil, BiTrash } from 'react-icons/bi';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { closeMindmapDetailsAction } from 'store/mindmap-creator/actions';
 import { safeActiveMindmapSelector } from 'store/mindmap-creator/selectors';
-import c from 'classnames';
 import { navigate } from 'gatsby';
-import { meta } from '../../../../meta';
 import { formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
 import { Visibility } from 'api-4markdown-contracts';
 import { Input } from 'design-system/input';
 import { Field } from 'design-system/field';
 import { context } from 'development-kit/context';
+import { meta } from '../../../../meta';
 
 const enum ViewType {
   Details = `details`,
