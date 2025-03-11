@@ -28,7 +28,7 @@ type CreateMindmapContract = Contract<
 
 type UpdateMindmapNameContract = Contract<
   `updateMindmapName`,
-  MindmapDto,
+  Pick<MindmapDto, 'name' | 'mdate' | 'id' | 'path'>,
   Pick<MindmapDto, 'name' | 'mdate' | 'id'>
 >;
 

@@ -20,8 +20,8 @@ const updateMindmapNameAct = async (
       useMindmapCreatorState.get().mindmaps,
     );
 
-    const updatedMindmap = await getAPI().call(`updateMindmapName`)({
-      ...payload,
+    const response = await getAPI().call(`updateMindmapName`)({
+      name: payload.name,
       mdate: activeMindmap.mdate,
       id: activeMindmap.id,
     });
@@ -30,7 +30,12 @@ const updateMindmapNameAct = async (
       mindmaps: {
         is: `ok`,
         data: yourMindmaps.data.map((mindmap) =>
-          mindmap.id === activeMindmap.id ? updatedMindmap : mindmap,
+          mindmap.id === activeMindmap.id
+            ? {
+                ...mindmap,
+                ...response,
+              }
+            : mindmap,
         ),
       },
       operation: { is: `ok` },
