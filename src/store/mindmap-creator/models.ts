@@ -12,6 +12,7 @@ type NodeBase = {
     width: number;
   };
   selected?: boolean;
+  dragging?: boolean;
 };
 
 type MindmapCreatorEmbeddedNode = EmbeddedNode & NodeBase;
