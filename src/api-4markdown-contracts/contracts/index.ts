@@ -28,13 +28,13 @@ type CreateMindmapContract = Contract<
 
 type UpdateMindmapNameContract = Contract<
   `updateMindmapName`,
-  Pick<MindmapDto, 'name' | 'mdate' | 'id' | 'path'>,
+  Pick<MindmapDto, 'name' | 'mdate' | 'path'>,
   Pick<MindmapDto, 'name' | 'mdate' | 'id'>
 >;
 
 type UpdateMindmapShapeContract = Contract<
   `updateMindmapShape`,
-  MindmapDto,
+  Pick<MindmapDto, 'nodes' | 'mdate' | 'edges' | 'orientation'>,
   Pick<MindmapDto, 'nodes' | 'mdate' | 'id' | 'edges' | 'orientation'>
 >;
 

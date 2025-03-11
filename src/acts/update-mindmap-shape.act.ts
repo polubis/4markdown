@@ -15,7 +15,7 @@ const updateMindmapShapeAct = async (): AsyncResult => {
     const activeMindmap = safeActiveMindmapSelector(mindmapCreatorState);
     const yourMindmaps = readyMindmapsSelector(mindmapCreatorState.mindmaps);
 
-    const updatedMindmap = await getAPI().call(`updateMindmapShape`)({
+    const response = await getAPI().call(`updateMindmapShape`)({
       mdate: activeMindmap.mdate,
       id: activeMindmap.id,
       nodes: mindmapCreatorState.nodes,
@@ -28,7 +28,12 @@ const updateMindmapShapeAct = async (): AsyncResult => {
       mindmaps: {
         is: `ok`,
         data: yourMindmaps.data.map((mindmap) =>
-          mindmap.id === activeMindmap.id ? updatedMindmap : mindmap,
+          mindmap.id === activeMindmap.id
+            ? {
+                ...mindmap,
+                ...response,
+              }
+            : mindmap,
         ),
       },
       operation: { is: `ok` },
