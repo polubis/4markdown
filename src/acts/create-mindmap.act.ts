@@ -19,8 +19,7 @@ const createMindmapAct = async (
 
     const mindmap = await getAPI().call(`createMindmap`)({
       ...payload,
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      nodes: nodes.map(({ selected, measured, dragging, ...node }) => node),
+      nodes,
       edges,
       orientation,
     });
