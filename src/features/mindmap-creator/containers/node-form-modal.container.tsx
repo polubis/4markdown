@@ -24,6 +24,7 @@ import { openedNodeFormSelector } from 'store/mindmap-creator/selectors';
 import { openInDocumentCreatorAct } from 'acts/open-in-document-creator.act';
 import { navigate } from 'gatsby';
 import { meta } from '../../../../meta';
+import { useMetadataState } from 'store/metadata';
 
 type StepType = MindmapCreatorNode['type'] | `none`;
 
@@ -221,6 +222,7 @@ const ExternalForm = () => {
 
 const EmbeddedForm = () => {
   const { setActiveType } = useLocalContext();
+  const documentCode = useMetadataState((state) => state.documentCode);
 
   const nodeForm = useMindmapCreatorState((state) =>
     openedNodeFormSelector(state.nodeForm),
@@ -231,18 +233,18 @@ const EmbeddedForm = () => {
       ? {
           name: ``,
           description: ``,
-          content: ``,
+          content: documentCode ?? ``,
         }
       : nodeForm.type === `embedded`
         ? {
             name: nodeForm.data.name,
             description: nodeForm.data.description ?? ``,
-            content: nodeForm.data.content ?? ``,
+            content: nodeForm.data.content ?? documentCode ?? ``,
           }
         : {
             name: nodeForm.data.name,
             description: nodeForm.data.description ?? ``,
-            content: ``,
+            content: documentCode ?? ``,
           },
   );
 
