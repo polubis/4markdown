@@ -330,25 +330,22 @@ const downloadMindmapAction = (): void => {
 };
 
 const clearMindmapAction = (): void => {
-  const { changesCount } = get();
-
   set({
     nodes: [],
     edges: [],
     orientation: `y`,
-    changesCount: changesCount + 1,
+    changesCount: 2,
   });
 };
 
 const resetMindmapAction = (): void => {
-  const { changesCount } = get();
   const { nodes, edges, orientation } = getInitial();
 
   set({
     nodes,
     edges,
     orientation,
-    changesCount: changesCount + 1,
+    changesCount: 2,
   });
 };
 
