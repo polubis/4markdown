@@ -3,7 +3,8 @@
 ## Mindmaps
 
 fix reset/clear
-center when aligning content
+preview
+url
 
 <!-- @TODO[PRIO=4]: [Component idea]. -->
 ```
