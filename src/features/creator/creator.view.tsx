@@ -26,6 +26,7 @@ import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { BackToSectionContainer } from './containers/back-to-section.container';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -127,6 +128,7 @@ const CreatorView = () => {
           {code}
         </Markdown>
       </main>
+      <BackToSectionContainer />
       <div
         className={c(
           view === `preview` ? `translate-x-full` : `translate-x-0`,
