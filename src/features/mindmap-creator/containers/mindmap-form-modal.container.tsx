@@ -6,9 +6,12 @@ import { Textarea } from 'design-system/textarea';
 import { maxLength, minLength, optional } from 'development-kit/form';
 import { useForm } from 'development-kit/use-form';
 import React, { type FormEventHandler } from 'react';
-import { BiPlusCircle, BiSave } from 'react-icons/bi';
+import { BiPlusCircle } from 'react-icons/bi';
 import { Modal } from 'design-system/modal';
-import { closeMindmapFormAction } from 'store/mindmap-creator/actions';
+import {
+  backToMindmapDetailsAction,
+  closeMindmapFormAction,
+} from 'store/mindmap-creator/actions';
 import { createMindmapAct } from 'acts/create-mindmap.act';
 import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
@@ -157,13 +160,13 @@ const MindmapFormModalContainer = () => {
             {...inject(`tags`)}
           />
         </Field>
-        <footer className="mt-6">
+        <footer className="mt-6 flex space-x-2">
           {mindmapForm.is === `active` ? (
             <Button
               type="submit"
               i={2}
               s={2}
-              className="w-full"
+              className="ml-auto"
               auto
               title="Confirm mindmap creation"
               disabled={operation.is === `busy` || untouched || invalid}
@@ -172,18 +175,30 @@ const MindmapFormModalContainer = () => {
               <BiPlusCircle />
             </Button>
           ) : (
-            <Button
-              type="submit"
-              className="w-full"
-              i={2}
-              s={2}
-              auto
-              title="Confirm mindmap update"
-              disabled={operation.is === `busy` || untouched || invalid}
-            >
-              Save
-              <BiSave />
-            </Button>
+            <>
+              <Button
+                type="button"
+                i={1}
+                s={2}
+                className="ml-auto"
+                auto
+                title="Back to mindmap details"
+                disabled={operation.is === `busy`}
+                onClick={backToMindmapDetailsAction}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                i={1}
+                s={2}
+                auto
+                title="Confirm mindmap update"
+                disabled={operation.is === `busy` || untouched || invalid}
+              >
+                Submit
+              </Button>
+            </>
           )}
         </footer>
       </form>

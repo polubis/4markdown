@@ -389,6 +389,10 @@ const closeMindmapDetailsAction = (): void => {
   set({ mindmapDetails: { is: `off` } });
 };
 
+const backToMindmapDetailsAction = (): void => {
+  set({ mindmapDetails: { is: `on` }, mindmapForm: { is: `closed` } });
+};
+
 export {
   addNewEmbeddedNodeAction,
   addNewExternalNodeAction,
@@ -420,4 +424,5 @@ export {
   updateExternalNodeAction,
   openMindmapDetailsAction,
   closeMindmapDetailsAction,
+  backToMindmapDetailsAction,
 };
