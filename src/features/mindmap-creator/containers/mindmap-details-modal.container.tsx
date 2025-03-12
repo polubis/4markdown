@@ -68,9 +68,9 @@ const DeleteMindmapViewContainer = () => {
             value={name}
           />
         </Field>
-        <footer className="mt-6 flex">
+        <footer className="mt-6 flex space-x-3">
           <Button
-            className="ml-auto"
+            className="flex-1"
             type="button"
             i={1}
             s={2}
@@ -83,7 +83,7 @@ const DeleteMindmapViewContainer = () => {
           </Button>
           <Button
             type="submit"
-            className="ml-2"
+            className="flex-1"
             i={2}
             s={2}
             auto
