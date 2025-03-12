@@ -48,6 +48,7 @@ const CreatorView = () => {
 
   const docManagementStore = useDocManagementStore();
   const { code, initialCode } = useDocumentCreatorState();
+
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
   const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 

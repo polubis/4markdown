@@ -2,6 +2,7 @@ import { isServer } from 'development-kit/ssr-csr';
 import { navigate } from 'gatsby';
 import React from 'react';
 import { meta } from '../../../../meta';
+import { putContentIntoExternalNodeAct } from 'acts/put-content-into-external-node.act';
 
 type BackToState = { is: `off` } | { is: `on`; backToPath: string };
 
@@ -38,15 +39,22 @@ const useBackTo = () => {
       backTo: (): void => {
         if (state.is === `off`) return;
 
-        navigate(state.backToPath, { replace: true });
+        const searchParams = new URLSearchParams(location.search);
+
+        if (searchParams.has(`backTo`)) {
+          searchParams.delete(`backTo`);
+          window.history.replaceState({}, ``, meta.routes.home);
+        }
+
+        putContentIntoExternalNodeAct();
+        navigate(state.backToPath);
       },
       denyBackTo: (): void => {
         const searchParams = new URLSearchParams(location.search);
 
         if (searchParams.has(`backTo`)) {
           searchParams.delete(`backTo`);
-          const newUrl = `${location.pathname}?${searchParams.toString()}`;
-          window.history.replaceState({}, ``, newUrl);
+          window.history.replaceState({}, ``, meta.routes.home);
         }
 
         setState({ is: `off` });
