@@ -2,7 +2,6 @@
 
 ## Mindmaps
 
-fix reset/clear
 preview
 url
 
