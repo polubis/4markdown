@@ -22,6 +22,7 @@ import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { openedNodeFormSelector } from 'store/mindmap-creator/selectors';
 import { useMetadataState } from 'store/metadata';
+import { meta } from '../../../../meta';
 
 type StepType = MindmapCreatorNode['type'] | `none`;
 
@@ -289,7 +290,9 @@ const EmbeddedForm = () => {
     });
   };
 
-  const openInDocumentCreator = (): void => {};
+  const openInDocumentCreator = (): void => {
+    window.open(meta.routes.home, `_blank`);
+  };
 
   return (
     <>
