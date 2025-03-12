@@ -20,6 +20,17 @@ import { readyMindmapsSelector } from './selectors';
 
 const { get, set, getInitial } = useMindmapCreatorState;
 
+const getNodePosition = (): MindmapCreatorNode['position'] => {
+  const viewport = getLastViewport();
+
+  if (!viewport) return { x: 0, y: 0 };
+
+  return {
+    x: (viewport.width / 2 - viewport.x) / viewport.zoom,
+    y: (viewport.height / 2 - viewport.y) / viewport.zoom,
+  };
+};
+
 const unselectNodes = (nodes: MindmapCreatorNode[]): MindmapCreatorNode[] =>
   nodes.map((node) => ({
     ...node,
@@ -74,23 +85,12 @@ const addNewEmbeddedNodeAction = (
 ): void => {
   const { nodes, changesCount } = get();
 
-  let position = { x: 0, y: 0 };
-
-  const viewport = getLastViewport();
-
-  if (viewport) {
-    position = {
-      x: (viewport.width / 2 - viewport.x) / viewport.zoom,
-      y: (viewport.height / 2 - viewport.y) / viewport.zoom,
-    };
-  }
-
   set({
     nodes: [
       ...unselectNodes(nodes),
       {
         id: suid(),
-        position,
+        position: getNodePosition(),
         selected: true,
         data,
         type: `embedded`,
@@ -111,10 +111,7 @@ const addNewExternalNodeAction = (
       ...unselectNodes(nodes),
       {
         id: suid(),
-        position: {
-          x: 0,
-          y: 0,
-        },
+        position: getNodePosition(),
         selected: true,
         data,
         type: `external`,
