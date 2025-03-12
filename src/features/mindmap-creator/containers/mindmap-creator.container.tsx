@@ -119,10 +119,6 @@ const edgeTypes: MindmapEdgeTypes = {
   solid: SolidEdgeContainer,
 };
 
-const fitViewOptions = {
-  duration: 700,
-};
-
 const MindmapCreatorContainer = () => {
   const ref = React.useRef<HTMLDivElement | null>(null);
   const {
@@ -163,7 +159,6 @@ const MindmapCreatorContainer = () => {
         edgeTypes={edgeTypes as EdgeTypes}
         onViewportChange={updateLatestViewport}
         fitView
-        fitViewOptions={fitViewOptions}
       >
         <Controls>
           <Button
