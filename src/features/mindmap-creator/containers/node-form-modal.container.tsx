@@ -21,9 +21,6 @@ import {
 import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { openedNodeFormSelector } from 'store/mindmap-creator/selectors';
-import { openInDocumentCreatorAct } from 'acts/open-in-document-creator.act';
-import { navigate } from 'gatsby';
-import { meta } from '../../../../meta';
 import { useMetadataState } from 'store/metadata';
 
 type StepType = MindmapCreatorNode['type'] | `none`;
@@ -292,10 +289,7 @@ const EmbeddedForm = () => {
     });
   };
 
-  const openInDocumentCreator = (): void => {
-    openInDocumentCreatorAct(values.content);
-    navigate(meta.routes.home);
-  };
+  const openInDocumentCreator = (): void => {};
 
   return (
     <>
