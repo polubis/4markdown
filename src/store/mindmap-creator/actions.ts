@@ -150,6 +150,14 @@ const updateEdgesAction = (changes: EdgeChange[]): void => {
 const connectNodesAction = ({ source, target }: Connection): void => {
   const { edges, changesCount } = get();
 
+  const hasDuplicate = edges.some(
+    (edge) =>
+      (edge.source === target && edge.target === source) ||
+      (edge.source === source && edge.target === target),
+  );
+
+  if (hasDuplicate) return;
+
   set({
     edges: [
       ...edges,
