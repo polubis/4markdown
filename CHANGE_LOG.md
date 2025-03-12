@@ -4,7 +4,7 @@
 
 [1] - when adding new node put element in the empty place or mark it in another way???
 [9] - rewrite ID approach creation
-[10] - add option to edit in markdown creator
+
 
 <!-- @TODO[PRIO=4]: [Component idea]. -->
 ```
