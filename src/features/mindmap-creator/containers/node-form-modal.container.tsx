@@ -292,9 +292,7 @@ const EmbeddedForm = () => {
 
   const openInDocumentCreator = (): void => {
     openInDocumentCreatorAct(values.content);
-    navigate(
-      `${meta.routes.home}?backTo=${encodeURIComponent(meta.routes.mindmaps.creator)}`,
-    );
+    navigate(meta.routes.home);
   };
 
   return (
