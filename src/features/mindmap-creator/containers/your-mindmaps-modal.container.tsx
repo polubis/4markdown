@@ -1,7 +1,13 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
 import React from 'react';
-import { BiLowVision, BiRefresh, BiShow, BiWorld } from 'react-icons/bi';
+import {
+  BiErrorAlt,
+  BiLowVision,
+  BiRefresh,
+  BiShow,
+  BiWorld,
+} from 'react-icons/bi';
 import c from 'classnames';
 import { differenceInDays, formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
@@ -133,9 +139,22 @@ const YourMindmapsModalContainer = () => {
       )}
       {mindmaps.is === `ok` && <YourMindmapsContentContainer />}
       {mindmaps.is === `fail` && (
-        <p className="text-xl text-red-600 dark:text-red-400 text-center">
-          Something went wrong... Try again with <strong>above button</strong>
-        </p>
+        <>
+          <p className="flex gap-2 text-sm justify-center mb-4 items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
+            <BiErrorAlt className="shrink-0" size={20} />
+            {mindmaps.error.message}
+          </p>
+          <Button
+            i={2}
+            s={2}
+            auto
+            className="w-full"
+            title="Sync mindmap"
+            onClick={reloadYourMindmapsAct}
+          >
+            Reload
+          </Button>
+        </>
       )}
     </Modal>
   );

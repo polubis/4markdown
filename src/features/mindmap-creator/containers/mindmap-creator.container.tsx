@@ -22,7 +22,6 @@ import {
   connectNodesAction,
   openNodeFormAction,
   resetOperationAction,
-  resetYourMindmapsAction,
   rotateViewAction,
   startNodesRemovalAction,
   updateEdgesAction,
@@ -130,7 +129,6 @@ const MindmapCreatorContainer = () => {
     activeMindmapId,
     nodeForm,
     nodesRemovalConfirmation,
-    mindmaps,
   } = useMindmapCreatorState();
 
   const updateLatestViewport = React.useCallback((viewport: Viewport) => {
@@ -189,24 +187,6 @@ const MindmapCreatorContainer = () => {
       {mindmapDetails.is === `on` && <MindmapDetailsModalContainer />}
       {nodesRemovalConfirmation.is === `active` && (
         <NodesRemovalConfirmationContainer />
-      )}
-      {mindmaps.is === `fail` && (
-        <ErrorModal
-          heading="Cannot load your mindmaps"
-          message={mindmaps.error.message}
-          footer={
-            <Button
-              i={2}
-              s={2}
-              auto
-              title="Sync mindmap"
-              onClick={reloadYourMindmapsAct}
-            >
-              Reload
-            </Button>
-          }
-          onClose={resetYourMindmapsAction}
-        />
       )}
       <NodePreviewModalContainer />
       {operation.is === `busy` && <ScreenLoader />}
