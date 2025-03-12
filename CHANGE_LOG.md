@@ -4,7 +4,6 @@
 
 when adding new node put element in the empty place or mark it in another way???
 fix reset/clear
-center when aligning content
 
 <!-- @TODO[PRIO=4]: [Component idea]. -->
 ```

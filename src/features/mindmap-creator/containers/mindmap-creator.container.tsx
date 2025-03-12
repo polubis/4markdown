@@ -1,4 +1,10 @@
-import type { EdgeProps, EdgeTypes, NodeProps, NodeTypes } from '@xyflow/react';
+import type {
+  EdgeProps,
+  EdgeTypes,
+  NodeProps,
+  NodeTypes,
+  Viewport,
+} from '@xyflow/react';
 import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import React, { type ComponentType } from 'react';
 import { setLastViewport, useMindmapCreatorState } from 'store/mindmap-creator';
@@ -118,6 +124,7 @@ const fitViewOptions = {
 };
 
 const MindmapCreatorContainer = () => {
+  const ref = React.useRef<HTMLDivElement | null>(null);
   const {
     orientation,
     nodes,
@@ -130,10 +137,23 @@ const MindmapCreatorContainer = () => {
     mindmaps,
   } = useMindmapCreatorState();
 
+  const updateLatestViewport = React.useCallback((viewport: Viewport) => {
+    const rect = ref.current?.getBoundingClientRect();
+
+    if (!rect) return;
+
+    setLastViewport({
+      ...viewport,
+      width: rect.width,
+      height: rect.height,
+    });
+  }, []);
+
   return (
     <>
       <ReactFlow
-        key={activeMindmapId + orientation + nodes.length}
+        ref={ref}
+        key={activeMindmapId + orientation}
         nodes={nodes}
         edges={edges}
         onNodesChange={updateNodesAction}
@@ -141,7 +161,7 @@ const MindmapCreatorContainer = () => {
         onConnect={connectNodesAction}
         nodeTypes={mindmapNodeTypes[orientation] as NodeTypes}
         edgeTypes={edgeTypes as EdgeTypes}
-        onViewportChange={setLastViewport}
+        onViewportChange={updateLatestViewport}
         fitView
         fitViewOptions={fitViewOptions}
       >
