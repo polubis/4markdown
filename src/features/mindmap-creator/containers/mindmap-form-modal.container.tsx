@@ -160,14 +160,14 @@ const MindmapFormModalContainer = () => {
             {...inject(`tags`)}
           />
         </Field>
-        <footer className="mt-6 flex space-x-2">
+        <footer className="mt-6 flex space-x-3">
           {mindmapForm.is === `active` ? (
             <Button
               type="submit"
               i={2}
               s={2}
-              className="ml-auto"
               auto
+              className="flex-1"
               title="Confirm mindmap creation"
               disabled={operation.is === `busy` || untouched || invalid}
             >
@@ -180,7 +180,7 @@ const MindmapFormModalContainer = () => {
                 type="button"
                 i={1}
                 s={2}
-                className="ml-auto"
+                className="flex-1"
                 auto
                 title="Back to mindmap details"
                 disabled={operation.is === `busy`}
@@ -190,8 +190,9 @@ const MindmapFormModalContainer = () => {
               </Button>
               <Button
                 type="submit"
-                i={1}
+                i={2}
                 s={2}
+                className="flex-1"
                 auto
                 title="Confirm mindmap update"
                 disabled={operation.is === `busy` || untouched || invalid}
