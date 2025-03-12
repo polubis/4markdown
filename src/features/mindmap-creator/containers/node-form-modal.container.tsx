@@ -21,8 +21,7 @@ import {
 import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { openedNodeFormSelector } from 'store/mindmap-creator/selectors';
-import { useMetadataState } from 'store/metadata';
-import { meta } from '../../../../meta';
+import { openNodeContentInCreatorAct } from 'acts/open-node-content-in-creator.act';
 
 type StepType = MindmapCreatorNode['type'] | `none`;
 
@@ -220,7 +219,6 @@ const ExternalForm = () => {
 
 const EmbeddedForm = () => {
   const { setActiveType } = useLocalContext();
-  const documentCode = useMetadataState((state) => state.documentCode);
 
   const nodeForm = useMindmapCreatorState((state) =>
     openedNodeFormSelector(state.nodeForm),
@@ -231,18 +229,18 @@ const EmbeddedForm = () => {
       ? {
           name: ``,
           description: ``,
-          content: documentCode ?? ``,
+          content: ``,
         }
       : nodeForm.type === `embedded`
         ? {
             name: nodeForm.data.name,
             description: nodeForm.data.description ?? ``,
-            content: nodeForm.data.content ?? documentCode ?? ``,
+            content: nodeForm.data.content ?? ``,
           }
         : {
             name: nodeForm.data.name,
             description: nodeForm.data.description ?? ``,
-            content: documentCode ?? ``,
+            content: ``,
           },
   );
 
@@ -291,7 +289,7 @@ const EmbeddedForm = () => {
   };
 
   const openInDocumentCreator = (): void => {
-    window.open(meta.routes.home, `_blank`);
+    openNodeContentInCreatorAct(values.content);
   };
 
   return (
