@@ -18,6 +18,10 @@ export const meta = {
   ytVideoTutorialUrl: `https://www.youtube.com/watch?v=t3Ve0em65rY`,
   mdCheatsheet: `https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet`,
   routes: {
+    mindmaps: {
+      creator: `/mindmap-creator/`,
+      preview: `/mindmap-preview/`,
+    },
     sandbox: `/sandbox/`,
     creator: {
       preview: `/creator-preview/`,

@@ -7,10 +7,13 @@ import c from 'classnames';
 import { triggerDocumentCreation } from 'core/creation-management';
 import { docStoreSelectors } from 'store/doc/doc.store';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { activeMindmapSelector } from 'store/mindmap-creator/selectors';
 
 const CreationLinkContainer = () => {
   const menu = useSimpleFeature();
   const docStore = docStoreSelectors.state();
+  const activeMindmap = useMindmapCreatorState(activeMindmapSelector);
 
   return (
     <>
@@ -59,7 +62,7 @@ const CreationLinkContainer = () => {
                   </h6>
                   <p className="mt-1 text-sm">
                     You are currently working on{` `}
-                    <strong>{docStore.name}</strong>
+                    <strong>{docStore.name}</strong> document
                   </p>
                 </>
               )}
@@ -71,9 +74,36 @@ const CreationLinkContainer = () => {
             <p className="mt-1 text-sm">Coming soon</p>
           </li>
 
-          <li className="relative flex flex-col p-3">
-            <h6>Mindmap</h6>
-            <p className="mt-1 text-sm">Coming soon</p>
+          <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b border-zinc-300 dark:border-zinc-800">
+            <Link
+              to={meta.routes.mindmaps.creator}
+              title={
+                activeMindmap
+                  ? `Continue editing mindmap`
+                  : `Create a new mindmap`
+              }
+            >
+              {activeMindmap === null && (
+                <>
+                  <h6>Mindmap</h6>
+                  <p className="mt-1 text-sm">
+                    Create mindmaps using a powerful editor and leverage
+                    Markdown syntax
+                  </p>
+                </>
+              )}
+              {activeMindmap && (
+                <>
+                  <h6 className="flex items-center">
+                    <BiArrowBack className="mr-2" size={20} /> Continue Editing
+                  </h6>
+                  <p className="mt-1 text-sm">
+                    You are currently working on{` `}
+                    <strong>{activeMindmap.name}</strong> mindmap
+                  </p>
+                </>
+              )}
+            </Link>
           </li>
         </ul>
       </div>
