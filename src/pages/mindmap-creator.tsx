@@ -2,11 +2,21 @@ import React from 'react';
 import type { HeadFC } from 'gatsby';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import Meta from 'components/meta';
-import { MindmapCreatorView } from 'features/mindmap-creator/mindmap-creator.view';
 import { meta } from '../../meta';
+import { ScreenLoader } from 'design-system/screen-loader';
+
+const MindmapCreatorView = React.lazy(() =>
+  import(`../features/mindmap-creator/mindmap-creator.view`).then((m) => ({
+    default: m.MindmapCreatorView,
+  })),
+);
 
 const MindmapCreatorPage = () => {
-  return <MindmapCreatorView />;
+  return (
+    <React.Suspense fallback={<ScreenLoader />}>
+      <MindmapCreatorView />
+    </React.Suspense>
+  );
 };
 
 export default MindmapCreatorPage;

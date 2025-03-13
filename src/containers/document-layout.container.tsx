@@ -15,7 +15,12 @@ import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
-import { ChaptersModal } from 'components/chapters-modal';
+
+const ChaptersModal = React.lazy(() =>
+  import(`../components/chapters-modal`).then((m) => ({
+    default: m.ChaptersModal,
+  })),
+);
 
 const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
