@@ -5,6 +5,7 @@ import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreActions } from 'store/docs/docs.store';
 import { initializeAPI } from 'api-4markdown';
 import { useYourUserProfileState } from 'store/your-user-profile';
+import { useMindmapCreatorState } from 'store/mindmap-creator';
 
 const useAuth = () => {
   const [api] = React.useState(initializeAPI);
@@ -25,6 +26,7 @@ const useAuth = () => {
       docsStoreActions.idle();
       useYourUserProfileState.reset();
       authStoreActions.unauthorize();
+      useMindmapCreatorState.reset();
     });
 
     return () => {

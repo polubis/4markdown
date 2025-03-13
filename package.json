@@ -34,8 +34,10 @@
     "verify": "npm run build && npm run serve"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^1.1.4",
     "@greenonsoftware/react-kit": "^0.0.1",
     "@tailwindcss/typography": "^0.5.16",
+    "@xyflow/react": "^12.4.3",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
     "firebase": "^11.3.1",

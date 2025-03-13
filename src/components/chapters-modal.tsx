@@ -1,6 +1,6 @@
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import {
   BiArrowToLeft,
   BiArrowToRight,
@@ -13,8 +13,6 @@ import { falsy } from 'development-kit/guards';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 
-const modalId = `documents-chapters-modal`;
-
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
   activeSectionIndex > 0;
 
@@ -23,13 +21,16 @@ const isAbleToNext = (
   sectionsLength: number,
 ): boolean => activeSectionIndex <= sectionsLength - 2;
 
-const DocumentChaptersModal = ({
+const ChaptersModal = ({
   children,
+  controls,
   onClose,
 }: {
   children: string;
+  controls?: ReactNode;
   onClose(): void;
 }) => {
+  const modalId = React.useId();
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
   const [copyState, copy] = useCopy();
 
@@ -87,7 +88,11 @@ const DocumentChaptersModal = ({
     falsy(modal, `Cannot find ${modalId}`);
 
     modal.scrollTo({ top: 0 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSectionIndex]);
+
+  const ableToPrev = isAbleToPrev(activeSectionIndex);
+  const ableToNext = isAbleToNext(activeSectionIndex, chapters.length);
 
   return (
     <>
@@ -100,7 +105,9 @@ const DocumentChaptersModal = ({
           className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
           title={`Chapter (${activeSectionIndex + 1})`}
           closeButtonTitle="Close display as a book mode (Esc)"
-        />
+        >
+          {controls}
+        </Modal.Header>
         <Markdown className="p-4 !max-w-full">{content}</Markdown>
         <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800">
           <Button
@@ -115,8 +122,10 @@ const DocumentChaptersModal = ({
               <BiCopyAlt />
             )}
           </Button>
-          <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
-          {isAbleToPrev(activeSectionIndex) && (
+          {(ableToPrev || ableToNext) && (
+            <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
+          )}
+          {ableToPrev && (
             <Button
               i={2}
               s={1}
@@ -126,7 +135,7 @@ const DocumentChaptersModal = ({
               <BiArrowToLeft />
             </Button>
           )}
-          {isAbleToNext(activeSectionIndex, chapters.length) && (
+          {ableToNext && (
             <Button
               i={2}
               s={1}
@@ -143,4 +152,4 @@ const DocumentChaptersModal = ({
   );
 };
 
-export { DocumentChaptersModal };
+export { ChaptersModal };

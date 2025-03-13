@@ -2,8 +2,10 @@ import { useDocumentCreatorState } from '.';
 import { CREATOR_STORE_LS_KEY } from './config';
 import type { DocumentCreatorState } from './models';
 
+const { get, set } = useDocumentCreatorState;
+
 const setState = (state: Partial<DocumentCreatorState>): void => {
-  useDocumentCreatorState.set(state);
+  set(state);
   localStorage.setItem(CREATOR_STORE_LS_KEY, JSON.stringify(state));
 };
 
@@ -23,12 +25,12 @@ const syncAction = (): void => {
   if (state === null) return;
 
   try {
-    useDocumentCreatorState.set(JSON.parse(state));
+    set(JSON.parse(state));
   } catch {}
 };
 
 const markAsUnchangedAction = (): void => {
-  const { initialCode, code } = useDocumentCreatorState.get();
+  const { initialCode, code } = get();
 
   setState({
     code,
@@ -40,7 +42,7 @@ const markAsUnchangedAction = (): void => {
 const changeWithoutMarkAsUnchangedAction = (
   code: DocumentCreatorState['code'],
 ): void => {
-  const { initialCode, changed } = useDocumentCreatorState.get();
+  const { initialCode, changed } = get();
 
   setState({
     code,
@@ -50,7 +52,7 @@ const changeWithoutMarkAsUnchangedAction = (
 };
 
 const changeAction = (code: DocumentCreatorState['code']): void => {
-  const { initialCode } = useDocumentCreatorState.get();
+  const { initialCode } = get();
 
   setState({
     code,
