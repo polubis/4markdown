@@ -16,6 +16,7 @@ const useAuth = () => {
         authStoreActions.authorize({
           avatar: user.photoURL,
           name: user.displayName,
+          uid: user.uid,
         });
 
         return;

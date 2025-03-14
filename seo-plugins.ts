@@ -30,6 +30,7 @@ const disallowedPaths = [
   meta.routes.notFound,
   meta.routes.creator.preview,
   meta.routes.sandbox,
+  meta.routes.mindmaps.preview,
   legacyRoutes.documents.preview,
   legacyRoutes.documents.browse,
 ];
