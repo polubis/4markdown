@@ -26,7 +26,7 @@ import {
 } from './embedded-node-tile.container';
 
 type MindmapNodeTypes = {
-  [Orientation in MindmapPreviewOkState['orientation']]: {
+  [Orientation in MindmapPreviewOkState['mindmap']['orientation']]: {
     [Type in MindmapPreviewNode['type']]: ComponentType<
       NodeProps<Extract<MindmapPreviewNode, { type: Type }>>
     >;
@@ -55,7 +55,7 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapVisualizerContainer = () => {
-  const mindmap = useMindmapPreviewState(readyMindmapPreviewSelector);
+  const { mindmap } = useMindmapPreviewState(readyMindmapPreviewSelector);
 
   return (
     <ReactFlow

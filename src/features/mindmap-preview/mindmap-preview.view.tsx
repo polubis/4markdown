@@ -22,7 +22,7 @@ const Loader = () => (
 );
 
 const MindmapPreviewView = () => {
-  const mindmap = useMindmapPreviewState();
+  const preview = useMindmapPreviewState();
 
   React.useEffect(() => {
     getMindmapAct();
@@ -31,9 +31,9 @@ const MindmapPreviewView = () => {
   return (
     <>
       <main className="md:mt-[122px] md:mb-0 mb-[122px] h-[calc(100svh-50px-72px)]">
-        {mindmap.is === `busy` && <ScreenLoader />}
-        {mindmap.is === `ok` && <MindmapVisualizerContainer />}
-        {mindmap.is === `fail` && (
+        {preview.is === `busy` && <ScreenLoader />}
+        {preview.is === `ok` && <MindmapVisualizerContainer />}
+        {preview.is === `fail` && (
           <Communicate className="h-full">
             <Communicate.Message>
               We cannot load this mindmap. Try again or go back to mindmap
@@ -81,10 +81,10 @@ const MindmapPreviewView = () => {
           </nav>
         </div>
         <nav className="h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center">
-          {(mindmap.is === `busy` || mindmap.is === `idle`) && <Loader />}
-          {mindmap.is === `ok` && (
+          {(preview.is === `busy` || preview.is === `idle`) && <Loader />}
+          {preview.is === `ok` && (
             <h1 className="font-bold text-lg mr-4 truncate max-w-[260px]">
-              {mindmap.name}
+              {preview.mindmap.name}
             </h1>
           )}
         </nav>
