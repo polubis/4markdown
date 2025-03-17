@@ -55,7 +55,7 @@ const MindmapPreviewView = () => {
         <div className="h-[72px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex justify-between gap-2">
           <nav className="flex items-center gap-2">
             <Link
-              to={meta.routes.mindmaps.home}
+              to={meta.routes.home}
               className="shrink-0 sm:flex hidden mr-2"
             >
               <img
