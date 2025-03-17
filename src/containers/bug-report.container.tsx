@@ -154,7 +154,7 @@ const BugReportContainer = () => {
         title="Report a bug"
       >
         <span className="hidden md:inline mr-1">
-          It&apos;s A Beta! Report A Bug
+          It&apos;s Beta! Report A Bug
         </span>
         <BiBug />
       </Button>

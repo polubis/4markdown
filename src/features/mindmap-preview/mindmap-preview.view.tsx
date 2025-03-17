@@ -11,6 +11,7 @@ import { getMindmapAct } from 'acts/get-mindmap.act';
 import { Communicate } from 'design-system/communicate';
 import { downloadMindmapAction } from 'store/mindmap-preview/actions';
 import { MindmapVisualizerContainer } from './containers/mindmap-visualizer.container';
+import { BugReportContainer } from 'containers/bug-report.container';
 
 import '../../style/mindmaps.css';
 
@@ -71,6 +72,7 @@ const MindmapPreviewView = () => {
             >
               <BiDownload />
             </Button>
+            <BugReportContainer />
           </nav>
           <div />
           <nav className="flex items-center gap-2">
