@@ -81,7 +81,7 @@ const MindmapPreviewView = () => {
         <nav className="h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center">
           {(mindmap.is === `busy` || mindmap.is === `idle`) && <Loader />}
           {mindmap.is === `ok` && (
-            <h1 className="font-bold text-lg mr-4 truncate max-w-[260px]">
+            <h1 className="font-bold text-lg mr-4 truncate max-w-[260px] md:max-w-lg">
               {mindmap.name}
             </h1>
           )}
