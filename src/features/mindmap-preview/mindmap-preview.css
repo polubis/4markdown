@@ -1,0 +1,25 @@
+@import '@xyflow/react/dist/base.css';
+
+.node-tile-toolbox {
+  opacity: 0;
+}
+
+.node-tile:hover > .node-tile-toolbox {
+  opacity: 1;
+}
+
+.react-flow__panel {
+  @apply m-3 space-y-2;
+}
+
+.react-flow__controls-button {
+  @apply rounded-md outline-2 outline-black enabled:focus:outline disabled:cursor-not-allowed dark:outline-white h-8 w-8 disabled:bg-neutral-300/30 disabled:text-black/30 bg-gray-300 text-black enabled:hover:bg-gray-400/70 dark:bg-slate-800 dark:enabled:hover:bg-slate-800/70 dark:text-white dark:disabled:bg-gray-900 dark:disabled:text-white/30;
+}
+
+.react-flow__attribution {
+  @apply hidden;
+}
+
+.react-flow__minimap {
+  @apply bg-slate-400 dark:bg-slate-900 m-0 rounded-tl-lg;
+}

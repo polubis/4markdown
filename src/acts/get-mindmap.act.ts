@@ -28,8 +28,8 @@ const getMindmapAct = async (): Promise<void> => {
     const data = await getAPI().call(`getMindmap`)({ mindmapId, authorId });
 
     useMindmapPreviewState.set({
+      ...data,
       is: `ok`,
-      mindmap: data,
     });
   } catch (error: unknown) {
     useMindmapPreviewState.set({ is: `fail`, error: parseError(error) });

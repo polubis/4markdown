@@ -5,14 +5,24 @@ import { Button } from 'design-system/button';
 import { BiArrowBack, BiDownload } from 'react-icons/bi';
 import MoreNav from 'components/more-nav';
 import UserPopover from 'components/user-popover';
-import { downloadMindmapAction } from 'store/mindmap-creator/actions';
 import { ScreenLoader } from 'design-system/screen-loader';
 import { useMindmapPreviewState } from 'store/mindmap-preview';
 import { getMindmapAct } from 'acts/get-mindmap.act';
 import { Communicate } from 'design-system/communicate';
+import { MindmapVisualizerContainer } from './containers/mindmap-visualizer.container';
+
+import './mindmap-preview.css';
+
+const Loader = () => (
+  <div className="flex gap-2">
+    <div className="w-20 h-8 rounded-md bg-gray-300 dark:bg-gray-800" />
+    <div className="w-4 h-8 rounded-md bg-gray-300 dark:bg-gray-800" />
+    <div className="w-10 h-8 rounded-md bg-gray-300 dark:bg-gray-800" />
+  </div>
+);
 
 const MindmapPreviewView = () => {
-  const preview = useMindmapPreviewState();
+  const mindmap = useMindmapPreviewState();
 
   React.useEffect(() => {
     getMindmapAct();
@@ -20,9 +30,10 @@ const MindmapPreviewView = () => {
 
   return (
     <>
-      <main className="md:mt-[72px] md:mb-0 mb-[72px] h-[calc(100svh-72px)]">
-        {preview.is === `busy` && <ScreenLoader />}
-        {preview.is === `fail` && (
+      <main className="md:mt-[122px] md:mb-0 mb-[122px] h-[calc(100svh-50px-72px)]">
+        {mindmap.is === `busy` && <ScreenLoader />}
+        {mindmap.is === `ok` && <MindmapVisualizerContainer />}
+        {mindmap.is === `fail` && (
           <Communicate className="h-full">
             <Communicate.Message>
               We cannot load this mindmap. Try again or go back to mindmap
@@ -54,16 +65,14 @@ const MindmapPreviewView = () => {
                 alt="Logo"
               />
             </Link>
-            {preview.is === `ok` && (
-              <Button
-                i={1}
-                s={2}
-                title="Download mindmap as JSON file"
-                onClick={downloadMindmapAction}
-              >
-                <BiDownload />
-              </Button>
-            )}
+            <Button
+              i={1}
+              s={2}
+              title="Download mindmap as JSON file"
+              // onClick={downloadMindmapAction}
+            >
+              <BiDownload />
+            </Button>
           </nav>
           <div />
           <nav className="flex items-center gap-2">
@@ -71,6 +80,14 @@ const MindmapPreviewView = () => {
             <MoreNav />
           </nav>
         </div>
+        <nav className="h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center">
+          {(mindmap.is === `busy` || mindmap.is === `idle`) && <Loader />}
+          {mindmap.is === `ok` && (
+            <h1 className="font-bold text-lg mr-4 truncate max-w-[260px]">
+              {mindmap.name}
+            </h1>
+          )}
+        </nav>
       </header>
     </>
   );

@@ -2,11 +2,21 @@ import React from 'react';
 import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
-import { MindmapPreviewView } from 'features/mindmap-preview/mindmap-preview.view';
 import { meta } from '../../meta';
+import { ScreenLoader } from 'design-system/screen-loader';
+
+const MindmapPreviewView = React.lazy(() =>
+  import(`../features/mindmap-preview/mindmap-preview.view`).then((m) => ({
+    default: m.MindmapPreviewView,
+  })),
+);
 
 const MindmapPreviewPage = () => {
-  return <MindmapPreviewView />;
+  return (
+    <React.Suspense fallback={<ScreenLoader />}>
+      <MindmapPreviewView />
+    </React.Suspense>
+  );
 };
 
 export default MindmapPreviewPage;
