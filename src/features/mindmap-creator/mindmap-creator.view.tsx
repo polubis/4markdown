@@ -1,6 +1,6 @@
 import React, { type MouseEventHandler } from 'react';
 import { Link } from 'gatsby';
-import { BiDownload, BiPlus } from 'react-icons/bi';
+import { BiBug, BiDownload, BiPlus } from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import UserPopover from 'components/user-popover';
 import MoreNav from 'components/more-nav';
@@ -134,6 +134,18 @@ const MindmapCreatorView = () => {
               onClick={resetConfirm.confirm}
             >
               {resetConfirm.isOn ? `Sure?` : `Reset`}
+            </Button>
+            <Button
+              i={1}
+              s={2}
+              auto
+              className="bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
+              title="Report a bug"
+            >
+              <span className="hidden md:inline mr-1">
+                It&apos;s A Beta! Report A Bug
+              </span>
+              <BiBug />
             </Button>
           </nav>
           <div />
