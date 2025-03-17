@@ -1,4 +1,4 @@
-import type { Base64, Date } from '../atoms';
+import type { Base64, Date, Id } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -16,6 +16,12 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   dto: TDto;
   payload: TPayload;
 };
+
+type GetMindmapContract = Contract<
+  `getMindmap`,
+  MindmapDto & { authorId: Id },
+  { authorId: Id; mindmapId: Id }
+>;
 
 type CreateMindmapContract = Contract<
   `createMindmap`,
@@ -181,7 +187,8 @@ type API4MarkdownContracts =
   | UpdateMindmapShapeContract
   | DeleteMindmapContract
   | UpdateMindmapVisibilityContract
-  | UpdateMindmapContract;
+  | UpdateMindmapContract
+  | GetMindmapContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
