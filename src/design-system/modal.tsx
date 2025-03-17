@@ -42,6 +42,8 @@ const Modal = ({
   onClose,
   ...props
 }: ModalProps) => {
+  const ref = React.useRef<HTMLDivElement | null>(null);
+
   const close = (): void => {
     if (disabled) return;
 
@@ -53,8 +55,16 @@ const Modal = ({
 
   const { render } = usePortal();
 
+  React.useEffect(() => {
+    ref.current?.focus();
+  }, []);
+
   return render(
     <div
+      ref={ref}
+      tabIndex={-1}
+      aria-modal
+      role="dialog"
       className={c(
         `bg-black/40 dark:bg-white/20 fixed items-center justify-center flex py-4 z-20 bottom-0 right-0 left-0 top-0 overflow-auto animate-fade-in`,
         className,
