@@ -11,7 +11,7 @@ import { getMindmapAct } from 'acts/get-mindmap.act';
 import { Communicate } from 'design-system/communicate';
 import { MindmapVisualizerContainer } from './containers/mindmap-visualizer.container';
 
-import './mindmap-preview.css';
+import '../../style/mindmaps.css';
 
 const Loader = () => (
   <div className="flex gap-2">
