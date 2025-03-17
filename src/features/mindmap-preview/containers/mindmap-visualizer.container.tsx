@@ -24,6 +24,8 @@ import {
   EmbeddedNodeTileContainerX,
   EmbeddedNodeTileContainerY,
 } from './embedded-node-tile.container';
+import { ChaptersModal } from 'components/chapters-modal';
+import { closeNodePreviewAction } from 'store/mindmap-preview/actions';
 
 type MindmapNodeTypes = {
   [Orientation in MindmapPreviewOkMindmap['orientation']]: {
@@ -58,18 +60,26 @@ const MindmapVisualizerContainer = () => {
   const mindmap = useMindmapPreviewState((state) =>
     readyMindmapPreviewSelector(state.mindmap),
   );
+  const nodePreview = useMindmapPreviewState((state) => state.nodePreview);
 
   return (
-    <ReactFlow
-      nodes={mindmap.nodes}
-      edges={mindmap.edges}
-      nodeTypes={mindmapNodeTypes[mindmap.orientation] as NodeTypes}
-      edgeTypes={edgeTypes as EdgeTypes}
-      fitView
-    >
-      <Background />
-      <MiniMap className="hidden md:block" />
-    </ReactFlow>
+    <>
+      <ReactFlow
+        nodes={mindmap.nodes}
+        edges={mindmap.edges}
+        nodeTypes={mindmapNodeTypes[mindmap.orientation] as NodeTypes}
+        edgeTypes={edgeTypes as EdgeTypes}
+        fitView
+      >
+        <Background />
+        <MiniMap className="hidden md:block" />
+      </ReactFlow>
+      {nodePreview.is === `on` && (
+        <ChaptersModal onClose={closeNodePreviewAction}>
+          {nodePreview.data.content ?? `No content for this node`}
+        </ChaptersModal>
+      )}
+    </>
   );
 };
 

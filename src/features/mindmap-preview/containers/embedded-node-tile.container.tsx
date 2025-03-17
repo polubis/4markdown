@@ -5,10 +5,14 @@ import { NodeTile } from '../components/node-tile';
 import { Button } from 'design-system/button';
 import { BiBook } from 'react-icons/bi';
 import type { MindmapPreviewEmbeddedNode } from 'store/mindmap-preview/models';
+import { openNodePreviewAction } from 'store/mindmap-preview/actions';
 
 type EmbeddedNodeTileContainerProps = NodeProps<MindmapPreviewEmbeddedNode>;
 
 const EmbeddedNodeTileContainer = ({
+  id,
+  positionAbsoluteX,
+  positionAbsoluteY,
   data,
 }: EmbeddedNodeTileContainerProps) => (
   <NodeTile selected={false}>
@@ -23,15 +27,15 @@ const EmbeddedNodeTileContainer = ({
         s={1}
         onClick={(e) => {
           e.stopPropagation();
-          // openNodePreviewAction({
-          //   type: `embedded`,
-          //   id,
-          //   data,
-          //   position: {
-          //     x: positionAbsoluteX,
-          //     y: positionAbsoluteY,
-          //   },
-          // });
+          openNodePreviewAction({
+            type: `embedded`,
+            id,
+            data,
+            position: {
+              x: positionAbsoluteX,
+              y: positionAbsoluteY,
+            },
+          });
         }}
       >
         <BiBook />
