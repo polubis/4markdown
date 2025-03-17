@@ -8,7 +8,6 @@ import type {
 import { Background, Controls, MiniMap, ReactFlow } from '@xyflow/react';
 import React, { type ComponentType } from 'react';
 import { setLastViewport, useMindmapCreatorState } from 'store/mindmap-creator';
-import { usePortal } from 'development-kit/use-portal';
 import { Button } from 'design-system/button';
 import {
   BiAddToQueue,
@@ -72,9 +71,7 @@ const RemoveSelectedNodesContainer = () => {
 };
 
 const ToolboxContainer = () => {
-  const { render } = usePortal();
-
-  return render(
+  return (
     <nav className="fixed flex justify-center space-x-2 py-2 max-w-sm mx-auto bottom-[126px] right-4 md:right-0 md:left-0 md:bottom-0">
       <RemoveSelectedNodesContainer />
       <Button
@@ -85,7 +82,7 @@ const ToolboxContainer = () => {
       >
         <BiAddToQueue />
       </Button>
-    </nav>,
+    </nav>
   );
 };
 

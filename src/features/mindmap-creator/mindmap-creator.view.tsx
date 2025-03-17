@@ -20,7 +20,7 @@ import { SubNavContainer } from './containers/sub-nav.container';
 import { useConfirm } from 'development-kit/use-confirm';
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 
-import './mindmap-creator.css';
+import '../../style/mindmaps.css';
 
 const ADD_MINDMAP_KEY = `add-mindmap`;
 

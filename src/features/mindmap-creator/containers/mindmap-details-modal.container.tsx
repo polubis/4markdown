@@ -19,6 +19,7 @@ import { meta } from '../../../../meta';
 import { deleteMindmapAct } from 'acts/delete-mindmap.act';
 import { updateMindmapVisibilityAct } from 'acts/update-mindmap-visibility.act';
 import type { MindmapDto } from 'api-4markdown-contracts';
+import { authStoreSelectors } from 'store/auth/auth.store';
 
 const enum ViewType {
   Details = `details`,
@@ -102,6 +103,7 @@ const MindmapDetailsViewContainer = () => {
   const { setView } = useFeatureContext();
   const { operation } = useMindmapCreatorState();
 
+  const { user } = authStoreSelectors.useAuthorized();
   const disabled = operation.is === `busy`;
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
 
@@ -194,23 +196,23 @@ const MindmapDetailsViewContainer = () => {
             activeMindmap.visibility === `permanent`) && (
             <button
               className="underline underline-offset-2 text-blue-800 dark:text-blue-500"
-              title="Mindmap preview"
+              title="Mindmap public link"
               onClick={() =>
                 navigate(
-                  `${meta.routes.mindmaps.preview}?id=${activeMindmap.id}`,
+                  `${meta.routes.mindmaps.preview}?mindmapId=${activeMindmap.id}&authorId=${user.uid}`,
                 )
               }
             >
-              <strong>Preview</strong>
+              <strong>Public Link</strong>
             </button>
           )}
           {activeMindmap.visibility === `permanent` && (
             <button
               className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
-              title="Mindmap URL"
+              title="Mindmap static stable URL"
               onClick={() => navigate(activeMindmap.path)}
             >
-              <strong>URL</strong>
+              <strong>Static Stable URL</strong>
             </button>
           )}
         </footer>
