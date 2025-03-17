@@ -66,7 +66,7 @@ const Modal = ({
       aria-modal
       role="dialog"
       className={c(
-        `bg-black/40 !focus:bg-red-500 dark:bg-white/20 fixed items-center justify-center flex py-4 z-20 bottom-0 right-0 left-0 top-0 overflow-auto animate-fade-in`,
+        `bg-black/40 dark:bg-white/20 fixed items-center justify-center flex py-4 z-20 bottom-0 right-0 left-0 top-0 overflow-auto animate-fade-in`,
         className,
       )}
       {...props}

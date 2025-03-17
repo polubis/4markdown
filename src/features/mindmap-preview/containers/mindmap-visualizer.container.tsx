@@ -78,7 +78,7 @@ const MindmapVisualizerContainer = () => {
       </ReactFlow>
       {nodePreview.is === `on` && (
         <ChaptersModal onClose={closeNodePreviewAction}>
-          {nodePreview.data.content ?? `No content for this node`}
+          {nodePreview.data.content || `No content for this node`}
         </ChaptersModal>
       )}
     </>

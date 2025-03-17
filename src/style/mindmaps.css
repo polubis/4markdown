@@ -1,5 +1,13 @@
 @import '@xyflow/react/dist/base.css';
 
+.node-tile-toolbox {
+  opacity: 0;
+}
+
+.node-tile:hover .node-tile-toolbox {
+  opacity: 1;
+}
+
 .react-flow__panel {
   @apply m-3 space-y-2;
 }
