@@ -51,3 +51,6 @@ const ExamplesContainer = () => {
 export { ExamplesContainer };
 
 ```
+
+1. endpoint do bug report spiac
+2. layout do preview lepszy
