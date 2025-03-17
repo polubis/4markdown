@@ -29,7 +29,7 @@ const getMindmapAct = async (): Promise<void> => {
 
     useMindmapPreviewState.set({
       is: `ok`,
-      ...data,
+      mindmap: data,
     });
   } catch (error: unknown) {
     useMindmapPreviewState.set({ is: `fail`, error: parseError(error) });
