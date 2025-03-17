@@ -54,10 +54,7 @@ const MindmapPreviewView = () => {
       <header className="flex flex-col-reverse md:flex-col fixed bottom-0 md:top-0 md:bottom-[unset] left-0 right-0 bg-zinc-50 dark:bg-zinc-950">
         <div className="h-[72px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex justify-between gap-2">
           <nav className="flex items-center gap-2">
-            <Link
-              to={meta.routes.home}
-              className="shrink-0 sm:flex hidden mr-2"
-            >
+            <Link to={meta.routes.mindmaps.creator} className="shrink-0 mr-2">
               <img
                 className="w-8 h-8"
                 rel="preload"
