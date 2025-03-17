@@ -6,6 +6,7 @@ import {
   ReactFlow,
   type EdgeProps,
   type NodeProps,
+  Controls,
 } from '@xyflow/react';
 import React, { type ComponentType } from 'react';
 import { useMindmapPreviewState } from 'store/mindmap-preview';
@@ -71,6 +72,7 @@ const MindmapVisualizerContainer = () => {
         edgeTypes={edgeTypes as EdgeTypes}
         fitView
       >
+        <Controls />
         <Background />
         <MiniMap className="hidden md:block" />
       </ReactFlow>
