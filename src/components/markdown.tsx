@@ -4,7 +4,7 @@ import React, {
   type DetailedHTMLProps,
   type ReactElement,
 } from 'react';
-import { highlightAll } from 'prismjs';
+import { highlightElement } from 'prismjs';
 import c from 'classnames';
 import type { ButtonProps } from 'design-system/button';
 import { Button } from 'design-system/button';
@@ -18,7 +18,18 @@ import rehypeKatex from 'rehype-katex';
 const Code = ({
   children,
 }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
-  return <code className="language-javascript">{children}</code>;
+  const ref = React.useRef<HTMLElement | null>(null);
+
+  React.useLayoutEffect(() => {
+    const container = ref.current;
+    container && highlightElement(container);
+  }, [children]);
+
+  return (
+    <code ref={ref} className="language-javascript">
+      {children}
+    </code>
+  );
 };
 
 const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
@@ -72,10 +83,6 @@ type MarkdownProps = {
 };
 
 const Markdown = ({ className, children }: MarkdownProps) => {
-  React.useLayoutEffect(() => {
-    highlightAll();
-  }, [children]);
-
   return (
     <ReactMarkdown
       className={c(
