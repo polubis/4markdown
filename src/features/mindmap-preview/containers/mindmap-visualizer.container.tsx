@@ -18,7 +18,7 @@ import { SolidEdge } from '../components/solid-edge';
 import type {
   MindmapPreviewEdge,
   MindmapPreviewNode,
-  MindmapPreviewOkState,
+  MindmapPreviewOkMindmap,
 } from 'store/mindmap-preview/models';
 import {
   EmbeddedNodeTileContainerX,
@@ -26,7 +26,7 @@ import {
 } from './embedded-node-tile.container';
 
 type MindmapNodeTypes = {
-  [Orientation in MindmapPreviewOkState['mindmap']['orientation']]: {
+  [Orientation in MindmapPreviewOkMindmap['orientation']]: {
     [Type in MindmapPreviewNode['type']]: ComponentType<
       NodeProps<Extract<MindmapPreviewNode, { type: Type }>>
     >;
@@ -55,7 +55,9 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapVisualizerContainer = () => {
-  const { mindmap } = useMindmapPreviewState(readyMindmapPreviewSelector);
+  const mindmap = useMindmapPreviewState((state) =>
+    readyMindmapPreviewSelector(state.mindmap),
+  );
 
   return (
     <ReactFlow

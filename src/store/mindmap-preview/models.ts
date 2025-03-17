@@ -1,13 +1,14 @@
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 
-type MindmapPreviewState = Transaction<{
-  mindmap: API4MarkdownDto<`getMindmap`>;
-}>;
+type GetMindmapDto = API4MarkdownDto<`getMindmap`>;
 
-type MindmapPreviewOkState = Extract<MindmapPreviewState, { is: `ok` }>;
+type MindmapPreviewState = {
+  nodePreview: { is: `off` } | ({ is: `on` } & GetMindmapDto);
+  mindmap: Transaction<GetMindmapDto>;
+};
 
-type MindmapPreviewNode = MindmapPreviewOkState['mindmap']['nodes'][number];
+type MindmapPreviewNode = GetMindmapDto['nodes'][number];
 
 type MindmapPreviewExternalNode = Extract<
   MindmapPreviewNode,
@@ -19,16 +20,21 @@ type MindmapPreviewEmbeddedNode = Extract<
   { type: `embedded` }
 >;
 
-type MindmapPreviewEdge = MindmapPreviewOkState['mindmap']['edges'][number];
+type MindmapPreviewEdge = GetMindmapDto['edges'][number];
 
 type MindmapPreviewSolidEdge = Extract<MindmapPreviewEdge, { type: `solid` }>;
 
+type MindmapPreviewOkMindmap = Extract<
+  MindmapPreviewState['mindmap'],
+  { is: `ok` }
+>;
+
 export type {
   MindmapPreviewState,
-  MindmapPreviewOkState,
   MindmapPreviewExternalNode,
   MindmapPreviewNode,
   MindmapPreviewEmbeddedNode,
   MindmapPreviewEdge,
   MindmapPreviewSolidEdge,
+  MindmapPreviewOkMindmap,
 };

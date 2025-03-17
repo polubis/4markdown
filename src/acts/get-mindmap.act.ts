@@ -3,11 +3,11 @@ import { useMindmapPreviewState } from 'store/mindmap-preview';
 
 const getMindmapAct = async (): Promise<void> => {
   try {
-    const mindmap = useMindmapPreviewState.get();
+    const { mindmap } = useMindmapPreviewState.get();
 
     if (mindmap.is === `busy`) return;
 
-    useMindmapPreviewState.set({ is: `busy` });
+    useMindmapPreviewState.set({ mindmap: { is: `busy` } });
 
     const params = new URLSearchParams(window.location.search);
     const mindmapId = params.get(`mindmapId`);
@@ -15,11 +15,13 @@ const getMindmapAct = async (): Promise<void> => {
 
     if (!mindmapId || !authorId) {
       useMindmapPreviewState.set({
-        is: `fail`,
-        error: {
-          symbol: `bad-request`,
-          content: `Mindmap ID and author ID are required`,
-          message: `Mindmap ID and author ID are required`,
+        mindmap: {
+          is: `fail`,
+          error: {
+            symbol: `bad-request`,
+            content: `Mindmap ID and author ID are required`,
+            message: `Mindmap ID and author ID are required`,
+          },
         },
       });
       return;
@@ -28,11 +30,18 @@ const getMindmapAct = async (): Promise<void> => {
     const data = await getAPI().call(`getMindmap`)({ mindmapId, authorId });
 
     useMindmapPreviewState.set({
-      is: `ok`,
-      mindmap: data,
+      mindmap: {
+        ...data,
+        is: `ok`,
+      },
     });
   } catch (error: unknown) {
-    useMindmapPreviewState.set({ is: `fail`, error: parseError(error) });
+    useMindmapPreviewState.set({
+      mindmap: {
+        is: `fail`,
+        error: parseError(error),
+      },
+    });
   }
 };
 
