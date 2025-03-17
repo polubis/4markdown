@@ -9,6 +9,7 @@ import { ScreenLoader } from 'design-system/screen-loader';
 import { useMindmapPreviewState } from 'store/mindmap-preview';
 import { getMindmapAct } from 'acts/get-mindmap.act';
 import { Communicate } from 'design-system/communicate';
+import { downloadMindmapAction } from 'store/mindmap-preview/actions';
 import { MindmapVisualizerContainer } from './containers/mindmap-visualizer.container';
 
 import '../../style/mindmaps.css';
@@ -66,7 +67,7 @@ const MindmapPreviewView = () => {
               i={1}
               s={2}
               title="Download mindmap as JSON file"
-              // onClick={downloadMindmapAction}
+              onClick={downloadMindmapAction}
             >
               <BiDownload />
             </Button>
