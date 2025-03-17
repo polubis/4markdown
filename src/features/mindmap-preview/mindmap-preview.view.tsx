@@ -12,6 +12,9 @@ import { Communicate } from 'design-system/communicate';
 import { downloadMindmapAction } from 'store/mindmap-preview/actions';
 import { MindmapVisualizerContainer } from './containers/mindmap-visualizer.container';
 import { BugReportContainer } from 'containers/bug-report.container';
+import { CreationLinkContainer } from 'containers/creation-link.container';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 
 import '../../style/mindmaps.css';
 
@@ -72,6 +75,11 @@ const MindmapPreviewView = () => {
             >
               <BiDownload />
             </Button>
+            <div className="items-center gap-5 ml-2 mr-3 lg:flex hidden">
+              <CreationLinkContainer />
+              <EducationRankLinkContainer />
+              <EducationZoneLinkContainer />
+            </div>
             <BugReportContainer />
           </nav>
           <div />
