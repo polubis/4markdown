@@ -105,6 +105,11 @@ const BugReportModalContainer = () => {
             {...inject(`description`)}
           />
         </Field>
+        {operation.is === `fail` && (
+          <p className="rounded-md py-1 px-2 bg-red-500 text-white mt-4">
+            {operation.error.message}
+          </p>
+        )}
         <footer className="flex space-x-3 mt-6">
           <Button
             type="button"
