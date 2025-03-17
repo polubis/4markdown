@@ -10,36 +10,76 @@ import { maxLength, minLength } from 'development-kit/form';
 import { BiBug } from 'react-icons/bi';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { context } from 'development-kit/context';
+import type { Transaction } from 'development-kit/utility-types';
+import { reportBugAct } from 'acts/report-bug.act';
 
 const [BugReportProvider, useBugReportContext] = context(useSimpleFeature);
 
+const limits = {
+  title: {
+    min: 10,
+    max: 120,
+  },
+  description: {
+    min: 30,
+    max: 500,
+  },
+};
 const BugReportModalContainer = () => {
-  const { off } = useBugReportContext();
-  const [{ invalid, untouched }, { inject }] = useForm(
+  const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
+  const reportBugCtx = useBugReportContext();
+  const [{ invalid, untouched, values }, { inject }] = useForm(
     {
       title: ``,
       description: ``,
     },
     {
-      title: [minLength(10), maxLength(120)],
-      description: [minLength(30), maxLength(500)],
+      title: [minLength(limits.title.min), maxLength(limits.title.max)],
+      description: [
+        minLength(limits.description.min),
+        maxLength(limits.description.max),
+      ],
     },
   );
 
-  const confirmSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const confirmSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+
+    setOperation({ is: `busy` });
+
+    const result = await reportBugAct({
+      title: values.title,
+      description: values.description,
+    });
+
+    if (result.is === `ok`) {
+      reportBugCtx.off();
+      return;
+    }
+
+    setOperation(result);
   };
 
+  const busy = operation.is === `busy`;
+
   return (
-    <Modal onClose={off}>
+    <Modal disabled={busy} onClose={reportBugCtx.off}>
       <Modal.Header
         title="Report A Bug"
         closeButtonTitle="Close bug reporting"
       />
       <form className="flex flex-col gap-3" onSubmit={confirmSubmit}>
         <Field
-          label="Title*"
-          hint={<Hint trigger={<>Title your reason for reporting a bug</>} />}
+          label={`Title*`}
+          hint={
+            <Hint
+              trigger={
+                <>
+                  Required, {limits.title.min}-{limits.title.max} characters
+                </>
+              }
+            />
+          }
         >
           <Input
             placeholder={`I cannot add mindmap, ...etc`}
@@ -47,11 +87,21 @@ const BugReportModalContainer = () => {
           />
         </Field>
         <Field
-          label="Description*"
-          hint={<Hint trigger={<>3-4 sentences that describe the bug</>} />}
+          label={`Description*`}
+          hint={
+            <Hint
+              trigger={
+                <>
+                  Required, {limits.description.min}-{limits.description.max}
+                  {` `}
+                  characters
+                </>
+              }
+            />
+          }
         >
           <Textarea
-            placeholder={`Detailed description of the bug`}
+            placeholder={`When clicking a button application crashes, ...etc`}
             {...inject(`description`)}
           />
         </Field>
@@ -61,15 +111,16 @@ const BugReportModalContainer = () => {
             i={1}
             className="flex-1"
             s={2}
+            disabled={busy}
             auto
             title="Cancel bug report"
-            onClick={off}
+            onClick={reportBugCtx.off}
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            disabled={invalid || untouched}
+            disabled={invalid || untouched || busy}
             i={2}
             className="flex-1"
             s={2}
@@ -85,7 +136,7 @@ const BugReportModalContainer = () => {
 };
 
 const BugReportContainer = () => {
-  const { isOn, on } = useBugReportContext();
+  const reportBugCtx = useBugReportContext();
 
   return (
     <>
@@ -93,7 +144,7 @@ const BugReportContainer = () => {
         i={1}
         s={2}
         auto
-        onClick={on}
+        onClick={reportBugCtx.on}
         className="bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
         title="Report a bug"
       >
@@ -102,7 +153,7 @@ const BugReportContainer = () => {
         </span>
         <BiBug />
       </Button>
-      {isOn && <BugReportModalContainer />}
+      {reportBugCtx.isOn && <BugReportModalContainer />}
     </>
   );
 };
