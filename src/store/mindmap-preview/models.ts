@@ -3,11 +3,6 @@ import type { Transaction } from 'development-kit/utility-types';
 
 type GetMindmapDto = API4MarkdownDto<`getMindmap`>;
 
-type MindmapPreviewState = {
-  nodePreview: { is: `off` } | ({ is: `on` } & GetMindmapDto);
-  mindmap: Transaction<GetMindmapDto>;
-};
-
 type MindmapPreviewNode = GetMindmapDto['nodes'][number];
 
 type MindmapPreviewExternalNode = Extract<
@@ -19,6 +14,11 @@ type MindmapPreviewEmbeddedNode = Extract<
   MindmapPreviewNode,
   { type: `embedded` }
 >;
+
+type MindmapPreviewState = {
+  nodePreview: { is: `off` } | ({ is: `on` } & MindmapPreviewEmbeddedNode);
+  mindmap: Transaction<GetMindmapDto>;
+};
 
 type MindmapPreviewEdge = GetMindmapDto['edges'][number];
 
