@@ -7,7 +7,10 @@ const getMindmapAct = async (): Promise<void> => {
 
     if (mindmap.is === `busy`) return;
 
-    useMindmapPreviewState.set({ mindmap: { is: `busy` } });
+    useMindmapPreviewState.set({
+      mindmap: { is: `busy` },
+      nodePreview: { is: `off` },
+    });
 
     const params = new URLSearchParams(window.location.search);
     const mindmapId = params.get(`mindmapId`);
