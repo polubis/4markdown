@@ -27,6 +27,12 @@ type ReportBugContract = Contract<
   }
 >;
 
+type GetPermanentMindmapsContract = Contract<
+  `getPermanentMindmaps`,
+  MindmapDto[],
+  { limit: number; lastMindmapId: Id }
+>;
+
 type GetMindmapContract = Contract<
   `getMindmap`,
   MindmapDto & { authorId: Id },
@@ -199,7 +205,8 @@ type API4MarkdownContracts =
   | UpdateMindmapVisibilityContract
   | UpdateMindmapContract
   | GetMindmapContract
-  | ReportBugContract;
+  | ReportBugContract
+  | GetPermanentMindmapsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
