@@ -29,8 +29,7 @@ type ReportBugContract = Contract<
 
 type GetPermanentMindmapsContract = Contract<
   `getPermanentMindmaps`,
-  MindmapDto[],
-  { limit: number; lastMindmapId: Id }
+  MindmapDto[]
 >;
 
 type GetMindmapContract = Contract<
