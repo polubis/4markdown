@@ -19,6 +19,7 @@ import { MindmapFormModalContainer } from './containers/mindmap-form-modal.conta
 import { SubNavContainer } from './containers/sub-nav.container';
 import { useConfirm } from 'development-kit/use-confirm';
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
+import { BugReportContainer } from 'containers/bug-report.container';
 
 import '../../style/mindmaps.css';
 
@@ -135,6 +136,7 @@ const MindmapCreatorView = () => {
             >
               {resetConfirm.isOn ? `Sure?` : `Reset`}
             </Button>
+            <BugReportContainer />
           </nav>
           <div />
           <nav className="flex items-center gap-2">
