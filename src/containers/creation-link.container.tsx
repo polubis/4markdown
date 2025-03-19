@@ -27,7 +27,7 @@ const CreationLinkContainer = () => {
       </Button>
       <div
         className={c(
-          `absolute z-10 max-w-[280px] -left-[4px] sm:left-[60px]`,
+          `absolute z-10 max-w-[280px] -left-[4px] sm:left-[56px]`,
           menu.isOn ? `top-[64px] animate-fade-in` : `-top-full`,
         )}
       >
@@ -67,11 +67,6 @@ const CreationLinkContainer = () => {
                 </>
               )}
             </Link>
-          </li>
-
-          <li className="relative flex flex-col p-3 border-b border-zinc-300 dark:border-zinc-800">
-            <h6>Flashcard Board</h6>
-            <p className="mt-1 text-sm">Coming soon</p>
           </li>
 
           <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b border-zinc-300 dark:border-zinc-800">
