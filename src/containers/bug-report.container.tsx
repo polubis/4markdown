@@ -12,6 +12,7 @@ import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { context } from 'development-kit/context';
 import type { Transaction } from 'development-kit/utility-types';
 import { reportBugAct } from 'acts/report-bug.act';
+import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 
 const [BugReportProvider, useBugReportContext] = context(useSimpleFeature);
 
@@ -25,10 +26,16 @@ const limits = {
     max: 500,
   },
 };
+
+type FormValues = Pick<
+  API4MarkdownPayload<`reportBug`>,
+  `title` | `description`
+>;
+
 const BugReportModalContainer = () => {
   const [operation, setOperation] = React.useState<Transaction>({ is: `idle` });
   const reportBugCtx = useBugReportContext();
-  const [{ invalid, untouched, values }, { inject }] = useForm(
+  const [{ invalid, untouched, values }, { inject }] = useForm<FormValues>(
     {
       title: ``,
       description: ``,
@@ -50,6 +57,7 @@ const BugReportModalContainer = () => {
     const result = await reportBugAct({
       title: values.title,
       description: values.description,
+      url: window.location.href,
     });
 
     if (result.is === `ok`) {

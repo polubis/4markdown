@@ -1,4 +1,4 @@
-import type { Base64, Date, Id } from '../atoms';
+import type { Base64, Date, Id, Url } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -20,7 +20,11 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
 type ReportBugContract = Contract<
   `reportBug`,
   null,
-  { title: string; description: string }
+  {
+    title: string;
+    description: string;
+    url: Url;
+  }
 >;
 
 type GetMindmapContract = Contract<
