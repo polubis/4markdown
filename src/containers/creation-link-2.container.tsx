@@ -9,7 +9,7 @@ import { docStoreSelectors } from 'store/doc/doc.store';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { activeMindmapSelector } from 'store/mindmap-creator/selectors';
-
+// @TODO[PRIO=2]: [Remove duplication with creation-link.container.tsx].
 const CreationLinkContainer2 = () => {
   const menu = useSimpleFeature();
   const docStore = docStoreSelectors.state();
