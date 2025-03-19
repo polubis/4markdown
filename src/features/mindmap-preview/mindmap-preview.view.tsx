@@ -12,9 +12,9 @@ import { Communicate } from 'design-system/communicate';
 import { downloadMindmapAction } from 'store/mindmap-preview/actions';
 import { MindmapVisualizerContainer } from './containers/mindmap-visualizer.container';
 import { BugReportContainer } from 'containers/bug-report.container';
-import { CreationLinkContainer } from 'containers/creation-link.container';
 import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
+import { CreationLinkContainer2 } from 'containers/creation-link-2.container';
 
 import '../../style/mindmaps.css';
 
@@ -59,7 +59,7 @@ const MindmapPreviewView = () => {
       <header className="flex flex-col-reverse md:flex-col fixed bottom-0 md:top-0 md:bottom-[unset] left-0 right-0 bg-zinc-50 dark:bg-zinc-950">
         <div className="h-[72px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex justify-between gap-2">
           <nav className="flex items-center gap-2">
-            <Link to={meta.routes.mindmaps.creator} className="shrink-0 mr-2">
+            <Link to={meta.routes.mindmaps.creator} className="shrink-0 mr-5">
               <img
                 className="w-8 h-8"
                 rel="preload"
@@ -67,16 +67,8 @@ const MindmapPreviewView = () => {
                 alt="Logo"
               />
             </Link>
-            <Button
-              i={1}
-              s={2}
-              title="Download mindmap as JSON file"
-              onClick={downloadMindmapAction}
-            >
-              <BiDownload />
-            </Button>
-            <div className="items-center gap-5 ml-2 mr-3 lg:flex hidden">
-              <CreationLinkContainer />
+            <div className="items-center gap-5 mr-3 lg:flex hidden">
+              <CreationLinkContainer2 />
               <EducationRankLinkContainer />
               <EducationZoneLinkContainer />
             </div>
@@ -91,9 +83,19 @@ const MindmapPreviewView = () => {
         <nav className="h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center">
           {(mindmap.is === `busy` || mindmap.is === `idle`) && <Loader />}
           {mindmap.is === `ok` && (
-            <h1 className="font-bold text-lg mr-4 truncate max-w-[260px] md:max-w-lg">
-              {mindmap.name}
-            </h1>
+            <>
+              <h1 className="font-bold text-lg mr-4 truncate max-w-[260px] md:max-w-lg">
+                {mindmap.name}
+              </h1>
+              <Button
+                i={1}
+                s={1}
+                title="Download mindmap as JSON file"
+                onClick={downloadMindmapAction}
+              >
+                <BiDownload />
+              </Button>
+            </>
           )}
         </nav>
       </header>

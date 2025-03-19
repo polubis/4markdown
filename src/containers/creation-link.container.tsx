@@ -69,11 +69,6 @@ const CreationLinkContainer = () => {
             </Link>
           </li>
 
-          <li className="relative flex flex-col p-3 border-b border-zinc-300 dark:border-zinc-800">
-            <h6>Flashcard Board</h6>
-            <p className="mt-1 text-sm">Coming soon</p>
-          </li>
-
           <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b border-zinc-300 dark:border-zinc-800">
             <Link
               to={meta.routes.mindmaps.creator}
