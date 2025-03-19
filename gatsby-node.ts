@@ -168,18 +168,17 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const functions = getFunctions(app);
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
-  const [{ data: allDocuments }, { data: allMindmaps }] = await Promise.all([
+  // , { data: allMindmaps }
+  const [{ data: allDocuments }] = await Promise.all([
     httpsCallable<
       API4MarkdownPayload<`getPermanentDocuments`>,
       API4MarkdownDto<`getPermanentDocuments`>
     >(functions, `getPermanentDocuments`)(),
-    httpsCallable<
-      API4MarkdownPayload<`getPermanentMindmaps`>,
-      API4MarkdownDto<`getPermanentMindmaps`>
-    >(functions, `getPermanentMindmaps`)(),
+    // httpsCallable<
+    //   API4MarkdownPayload<`getPermanentMindmaps`>,
+    //   API4MarkdownDto<`getPermanentMindmaps`>
+    // >(functions, `getPermanentMindmaps`)(),
   ]);
-
-  console.log(allMindmaps);
 
   actions.createPage<HomePageModel>({
     path: meta.routes.home,
