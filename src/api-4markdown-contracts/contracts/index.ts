@@ -29,7 +29,8 @@ type ReportBugContract = Contract<
 
 type GetPermanentMindmapsContract = Contract<
   `getPermanentMindmaps`,
-  MindmapDto[]
+  (MindmapDto & { author: UserProfileDto | null; isTrustedAuthor: boolean })[],
+  { limit?: number }
 >;
 
 type GetMindmapContract = Contract<

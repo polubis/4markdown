@@ -168,11 +168,18 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const functions = getFunctions(app);
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
-  const [{ data: allDocuments }] = await Promise.all([
+  const [{ data: allDocuments }, { data: allMindmaps }] = await Promise.all([
     httpsCallable<
       API4MarkdownPayload<`getPermanentDocuments`>,
       API4MarkdownDto<`getPermanentDocuments`>
     >(functions, `getPermanentDocuments`)(),
+    httpsCallable<
+      API4MarkdownPayload<`getPermanentMindmaps`>,
+      API4MarkdownDto<`getPermanentMindmaps`>
+    >(
+      functions,
+      `getPermanentMindmaps`,
+    )({ limit: 100 }),
   ]);
 
   actions.createPage<HomePageModel>({
@@ -187,6 +194,16 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       component: path.resolve(`./src/dynamic-pages/document.page.tsx`),
       context: {
         doc: document,
+      },
+    });
+  });
+
+  allMindmaps.forEach((mindmap) => {
+    actions.createPage({
+      path: mindmap.path,
+      component: path.resolve(`./src/dynamic-pages/mindmap.page.tsx`),
+      context: {
+        mindmap,
       },
     });
   });
