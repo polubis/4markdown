@@ -14,23 +14,18 @@ import {
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
 
-const docsStorage: PermanentDocumentDto[] = [];
+const createSearchDataFile = (documents: PermanentDocumentDto[]): void => {
+  if (documents.length === 0) return;
 
-const createSearchDataFile = (): void => {
-  if (docsStorage.length > 0) {
-    const searchData = docsStorage.map((doc) => ({
-      title: doc.name,
-      description: doc.description || ``,
-      url: doc.path,
-    }));
+  const searchData = documents.map((doc) => ({
+    title: doc.name,
+    description: doc.description,
+    url: doc.path,
+  }));
 
-    console.log(`Creating search-data.json with ${searchData.length} entries`);
+  const filePath = path.join(__dirname, `public`, `search-data.json`);
 
-    const filePath = path.join(__dirname, `public`, `search-data.json`);
-    writeFileSync(filePath, JSON.stringify(searchData, null, 2));
-  } else {
-    console.log(`No documents available for search data`);
-  }
+  writeFileSync(filePath, JSON.stringify(searchData, null, 2));
 };
 
 const createAhrefsAutoIndexFile = (): void => {
@@ -120,7 +115,6 @@ const createBenchmarkFile = (): void => {
 export const onPostBuild: GatsbyNode['onPostBuild'] = () => {
   createAhrefsAutoIndexFile();
   createBenchmarkFile();
-  createSearchDataFile();
 };
 
 const getTopDocuments = (
@@ -193,7 +187,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     PermanentDocumentDto[]
   >(functions, `getPermanentDocuments`)();
 
-  docsStorage.push(...allDocuments);
+  createSearchDataFile(allDocuments);
 
   actions.createPage<HomePageModel>({
     path: meta.routes.home,

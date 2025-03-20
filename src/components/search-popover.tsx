@@ -4,16 +4,14 @@ import React from 'react';
 import { BiSearch } from 'react-icons/bi';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
-const SearchPopoverContent = React.lazy(
-  () => import(`./search-popover-content`),
+const SearchPopoverContent = React.lazy(() =>
+  import(`./search-popover-content`).then((m) => ({
+    default: m.SearchPopoverContent,
+  })),
 );
 
 const SearchPopover = ({ className }: { className?: string }) => {
   const menu = useSimpleFeature();
-
-  const handleClick = () => {
-    menu.on();
-  };
 
   return (
     <>
@@ -21,8 +19,8 @@ const SearchPopover = ({ className }: { className?: string }) => {
         i={1}
         s={2}
         className={className}
-        title={`Search`}
-        onClick={handleClick}
+        title="Search"
+        onClick={menu.on}
       >
         <BiSearch />
       </Button>
@@ -35,4 +33,4 @@ const SearchPopover = ({ className }: { className?: string }) => {
   );
 };
 
-export default SearchPopover;
+export { SearchPopover };
