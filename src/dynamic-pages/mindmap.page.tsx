@@ -12,7 +12,11 @@ interface DocumentPageProps {
 }
 
 const MindmapPage = ({ pageContext }: DocumentPageProps) => {
-  return <></>;
+  return (
+    <>
+      <h1>{pageContext.mindmap.name}</h1>
+    </>
+  );
 };
 
 export default MindmapPage;
