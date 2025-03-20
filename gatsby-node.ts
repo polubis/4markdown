@@ -4,7 +4,7 @@ import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
 import {
-  type EducationRanPageModel,
+  type EducationRankPageModel,
   type EducationPageModel,
   type HomePageModel,
 } from 'models/page-models';
@@ -328,7 +328,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  actions.createPage<EducationRanPageModel>({
+  actions.createPage<EducationRankPageModel>({
     path: meta.routes.education.rank,
     component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
     context: {

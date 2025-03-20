@@ -38,7 +38,7 @@ type EducationPageModel = {
   tag?: Tags[number];
 };
 
-type EducationRanPageModel = {
+type EducationRankPageModel = {
   topDocuments: RichEducationDocumentModel[];
   topTags: Tags;
 };
@@ -47,6 +47,6 @@ export type {
   HomePageModel,
   EducationPageModel,
   LightEducationDocumentModel,
-  EducationRanPageModel,
+  EducationRankPageModel,
   RichEducationDocumentModel,
 };
