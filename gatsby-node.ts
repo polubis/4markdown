@@ -14,6 +14,25 @@ import {
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
 
+const docsStorage: PermanentDocumentDto[] = [];
+
+const createSearchDataFile = (): void => {
+  if (docsStorage.length > 0) {
+    const searchData = docsStorage.map((doc) => ({
+      title: doc.name,
+      description: doc.description || ``,
+      url: doc.path,
+    }));
+
+    console.log(`Creating search-data.json with ${searchData.length} entries`);
+
+    const filePath = path.join(__dirname, `public`, `search-data.json`);
+    writeFileSync(filePath, JSON.stringify(searchData, null, 2));
+  } else {
+    console.log(`No documents available for search data`);
+  }
+};
+
 const createAhrefsAutoIndexFile = (): void => {
   const indexNowKey = process.env.INDEX_NOW_KEY;
 
@@ -101,6 +120,7 @@ const createBenchmarkFile = (): void => {
 export const onPostBuild: GatsbyNode['onPostBuild'] = () => {
   createAhrefsAutoIndexFile();
   createBenchmarkFile();
+  createSearchDataFile();
 };
 
 const getTopDocuments = (
@@ -154,6 +174,7 @@ const getTopTags = (
 };
 
 export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
+  // @TODO: Why envs are not loaded
   const app = initializeApp({
     apiKey: process.env.GATSBY_API_KEY,
     authDomain: process.env.GATSBY_AUTH_DOMAIN,
@@ -163,6 +184,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     appId: process.env.GATSBY_APP_ID,
     measurementId: process.env.GATSBY_MEASURMENT_ID,
   });
+
   const functions = getFunctions(app);
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
@@ -170,6 +192,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     unknown,
     PermanentDocumentDto[]
   >(functions, `getPermanentDocuments`)();
+
+  docsStorage.push(...allDocuments);
 
   actions.createPage<HomePageModel>({
     path: meta.routes.home,

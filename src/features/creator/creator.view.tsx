@@ -26,6 +26,7 @@ import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import SearchPopover from 'components/search-popover';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -255,6 +256,7 @@ const CreatorView = () => {
           </nav>
           <div />
           <nav className="flex items-center gap-2">
+            <SearchPopover />
             <UserPopover />
             <MoreNav />
           </nav>
