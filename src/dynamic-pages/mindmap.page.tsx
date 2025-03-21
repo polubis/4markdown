@@ -28,7 +28,7 @@ export const Head: HeadFC<unknown, MindmapPageProps['pageContext']> = ({
       title={pageContext.mindmap.name}
       description={pageContext.mindmap.description ?? pageContext.mindmap.name}
       url={`${meta.siteUrl}${pageContext.mindmap.path}`}
-      keywords={`${meta.appName}, ${pageContext.mindmap.name}`}
+      keywords={[meta.appName, ...(pageContext.mindmap.tags ?? [])].join(`, `)}
       lang={meta.lang}
       image={meta.siteUrl + LogoThumbnail}
     />
