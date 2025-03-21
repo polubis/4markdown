@@ -103,7 +103,7 @@ const ChaptersModal = ({
       >
         <Modal.Header
           className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
-          title={`Chapter (${activeSectionIndex + 1})`}
+          title={`Chapter (${activeSectionIndex + 1}/${chapters.length})`}
           closeButtonTitle="Close display as a book mode (Esc)"
         >
           {controls}

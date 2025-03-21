@@ -17,6 +17,7 @@ import {
 import Dagre from '@dagrejs/dagre';
 import { type MindmapDto } from 'api-4markdown-contracts';
 import { readyMindmapsSelector } from './selectors';
+import { downloadJSON } from 'development-kit/download-file';
 
 const { get, set, getInitial } = useMindmapCreatorState;
 
@@ -319,14 +320,7 @@ const downloadMindmapAction = (): void => {
     edges,
   };
 
-  const jsonString = JSON.stringify(data, null, 2);
-  const blob = new Blob([jsonString], { type: `application/json` });
-  const a = document.createElement(`a`);
-  a.href = URL.createObjectURL(blob);
-  a.download = `data.json`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  downloadJSON({ data, name: `data` });
 };
 
 const clearMindmapAction = (): void => {

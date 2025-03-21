@@ -1,4 +1,4 @@
-import type { Base64, Date } from '../atoms';
+import type { Base64, Date, Id, Url } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -9,6 +9,7 @@ import type {
   DocumentRatingCategory,
   DocumentRatingDto,
   MindmapDto,
+  FullMindmapDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -16,6 +17,28 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   dto: TDto;
   payload: TPayload;
 };
+
+type ReportBugContract = Contract<
+  `reportBug`,
+  null,
+  {
+    title: string;
+    description: string;
+    url: Url;
+  }
+>;
+
+type GetPermanentMindmapsContract = Contract<
+  `getPermanentMindmaps`,
+  FullMindmapDto[],
+  { limit?: number }
+>;
+
+type GetAccessibleMindmapContract = Contract<
+  `getAccessibleMindmap`,
+  FullMindmapDto,
+  { authorId: Id; mindmapId: Id }
+>;
 
 type CreateMindmapContract = Contract<
   `createMindmap`,
@@ -181,7 +204,10 @@ type API4MarkdownContracts =
   | UpdateMindmapShapeContract
   | DeleteMindmapContract
   | UpdateMindmapVisibilityContract
-  | UpdateMindmapContract;
+  | UpdateMindmapContract
+  | GetAccessibleMindmapContract
+  | ReportBugContract
+  | GetPermanentMindmapsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
