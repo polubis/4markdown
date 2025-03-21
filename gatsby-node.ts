@@ -172,7 +172,6 @@ const getTopTags = (
 };
 
 export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
-  // @TODO: Why envs are not loaded
   const app = initializeApp({
     apiKey: process.env.GATSBY_API_KEY,
     authDomain: process.env.GATSBY_AUTH_DOMAIN,

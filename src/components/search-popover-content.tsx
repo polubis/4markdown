@@ -60,12 +60,12 @@ const SearchPopoverContent = ({ onClose }: SearchPopoverContentProps) => {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          <div className="mt-4 overflow-auto max-h-[400px]">
-            <ul className="bg-gray-100 dark:bg-gray-800 rounded-md divide-y divide-gray-200 dark:divide-gray-700">
+          {filteredData.length > 0 ? (
+            <ul className="mt-4 overflow-auto max-h-[400px] flex flex-col space-y-3">
               {filteredData.map((result, index) => (
                 <li
                   key={index}
-                  className="p-3 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md cursor-pointer"
+                  className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`}
                   onClick={() => navigate(result.url)}
                 >
                   <div className="font-medium">{result.title}</div>
@@ -74,13 +74,15 @@ const SearchPopoverContent = ({ onClose }: SearchPopoverContentProps) => {
                       {result.description}
                     </div>
                   )}
-                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <div className="text-sm text-gray-500 dark:text-gray-500 mt-1">
                     {result.url}
                   </div>
                 </li>
               ))}
             </ul>
-          </div>
+          ) : (
+            <h6 className="p-8 text-center">No results found</h6>
+          )}
         </>
       )}
 
