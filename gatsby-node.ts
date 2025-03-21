@@ -16,6 +16,7 @@ import type {
   PermanentDocumentDto,
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
+import { createPathForMindmap } from './src/core/create-path-for-mindmap';
 
 const createAhrefsAutoIndexFile = (): void => {
   const indexNowKey = process.env.INDEX_NOW_KEY;
@@ -201,7 +202,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
 
   allMindmaps.forEach((mindmap) => {
     actions.createPage<MindmapPageModel>({
-      path: mindmap.path,
+      path: createPathForMindmap(mindmap.id, mindmap.path),
       component: path.resolve(`./src/dynamic-pages/mindmap.page.tsx`),
       context: {
         mindmap,
