@@ -36,7 +36,7 @@ type GetPermanentMindmapsContract = Contract<
 
 type GetMindmapContract = Contract<
   `getMindmap`,
-  MindmapDto & { authorId: Id },
+  FullMindmapDto,
   { authorId: Id; mindmapId: Id }
 >;
 
