@@ -1,7 +1,7 @@
 import type { API4MarkdownDto } from 'api-4markdown-contracts';
 import type { Transaction } from 'development-kit/utility-types';
 
-type GetMindmapDto = API4MarkdownDto<`getMindmap`>;
+type GetMindmapDto = API4MarkdownDto<`getAccessibleMindmap`>;
 
 type MindmapPreviewNode = GetMindmapDto['nodes'][number];
 

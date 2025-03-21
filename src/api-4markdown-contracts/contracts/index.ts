@@ -34,8 +34,8 @@ type GetPermanentMindmapsContract = Contract<
   { limit?: number }
 >;
 
-type GetMindmapContract = Contract<
-  `getMindmap`,
+type GetAccessibleMindmapContract = Contract<
+  `getAccessibleMindmap`,
   FullMindmapDto,
   { authorId: Id; mindmapId: Id }
 >;
@@ -205,7 +205,7 @@ type API4MarkdownContracts =
   | DeleteMindmapContract
   | UpdateMindmapVisibilityContract
   | UpdateMindmapContract
-  | GetMindmapContract
+  | GetAccessibleMindmapContract
   | ReportBugContract
   | GetPermanentMindmapsContract;
 

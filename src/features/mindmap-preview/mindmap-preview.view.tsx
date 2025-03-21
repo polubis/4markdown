@@ -7,7 +7,7 @@ import MoreNav from 'components/more-nav';
 import UserPopover from 'components/user-popover';
 import { ScreenLoader } from 'design-system/screen-loader';
 import { useMindmapPreviewState } from 'store/mindmap-preview';
-import { getMindmapAct } from 'acts/get-mindmap.act';
+import { getAccessibleMindmapAct } from 'acts/get-accessible-mindmap.act';
 import { Communicate } from 'design-system/communicate';
 import { downloadMindmapAction } from 'store/mindmap-preview/actions';
 import { MindmapVisualizerContainer } from './containers/mindmap-visualizer.container';
@@ -30,7 +30,7 @@ const MindmapPreviewView = () => {
   const { mindmap } = useMindmapPreviewState();
 
   React.useEffect(() => {
-    getMindmapAct();
+    getAccessibleMindmapAct();
   }, []);
 
   return (
