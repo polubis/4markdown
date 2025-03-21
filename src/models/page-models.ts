@@ -1,4 +1,5 @@
 import type {
+  API4MarkdownDto,
   PermanentDocumentDto,
   Tags,
   UserProfileDto,
@@ -43,10 +44,15 @@ type EducationRankPageModel = {
   topTags: Tags;
 };
 
+type MindmapPageModel = {
+  mindmap: API4MarkdownDto<`getPermanentMindmaps`>[number];
+};
+
 export type {
   HomePageModel,
   EducationPageModel,
   LightEducationDocumentModel,
   EducationRankPageModel,
   RichEducationDocumentModel,
+  MindmapPageModel,
 };

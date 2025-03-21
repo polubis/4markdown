@@ -3,7 +3,7 @@ import React from 'react';
 interface MetaProps {
   title: string;
   appName: string;
-  description?: string;
+  description: string;
   url: string;
   lang: string;
   image: string;

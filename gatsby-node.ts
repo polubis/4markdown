@@ -3,10 +3,11 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
-import {
-  type EducationRankPageModel,
-  type EducationPageModel,
-  type HomePageModel,
+import type {
+  EducationRankPageModel,
+  EducationPageModel,
+  HomePageModel,
+  MindmapPageModel,
 } from 'models/page-models';
 import type {
   API4MarkdownDto,
@@ -199,7 +200,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   allMindmaps.forEach((mindmap) => {
-    actions.createPage({
+    actions.createPage<MindmapPageModel>({
       path: mindmap.path,
       component: path.resolve(`./src/dynamic-pages/mindmap.page.tsx`),
       context: {

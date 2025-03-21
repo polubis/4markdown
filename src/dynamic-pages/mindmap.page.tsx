@@ -28,7 +28,7 @@ export const Head: HeadFC<unknown, DocumentPageProps['pageContext']> = ({
     <Meta
       appName={meta.appName}
       title={pageContext.mindmap.name}
-      description={pageContext.mindmap.description ?? undefined}
+      description={pageContext.mindmap.description ?? pageContext.mindmap.name}
       url={`${meta.siteUrl}${pageContext.mindmap.path}`}
       keywords={`${meta.appName}, ${pageContext.mindmap.name}`}
       lang={meta.lang}
