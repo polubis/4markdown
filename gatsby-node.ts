@@ -200,7 +200,11 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  allMindmaps.forEach((mindmap) => {
+  const trustedMindmaps = allMindmaps.filter(
+    ({ isTrustedAuthor }) => isTrustedAuthor,
+  );
+
+  trustedMindmaps.forEach((mindmap) => {
     actions.createPage<MindmapPageModel>({
       path: createPathForMindmap(mindmap.id, mindmap.path),
       component: path.resolve(`./src/dynamic-pages/mindmap.page.tsx`),
