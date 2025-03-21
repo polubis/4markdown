@@ -3,15 +3,13 @@ import { type HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
-import type { API4MarkdownDto } from 'api-4markdown-contracts';
+import type { MindmapPageModel } from 'models/page-models';
 
-interface DocumentPageProps {
-  pageContext: {
-    mindmap: API4MarkdownDto<`getPermanentMindmaps`>[number];
-  };
+interface MindmapPageProps {
+  pageContext: MindmapPageModel;
 }
 
-const MindmapPage = ({ pageContext }: DocumentPageProps) => {
+const MindmapPage = ({ pageContext }: MindmapPageProps) => {
   return (
     <>
       <h1>{pageContext.mindmap.name}</h1>
@@ -21,7 +19,7 @@ const MindmapPage = ({ pageContext }: DocumentPageProps) => {
 
 export default MindmapPage;
 
-export const Head: HeadFC<unknown, DocumentPageProps['pageContext']> = ({
+export const Head: HeadFC<unknown, MindmapPageProps['pageContext']> = ({
   pageContext,
 }) => {
   return (
