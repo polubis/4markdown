@@ -1,3 +1,5 @@
+// @TODO[PRIO=2]: [Move meta to core directory].
+
 export const meta = {
   appName: `4Markdown`,
   lang: `en`,

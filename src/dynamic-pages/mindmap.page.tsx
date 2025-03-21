@@ -4,24 +4,42 @@ import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import type { MindmapPageModel } from 'models/page-models';
+import { ScreenLoader } from 'design-system/screen-loader';
+import { useMindmapPreviewState } from 'store/mindmap-preview';
 
 interface MindmapPageProps {
   pageContext: MindmapPageModel;
 }
 
+const MindmapDisplayView = React.lazy(() =>
+  import(`../features/mindmap-display/mindmap-display.view`).then((m) => ({
+    default: m.MindmapDisplayView,
+  })),
+);
+
 const MindmapPage = ({ pageContext }: MindmapPageProps) => {
+  const { mindmap } = useMindmapPreviewState();
+
+  if (mindmap.is === `idle`) {
+    useMindmapPreviewState.swap({
+      ...useMindmapPreviewState.getInitial(),
+      mindmap: {
+        is: `ok`,
+        ...pageContext.mindmap,
+      },
+    });
+  }
+
   return (
-    <>
-      <h1>{pageContext.mindmap.name}</h1>
-    </>
+    <React.Suspense fallback={<ScreenLoader />}>
+      <MindmapDisplayView />
+    </React.Suspense>
   );
 };
 
 export default MindmapPage;
 
-export const Head: HeadFC<unknown, MindmapPageProps['pageContext']> = ({
-  pageContext,
-}) => {
+export const Head: HeadFC<unknown, MindmapPageModel> = ({ pageContext }) => {
   return (
     <Meta
       appName={meta.appName}
