@@ -3,10 +3,11 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { type GatsbyNode } from 'gatsby';
 import path from 'path';
 import { meta } from './meta';
-import {
-  type EducationRanPageModel,
-  type EducationPageModel,
-  type HomePageModel,
+import type {
+  EducationRankPageModel,
+  EducationPageModel,
+  HomePageModel,
+  MindmapPageModel,
 } from 'models/page-models';
 import type {
   API4MarkdownDto,
@@ -15,6 +16,7 @@ import type {
   PermanentDocumentDto,
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
+import { createPathForMindmap } from './src/core/create-path-for-mindmap';
 
 const createAhrefsAutoIndexFile = (): void => {
   const indexNowKey = process.env.INDEX_NOW_KEY;
@@ -168,11 +170,18 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   const functions = getFunctions(app);
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
-  const [{ data: allDocuments }] = await Promise.all([
+  const [{ data: allDocuments }, { data: allMindmaps }] = await Promise.all([
     httpsCallable<
       API4MarkdownPayload<`getPermanentDocuments`>,
       API4MarkdownDto<`getPermanentDocuments`>
     >(functions, `getPermanentDocuments`)(),
+    httpsCallable<
+      API4MarkdownPayload<`getPermanentMindmaps`>,
+      API4MarkdownDto<`getPermanentMindmaps`>
+    >(
+      functions,
+      `getPermanentMindmaps`,
+    )({ limit: 100 }),
   ]);
 
   actions.createPage<HomePageModel>({
@@ -187,6 +196,23 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       component: path.resolve(`./src/dynamic-pages/document.page.tsx`),
       context: {
         doc: document,
+      },
+    });
+  });
+
+  const trustedMindmaps = allMindmaps.filter(
+    ({ isAuthorTrusted }) => isAuthorTrusted,
+  );
+
+  trustedMindmaps.forEach((mindmap) => {
+    const mindmapPath = createPathForMindmap(mindmap.id, mindmap.path);
+
+    actions.createPage<MindmapPageModel>({
+      path: mindmapPath,
+      component: path.resolve(`./src/dynamic-pages/mindmap.page.tsx`),
+      context: {
+        mindmap,
+        mindmapPath,
       },
     });
   });
@@ -311,7 +337,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     });
   });
 
-  actions.createPage<EducationRanPageModel>({
+  actions.createPage<EducationRankPageModel>({
     path: meta.routes.education.rank,
     component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
     context: {

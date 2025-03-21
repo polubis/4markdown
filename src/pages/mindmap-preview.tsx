@@ -3,20 +3,10 @@ import type { HeadFC } from 'gatsby';
 import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
-import { ScreenLoader } from 'design-system/screen-loader';
-
-const MindmapPreviewView = React.lazy(() =>
-  import(`../features/mindmap-preview/mindmap-preview.view`).then((m) => ({
-    default: m.MindmapPreviewView,
-  })),
-);
+import { MindmapPreviewView } from 'features/mindmap-preview/mindmap-preview.view';
 
 const MindmapPreviewPage = () => {
-  return (
-    <React.Suspense fallback={<ScreenLoader />}>
-      <MindmapPreviewView />
-    </React.Suspense>
-  );
+  return <MindmapPreviewView />;
 };
 
 export default MindmapPreviewPage;

@@ -21,8 +21,6 @@ import { useConfirm } from 'development-kit/use-confirm';
 import { getYourMindmapsAct } from 'acts/get-your-mindmaps.act';
 import { BugReportContainer } from 'containers/bug-report.container';
 
-import '../../style/mindmaps.css';
-
 const ADD_MINDMAP_KEY = `add-mindmap`;
 
 const isMindmapCreationActive = (): boolean =>
