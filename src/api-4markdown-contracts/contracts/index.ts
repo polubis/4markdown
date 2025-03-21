@@ -32,7 +32,6 @@ type GetPermanentMindmapsContract = Contract<
   (MindmapDto & {
     authorProfile: UserProfileDto | null;
     authorId: Id;
-    isTrustedAuthor: boolean;
   })[],
   { limit?: number }
 >;

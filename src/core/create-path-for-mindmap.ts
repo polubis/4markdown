@@ -6,7 +6,10 @@ const createPathForMindmap = (
   path: MindmapDto['path'],
 ) => {
   return (
-    meta.routes.mindmaps.mindmap.slice(0, -1) + path.slice(0, -1) + id + `/`
+    meta.routes.mindmaps.mindmap.slice(0, -1) +
+    path.slice(0, -1) +
+    `-${id}` +
+    `/`
   );
 };
 
