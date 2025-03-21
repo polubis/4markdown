@@ -106,6 +106,7 @@
       "store/*": ["./src/store/*"],
       "views/*": ["./src/views/*"],
       "features/*": ["./src/features/*"],
+      "modules/*": ["./src/modules/*"],
       "models/*": ["./src/models/*"],
       "components/*": ["./src/components/*"],
       "providers/*": ["./src/providers/*"],
