@@ -16,8 +16,6 @@ import { EducationRankLinkContainer } from 'containers/education-rank-link.conta
 import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { CreationLinkContainer2 } from 'containers/creation-link-2.container';
 
-import '../../style/mindmaps.css';
-
 const Loader = () => (
   <div className="flex gap-2">
     <div className="w-20 h-8 rounded-md bg-gray-300 dark:bg-gray-800" />

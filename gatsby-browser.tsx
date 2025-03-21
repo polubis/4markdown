@@ -6,6 +6,7 @@ import { CookiesModalLoader } from './src/components/cookies-modal-loader';
 import 'katex/dist/katex.min.css';
 import 'prismjs/themes/prism-okaidia.css';
 import './src/style/index.css';
+import './src/style/mindmaps.css';
 
 const ExceptionScreen = React.lazy(() =>
   import(`./src/components/exception-screen`).then((m) => ({
