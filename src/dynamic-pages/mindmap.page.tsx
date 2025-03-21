@@ -11,10 +11,10 @@ interface MindmapPageProps {
   pageContext: MindmapPageModel;
 }
 
-const MindmapPage = ({ pageContext }: MindmapPageProps) => {
-  const { mindmap } = useMindmapPreviewState();
+const useMindmapPageHydration = ({ pageContext }: MindmapPageProps) => {
+  const hydrated = React.useRef(false);
 
-  if (mindmap.is === `idle`) {
+  if (!hydrated.current) {
     useMindmapPreviewState.swap({
       ...useMindmapPreviewState.getInitial(),
       mindmap: {
@@ -22,7 +22,13 @@ const MindmapPage = ({ pageContext }: MindmapPageProps) => {
         ...pageContext.mindmap,
       },
     });
+
+    hydrated.current = true;
   }
+};
+
+const MindmapPage = (props: MindmapPageProps) => {
+  useMindmapPageHydration(props);
 
   return <MindmapDisplayView />;
 };
