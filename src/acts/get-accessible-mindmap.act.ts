@@ -1,7 +1,7 @@
 import { getAPI, parseError } from 'api-4markdown';
 import { useMindmapPreviewState } from 'store/mindmap-preview';
 
-const getMindmapAct = async (): Promise<void> => {
+const getAccessibleMindmapAct = async (): Promise<void> => {
   try {
     const { mindmap } = useMindmapPreviewState.get();
 
@@ -30,7 +30,10 @@ const getMindmapAct = async (): Promise<void> => {
       return;
     }
 
-    const data = await getAPI().call(`getMindmap`)({ mindmapId, authorId });
+    const data = await getAPI().call(`getAccessibleMindmap`)({
+      mindmapId,
+      authorId,
+    });
 
     useMindmapPreviewState.set({
       mindmap: {
@@ -48,4 +51,4 @@ const getMindmapAct = async (): Promise<void> => {
   }
 };
 
-export { getMindmapAct };
+export { getAccessibleMindmapAct };

@@ -20,6 +20,7 @@ import { deleteMindmapAct } from 'acts/delete-mindmap.act';
 import { updateMindmapVisibilityAct } from 'acts/update-mindmap-visibility.act';
 import type { MindmapDto } from 'api-4markdown-contracts';
 import { authStoreSelectors } from 'store/auth/auth.store';
+import { createPathForMindmap } from 'core/create-path-for-mindmap';
 
 const enum ViewType {
   Details = `details`,
@@ -210,7 +211,11 @@ const MindmapDetailsViewContainer = () => {
             <button
               className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
               title="Mindmap static stable URL"
-              onClick={() => navigate(activeMindmap.path)}
+              onClick={() =>
+                navigate(
+                  createPathForMindmap(activeMindmap.id, activeMindmap.path),
+                )
+              }
             >
               <strong>Static Stable URL</strong>
             </button>

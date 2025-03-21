@@ -9,6 +9,7 @@ import type {
   DocumentRatingCategory,
   DocumentRatingDto,
   MindmapDto,
+  FullMindmapDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -29,12 +30,13 @@ type ReportBugContract = Contract<
 
 type GetPermanentMindmapsContract = Contract<
   `getPermanentMindmaps`,
-  MindmapDto[]
+  FullMindmapDto[],
+  { limit?: number }
 >;
 
-type GetMindmapContract = Contract<
-  `getMindmap`,
-  MindmapDto & { authorId: Id },
+type GetAccessibleMindmapContract = Contract<
+  `getAccessibleMindmap`,
+  FullMindmapDto,
   { authorId: Id; mindmapId: Id }
 >;
 
@@ -203,7 +205,7 @@ type API4MarkdownContracts =
   | DeleteMindmapContract
   | UpdateMindmapVisibilityContract
   | UpdateMindmapContract
-  | GetMindmapContract
+  | GetAccessibleMindmapContract
   | ReportBugContract
   | GetPermanentMindmapsContract;
 
