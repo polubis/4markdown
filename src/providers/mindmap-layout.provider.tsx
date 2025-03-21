@@ -3,42 +3,35 @@ import React, {
   type SetStateAction,
   type ReactNode,
 } from 'react';
-import type {
-  DocumentRatingCategory,
-  PermanentDocumentDto,
-  PublicDocumentDto,
-} from 'api-4markdown-contracts';
+import type { MindmapDto } from 'api-4markdown-contracts';
 
 type MindmapLayoutState = {
-  document: PublicDocumentDto | PermanentDocumentDto;
-  yourRate: DocumentRatingCategory | null;
+  mindmap: MindmapDto;
 };
 
 type MindmapLayoutContextValue = [
   MindmapLayoutState,
   Dispatch<
     SetStateAction<{
-      document: PublicDocumentDto | PermanentDocumentDto;
-      yourRate: DocumentRatingCategory | null;
+      mindmap: MindmapDto;
     }>
   >,
 ];
 
 type MindmapLayoutProviderProps = {
   children: ReactNode;
-  document: MindmapLayoutState['document'];
+  mindmap: MindmapDto;
 };
 
 const MindmapLayoutContext =
   React.createContext<MindmapLayoutContextValue | null>(null);
 
 const MindmapLayoutProvider = ({
-  document,
+  mindmap,
   children,
 }: MindmapLayoutProviderProps) => {
   const value = React.useState<MindmapLayoutState>(() => ({
-    document,
-    yourRate: null,
+    mindmap,
   }));
 
   return (
