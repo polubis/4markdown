@@ -9,6 +9,7 @@ import type {
   DocumentRatingCategory,
   DocumentRatingDto,
   MindmapDto,
+  FullMindmapDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -29,11 +30,7 @@ type ReportBugContract = Contract<
 
 type GetPermanentMindmapsContract = Contract<
   `getPermanentMindmaps`,
-  (MindmapDto & {
-    authorProfile: UserProfileDto | null;
-    authorId: Id;
-    isTrustedAuthor: boolean;
-  })[],
+  FullMindmapDto[],
   { limit?: number }
 >;
 

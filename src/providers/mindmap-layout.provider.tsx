@@ -3,24 +3,24 @@ import React, {
   type SetStateAction,
   type ReactNode,
 } from 'react';
-import type { MindmapDto } from 'api-4markdown-contracts';
+import type { FullMindmapDto } from 'api-4markdown-contracts';
 
 type MindmapLayoutState = {
-  mindmap: MindmapDto;
+  mindmap: FullMindmapDto;
 };
 
 type MindmapLayoutContextValue = [
   MindmapLayoutState,
   Dispatch<
     SetStateAction<{
-      mindmap: MindmapDto;
+      mindmap: FullMindmapDto;
     }>
   >,
 ];
 
 type MindmapLayoutProviderProps = {
   children: ReactNode;
-  mindmap: MindmapDto;
+  mindmap: FullMindmapDto;
 };
 
 const MindmapLayoutContext =
