@@ -1,5 +1,6 @@
 import type {
-  API4MarkdownDto,
+  FullMindmapDto,
+  Path,
   PermanentDocumentDto,
   Tags,
   UserProfileDto,
@@ -45,7 +46,8 @@ type EducationRankPageModel = {
 };
 
 type MindmapPageModel = {
-  mindmap: API4MarkdownDto<`getPermanentMindmaps`>[number];
+  mindmap: FullMindmapDto;
+  mindmapPath: Path;
 };
 
 export type {

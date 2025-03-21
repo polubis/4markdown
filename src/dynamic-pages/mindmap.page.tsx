@@ -35,7 +35,7 @@ export const Head: HeadFC<unknown, MindmapPageModel> = ({ pageContext }) => {
       appName={meta.appName}
       title={pageContext.mindmap.name}
       description={pageContext.mindmap.description ?? pageContext.mindmap.name}
-      url={`${meta.siteUrl}${pageContext.mindmap.path}`}
+      url={`${meta.siteUrl}${pageContext.mindmapPath}`}
       keywords={[meta.appName, ...(pageContext.mindmap.tags ?? [])].join(`, `)}
       lang={meta.lang}
       image={meta.siteUrl + LogoThumbnail}

@@ -205,11 +205,14 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   );
 
   trustedMindmaps.forEach((mindmap) => {
+    const mindmapPath = createPathForMindmap(mindmap.id, mindmap.path);
+
     actions.createPage<MindmapPageModel>({
-      path: createPathForMindmap(mindmap.id, mindmap.path),
+      path: mindmapPath,
       component: path.resolve(`./src/dynamic-pages/mindmap.page.tsx`),
       context: {
         mindmap,
+        mindmapPath,
       },
     });
   });
