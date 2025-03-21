@@ -14,8 +14,8 @@ import { readyMindmapPreviewSelector } from 'store/mindmap-preview/selectors';
 import {
   ExternalNodeTileX,
   ExternalNodeTileY,
-} from '../components/external-node-tile';
-import { SolidEdge } from '../components/solid-edge';
+} from './components/external-node-tile';
+import { SolidEdge } from './components/solid-edge';
 import type {
   MindmapPreviewEdge,
   MindmapPreviewNode,
@@ -24,7 +24,7 @@ import type {
 import {
   EmbeddedNodeTileContainerX,
   EmbeddedNodeTileContainerY,
-} from './embedded-node-tile.container';
+} from './containers/embedded-node-tile.container';
 import { ChaptersModal } from 'components/chapters-modal';
 import { closeNodePreviewAction } from 'store/mindmap-preview/actions';
 
@@ -57,7 +57,7 @@ const edgeTypes: MindmapEdgeTypes = {
   solid: SolidEdge,
 };
 
-const MindmapVisualizerContainer = () => {
+const MindmapPreviewModule = () => {
   const mindmap = useMindmapPreviewState((state) =>
     readyMindmapPreviewSelector(state.mindmap),
   );
@@ -85,4 +85,4 @@ const MindmapVisualizerContainer = () => {
   );
 };
 
-export { MindmapVisualizerContainer };
+export { MindmapPreviewModule };

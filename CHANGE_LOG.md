@@ -51,19 +51,3 @@ const ExamplesContainer = () => {
 export { ExamplesContainer };
 
 ```
-
-```
-  // @TODO[PRIO=1]: [Find a way to call it statically from library].
-  // , { data: allMindmaps }
-  const [{ data: allDocuments }] = await Promise.all([
-    httpsCallable<
-      API4MarkdownPayload<`getPermanentDocuments`>,
-      API4MarkdownDto<`getPermanentDocuments`>
-    >(functions, `getPermanentDocuments`)(),
-    // httpsCallable<
-    //   API4MarkdownPayload<`getPermanentMindmaps`>,
-    //   API4MarkdownDto<`getPermanentMindmaps`>
-    // >(functions, `getPermanentMindmaps`)(),
-  ]);
-
-```

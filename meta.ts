@@ -1,3 +1,5 @@
+// @TODO[PRIO=2]: [Move meta to core directory].
+
 export const meta = {
   appName: `4Markdown`,
   lang: `en`,
@@ -19,6 +21,7 @@ export const meta = {
   mdCheatsheet: `https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet`,
   routes: {
     mindmaps: {
+      mindmap: `/mindmap/`,
       creator: `/mindmap-creator/`,
       preview: `/mindmap-preview/`,
     },

@@ -1,4 +1,6 @@
 import type {
+  FullMindmapDto,
+  Path,
   PermanentDocumentDto,
   Tags,
   UserProfileDto,
@@ -38,15 +40,21 @@ type EducationPageModel = {
   tag?: Tags[number];
 };
 
-type EducationRanPageModel = {
+type EducationRankPageModel = {
   topDocuments: RichEducationDocumentModel[];
   topTags: Tags;
+};
+
+type MindmapPageModel = {
+  mindmap: FullMindmapDto;
+  mindmapPath: Path;
 };
 
 export type {
   HomePageModel,
   EducationPageModel,
   LightEducationDocumentModel,
-  EducationRanPageModel,
+  EducationRankPageModel,
   RichEducationDocumentModel,
+  MindmapPageModel,
 };
