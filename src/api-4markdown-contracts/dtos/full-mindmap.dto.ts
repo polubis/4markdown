@@ -5,7 +5,7 @@ import type { UserProfileDto } from './user-profile.dto';
 type FullMindmapDto = MindmapDto & {
   authorId: Id;
   authorProfile: UserProfileDto | null;
-  isTrustedAuthor: boolean;
+  isAuthorTrusted: boolean;
 };
 
 export type { FullMindmapDto };

@@ -201,7 +201,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   const trustedMindmaps = allMindmaps.filter(
-    ({ isTrustedAuthor }) => isTrustedAuthor,
+    ({ isAuthorTrusted }) => isAuthorTrusted,
   );
 
   trustedMindmaps.forEach((mindmap) => {

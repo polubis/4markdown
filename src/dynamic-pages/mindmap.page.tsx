@@ -4,18 +4,12 @@ import Meta from 'components/meta';
 import LogoThumbnail from 'images/logo-thumbnail.png';
 import { meta } from '../../meta';
 import type { MindmapPageModel } from 'models/page-models';
-import { ScreenLoader } from 'design-system/screen-loader';
 import { useMindmapPreviewState } from 'store/mindmap-preview';
+import { MindmapDisplayView } from 'features/mindmap-display/mindmap-display.view';
 
 interface MindmapPageProps {
   pageContext: MindmapPageModel;
 }
-
-const MindmapDisplayView = React.lazy(() =>
-  import(`../features/mindmap-display/mindmap-display.view`).then((m) => ({
-    default: m.MindmapDisplayView,
-  })),
-);
 
 const MindmapPage = ({ pageContext }: MindmapPageProps) => {
   const { mindmap } = useMindmapPreviewState();
@@ -30,11 +24,7 @@ const MindmapPage = ({ pageContext }: MindmapPageProps) => {
     });
   }
 
-  return (
-    <React.Suspense fallback={<ScreenLoader />}>
-      <MindmapDisplayView />
-    </React.Suspense>
-  );
+  return <MindmapDisplayView />;
 };
 
 export default MindmapPage;
