@@ -10,11 +10,11 @@ import { useMindmapPreviewState } from 'store/mindmap-preview';
 import { getAccessibleMindmapAct } from 'acts/get-accessible-mindmap.act';
 import { Communicate } from 'design-system/communicate';
 import { downloadMindmapAction } from 'store/mindmap-preview/actions';
-import { MindmapVisualizerContainer } from './containers/mindmap-visualizer.container';
 import { BugReportContainer } from 'containers/bug-report.container';
 import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
 import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
 import { CreationLinkContainer2 } from 'containers/creation-link-2.container';
+import { MindmapPreviewModule } from 'modules/mindmap-preview/mindmap-preview.module';
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -35,7 +35,7 @@ const MindmapPreviewView = () => {
     <>
       <main className="md:mt-[122px] md:mb-0 mb-[122px] h-[calc(100svh-50px-72px)]">
         {mindmap.is === `busy` && <ScreenLoader />}
-        {mindmap.is === `ok` && <MindmapVisualizerContainer />}
+        {mindmap.is === `ok` && <MindmapPreviewModule />}
         {mindmap.is === `fail` && (
           <Communicate className="h-full">
             <Communicate.Message>
