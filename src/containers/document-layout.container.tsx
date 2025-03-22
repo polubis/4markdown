@@ -21,16 +21,11 @@ import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { TableOfContentSidebar } from 'components/table-of-content-sidebar';
 
 const ChaptersModal = React.lazy(() =>
   import(`../components/chapters-modal`).then((m) => ({
     default: m.ChaptersModal,
-  })),
-);
-
-const TableOfContentsSidebar = React.lazy(() =>
-  import(`../components/table-of-contents-sidebar`).then((m) => ({
-    default: m.TableOfContentsSidebar,
   })),
 );
 
@@ -40,7 +35,6 @@ const DocumentLayoutContainer = () => {
   const sectionsModal = useSimpleFeature();
   const tocSidebar = useSimpleFeature();
   const [copyState, copy] = useCopy();
-  console.log(`CODE`, code);
 
   const openInDocumentsCreator = (): void => {
     seeInDocumentsCreatorAct({ code });
@@ -99,6 +93,11 @@ const DocumentLayoutContainer = () => {
           </section>
         )}
         <Markdown className="mx-auto">{code}</Markdown>
+        <TableOfContentSidebar
+          opened={tocSidebar.isOn}
+          onClose={tocSidebar.off}
+          content={code}
+        />
         {author?.bio && author?.displayName && (
           <section className="mt-12 max-w-prose mx-auto">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
@@ -137,14 +136,7 @@ const DocumentLayoutContainer = () => {
           <ChaptersModal onClose={sectionsModal.off}>{code}</ChaptersModal>
         </React.Suspense>
       )}
-      {tocSidebar.isOn && (
-        <React.Suspense>
-          <TableOfContentsSidebar
-            opened={tocSidebar.isOn}
-            onClose={tocSidebar.off}
-          />
-        </React.Suspense>
-      )}
+
       {copyState.is === `copied` && <Status>Document markdown copied</Status>}
     </>
   );

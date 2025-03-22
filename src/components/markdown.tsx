@@ -14,6 +14,7 @@ import ReactMarkdown, { type Options } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { extractTextFromNode, generateId } from '../hooks/useTableContent';
 
 const Code = ({
   children,
@@ -57,10 +58,60 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Helper function to extract text from ReactNode
+
 const OPTIONS: Options = {
   remarkPlugins: [remarkGfm, remarkMath],
   rehypePlugins: [rehypeKatex],
   components: {
+    h1: ({ children, ...props }) => {
+      const text = extractTextFromNode(children);
+      return (
+        <h1 id={generateId(text)} {...props}>
+          {children}
+        </h1>
+      );
+    },
+    h2: ({ children, ...props }) => {
+      const text = extractTextFromNode(children);
+      return (
+        <h2 id={generateId(text)} {...props}>
+          {children}
+        </h2>
+      );
+    },
+    h3: ({ children, ...props }) => {
+      const text = extractTextFromNode(children);
+      return (
+        <h3 id={generateId(text)} {...props}>
+          {children}
+        </h3>
+      );
+    },
+    h4: ({ children, ...props }) => {
+      const text = extractTextFromNode(children);
+      return (
+        <h4 id={generateId(text)} {...props}>
+          {children}
+        </h4>
+      );
+    },
+    h5: ({ children, ...props }) => {
+      const text = extractTextFromNode(children);
+      return (
+        <h5 id={generateId(text)} {...props}>
+          {children}
+        </h5>
+      );
+    },
+    h6: ({ children, ...props }) => {
+      const text = extractTextFromNode(children);
+      return (
+        <h6 id={generateId(text)} {...props}>
+          {children}
+        </h6>
+      );
+    },
     a: ({ children, href }) => (
       <a href={href} target="_blank" rel="noopener noreferrer">
         {children}
