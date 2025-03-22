@@ -1,7 +1,13 @@
 import React from 'react';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
-import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from 'react-icons/bi';
+import {
+  BiBook,
+  BiCheck,
+  BiCopyAlt,
+  BiLogoMarkdown,
+  BiListUl,
+} from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
@@ -22,11 +28,19 @@ const ChaptersModal = React.lazy(() =>
   })),
 );
 
+const TableOfContentsSidebar = React.lazy(() =>
+  import(`../components/table-of-contents-sidebar`).then((m) => ({
+    default: m.TableOfContentsSidebar,
+  })),
+);
+
 const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
+  const tocSidebar = useSimpleFeature();
   const [copyState, copy] = useCopy();
+  console.log(`CODE`, code);
 
   const openInDocumentsCreator = (): void => {
     seeInDocumentsCreatorAct({ code });
@@ -66,6 +80,14 @@ const DocumentLayoutContainer = () => {
             ) : (
               <BiCopyAlt />
             )}
+          </Button>
+          <Button
+            title="Open table of contents"
+            s={2}
+            i={2}
+            onClick={tocSidebar.toggle}
+          >
+            <BiListUl />
           </Button>
         </section>
         <DocumentRatingContainer className="mb-6 justify-end max-w-prose mx-auto" />
@@ -113,6 +135,14 @@ const DocumentLayoutContainer = () => {
       {sectionsModal.isOn && (
         <React.Suspense>
           <ChaptersModal onClose={sectionsModal.off}>{code}</ChaptersModal>
+        </React.Suspense>
+      )}
+      {tocSidebar.isOn && (
+        <React.Suspense>
+          <TableOfContentsSidebar
+            opened={tocSidebar.isOn}
+            onClose={tocSidebar.off}
+          />
         </React.Suspense>
       )}
       {copyState.is === `copied` && <Status>Document markdown copied</Status>}
