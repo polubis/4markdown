@@ -10,6 +10,7 @@ export type Heading = {
 
 type UseTableContentsOptions = {
   content: string;
+  isOpen?: boolean;
 };
 
 export const extractTextFromNode = (node: ReactNode): string => {
@@ -32,23 +33,17 @@ export const extractTextFromNode = (node: ReactNode): string => {
 };
 
 export const cleanText = (text: string): string => {
-  return text
-    .replace(/\*\*|\*/g, ``)
-    .replace(/`/g, ``)
-    .replace(/#/g, ``);
+  return text.replace(/(\*\*|\*|`|#)/g, ``);
 };
 
 export const generateId = (text: string): string => {
   return text
-    .replace(/\*\*|\*/g, ``)
-    .replace(/`/g, ``)
-    .replace(/#/g, ``)
     .toLowerCase()
     .trim()
-    .replace(/\s+/g, `-`)
-    .replace(/[^a-z0-9-]/g, ``)
-    .replace(/-+/g, `-`)
-    .replace(/^-+|-+$/g, ``);
+    .replace(/(\*\*|\*|`|#|\s+|-+|[^a-z0-9-]|^-+|-+$)/g, (match) => {
+      if (match.match(/\s+|-+/)) return `-`;
+      return ``;
+    });
 };
 
 type TraverseAccumulator<T> = (results: T[]) => T[];
@@ -96,6 +91,16 @@ export const useTableContent = ({ content }: UseTableContentsOptions) => {
   const [activeHeadingId, setActiveHeadingId] = React.useState<string>(``);
   const isScrollingRef = React.useRef(false);
   const scrollTimeoutRef = React.useRef<number | null>(null);
+
+  React.useEffect(() => {
+    if (typeof window !== `undefined` && window.location.hash) {
+      window.history.replaceState(
+        null,
+        ``,
+        `${window.location.pathname}${window.location.search}`,
+      );
+    }
+  }, []);
 
   const headings = React.useMemo(() => {
     const allHeadings = extractHeadingsFromContent(content);
@@ -199,13 +204,22 @@ export const useTableContent = ({ content }: UseTableContentsOptions) => {
 
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
+        scrollTimeoutRef.current = null;
       }
-      setActiveHeadingId(id);
 
+      setActiveHeadingId(id);
       isScrollingRef.current = true;
 
       const element = document.getElementById(id);
       if (element) {
+        if (typeof window !== `undefined`) {
+          window.history.pushState(
+            null,
+            ``,
+            `${window.location.pathname}${window.location.search}#${id}`,
+          );
+        }
+
         element.scrollIntoView({ behavior: `smooth` });
 
         scrollTimeoutRef.current = window.setTimeout(() => {

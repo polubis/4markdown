@@ -31,14 +31,14 @@ const HeadingItem = ({
       <a
         href={`#${heading.id}`}
         className={c(
-          `block py-1 hover:text-blue-500 transition-colors`,
+          `block py-1  hover:text-green-700`,
           heading.level === 1 ? `font-bold` : ``,
           heading.level === 2 ? `pl-2` : ``,
           heading.level === 3 ? `pl-4` : ``,
           heading.level === 4 ? `pl-6` : ``,
           heading.level === 5 ? `pl-8` : ``,
           heading.level === 6 ? `pl-10` : ``,
-          isActive ? `text-blue-600 dark:text-blue-500 ` : ``,
+          isActive ? ` text-green-700 ` : ``,
         )}
         onClick={(e) => onHeadingClick(e, heading.id)}
       >
