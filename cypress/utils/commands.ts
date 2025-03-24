@@ -210,7 +210,7 @@ const BASE_COMMANDS = {
     if (!folder) {
       throw Error(`Please specify folder for pictures`);
     }
-    cy.matchImageSnapshot(`${folder}-${acc}`, { capture: `viewport` });
+    cy.matchImageSnapshot(`${acc}-${folder}`, { capture: `viewport` });
     acc += 1;
   },
   'I paste in creator': async () => {
