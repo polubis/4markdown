@@ -49,7 +49,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
               alt={meta.appName}
               title={meta.title}
             />
-            <p className="text-lg ml-3 font-bold">{meta.appName}</p>
+            {/* <p className="text-lg ml-3 font-bold">{meta.appName}</p> */}
           </Link>
           <ThemeProvider>
             {({ theme, set }) => (
