@@ -32,6 +32,7 @@ const createMindmapAct = async (
         data: [mindmap, ...safeMindmaps.data],
       },
       operation: { is: `ok` },
+      changesCount: 0,
     });
   } catch (error: unknown) {
     useMindmapCreatorState.set({
