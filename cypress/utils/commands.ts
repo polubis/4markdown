@@ -72,9 +72,6 @@ type Endpoint =
   | `getYourDocuments`
   | `getAccessibleDocument`;
 
-let acc = 1;
-let folder: string | undefined;
-
 type Section =
   | `[user-profile]:no-profile-yet`
   | `[user-profile]:profile-loading`
@@ -157,12 +154,13 @@ const BASE_COMMANDS = {
   'I reload page': () => {
     // cy.reload();
   },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   'System sets pictures folder': (name: string) => {
-    folder = name;
+    // folder = name;
   },
   'System cleans pictures setup': () => {
-    acc = 1;
-    folder = undefined;
+    // acc = 1;
+    // folder = undefined;
   },
   'System has accepted cookies': () => {
     cy.setCookie(`acceptance`, `true`);
@@ -207,11 +205,13 @@ const BASE_COMMANDS = {
   },
   'System takes picture': () => {
     // 1000x660 viewport, full screen, 2x sidebars open, Hp monitor, 100% zoom.
-    if (!folder) {
-      throw Error(`Please specify folder for pictures`);
-    }
-    cy.matchImageSnapshot(`${folder}-${acc}`, { capture: `viewport` });
-    acc += 1;
+    // if (!folder) {
+    //   throw Error(`Please specify folder for pictures`);
+    // }
+    cy.matchImageSnapshot({
+      capture: `viewport`,
+    });
+    // acc += 1;
   },
   'I paste in creator': async () => {
     // @TODO
