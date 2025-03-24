@@ -23,8 +23,6 @@ const legacyRoutes = {
   },
 };
 
-const urlToIndexLimit = 2;
-
 const disallowedPaths = [
   meta.routes.documents.preview,
   meta.routes.notFound,
@@ -68,11 +66,24 @@ const seoPlugins = () =>
           allSitePage: { nodes: GatsbyPluginSitemapPage[] };
         }): GatsbyPluginSitemapPage[] =>
           payload.allSitePage.nodes.filter((page) => {
-            return (
-              !(disallowedPaths as string[]).includes(page.path) &&
-              page.path.split(`/`).filter((part) => !!part).length <
-                urlToIndexLimit
+            // When "true" returned then it adds page to sitemap
+            const isDisallowedPath = disallowedPaths.includes(page.path);
+
+            if (isDisallowedPath) {
+              return false;
+            }
+
+            const isEducationZonePage = page.path.startsWith(
+              meta.routes.education.zone,
             );
+            const isEducationSubPage =
+              isEducationZonePage && page.path !== meta.routes.education.zone;
+
+            if (isEducationSubPage) {
+              return false;
+            }
+
+            return true;
           }),
         serialize: ({ path: url }: { path: string }): SerializedPage => {
           const lowPrioPaths = [meta.routes.privacyPolicy];
@@ -80,6 +91,7 @@ const seoPlugins = () =>
             meta.routes.home,
             meta.routes.education.zone,
             meta.routes.education.rank,
+            meta.routes.mindmaps.creator,
           ];
           const lastmod = new Date().toISOString();
 
