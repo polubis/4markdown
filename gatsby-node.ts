@@ -18,6 +18,20 @@ import type {
 import { readFileSync, writeFileSync } from 'fs';
 import { createPathForMindmap } from './src/core/create-path-for-mindmap';
 
+const createSearchDataFile = (documents: PermanentDocumentDto[]): void => {
+  if (documents.length === 0) return;
+
+  const searchData = documents.map((doc) => ({
+    title: doc.name,
+    description: doc.description,
+    url: doc.path,
+  }));
+
+  const filePath = path.join(__dirname, `public`, `search-data.json`);
+
+  writeFileSync(filePath, JSON.stringify(searchData, null, 2));
+};
+
 const createAhrefsAutoIndexFile = (): void => {
   const indexNowKey = process.env.INDEX_NOW_KEY;
 
@@ -167,6 +181,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     appId: process.env.GATSBY_APP_ID,
     measurementId: process.env.GATSBY_MEASURMENT_ID,
   });
+
   const functions = getFunctions(app);
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
@@ -183,6 +198,8 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       `getPermanentMindmaps`,
     )({ limit: 100 }),
   ]);
+
+  createSearchDataFile(allDocuments);
 
   actions.createPage<HomePageModel>({
     path: meta.routes.home,

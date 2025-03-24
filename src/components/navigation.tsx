@@ -4,6 +4,7 @@ import MoreNav from './more-nav';
 import UserPopover from './user-popover';
 import { Link } from 'gatsby';
 import { meta } from '../../meta';
+import { SearchPopover } from './search-popover';
 
 interface NavigationProps {
   className?: string;
@@ -28,7 +29,8 @@ const Navigation = ({ className, children }: NavigationProps) => {
       </Link>
       <nav className="flex gap-2 w-full items-center">
         {children}
-        <UserPopover className="ml-auto" />
+        <SearchPopover className="ml-auto" />
+        <UserPopover />
         <MoreNav />
         <div className="h-1 w-2 shrink-0 block sm:hidden" />
       </nav>
