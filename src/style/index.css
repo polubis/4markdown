@@ -80,6 +80,14 @@ body.dark .active-button-link:hover {
 
 /* @Tailwind */
 
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
 @layer components {
   .prose h1 {
     @apply text-4xl md:text-5xl;
