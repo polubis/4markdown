@@ -31,7 +31,8 @@
     "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "lint:ci": "npm run lint",
     "benchmark": "node benchmark.js",
-    "verify": "npm run build && npm run serve"
+    "verify": "npm run build && npm run serve",
+    "remove-snaps": "rm -rf cypress/screenshots/*"
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",

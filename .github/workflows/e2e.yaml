@@ -32,4 +32,4 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libgbm-dev xvfb
-          xvfb-run --server-args="-screen 0 1000x660x24" npm run test:e2e:ci
+          xvfb-run --server-args="-screen 0 1000x625x24" npm run test:e2e:ci

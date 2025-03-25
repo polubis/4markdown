@@ -206,7 +206,16 @@ const BASE_COMMANDS = {
     cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);
   },
   'System takes picture': () => {
-    // 1000x660 viewport, full screen, 2x sidebars open, Hp monitor, 100% zoom.
+    cy.window().then((win) => {
+      console.log(`Window size:`, win.innerWidth, `x`, win.innerHeight);
+      console.log(
+        `Viewport size:`,
+        Cypress.config(`viewportWidth`),
+        `x`,
+        Cypress.config(`viewportHeight`),
+      );
+    });
+
     if (!folder) {
       throw Error(`Please specify folder for pictures`);
     }
