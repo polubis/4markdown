@@ -10,10 +10,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
@@ -37,7 +37,12 @@ jobs:
 
       - name: Upload test artifacts
         if: always()
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: e2e-test-artifacts
-          path: cypress
+          path: |
+            cypress/screenshots/**/*
+            cypress/videos/**/*
+            cypress/logs/**/*
+            cypress/snapshots/**/*
+          retention-days: 30
