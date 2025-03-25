@@ -32,20 +32,7 @@ jobs:
           GATSBY_TEST_USER_PASSWORD: ${{ secrets.GATSBY_TEST_USER_PASSWORD }}
         run: |
           sudo apt-get update
-          # Install required system fonts and utilities
-          sudo apt-get install -y libgbm-dev xvfb \
-            fonts-noto-color-emoji \
-            fonts-symbola \
-            fonts-ubuntu \
-            fonts-liberation2 \
-            ttf-ancient-fonts \
-            fontconfig
-          # Clear and regenerate font cache
-          fc-cache -f -v
-          # Add diagnostic step to check available fonts
-          echo "Installed fonts:"
-          fc-list | grep -i "emoji\|sans\|segoe\|ui"
-          # Run Cypress with Xvfb
+          sudo apt-get install -y libgbm-dev xvfb
           xvfb-run --server-args="-screen 0 1000x625x24" npm run test:e2e:ci
 
       - name: Upload test artifacts
@@ -58,4 +45,4 @@ jobs:
             cypress/videos/**/*
             cypress/logs/**/*
             cypress/snapshots/**/*
-          retention-days: 30
+          retention-days: 5
