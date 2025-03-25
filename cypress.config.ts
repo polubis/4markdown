@@ -3,6 +3,7 @@ import { addMatchImageSnapshotPlugin } from 'cypress-image-snapshot/plugin';
 
 export default defineConfig({
   e2e: {
+    defaultBrowser: `chrome`,
     specPattern: `cypress/e2e`,
     setupNodeEvents(on, config) {
       addMatchImageSnapshotPlugin(on, config);
