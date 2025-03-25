@@ -34,14 +34,3 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgbm-dev xvfb
           xvfb-run --server-args="-screen 0 1000x625x24" npm run test:e2e:ci
-
-      # Upload snapshots and diffs
-      - name: Upload Test Results
-        if: always() # This ensures upload happens even if tests fail
-        uses: actions/upload-artifact@v2
-        with:
-          name: cypress-results
-          path: |
-            cypress/snapshots/**/*.png
-            cypress/snapshots/__diff_output__/*.png
-          retention-days: 5
