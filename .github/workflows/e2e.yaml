@@ -32,7 +32,13 @@ jobs:
           GATSBY_TEST_USER_PASSWORD: ${{ secrets.GATSBY_TEST_USER_PASSWORD }}
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgbm-dev xvfb
+          # Install required system fonts and utilities
+          sudo apt-get install -y libgbm-dev xvfb \
+            fonts-noto-color-emoji \
+            fontconfig
+          # Clear and regenerate font cache
+          fc-cache -f -v
+          # Run Cypress with Xvfb
           xvfb-run --server-args="-screen 0 1000x625x24" npm run test:e2e:ci
 
       - name: Upload test artifacts
