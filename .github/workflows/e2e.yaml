@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
@@ -30,10 +30,7 @@ jobs:
           GATSBY_MEASURMENT_ID: ${{ secrets.GATSBY_MEASURMENT_ID }}
           GATSBY_TEST_USER_EMAIL: ${{ secrets.GATSBY_TEST_USER_EMAIL }}
           GATSBY_TEST_USER_PASSWORD: ${{ secrets.GATSBY_TEST_USER_PASSWORD }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgbm-dev xvfb
-          xvfb-run --server-args="-screen 0 1000x625x24" npm run test:e2e:ci
+        run: npm run test:e2e:ci
 
       - name: Upload test artifacts
         if: always()
@@ -45,4 +42,4 @@ jobs:
             cypress/videos/**/*
             cypress/logs/**/*
             cypress/snapshots/**/*
-          retention-days: 30
+          retention-days: 5
