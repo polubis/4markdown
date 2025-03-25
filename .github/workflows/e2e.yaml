@@ -34,3 +34,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgbm-dev xvfb
           xvfb-run --server-args="-screen 0 1000x625x24" npm run test:e2e:ci
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: e2e-test-artifacts
+          path: |
+            cypress/screenshots/**/*
+            cypress/videos/**/*
+            cypress/logs/**/*
+            cypress/snapshots/**/*
+          retention-days: 30
