@@ -37,12 +37,7 @@ jobs:
 
       - name: Upload test artifacts
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: e2e-test-artifacts
-          path: |
-            cypress/screenshots/**/*
-            cypress/videos/**/*
-            cypress/logs/**/*
-            cypress/snapshots/**/*
-          retention-days: 30
+          path: cypress
