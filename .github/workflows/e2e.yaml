@@ -17,6 +17,7 @@ jobs:
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
+
       - name: Run e2e
         env: 
           GATSBY_API_URL: ${{ secrets.GATSBY_API_URL }}
@@ -33,3 +34,61 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgbm-dev xvfb
           xvfb-run --server-args="-screen 0 1000x625x24" npm run test:e2e:ci
+
+      # Upload snapshots and diffs
+      - name: Upload Test Results
+        if: always() # This ensures upload happens even if tests fail
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-results
+          path: |
+            cypress/snapshots/**/*.png
+            cypress/snapshots/__diff_output__/*.png
+          retention-days: 5
+
+      # Create a summary of differences
+      - name: Generate Test Summary
+        if: failure()
+        run: |
+          echo "### Visual Test Results 🖼️" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # List all diff images
+          echo "#### Failed Screenshot Comparisons" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          for file in cypress/snapshots/__diff_output__/*.png; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              echo "❌ $filename" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
+
+      # Optional: Comment on PR with results
+      - name: Comment PR
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            let body = '### Visual Test Results 🖼️\n\n';
+            
+            const diffDir = 'cypress/snapshots/__diff_output__';
+            if (fs.existsSync(diffDir)) {
+              const files = fs.readdirSync(diffDir).filter(f => f.endsWith('.png'));
+              if (files.length > 0) {
+                body += '#### Failed Screenshot Comparisons:\n\n';
+                files.forEach(file => {
+                  body += `❌ ${file}\n`;
+                });
+                body += '\nPlease check the artifacts in the GitHub Actions run for the actual images.';
+              }
+            }
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: body
+            });
