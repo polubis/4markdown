@@ -60,7 +60,7 @@ const MindmapDisplayView = () => {
                 alt="Logo"
               />
             </Link>
-            <div className="items-center gap-5 mr-3 lg:flex hidden">
+            <div className="items-center gap-5 mr-3 md:flex hidden">
               <CreationLinkContainer2 />
               <EducationRankLinkContainer />
               <EducationZoneLinkContainer />
