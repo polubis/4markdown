@@ -76,7 +76,7 @@ const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
         },
         tab: () => {
           onClick(
-            `\`\`\`javascript\n@@@\n// Tab name: Tab 1\n\n@@@\n// Tab name: Empty Tab\n\n@@@\n// Tab name: Tab 3\nconsole.log("Hello world");\n\`\`\``,
+            `\`\`\`\n@@@\n// Tab name: Tab 1\n\n@@@\n// Tab name: Empty Tab\n\n@@@\n// Tab name: Tab 3\nconsole.log("Hello world");\n\`\`\``,
           );
         },
       };

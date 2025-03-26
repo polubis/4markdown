@@ -50,18 +50,12 @@ type TabCodeProps = {
 const TabCode = ({ tabs, activeTab, setActiveTab }: TabCodeProps) => {
   return (
     <>
-      <Tabs fit className="overflow-x-auto">
+      <Tabs fit>
         {tabs.map((_, index) => (
           <Tabs.Item
             active={activeTab === index}
             key={index}
             onClick={() => setActiveTab(index)}
-            className={c(
-              `px-3 py-2 text-sm whitespace-nowrap hover:cursor-pointer font-medium`,
-              activeTab === index
-                ? `bg-green-700 text-white`
-                : `bg-gray-300 dark:bg-slate-800 text-black dark:text-white hover:bg-gray-400/70 dark:hover:bg-slate-800/70`,
-            )}
           >
             {`Tab ${index + 1}`}
           </Tabs.Item>
@@ -120,7 +114,7 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
 
   return (
     <Button
-      className="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity"
+      className="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity z-10"
       i={2}
       s={1}
       title="Copy snippet"
