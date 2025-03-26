@@ -10,6 +10,8 @@
 
 6. UI lib -> https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-ui
 
+7. Repo i kod z prezki -> https://github.com/polubis/4markdown/tree/prezka-przeprogramowani
+
 ## Użyteczne prompty
 
 - Analiza zachowań do przetestowania
