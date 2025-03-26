@@ -4,7 +4,9 @@
 
 3. Kurs z testowania -> https://greenonsoftware.com/courses/react-testing-spellbook/
 
-4. Użyteczne prompty
+4. Chromatic showcase -> https://www.chromatic.com/test?appId=6463b9b3f6a12b651e1706cb&id=6571a275b79425b690768515
+
+5. Użyteczne prompty
 
 - Analiza zachowań do przetestowania
 
