@@ -17,3 +17,25 @@
 ```
 Under @perfect-test.md  I've added an example of testing pattern I'm using in my codebase. List behaviors to test from @cookies.ts
 ```
+
+- Generowanie testów e2e
+
+```
+@commands.ts contains list of commands to run via syntax provided in @log-in-out.cy.ts .
+
+I want to have a new e2e test (only one "it" statement), for checking feature of adding new document.
+
+Use only available commands from @commands.ts and craft me e2e for:
+
+Sign in
+Close user details popup
+Opens create document popup
+Closing it and checking if it's closed
+Open popup again
+Check if button (confirm) is initially disabled
+Touch input and type some document name ("My Notes, Basics of Computer Science, ...etc" - placeholder)
+See if button is enabled
+Confirm document creation
+Check if button is disabled
+Check if popup is closed
+```
