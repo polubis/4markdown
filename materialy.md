@@ -8,6 +8,8 @@
 
 5. Gherkin i interpreter artykul -> https://4markdown.com/why-i-crafted-my-own-gherkin-interpreter-for-e2e-tests/
 
+6. UI lib -> https://github.com/polubis/Dream-stack-for-React-dev/tree/main/system/libs/figa-ui
+
 ## Użyteczne prompty
 
 - Analiza zachowań do przetestowania
