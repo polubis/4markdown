@@ -6,7 +6,9 @@
 
 4. Chromatic showcase -> https://www.chromatic.com/test?appId=6463b9b3f6a12b651e1706cb&id=6571a275b79425b690768515
 
-5. Użyteczne prompty
+5. Gherkin i interpreter artykul -> https://4markdown.com/why-i-crafted-my-own-gherkin-interpreter-for-e2e-tests/
+
+## Użyteczne prompty
 
 - Analiza zachowań do przetestowania
 
