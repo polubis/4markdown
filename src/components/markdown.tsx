@@ -14,21 +14,99 @@ import ReactMarkdown, { type Options } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { Tabs } from 'design-system/tabs';
+
+const useTab = (children: ReactNode) => {
+  const [activeTab, setActiveTab] = React.useState<number>(0);
+
+  const content = React.useMemo(() => children?.toString() || ``, [children]);
+  const hasTabs = content.includes(`@@@`);
+
+  const parseTabContent = React.useCallback((content: string): string[] => {
+    const panels = content.split(`@@@`);
+    return panels[0].trim() === `` ? panels.slice(1) : panels;
+  }, []);
+
+  const tabs = React.useMemo(
+    () => (hasTabs ? parseTabContent(content) : []),
+    [hasTabs, content, parseTabContent],
+  );
+
+  return {
+    activeTab,
+    setActiveTab,
+    hasTabs,
+    content,
+    tabs,
+  };
+};
+
+type TabCodeProps = {
+  tabs: string[];
+  activeTab: number;
+  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
+};
+
+const TabCode = ({ tabs, activeTab, setActiveTab }: TabCodeProps) => {
+  return (
+    <>
+      <Tabs fit className="overflow-x-auto">
+        {tabs.map((_, index) => (
+          <Tabs.Item
+            active={activeTab === index}
+            key={index}
+            onClick={() => setActiveTab(index)}
+            className={c(
+              `px-3 py-2 text-sm whitespace-nowrap hover:cursor-pointer font-medium`,
+              activeTab === index
+                ? `bg-green-700 text-white`
+                : `bg-gray-300 dark:bg-slate-800 text-black dark:text-white hover:bg-gray-400/70 dark:hover:bg-slate-800/70`,
+            )}
+          >
+            {`Tab ${index + 1}`}
+          </Tabs.Item>
+        ))}
+      </Tabs>
+      {tabs.map((tab, index) => (
+        <code
+          key={index}
+          ref={(el) => {
+            if (index === activeTab && el) {
+              highlightElement(el);
+            }
+          }}
+          className={c(`language-javascript`, index !== activeTab && `hidden`)}
+        >
+          {tab}
+        </code>
+      ))}
+    </>
+  );
+};
 
 const Code = ({
   children,
 }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
   const ref = React.useRef<HTMLElement | null>(null);
+  const { hasTabs, tabs, activeTab, setActiveTab } = useTab(children);
 
   React.useLayoutEffect(() => {
     const container = ref.current;
-    container && highlightElement(container);
-  }, [children]);
+    if (container && !hasTabs) {
+      highlightElement(container);
+    }
+  }, [children, hasTabs]);
+
+  if (!hasTabs) {
+    return (
+      <code ref={ref} className="language-javascript">
+        {children}
+      </code>
+    );
+  }
 
   return (
-    <code ref={ref} className="language-javascript">
-      {children}
-    </code>
+    <TabCode tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
   );
 };
 
