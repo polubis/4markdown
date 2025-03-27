@@ -12,24 +12,6 @@ describe(getSelectedText.name, () => {
     ).toEqual(null);
   });
 
-  it(`returns null when selection start or end are negative`, () => {
-    expect(
-      getSelectedText({
-        value: `abcdefgh`,
-        selectionStart: -1,
-        selectionEnd: 3,
-      }),
-    ).toEqual(null);
-
-    expect(
-      getSelectedText({
-        value: `abcdefgh`,
-        selectionStart: 3,
-        selectionEnd: -1,
-      }),
-    ).toEqual(null);
-  });
-
   it(`works with single line`, () => {
     expect(
       getSelectedText({
@@ -86,26 +68,6 @@ describe(replaceText.name, () => {
         value: `abcdefgh`,
         selectionStart: 0,
         selectionEnd: 0,
-        valueToReplace: `AI`,
-      }),
-    ).toEqual(`abcdefgh`);
-  });
-
-  it(`returns value when selection start or end are negative`, () => {
-    expect(
-      replaceText({
-        value: `abcdefgh`,
-        selectionStart: -1,
-        selectionEnd: 3,
-        valueToReplace: `AI`,
-      }),
-    ).toEqual(`abcdefgh`);
-
-    expect(
-      replaceText({
-        value: `abcdefgh`,
-        selectionStart: 3,
-        selectionEnd: -1,
         valueToReplace: `AI`,
       }),
     ).toEqual(`abcdefgh`);

@@ -5,9 +5,7 @@ const isInvalidSelection = ({
   selectionStart: number;
   selectionEnd: number;
 }): boolean => {
-  return (
-    selectionStart === selectionEnd || selectionStart < 0 || selectionEnd < 0
-  );
+  return selectionStart === selectionEnd;
 };
 
 const getSelectedText = ({

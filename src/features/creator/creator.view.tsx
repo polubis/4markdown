@@ -176,20 +176,22 @@ const CreatorView = () => {
         <label className="hidden" htmlFor="creator" id="creator">
           Creator
         </label>
-        <textarea
-          className="resize-none w-full h-full dark:bg-black bg-white focus:outline-none p-4 md:text-base text-sm"
-          ref={creatorRef}
-          aria-labelledby="creator"
-          defaultValue={code}
-          aria-label="creator"
-          spellCheck="false"
-          onChange={changeCode}
-          onKeyDown={maintainTabs}
-          onClick={(e) => {
-            autoScroller.scroll(e.currentTarget);
-          }}
-          onSelect={handleSelectionChange}
-        />
+        <div className="relative w-full h-full">
+          <textarea
+            className="resize-none w-full h-full dark:bg-black bg-white focus:outline-none p-4 md:text-base text-sm"
+            ref={creatorRef}
+            aria-labelledby="creator"
+            defaultValue={code}
+            aria-label="creator"
+            spellCheck="false"
+            onChange={changeCode}
+            onKeyDown={maintainTabs}
+            onClick={(e) => {
+              autoScroller.scroll(e.currentTarget);
+            }}
+            onSelect={handleSelectionChange}
+          />
+        </div>
       </div>
       <header
         className={c(
