@@ -19,8 +19,8 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   payload: TPayload;
 };
 
-type AskAssistantPersonaContract = Contract<
-  `askAssistantPersona`,
+type RewriteWithAssistantContract = Contract<
+  `rewriteWithAssistant`,
   { output: string },
   {
     input: string;
@@ -218,7 +218,7 @@ type API4MarkdownContracts =
   | GetAccessibleMindmapContract
   | ReportBugContract
   | GetPermanentMindmapsContract
-  | AskAssistantPersonaContract;
+  | RewriteWithAssistantContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
