@@ -1,6 +1,7 @@
 import React, { type ReactNode } from 'react';
 
 type CreationAssistantContextValue = {
+  content: string;
   close(): void;
 };
 

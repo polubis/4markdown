@@ -7,7 +7,7 @@ import { useCreationAssistantContext } from '../providers/creation-assistant.pro
 type AssistantMode = `none` | `rewrite`;
 
 const AssistantModalContainer = () => {
-  const { close } = useCreationAssistantContext();
+  const { close, content } = useCreationAssistantContext();
   const [activeMode] = React.useState<AssistantMode>(`none`);
 
   return (
@@ -19,7 +19,7 @@ const AssistantModalContainer = () => {
       {activeMode === `none` && (
         <section className="flex flex-wrap gap-3">
           <a
-            href="https://www.google.com?q=test"
+            href={`https://www.google.com?q=${content}`}
             target="_blank"
             rel="noopener noreferrer"
             title="Search in Google"
