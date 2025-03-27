@@ -38,7 +38,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
         )}
       >
         <div className="p-4 flex gap-2 items-center h-[72px]">
-          <Link
+          {/* <Link
             to={meta.routes.home}
             className="flex items-center hover:underline underline-offset-2 mr-auto"
           >
@@ -50,7 +50,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
               title={meta.title}
             />
             <p className="text-lg ml-3 font-bold">{meta.appName}</p>
-          </Link>
+          </Link> */}
           <ThemeProvider>
             {({ theme, set }) => (
               <Button
