@@ -22,11 +22,19 @@ import {
 } from './components/creator-toolbox';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
-import { BiSolidBookContent, BiWindows } from 'react-icons/bi';
+import {
+  BiSolidBookContent,
+  BiSolidMagicWand,
+  BiWindows,
+} from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import {
+  getSelectedText,
+  isInvalidSelection,
+} from 'development-kit/textarea-utils';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -42,6 +50,7 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
+  const suggestion = useSimpleFeature();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   useCreatorLocalStorageSync();
@@ -93,9 +102,28 @@ const CreatorView = () => {
     setView((prevView) => (prevView === `preview` ? `creator` : `preview`));
   };
 
-  const handleSelectionChange: ReactEventHandler<HTMLTextAreaElement> = (
+  const maintainSuggestionAppearance: ReactEventHandler<HTMLTextAreaElement> = (
     e,
-  ) => {};
+  ) => {
+    const textarea = e.currentTarget;
+    const selectedText = getSelectedText(textarea);
+
+    if (isInvalidSelection(textarea) || !selectedText) {
+      suggestion.off();
+      return;
+    }
+
+    const wordsCount = selectedText.replace(/[^a-zA-Z0-9]/g, ``).length;
+
+    const minWordsCount = 1;
+
+    if (wordsCount < minWordsCount) {
+      suggestion.off();
+      return;
+    }
+
+    suggestion.on();
+  };
 
   React.useEffect(() => {
     const creatorField = creatorRef.current;
@@ -189,8 +217,19 @@ const CreatorView = () => {
             onClick={(e) => {
               autoScroller.scroll(e.currentTarget);
             }}
-            onSelect={handleSelectionChange}
+            onSelect={maintainSuggestionAppearance}
           />
+          {suggestion.isOn && (
+            <Button
+              className="absolute bottom-2 right-4"
+              title="Show suggestion"
+              i={2}
+              s={1}
+              onClick={suggestion.on}
+            >
+              <BiSolidMagicWand />
+            </Button>
+          )}
         </div>
       </div>
       <header
