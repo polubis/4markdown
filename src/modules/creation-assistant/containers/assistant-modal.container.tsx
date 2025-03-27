@@ -33,19 +33,19 @@ const AssistantModalContainer = () => {
             <div className="flex flex-col gap-2">
               <button
                 title="Improve fragment with Jelly"
-                className="text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                className="text-sm text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
               >
                 <strong>Jelly:</strong> casual, straight to the point
               </button>
               <button
                 title="Improve fragment with Kate"
-                className="text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                className="text-sm text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
               >
                 <strong>Kate:</strong> technical, detailed, rich
               </button>
               <button
                 title="Improve fragment with Josh"
-                className="text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                className="text-sm text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
               >
                 <strong>Josh:</strong> edgy, sarcastic, funny
               </button>
