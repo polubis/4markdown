@@ -3,8 +3,16 @@ import React from 'react';
 import { BiLogoBing, BiLogoGoogle } from 'react-icons/bi';
 import { useCreationAssistantContext } from '../providers/creation-assistant.provider';
 import { meta } from '../../../../meta';
+import type { AssistantPersona } from 'api-4markdown-contracts';
+import { ASSISTANT_PERSONAS } from 'api-4markdown-contracts';
 
 type AssistantMode = `none` | `rewrite`;
+
+const ASSISTANT_PERSONAS_DESCRIPTIONS = {
+  jelly: `casual, straight to the point`,
+  kate: `technical, detailed, rich`,
+  josh: `edgy, sarcastic, funny`,
+} satisfies Record<AssistantPersona, string>;
 
 const AssistantModalContainer = () => {
   const { close, content } = useCreationAssistantContext();
@@ -31,24 +39,17 @@ const AssistantModalContainer = () => {
               Improve With AI Persona
             </h6>
             <div className="flex flex-col gap-2">
-              <button
-                title="Improve fragment with Jelly"
-                className="text-sm text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-              >
-                <strong>Jelly:</strong> casual, straight to the point
-              </button>
-              <button
-                title="Improve fragment with Kate"
-                className="text-sm text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-              >
-                <strong>Kate:</strong> technical, detailed, rich
-              </button>
-              <button
-                title="Improve fragment with Josh"
-                className="text-sm text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-              >
-                <strong>Josh:</strong> edgy, sarcastic, funny
-              </button>
+              {ASSISTANT_PERSONAS.map((persona) => (
+                <button
+                  key={persona}
+                  title={`Improve fragment with ${persona}`}
+                  className="text-sm text-left cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                >
+                  <strong className="capitalize">{persona}:</strong>
+                  {` `}
+                  {ASSISTANT_PERSONAS_DESCRIPTIONS[persona]}
+                </button>
+              ))}
             </div>
           </section>
           <section>
