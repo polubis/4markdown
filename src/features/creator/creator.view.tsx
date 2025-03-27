@@ -22,11 +22,7 @@ import {
 } from './components/creator-toolbox';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
-import {
-  BiSolidBookContent,
-  BiSolidMagicWand,
-  BiWindows,
-} from 'react-icons/bi';
+import { BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
@@ -35,6 +31,7 @@ import {
   getSelectedText,
   isInvalidSelection,
 } from 'development-kit/textarea-utils';
+import { CreationAssistantModule } from 'modules/creation-assistant/creation-assistant.module';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -219,17 +216,7 @@ const CreatorView = () => {
             }}
             onSelect={maintainSuggestionAppearance}
           />
-          {assistant.isOn && (
-            <Button
-              className="absolute bottom-2 right-4 bg-gradient-to-r from-purple-400 via-emerald-400 to-indigo-400 dark:from-purple-600 dark:via-emerald-600 dark:to-indigo-600 animate-gradient-move bg-[length:300%_300%]"
-              title={`Use ${meta.appName} assistant`}
-              i={2}
-              s={1}
-              onClick={assistant.on}
-            >
-              <BiSolidMagicWand />
-            </Button>
-          )}
+          {assistant.isOn && <CreationAssistantModule />}
         </div>
       </div>
       <header
