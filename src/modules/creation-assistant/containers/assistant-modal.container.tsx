@@ -1,8 +1,8 @@
 import { Modal } from 'design-system/modal';
 import React from 'react';
-import { meta } from '../../../../meta';
 import { BiLogoBing, BiLogoGoogle } from 'react-icons/bi';
 import { useCreationAssistantContext } from '../providers/creation-assistant.provider';
+import { meta } from '../../../../meta';
 
 type AssistantMode = `none` | `rewrite`;
 
@@ -16,6 +16,7 @@ const AssistantModalContainer = () => {
         title={`${meta.appName} Writing Assistant`}
         closeButtonTitle="Close writing assistant"
       />
+
       <section>
         <h6 className="mb-2">Selected Content</h6>
         <div className="rounded-md mb-4 p-3 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
