@@ -4,6 +4,10 @@ import { meta } from '../../../meta';
 import { BiSolidMagicWand } from 'react-icons/bi';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { AssistantModalContainer } from './containers/assistant-modal.container';
+import {
+  CreationAssistantProvider,
+  type CreationAssistantProviderProps,
+} from './providers/creation-assistant.provider';
 
 const CreationAssistantModule = () => {
   const assistantModal = useSimpleFeature();
@@ -24,4 +28,17 @@ const CreationAssistantModule = () => {
   );
 };
 
-export { CreationAssistantModule };
+const ConnectedCreationAssistantModule = (
+  props: Omit<CreationAssistantProviderProps, 'children'>,
+) => {
+  return (
+    <CreationAssistantProvider {...props}>
+      <CreationAssistantModule />
+    </CreationAssistantProvider>
+  );
+};
+
+export {
+  ConnectedCreationAssistantModule as CreationAssistantModule,
+  ConnectedCreationAssistantModule,
+};

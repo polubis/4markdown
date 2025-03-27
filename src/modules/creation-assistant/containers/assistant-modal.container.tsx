@@ -2,14 +2,16 @@ import { Modal } from 'design-system/modal';
 import React from 'react';
 import { meta } from '../../../../meta';
 import { BiLogoGoogle } from 'react-icons/bi';
+import { useCreationAssistantContext } from '../providers/creation-assistant.provider';
 
 type AssistantMode = `none` | `rewrite`;
 
 const AssistantModalContainer = () => {
+  const { close } = useCreationAssistantContext();
   const [activeMode] = React.useState<AssistantMode>(`none`);
 
   return (
-    <Modal onClose={() => {}}>
+    <Modal onClose={close}>
       <Modal.Header
         title={`${meta.appName} Writing Assistant`}
         closeButtonTitle="Close writing assistant"

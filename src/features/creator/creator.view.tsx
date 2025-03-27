@@ -216,7 +216,9 @@ const CreatorView = () => {
             }}
             onSelect={maintainSuggestionAppearance}
           />
-          {assistant.isOn && <CreationAssistantModule />}
+          {assistant.isOn && (
+            <CreationAssistantModule onClose={assistant.off} />
+          )}
         </div>
       </div>
       <header
