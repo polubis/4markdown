@@ -1,6 +1,7 @@
 import React, {
   type ChangeEventHandler,
   type KeyboardEventHandler,
+  type ReactEventHandler,
 } from 'react';
 import { Markdown } from 'components/markdown';
 import c from 'classnames';
@@ -91,6 +92,10 @@ const CreatorView = () => {
   const toggleView = (): void => {
     setView((prevView) => (prevView === `preview` ? `creator` : `preview`));
   };
+
+  const handleSelectionChange: ReactEventHandler<HTMLTextAreaElement> = (
+    e,
+  ) => {};
 
   React.useEffect(() => {
     const creatorField = creatorRef.current;
@@ -183,6 +188,7 @@ const CreatorView = () => {
           onClick={(e) => {
             autoScroller.scroll(e.currentTarget);
           }}
+          onSelect={handleSelectionChange}
         />
       </div>
       <header
