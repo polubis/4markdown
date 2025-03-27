@@ -26,7 +26,7 @@ import { BiSolidBookContent, BiWindows } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { useFeature, useSimpleFeature } from '@greenonsoftware/react-kit';
 import {
   getSelectedText,
   isInvalidSelection,
@@ -54,7 +54,7 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
-  const assistant = useSimpleFeature();
+  const assistant = useFeature<{ content: string }>();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   useCreatorLocalStorageSync();
@@ -126,7 +126,7 @@ const CreatorView = () => {
       return;
     }
 
-    assistant.on();
+    assistant.on({ content: selectedText });
   };
 
   React.useEffect(() => {
@@ -223,9 +223,12 @@ const CreatorView = () => {
             }}
             onSelect={maintainSuggestionAppearance}
           />
-          {assistant.isOn && (
+          {assistant.is === `on` && (
             <React.Suspense>
-              <CreationAssistantModule onClose={assistant.off} />
+              <CreationAssistantModule
+                content={assistant.data.content}
+                onClose={assistant.off}
+              />
             </React.Suspense>
           )}
         </div>

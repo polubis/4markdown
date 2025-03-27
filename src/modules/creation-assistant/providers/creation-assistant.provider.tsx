@@ -6,6 +6,7 @@ type CreationAssistantContextValue = {
 
 type CreationAssistantProviderProps = {
   children: ReactNode;
+  content: string;
   onClose(): void;
 };
 
@@ -14,13 +15,15 @@ const CreationAssistantContext =
 
 const CreationAssistantProvider = ({
   children,
+  content,
   onClose,
 }: CreationAssistantProviderProps) => {
   const value = React.useMemo(
     () => ({
+      content,
       close: onClose,
     }),
-    [onClose],
+    [onClose, content],
   );
 
   return (
