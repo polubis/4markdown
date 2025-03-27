@@ -221,7 +221,7 @@ const CreatorView = () => {
           />
           {suggestion.isOn && (
             <Button
-              className="absolute bottom-2 right-4"
+              className="absolute bottom-2 right-4 bg-gradient-to-r from-purple-400 via-emerald-400 to-indigo-400 dark:from-purple-600 dark:via-emerald-600 dark:to-indigo-600 animate-gradient-move bg-[length:300%_300%] hover:shadow-lg transition-shadow"
               title="Show suggestion"
               i={2}
               s={1}
