@@ -1,11 +1,9 @@
 import { BiX } from 'react-icons/bi';
 import React from 'react';
-import type { MouseEvent } from 'react';
-
 import { Button } from 'design-system/button';
 import c from 'classnames';
-import { useTableContent } from '../hooks/useTableContent';
-import type { Heading } from '../hooks/useTableContent';
+import { useTableContent } from '../hooks/useTableContent/useTableContent';
+import { Link } from 'gatsby';
 
 type TableOfContentSidebarProps = {
   onClose: () => void;
@@ -13,102 +11,64 @@ type TableOfContentSidebarProps = {
   content: string;
 };
 
-type HeadingItemProps = {
-  heading: Heading;
-  onHeadingClick: (e: MouseEvent, id: string) => void;
-  activeHeadingId: string;
-};
-
-const HeadingItem = ({
-  heading,
-  onHeadingClick,
-  activeHeadingId,
-}: HeadingItemProps) => {
-  const isActive = heading.id === activeHeadingId;
-
-  return (
-    <li className="my-1">
-      <a
-        href={`#${heading.id}`}
-        className={c(
-          `block py-1  hover:text-green-700`,
-          heading.level === 1 ? `font-bold` : ``,
-          heading.level === 2 ? `pl-2` : ``,
-          heading.level === 3 ? `pl-4` : ``,
-          heading.level === 4 ? `pl-6` : ``,
-          heading.level === 5 ? `pl-8` : ``,
-          heading.level === 6 ? `pl-10` : ``,
-          isActive ? ` text-green-700 ` : ``,
-        )}
-        onClick={(e) => onHeadingClick(e, heading.id)}
-      >
-        {heading.text}
-      </a>
-      {heading.items.length > 0 && (
-        <div
-          className={c(
-            heading.level > 1 ? `ml-1 mt-1 border-l-2 border-gray-300` : ``,
-          )}
-        >
-          <ul className="pl-0">
-            {heading.items.map((item) => (
-              <HeadingItem
-                key={item.id}
-                heading={item}
-                onHeadingClick={onHeadingClick}
-                activeHeadingId={activeHeadingId}
-              />
-            ))}
-          </ul>
-        </div>
-      )}
-    </li>
-  );
-};
-
 const TableOfContentSidebar = ({
   onClose,
   opened,
   content,
 }: TableOfContentSidebarProps) => {
-  const { headings, handleHeadingClick, activeHeadingId } = useTableContent({
-    content,
-  });
+  const { getParsedHeadings, handleScrollToSection, activeHeadingId } =
+    useTableContent(content);
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 72);
+    };
+
+    window.addEventListener(`scroll`, handleScroll);
+    return () => window.removeEventListener(`scroll`, handleScroll);
+  }, []);
 
   return (
     <>
       <aside
         data-testid="[table-of-contents-sidebar]:container"
         className={c(
-          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 left-0 h-full w-[280px] overflow-y-auto transition-transform duration-300`,
-          opened ? `-translate-x-0` : `-translate-x-full`,
+          `bg-zinc-200 z-20 dark:bg-gray-950 fixed right-0 w-[280px] overflow-y-auto transition-all duration-300 border-l border-zinc-300 dark:border-zinc-800`,
+          isScrolled ? `top-0` : `top-[72px]`,
+          opened ? `translate-x-0` : `translate-x-full`,
+          `h-screen`,
         )}
       >
-        <div className="p-4 flex gap-2 items-center h-[72px]">
+        <div className="p-4 flex gap-2 items-center h-[72px] border-b border-zinc-300 dark:border-zinc-800">
           <h2 className="text-lg font-medium mr-auto">Table of Contents</h2>
           <Button i={2} s={1} title="Close table of contents" onClick={onClose}>
             <BiX />
           </Button>
         </div>
-
-        <div className="p-4 pb-0 flex flex-col gap-2 h-[calc(100svh-72px)] overflow-y-auto">
-          {headings.length > 0 ? (
-            <ul className="pl-0 border-l-0">
-              {headings.map((heading) => (
-                <HeadingItem
-                  key={heading.id}
-                  heading={heading}
-                  onHeadingClick={handleHeadingClick}
-                  activeHeadingId={activeHeadingId}
-                />
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-500 dark:text-gray-400">
-              No headings found in the document.
-            </p>
-          )}
-        </div>
+        <ul className="pl-4">
+          {getParsedHeadings.map((heading) => (
+            <li
+              key={heading.id}
+              style={{ paddingLeft: `${(heading.level - 1) * 1}rem` }}
+              className="py-1.5"
+            >
+              <Link
+                to={`#${heading.id}`}
+                onClick={(e) => handleScrollToSection(e, heading.id)}
+                className={c(
+                  `block transition-colors cursor-pointer`,
+                  activeHeadingId === heading.id
+                    ? `text-green-700 dark:text-green-500`
+                    : `text-gray-800 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-500`,
+                )}
+              >
+                {heading.text}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </aside>
     </>
   );

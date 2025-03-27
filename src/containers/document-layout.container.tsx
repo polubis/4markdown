@@ -44,7 +44,7 @@ const DocumentLayoutContainer = () => {
   return (
     <>
       <main className="p-4 my-6">
-        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-prose mx-auto">
+        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end  max-w-prose mx-auto">
           <Button
             title="Open in documents creator"
             s={2}

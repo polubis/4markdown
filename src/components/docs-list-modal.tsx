@@ -88,42 +88,7 @@ const DocsListModal = ({ onClose }: { onClose(): void }) => {
             ))}
           </Tabs>
           {docs.length > 0 ? (
-            <ul className="flex flex-col space-y-3">
-              {docs.map((doc) => (
-                <li
-                  className={c(
-                    `flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3`,
-                    docStore.is === `active` && docStore.id === doc.id
-                      ? `bg-green-700 text-white border-green-700`
-                      : `bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`,
-                  )}
-                  title={doc.name}
-                  key={doc.id}
-                  onClick={() => selectDoc(doc)}
-                >
-                  <div className="flex justify-between mb-0.5">
-                    <span className="text-sm capitalize">
-                      Edited{` `}
-                      {formatDistance(new Date(), doc.mdate, {
-                        addSuffix: true,
-                      })}
-                      {` `}
-                      ago
-                    </span>
-                    {doc.visibility === `private` && (
-                      <BiLowVision size="20" title="This document is private" />
-                    )}
-                    {doc.visibility === `public` && (
-                      <BiShow size="20" title="This document is public" />
-                    )}
-                    {doc.visibility === `permanent` && (
-                      <BiWorld size="20" title="This document is permanent" />
-                    )}
-                  </div>
-                  <strong>{doc.name}</strong>
-                </li>
-              ))}
-            </ul>
+            <ul className="flex flex-col space-y-3"></ul>
           ) : (
             <h6 className="p-4 text-center">
               No documents for selected filters
