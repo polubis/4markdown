@@ -10,6 +10,10 @@ type Base64 = string;
 type Slug = string;
 type Url = string;
 
+const ASSISTANT_PERSONAS = [`jelly`, `kate`, `josh`] as const;
+
+type AssistantPersona = (typeof ASSISTANT_PERSONAS)[number];
+
 export type {
   Id,
   Name,
@@ -22,4 +26,6 @@ export type {
   Description,
   Base64,
   Slug,
+  AssistantPersona,
 };
+export { ASSISTANT_PERSONAS };
