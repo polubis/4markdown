@@ -50,7 +50,7 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
-  const suggestion = useSimpleFeature();
+  const assistant = useSimpleFeature();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   useCreatorLocalStorageSync();
@@ -109,7 +109,7 @@ const CreatorView = () => {
     const selectedText = getSelectedText(textarea);
 
     if (isInvalidSelection(textarea) || !selectedText) {
-      suggestion.off();
+      assistant.off();
       return;
     }
 
@@ -118,11 +118,11 @@ const CreatorView = () => {
     const minWordsCount = 1;
 
     if (wordsCount < minWordsCount) {
-      suggestion.off();
+      assistant.off();
       return;
     }
 
-    suggestion.on();
+    assistant.on();
   };
 
   React.useEffect(() => {
@@ -219,13 +219,13 @@ const CreatorView = () => {
             }}
             onSelect={maintainSuggestionAppearance}
           />
-          {suggestion.isOn && (
+          {assistant.isOn && (
             <Button
               className="absolute bottom-2 right-4 bg-gradient-to-r from-purple-400 via-emerald-400 to-indigo-400 dark:from-purple-600 dark:via-emerald-600 dark:to-indigo-600 animate-gradient-move bg-[length:300%_300%]"
-              title="Show suggestion"
+              title={`Use ${meta.appName} assistant`}
               i={2}
               s={1}
-              onClick={suggestion.on}
+              onClick={assistant.on}
             >
               <BiSolidMagicWand />
             </Button>
