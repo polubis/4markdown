@@ -27,7 +27,7 @@ const AssistantModalContainer = () => {
 
       <section>
         <h6 className="mb-2">Selected Content</h6>
-        <div className="rounded-md mb-4 p-3 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+        <div className="rounded-md mb-4 p-3 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 overflow-hidden">
           <p className="text-sm">{content}</p>
         </div>
       </section>
