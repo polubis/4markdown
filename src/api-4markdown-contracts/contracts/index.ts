@@ -1,4 +1,4 @@
-import type { Base64, Date, Id, Url, AssistantPersona } from '../atoms';
+import type { Base64, Date, Id, Url } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -10,6 +10,7 @@ import type {
   DocumentRatingDto,
   MindmapDto,
   FullMindmapDto,
+  AssistantPersona,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
