@@ -31,7 +31,6 @@ import {
   getSelectedText,
   isInvalidSelection,
 } from 'development-kit/textarea-utils';
-import { CreationAssistantModule } from 'modules/creation-assistant/creation-assistant.module';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -41,6 +40,14 @@ const CheatSheetModal = React.lazy(() =>
   import(`./components/cheatsheet-modal`).then((m) => ({
     default: m.CheatSheetModal,
   })),
+);
+
+const CreationAssistantModule = React.lazy(() =>
+  import(`../../modules/creation-assistant/creation-assistant.module`).then(
+    (m) => ({
+      default: m.CreationAssistantModule,
+    }),
+  ),
 );
 
 const CreatorView = () => {
@@ -217,7 +224,9 @@ const CreatorView = () => {
             onSelect={maintainSuggestionAppearance}
           />
           {assistant.isOn && (
-            <CreationAssistantModule onClose={assistant.off} />
+            <React.Suspense>
+              <CreationAssistantModule onClose={assistant.off} />
+            </React.Suspense>
           )}
         </div>
       </div>
