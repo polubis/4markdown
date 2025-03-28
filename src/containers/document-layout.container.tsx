@@ -1,7 +1,13 @@
 import React from 'react';
 import { Badge } from 'design-system/badge';
 import { Avatar } from 'design-system/avatar';
-import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from 'react-icons/bi';
+import {
+  BiBook,
+  BiCheck,
+  BiCopyAlt,
+  BiLogoMarkdown,
+  BiListUl,
+} from 'react-icons/bi';
 import { Button } from 'design-system/button';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
@@ -15,6 +21,7 @@ import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { TableOfContentSidebar } from 'components/table-of-content-sidebar';
 
 const ChaptersModal = React.lazy(() =>
   import(`../components/chapters-modal`).then((m) => ({
@@ -26,6 +33,7 @@ const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
+  const tocSidebar = useSimpleFeature();
   const [copyState, copy] = useCopy();
 
   const openInDocumentsCreator = (): void => {
@@ -36,7 +44,7 @@ const DocumentLayoutContainer = () => {
   return (
     <>
       <main className="p-4 my-6">
-        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end sm:justify-start max-w-prose mx-auto">
+        <section className="flex items-center ml-auto gap-2.5 mb-6 justify-end  max-w-prose mx-auto">
           <Button
             title="Open in documents creator"
             s={2}
@@ -67,6 +75,14 @@ const DocumentLayoutContainer = () => {
               <BiCopyAlt />
             )}
           </Button>
+          <Button
+            title="Open table of contents"
+            s={2}
+            i={2}
+            onClick={tocSidebar.toggle}
+          >
+            <BiListUl />
+          </Button>
         </section>
         <DocumentRatingContainer className="mb-6 justify-end max-w-prose mx-auto" />
         {document.visibility === `permanent` && (
@@ -77,6 +93,11 @@ const DocumentLayoutContainer = () => {
           </section>
         )}
         <Markdown className="mx-auto">{code}</Markdown>
+        <TableOfContentSidebar
+          opened={tocSidebar.isOn}
+          onClose={tocSidebar.off}
+          content={code}
+        />
         {author?.bio && author?.displayName && (
           <section className="mt-12 max-w-prose mx-auto">
             <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
@@ -115,6 +136,7 @@ const DocumentLayoutContainer = () => {
           <ChaptersModal onClose={sectionsModal.off}>{code}</ChaptersModal>
         </React.Suspense>
       )}
+
       {copyState.is === `copied` && <Status>Document markdown copied</Status>}
     </>
   );

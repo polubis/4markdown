@@ -14,6 +14,10 @@ import ReactMarkdown, { type Options } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import {
+  generateHeadingId,
+  getTextFromChildren,
+} from '../hooks/useTableContent/utils';
 
 const Code = ({
   children,
@@ -61,6 +65,30 @@ const OPTIONS: Options = {
   remarkPlugins: [remarkGfm, remarkMath],
   rehypePlugins: [rehypeKatex],
   components: {
+    h1: ({ children }) => {
+      const rawText = getTextFromChildren(children);
+      return <h1 id={generateHeadingId(rawText)}>{children}</h1>;
+    },
+    h2: ({ children }) => {
+      const rawText = getTextFromChildren(children);
+      return <h2 id={generateHeadingId(rawText)}>{children}</h2>;
+    },
+    h3: ({ children }) => {
+      const rawText = getTextFromChildren(children);
+      return <h3 id={generateHeadingId(rawText)}>{children}</h3>;
+    },
+    h4: ({ children }) => {
+      const rawText = getTextFromChildren(children);
+      return <h4 id={generateHeadingId(rawText)}>{children}</h4>;
+    },
+    h5: ({ children }) => {
+      const rawText = getTextFromChildren(children);
+      return <h5 id={generateHeadingId(rawText)}>{children}</h5>;
+    },
+    h6: ({ children }) => {
+      const rawText = getTextFromChildren(children);
+      return <h6 id={generateHeadingId(rawText)}>{children}</h6>;
+    },
     a: ({ children, href }) => (
       <a href={href} target="_blank" rel="noopener noreferrer">
         {children}
