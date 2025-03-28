@@ -1,4 +1,5 @@
 import React, {
+  type ReactEventHandler,
   type ChangeEventHandler,
   type KeyboardEventHandler,
 } from 'react';
@@ -21,11 +22,20 @@ import {
 } from './components/creator-toolbox';
 import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
-import { BiSolidBookContent, BiWindows } from 'react-icons/bi';
+import {
+  BiLogoBing,
+  BiLogoGoogle,
+  BiSolidBookContent,
+  BiWindows,
+} from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { useFeature, useSimpleFeature } from '@greenonsoftware/react-kit';
+import {
+  isInvalidSelection,
+  getSelectedText,
+} from 'development-kit/textarea-utils';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -41,6 +51,7 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
+  const assistant = useFeature<{ content: string }>();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   useCreatorLocalStorageSync();
@@ -90,6 +101,29 @@ const CreatorView = () => {
 
   const toggleView = (): void => {
     setView((prevView) => (prevView === `preview` ? `creator` : `preview`));
+  };
+
+  const maintainAssistantAppearance: ReactEventHandler<HTMLTextAreaElement> = (
+    e,
+  ) => {
+    const textarea = e.currentTarget;
+    const selectedText = getSelectedText(textarea);
+
+    if (isInvalidSelection(textarea) || !selectedText) {
+      assistant.off();
+      return;
+    }
+
+    const wordsCount = selectedText.replace(/[^a-zA-Z0-9]/g, ``).length;
+
+    const minWordsCount = 1;
+
+    if (wordsCount < minWordsCount) {
+      assistant.off();
+      return;
+    }
+
+    assistant.on({ content: selectedText });
   };
 
   React.useEffect(() => {
@@ -171,19 +205,50 @@ const CreatorView = () => {
         <label className="hidden" htmlFor="creator" id="creator">
           Creator
         </label>
-        <textarea
-          className="resize-none w-full h-full dark:bg-black bg-white focus:outline-none p-4 md:text-base text-sm"
-          ref={creatorRef}
-          aria-labelledby="creator"
-          defaultValue={code}
-          aria-label="creator"
-          spellCheck="false"
-          onChange={changeCode}
-          onKeyDown={maintainTabs}
-          onClick={(e) => {
-            autoScroller.scroll(e.currentTarget);
-          }}
-        />
+        <div className="relative w-full h-full">
+          <textarea
+            className="resize-none w-full h-full dark:bg-black bg-white focus:outline-none p-4 md:text-base text-sm"
+            ref={creatorRef}
+            aria-labelledby="creator"
+            defaultValue={code}
+            aria-label="creator"
+            spellCheck="false"
+            onChange={changeCode}
+            onKeyDown={maintainTabs}
+            onClick={(e) => {
+              autoScroller.scroll(e.currentTarget);
+            }}
+            onSelect={maintainAssistantAppearance}
+          />
+          {assistant.is === `on` && (
+            <div className="absolute bottom-2 right-4 flex flex-col gap-2">
+              <Button
+                s={1}
+                i={2}
+                title="Search in Google"
+                onClick={() =>
+                  window.open(
+                    `https://www.google.com?q=${assistant.data.content}`,
+                  )
+                }
+              >
+                <BiLogoGoogle />
+              </Button>
+              <Button
+                s={1}
+                i={2}
+                title="Search in Microsoft Bing"
+                onClick={() =>
+                  window.open(
+                    `https://www.bing.com/search?q=${assistant.data.content}`,
+                  )
+                }
+              >
+                <BiLogoBing />
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
       <header
         className={c(
