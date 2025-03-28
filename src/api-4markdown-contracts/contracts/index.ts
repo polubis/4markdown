@@ -11,6 +11,7 @@ import type {
   MindmapDto,
   FullMindmapDto,
   AssistantPersona,
+  AssistantRewriteDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -21,7 +22,7 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
 
 type RewriteWithAssistantContract = Contract<
   `rewriteWithAssistant`,
-  { output: string },
+  AssistantRewriteDto,
   {
     input: string;
     persona: AssistantPersona;

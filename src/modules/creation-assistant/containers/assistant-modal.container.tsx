@@ -42,13 +42,18 @@ const AssistantModalContainer = () => {
     });
 
     if (result.is === `ok`) {
-      setAnswers((prev) => ({ ...prev, [persona]: result.data }));
+      setAnswers((prev) => ({
+        ...prev,
+        [persona]: [...(prev[persona] ?? []), result.data],
+      }));
     }
 
     setOperation(result);
   };
 
   const busy = operation.is === `busy`;
+
+  console.log(answers);
 
   return (
     <Modal disabled={busy} onClose={close}>
