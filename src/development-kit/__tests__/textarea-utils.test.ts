@@ -25,8 +25,11 @@ describe(getSelectedText.name, () => {
   describe(`works with duplicates`, () => {
     it(`when text at beginning is selected`, () => {
       const value = `aaaaaaaaaa
+
 bbbbbbbbbb
+
 aaaaa
+
 bbbbbbbbbb`;
 
       expect(
@@ -40,8 +43,11 @@ bbbbbbbbbb`;
 
     it(`when text at end is selected`, () => {
       const value = `aaaaaaaaaa
+
 bbbbbbbbbb
+
 aaaaa
+
 bbbbbbbbbb`;
 
       expect(
@@ -81,13 +87,19 @@ describe(replaceText.name, () => {
   describe(`works with duplicates`, () => {
     it(`when text at beginning is selected`, () => {
       const value = `aaaaaaaaaa
+
 bbbbbbbbbb
+
 aaaaa
+
 bbbbbbbbbb`;
 
       const result = `aaaaaaaaaa
+
 AI
+
 aaaaa
+
 bbbbbbbbbb`;
 
       expect(
@@ -102,13 +114,19 @@ bbbbbbbbbb`;
 
     it(`when text at end is selected`, () => {
       const value = `aaaaaaaaaa
+
 bbbbbbbbbb
+
 aaaaa
+
 bbbbbbbbbb`;
 
       const result = `aaaaaaaaaa
+
 bbbbbbbbbb
+
 aaaaa
+
 AI`;
 
       expect(
