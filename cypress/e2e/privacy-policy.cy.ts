@@ -49,10 +49,12 @@ describe(`Privacy policy works when`, () => {
 
   it(`there is no regression for desktop and different themes`, () => {
     Given(`Im on page`, `home`)
+      .And(`I see not disabled button`, [`Sign in`])
       .When(`I click button`, [`Navigation`])
       .Then(`I see not disabled button`, [`Close navigation`])
       .When(`I click privacy policy link`)
       .Then(`Im on privacy policy page`)
+      .And(`I see not disabled button`, [`Sign in`])
       .And(`I see policy headings`);
   });
 });
