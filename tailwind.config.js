@@ -7,6 +7,7 @@ module.exports = {
     `./src/features/**/*.{js,jsx,ts,tsx}`,
     `./src/containers/**/*.{js,jsx,ts,tsx}`,
     `./src/dynamic-pages/**/*.{js,jsx,ts,tsx}`,
+    `./src/modules/**/*.{js,jsx,ts,tsx}`,
   ],
   darkMode: `class`,
   theme: {
