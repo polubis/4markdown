@@ -3,7 +3,6 @@ import type {
   PublicDocumentDto,
   UserProfileDto,
 } from 'api-4markdown-contracts';
-import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
@@ -61,20 +60,9 @@ describe(`Docs display works when`, () => {
     'I see document preview correctly displayed': () => {
       cy.get(`.prose > h1, .prose > h2`).each((h) => {
         cy.contains(h.text()).scrollIntoView();
-        Given(`System takes picture`);
+        Given(`picture`, `document-preview-heading-${h.text()}`);
       });
     },
-  });
-
-  beforeEach(() => {
-    Given(`System sets pictures folder`, `docs-display`)
-      .And(`System cleans local storage`)
-      .And(`Im on page`, `home`)
-      .And(`System has accepted cookies`);
-  });
-
-  afterEach(() => {
-    Given(`System cleans local storage`).And(`System cleans pictures setup`);
   });
 
   it(`documents are grouped by dates`, () => {
@@ -92,19 +80,33 @@ describe(`Docs display works when`, () => {
         endpoint: `getYourUserProfile`,
         code: 200,
         response: getUserProfileResponse,
-      });
-
-    LOG_IN_OUT_SCENARIOS[`I log in`]()
-      .When(`I click button`, [`Close your account panel`])
-      .Then(`I not see button`, [`Close your account panel`])
+      })
+      .And(`System has accepted cookies`)
+      .And(`Im on page`, `home`)
+      .And(`I log in`)
+      .And(`theme is set to white`)
+      .And(`System mocks api`, {
+        endpoint: `getYourDocuments`,
+        code: 200,
+        response: getDocsResponse,
+      })
+      .And(`System mocks api`, {
+        endpoint: `getAccessibleDocument`,
+        code: 200,
+        response: getPublicDocResponse,
+      })
+      .And(`System mocks api`, {
+        endpoint: `getYourUserProfile`,
+        code: 200,
+        response: getUserProfileResponse,
+      })
       .And(`I see not disabled button`, [`Your documents`])
       .When(`I click button`, [`Your documents`])
-      .Then(`I see text`, [getPublicDocResponse.result.name]);
-
-    Given(`I preview document`, getPublicDocResponse.result.name)
+      .Then(`I see text`, [getPublicDocResponse.result.name])
+      .When(`I preview document`, getPublicDocResponse.result.name)
       .Then(`I see disabled button`, [`Save changes`])
       .And(`I wait`, 1000)
-      .And(`System takes picture`)
+      .And(`picture`, `document-in-creator`)
       .When(`I click button`, [`More document options`, `Document preview`])
       .Then(`I not see button`, [`Your documents`])
       .And(`I see document preview correctly displayed`);
