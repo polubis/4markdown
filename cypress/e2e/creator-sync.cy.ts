@@ -20,6 +20,7 @@ describe(`Creator sync works when`, () => {
     Given(`System has accepted cookies`)
       .And(`Im on page`, `home`)
       .And(`I see not disabled button`, [`Sign in`])
+      .And(`theme is set to white`)
       .When(`I click button`, [`Navigation`])
       .Then(`I see sidebar`)
       .And(`I wait`, 1000)

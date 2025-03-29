@@ -154,6 +154,21 @@ const BASE_COMMANDS = {
   'I clear creator': () => {
     cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
+  'theme is set to white': () => {
+    cy.get(`body`)
+      .invoke(`attr`, `class`)
+      .then((classList) => {
+        const isDark = !!classList?.includes(`dark`);
+
+        if (isDark) {
+          BASE_COMMANDS[`I click button`]([
+            `Navigation`,
+            `Change theme`,
+            `Close navigation`,
+          ]);
+        }
+      });
+  },
   'I reload page': () => {
     // cy.reload();
   },
