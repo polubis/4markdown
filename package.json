@@ -22,14 +22,12 @@
     "cy:open-prod": "cypress open --e2e --config baseUrl=http://localhost:9000",
     "cy:run-prod": "cypress run --config baseUrl=http://localhost:9000",
     "test:e2e-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:open-prod",
-    "test:ci": "npm run test",
     "test:e2e-run-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
     "cy:run-prod-single": "cypress run --config baseUrl=http://localhost:9000 --spec \"cypress/e2e/user-profile.cy.ts\"",
     "run:e2e-1": "start-server-and-test serve http://localhost:9000 cy:run-prod-single",
     "lint:ci": "npm run lint",
-    "benchmark": "node benchmark.js",
-    "verify": "npm run build && npm run serve"
+    "benchmark": "node benchmark.js"
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",
