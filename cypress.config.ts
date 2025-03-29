@@ -10,4 +10,6 @@ export default defineConfig({
     },
     defaultCommandTimeout: 15000,
   },
+  viewportWidth: 1000,
+  viewportHeight: 625,
 });
