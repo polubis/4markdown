@@ -205,6 +205,9 @@ const BASE_COMMANDS = {
   'I wait for api': (endpoint: Endpoint, code: number) => {
     cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);
   },
+  picture: (name: string) => {
+    cy.matchImageSnapshot(name, { capture: `viewport` });
+  },
   'System takes picture': () => {
     // 1000x660 viewport, full screen, 2x sidebars open, Hp monitor, 100% zoom.
     if (!folder) {
