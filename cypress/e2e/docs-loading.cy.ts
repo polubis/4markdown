@@ -112,6 +112,7 @@ describe(`Documents loading works when`, () => {
       .And(`System has accepted cookies`)
       .And(`Im on page`, `home`)
       .And(`I log in`)
+      .And(`theme is set to white`)
       .Then(`I see not disabled button`, [`Your documents`])
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [`Mediator pattern in TypeScript`])
