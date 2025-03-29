@@ -1,6 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
 import type { DocumentDto } from 'api-4markdown-contracts';
-import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 import { subDays } from 'date-fns';
@@ -104,42 +103,30 @@ const getDocsResponse: { result: DocumentDto[] } = {
 describe(`Documents loading works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
 
-  beforeEach(() => {
-    Given(`System sets pictures folder`, `docs-loading`)
-      .And(`System cleans local storage`)
-      .And(`Im on page`, `home`)
-      .And(`System has accepted cookies`);
-  });
-
-  afterEach(() => {
-    Given(`System cleans local storage`).And(`System cleans pictures setup`);
-  });
-
   it(`documents are grouped by dates`, () => {
     Given(`System mocks api`, {
       endpoint: `getYourDocuments`,
       code: 200,
       response: getDocsResponse,
-    });
-
-    LOG_IN_OUT_SCENARIOS[`I log in`]()
-      .When(`I click button`, [`Close your account panel`])
-      .Then(`I not see button`, [`Close your account panel`])
-      .And(`I see not disabled button`, [`Your documents`])
+    })
+      .And(`System has accepted cookies`)
+      .And(`Im on page`, `home`)
+      .And(`I log in`)
+      .Then(`I see not disabled button`, [`Your documents`])
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [`Mediator pattern in TypeScript`])
       .And(`I wait`, 1500)
-      .And(`System takes picture`)
+      .And(`picture`, `recent-documents`)
       .When(`I click button`, [`Old documents`])
       .Then(`I wait`, 500)
-      .And(`System takes picture`)
+      .And(`picture`, `old-documents`)
       .When(`I click button`, [`Really Old documents`])
       .Then(`I wait`, 500)
-      .And(`System takes picture`)
+      .And(`picture`, `really-old-documents`)
       .When(`I click button`, [`Sync documents`])
       .Then(`I see text`, [`Just a second`])
-      .And(`System takes picture`)
+      .And(`picture`, `loader`)
       .Then(`I see button`, [`Really Old documents`])
-      .And(`System takes picture`);
+      .And(`picture`, `really-old-documents-after-sync`);
   });
 });
