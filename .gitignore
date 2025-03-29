@@ -7,7 +7,6 @@ src/gatsby-types.d.ts
 .env.production
 .env
 cypress/snapshots/**/__diff_output__/
-cypress/snapshots*
 cypress/downloads/
 cypress/videos/
 cypress/screenshots/

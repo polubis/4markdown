@@ -8,30 +8,14 @@ describe(`Docs creator works when`, () => {
     'I scroll to': (text: string) => {
       cy.contains(text).scrollIntoView();
     },
-    'I test creator syntax': (content: string) => {
+    'I test creator syntax': (content: string, name: string) => {
       Given(`I clear creator`)
         .And(`I type in creator`, content)
         .Then(`I wait`, 1000)
-        .And(`System takes picture`)
+        .And(`picture`, `${name}-before-change-theme`)
         .When(`I change theme`)
-        .Then(`System takes picture`);
+        .Then(`picture`, `${name}-after-change-theme`);
     },
-  });
-
-  before(() => {
-    Given(`System sets pictures folder`, `docs-creator`);
-  });
-
-  beforeEach(() => {
-    Given(`System cleans local storage`).And(`System has accepted cookies`);
-  });
-
-  afterEach(() => {
-    Given(`System cleans local storage`);
-  });
-
-  after(() => {
-    Given(`System cleans pictures setup`);
   });
 
   it(`user is able to create nested lists`, () => {
@@ -47,23 +31,24 @@ describe(`Docs creator works when`, () => {
     Cypress.Promise.all<string>(
       names.map((name) => cy.readFile(`cypress/samples/${name}.md`)),
     ).then(([lists, math, code, headings]) => {
-      Given(`Im on page`, `home`)
+      Given(`System has accepted cookies`)
+        .And(`Im on page`, `home`)
         .And(`I see not disabled button`, [`Sign in`])
-        .When(`I test creator syntax`, lists)
-        .And(`I test creator syntax`, math)
-        .And(`I test creator syntax`, code)
-        .And(`I test creator syntax`, headings)
+        .And(`theme is set to white`)
+        .When(`I test creator syntax`, lists, `lists`)
+        .And(`I test creator syntax`, math, `math`)
+        .And(`I test creator syntax`, code, `code`)
+        .And(`I test creator syntax`, headings, `headings`)
         .When(`I click button`, [`Cheatsheet`])
         .Then(`I see text`, cheatsheetText)
-        .And(`System takes picture`)
         .When(`I scroll to`, cheatsheetText[0])
-        .Then(`System takes picture`)
+        .Then(`picture`, `info-typography`)
         .When(`I scroll to`, cheatsheetText[1])
-        .Then(`System takes picture`)
+        .Then(`picture`, `info-lists`)
         .When(`I scroll to`, cheatsheetText[2])
-        .Then(`System takes picture`)
+        .Then(`picture`, `info-blocks`)
         .When(`I scroll to`, cheatsheetText[3])
-        .Then(`System takes picture`)
+        .Then(`picture`, `info-thanks`)
         .When(`I click button`, [`Close markdown cheatsheet`])
         .Then(`I not see text`, cheatsheetText);
     });
