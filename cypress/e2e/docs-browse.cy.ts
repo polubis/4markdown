@@ -1,24 +1,9 @@
-import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 import { uid } from '../utils/uid';
 
 describe(`Docs browse works when`, () => {
   const { Given } = Gherkin(BASE_COMMANDS);
-
-  before(() => {
-    Given(`System sets pictures folder`, `docs-browse`);
-  });
-
-  beforeEach(() => {
-    Given(`System cleans local storage`)
-      .And(`System has accepted cookies`)
-      .And(`Im on page`, `home`);
-  });
-
-  after(() => {
-    Given(`System cleans pictures setup`).And(`System cleans local storage`);
-  });
 
   it(`user may browse his documents`, () => {
     const [documentName1, documentName2] = [uid(`S`), uid(`K`)];
@@ -27,8 +12,10 @@ describe(`Docs browse works when`, () => {
       `## My content`,
     ];
 
-    LOG_IN_OUT_SCENARIOS[`I log in`]()
-      .When(`I click button`, [`Close your account panel`])
+    Given(`System has accepted cookies`)
+      .And(`Im on page`, `home`)
+      .And(`I log in`)
+      .And(`theme is set to white`)
       .And(`I clear creator`)
       .And(`I type in creator`, documentCode1)
       .Then(`I see text`, [`This is my heading`])

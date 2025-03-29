@@ -224,12 +224,23 @@ const BASE_COMMANDS = {
     cy.matchImageSnapshot(name, { capture: `viewport` });
   },
   'System takes picture': () => {
-    // 1000x660 viewport, full screen, 2x sidebars open, Hp monitor, 100% zoom.
     if (!folder) {
       throw Error(`Please specify folder for pictures`);
     }
-    cy.matchImageSnapshot(`${folder}-${acc}`, { capture: `viewport` });
+    cy.matchImageSnapshot(`${acc}-${folder}`, { capture: `viewport` });
     acc += 1;
+  },
+  'I log in': () => {
+    BASE_COMMANDS[`I see disabled button`]([`Sign in`]);
+    BASE_COMMANDS[`I see not disabled button`]([`Sign in`]);
+    BASE_COMMANDS[`I click button`]([`Sign in`]);
+    BASE_COMMANDS[`I not see button`]([`Sign in`]);
+    BASE_COMMANDS[`I see disabled button`]([`Your documents`]);
+    BASE_COMMANDS[`I click button`]([`User details and options`]);
+    BASE_COMMANDS[`I see text`]([`Your Account`]);
+    BASE_COMMANDS[`I see button`]([`Sign out`]);
+    BASE_COMMANDS[`I see not disabled button`]([`Your documents`]);
+    BASE_COMMANDS[`I click button`]([`Close your account panel`]);
   },
   'I paste in creator': async () => {
     // @TODO
