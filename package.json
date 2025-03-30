@@ -20,13 +20,11 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "cy:open-prod": "cypress open --e2e --config baseUrl=http://localhost:9000",
-    "cy:run-prod": "cypress run --config baseUrl=http://localhost:9000",
-    "test:e2e-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:open-prod",
-    "test:e2e-run-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
-    "e2e-1": "cypress run --config baseUrl=http://localhost:9000 --spec \"cypress/e2e/docs-creator.cy.ts\"",
+    "e2e:1": "cypress run --config baseUrl=http://localhost:9000 --spec \"cypress/e2e/docs-creator.cy.ts\"",
+    "e2e:all": "cypress run --config baseUrl=http://localhost:9000",
     "ci:lint": "npm run lint",
-    "ci:e2e": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod"
+    "ci:e2e": "npm run build && start-server-and-test serve http://localhost:9000 e2e:all",
+    "ci:units": "npm run test"
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",
