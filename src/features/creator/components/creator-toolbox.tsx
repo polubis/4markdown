@@ -13,7 +13,6 @@ import {
   BiMath,
   BiSolidQuoteAltLeft,
   BiStrikethrough,
-  BiBug,
 } from 'react-icons/bi';
 
 type CreatorToolboxSyntaxKey =
@@ -35,12 +34,6 @@ type CreatorToolboxProps = {
 };
 
 const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
-  const [shouldError, setShouldError] = React.useState(false);
-
-  if (shouldError) {
-    throw new Error(`Test error boundary`);
-  }
-
   const insertMarkdownSyntax =
     (syntaxKey: CreatorToolboxSyntaxKey) => (): void => {
       if (!creator) return;
@@ -83,10 +76,6 @@ const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
 
       operationsMap[syntaxKey]();
     };
-
-  const triggerError = () => {
-    setShouldError(true);
-  };
 
   return (
     <>
@@ -197,15 +186,6 @@ const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
         onClick={() => onClick(null)}
       >
         <BiInfoCircle size={20} />
-      </Button>
-      <Button
-        s="auto"
-        className="p-1"
-        i={1}
-        title="Test Error Boundary"
-        onClick={triggerError}
-      >
-        <BiBug size={20} />
       </Button>
     </>
   );
