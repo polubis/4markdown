@@ -17,9 +17,6 @@
 import './commands';
 import { addMatchImageSnapshotCommand } from 'cypress-image-snapshot/command';
 
-addMatchImageSnapshotCommand({
-  failureThreshold: Cypress.env(`failureThreshold`),
-  failureThresholdType: Cypress.env(`failureThresholdType`),
-});
+addMatchImageSnapshotCommand();
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
