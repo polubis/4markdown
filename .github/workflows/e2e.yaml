@@ -10,13 +10,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.18.0'
+          npm-version: '8.11.0'
 
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
+
       - name: Run e2e
         env: 
           GATSBY_API_URL: ${{ secrets.GATSBY_API_URL }}
@@ -29,4 +33,14 @@ jobs:
           GATSBY_MEASURMENT_ID: ${{ secrets.GATSBY_MEASURMENT_ID }}
           GATSBY_TEST_USER_EMAIL: ${{ secrets.GATSBY_TEST_USER_EMAIL }}
           GATSBY_TEST_USER_PASSWORD: ${{ secrets.GATSBY_TEST_USER_PASSWORD }}
-        run: npm run test:e2e:ci
+        run: npm run ci:e2e
+
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-test-artifacts
+          path: |
+            cypress/screenshots/**/*
+            cypress/snapshots/**/*
+          retention-days: 1
