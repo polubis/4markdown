@@ -3,10 +3,19 @@ import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
 describe(`Docs creator works when`, () => {
+  const cheatsheetModalId = `[cheatsheet-modal]:container`;
+
   const { Given } = Gherkin({
     ...BASE_COMMANDS,
     'I scroll to': (text: string) => {
       cy.contains(text).scrollIntoView();
+    },
+    'I check block': (text: string) => {
+      Given(`I scroll to`, text);
+      BASE_COMMANDS[`System takes element picture`](
+        `[data-testid="${cheatsheetModalId}"]`,
+        text,
+      );
     },
     'I test creator syntax': (content: string, name: string) => {
       Given(`I clear creator`)
@@ -42,14 +51,12 @@ describe(`Docs creator works when`, () => {
         .And(`I test creator syntax`, headings, `headings`)
         .When(`I click button`, [`Cheatsheet`])
         .Then(`I see text`, cheatsheetText)
-        .When(`I scroll to`, cheatsheetText[0])
-        .Then(`System takes picture`, `info-typography`)
-        .When(`I scroll to`, cheatsheetText[1])
-        .Then(`System takes picture`, `info-lists`)
-        .When(`I scroll to`, cheatsheetText[2])
-        .Then(`System takes picture`, `info-blocks`)
-        .When(`I scroll to`, cheatsheetText[3])
-        .Then(`System takes picture`, `info-thanks`)
+        .When(`I scroll to`, `Application logo`)
+        .And(`I wait`, 2000)
+        .And(`I check block`, cheatsheetText[0])
+        .And(`I check block`, cheatsheetText[1])
+        .And(`I check block`, cheatsheetText[2])
+        .And(`I check block`, cheatsheetText[3])
         .When(`I click button`, [`Close markdown cheatsheet`])
         .Then(`I not see text`, cheatsheetText);
     });
