@@ -1,13 +1,19 @@
 import { Button } from 'design-system/button';
 import React from 'react';
+import { handleExceptionViewed } from '../core/analytics';
 
 const resetAll = (): void => {
+  handleExceptionViewed(`exception_viewed`);
   localStorage.clear();
   sessionStorage.clear();
   window.location.reload();
 };
 
 const ExceptionScreen = () => {
+  React.useEffect(() => {
+    handleExceptionViewed(`exception_viewed`);
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="p-4 flex flex-col items-center max-w-[280px]">
