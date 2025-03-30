@@ -7,7 +7,6 @@ export default defineConfig({
     defaultBrowser: `chrome`,
     specPattern: `cypress/e2e`,
     setupNodeEvents(on, config) {
-      console.log(`siema` + config.env.failureThreshold);
       addMatchImageSnapshotPlugin(on, config);
       return config;
     },

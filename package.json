@@ -20,8 +20,9 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "e2e:1": "cypress run --spec \"cypress/e2e/docs-creator.cy.ts\"",
+    "e2e:1": "cypress run --spec \"cypress/e2e/creator-sync.cy.ts\"",
     "e2e:all": "cypress run",
+    "e2e:gen-snapshots": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run\"",
     "ci:lint": "npm run lint",
     "ci:e2e": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run --env failureThreshold=0.025,failureThresholdType=percent\"",
     "ci:units": "npm run test"

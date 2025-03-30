@@ -42,13 +42,13 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
             to={meta.routes.home}
             className="flex items-center hover:underline underline-offset-2 mr-auto"
           >
-            {/* <img
+            <img
               rel="preload"
               className="w-8 h-8"
               src="/favicon-32x32.png"
               alt={meta.appName}
               title={meta.title}
-            /> */}
+            />
             <p className="text-lg ml-3 font-bold">{meta.appName}</p>
           </Link>
           <ThemeProvider>
