@@ -15,21 +15,8 @@ const initAnalytics = (): Promise<void> => {
     const trackable = getCookie(COOKIE_TYPE.PERFORMANCE) === `true`;
     const gaId = process.env.GATSBY_GA_ID;
 
-    console.log(`[Analytics Debug] Initializing:`, {
-      trackable,
-      gaId,
-      initialized,
-    });
-
-    if (!gaId || !trackable || initialized || navigator?.doNotTrack === `1`) {
-      console.log(`[Analytics Debug] Skipping initialization due to:`, {
-        noGaId: !gaId,
-        notTrackable: !trackable,
-        alreadyInitialized: initialized,
-        doNotTrack: navigator?.doNotTrack === `1`,
-      });
+    if (!gaId || !trackable || initialized || navigator?.doNotTrack === `1`)
       return resolve();
-    }
 
     const w = window as Window;
 
@@ -46,7 +33,6 @@ const initAnalytics = (): Promise<void> => {
       w.gtag(`config`, gaId);
 
       initialized = true;
-      console.log(`[Analytics Debug] Successfully initialized`);
 
       resolve();
     };
@@ -67,7 +53,6 @@ const initAnalytics = (): Promise<void> => {
     };
 
     script.onerror = () => {
-      console.error(`[Analytics Debug] Failed to load analytics script`);
       resolve();
     };
 
