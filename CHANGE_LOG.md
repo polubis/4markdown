@@ -51,5 +51,3 @@ const ExamplesContainer = () => {
 export { ExamplesContainer };
 
 ```
-
-//  "e2e:update-specific": "cypress run --config baseUrl=http://localhost:9000 --spec \"cypress/e2e/specific-test.cy.ts\" --env cypress-image-snapshot.updateSnapshots=true",
