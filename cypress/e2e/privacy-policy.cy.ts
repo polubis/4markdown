@@ -19,7 +19,7 @@ describe(`Privacy policy works when`, () => {
         `[data-testid="${policyPageId}"] > h1, [data-testid="${policyPageId}"] > h2`,
       ).each((h) => {
         cy.contains(h.text()).scrollIntoView();
-        BASE_COMMANDS.picture(h.text());
+        BASE_COMMANDS[`System takes picture`](h.text());
       });
     },
     'I click privacy policy link': () => {
@@ -33,7 +33,7 @@ describe(`Privacy policy works when`, () => {
     Given(`System has accepted cookies`)
       .And(`Im on page`, `home`)
       .And(`I see not disabled button`, [`Sign in`])
-      .And(`theme is set to white`)
+      .And(`I set white theme`)
       .When(`I click button`, [`Navigation`])
       .Then(`I see not disabled button`, [`Close navigation`])
       .When(`I click privacy policy link`)

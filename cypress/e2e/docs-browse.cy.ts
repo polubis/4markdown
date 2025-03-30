@@ -15,7 +15,7 @@ describe(`Docs browse works when`, () => {
     Given(`System has accepted cookies`)
       .And(`Im on page`, `home`)
       .And(`I log in`)
-      .And(`theme is set to white`)
+      .And(`I set white theme`)
       .And(`I clear creator`)
       .And(`I type in creator`, documentCode1)
       .Then(`I see text`, [`This is my heading`])

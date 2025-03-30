@@ -60,7 +60,7 @@ describe(`Docs display works when`, () => {
     'I see document preview correctly displayed': () => {
       cy.get(`.prose > h1, .prose > h2`).each((h) => {
         cy.contains(h.text()).scrollIntoView();
-        Given(`picture`, `document-preview-heading-${h.text()}`);
+        Given(`System takes picture`, `document-preview-heading-${h.text()}`);
       });
     },
   });
@@ -84,7 +84,7 @@ describe(`Docs display works when`, () => {
       .And(`System has accepted cookies`)
       .And(`Im on page`, `home`)
       .And(`I log in`)
-      .And(`theme is set to white`)
+      .And(`I set white theme`)
       .And(`System mocks api`, {
         endpoint: `getYourDocuments`,
         code: 200,
@@ -106,7 +106,7 @@ describe(`Docs display works when`, () => {
       .When(`I preview document`, getPublicDocResponse.result.name)
       .Then(`I see disabled button`, [`Save changes`])
       .And(`I wait`, 1000)
-      .And(`picture`, `document-in-creator`)
+      .And(`System takes picture`, `document-in-creator`)
       .When(`I click button`, [`More document options`, `Document preview`])
       .Then(`I not see button`, [`Your documents`])
       .And(`I see document preview correctly displayed`);

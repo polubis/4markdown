@@ -137,7 +137,7 @@ const BASE_COMMANDS = {
   'I clear creator': () => {
     cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
-  'theme is set to white': () => {
+  'I set white theme': () => {
     cy.get(`body`)
       .invoke(`attr`, `class`)
       .then((classList) => {
@@ -181,7 +181,7 @@ const BASE_COMMANDS = {
   'I wait for api': (endpoint: Endpoint, code: number) => {
     cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);
   },
-  picture: (name: string) => {
+  'System takes picture': (name: string) => {
     cy.matchImageSnapshot(name, { capture: `viewport` });
   },
   'I log in': () => {

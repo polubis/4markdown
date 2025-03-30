@@ -12,9 +12,9 @@ describe(`Docs creator works when`, () => {
       Given(`I clear creator`)
         .And(`I type in creator`, content)
         .Then(`I wait`, 1000)
-        .And(`picture`, `${name}-before-change-theme`)
+        .And(`System takes picture`, `${name}-before-change-theme`)
         .When(`I change theme`)
-        .Then(`picture`, `${name}-after-change-theme`)
+        .Then(`System takes picture`, `${name}-after-change-theme`)
         .When(`I change theme`);
     },
   });
@@ -35,7 +35,7 @@ describe(`Docs creator works when`, () => {
       Given(`System has accepted cookies`)
         .And(`Im on page`, `home`)
         .And(`I see not disabled button`, [`Sign in`])
-        .And(`theme is set to white`)
+        .And(`I set white theme`)
         .When(`I test creator syntax`, lists, `lists`)
         .And(`I test creator syntax`, math, `math`)
         .And(`I test creator syntax`, code, `code`)
@@ -43,13 +43,13 @@ describe(`Docs creator works when`, () => {
         .When(`I click button`, [`Cheatsheet`])
         .Then(`I see text`, cheatsheetText)
         .When(`I scroll to`, cheatsheetText[0])
-        .Then(`picture`, `info-typography`)
+        .Then(`System takes picture`, `info-typography`)
         .When(`I scroll to`, cheatsheetText[1])
-        .Then(`picture`, `info-lists`)
+        .Then(`System takes picture`, `info-lists`)
         .When(`I scroll to`, cheatsheetText[2])
-        .Then(`picture`, `info-blocks`)
+        .Then(`System takes picture`, `info-blocks`)
         .When(`I scroll to`, cheatsheetText[3])
-        .Then(`picture`, `info-thanks`)
+        .Then(`System takes picture`, `info-thanks`)
         .When(`I click button`, [`Close markdown cheatsheet`])
         .Then(`I not see text`, cheatsheetText);
     });

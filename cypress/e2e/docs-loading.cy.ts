@@ -112,22 +112,22 @@ describe(`Documents loading works when`, () => {
       .And(`System has accepted cookies`)
       .And(`Im on page`, `home`)
       .And(`I log in`)
-      .And(`theme is set to white`)
+      .And(`I set white theme`)
       .Then(`I see not disabled button`, [`Your documents`])
       .When(`I click button`, [`Your documents`])
       .Then(`I see text`, [`Mediator pattern in TypeScript`])
       .And(`I wait`, 1500)
-      .And(`picture`, `recent-documents`)
+      .And(`System takes picture`, `recent-documents`)
       .When(`I click button`, [`Old documents`])
       .Then(`I wait`, 500)
-      .And(`picture`, `old-documents`)
+      .And(`System takes picture`, `old-documents`)
       .When(`I click button`, [`Really Old documents`])
       .Then(`I wait`, 500)
-      .And(`picture`, `really-old-documents`)
+      .And(`System takes picture`, `really-old-documents`)
       .When(`I click button`, [`Sync documents`])
       .Then(`I see text`, [`Just a second`])
-      .And(`picture`, `loader`)
+      .And(`System takes picture`, `loader`)
       .Then(`I see button`, [`Really Old documents`])
-      .And(`picture`, `really-old-documents-after-sync`);
+      .And(`System takes picture`, `really-old-documents-after-sync`);
   });
 });

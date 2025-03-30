@@ -39,7 +39,7 @@ describe(`User profile works when`, () => {
         .And(`I type in input`, twitterInput, profileData.twitterUrl)
         .And(`I type in input`, blogInput, profileData.blogUrl)
         .And(`I type in input`, linkedInInput, profileData.linkedInUrl)
-        .Then(`picture`, `full-user-profile-form`)
+        .Then(`System takes picture`, `full-user-profile-form`)
         .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
@@ -54,7 +54,7 @@ describe(`User profile works when`, () => {
       Given(`I see text`, [`Your Profile Edition`])
         .When(`I type in input`, displayNameInput, profileData.displayName)
         .And(`I type in input`, githubInput, profileData.githubUrl)
-        .Then(`picture`, `filled-user-profile-form`)
+        .Then(`System takes picture`, `filled-user-profile-form`)
         .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
@@ -69,7 +69,7 @@ describe(`User profile works when`, () => {
           blogInput,
           linkedInInput,
         ])
-        .Then(`picture`, `cleaned-user-profile-form`)
+        .Then(`System takes picture`, `cleaned-user-profile-form`)
         .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
@@ -79,7 +79,7 @@ describe(`User profile works when`, () => {
     Given(`System has accepted cookies`)
       .And(`Im on page`, `home`)
       .And(`I log in`)
-      .And(`theme is set to white`)
+      .And(`I set white theme`)
       .When(`I click button`, [`User details and options`])
       .Then(`I see not disabled button`, [
         `User details and options`,
@@ -109,6 +109,6 @@ describe(`User profile works when`, () => {
       .When(`I click button`, [`Open user profile settings`])
       .And(`I clear profile`)
       .Then(`I see no profile section`)
-      .And(`picture`, `no-profile-section`);
+      .And(`System takes picture`, `no-profile-section`);
   });
 });
