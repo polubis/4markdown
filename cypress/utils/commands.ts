@@ -184,6 +184,9 @@ const BASE_COMMANDS = {
   'System takes picture': (name: string) => {
     cy.matchImageSnapshot(name, { capture: `viewport` });
   },
+  'System takes element picture': (selector: string, name: string) => {
+    cy.get(selector).matchImageSnapshot(name, { capture: `viewport` });
+  },
   'I log in': () => {
     BASE_COMMANDS[`I see disabled button`]([`Sign in`]);
     BASE_COMMANDS[`I see not disabled button`]([`Sign in`]);
