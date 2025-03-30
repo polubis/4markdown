@@ -14,6 +14,8 @@ const { When, Given } = Gherkin({
   },
 });
 
+// @TODO[PRIO=2]: [Remove this file and add it inside test].
+// @TODO[PRIO=2]: [Remove reference to Gherkin here].
 const DOCS_MANAGEMENT_SCENARIOS = {
   'I delete document': (name: DocumentDto['name']) => {
     return When(`I click button`, [

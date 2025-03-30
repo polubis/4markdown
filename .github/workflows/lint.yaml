@@ -19,4 +19,4 @@ jobs:
         run: npm install --legacy-peer-deps
 
       - name: Run Linting
-        run: npm run lint:ci
+        run: npm run ci:lint
