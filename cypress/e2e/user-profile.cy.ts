@@ -1,4 +1,3 @@
-import { LOG_IN_OUT_SCENARIOS } from '../scenarios/log-in-out';
 import { BASE_COMMANDS } from '../utils/commands';
 import { Gherkin } from '../utils/gherkin';
 
@@ -40,7 +39,7 @@ describe(`User profile works when`, () => {
         .And(`I type in input`, twitterInput, profileData.twitterUrl)
         .And(`I type in input`, blogInput, profileData.blogUrl)
         .And(`I type in input`, linkedInInput, profileData.linkedInUrl)
-        .Then(`System takes picture`)
+        .Then(`System takes picture`, `full-user-profile-form`)
         .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
@@ -55,7 +54,7 @@ describe(`User profile works when`, () => {
       Given(`I see text`, [`Your Profile Edition`])
         .When(`I type in input`, displayNameInput, profileData.displayName)
         .And(`I type in input`, githubInput, profileData.githubUrl)
-        .Then(`System takes picture`)
+        .Then(`System takes picture`, `filled-user-profile-form`)
         .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
@@ -70,37 +69,26 @@ describe(`User profile works when`, () => {
           blogInput,
           linkedInInput,
         ])
-        .Then(`System takes picture`)
+        .Then(`System takes picture`, `cleaned-user-profile-form`)
         .When(`I click button`, [`Save user profile`])
         .Then(`I see disabled button`, [`Save user profile`]);
     },
   });
 
-  before(() => {
-    Given(`System sets pictures folder`, `user-profile`);
-  });
-
-  beforeEach(() => {
-    Given(`System cleans local storage`)
-      .And(`Im on page`, `home`)
-      .And(`System has accepted cookies`);
-  });
-
-  after(() => {
-    Given(`System cleans pictures setup`);
-  });
-
   it(`user may edit his profile`, () => {
-    LOG_IN_OUT_SCENARIOS[`I log in`]();
-
-    Given(`I see not disabled button`, [
-      `User details and options`,
-      `Your documents`,
-      `Open user profile settings`,
-      `Create your user profile`,
-      `Close your account panel`,
-      `Sign out`,
-    ])
+    Given(`System has accepted cookies`)
+      .And(`Im on page`, `home`)
+      .And(`I log in`)
+      .And(`I set white theme`)
+      .When(`I click button`, [`User details and options`])
+      .Then(`I see not disabled button`, [
+        `User details and options`,
+        `Your documents`,
+        `Open user profile settings`,
+        `Create your user profile`,
+        `Close your account panel`,
+        `Sign out`,
+      ])
       .And(`I see no profile section`)
       .When(`I click button`, [`Create your user profile`])
       .And(`I create partial profile`)
@@ -121,6 +109,6 @@ describe(`User profile works when`, () => {
       .When(`I click button`, [`Open user profile settings`])
       .And(`I clear profile`)
       .Then(`I see no profile section`)
-      .And(`System takes picture`);
+      .And(`System takes picture`, `no-profile-section`);
   });
 });

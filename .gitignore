@@ -6,8 +6,9 @@ src/gatsby-types.d.ts
 .env.development
 .env.production
 .env
-cypress/snapshots/__diff_output__/
+cypress/snapshots/**/__diff_output__/
+cypress/snapshots/*
 cypress/downloads/
-cypress/snapshots/**/
+cypress/videos/
 cypress/screenshots/
 .unlighthouse
