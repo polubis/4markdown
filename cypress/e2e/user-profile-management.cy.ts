@@ -27,14 +27,6 @@ describe(`User profile works when`, () => {
         `Close your profile form`,
       ]).And(`I see text`, [`Updating your profile...`]);
     },
-    'I log in': () => {
-      Given(`I see disabled button`, [`Sign in`])
-        .And(`I see not disabled button`, [`Sign in`])
-        .When(`I click button`, [`Sign in`])
-        .Then(`I not see button`, [`Sign in`])
-        .And(`I see disabled button`, [`Your documents`])
-        .And(`I see not disabled button`, [`Your documents`]);
-    },
     'I clean up user profile form': () => {
       Given(`I click button`, [
         `User details and options`,
@@ -52,7 +44,7 @@ describe(`User profile works when`, () => {
         .When(`I click button`, [`Save user profile`])
         .Then(`I see user profile form is busy`)
         .And(`I see text`, [`Ups, something went wrong`])
-        .And(`System takes picture`)
+        .And(`picture`, `error-screen-dupliated-username`)
         .When(`I click button`, [`Close error screen`])
         .Then(`I see section`, `[user-profile-form]:container`)
         .When(`I clear input`, [userProfileFormSelectors.displayName])
@@ -62,32 +54,21 @@ describe(`User profile works when`, () => {
     },
   });
 
-  before(() => {
-    Given(`System sets pictures folder`, `user-profile-management`);
-  });
-
-  beforeEach(() => {
-    Given(`System cleans local storage`)
-      .And(`Im on page`, `home`)
-      .And(`System has accepted cookies`);
-  });
-
-  after(() => {
-    Given(`System cleans pictures setup`);
-  });
-
   it(`user is able to manage own profile`, () => {
-    Given(`I log in`)
+    Given(`System has accepted cookies`)
+      .And(`Im on page`, `home`)
+      .And(`I log in`)
+      .And(`theme is set to white`)
       .When(`I click button`, [`User details and options`])
       .Then(`I see section`, `[user-profile]:no-profile-yet`)
-      .And(`System takes picture`)
+      .And(`picture`, `no-profile-yet`)
       .When(`I click button`, [`Sync your profile`])
       .Then(`I see section`, `[user-profile]:profile-loading`)
       .And(`I see section`, `[user-profile]:no-profile-yet`)
       .When(`I click button`, [`Create your user profile`])
       .Then(`I see section`, `[user-profile-form]:container`)
       .When(`I clear all user profile form fields`)
-      .And(`System takes picture`)
+      .And(`picture`, `empty-user-profile-form`)
       .When(`I type in input`, userProfileFormSelectors.displayName, `a`)
       .Then(`I see disabled button`, [`Save user profile`])
       .When(
@@ -103,7 +84,7 @@ describe(`User profile works when`, () => {
       .When(`I click button`, [`Save user profile`])
       .Then(`I see user profile form is busy`)
       .And(`I see section`, `[user-profile]:profile-ready`)
-      .Then(`System takes picture`)
+      .Then(`picture`, `profile-ready`)
       .When(`I click button`, [`Open user profile settings`])
       .Then(`I see section`, `[user-profile-form]:container`)
       .And(`I see disabled button`, [`Save user profile`])
