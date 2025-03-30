@@ -95,14 +95,11 @@ const BASE_COMMANDS = {
   },
   'I change theme': () => {
     BASE_COMMANDS[`I open app navigation`]();
-    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`)
-      .should(`be.visible`)
-      .then(() => {
-        BASE_COMMANDS[`I click button`]([`Change theme`, `Close navigation`]);
-        cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
-          `not.be.visible`,
-        );
-      });
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`be.visible`);
+    BASE_COMMANDS[`I click button`]([`Change theme`, `Close navigation`]);
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
+      `not.be.visible`,
+    );
   },
   'I click button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {

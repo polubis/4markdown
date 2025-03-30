@@ -14,7 +14,8 @@ describe(`Docs creator works when`, () => {
         .Then(`I wait`, 1000)
         .And(`picture`, `${name}-before-change-theme`)
         .When(`I change theme`)
-        .Then(`picture`, `${name}-after-change-theme`);
+        .Then(`picture`, `${name}-after-change-theme`)
+        .When(`I change theme`);
     },
   });
 
