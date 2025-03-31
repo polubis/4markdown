@@ -54,7 +54,9 @@ type ClickableControls =
   | `Accept customized cookies`
   | `Cheatsheet`
   | `Close markdown cheatsheet`
-  | `Close error screen`;
+  | `Close error screen`
+  | `Open search`
+  | `Close search`;
 
 type Element =
   | `Create any content`
