@@ -10,6 +10,7 @@ const SearchPopoverContent = React.lazy(() =>
   })),
 );
 
+// @TODO[PRIO=4]: [Move it to modules and apply project conventions].
 const SearchPopover = ({ className }: { className?: string }) => {
   const menu = useSimpleFeature();
 
