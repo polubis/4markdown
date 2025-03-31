@@ -88,7 +88,7 @@ const DocsListModal = ({ onClose }: { onClose(): void }) => {
             ))}
           </Tabs>
           {docs.length > 0 ? (
-            <ul className="flex flex-col space-y-3">
+            <ul className="flex flex-col space-y-3 ">
               {docs.map((doc) => (
                 <li
                   className={c(
