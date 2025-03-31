@@ -19,7 +19,7 @@ const SearchPopover = ({ className }: { className?: string }) => {
         i={1}
         s={2}
         className={className}
-        title="Search"
+        title="Open search"
         onClick={menu.on}
       >
         <BiSearch />

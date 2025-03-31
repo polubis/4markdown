@@ -55,7 +55,8 @@ type ClickableControls =
   | `Cheatsheet`
   | `Close markdown cheatsheet`
   | `Close error screen`
-  | `Search`;
+  | `Open search`
+  | `Close search`;
 
 type Element =
   | `Create any content`
