@@ -156,14 +156,10 @@ const BugReportContainer = () => {
       <Button
         i={1}
         s={2}
-        auto
         onClick={reportBugCtx.on}
         className="bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
-        title="Report a bug"
+        title="It's beta! Report a bug"
       >
-        <span className="hidden md:inline mr-1">
-          It&apos;s Beta! Report A Bug
-        </span>
         <BiBug />
       </Button>
       {reportBugCtx.isOn && <BugReportModalContainer />}

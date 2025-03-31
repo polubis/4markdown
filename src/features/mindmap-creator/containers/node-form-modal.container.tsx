@@ -25,6 +25,19 @@ import { openNodeContentInCreatorAct } from 'acts/open-node-content-in-creator.a
 
 type StepType = MindmapCreatorNode['type'] | `none`;
 
+const prepareBaseValues = (values: {
+  name: string;
+  description: string;
+}): Pick<MindmapCreatorNode['data'], 'name' | 'description'> => {
+  const name = values.name.trim();
+  const description = values.description.trim();
+
+  return {
+    name,
+    description: description.length === 0 ? null : description,
+  };
+};
+
 const [LocalProvider, useLocalContext] = context(() => {
   const { nodeForm } = useMindmapCreatorState();
 
@@ -81,8 +94,7 @@ const ExternalForm = () => {
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    const name = values.name.trim();
-    const description = values.description.trim();
+    const { name, description } = prepareBaseValues(values);
     const url = values.url.trim();
 
     if (nodeForm.is === `edition`) {
@@ -102,7 +114,7 @@ const ExternalForm = () => {
 
     addNewExternalNodeAction({
       name,
-      description: description.length === 0 ? null : description,
+      description,
       url,
       path: `/unset/`,
     });
@@ -260,9 +272,9 @@ const EmbeddedForm = () => {
   const confirmCreation: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    const name = values.name.trim();
-    const description = values.description.trim();
-    const content = values.content.trim();
+    const { name, description } = prepareBaseValues(values);
+    const trimmedContent = values.content.trim();
+    const content = trimmedContent.length === 0 ? null : trimmedContent;
 
     if (nodeForm.is === `edition`) {
       updateEmbeddedNodeAction({
@@ -282,7 +294,7 @@ const EmbeddedForm = () => {
 
     addNewEmbeddedNodeAction({
       name,
-      description: description.length === 0 ? null : description,
+      description,
       content,
       path: `/unset/`,
     });

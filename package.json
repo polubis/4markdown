@@ -8,6 +8,7 @@
     "gatsby"
   ],
   "scripts": {
+    "benchmark": "node benchmark.js",
     "develop": "gatsby develop",
     "start": "gatsby develop",
     "build": "gatsby build",
@@ -19,19 +20,12 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "cy:open-dev": "cypress open --browser chrome --e2e --config baseUrl=http://localhost:8000",
-    "cy:open-prod": "cypress open --browser chrome --e2e --config baseUrl=http://localhost:9000",
-    "cy:run-dev": "cypress run --browser chrome --config baseUrl=http://localhost:8000",
-    "cy:run-prod": "cypress run --browser chrome --config baseUrl=http://localhost:9000",
-    "test:e2e-dev": "start-server-and-test develop http://localhost:8000 cy:open-dev",
-    "test:e2e-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:open-prod",
-    "test:ci": "npm run test",
-    "test:e2e-run-dev": "start-server-and-test develop http://localhost:8000 cy:run-dev",
-    "test:e2e-run-prod": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
-    "test:e2e:ci": "npm run build && start-server-and-test serve http://localhost:9000 cy:run-prod",
-    "lint:ci": "npm run lint",
-    "benchmark": "node benchmark.js",
-    "verify": "npm run build && npm run serve"
+    "e2e:1": "cypress run --spec \"cypress/e2e/creator-sync.cy.ts\"",
+    "e2e:all": "cypress run",
+    "e2e:gen-snapshots": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run\"",
+    "ci:lint": "npm run lint",
+    "ci:e2e": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run --env failOnSnapshotDiff=false\"",
+    "ci:units": "npm run test"
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",

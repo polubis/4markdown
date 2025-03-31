@@ -360,6 +360,7 @@ const updateEmbeddedNodeAction = (
   set({
     nodes: swapNode(get().nodes, nodeToUpdate),
     nodeForm: { is: `closed` },
+    changesCount: 2,
   });
 };
 
@@ -369,6 +370,7 @@ const updateExternalNodeAction = (
   set({
     nodes: swapNode(get().nodes, nodeToUpdate),
     nodeForm: { is: `closed` },
+    changesCount: 2,
   });
 };
 
