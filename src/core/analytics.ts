@@ -60,4 +60,22 @@ const initAnalytics = (): Promise<void> => {
   });
 };
 
-export { initAnalytics };
+type EventCategory = `exceptions`;
+type EventName = `exception_session_reset_clicked` | `exception_occured`;
+
+const trackEvent = (eventName: EventName): void => {
+  if (!window.gtag) return;
+
+  const eventCategory: EventCategory = `exceptions`;
+
+  window.gtag(`event`, eventName, {
+    event_category: eventCategory,
+    page_location: window.location.href,
+    page_title: document.title,
+    user_agent: navigator.userAgent,
+    timestamp: new Date().toISOString(),
+    referrer: document.referrer || `direct`,
+  });
+};
+
+export { initAnalytics, trackEvent };
