@@ -1,5 +1,6 @@
 import { Button } from 'design-system/button';
 import React from 'react';
+import { trackEvent } from '../core/analytics';
 
 const resetAll = (): void => {
   localStorage.clear();
@@ -8,6 +9,10 @@ const resetAll = (): void => {
 };
 
 const ExceptionScreen = () => {
+  React.useEffect(() => {
+    trackEvent(`exception_occured`);
+  }, []);
+
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <div className="p-4 flex flex-col items-center max-w-[280px]">
