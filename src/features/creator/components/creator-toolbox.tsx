@@ -13,6 +13,7 @@ import {
   BiMath,
   BiSolidQuoteAltLeft,
   BiStrikethrough,
+  BiWindow,
 } from 'react-icons/bi';
 
 type CreatorToolboxSyntaxKey =
@@ -26,7 +27,8 @@ type CreatorToolboxSyntaxKey =
   | `link`
   | `ol`
   | `ul`
-  | `todo`;
+  | `todo`
+  | `tab`;
 
 type CreatorToolboxProps = {
   creator: HTMLTextAreaElement | null;
@@ -71,6 +73,11 @@ const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
         },
         todo: () => {
           onClick(`- [x] a\n- [ ] b\n- [x] c`);
+        },
+        tab: () => {
+          onClick(
+            `\`\`\`\n@@@\n// Tab name: Tab 1\n\n@@@\n// Tab name: Empty Tab\n\n@@@\n// Tab name: Tab 3\nconsole.log("Hello world");\n\`\`\``,
+          );
         },
       };
 
@@ -132,6 +139,15 @@ const CreatorToolbox = ({ creator, onClick }: CreatorToolboxProps) => {
         onClick={insertMarkdownSyntax(`code`)}
       >
         <BiCode size={20} />
+      </Button>
+      <Button
+        s="auto"
+        className="p-1"
+        i={1}
+        title="Tab Separator"
+        onClick={insertMarkdownSyntax(`tab`)}
+      >
+        <BiWindow size={20} />
       </Button>
       <Button
         s="auto"
