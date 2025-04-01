@@ -18,6 +18,14 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   payload: TPayload;
 };
 
+type RateApplicationContract = Contract<
+  `rateApplication`,
+  null,
+  {
+    rating: number;
+    description: string;
+  }
+>;
 type ReportBugContract = Contract<
   `reportBug`,
   null,
@@ -207,6 +215,7 @@ type API4MarkdownContracts =
   | UpdateMindmapContract
   | GetAccessibleMindmapContract
   | ReportBugContract
+  | RateApplicationContract
   | GetPermanentMindmapsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
