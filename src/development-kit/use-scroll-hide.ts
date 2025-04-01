@@ -35,7 +35,9 @@ const useScrollHide = <T extends HTMLElement>(): ScrollHideReturn<T> => {
   React.useLayoutEffect(() => {
     hide();
 
-    return show;
+    return () => {
+      show();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

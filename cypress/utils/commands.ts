@@ -54,7 +54,9 @@ type ClickableControls =
   | `Accept customized cookies`
   | `Cheatsheet`
   | `Close markdown cheatsheet`
-  | `Close error screen`;
+  | `Close error screen`
+  | `Open search`
+  | `Close search`;
 
 type Element =
   | `Create any content`
@@ -72,9 +74,6 @@ type Endpoint =
   | `getYourDocuments`
   | `getAccessibleDocument`;
 
-let acc = 1;
-let folder: string | undefined;
-
 type Section =
   | `[user-profile]:no-profile-yet`
   | `[user-profile]:profile-loading`
@@ -82,14 +81,6 @@ type Section =
   | `[user-profile-form]:container`;
 
 const BASE_COMMANDS = {
-  'I change to default viewport': () => {
-    BASE_COMMANDS[`I change viewport`](1000, 600);
-  },
-  'I change viewport': (width: number, height: number) => {
-    cy.viewport(width, height);
-    cy.window().should(`have.property`, `innerWidth`, width);
-    cy.window().should(`have.property`, `innerHeight`, height);
-  },
   'I see text in creator': (value: string) => {
     cy.get(`textarea[aria-label="creator"]`)
       .invoke(`val`)
@@ -101,22 +92,16 @@ const BASE_COMMANDS = {
   'I not see section': (section: Section) => {
     cy.get(`[data-testid="${section}"]`).should(`not.exist`);
   },
-  'I sign in': () => {
-    BASE_COMMANDS[`I click button`]([`Clear content`, `Sign in`]);
-  },
   'I open app navigation': () => {
     BASE_COMMANDS[`I click button`]([`Navigation`]);
   },
   'I change theme': () => {
     BASE_COMMANDS[`I open app navigation`]();
-    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`)
-      .should(`be.visible`)
-      .then(() => {
-        BASE_COMMANDS[`I click button`]([`Change theme`, `Close navigation`]);
-        cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
-          `not.be.visible`,
-        );
-      });
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`be.visible`);
+    BASE_COMMANDS[`I click button`]([`Change theme`, `Close navigation`]);
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
+      `not.be.visible`,
+    );
   },
   'I click button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
@@ -154,33 +139,26 @@ const BASE_COMMANDS = {
   'I clear creator': () => {
     cy.get(`textarea[aria-label="creator"]`).type(`{selectall}{backspace}`);
   },
+  'I set white theme': () => {
+    cy.get(`body`)
+      .invoke(`attr`, `class`)
+      .then((classList) => {
+        const isDark = !!classList?.includes(`dark`);
+
+        if (isDark) {
+          BASE_COMMANDS[`I click button`]([
+            `Navigation`,
+            `Change theme`,
+            `Close navigation`,
+          ]);
+        }
+      });
+  },
   'I reload page': () => {
     // cy.reload();
   },
-  'System sets pictures folder': (name: string) => {
-    folder = name;
-  },
-  'System cleans pictures setup': () => {
-    acc = 1;
-    folder = undefined;
-  },
   'System has accepted cookies': () => {
     cy.setCookie(`acceptance`, `true`);
-  },
-  'System cleans local storage': async () => {
-    cy.clearAllLocalStorage();
-    cy.window().then((win) => {
-      const indexedDB = win.indexedDB;
-      if (indexedDB) {
-        indexedDB.databases().then((databases) => {
-          databases.forEach((database) => {
-            if (database.name) {
-              indexedDB.deleteDatabase(database.name);
-            }
-          });
-        });
-      }
-    });
   },
   'System mocks api': (config: {
     endpoint: Endpoint;
@@ -205,18 +183,23 @@ const BASE_COMMANDS = {
   'I wait for api': (endpoint: Endpoint, code: number) => {
     cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);
   },
-  'System takes picture': () => {
-    // 1000x660 viewport, full screen, 2x sidebars open, Hp monitor, 100% zoom.
-    if (!folder) {
-      throw Error(`Please specify folder for pictures`);
-    }
-    cy.matchImageSnapshot(`${folder}-${acc}`, { capture: `viewport` });
-    acc += 1;
+  'System takes picture': (name: string) => {
+    cy.matchImageSnapshot(name, { capture: `viewport` });
   },
-  'I paste in creator': async () => {
-    // @TODO
-    // const text = await navigator.clipboard.readText();
-    // cy.get(`textarea[aria-label="creator"]`).invoke(`val`, text);
+  'System takes element picture': (selector: string, name: string) => {
+    cy.get(selector).matchImageSnapshot(name, { capture: `viewport` });
+  },
+  'I log in': () => {
+    BASE_COMMANDS[`I see disabled button`]([`Sign in`]);
+    BASE_COMMANDS[`I see not disabled button`]([`Sign in`]);
+    BASE_COMMANDS[`I click button`]([`Sign in`]);
+    BASE_COMMANDS[`I not see button`]([`Sign in`]);
+    BASE_COMMANDS[`I see disabled button`]([`Your documents`]);
+    BASE_COMMANDS[`I click button`]([`User details and options`]);
+    BASE_COMMANDS[`I see text`]([`Your Account`]);
+    BASE_COMMANDS[`I see button`]([`Sign out`]);
+    BASE_COMMANDS[`I see not disabled button`]([`Your documents`]);
+    BASE_COMMANDS[`I click button`]([`Close your account panel`]);
   },
   'I see disabled button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
@@ -270,24 +253,6 @@ const BASE_COMMANDS = {
     if (name === `education-zone`) {
       cy.visit(`/education-zone/`);
     }
-  },
-  'I interact with mouse': () => {
-    cy.get(`body`)
-      .trigger(`mouseover`)
-      .trigger(`mousedown`, { which: 1 })
-      .trigger(`mousemove`, {
-        clientX: 100,
-        clientY: 100,
-        screenX: 100,
-        screenY: 100,
-        pageX: 100,
-        pageY: 100,
-      })
-      .trigger(`mouseup`, { which: 1 });
-  },
-  'I accept cookies': () => {
-    BASE_COMMANDS[`I interact with mouse`]();
-    BASE_COMMANDS[`I click button`]([`Clear content`, `Accept cookies`]);
   },
 } as const;
 
