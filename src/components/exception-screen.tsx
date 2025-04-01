@@ -1,9 +1,8 @@
 import { Button } from 'design-system/button';
 import React from 'react';
-import { handleExceptionViewed } from '../core/analytics';
+import { trackEvent } from '../core/analytics';
 
 const resetAll = (): void => {
-  handleExceptionViewed(`exception_viewed`);
   localStorage.clear();
   sessionStorage.clear();
   window.location.reload();
@@ -11,7 +10,7 @@ const resetAll = (): void => {
 
 const ExceptionScreen = () => {
   React.useEffect(() => {
-    handleExceptionViewed(`exception_viewed`);
+    trackEvent(`exception_occured`);
   }, []);
 
   return (

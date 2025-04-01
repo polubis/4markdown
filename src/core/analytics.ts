@@ -60,27 +60,22 @@ const initAnalytics = (): Promise<void> => {
   });
 };
 
-const handleExceptionViewed = (eventCategory: string): void => {
-  const trackable = getCookie(COOKIE_TYPE.PERFORMANCE) === `true`;
-  const gaId = process.env.GATSBY_GA_ID;
+type EventCategory = `exceptions`;
+type EventName = `exception_session_reset_clicked` | `exception_occured`;
 
-  if (!gaId || !trackable || navigator?.doNotTrack === `1` || !window.gtag)
-    return;
+const trackEvent = (eventName: EventName): void => {
+  if (!window.gtag) return;
 
-  window.gtag(`event`, `exception`, {
-    page: `exception`,
+  const eventCategory: EventCategory = `exceptions`;
+
+  window.gtag(`event`, eventName, {
     event_category: eventCategory,
     page_location: window.location.href,
-    page_path: window.location.pathname,
+    page_title: document.title,
     user_agent: navigator.userAgent,
-    screen_resolution: `${window.screen.width}x${window.screen.height}`,
-    viewport_size: `${window.innerWidth}x${window.innerHeight}`,
     timestamp: new Date().toISOString(),
     referrer: document.referrer || `direct`,
-    previous_page: document.referrer
-      ? new URL(document.referrer).pathname
-      : `none`,
   });
 };
 
-export { initAnalytics, handleExceptionViewed };
+export { initAnalytics, trackEvent };
