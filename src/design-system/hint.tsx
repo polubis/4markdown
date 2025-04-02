@@ -1,10 +1,9 @@
 import React, { type ReactNode, type ComponentType } from 'react';
 import { Modal } from './modal';
 import c from 'classnames';
-import {
-  type SimpleFeature,
-  useSimpleFeature,
-} from '@greenonsoftware/react-kit';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
+
+type SimpleFeature = ReturnType<typeof useSimpleFeature>;
 
 interface HintProps {
   className?: string;
