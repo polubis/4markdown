@@ -101,7 +101,7 @@ const useRewriteAssistantState = () => {
         timeoutRef.current = setTimeout(async () => {
           try {
             const response = await fetch(`/intro.md`, {
-              signal: abortControllerRef.current!.signal,
+              signal: abortControllerRef.current?.signal,
             });
             const content = await response.text();
             return resolve(content);
@@ -132,9 +132,7 @@ const useRewriteAssistantState = () => {
         break;
       }
       case `set-stopped`: {
-        if (abortControllerRef.current) {
-          abortControllerRef.current.abort();
-        }
+        abortControllerRef.current?.abort();
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
         }
