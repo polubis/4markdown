@@ -36,6 +36,7 @@ import {
   isInvalidSelection,
   getSelectedText,
 } from 'development-kit/textarea-utils';
+import { TrustedUserContainer } from 'containers/trusted-user.container';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -320,6 +321,7 @@ const CreatorView = () => {
           </nav>
           <div />
           <nav className="flex items-center gap-2">
+            <TrustedUserContainer />
             <UserPopover />
             <MoreNav />
           </nav>
