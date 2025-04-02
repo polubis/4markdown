@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiSend, BiX } from 'react-icons/bi';
+import { BiCheck, BiRefresh, BiX } from 'react-icons/bi';
 import { type SUID, suid } from 'development-kit/suid';
 import c from 'classnames';
 import { Markdown } from 'components/markdown';
@@ -101,7 +101,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
   }
 
   return (
-    <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
+    <form className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-3">
         <h6 className="font-bold mr-8">
           You&apos;re Talking with{` `}
@@ -109,6 +109,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
         </h6>
         <div className="flex items-center space-x-2">
           <Button
+            type="button"
             i={2}
             s={1}
             title="Close rewrite assistant"
@@ -125,7 +126,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
           {conversation.map((entry) =>
             entry.type === `assistant` ? (
               <li
-                className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                className="rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                 key={entry.id}
               >
                 <Markdown>{entry.content}</Markdown>
@@ -146,11 +147,16 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
             ),
           )}
         </ol>
-        <Button className="mt-4 ml-auto" s={2} i={2} title="Send message">
-          <BiSend />
-        </Button>
+        <footer className="ml-auto mt-4 flex items-center justify-end gap-2">
+          <Button type="button" s={1} i={2} title="Try again">
+            <BiRefresh />
+          </Button>
+          <Button type="submit" s={1} i={2} title="Apply changes">
+            <BiCheck />
+          </Button>
+        </footer>
       </section>
-    </div>
+    </form>
   );
 };
 
