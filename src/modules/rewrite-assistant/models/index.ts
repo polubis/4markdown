@@ -31,11 +31,12 @@ type RewriteAssistantAction =
       payload: RewriteAssistantMessage['content'];
     }
   | { type: `AS_FAIL`; payload: ParsedError }
-  | { type: `AS_STOPPED` }
+  | { type: `STOP` }
   | {
       type: `ASK_AGAIN`;
       payload: RewriteAssistantPersona;
-    };
+    }
+  | { type: `CLOSE` };
 
 type RewriteAssistantProps = {
   content: string;

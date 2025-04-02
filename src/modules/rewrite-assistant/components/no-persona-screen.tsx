@@ -18,7 +18,7 @@ const NoPersonaScreen = () => {
             s={1}
             title="Close rewrite assistant"
             className="ml-auto"
-            onClick={assistantCtx.close}
+            onClick={() => assistantCtx.dispatch({ type: `CLOSE` })}
           >
             <BiX />
           </Button>

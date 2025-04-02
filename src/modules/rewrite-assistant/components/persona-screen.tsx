@@ -54,7 +54,7 @@ const PersonaScreen = () => {
             s={1}
             title="Close rewrite assistant"
             className="ml-auto"
-            onClick={assistantCtx.close}
+            onClick={() => assistantCtx.dispatch({ type: `CLOSE` })}
           >
             <BiX />
           </Button>
@@ -140,7 +140,7 @@ const PersonaScreen = () => {
               s={1}
               i={2}
               title="Stop assistant"
-              onClick={() => assistantCtx.dispatch({ type: `AS_STOPPED` })}
+              onClick={() => assistantCtx.dispatch({ type: `STOP` })}
             >
               <BiStop />
             </Button>
