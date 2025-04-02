@@ -45,23 +45,37 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
 
     const [conversation, setConversation] = React.useState<
       ConversationMessage[]
-    >(() => [
-      {
-        id: suid(),
-        type: `user-input`,
-        content: `Please rewrite me selected fragment. Be ${PERSONA_DESCRIPTIONS.jelly}`,
-      },
-      {
-        id: suid(),
-        type: `system-info`,
-        content: `Here is an improved version of the fragment`,
-      },
-      {
-        id: suid(),
-        type: `assistant-output`,
-        content,
-      },
-    ]);
+    >([]);
+
+    const askAssistant = async (): Promise<void> => {
+      try {
+        setStatus({ is: `busy` });
+
+        const responseContent = await new Promise<string>((resolve, reject) => {
+          setTimeout(async () => {
+            try {
+              const response = await fetch(`/intro.md`);
+              const content = await response.text();
+              return resolve(content);
+            } catch (error: unknown) {
+              return reject(error);
+            }
+          }, 1000);
+        });
+
+        setStatus({ is: `ok` });
+        setConversation((prevConversation) => [
+          ...prevConversation,
+          {
+            id: suid(),
+            type: `assistant-output`,
+            content: responseContent,
+          },
+        ]);
+      } catch (error) {
+        setStatus({ is: `fail`, error: parseError(error) });
+      }
+    };
 
     return {
       activePersona,
@@ -72,113 +86,29 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
       setStatus,
       onClose,
       setActivePersona,
+      askAssistant,
     };
   },
 );
 
-const RewriteAssistant = () => {
+const PersonaForm = () => {
   const {
     activePersona,
     setActivePersona,
-    setConversation,
     setStatus,
-    content,
     status,
     onClose,
     conversation,
   } = useRewriteAssistantContext();
 
-  const askAssistant = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+  const confirmAskAssistant = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-
-    try {
-      if (status.is === `busy`) {
-        return;
-      }
-
-      setStatus({ is: `busy` });
-
-      const responseContent = await new Promise<string>((resolve, reject) => {
-        setTimeout(async () => {
-          try {
-            const response = await fetch(`/intro.md`);
-            const content = await response.text();
-            return resolve(content);
-          } catch (error: unknown) {
-            return reject(error);
-          }
-        }, 1000);
-      });
-
-      setStatus({ is: `ok` });
-      setConversation((prevConversation) => [
-        ...prevConversation,
-        {
-          id: suid(),
-          type: `assistant-output`,
-          content: responseContent,
-        },
-      ]);
-    } catch (error) {
-      setStatus({ is: `fail`, error: parseError(error) });
-    }
   };
-
-  if (activePersona === `none`) {
-    return (
-      <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
-        <header className="flex items-center justify-between mb-4">
-          <h6 className="mr-8">Pick Persona and Rewrite</h6>
-          <div className="flex items-center space-x-2">
-            <Button
-              i={2}
-              s={1}
-              title="Close rewrite assistant"
-              className="ml-auto"
-              onClick={onClose}
-            >
-              <BiX />
-            </Button>
-          </div>
-        </header>
-
-        <section>
-          <h6 className="mb-2 font-semibold text-sm">Selected Content</h6>
-          <div className="rounded-md mb-4 p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-            <p className="text-sm">{content}</p>
-          </div>
-        </section>
-
-        <section>
-          <h6 className="block mb-2 font-semibold text-sm">
-            Available Personas
-          </h6>
-          <div className="flex flex-wrap gap-2">
-            {PERSONAS.map((persona) => (
-              <Button
-                i={2}
-                s={2}
-                auto
-                key={persona}
-                title={`Improve fragment with ${persona}`}
-                onClick={() => setActivePersona(persona)}
-                className="text-sm"
-              >
-                <strong className="capitalize">{persona}:</strong>
-                {` `}
-                {PERSONA_DESCRIPTIONS[persona]}
-              </Button>
-            ))}
-          </div>
-        </section>
-      </div>
-    );
-  }
 
   return (
     <form
       className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto"
-      onSubmit={askAssistant}
+      onSubmit={confirmAskAssistant}
     >
       <header className="flex items-center justify-between mb-4">
         <h6 className="mr-8">
@@ -267,7 +197,7 @@ const RewriteAssistant = () => {
             disabled={status.is === `busy`}
             s={1}
             i={2}
-            title="Try other version"
+            title="Generate new version"
           >
             <BiRefresh />
           </Button>
@@ -290,6 +220,80 @@ const RewriteAssistant = () => {
       </section>
     </form>
   );
+};
+
+const NoPersonaScreen = () => {
+  const { setActivePersona, askAssistant, content, setConversation, onClose } =
+    useRewriteAssistantContext();
+
+  const selectPersona = (persona: Persona): void => {
+    setActivePersona(persona);
+    setConversation([
+      {
+        id: suid(),
+        type: `user-input`,
+        content: `Please rewrite me selected fragment. Be ${PERSONA_DESCRIPTIONS[persona]}`,
+      },
+    ]);
+    askAssistant();
+  };
+
+  return (
+    <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
+      <header className="flex items-center justify-between mb-4">
+        <h6 className="mr-8">Pick Persona and Rewrite</h6>
+        <div className="flex items-center space-x-2">
+          <Button
+            i={2}
+            s={1}
+            title="Close rewrite assistant"
+            className="ml-auto"
+            onClick={onClose}
+          >
+            <BiX />
+          </Button>
+        </div>
+      </header>
+
+      <section>
+        <h6 className="mb-2 font-semibold text-sm">Selected Content</h6>
+        <div className="rounded-md mb-4 p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+          <p className="text-sm">{content}</p>
+        </div>
+      </section>
+
+      <section>
+        <h6 className="block mb-2 font-semibold text-sm">Available Personas</h6>
+        <div className="flex flex-wrap gap-2">
+          {PERSONAS.map((persona) => (
+            <Button
+              i={2}
+              s={2}
+              auto
+              key={persona}
+              title={`Improve fragment with ${persona}`}
+              onClick={() => selectPersona(persona)}
+              className="text-sm"
+            >
+              <strong className="capitalize">{persona}:</strong>
+              {` `}
+              {PERSONA_DESCRIPTIONS[persona]}
+            </Button>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+const RewriteAssistant = () => {
+  const { activePersona } = useRewriteAssistantContext();
+
+  if (activePersona === `none`) {
+    return <NoPersonaScreen />;
+  }
+
+  return <PersonaForm />;
 };
 
 const ConnectedRewriteAssistant = (props: RewriteAssistantProps) => {
