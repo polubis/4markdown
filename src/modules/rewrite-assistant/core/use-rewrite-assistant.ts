@@ -74,6 +74,14 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
       return {
         ...state,
         operation: { is: `stopped` },
+        messages: [
+          ...state.messages,
+          {
+            id: suid(),
+            type: `system-info`,
+            content: `Operation stopped`,
+          },
+        ],
       };
     default:
       return state;
