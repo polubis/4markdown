@@ -111,10 +111,6 @@ const useRewriteAssistantState = () => {
         }, 1000);
       });
 
-      if (abortControllerRef.current?.signal.aborted) {
-        return;
-      }
-
       dispatch({ type: `AS_OK`, payload: responseContent });
     } catch (error) {
       if (error instanceof Error && error.name !== `AbortError`) {
@@ -137,6 +133,10 @@ const useRewriteAssistantState = () => {
       case `SELECT_PERSONA`: {
         skipCurrentRequest();
         askAssistant();
+        break;
+      }
+      case `RESET`: {
+        skipCurrentRequest();
         break;
       }
     }
