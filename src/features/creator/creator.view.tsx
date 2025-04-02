@@ -2,7 +2,6 @@ import React, {
   type ReactEventHandler,
   type ChangeEventHandler,
   type KeyboardEventHandler,
-  Fragment,
 } from 'react';
 import { Markdown } from 'components/markdown';
 import c from 'classnames';
@@ -29,7 +28,6 @@ import {
   BiLogoGoogle,
   BiSolidBookContent,
   BiWindows,
-  BiX,
 } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
@@ -39,6 +37,7 @@ import {
   isInvalidSelection,
   getSelectedText,
 } from 'development-kit/textarea-utils';
+import { RewriteAssistant } from './components/rewrite-assistant';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -261,81 +260,10 @@ const CreatorView = () => {
             </div>
           )}
           {assistanceToolbox.is === `on` && rewriteAssistant.isOn && (
-            <div className="animate-fade-in border-t p-3 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800">
-              <header className="flex items-center justify-between mb-3">
-                <h6 className="font-bold mr-8">Pick Persona and Rewrite</h6>
-                <div className="flex items-center space-x-2">
-                  <Button
-                    i={2}
-                    s={1}
-                    title="Close rewrite assistant"
-                    className="ml-auto"
-                    onClick={rewriteAssistant.off}
-                  >
-                    <BiX />
-                  </Button>
-                </div>
-              </header>
-
-              <section>
-                <h6 className="mb-2 font-semibold text-sm">Selected Content</h6>
-                <div className="rounded-md mb-4 p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-                  <p className="text-sm">{assistanceToolbox.data.content}</p>
-                </div>
-              </section>
-
-              <section>
-                <h6 className="block mb-2 font-semibold text-sm">
-                  Availble Personas
-                </h6>
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    i={2}
-                    s={2}
-                    auto
-                    title={`Improve fragment with Jelly`}
-                    className="text-sm !justify-start"
-                  >
-                    <strong className="capitalize">Jelly:</strong>
-                    {` `}
-                    casual, straight to the point
-                  </Button>
-                  <Button
-                    i={2}
-                    s={2}
-                    auto
-                    title={`Improve fragment with Jelly`}
-                    className="text-sm !justify-start"
-                  >
-                    <strong className="capitalize">Jelly:</strong>
-                    {` `}
-                    casual, straight to the point
-                  </Button>
-                  <Button
-                    i={2}
-                    s={2}
-                    auto
-                    title={`Improve fragment with Jelly`}
-                    className="text-sm !justify-start"
-                  >
-                    <strong className="capitalize">Jelly:</strong>
-                    {` `}
-                    casual, straight to the point
-                  </Button>
-                  <Button
-                    i={2}
-                    s={2}
-                    auto
-                    title={`Improve fragment with Jelly`}
-                    className="text-sm !justify-start"
-                  >
-                    <strong className="capitalize">Jelly:</strong>
-                    {` `}
-                    casual, straight to the point
-                  </Button>
-                </div>
-              </section>
-            </div>
+            <RewriteAssistant
+              content={assistanceToolbox.data.content}
+              onClose={rewriteAssistant.off}
+            />
           )}
         </div>
       </div>
