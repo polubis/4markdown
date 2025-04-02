@@ -68,6 +68,11 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
           ...prevConversation,
           {
             id: suid(),
+            type: `system-info`,
+            content: `Here is an improved version of the fragment`,
+          },
+          {
+            id: suid(),
             type: `assistant-output`,
             content: responseContent,
           },
