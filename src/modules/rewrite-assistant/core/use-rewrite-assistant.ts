@@ -85,16 +85,13 @@ const useRewriteAssistantState = () => {
   const abortControllerRef = React.useRef<AbortController | null>(null);
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const skipCurrentRequest = (): void => {
+    abortControllerRef.current?.abort();
+    timeoutRef.current && clearTimeout(timeoutRef.current);
+  };
+
   const askAssistant = async (): Promise<void> => {
     try {
-      if (abortControllerRef.current) {
-        abortControllerRef.current.abort();
-      }
-
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-
       abortControllerRef.current = new AbortController();
 
       const responseContent = await new Promise<string>((resolve, reject) => {
@@ -114,6 +111,10 @@ const useRewriteAssistantState = () => {
         }, 1000);
       });
 
+      if (abortControllerRef.current?.signal.aborted) {
+        return;
+      }
+
       dispatch({ type: `AS_OK`, payload: responseContent });
     } catch (error) {
       if (error instanceof Error && error.name !== `AbortError`) {
@@ -123,22 +124,24 @@ const useRewriteAssistantState = () => {
   };
 
   const dispatchMiddleware = (action: RewriteAssistantAction): void => {
-    dispatch(action);
-
     switch (action.type) {
-      case `SELECT_PERSONA`:
       case `ASK_AGAIN`: {
+        skipCurrentRequest();
         askAssistant();
         break;
       }
       case `AS_STOPPED`: {
-        abortControllerRef.current?.abort();
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-        }
+        skipCurrentRequest();
+        break;
+      }
+      case `SELECT_PERSONA`: {
+        skipCurrentRequest();
+        askAssistant();
         break;
       }
     }
+
+    dispatch(action);
   };
 
   React.useEffect(() => {
