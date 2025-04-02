@@ -1,40 +1,14 @@
-import {
-  REWRITE_ASSISTANT_PERSONAS,
-  type RewriteAssistantPersona,
-} from 'api-4markdown-contracts';
+import { REWRITE_ASSISTANT_PERSONAS } from 'api-4markdown-contracts';
 import { Button } from 'design-system/button';
 import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { useRewriteAssistantContext } from '../providers/rewrite-assistant.provider';
 import { REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS } from '../models';
-import { parseError } from 'api-4markdown';
+import { useRewriteAssistantCommunication } from '../core/use-rewrite-assistant-communication';
 
 const NoPersonaScreen = () => {
   const assistantCtx = useRewriteAssistantContext();
-
-  const askAssistant = async (
-    persona: RewriteAssistantPersona,
-  ): Promise<void> => {
-    try {
-      assistantCtx.dispatch({ type: `select-persona`, payload: persona });
-
-      const responseContent = await new Promise<string>((resolve, reject) => {
-        setTimeout(async () => {
-          try {
-            const response = await fetch(`/intro.md`);
-            const content = await response.text();
-            return resolve(content);
-          } catch (error: unknown) {
-            return reject(error);
-          }
-        }, 1000);
-      });
-
-      assistantCtx.dispatch({ type: `set-ok`, payload: responseContent });
-    } catch (error) {
-      assistantCtx.dispatch({ type: `set-fail`, payload: parseError(error) });
-    }
-  };
+  const { askAssistant } = useRewriteAssistantCommunication();
 
   return (
     <div className="border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">

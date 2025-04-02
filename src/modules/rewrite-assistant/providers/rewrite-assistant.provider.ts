@@ -1,9 +1,9 @@
 import { context } from '@greenonsoftware/react-kit';
-import { useRewriteAssistant } from '../core/use-rewrite-assistant';
+import { useRewriteAssistantState } from '../core/use-rewrite-assistant-state';
 
 const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
   ({ content, onClose }: { content: string; onClose(): void }) => {
-    const { state, dispatch } = useRewriteAssistant();
+    const { state, dispatch } = useRewriteAssistantState();
 
     return {
       state,

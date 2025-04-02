@@ -30,7 +30,12 @@ type RewriteAssistantAction =
       type: 'set-ok';
       payload: RewriteAssistantMessage['content'];
     }
-  | { type: `set-fail`; payload: ParsedError };
+  | { type: `set-fail`; payload: ParsedError }
+  | { type: `set-stopped` }
+  | {
+      type: `ask-again`;
+      payload: RewriteAssistantPersona;
+    };
 
 type RewriteAssistantProps = {
   content: string;

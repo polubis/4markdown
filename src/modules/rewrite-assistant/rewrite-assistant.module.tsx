@@ -5,6 +5,7 @@ import {
 } from './providers/rewrite-assistant.provider';
 import type { RewriteAssistantProps } from './models';
 import { NoPersonaScreen } from './components/no-persona-screen';
+import { PersonaScreen } from './components/persona-screen';
 
 const RewriteAssistantModule = () => {
   const {
@@ -15,7 +16,7 @@ const RewriteAssistantModule = () => {
     return <NoPersonaScreen />;
   }
 
-  return <PersonaForm />;
+  return <PersonaScreen />;
 };
 
 const ConnectedRewriteAssistantModule = (props: RewriteAssistantProps) => {

@@ -37,7 +37,7 @@ import {
   isInvalidSelection,
   getSelectedText,
 } from 'development-kit/textarea-utils';
-import { RewriteAssistant } from './components/rewrite-assistant';
+import { RewriteAssistantModule } from 'modules/rewrite-assistant/rewrite-assistant.module';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -260,7 +260,7 @@ const CreatorView = () => {
             </div>
           )}
           {assistanceToolbox.is === `on` && rewriteAssistant.isOn && (
-            <RewriteAssistant
+            <RewriteAssistantModule
               content={assistanceToolbox.data.content}
               onClose={rewriteAssistant.off}
             />
