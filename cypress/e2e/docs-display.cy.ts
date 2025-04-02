@@ -48,6 +48,7 @@ const getUserProfileResponse: { result: UserProfileDto } = {
     githubUrl: null,
     twitterUrl: null,
     linkedInUrl: null,
+    isTrusted: null,
   },
 };
 
