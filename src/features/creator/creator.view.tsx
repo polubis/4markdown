@@ -259,10 +259,10 @@ const CreatorView = () => {
               </Button>
             </div>
           )}
-          {rewriteAssistant.isOn && (
-            <div className="animate-fade-in border-t p-3 absolute w-full bottom-0 left-0 right-0 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-              <header className="flex items-center justify-between mb-6">
-                <h6 className="font-bold mr-8">Choose Persona and Rewrite</h6>
+          {assistanceToolbox.is === `on` && rewriteAssistant.isOn && (
+            <div className="animate-fade-in border-t p-3 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800">
+              <header className="flex items-center justify-between mb-3">
+                <h6 className="font-bold mr-8">Pick Persona and Rewrite</h6>
                 <div className="flex items-center space-x-2">
                   <Button
                     i={2}
@@ -275,6 +275,17 @@ const CreatorView = () => {
                   </Button>
                 </div>
               </header>
+
+              <section>
+                <h6 className="mb-2 font-semibold text-sm">Selected Content</h6>
+                <div className="rounded-md mb-4 p-3 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+                  <p className="text-sm">{assistanceToolbox.data.content}</p>
+                </div>
+              </section>
+
+              <h6 className="block mb-2 font-semibold text-sm">
+                Availble Personas
+              </h6>
             </div>
           )}
         </div>
