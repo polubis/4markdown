@@ -44,7 +44,7 @@ const NoPersonaScreen = () => {
               title={`Improve fragment with ${persona}`}
               onClick={() =>
                 assistantCtx.dispatch({
-                  type: `select-persona`,
+                  type: `SELECT_PERSONA`,
                   payload: persona,
                 })
               }

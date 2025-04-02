@@ -34,7 +34,7 @@ const PersonaScreen = () => {
     }
 
     assistantCtx.dispatch({
-      type: `ask-again`,
+      type: `ASK_AGAIN`,
       payload: assistantCtx.state.activePersona,
     });
   };
@@ -121,7 +121,7 @@ const PersonaScreen = () => {
             s={1}
             i={2}
             title="Pick other assistant"
-            onClick={() => assistantCtx.dispatch({ type: `reset` })}
+            onClick={() => assistantCtx.dispatch({ type: `RESET` })}
           >
             <BiArrowBack />
           </Button>
@@ -140,7 +140,7 @@ const PersonaScreen = () => {
               s={1}
               i={2}
               title="Stop assistant"
-              onClick={() => assistantCtx.dispatch({ type: `set-stopped` })}
+              onClick={() => assistantCtx.dispatch({ type: `AS_STOPPED` })}
             >
               <BiStop />
             </Button>

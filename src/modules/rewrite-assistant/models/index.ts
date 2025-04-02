@@ -24,16 +24,16 @@ type RewriteAssistantState = {
 };
 
 type RewriteAssistantAction =
-  | { type: 'reset' }
-  | { type: 'select-persona'; payload: RewriteAssistantPersona }
+  | { type: 'RESET' }
+  | { type: 'SELECT_PERSONA'; payload: RewriteAssistantPersona }
   | {
-      type: 'set-ok';
+      type: 'AS_OK';
       payload: RewriteAssistantMessage['content'];
     }
-  | { type: `set-fail`; payload: ParsedError }
-  | { type: `set-stopped` }
+  | { type: `AS_FAIL`; payload: ParsedError }
+  | { type: `AS_STOPPED` }
   | {
-      type: `ask-again`;
+      type: `ASK_AGAIN`;
       payload: RewriteAssistantPersona;
     };
 

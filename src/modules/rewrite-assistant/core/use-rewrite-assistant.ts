@@ -18,9 +18,9 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
   action,
 ) => {
   switch (action.type) {
-    case `reset`:
+    case `RESET`:
       return initialState;
-    case `select-persona`:
+    case `SELECT_PERSONA`:
       return {
         ...state,
         activePersona: action.payload,
@@ -34,7 +34,7 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
           },
         ],
       };
-    case `set-ok`:
+    case `AS_OK`:
       return {
         ...state,
         messages: [
@@ -52,7 +52,7 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
         ],
         operation: { is: `ok` },
       };
-    case `ask-again`:
+    case `ASK_AGAIN`:
       return {
         ...state,
         messages: [
@@ -65,12 +65,12 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
         ],
         operation: { is: `busy` },
       };
-    case `set-fail`:
+    case `AS_FAIL`:
       return {
         ...state,
         operation: { is: `fail`, error: action.payload },
       };
-    case `set-stopped`:
+    case `AS_STOPPED`:
       return {
         ...state,
         operation: { is: `stopped` },
@@ -114,10 +114,10 @@ const useRewriteAssistantState = () => {
         }, 1000);
       });
 
-      dispatch({ type: `set-ok`, payload: responseContent });
+      dispatch({ type: `AS_OK`, payload: responseContent });
     } catch (error) {
       if (error instanceof Error && error.name !== `AbortError`) {
-        dispatch({ type: `set-fail`, payload: parseError(error) });
+        dispatch({ type: `AS_FAIL`, payload: parseError(error) });
       }
     }
   };
@@ -126,12 +126,12 @@ const useRewriteAssistantState = () => {
     dispatch(action);
 
     switch (action.type) {
-      case `select-persona`:
-      case `ask-again`: {
+      case `SELECT_PERSONA`:
+      case `ASK_AGAIN`: {
         askAssistant();
         break;
       }
-      case `set-stopped`: {
+      case `AS_STOPPED`: {
         abortControllerRef.current?.abort();
         if (timeoutRef.current) {
           clearTimeout(timeoutRef.current);
