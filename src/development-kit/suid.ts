@@ -2,16 +2,11 @@ type SUID = `${number}:${number}`;
 
 const suid = (() => {
   let counter = 1;
+  const sessionStamp = performance.now();
 
   return (): SUID => {
-    if (typeof (window as any).__sessionStamp__ === `undefined`) {
-      (window as any).__sessionStamp__ = performance.now();
-    }
-
-    const id: SUID = `${(window as any).__sessionStamp__}:${performance.now() + counter}`;
-
+    const id: SUID = `${sessionStamp}:${performance.now() + counter}`;
     counter++;
-
     return id;
   };
 })();
