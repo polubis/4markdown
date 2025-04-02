@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiCheck, BiRefresh, BiX } from 'react-icons/bi';
+import { BiArrowBack, BiCheck, BiRefresh, BiStop, BiX } from 'react-icons/bi';
 import { type SUID, suid } from 'development-kit/suid';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
@@ -37,12 +37,12 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
     {
       id: suid(),
       type: `user-input`,
-      content: `Please, rewrite me selected fragment`,
+      content: `Please rewrite me selected fragment. Be ${PERSONA_DESCRIPTIONS.jelly}`,
     },
     {
       id: suid(),
       type: `system-info`,
-      content: `Here is an improved version of the fragment:`,
+      content: `Here is an improved version of the fragment`,
     },
     {
       id: suid(),
@@ -55,7 +55,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
     return (
       <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
         <header className="flex items-center justify-between mb-4">
-          <h6 className="font-bold mr-8">Pick Persona and Rewrite</h6>
+          <h6 className="mr-8">Pick Persona and Rewrite</h6>
           <div className="flex items-center space-x-2">
             <Button
               i={2}
@@ -105,9 +105,9 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
   return (
     <form className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-4">
-        <h6 className="font-bold mr-8">
+        <h6 className="mr-8">
           You&apos;re Talking with{` `}
-          <span className="capitalize">{activePersona}</span>
+          <strong className="capitalize">{activePersona}</strong>
         </h6>
         <div className="flex items-center space-x-2">
           <Button
@@ -166,12 +166,14 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
                 return null;
             }
           })}
-          <li
-            key="pending"
-            className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
-          >
-            Pending...
-          </li>
+          {pending.isOn && (
+            <li
+              key="pending"
+              className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
+            >
+              Pending...
+            </li>
+          )}
         </ol>
         <footer className="mt-8 flex items-center justify-end gap-2">
           <Button
@@ -186,15 +188,34 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
           <Button
             className="ml-auto"
             type="button"
+            disabled={pending.isOn}
             s={1}
             i={2}
             title="Try other version"
           >
             <BiRefresh />
           </Button>
-          <Button type="submit" s={1} i={2} title="Apply changes">
-            <BiCheck />
-          </Button>
+          {pending.isOn ? (
+            <Button
+              type="submit"
+              s={1}
+              i={2}
+              disabled={pending.isOn}
+              title="Stop assistant"
+            >
+              <BiStop />
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              s={1}
+              i={2}
+              disabled={pending.isOn}
+              title="Apply changes"
+            >
+              <BiCheck />
+            </Button>
+          )}
         </footer>
       </section>
     </form>
