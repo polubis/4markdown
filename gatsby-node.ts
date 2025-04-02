@@ -17,6 +17,7 @@ import type {
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
 import { createPathForMindmap } from './src/core/create-path-for-mindmap';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
 const createSearchDataFile = (documents: PermanentDocumentDto[]): void => {
   if (documents.length === 0) return;
@@ -169,6 +170,26 @@ const getTopTags = (
     .sort(([, prev], [, curr]) => curr - prev)
     .slice(0, amount)
     .map(([tag]) => tag);
+};
+
+export const onCreateWebpackConfig: GatsbyNode['onCreateWebpackConfig'] = ({
+  stage,
+  actions,
+}) => {
+  const debugJs = process.env.DEBUG_JS === `true`;
+
+  if (!debugJs) return;
+  if (stage !== `build-javascript`) return;
+
+  actions.setWebpackConfig({
+    plugins: [
+      new BundleAnalyzerPlugin({
+        analyzerMode: `server`,
+        analyzerPort: 8888,
+        openAnalyzer: true,
+      }),
+    ],
+  });
 };
 
 export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
