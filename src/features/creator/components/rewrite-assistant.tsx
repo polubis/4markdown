@@ -5,6 +5,7 @@ import { type SUID, suid } from 'development-kit/suid';
 import { Markdown } from 'components/markdown';
 import type { ParsedError } from 'api-4markdown-contracts';
 import { parseError } from 'api-4markdown';
+import { context } from '@greenonsoftware/react-kit';
 
 type RewriteAssistantProps = {
   content: string;
@@ -34,15 +35,17 @@ const PERSONA_DESCRIPTIONS = {
   josh: `edgy, sarcastic, funny`,
 } satisfies Record<Persona, string>;
 
-const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
-  const [status, setStatus] = React.useState<Status>({ is: `idle` });
+const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
+  ({ content, onClose }: RewriteAssistantProps) => {
+    const [status, setStatus] = React.useState<Status>({ is: `idle` });
 
-  const [activePersona, setActivePersona] = React.useState<Persona | `none`>(
-    `none`,
-  );
+    const [activePersona, setActivePersona] = React.useState<Persona | `none`>(
+      `none`,
+    );
 
-  const [conversation, setConversation] = React.useState<ConversationMessage[]>(
-    () => [
+    const [conversation, setConversation] = React.useState<
+      ConversationMessage[]
+    >(() => [
       {
         id: suid(),
         type: `user-input`,
@@ -58,8 +61,32 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
         type: `assistant-output`,
         content,
       },
-    ],
-  );
+    ]);
+
+    return {
+      activePersona,
+      conversation,
+      setConversation,
+      content,
+      status,
+      setStatus,
+      onClose,
+      setActivePersona,
+    };
+  },
+);
+
+const RewriteAssistant = () => {
+  const {
+    activePersona,
+    setActivePersona,
+    setConversation,
+    setStatus,
+    content,
+    status,
+    onClose,
+    conversation,
+  } = useRewriteAssistantContext();
 
   const askAssistant = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
@@ -265,4 +292,12 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
   );
 };
 
-export { RewriteAssistant };
+const ConnectedRewriteAssistant = (props: RewriteAssistantProps) => {
+  return (
+    <RewriteAssistantProvider {...props}>
+      <RewriteAssistant />
+    </RewriteAssistantProvider>
+  );
+};
+
+export { ConnectedRewriteAssistant as RewriteAssistant };
