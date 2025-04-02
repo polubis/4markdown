@@ -2,8 +2,8 @@ import React from 'react';
 import { Button } from 'design-system/button';
 import { BiArrowBack, BiCheck, BiRefresh, BiX } from 'react-icons/bi';
 import { type SUID, suid } from 'development-kit/suid';
-import c from 'classnames';
 import { Markdown } from 'components/markdown';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 type RewriteAssistantProps = {
   content: string;
@@ -16,7 +16,7 @@ type Persona = (typeof PERSONAS)[number];
 
 type ConversationMessage = {
   id: SUID;
-  type: `user` | `assistant` | `system`;
+  type: `user-input` | `assistant-output` | `system-info`;
   content: string;
 };
 
@@ -27,6 +27,8 @@ const PERSONA_DESCRIPTIONS = {
 } satisfies Record<Persona, string>;
 
 const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
+  const pending = useSimpleFeature();
+
   const [activePersona, setActivePersona] = React.useState<Persona | `none`>(
     `none`,
   );
@@ -34,17 +36,17 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
   const [conversation] = React.useState<ConversationMessage[]>(() => [
     {
       id: suid(),
-      type: `user`,
+      type: `user-input`,
       content: `Please, rewrite me selected fragment`,
     },
     {
       id: suid(),
-      type: `system`,
-      content: `Thinking...`,
+      type: `system-info`,
+      content: `Here is an improved version of the fragment:`,
     },
     {
       id: suid(),
-      type: `assistant`,
+      type: `assistant-output`,
       content,
     },
   ]);
@@ -123,31 +125,55 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
 
       <section>
         <ol className="flex flex-col gap-3">
-          {conversation.map((entry) =>
-            entry.type === `assistant` ? (
-              <li
-                className="rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                key={entry.id}
-              >
-                <Markdown>{entry.content}</Markdown>
-              </li>
-            ) : (
-              <li
-                className={c(
-                  `w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800`,
-                  {
-                    'bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]':
-                      entry.type === `system`,
-                  },
-                )}
-                key={entry.id}
-              >
-                <p>{entry.content}</p>
-              </li>
-            ),
-          )}
+          {conversation.map((entry) => {
+            switch (entry.type) {
+              case `assistant-output`:
+                return (
+                  <li
+                    className="rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                    key={entry.id}
+                  >
+                    <Markdown>{entry.content}</Markdown>
+                  </li>
+                );
+
+              case `user-input`:
+                return (
+                  <li
+                    className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                    key={entry.id}
+                  >
+                    <p>
+                      <strong>You: </strong>
+                      {entry.content}
+                    </p>
+                  </li>
+                );
+
+              case `system-info`:
+                return (
+                  <li
+                    className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                    key={entry.id}
+                  >
+                    <p>
+                      <strong>System: </strong>
+                      {entry.content}
+                    </p>
+                  </li>
+                );
+              default:
+                return null;
+            }
+          })}
+          <li
+            key="pending"
+            className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
+          >
+            Pending...
+          </li>
         </ol>
-        <footer className="mt-4 flex items-center justify-end gap-2">
+        <footer className="mt-8 flex items-center justify-end gap-2">
           <Button
             type="button"
             s={1}
