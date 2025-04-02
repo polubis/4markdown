@@ -82,23 +82,33 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
 
 const useRewriteAssistantState = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-
+  const abortControllerRef = React.useRef<AbortController | null>(null);
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const askAssistant = async (): Promise<void> => {
     try {
-      timeoutRef.current && clearTimeout(timeoutRef.current);
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+
+      abortControllerRef.current = new AbortController();
 
       const responseContent = await new Promise<string>((resolve, reject) => {
         timeoutRef.current = setTimeout(async () => {
-          console.log(`askAssistantTimeout`);
           try {
-            const response = await fetch(`/intro.md`);
+            const response = await fetch(`/intro.md`, {
+              signal: abortControllerRef.current!.signal,
+            });
             const content = await response.text();
-            console.log(`askAssistantTimeout resolve`);
             return resolve(content);
           } catch (error: unknown) {
-            console.log(`askAssistantTimeout reject`);
+            if (error instanceof Error && error.name === `AbortError`) {
+              return;
+            }
             return reject(error);
           }
         }, 1000);
@@ -106,7 +116,9 @@ const useRewriteAssistantState = () => {
 
       dispatch({ type: `set-ok`, payload: responseContent });
     } catch (error) {
-      dispatch({ type: `set-fail`, payload: parseError(error) });
+      if (error instanceof Error && error.name !== `AbortError`) {
+        dispatch({ type: `set-fail`, payload: parseError(error) });
+      }
     }
   };
 
@@ -120,17 +132,21 @@ const useRewriteAssistantState = () => {
         break;
       }
       case `set-stopped`: {
-        timeoutRef.current && clearTimeout(timeoutRef.current);
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort();
+        }
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
         break;
       }
     }
   };
 
   React.useEffect(() => {
-    const timeout = timeoutRef.current;
-
     return () => {
-      timeout && clearTimeout(timeout);
+      abortControllerRef.current?.abort();
+      timeoutRef.current && clearTimeout(timeoutRef.current);
     };
   }, []);
 
