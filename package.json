@@ -22,7 +22,7 @@
     "test:watch": "jest --watch",
     "e2e:1": "cypress run --spec \"cypress/e2e/creator-sync.cy.ts\"",
     "e2e:all": "cypress run",
-    "e2e:gen-snapshots": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run\"",
+    "e2e:check-snapshots": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run\"",
     "ci:lint": "npm run lint",
     "ci:e2e": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run --env failOnSnapshotDiff=false\"",
     "ci:units": "npm run test"
@@ -34,7 +34,7 @@
     "@xyflow/react": "^12.4.4",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
-    "firebase": "^11.4.0",
+    "firebase": "^11.6.0",
     "gatsby": "^5.14.1",
     "gatsby-plugin-image": "^3.14.0",
     "gatsby-plugin-manifest": "^5.14.0",
