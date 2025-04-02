@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.4",
-    "@greenonsoftware/react-kit": "^0.0.1",
+    "@greenonsoftware/react-kit": "^0.1.0",
     "@tailwindcss/typography": "^0.5.16",
     "@xyflow/react": "^12.4.4",
     "classnames": "^2.5.1",
