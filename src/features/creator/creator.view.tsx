@@ -23,10 +23,12 @@ import {
 import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
 import {
+  BiBrain,
   BiLogoBing,
   BiLogoGoogle,
   BiSolidBookContent,
   BiWindows,
+  BiX,
 } from 'react-icons/bi';
 import { Link } from 'gatsby';
 import { useCopy } from 'development-kit/use-copy';
@@ -51,8 +53,9 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
-  const assistant = useFeature<{ content: string }>();
+  const assistanceToolbox = useFeature<{ content: string }>();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
+  const rewriteAssistant = useSimpleFeature();
 
   useCreatorLocalStorageSync();
 
@@ -110,7 +113,7 @@ const CreatorView = () => {
     const selectedText = getSelectedText(textarea);
 
     if (isInvalidSelection(textarea) || !selectedText) {
-      assistant.off();
+      assistanceToolbox.off();
       return;
     }
 
@@ -119,11 +122,11 @@ const CreatorView = () => {
     const minWordsCount = 1;
 
     if (wordsCount < minWordsCount) {
-      assistant.off();
+      assistanceToolbox.off();
       return;
     }
 
-    assistant.on({ content: selectedText });
+    assistanceToolbox.on({ content: selectedText });
   };
 
   React.useEffect(() => {
@@ -220,15 +223,23 @@ const CreatorView = () => {
             }}
             onSelect={maintainAssistantAppearance}
           />
-          {assistant.is === `on` && (
+          {assistanceToolbox.is === `on` && rewriteAssistant.isOff && (
             <div className="absolute bottom-2 right-4 flex flex-col gap-2">
+              <Button
+                s={1}
+                i={2}
+                title="Rewrite with AI"
+                onClick={rewriteAssistant.on}
+              >
+                <BiBrain />
+              </Button>
               <Button
                 s={1}
                 i={2}
                 title="Search in Google"
                 onClick={() =>
                   window.open(
-                    `https://www.google.com?q=${assistant.data.content}`,
+                    `https://www.google.com?q=${assistanceToolbox.data.content}`,
                   )
                 }
               >
@@ -240,12 +251,30 @@ const CreatorView = () => {
                 title="Search in Microsoft Bing"
                 onClick={() =>
                   window.open(
-                    `https://www.bing.com/search?q=${assistant.data.content}`,
+                    `https://www.bing.com/search?q=${assistanceToolbox.data.content}`,
                   )
                 }
               >
                 <BiLogoBing />
               </Button>
+            </div>
+          )}
+          {rewriteAssistant.isOn && (
+            <div className="animate-fade-in border-t p-3 absolute w-full bottom-0 left-0 right-0 bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+              <header className="flex items-center justify-between mb-6">
+                <h6 className="font-bold mr-8">Choose Persona and Rewrite</h6>
+                <div className="flex items-center space-x-2">
+                  <Button
+                    i={2}
+                    s={1}
+                    title="Close rewrite assistant"
+                    className="ml-auto"
+                    onClick={rewriteAssistant.off}
+                  >
+                    <BiX />
+                  </Button>
+                </div>
+              </header>
             </div>
           )}
         </div>
