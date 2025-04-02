@@ -1,4 +1,4 @@
-import React, { type FormEvent } from 'react';
+import React from 'react';
 import { Button } from 'design-system/button';
 import { BiArrowBack, BiCheck, BiRefresh, BiStop, BiX } from 'react-icons/bi';
 import { type SUID, suid } from 'development-kit/suid';
@@ -102,19 +102,36 @@ const PersonaForm = () => {
     setActivePersona,
     setStatus,
     status,
+    askAssistant,
+    setConversation,
     onClose,
     conversation,
   } = useRewriteAssistantContext();
 
-  const confirmAskAssistant = (e: FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
+  const askAssistantAgain = (): void => {
+    if (activePersona === `none`) {
+      return;
+    }
+
+    setConversation((prevConversation) => [
+      ...prevConversation,
+      {
+        id: suid(),
+        type: `user-input`,
+        content: `Give me other variant of the fragment. Be ${PERSONA_DESCRIPTIONS[activePersona]}`,
+      },
+    ]);
+    askAssistant();
+  };
+
+  const backToAssistantSelection = (): void => {
+    setActivePersona(`none`);
+    setStatus({ is: `idle` });
+    setConversation([]);
   };
 
   return (
-    <form
-      className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto"
-      onSubmit={confirmAskAssistant}
-    >
+    <div className="border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-4">
         <h6 className="mr-8">
           You&apos;re Talking with{` `}
@@ -122,7 +139,6 @@ const PersonaForm = () => {
         </h6>
         <div className="flex items-center space-x-2">
           <Button
-            type="button"
             i={2}
             s={1}
             title="Close rewrite assistant"
@@ -188,27 +204,25 @@ const PersonaForm = () => {
         </ol>
         <footer className="mt-8 flex items-center justify-end gap-2">
           <Button
-            type="button"
             s={1}
             i={2}
             title="Pick other assistant"
-            onClick={() => setActivePersona(`none`)}
+            onClick={backToAssistantSelection}
           >
             <BiArrowBack />
           </Button>
           <Button
             className="ml-auto"
-            type="button"
             disabled={status.is === `busy`}
             s={1}
             i={2}
+            onClick={askAssistantAgain}
             title="Generate new version"
           >
             <BiRefresh />
           </Button>
           {status.is === `busy` ? (
             <Button
-              type="button"
               s={1}
               i={2}
               title="Stop assistant"
@@ -223,7 +237,7 @@ const PersonaForm = () => {
           )}
         </footer>
       </section>
-    </form>
+    </div>
   );
 };
 
