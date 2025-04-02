@@ -97,6 +97,9 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
 );
 
 const PersonaForm = () => {
+  const conversationListRef = React.useRef<HTMLOListElement>(null);
+  const footerRef = React.useRef<HTMLElement>(null);
+
   const {
     activePersona,
     setActivePersona,
@@ -130,8 +133,25 @@ const PersonaForm = () => {
     setConversation([]);
   };
 
+  React.useLayoutEffect(() => {
+    const conversationList = conversationListRef.current;
+    const footer = footerRef.current;
+
+    if (!conversationList || !footer) return;
+
+    const observer = new ResizeObserver(() => {
+      footer.scrollIntoView({ behavior: `smooth`, block: `end` });
+    });
+
+    observer.observe(conversationList);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
+    <div className="border-t pt-4 px-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-4">
         <h6 className="mr-8">
           You&apos;re Talking with{` `}
@@ -151,7 +171,7 @@ const PersonaForm = () => {
       </header>
 
       <section>
-        <ol className="flex flex-col gap-3">
+        <ol ref={conversationListRef} className="flex flex-col gap-3">
           {conversation.map((entry) => {
             switch (entry.type) {
               case `assistant-output`:
@@ -202,7 +222,10 @@ const PersonaForm = () => {
             </li>
           )}
         </ol>
-        <footer className="mt-8 flex items-center justify-end gap-2">
+        <footer
+          ref={footerRef}
+          className="pb-4 mt-8 flex items-center justify-end gap-2"
+        >
           <Button
             s={1}
             i={2}
@@ -258,7 +281,7 @@ const NoPersonaScreen = () => {
   };
 
   return (
-    <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
+    <div className="border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-4">
         <h6 className="mr-8">Pick Persona and Rewrite</h6>
         <div className="flex items-center space-x-2">
