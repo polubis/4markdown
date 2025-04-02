@@ -8,13 +8,14 @@ import { Input } from 'design-system/input';
 import { Button } from 'design-system/button';
 import { maxLength, minLength } from 'development-kit/form';
 import { BiBug } from 'react-icons/bi';
-import { useSimpleFeature } from '@greenonsoftware/react-kit';
-import { context } from 'development-kit/context';
+import { useSimpleFeature, context } from '@greenonsoftware/react-kit';
 import type { Transaction } from 'development-kit/utility-types';
 import { reportBugAct } from 'acts/report-bug.act';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 
-const [BugReportProvider, useBugReportContext] = context(useSimpleFeature);
+const [BugReportProvider, useBugReportContext] = context(() =>
+  useSimpleFeature(),
+);
 
 const limits = {
   title: {

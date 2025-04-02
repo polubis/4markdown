@@ -9,7 +9,7 @@ import { useScrollHide } from 'development-kit/use-scroll-hide';
 import { useKeyPress } from 'development-kit/use-key-press';
 import { Button } from './button';
 import { BiX } from 'react-icons/bi';
-import { falsy } from 'development-kit/guards';
+import { context } from '@greenonsoftware/react-kit';
 
 type ModalProps = {
   children: ReactNode;
@@ -20,20 +20,9 @@ type ModalProps = {
   'children'
 >;
 
-type ModalContextValue = { close: ModalProps['onClose'] } & Pick<
-  ModalProps,
-  'disabled'
->;
-
-const ModalContext = React.createContext<ModalContextValue | null>(null);
-
-const useModalContext = () => {
-  const ctx = React.useContext(ModalContext);
-
-  falsy(ctx, `Lack of context wrapper for modal`);
-
-  return ctx;
-};
+const [ModalProvider, useModalContext] = context(
+  (props: { disabled?: boolean; close(): void }) => props,
+);
 
 const Modal = ({
   className,
@@ -72,14 +61,9 @@ const Modal = ({
       {...props}
     >
       <div className="bg-white m-auto w-[100%] tn:max-w-sm dark:bg-black rounded-lg shadow-xl p-4">
-        <ModalContext.Provider
-          value={{
-            disabled,
-            close,
-          }}
-        >
+        <ModalProvider disabled={disabled} close={close}>
           {children}
-        </ModalContext.Provider>
+        </ModalProvider>
       </div>
     </div>,
   );
