@@ -2,14 +2,12 @@ import React from 'react';
 import { Button } from 'design-system/button';
 import { BiArrowBack, BiCheck, BiRefresh, BiStop, BiX } from 'react-icons/bi';
 import { Markdown } from 'components/markdown';
-import { useRewriteAssistantCommunication } from '../core/use-rewrite-assistant-communication';
 import { useRewriteAssistantContext } from '../providers/rewrite-assistant.provider';
 
 const PersonaScreen = () => {
   const conversationListRef = React.useRef<HTMLOListElement>(null);
   const footerRef = React.useRef<HTMLElement>(null);
   const assistantCtx = useRewriteAssistantContext();
-  const { askAssistantAgain } = useRewriteAssistantCommunication();
 
   React.useLayoutEffect(() => {
     const conversationList = conversationListRef.current;
@@ -29,6 +27,17 @@ const PersonaScreen = () => {
   }, []);
 
   const { operation } = assistantCtx.state;
+
+  const askAssistantAgain = (): void => {
+    if (assistantCtx.state.activePersona === `none`) {
+      throw new Error(`No persona selected`);
+    }
+
+    assistantCtx.dispatch({
+      type: `ask-again`,
+      payload: assistantCtx.state.activePersona,
+    });
+  };
 
   return (
     <div className="border-t pt-4 px-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">

@@ -4,11 +4,9 @@ import React from 'react';
 import { BiX } from 'react-icons/bi';
 import { useRewriteAssistantContext } from '../providers/rewrite-assistant.provider';
 import { REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS } from '../models';
-import { useRewriteAssistantCommunication } from '../core/use-rewrite-assistant-communication';
 
 const NoPersonaScreen = () => {
   const assistantCtx = useRewriteAssistantContext();
-  const { askAssistant } = useRewriteAssistantCommunication();
 
   return (
     <div className="border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
@@ -44,7 +42,12 @@ const NoPersonaScreen = () => {
               auto
               key={persona}
               title={`Improve fragment with ${persona}`}
-              onClick={() => askAssistant(persona)}
+              onClick={() =>
+                assistantCtx.dispatch({
+                  type: `select-persona`,
+                  payload: persona,
+                })
+              }
               className="text-sm"
             >
               <strong className="capitalize">{persona}:</strong>
