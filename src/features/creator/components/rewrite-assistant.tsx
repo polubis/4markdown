@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiX } from 'react-icons/bi';
+import { BiSend, BiX } from 'react-icons/bi';
 import { type SUID, suid } from 'development-kit/suid';
+import c from 'classnames';
+import { Markdown } from 'components/markdown';
 
 type RewriteAssistantProps = {
   content: string;
@@ -29,19 +31,27 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
     `none`,
   );
 
-  const [conversation, setConversation] = React.useState<ConversationMessage[]>(
-    () => [
-      {
-        id: suid(),
-        type: `user`,
-        content: `Please, rewrite me selected fragment`,
-      },
-    ],
-  );
+  const [conversation] = React.useState<ConversationMessage[]>(() => [
+    {
+      id: suid(),
+      type: `user`,
+      content: `Please, rewrite me selected fragment`,
+    },
+    {
+      id: suid(),
+      type: `system`,
+      content: `Thinking...`,
+    },
+    {
+      id: suid(),
+      type: `assistant`,
+      content,
+    },
+  ]);
 
   if (activePersona === `none`) {
     return (
-      <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800">
+      <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
         <header className="flex items-center justify-between mb-3">
           <h6 className="font-bold mr-8">Pick Persona and Rewrite</h6>
           <div className="flex items-center space-x-2">
@@ -91,7 +101,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
   }
 
   return (
-    <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800">
+    <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-3">
         <h6 className="font-bold mr-8">
           You&apos;re Talking with{` `}
@@ -111,16 +121,34 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
       </header>
 
       <section>
-        <ol className="flex flex-col">
-          {conversation.map((entry) => (
-            <li
-              className="w-fit rounded-md mb-4 p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-              key={entry.id}
-            >
-              <p>{entry.content}</p>
-            </li>
-          ))}
+        <ol className="flex flex-col gap-2">
+          {conversation.map((entry) =>
+            entry.type === `assistant` ? (
+              <li
+                className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                key={entry.id}
+              >
+                <Markdown>{entry.content}</Markdown>
+              </li>
+            ) : (
+              <li
+                className={c(
+                  `w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800`,
+                  {
+                    'bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]':
+                      entry.type === `system`,
+                  },
+                )}
+                key={entry.id}
+              >
+                <p>{entry.content}</p>
+              </li>
+            ),
+          )}
         </ol>
+        <Button className="mt-4 ml-auto" s={2} i={2} title="Send message">
+          <BiSend />
+        </Button>
       </section>
     </div>
   );
