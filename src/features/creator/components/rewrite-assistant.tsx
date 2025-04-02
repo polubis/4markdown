@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiCheck, BiRefresh, BiX } from 'react-icons/bi';
+import { BiArrowBack, BiCheck, BiRefresh, BiX } from 'react-icons/bi';
 import { type SUID, suid } from 'development-kit/suid';
 import c from 'classnames';
 import { Markdown } from 'components/markdown';
@@ -52,7 +52,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
   if (activePersona === `none`) {
     return (
       <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
-        <header className="flex items-center justify-between mb-3">
+        <header className="flex items-center justify-between mb-4">
           <h6 className="font-bold mr-8">Pick Persona and Rewrite</h6>
           <div className="flex items-center space-x-2">
             <Button
@@ -102,7 +102,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
 
   return (
     <form className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
-      <header className="flex items-center justify-between mb-3">
+      <header className="flex items-center justify-between mb-4">
         <h6 className="font-bold mr-8">
           You&apos;re Talking with{` `}
           <span className="capitalize">{activePersona}</span>
@@ -122,7 +122,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
       </header>
 
       <section>
-        <ol className="flex flex-col gap-2">
+        <ol className="flex flex-col gap-3">
           {conversation.map((entry) =>
             entry.type === `assistant` ? (
               <li
@@ -147,8 +147,23 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
             ),
           )}
         </ol>
-        <footer className="ml-auto mt-4 flex items-center justify-end gap-2">
-          <Button type="button" s={1} i={2} title="Try again">
+        <footer className="mt-4 flex items-center justify-end gap-2">
+          <Button
+            type="button"
+            s={1}
+            i={2}
+            title="Pick other assistant"
+            onClick={() => setActivePersona(`none`)}
+          >
+            <BiArrowBack />
+          </Button>
+          <Button
+            className="ml-auto"
+            type="button"
+            s={1}
+            i={2}
+            title="Try other version"
+          >
             <BiRefresh />
           </Button>
           <Button type="submit" s={1} i={2} title="Apply changes">
