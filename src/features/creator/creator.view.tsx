@@ -2,6 +2,7 @@ import React, {
   type ReactEventHandler,
   type ChangeEventHandler,
   type KeyboardEventHandler,
+  Fragment,
 } from 'react';
 import { Markdown } from 'components/markdown';
 import c from 'classnames';
@@ -278,14 +279,62 @@ const CreatorView = () => {
 
               <section>
                 <h6 className="mb-2 font-semibold text-sm">Selected Content</h6>
-                <div className="rounded-md mb-4 p-3 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+                <div className="rounded-md mb-4 p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
                   <p className="text-sm">{assistanceToolbox.data.content}</p>
                 </div>
               </section>
 
-              <h6 className="block mb-2 font-semibold text-sm">
-                Availble Personas
-              </h6>
+              <section>
+                <h6 className="block mb-2 font-semibold text-sm">
+                  Availble Personas
+                </h6>
+                <div className="flex flex-wrap gap-2">
+                  <Button
+                    i={2}
+                    s={2}
+                    auto
+                    title={`Improve fragment with Jelly`}
+                    className="text-sm !justify-start"
+                  >
+                    <strong className="capitalize">Jelly:</strong>
+                    {` `}
+                    casual, straight to the point
+                  </Button>
+                  <Button
+                    i={2}
+                    s={2}
+                    auto
+                    title={`Improve fragment with Jelly`}
+                    className="text-sm !justify-start"
+                  >
+                    <strong className="capitalize">Jelly:</strong>
+                    {` `}
+                    casual, straight to the point
+                  </Button>
+                  <Button
+                    i={2}
+                    s={2}
+                    auto
+                    title={`Improve fragment with Jelly`}
+                    className="text-sm !justify-start"
+                  >
+                    <strong className="capitalize">Jelly:</strong>
+                    {` `}
+                    casual, straight to the point
+                  </Button>
+                  <Button
+                    i={2}
+                    s={2}
+                    auto
+                    title={`Improve fragment with Jelly`}
+                    className="text-sm !justify-start"
+                  >
+                    <strong className="capitalize">Jelly:</strong>
+                    {` `}
+                    casual, straight to the point
+                  </Button>
+                </div>
+              </section>
             </div>
           )}
         </div>
