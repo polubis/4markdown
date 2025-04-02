@@ -9,7 +9,6 @@ import { Input } from 'design-system/input';
 import { Textarea } from 'design-system/textarea';
 import { Button } from 'design-system/button';
 import { BiPlusCircle, BiSave } from 'react-icons/bi';
-import { context } from 'development-kit/context';
 import { type MindmapCreatorNode } from 'store/mindmap-creator/models';
 import {
   addNewEmbeddedNodeAction,
@@ -22,6 +21,7 @@ import { validationLimits } from '../core/validation';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import { openedNodeFormSelector } from 'store/mindmap-creator/selectors';
 import { openNodeContentInCreatorAct } from 'acts/open-node-content-in-creator.act';
+import { context } from '@greenonsoftware/react-kit';
 
 type StepType = MindmapCreatorNode['type'] | `none`;
 

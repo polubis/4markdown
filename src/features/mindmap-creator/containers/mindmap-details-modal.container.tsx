@@ -14,13 +14,13 @@ import { formatDistance } from 'date-fns';
 import { Tabs } from 'design-system/tabs';
 import { Input } from 'design-system/input';
 import { Field } from 'design-system/field';
-import { context } from 'development-kit/context';
 import { meta } from '../../../../meta';
 import { deleteMindmapAct } from 'acts/delete-mindmap.act';
 import { updateMindmapVisibilityAct } from 'acts/update-mindmap-visibility.act';
 import type { MindmapDto } from 'api-4markdown-contracts';
 import { authStoreSelectors } from 'store/auth/auth.store';
 import { createPathForMindmap } from 'core/create-path-for-mindmap';
+import { context } from '@greenonsoftware/react-kit';
 
 const enum ViewType {
   Details = `details`,
