@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { type FormEvent } from 'react';
 import { Button } from 'design-system/button';
 import { BiArrowBack, BiCheck, BiRefresh, BiStop, BiX } from 'react-icons/bi';
 import { type SUID, suid } from 'development-kit/suid';
 import { Markdown } from 'components/markdown';
-import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import type { ParsedError } from 'api-4markdown-contracts';
+import { parseError } from 'api-4markdown';
 
 type RewriteAssistantProps = {
   content: string;
@@ -20,6 +21,13 @@ type ConversationMessage = {
   content: string;
 };
 
+type Status =
+  | { is: `idle` }
+  | { is: `busy` }
+  | { is: `ok` }
+  | { is: `stopped` }
+  | { is: `fail`; error: ParsedError };
+
 const PERSONA_DESCRIPTIONS = {
   jelly: `casual, straight to the point`,
   kate: `technical, detailed, rich`,
@@ -27,29 +35,67 @@ const PERSONA_DESCRIPTIONS = {
 } satisfies Record<Persona, string>;
 
 const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
-  const pending = useSimpleFeature();
+  const [status, setStatus] = React.useState<Status>({ is: `idle` });
 
   const [activePersona, setActivePersona] = React.useState<Persona | `none`>(
     `none`,
   );
 
-  const [conversation] = React.useState<ConversationMessage[]>(() => [
-    {
-      id: suid(),
-      type: `user-input`,
-      content: `Please rewrite me selected fragment. Be ${PERSONA_DESCRIPTIONS.jelly}`,
-    },
-    {
-      id: suid(),
-      type: `system-info`,
-      content: `Here is an improved version of the fragment`,
-    },
-    {
-      id: suid(),
-      type: `assistant-output`,
-      content,
-    },
-  ]);
+  const [conversation, setConversation] = React.useState<ConversationMessage[]>(
+    () => [
+      {
+        id: suid(),
+        type: `user-input`,
+        content: `Please rewrite me selected fragment. Be ${PERSONA_DESCRIPTIONS.jelly}`,
+      },
+      {
+        id: suid(),
+        type: `system-info`,
+        content: `Here is an improved version of the fragment`,
+      },
+      {
+        id: suid(),
+        type: `assistant-output`,
+        content,
+      },
+    ],
+  );
+
+  const askAssistant = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+
+    try {
+      if (status.is === `busy`) {
+        return;
+      }
+
+      setStatus({ is: `busy` });
+
+      const responseContent = await new Promise<string>((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const response = await fetch(`/intro.md`);
+            const content = await response.text();
+            return resolve(content);
+          } catch (error: unknown) {
+            return reject(error);
+          }
+        }, 1000);
+      });
+
+      setStatus({ is: `ok` });
+      setConversation((prevConversation) => [
+        ...prevConversation,
+        {
+          id: suid(),
+          type: `assistant-output`,
+          content: responseContent,
+        },
+      ]);
+    } catch (error) {
+      setStatus({ is: `fail`, error: parseError(error) });
+    }
+  };
 
   if (activePersona === `none`) {
     return (
@@ -103,7 +149,10 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
   }
 
   return (
-    <form className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
+    <form
+      className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto"
+      onSubmit={askAssistant}
+    >
       <header className="flex items-center justify-between mb-4">
         <h6 className="mr-8">
           You&apos;re Talking with{` `}
@@ -166,7 +215,7 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
                 return null;
             }
           })}
-          {pending.isOn && (
+          {status.is === `busy` && (
             <li
               key="pending"
               className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
@@ -188,31 +237,25 @@ const RewriteAssistant = ({ content, onClose }: RewriteAssistantProps) => {
           <Button
             className="ml-auto"
             type="button"
-            disabled={pending.isOn}
+            disabled={status.is === `busy`}
             s={1}
             i={2}
             title="Try other version"
           >
             <BiRefresh />
           </Button>
-          {pending.isOn ? (
+          {status.is === `busy` ? (
             <Button
-              type="submit"
+              type="button"
               s={1}
               i={2}
-              disabled={pending.isOn}
               title="Stop assistant"
+              onClick={() => setStatus({ is: `stopped` })}
             >
               <BiStop />
             </Button>
           ) : (
-            <Button
-              type="submit"
-              s={1}
-              i={2}
-              disabled={pending.isOn}
-              title="Apply changes"
-            >
+            <Button type="submit" s={1} i={2} title="Apply changes">
               <BiCheck />
             </Button>
           )}
