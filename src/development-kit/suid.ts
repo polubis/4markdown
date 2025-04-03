@@ -1,12 +1,15 @@
 type SUID = `${number}:${number}`;
 
-const suid = (): SUID => {
-  if (typeof (window as any).__sessionStamp__ === `undefined`) {
-    (window as any).__sessionStamp__ = performance.now();
-  }
+const suid = (() => {
+  let counter = 1;
+  const sessionStamp = performance.now();
 
-  return `${(window as any).__sessionStamp__}:${performance.now()}`;
-};
+  return (): SUID => {
+    const id: SUID = `${sessionStamp}:${performance.now() + counter}`;
+    counter++;
+    return id;
+  };
+})();
 
 export type { SUID };
 export { suid };
