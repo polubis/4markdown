@@ -54,8 +54,6 @@ const PersonaScreen = () => {
     [assistantCtx.state.messages],
   );
 
-  console.log(lastAssistantMessage);
-
   return (
     <div className="border-t pt-4 px-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-4">
