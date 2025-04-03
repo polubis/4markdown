@@ -46,6 +46,16 @@ const PersonaScreen = () => {
     });
   };
 
+  const lastAssistantMessage = React.useMemo(
+    () =>
+      assistantCtx.state.messages.findLast(
+        (message) => message.type === `assistant-output`,
+      ),
+    [assistantCtx.state.messages],
+  );
+
+  console.log(lastAssistantMessage);
+
   return (
     <div className="border-t pt-4 px-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-4">
@@ -166,7 +176,13 @@ const PersonaScreen = () => {
               <BiStop />
             </Button>
           ) : (
-            <Button type="submit" s={1} i={2} title="Apply changes">
+            <Button
+              disabled={!lastAssistantMessage}
+              type="submit"
+              s={1}
+              i={2}
+              title="Apply changes"
+            >
               <BiCheck />
             </Button>
           )}
