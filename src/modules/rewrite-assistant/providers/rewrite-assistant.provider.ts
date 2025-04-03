@@ -122,24 +122,12 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
       try {
         abortControllerRef.current = new AbortController();
 
-        const responseContent = await new Promise<string>((resolve, reject) => {
-          timeoutRef.current = setTimeout(async () => {
-            try {
-              const response = await fetch(`/intro.md`, {
-                signal: abortControllerRef.current?.signal,
-              });
-              const content = await response.text();
-              return resolve(content);
-            } catch (error: unknown) {
-              if (error instanceof Error && error.name === `AbortError`) {
-                return;
-              }
-              return reject(error);
-            }
-          }, 1000);
+        const response = await fetch(`/intro.md`, {
+          signal: abortControllerRef.current?.signal,
         });
+        const responseContent = await response.text();
 
-        dispatch({ type: `AS_OK`, payload: responseContent });
+        dispatch({ type: `AS_OK`, payload: responseContent.slice(0, 100) });
       } catch (error) {
         if (error instanceof Error && error.name !== `AbortError`) {
           dispatch({ type: `AS_FAIL`, payload: parseError(error) });
