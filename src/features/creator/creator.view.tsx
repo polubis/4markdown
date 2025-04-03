@@ -38,10 +38,17 @@ import {
   getSelectedText,
   replaceText,
 } from 'development-kit/textarea-utils';
-import { RewriteAssistantModule } from 'modules/rewrite-assistant/rewrite-assistant.module';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
+);
+
+const RewriteAssistantModule = React.lazy(() =>
+  import(`../../modules/rewrite-assistant/rewrite-assistant.module`).then(
+    (m) => ({
+      default: m.RewriteAssistantModule,
+    }),
+  ),
 );
 
 const CheatSheetModal = React.lazy(() =>
@@ -286,11 +293,13 @@ const CreatorView = () => {
             </div>
           )}
           {assistanceToolbox.is === `on` && rewriteAssistant.isOn && (
-            <RewriteAssistantModule
-              content={assistanceToolbox.data.content}
-              onApply={applyAssistantRewrite}
-              onClose={rewriteAssistant.off}
-            />
+            <React.Suspense>
+              <RewriteAssistantModule
+                content={assistanceToolbox.data.content}
+                onApply={applyAssistantRewrite}
+                onClose={rewriteAssistant.off}
+              />
+            </React.Suspense>
           )}
         </div>
       </div>

@@ -3,6 +3,7 @@ import {
   type RewriteAssistantState,
   type RewriteAssistantAction,
   REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS,
+  type RewriteAssistantProps,
 } from '../models';
 import { suid } from 'development-kit/suid';
 import { parseError } from 'api-4markdown';
@@ -100,15 +101,7 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
 };
 
 const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
-  ({
-    content,
-    onClose,
-    onApply,
-  }: {
-    content: string;
-    onClose(): void;
-    onApply(payload: string): void;
-  }) => {
+  ({ content, onClose, onApply }: RewriteAssistantProps) => {
     const [state, dispatch] = React.useReducer(reducer, initialState);
     const abortControllerRef = React.useRef<AbortController | null>(null);
     const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);

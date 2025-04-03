@@ -9,7 +9,7 @@ const NoPersonaScreen = () => {
   const assistantCtx = useRewriteAssistantContext();
 
   return (
-    <div className="border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
+    <div className="animate-fade-in border-t p-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-4">
         <h6 className="mr-8">Pick Persona and Rewrite</h6>
         <div className="flex items-center space-x-2">
