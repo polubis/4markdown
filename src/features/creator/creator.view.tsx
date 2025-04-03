@@ -23,6 +23,7 @@ import {
 import { DocBarContainer } from './containers/doc-bar.container';
 import { Button } from 'design-system/button';
 import {
+  BiBrain,
   BiLogoBing,
   BiLogoGoogle,
   BiSolidBookContent,
@@ -35,10 +36,19 @@ import { useFeature, useSimpleFeature } from '@greenonsoftware/react-kit';
 import {
   isInvalidSelection,
   getSelectedText,
+  replaceText,
 } from 'development-kit/textarea-utils';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
+);
+
+const RewriteAssistantModule = React.lazy(() =>
+  import(`../../modules/rewrite-assistant/rewrite-assistant.module`).then(
+    (m) => ({
+      default: m.RewriteAssistantModule,
+    }),
+  ),
 );
 
 const CheatSheetModal = React.lazy(() =>
@@ -51,7 +61,12 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
-  const assistant = useFeature<{ content: string }>();
+  const assistanceToolbox = useFeature<{
+    content: string;
+    from: number;
+    to: number;
+  }>();
+  const rewriteAssistant = useSimpleFeature();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   useCreatorLocalStorageSync();
@@ -103,6 +118,23 @@ const CreatorView = () => {
     setView((prevView) => (prevView === `preview` ? `creator` : `preview`));
   };
 
+  const applyAssistantRewrite = (content: string): void => {
+    if (assistanceToolbox.is === `off`) {
+      return;
+    }
+
+    assistanceToolbox.off();
+    rewriteAssistant.off();
+    changeAction(
+      replaceText({
+        value: code,
+        valueToReplace: content,
+        selectionStart: assistanceToolbox.data.from,
+        selectionEnd: assistanceToolbox.data.to,
+      }),
+    );
+  };
+
   const maintainAssistantAppearance: ReactEventHandler<HTMLTextAreaElement> = (
     e,
   ) => {
@@ -110,7 +142,7 @@ const CreatorView = () => {
     const selectedText = getSelectedText(textarea);
 
     if (isInvalidSelection(textarea) || !selectedText) {
-      assistant.off();
+      assistanceToolbox.off();
       return;
     }
 
@@ -119,11 +151,15 @@ const CreatorView = () => {
     const minWordsCount = 1;
 
     if (wordsCount < minWordsCount) {
-      assistant.off();
+      assistanceToolbox.off();
       return;
     }
 
-    assistant.on({ content: selectedText });
+    assistanceToolbox.on({
+      content: selectedText,
+      from: textarea.selectionStart,
+      to: textarea.selectionEnd,
+    });
   };
 
   React.useEffect(() => {
@@ -220,15 +256,23 @@ const CreatorView = () => {
             }}
             onSelect={maintainAssistantAppearance}
           />
-          {assistant.is === `on` && (
+          {assistanceToolbox.is === `on` && rewriteAssistant.isOff && (
             <div className="absolute bottom-2 right-4 flex flex-col gap-2">
+              <Button
+                s={1}
+                i={2}
+                title="Rewrite with AI"
+                onClick={rewriteAssistant.on}
+              >
+                <BiBrain />
+              </Button>
               <Button
                 s={1}
                 i={2}
                 title="Search in Google"
                 onClick={() =>
                   window.open(
-                    `https://www.google.com?q=${assistant.data.content}`,
+                    `https://www.google.com?q=${assistanceToolbox.data.content}`,
                   )
                 }
               >
@@ -240,13 +284,22 @@ const CreatorView = () => {
                 title="Search in Microsoft Bing"
                 onClick={() =>
                   window.open(
-                    `https://www.bing.com/search?q=${assistant.data.content}`,
+                    `https://www.bing.com/search?q=${assistanceToolbox.data.content}`,
                   )
                 }
               >
                 <BiLogoBing />
               </Button>
             </div>
+          )}
+          {assistanceToolbox.is === `on` && rewriteAssistant.isOn && (
+            <React.Suspense>
+              <RewriteAssistantModule
+                content={assistanceToolbox.data.content}
+                onApply={applyAssistantRewrite}
+                onClose={rewriteAssistant.off}
+              />
+            </React.Suspense>
           )}
         </div>
       </div>
