@@ -13,7 +13,7 @@ type RewriteAssistantOperation =
 
 type RewriteAssistantMessage = {
   id: SUID;
-  type: `user-input` | `assistant-output` | `system-info`;
+  type: `user-input` | `assistant-output` | `system-info` | `system-error`;
   content: string;
 };
 

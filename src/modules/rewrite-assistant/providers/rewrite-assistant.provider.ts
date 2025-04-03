@@ -57,7 +57,9 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
       return {
         ...state,
         messages: [
-          ...state.messages,
+          ...state.messages.filter(
+            (message) => message.type !== `system-error`,
+          ),
           {
             id: suid(),
             type: `user-input`,
@@ -70,6 +72,14 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
       return {
         ...state,
         operation: { is: `fail`, error: action.payload },
+        messages: [
+          ...state.messages,
+          {
+            id: suid(),
+            type: `system-error`,
+            content: action.payload.message,
+          },
+        ],
       };
     case `STOP`:
       return {

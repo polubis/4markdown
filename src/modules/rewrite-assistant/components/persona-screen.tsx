@@ -1,6 +1,13 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiArrowBack, BiCheck, BiRefresh, BiStop, BiX } from 'react-icons/bi';
+import {
+  BiArrowBack,
+  BiCheck,
+  BiError,
+  BiRefresh,
+  BiStop,
+  BiX,
+} from 'react-icons/bi';
 import { Markdown } from 'components/markdown';
 import { useRewriteAssistantContext } from '../providers/rewrite-assistant.provider';
 
@@ -83,6 +90,20 @@ const PersonaScreen = () => {
                   >
                     <p>
                       <strong>You: </strong>
+                      {message.content}
+                    </p>
+                  </li>
+                );
+
+              case `system-error`:
+                return (
+                  <li
+                    className="w-fit flex items-center gap-1 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                    key={message.id}
+                  >
+                    <BiError size={20} className="shrink-0" />
+                    <p>
+                      <strong>System Error:{` `}</strong>
                       {message.content}
                     </p>
                   </li>
