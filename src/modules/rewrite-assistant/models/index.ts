@@ -36,11 +36,13 @@ type RewriteAssistantAction =
       type: `ASK_AGAIN`;
       payload: RewriteAssistantPersona;
     }
-  | { type: `CLOSE` };
+  | { type: `CLOSE` }
+  | { type: `APPLY`; payload: string };
 
 type RewriteAssistantProps = {
   content: string;
   onClose(): void;
+  onApply(content: string): void;
 };
 
 const REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS = {

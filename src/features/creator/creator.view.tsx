@@ -36,6 +36,7 @@ import { useFeature, useSimpleFeature } from '@greenonsoftware/react-kit';
 import {
   isInvalidSelection,
   getSelectedText,
+  replaceText,
 } from 'development-kit/textarea-utils';
 import { RewriteAssistantModule } from 'modules/rewrite-assistant/rewrite-assistant.module';
 
@@ -53,9 +54,13 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
-  const assistanceToolbox = useFeature<{ content: string }>();
-  const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
+  const assistanceToolbox = useFeature<{
+    content: string;
+    from: number;
+    to: number;
+  }>();
   const rewriteAssistant = useSimpleFeature();
+  const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
 
   useCreatorLocalStorageSync();
 
@@ -106,6 +111,23 @@ const CreatorView = () => {
     setView((prevView) => (prevView === `preview` ? `creator` : `preview`));
   };
 
+  const applyAssistantRewrite = (content: string): void => {
+    if (assistanceToolbox.is === `off`) {
+      return;
+    }
+
+    assistanceToolbox.off();
+    rewriteAssistant.off();
+    changeAction(
+      replaceText({
+        value: code,
+        valueToReplace: content,
+        selectionStart: assistanceToolbox.data.from,
+        selectionEnd: assistanceToolbox.data.to,
+      }),
+    );
+  };
+
   const maintainAssistantAppearance: ReactEventHandler<HTMLTextAreaElement> = (
     e,
   ) => {
@@ -126,7 +148,11 @@ const CreatorView = () => {
       return;
     }
 
-    assistanceToolbox.on({ content: selectedText });
+    assistanceToolbox.on({
+      content: selectedText,
+      from: textarea.selectionStart,
+      to: textarea.selectionEnd,
+    });
   };
 
   React.useEffect(() => {
@@ -262,6 +288,7 @@ const CreatorView = () => {
           {assistanceToolbox.is === `on` && rewriteAssistant.isOn && (
             <RewriteAssistantModule
               content={assistanceToolbox.data.content}
+              onApply={applyAssistantRewrite}
               onClose={rewriteAssistant.off}
             />
           )}

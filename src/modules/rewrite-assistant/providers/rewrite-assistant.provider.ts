@@ -100,7 +100,15 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
 };
 
 const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
-  ({ content, onClose }: { content: string; onClose(): void }) => {
+  ({
+    content,
+    onClose,
+    onApply,
+  }: {
+    content: string;
+    onClose(): void;
+    onApply(payload: string): void;
+  }) => {
     const [state, dispatch] = React.useReducer(reducer, initialState);
     const abortControllerRef = React.useRef<AbortController | null>(null);
     const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -162,6 +170,11 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
         case `CLOSE`: {
           skipCurrentRequest();
           onClose();
+          break;
+        }
+        case `APPLY`: {
+          skipCurrentRequest();
+          onApply(action.payload);
           break;
         }
       }

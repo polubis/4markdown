@@ -46,6 +46,17 @@ const PersonaScreen = () => {
     });
   };
 
+  const applyAssistantRewrite = (): void => {
+    if (!lastAssistantMessage) {
+      return;
+    }
+
+    assistantCtx.dispatch({
+      type: `APPLY`,
+      payload: lastAssistantMessage.content,
+    });
+  };
+
   const lastAssistantMessage = React.useMemo(
     () =>
       assistantCtx.state.messages.findLast(
@@ -176,10 +187,10 @@ const PersonaScreen = () => {
           ) : (
             <Button
               disabled={!lastAssistantMessage}
-              type="submit"
               s={1}
               i={2}
               title="Apply changes"
+              onClick={applyAssistantRewrite}
             >
               <BiCheck />
             </Button>
