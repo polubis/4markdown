@@ -27,7 +27,7 @@ const ChaptersModal = React.lazy(() =>
   })),
 );
 
-const CONTENT_ID = `document-layout-markdown`;
+const CONTENT_ID = `document-layout-content`;
 
 const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
