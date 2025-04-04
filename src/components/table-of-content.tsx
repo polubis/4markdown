@@ -89,7 +89,8 @@ const TableOfContent = React.memo(
           });
         },
         {
-          threshold: 1,
+          rootMargin: `-80px 0px -80% 0px`,
+          threshold: 0,
         },
       );
 
@@ -124,7 +125,7 @@ const TableOfContent = React.memo(
                   key={index}
                   className={c(
                     activeHeading === heading.text
-                      ? `text-green-700 dark:text-green-400`
+                      ? `lg:text-green-700 lg:dark:text-green-400`
                       : `text-gray-900 dark:text-gray-300 hover:text-blue-800 hover:dark:text-blue-500`,
                     `lg:truncate`,
                   )}
