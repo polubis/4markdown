@@ -64,11 +64,12 @@ const TableOfContent = React.memo(
         if (!hash) return;
 
         const decodedHash = decodeHash(hash);
+
         const headings = window.document.querySelectorAll(headingsSelector);
         const foundHeading = Array.from(headings).find(
           (heading) => heading.textContent === decodedHash,
         );
-        foundHeading?.scrollIntoView({ behavior: `smooth`, block: `start` });
+        foundHeading?.scrollIntoView({ behavior: `smooth`, block: `center` });
       };
 
       const observer = new IntersectionObserver(
@@ -88,7 +89,7 @@ const TableOfContent = React.memo(
           });
         },
         {
-          rootMargin: `-80px 0px -80% 0px`,
+          rootMargin: `-45% 0px -45% 0px`,
           threshold: 0,
         },
       );
