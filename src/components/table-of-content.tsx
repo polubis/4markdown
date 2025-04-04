@@ -84,8 +84,9 @@ const TableOfContent = React.memo(
             if (!headingText) return;
 
             const hash = encodeHash(headingText);
-            const newUrl = `${window.location.pathname}#${hash}`;
-            window.history.replaceState(null, ``, newUrl);
+            const url = new URL(window.location.href);
+            url.hash = hash;
+            window.history.replaceState(null, ``, url.toString());
           });
         },
         {
