@@ -15,9 +15,11 @@ import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
-import { TableOfContent } from 'components/table-of-content';
-import { extractHeadings } from 'development-kit/markdown-utils';
-import { useScrollToHash } from 'development-kit/use-scroll-to-hash';
+import {
+  TableOfContent,
+  useTableOfContent,
+  extractHeadings,
+} from 'components/table-of-content';
 
 const ChaptersModal = React.lazy(() =>
   import(`../components/chapters-modal`).then((m) => ({
@@ -33,7 +35,7 @@ const DocumentLayoutContainer = () => {
   const sectionsModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
 
-  useScrollToHash({
+  useTableOfContent({
     containerId: CONTENT_ID,
   });
 

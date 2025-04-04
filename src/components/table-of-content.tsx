@@ -1,5 +1,35 @@
 import React from 'react';
-import type { HeadingItem } from 'development-kit/markdown-utils';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import { toString } from 'mdast-util-to-string';
+
+type HeadingItem = {
+  level: number;
+  text: string;
+  hash: string;
+};
+
+const getPlainText = (markdown: string): string => {
+  const tree = unified().use(remarkParse).parse(markdown);
+
+  return toString(tree);
+};
+
+const extractHeadings = (markdown: string): HeadingItem[] => {
+  const headingRegex = /^(#{1,6})\s+(.+)$/gm;
+
+  return (markdown.match(headingRegex) ?? []).map((heading) => {
+    const [, hashes, text] = heading.match(/^(#{1,6})\s+(.+)$/) ?? [];
+    const parsedText = getPlainText(text);
+    const hash = parsedText.replace(/\s+/g, `-`);
+
+    return {
+      level: hashes.length,
+      hash,
+      text: parsedText,
+    };
+  });
+};
 
 type TableOfContentProps = {
   items: HeadingItem[];
@@ -38,4 +68,49 @@ const TableOfContent = ({ items }: TableOfContentProps) => {
   );
 };
 
-export { TableOfContent };
+const useTableOfContent = ({ containerId }: { containerId: string }) => {
+  React.useLayoutEffect(() => {
+    const headingsSelector = Array.from(
+      { length: 6 },
+      (_, i) => `#${containerId} h${i + 1}`,
+    ).join(`, `);
+
+    const scrollToHash = () => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) return;
+      const decodedHash = hash.replace(/-/g, ` `);
+      const headings = window.document.querySelectorAll(headingsSelector);
+      const foundHeading = Array.from(headings).find(
+        (heading) => heading.textContent === decodedHash,
+      );
+      foundHeading?.scrollIntoView({ block: `start` });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            console.log(`Heading in view:`, entry.target.textContent);
+          }
+        });
+      },
+      { threshold: 0.5 },
+    );
+
+    const headings = window.document.querySelectorAll(headingsSelector);
+
+    headings.forEach((heading) => observer.observe(heading));
+
+    scrollToHash();
+
+    window.addEventListener(`hashchange`, scrollToHash);
+
+    return () => {
+      window.removeEventListener(`hashchange`, scrollToHash);
+      headings.forEach((heading) => observer.unobserve(heading));
+      observer.disconnect();
+    };
+  }, [containerId]);
+};
+
+export { TableOfContent, useTableOfContent, extractHeadings };
