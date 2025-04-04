@@ -15,7 +15,7 @@ import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
-import { MarkdownTableOfContent } from 'components/markdown-table-of-content';
+import { TableOfContent } from 'components/table-of-content';
 import { extractHeadings } from 'development-kit/markdown-utils';
 import { useScrollToHash } from 'development-kit/use-scroll-to-hash';
 
@@ -126,7 +126,7 @@ const DocumentLayoutContainer = () => {
           )}
           <DocumentRatingContainer className="mt-10 justify-end" />
         </main>
-        <MarkdownTableOfContent items={tableOfContentItems} />
+        <TableOfContent items={tableOfContentItems} />
       </div>
 
       <ScrollToTop />
