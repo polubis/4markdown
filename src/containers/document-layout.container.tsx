@@ -18,6 +18,7 @@ import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { MarkdownTableOfContent } from 'components/markdown-table-of-content';
 import { extractHeadings } from 'development-kit/markdown-utils';
 import c from 'classnames';
+import { useScrollToHash } from 'development-kit/use-scroll-to-hash';
 
 const ChaptersModal = React.lazy(() =>
   import(`../components/chapters-modal`).then((m) => ({
@@ -33,6 +34,10 @@ const DocumentLayoutContainer = () => {
   const sectionsModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
 
+  useScrollToHash({
+    containerId: CONTENT_ID,
+  });
+
   const openInDocumentsCreator = (): void => {
     seeInDocumentsCreatorAct({ code });
     navigate(meta.routes.home);
@@ -42,36 +47,6 @@ const DocumentLayoutContainer = () => {
     () => extractHeadings(code),
     [code],
   );
-
-  React.useLayoutEffect(() => {
-    const scrollToHash = () => {
-      const hash = window.location.hash.slice(1);
-
-      if (!hash) return;
-
-      const decodedHash = hash.replace(/-/g, ` `);
-
-      const headings = window.document.querySelectorAll(
-        Array.from({ length: 6 }, (_, i) => `#${CONTENT_ID} h${i + 1}`).join(
-          `, `,
-        ),
-      );
-
-      const foundHeading = Array.from(headings).find(
-        (heading) => heading.textContent === decodedHash,
-      );
-
-      foundHeading?.scrollIntoView({ block: `start` });
-    };
-
-    scrollToHash();
-
-    window.addEventListener(`hashchange`, scrollToHash);
-
-    return () => {
-      window.removeEventListener(`hashchange`, scrollToHash);
-    };
-  }, []);
 
   return (
     <>
