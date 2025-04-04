@@ -15,6 +15,9 @@ import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { MarkdownTableOfContent } from 'components/markdown-table-of-content';
+import { extractHeadings } from 'development-kit/markdown-utils';
+import c from 'classnames';
 
 const ChaptersModal = React.lazy(() =>
   import(`../components/chapters-modal`).then((m) => ({
@@ -33,9 +36,14 @@ const DocumentLayoutContainer = () => {
     navigate(meta.routes.home);
   };
 
+  const tableOfContentItems = React.useMemo(
+    () => extractHeadings(code),
+    [code],
+  );
+
   return (
     <>
-      <div className="px-4 py-10 flex space-x-8 justify-center relative">
+      <div className={c(`px-4 py-10 flex space-x-8 justify-center relative`)}>
         <main className="max-w-prose">
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button
@@ -110,20 +118,7 @@ const DocumentLayoutContainer = () => {
           )}
           <DocumentRatingContainer className="mt-10 justify-end" />
         </main>
-        <aside className="sticky top-0 right-4 h-[400px] max-w-[280px] py-4 -mt-4">
-          <h2 className="text-lg mb-4">On This Page</h2>
-          <ul>
-            <li>
-              <a href="#section-1">Section 1</a>
-            </li>
-            <li>
-              <a href="#section-1">Section 1</a>
-            </li>
-            <li>
-              <a href="#section-1">Section 1</a>
-            </li>
-          </ul>
-        </aside>
+        <MarkdownTableOfContent items={tableOfContentItems} />
       </div>
 
       <ScrollToTop />
