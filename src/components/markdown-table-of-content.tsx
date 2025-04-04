@@ -18,7 +18,7 @@ const MarkdownTableOfContent = React.memo(
             >
               <a
                 className="underline underline-offset-2 text-blue-800 dark:text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
-                href={`#${item.text}`}
+                href={`#${item.hash}`}
               >
                 {item.text}
               </a>

@@ -5,6 +5,7 @@ import { toString } from 'mdast-util-to-string';
 type HeadingItem = {
   level: number;
   text: string;
+  hash: string;
 };
 
 const getPlainText = (markdown: string): string => {
@@ -18,10 +19,13 @@ const extractHeadings = (markdown: string): HeadingItem[] => {
 
   return (markdown.match(headingRegex) ?? []).map((heading) => {
     const [, hashes, text] = heading.match(/^(#{1,6})\s+(.+)$/) ?? [];
+    const parsedText = getPlainText(text);
+    const hash = parsedText.replace(/\s+/g, `-`);
 
     return {
       level: hashes.length,
-      text: getPlainText(text),
+      hash,
+      text: parsedText,
     };
   });
 };

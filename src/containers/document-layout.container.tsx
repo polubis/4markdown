@@ -25,6 +25,8 @@ const ChaptersModal = React.lazy(() =>
   })),
 );
 
+const CONTENT_ID = `document-layout-markdown`;
+
 const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
   const { code, author } = document;
@@ -47,11 +49,19 @@ const DocumentLayoutContainer = () => {
 
       if (!hash) return;
 
-      const element = window.document.getElementById(hash);
+      const decodedHash = hash.replace(/-/g, ` `);
 
-      if (!element) return;
+      const headings = window.document.querySelectorAll(
+        Array.from({ length: 6 }, (_, i) => `#${CONTENT_ID} h${i + 1}`).join(
+          `, `,
+        ),
+      );
 
-      element.scrollIntoView({ behavior: `smooth`, block: `start` });
+      const foundHeading = Array.from(headings).find(
+        (heading) => heading.textContent === decodedHash,
+      );
+
+      foundHeading?.scrollIntoView({ block: `start` });
     };
 
     scrollToHash();
@@ -107,7 +117,9 @@ const DocumentLayoutContainer = () => {
               ))}
             </section>
           )}
-          <Markdown>{code}</Markdown>
+          <section id={CONTENT_ID}>
+            <Markdown>{code}</Markdown>
+          </section>
           {author?.bio && author?.displayName && (
             <section className="mt-12">
               <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">
