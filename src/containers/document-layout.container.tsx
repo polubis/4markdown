@@ -41,6 +41,28 @@ const DocumentLayoutContainer = () => {
     [code],
   );
 
+  React.useLayoutEffect(() => {
+    const scrollToHash = () => {
+      const hash = window.location.hash.slice(1);
+
+      if (!hash) return;
+
+      const element = window.document.getElementById(hash);
+
+      if (!element) return;
+
+      element.scrollIntoView({ behavior: `smooth`, block: `start` });
+    };
+
+    scrollToHash();
+
+    window.addEventListener(`hashchange`, scrollToHash);
+
+    return () => {
+      window.removeEventListener(`hashchange`, scrollToHash);
+    };
+  }, []);
+
   return (
     <>
       <div className={c(`px-4 py-10 flex space-x-8 justify-center relative`)}>

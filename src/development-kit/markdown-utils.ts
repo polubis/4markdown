@@ -1,7 +1,16 @@
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import { toString } from 'mdast-util-to-string';
+
 type HeadingItem = {
   level: number;
   text: string;
-  id: string;
+};
+
+const getPlainText = (markdown: string): string => {
+  const tree = unified().use(remarkParse).parse(markdown);
+
+  return toString(tree);
 };
 
 const extractHeadings = (markdown: string): HeadingItem[] => {
@@ -12,11 +21,7 @@ const extractHeadings = (markdown: string): HeadingItem[] => {
 
     return {
       level: hashes.length,
-      text: text.trim(),
-      id: text
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, `-`),
+      text: getPlainText(text),
     };
   });
 };

@@ -61,12 +61,6 @@ const OPTIONS: Options = {
   remarkPlugins: [remarkGfm, remarkMath],
   rehypePlugins: [rehypeKatex],
   components: {
-    h1: ({ children }) => <h1 id="heading-1">{children}</h1>,
-    h2: ({ children }) => <h2 id="heading-2">{children}</h2>,
-    h3: ({ children }) => <h3 id="heading-3">{children}</h3>,
-    h4: ({ children }) => <h4 id="heading-4">{children}</h4>,
-    h5: ({ children }) => <h5 id="heading-5">{children}</h5>,
-    h6: ({ children }) => <h6 id="heading-6">{children}</h6>,
     a: ({ children, href }) => (
       <a href={href} target="_blank" rel="noopener noreferrer">
         {children}
