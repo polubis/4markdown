@@ -130,6 +130,7 @@ const DocumentLayoutContainer = () => {
       </div>
 
       <ScrollToTop />
+
       {sectionsModal.isOn && (
         <React.Suspense>
           <ChaptersModal onClose={sectionsModal.off}>{code}</ChaptersModal>
