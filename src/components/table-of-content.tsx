@@ -68,7 +68,15 @@ const TableOfContent = React.memo(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              setActiveHeading(entry.target.textContent);
+              const headingText = entry.target.textContent;
+
+              setActiveHeading(headingText);
+
+              if (headingText) {
+                const hash = headingText.replace(/\s+/g, `-`);
+                const newUrl = `${window.location.pathname}#${hash}`;
+                window.history.replaceState(null, ``, newUrl);
+              }
             }
           });
         },
