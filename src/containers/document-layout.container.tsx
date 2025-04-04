@@ -17,7 +17,6 @@ import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { MarkdownTableOfContent } from 'components/markdown-table-of-content';
 import { extractHeadings } from 'development-kit/markdown-utils';
-import c from 'classnames';
 import { useScrollToHash } from 'development-kit/use-scroll-to-hash';
 
 const ChaptersModal = React.lazy(() =>
@@ -50,7 +49,7 @@ const DocumentLayoutContainer = () => {
 
   return (
     <>
-      <div className={c(`px-4 py-10 flex space-x-8 justify-center relative`)}>
+      <div className="px-4 py-6 flex flex-col gap-8 justify-center relative lg:flex-row">
         <main className="max-w-prose">
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button

@@ -8,7 +8,7 @@ type MarkdownTableOfContentProps = {
 const MarkdownTableOfContent = React.memo(
   ({ items }: MarkdownTableOfContentProps) => {
     return (
-      <aside className="sticky top-0 right-4 h-[400px] max-w-[280px] py-4 -mt-4">
+      <aside className="static lg:sticky lg:max-h-[70vh] lg:max-w-[280px] lg:top-0 lg:right-4 lg:py-4 lg:-mt-6">
         {items.length === 0 ? (
           <>
             <h2 className="text-lg mb-2">No Headings</h2>
@@ -17,7 +17,7 @@ const MarkdownTableOfContent = React.memo(
         ) : (
           <>
             <h2 className="text-lg mb-2">On This Page</h2>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5">
               {items.map((item, index) => (
                 <li
                   key={index}
