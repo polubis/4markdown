@@ -15,11 +15,7 @@ import { UserSocials } from 'components/user-socials';
 import { ScrollToTop } from 'components/scroll-to-top';
 import { Markdown } from 'components/markdown';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
-import {
-  TableOfContent,
-  useTableOfContent,
-  extractHeadings,
-} from 'components/table-of-content';
+import { TableOfContent } from 'components/table-of-content';
 
 const ChaptersModal = React.lazy(() =>
   import(`../components/chapters-modal`).then((m) => ({
@@ -35,19 +31,10 @@ const DocumentLayoutContainer = () => {
   const sectionsModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
 
-  useTableOfContent({
-    containerId: CONTENT_ID,
-  });
-
   const openInDocumentsCreator = (): void => {
     seeInDocumentsCreatorAct({ code });
     navigate(meta.routes.home);
   };
-
-  const tableOfContentItems = React.useMemo(
-    () => extractHeadings(code),
-    [code],
-  );
 
   return (
     <>
@@ -128,7 +115,7 @@ const DocumentLayoutContainer = () => {
           )}
           <DocumentRatingContainer className="mt-10 justify-end" />
         </main>
-        <TableOfContent items={tableOfContentItems} />
+        <TableOfContent markdownContainerId={CONTENT_ID} markdown={code} />
       </div>
 
       <ScrollToTop />
