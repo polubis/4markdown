@@ -36,6 +36,20 @@ const TableOfContent = React.memo(
       null,
     );
 
+    const scrollToHeading = (heading: HeadingItem) => {
+      const url = new URL(window.location.href);
+      url.hash = encodeURIComponent(heading.text);
+      window.history.replaceState(null, ``, url.toString());
+
+      const headings = document.querySelectorAll(
+        `#${markdownContainerId} h${heading.level}`,
+      );
+      const foundHeading = Array.from(headings).find(
+        (el) => el.textContent === heading.text,
+      );
+      foundHeading?.scrollIntoView({ block: `center` });
+    };
+
     React.useLayoutEffect(() => {
       const headingTypesCount = 6;
       const headingsSelector = Array.from(
@@ -116,12 +130,13 @@ const TableOfContent = React.memo(
                   )}
                   style={{ paddingLeft: `${(heading.level - 1) * 12}px` }}
                 >
-                  <a
+                  <button
                     className="underline underline-offset-2"
-                    href={`#${heading.text}`}
+                    title={`Scroll to ${heading.text}`}
+                    onClick={() => scrollToHeading(heading)}
                   >
                     {heading.text}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
