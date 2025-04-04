@@ -21,13 +21,21 @@ const getPlainText = (markdown: string): string => {
   return toString(tree);
 };
 
+const encodeHash = (text: string): string => {
+  return text.replace(/\s+/g, `-`);
+};
+
+const decodeHash = (hash: string): string => {
+  return hash.replace(/-/g, ` `);
+};
+
 const extractHeadings = (markdown: string): HeadingItem[] => {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
 
   return (markdown.match(headingRegex) ?? []).map((heading) => {
     const [, hashes, text] = heading.match(/^(#{1,6})\s+(.+)$/) ?? [];
     const parsedText = getPlainText(text);
-    const hash = parsedText.replace(/\s+/g, `-`);
+    const hash = encodeHash(parsedText);
 
     return {
       level: hashes.length,
@@ -56,7 +64,7 @@ const TableOfContent = React.memo(
 
         if (!hash) return;
 
-        const decodedHash = hash.replace(/-/g, ` `);
+        const decodedHash = decodeHash(hash);
         const headings = window.document.querySelectorAll(headingsSelector);
         const foundHeading = Array.from(headings).find(
           (heading) => heading.textContent === decodedHash,
@@ -75,7 +83,7 @@ const TableOfContent = React.memo(
 
             if (!headingText) return;
 
-            const hash = headingText.replace(/\s+/g, `-`);
+            const hash = encodeHash(headingText);
             const newUrl = `${window.location.pathname}#${hash}`;
             window.history.replaceState(null, ``, newUrl);
           });
