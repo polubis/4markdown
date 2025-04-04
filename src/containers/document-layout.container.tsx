@@ -49,8 +49,8 @@ const DocumentLayoutContainer = () => {
 
   return (
     <>
-      <div className="px-4 py-10 relative space-y-8 lg:space-y-0 lg:space-x-8 lg:flex lg:justify-center">
-        <main className="max-w-prose mx-auto lg:mx-0">
+      <div className="px-4 py-10 relative lg:flex lg:justify-center">
+        <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button
               title="Open in documents creator"
