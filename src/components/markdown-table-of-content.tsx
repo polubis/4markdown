@@ -21,10 +21,11 @@ const MarkdownTableOfContent = React.memo(
               {items.map((item, index) => (
                 <li
                   key={index}
+                  className="lg:truncate"
                   style={{ paddingLeft: `${(item.level - 1) * 12}px` }}
                 >
                   <a
-                    className="underline underline-offset-2 text-gray-900 dark:text-gray-300"
+                    className="underline underline-offset-2 text-gray-900 dark:text-gray-300 hover:text-blue-800 hover:dark:text-blue-500"
                     href={`#${item.hash}`}
                   >
                     {item.text}
