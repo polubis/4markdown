@@ -7,7 +7,6 @@ import c from 'classnames';
 type HeadingItem = {
   level: number;
   text: string;
-  hash: string;
 };
 
 type TableOfContentProps = {
@@ -23,13 +22,10 @@ const extractHeadings = (markdown: string): HeadingItem[] => {
 
   return (markdown.match(headingRegex) ?? []).map((heading) => {
     const [, hashes, text] = heading.match(/^(#{1,6})\s+(.+)$/) ?? [];
-    const parsedText = getPlainText(text);
-    const hash = parsedText;
 
     return {
       level: hashes.length,
-      hash,
-      text: parsedText,
+      text: getPlainText(text),
     };
   });
 };
@@ -64,18 +60,15 @@ const TableOfContent = React.memo(
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
+            const text = entry.target.textContent;
 
-            const headingText = entry.target.textContent;
+            if (!entry.isIntersecting || !text) return;
 
-            setActiveHeading(headingText);
-
-            if (!headingText) return;
-
-            const hash = headingText;
             const url = new URL(window.location.href);
-            url.hash = hash;
+            url.hash = text;
             window.history.replaceState(null, ``, url.toString());
+
+            setActiveHeading(text);
           });
         },
         {
@@ -125,7 +118,7 @@ const TableOfContent = React.memo(
                 >
                   <a
                     className="underline underline-offset-2"
-                    href={`#${heading.hash}`}
+                    href={`#${heading.text}`}
                   >
                     {heading.text}
                   </a>
