@@ -67,17 +67,17 @@ const TableOfContent = React.memo(
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const headingText = entry.target.textContent;
+            if (!entry.isIntersecting) return;
 
-              setActiveHeading(headingText);
+            const headingText = entry.target.textContent;
 
-              if (headingText) {
-                const hash = headingText.replace(/\s+/g, `-`);
-                const newUrl = `${window.location.pathname}#${hash}`;
-                window.history.replaceState(null, ``, newUrl);
-              }
-            }
+            setActiveHeading(headingText);
+
+            if (!headingText) return;
+
+            const hash = headingText.replace(/\s+/g, `-`);
+            const newUrl = `${window.location.pathname}#${hash}`;
+            window.history.replaceState(null, ``, newUrl);
           });
         },
         {
