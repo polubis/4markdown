@@ -47,7 +47,6 @@ const extractHeadings = (markdown: string): HeadingItem[] => {
 
 const TableOfContent = React.memo(
   ({ markdownContainerId, markdown }: TableOfContentProps) => {
-    const headings = extractHeadings(markdown);
     const [activeHeading, setActiveHeading] = React.useState<string | null>(
       null,
     );
@@ -108,6 +107,8 @@ const TableOfContent = React.memo(
         observer.disconnect();
       };
     }, [markdownContainerId]);
+
+    const headings = React.useMemo(() => extractHeadings(markdown), [markdown]);
 
     return (
       <aside className="static max-w-prose mx-auto lg:mx-0 lg:sticky lg:max-h-[70vh] lg:max-w-[280px] lg:top-0 lg:right-4 lg:py-4 lg:-mt-6">
