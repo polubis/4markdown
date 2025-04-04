@@ -69,7 +69,7 @@ const TableOfContent = React.memo(
         const foundHeading = Array.from(headings).find(
           (heading) => heading.textContent === decodedHash,
         );
-        foundHeading?.scrollIntoView({ block: `start` });
+        foundHeading?.scrollIntoView({ behavior: `smooth`, block: `start` });
       };
 
       const observer = new IntersectionObserver(
