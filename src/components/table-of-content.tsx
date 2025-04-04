@@ -15,19 +15,8 @@ type TableOfContentProps = {
   markdown: string;
 };
 
-const getPlainText = (markdown: string): string => {
-  const tree = unified().use(remarkParse).parse(markdown);
-
-  return toString(tree);
-};
-
-const encodeHash = (text: string): string => {
-  return text.replace(/\s+/g, `-`);
-};
-
-const decodeHash = (hash: string): string => {
-  return hash.replace(/-/g, ` `);
-};
+const getPlainText = (markdown: string): string =>
+  toString(unified().use(remarkParse).parse(markdown));
 
 const extractHeadings = (markdown: string): HeadingItem[] => {
   const headingRegex = /^(#{1,6})\s+(.+)$/gm;
@@ -35,7 +24,7 @@ const extractHeadings = (markdown: string): HeadingItem[] => {
   return (markdown.match(headingRegex) ?? []).map((heading) => {
     const [, hashes, text] = heading.match(/^(#{1,6})\s+(.+)$/) ?? [];
     const parsedText = getPlainText(text);
-    const hash = encodeHash(parsedText);
+    const hash = parsedText;
 
     return {
       level: hashes.length,
@@ -63,13 +52,13 @@ const TableOfContent = React.memo(
 
         if (!hash) return;
 
-        const decodedHash = decodeHash(hash);
+        const decodedHash = decodeURIComponent(hash);
 
         const headings = window.document.querySelectorAll(headingsSelector);
         const foundHeading = Array.from(headings).find(
           (heading) => heading.textContent === decodedHash,
         );
-        foundHeading?.scrollIntoView({ behavior: `smooth`, block: `center` });
+        foundHeading?.scrollIntoView({ block: `center` });
       };
 
       const observer = new IntersectionObserver(
@@ -83,7 +72,7 @@ const TableOfContent = React.memo(
 
             if (!headingText) return;
 
-            const hash = encodeHash(headingText);
+            const hash = headingText;
             const url = new URL(window.location.href);
             url.hash = hash;
             window.history.replaceState(null, ``, url.toString());
