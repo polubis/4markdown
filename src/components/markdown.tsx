@@ -14,6 +14,7 @@ import ReactMarkdown, { type Options } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeSanitize from 'rehype-sanitize';
 
 const Code = ({
   children,
@@ -59,7 +60,8 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
 
 const OPTIONS: Options = {
   remarkPlugins: [remarkGfm, remarkMath],
-  rehypePlugins: [rehypeKatex],
+  rehypePlugins: [rehypeKatex, rehypeSanitize],
+  skipHtml: true,
   components: {
     a: ({ children, href }) => (
       <a href={href} target="_blank" rel="noopener noreferrer">
