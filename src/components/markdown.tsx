@@ -60,7 +60,7 @@ const SnippetCopyButton = ({ children }: { children: ReactNode }) => {
 
 const OPTIONS: Options = {
   remarkPlugins: [remarkGfm, remarkMath],
-  rehypePlugins: [rehypeKatex, rehypeSanitize],
+  rehypePlugins: [rehypeSanitize, rehypeKatex],
   skipHtml: true,
   components: {
     a: ({ children, href }) => (
