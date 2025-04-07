@@ -117,7 +117,7 @@ const PersonaScreen = () => {
               case `system-error`:
                 return (
                   <li
-                    className="w-fit flex items-center gap-1 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                    className="w-fit flex items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                     key={message.id}
                   >
                     <BiError size={20} className="shrink-0" />
