@@ -1,9 +1,9 @@
 import { BASE_COMMANDS } from '../utils/commands';
-import { Gherkin } from '../utils/gherkin';
+import { gherkin } from '../utils/gherkin';
 import { uid } from '../utils/uid';
 
 describe(`Docs browse works when`, () => {
-  const { Given } = Gherkin(BASE_COMMANDS);
+  const given = gherkin(BASE_COMMANDS);
 
   it(`user may browse his documents`, () => {
     const [documentName1, documentName2] = [uid(`S`), uid(`K`)];
@@ -12,65 +12,65 @@ describe(`Docs browse works when`, () => {
       `## My content`,
     ];
 
-    Given(`System has accepted cookies`)
-      .And(`Im on page`, `home`)
-      .And(`I log in`)
-      .And(`I set white theme`)
-      .And(`I clear creator`)
-      .And(`I type in creator`, documentCode1)
-      .Then(`I see text`, [`This is my heading`])
-      .And(`I see text in creator`, documentCode1)
-      .And(`I see button`, [`Your documents`])
-      .When(`I click button`, [`Create new document`])
-      .And(
+    given(`System has accepted cookies`)
+      .and(`Im on page`, `home`)
+      .and(`I log in`)
+      .and(`I set white theme`)
+      .and(`I clear creator`)
+      .and(`I type in creator`, documentCode1)
+      .then(`I see text`, [`This is my heading`])
+      .and(`I see text in creator`, documentCode1)
+      .and(`I see button`, [`Your documents`])
+      .when(`I click button`, [`Create new document`])
+      .and(
         `I type in input`,
         `My Notes, Basics of Computer Science, ...etc`,
         documentName1,
       )
-      .And(`I click button`, [`Confirm document creation`])
-      .Then(`I see text`, [documentName1])
-      .And(`I see text in creator`, documentCode1)
-      .And(`I not see button`, [`Confirm document creation`])
-      .And(`I see button`, [`Your documents`])
-      .When(`I click button`, [`Your documents`])
-      .Then(`I see text`, [documentName1, `Your Documents`])
-      .When(`I click button`, [`Close your documents`])
-      .Then(`I not see text`, [`Your Documents`])
-      .And(`I not see button`, [`Confirm document creation`])
-      .When(`I reload page`)
-      .Then(`I see not disabled button`, [`User details and options`])
-      .And(`I see text`, [documentName1])
-      .And(`I see text in creator`, documentCode1)
-      .And(`I see button`, [`Your documents`])
-      .When(`I clear creator`)
-      .And(`I type in creator`, documentCode2)
-      .Then(`I see text`, [`My content`])
-      .When(`I reload page`)
-      .Then(`I see not disabled button`, [`User details and options`])
-      .And(`I see text`, [documentName1])
-      .And(`I see text in creator`, documentCode2)
-      .When(`I click button`, [`Create new document`])
-      .And(
+      .and(`I click button`, [`Confirm document creation`])
+      .then(`I see text`, [documentName1])
+      .and(`I see text in creator`, documentCode1)
+      .and(`I not see button`, [`Confirm document creation`])
+      .and(`I see button`, [`Your documents`])
+      .when(`I click button`, [`Your documents`])
+      .then(`I see text`, [documentName1, `Your Documents`])
+      .when(`I click button`, [`Close your documents`])
+      .then(`I not see text`, [`Your Documents`])
+      .and(`I not see button`, [`Confirm document creation`])
+      .when(`I reload page`)
+      .then(`I see not disabled button`, [`User details and options`])
+      .and(`I see text`, [documentName1])
+      .and(`I see text in creator`, documentCode1)
+      .and(`I see button`, [`Your documents`])
+      .when(`I clear creator`)
+      .and(`I type in creator`, documentCode2)
+      .then(`I see text`, [`My content`])
+      .when(`I reload page`)
+      .then(`I see not disabled button`, [`User details and options`])
+      .and(`I see text`, [documentName1])
+      .and(`I see text in creator`, documentCode2)
+      .when(`I click button`, [`Create new document`])
+      .and(
         `I type in input`,
         `My Notes, Basics of Computer Science, ...etc`,
         documentName2,
       )
-      .And(`I click button`, [`Confirm document creation`])
-      .Then(`I see text`, [documentName2])
-      .And(`I see text in creator`, documentCode2)
-      .When(`I click button`, [`Your documents`])
-      .Then(`I see text`, [documentName1, documentName2, `Your Documents`])
-      .When(`I select document`, documentName1)
-      .Then(`I not see text`, [`Your Documents`])
-      .And(`I see text`, [documentName1])
-      .When(`I change theme`)
-      .And(`I click button`, [
+      .and(`I click button`, [`Confirm document creation`])
+      .then(`I see text`, [documentName2])
+      .and(`I see text in creator`, documentCode2)
+      .when(`I click button`, [`Your documents`])
+      .then(`I see text`, [documentName1, documentName2, `Your Documents`])
+      .when(`I select document`, documentName1)
+      .then(`I not see text`, [`Your Documents`])
+      .and(`I see text`, [documentName1])
+      .when(`I change theme`)
+      .and(`I click button`, [
         `More document options`,
         `Delete current document`,
       ])
-      .When(`I type in input`, `Type document name`, documentName1)
-      .And(`I click button`, [`Confirm document removal`])
-      .Then(`I see text`, [`Markdown Cheatsheet`])
-      .And(`I see text in creator`, `# Markdown Cheatsheet`);
+      .when(`I type in input`, `Type document name`, documentName1)
+      .and(`I click button`, [`Confirm document removal`])
+      .then(`I see text`, [`Markdown Cheatsheet`])
+      .and(`I see text in creator`, `# Markdown Cheatsheet`);
   });
 });

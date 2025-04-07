@@ -1,5 +1,5 @@
 import { BASE_COMMANDS } from '../utils/commands';
-import { Gherkin } from '../utils/gherkin';
+import { gherkin } from '../utils/gherkin';
 
 describe(`User profile works when`, () => {
   const userProfileFormSelectors = {
@@ -12,100 +12,100 @@ describe(`User profile works when`, () => {
     twitterUrl: `https://twitter.com/your-profile`,
   } as const;
 
-  const { Given } = Gherkin({
+  const given = gherkin({
     ...BASE_COMMANDS,
     'I clear all user profile form fields': () => {
-      Given(`I type in input`, userProfileFormSelectors.displayName, `a`).And(
+      given(`I type in input`, userProfileFormSelectors.displayName, `a`).and(
         `I clear input`,
         Object.values(userProfileFormSelectors),
       );
     },
     'I see user profile form is busy': () => {
-      Given(`I see disabled button`, [
+      given(`I see disabled button`, [
         `Save user profile`,
         `Back to user profile`,
         `Close your profile form`,
-      ]).And(`I see text`, [`Updating your profile...`]);
+      ]).and(`I see text`, [`Updating your profile...`]);
     },
     'I clean up user profile form': () => {
-      Given(`I click button`, [
+      given(`I click button`, [
         `User details and options`,
         `Open user profile settings`,
       ])
-        .Then(`I see section`, `[user-profile-form]:container`)
-        .When(`I clear all user profile form fields`)
-        .Then(`I click button`, [`Save user profile`])
-        .And(`I see user profile form is busy`)
-        .Then(`I see section`, `[user-profile]:no-profile-yet`);
+        .then(`I see section`, `[user-profile-form]:container`)
+        .when(`I clear all user profile form fields`)
+        .then(`I click button`, [`Save user profile`])
+        .and(`I see user profile form is busy`)
+        .then(`I see section`, `[user-profile]:no-profile-yet`);
     },
     'I try to use other user display name': () => {
-      Given(`I click button`, [`Open user profile settings`])
-        .And(`I type in input`, userProfileFormSelectors.displayName, `polubis`)
-        .When(`I click button`, [`Save user profile`])
-        .Then(`I see user profile form is busy`)
-        .And(`I see text`, [`Ups, something went wrong`])
-        .And(`System takes picture`, `error-screen-dupliated-username`)
-        .When(`I click button`, [`Close error screen`])
-        .Then(`I see section`, `[user-profile-form]:container`)
-        .When(`I clear input`, [userProfileFormSelectors.displayName])
-        .And(`I click button`, [`Save user profile`])
-        .Then(`I see user profile form is busy`)
-        .And(`I see section`, `[user-profile]:no-profile-yet`);
+      given(`I click button`, [`Open user profile settings`])
+        .and(`I type in input`, userProfileFormSelectors.displayName, `polubis`)
+        .when(`I click button`, [`Save user profile`])
+        .then(`I see user profile form is busy`)
+        .and(`I see text`, [`Ups, something went wrong`])
+        .and(`System takes picture`, `error-screen-dupliated-username`)
+        .when(`I click button`, [`Close error screen`])
+        .then(`I see section`, `[user-profile-form]:container`)
+        .when(`I clear input`, [userProfileFormSelectors.displayName])
+        .and(`I click button`, [`Save user profile`])
+        .then(`I see user profile form is busy`)
+        .and(`I see section`, `[user-profile]:no-profile-yet`);
     },
   });
 
   it(`user is able to manage own profile`, () => {
-    Given(`System has accepted cookies`)
-      .And(`Im on page`, `home`)
-      .And(`I log in`)
-      .And(`I set white theme`)
-      .When(`I click button`, [`User details and options`])
-      .Then(`I see section`, `[user-profile]:no-profile-yet`)
-      .And(`System takes picture`, `no-profile-yet`)
-      .When(`I click button`, [`Sync your profile`])
-      .Then(`I see section`, `[user-profile]:profile-loading`)
-      .And(`I see section`, `[user-profile]:no-profile-yet`)
-      .When(`I click button`, [`Create your user profile`])
-      .Then(`I see section`, `[user-profile-form]:container`)
-      .When(`I clear all user profile form fields`)
-      .And(`System takes picture`, `empty-user-profile-form`)
-      .When(`I type in input`, userProfileFormSelectors.displayName, `a`)
-      .Then(`I see disabled button`, [`Save user profile`])
-      .When(
+    given(`System has accepted cookies`)
+      .and(`Im on page`, `home`)
+      .and(`I log in`)
+      .and(`I set white theme`)
+      .when(`I click button`, [`User details and options`])
+      .then(`I see section`, `[user-profile]:no-profile-yet`)
+      .and(`System takes picture`, `no-profile-yet`)
+      .when(`I click button`, [`Sync your profile`])
+      .then(`I see section`, `[user-profile]:profile-loading`)
+      .and(`I see section`, `[user-profile]:no-profile-yet`)
+      .when(`I click button`, [`Create your user profile`])
+      .then(`I see section`, `[user-profile-form]:container`)
+      .when(`I clear all user profile form fields`)
+      .and(`System takes picture`, `empty-user-profile-form`)
+      .when(`I type in input`, userProfileFormSelectors.displayName, `a`)
+      .then(`I see disabled button`, [`Save user profile`])
+      .when(
         `I type in input`,
         userProfileFormSelectors.displayName,
         `apt_tom-riddle`,
       )
-      .Then(`I see not disabled button`, [`Save user profile`])
-      .When(`I type in input`, userProfileFormSelectors.bio, `s`.repeat(9))
-      .Then(`I see disabled button`, [`Save user profile`])
-      .When(`I type in input`, userProfileFormSelectors.bio, `  s   `.repeat(9))
-      .Then(`I see not disabled button`, [`Save user profile`])
-      .When(`I click button`, [`Save user profile`])
-      .Then(`I see user profile form is busy`)
-      .And(`I see section`, `[user-profile]:profile-ready`)
-      .Then(`System takes picture`, `profile-ready`)
-      .When(`I click button`, [`Open user profile settings`])
-      .Then(`I see section`, `[user-profile-form]:container`)
-      .And(`I see disabled button`, [`Save user profile`])
-      .When(
+      .then(`I see not disabled button`, [`Save user profile`])
+      .when(`I type in input`, userProfileFormSelectors.bio, `s`.repeat(9))
+      .then(`I see disabled button`, [`Save user profile`])
+      .when(`I type in input`, userProfileFormSelectors.bio, `  s   `.repeat(9))
+      .then(`I see not disabled button`, [`Save user profile`])
+      .when(`I click button`, [`Save user profile`])
+      .then(`I see user profile form is busy`)
+      .and(`I see section`, `[user-profile]:profile-ready`)
+      .then(`System takes picture`, `profile-ready`)
+      .when(`I click button`, [`Open user profile settings`])
+      .then(`I see section`, `[user-profile-form]:container`)
+      .and(`I see disabled button`, [`Save user profile`])
+      .when(
         `I type in input`,
         userProfileFormSelectors.githubUrl,
         `https://github.com/polubis`,
       )
-      .Then(`I see not disabled button`, [`Save user profile`])
-      .When(`I clear input`, [userProfileFormSelectors.githubUrl])
-      .And(
+      .then(`I see not disabled button`, [`Save user profile`])
+      .when(`I clear input`, [userProfileFormSelectors.githubUrl])
+      .and(
         `I type in input`,
         userProfileFormSelectors.githubUrl,
         `http:wrong-urlformat.de`,
       )
-      .Then(`I see disabled button`, [`Save user profile`])
-      .When(`I click button`, [`Back to user profile`])
-      .Then(`I see section`, `[user-profile]:profile-ready`)
-      .When(`I click button`, [`Close your account panel`])
-      .Then(`I not see section`, `[user-profile]:profile-ready`)
-      .And(`I clean up user profile form`)
-      .When(`I try to use other user display name`);
+      .then(`I see disabled button`, [`Save user profile`])
+      .when(`I click button`, [`Back to user profile`])
+      .then(`I see section`, `[user-profile]:profile-ready`)
+      .when(`I click button`, [`Close your account panel`])
+      .then(`I not see section`, `[user-profile]:profile-ready`)
+      .and(`I clean up user profile form`)
+      .when(`I try to use other user display name`);
   });
 });
