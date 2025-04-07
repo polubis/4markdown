@@ -19,7 +19,7 @@ describe(`Creator sync works when`, () => {
   it(`user see changes from local storage after page refresh`, () => {
     given(`System has accepted cookies`)
       .and(`Im on page`, `home`)
-      .and(`I see disabled button`, [`Sign in`])
+      .and(`I see not disabled button`, [`Sign in`])
       .and(`I set white theme`)
       .when(`I click button`, [`Navigation`])
       .then(`I see sidebar`)
