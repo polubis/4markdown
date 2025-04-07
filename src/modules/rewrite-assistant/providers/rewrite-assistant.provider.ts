@@ -104,15 +104,6 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
 const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
   ({ content, onClose, onApply }: RewriteAssistantProps) => {
     const [state, dispatch] = React.useReducer(reducer, initialState);
-    const skipped = React.useRef(false);
-
-    const skip = (): void => {
-      skipped.current = true;
-    };
-
-    const restoreSkip = (): void => {
-      skipped.current = false;
-    };
 
     const askAssistant = async (
       persona: RewriteAssistantPersona,
@@ -121,11 +112,6 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
         persona,
         input: content,
       });
-
-      if (skipped.current) {
-        restoreSkip();
-        return;
-      }
 
       if (response.is === `ok`) {
         dispatch({ type: `AS_OK`, payload: response.data.output });
@@ -137,30 +123,21 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
     const dispatchMiddleware = (action: RewriteAssistantAction): void => {
       switch (action.type) {
         case `ASK_AGAIN`: {
-          skip();
           askAssistant(action.payload);
           break;
         }
         case `STOP`: {
-          skip();
           break;
         }
         case `SELECT_PERSONA`: {
-          skip();
           askAssistant(action.payload);
           break;
         }
-        case `RESET`: {
-          skip();
-          break;
-        }
         case `CLOSE`: {
-          skip();
           onClose();
           break;
         }
         case `APPLY`: {
-          skip();
           onApply(action.payload);
           break;
         }
@@ -168,13 +145,6 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
 
       dispatch(action);
     };
-
-    React.useEffect(() => {
-      return () => {
-        skip();
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     return {
       state,
