@@ -6,8 +6,9 @@ import {
   type RewriteAssistantProps,
 } from '../models';
 import { suid } from 'development-kit/suid';
-import { parseError } from 'api-4markdown';
 import React, { type Reducer } from 'react';
+import { type RewriteAssistantPersona } from 'api-4markdown-contracts';
+import { rewriteWithAssistantAct } from 'acts/rewrite-with-assistant.act';
 
 const initialState: RewriteAssistantState = {
   operation: { is: `idle` },
@@ -103,58 +104,63 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
 const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
   ({ content, onClose, onApply }: RewriteAssistantProps) => {
     const [state, dispatch] = React.useReducer(reducer, initialState);
-    const abortControllerRef = React.useRef<AbortController | null>(null);
-    const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+    const skipped = React.useRef(false);
 
-    const skipCurrentRequest = (): void => {
-      abortControllerRef.current?.abort();
-      timeoutRef.current && clearTimeout(timeoutRef.current);
+    const skip = (): void => {
+      skipped.current = true;
     };
 
-    const askAssistant = async (): Promise<void> => {
-      try {
-        abortControllerRef.current = new AbortController();
+    const restoreSkip = (): void => {
+      skipped.current = false;
+    };
 
-        const response = await fetch(`/intro.md`, {
-          signal: abortControllerRef.current?.signal,
-        });
-        const responseContent = await response.text();
+    const askAssistant = async (
+      persona: RewriteAssistantPersona,
+    ): Promise<void> => {
+      const response = await rewriteWithAssistantAct({
+        persona,
+        input: content,
+      });
 
-        dispatch({ type: `AS_OK`, payload: responseContent.slice(0, 100) });
-      } catch (error) {
-        if (error instanceof Error && error.name !== `AbortError`) {
-          dispatch({ type: `AS_FAIL`, payload: parseError(error) });
-        }
+      if (skipped.current) {
+        restoreSkip();
+        return;
+      }
+
+      if (response.is === `ok`) {
+        dispatch({ type: `AS_OK`, payload: response.data.output });
+      } else {
+        dispatch({ type: `AS_FAIL`, payload: response.error });
       }
     };
 
     const dispatchMiddleware = (action: RewriteAssistantAction): void => {
       switch (action.type) {
         case `ASK_AGAIN`: {
-          skipCurrentRequest();
-          askAssistant();
+          skip();
+          askAssistant(action.payload);
           break;
         }
         case `STOP`: {
-          skipCurrentRequest();
+          skip();
           break;
         }
         case `SELECT_PERSONA`: {
-          skipCurrentRequest();
-          askAssistant();
+          skip();
+          askAssistant(action.payload);
           break;
         }
         case `RESET`: {
-          skipCurrentRequest();
+          skip();
           break;
         }
         case `CLOSE`: {
-          skipCurrentRequest();
+          skip();
           onClose();
           break;
         }
         case `APPLY`: {
-          skipCurrentRequest();
+          skip();
           onApply(action.payload);
           break;
         }
@@ -165,8 +171,9 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
 
     React.useEffect(() => {
       return () => {
-        skipCurrentRequest();
+        skip();
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return {
