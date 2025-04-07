@@ -4,7 +4,7 @@ import type {
   UserProfileDto,
 } from 'api-4markdown-contracts';
 import { BASE_COMMANDS } from '../utils/commands';
-import { Gherkin } from '../utils/gherkin';
+import { gherkin } from '../utils/gherkin';
 
 const now = new Date();
 
@@ -52,7 +52,7 @@ const getUserProfileResponse: { result: UserProfileDto } = {
 };
 
 describe(`Docs display works when`, () => {
-  const { Given } = Gherkin({
+  const given = gherkin({
     ...BASE_COMMANDS,
     'I preview document': (title: string) => {
       cy.get(`strong`).contains(title).click();
@@ -60,55 +60,55 @@ describe(`Docs display works when`, () => {
     'I see document preview correctly displayed': () => {
       cy.get(`.prose > h1, .prose > h2`).each((h) => {
         cy.contains(h.text()).scrollIntoView();
-        Given(`System takes picture`, `document-preview-heading-${h.text()}`);
+        given(`System takes picture`, `document-preview-heading-${h.text()}`);
       });
     },
   });
 
   it(`documents are grouped by dates`, () => {
-    Given(`System mocks api`, {
+    given(`System mocks api`, {
       endpoint: `getYourDocuments`,
       code: 200,
       response: getDocsResponse,
     })
-      .And(`System mocks api`, {
+      .and(`System mocks api`, {
         endpoint: `getAccessibleDocument`,
         code: 200,
         response: getPublicDocResponse,
       })
-      .And(`System mocks api`, {
+      .and(`System mocks api`, {
         endpoint: `getYourUserProfile`,
         code: 200,
         response: getUserProfileResponse,
       })
-      .And(`System has accepted cookies`)
-      .And(`Im on page`, `home`)
-      .And(`I log in`)
-      .And(`I set white theme`)
-      .And(`System mocks api`, {
+      .and(`System has accepted cookies`)
+      .and(`Im on page`, `home`)
+      .and(`I log in`)
+      .and(`I set white theme`)
+      .and(`System mocks api`, {
         endpoint: `getYourDocuments`,
         code: 200,
         response: getDocsResponse,
       })
-      .And(`System mocks api`, {
+      .and(`System mocks api`, {
         endpoint: `getAccessibleDocument`,
         code: 200,
         response: getPublicDocResponse,
       })
-      .And(`System mocks api`, {
+      .and(`System mocks api`, {
         endpoint: `getYourUserProfile`,
         code: 200,
         response: getUserProfileResponse,
       })
-      .And(`I see not disabled button`, [`Your documents`])
-      .When(`I click button`, [`Your documents`])
-      .Then(`I see text`, [getPublicDocResponse.result.name])
-      .When(`I preview document`, getPublicDocResponse.result.name)
-      .Then(`I see disabled button`, [`Save changes`])
-      .And(`I wait`, 1000)
-      .And(`System takes picture`, `document-in-creator`)
-      .When(`I click button`, [`More document options`, `Document preview`])
-      .Then(`I not see button`, [`Your documents`])
-      .And(`I see document preview correctly displayed`);
+      .and(`I see not disabled button`, [`Your documents`])
+      .when(`I click button`, [`Your documents`])
+      .then(`I see text`, [getPublicDocResponse.result.name])
+      .when(`I preview document`, getPublicDocResponse.result.name)
+      .then(`I see disabled button`, [`Save changes`])
+      .and(`I wait`, 1000)
+      .and(`System takes picture`, `document-in-creator`)
+      .when(`I click button`, [`More document options`, `Document preview`])
+      .then(`I not see button`, [`Your documents`])
+      .and(`I see document preview correctly displayed`);
   });
 });
