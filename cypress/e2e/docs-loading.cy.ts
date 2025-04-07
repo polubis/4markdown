@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 import type { DocumentDto } from 'api-4markdown-contracts';
 import { BASE_COMMANDS } from '../utils/commands';
-import { Gherkin } from '../utils/gherkin';
+import { gherkin } from '../utils/gherkin';
 import { subDays } from 'date-fns';
 
 const now = new Date();
@@ -101,33 +101,33 @@ const getDocsResponse: { result: DocumentDto[] } = {
 };
 
 describe(`Documents loading works when`, () => {
-  const { Given } = Gherkin(BASE_COMMANDS);
+  const given = gherkin(BASE_COMMANDS);
 
   it(`documents are grouped by dates`, () => {
-    Given(`System mocks api`, {
+    given(`System mocks api`, {
       endpoint: `getYourDocuments`,
       code: 200,
       response: getDocsResponse,
     })
-      .And(`System has accepted cookies`)
-      .And(`Im on page`, `home`)
-      .And(`I log in`)
-      .And(`I set white theme`)
-      .Then(`I see not disabled button`, [`Your documents`])
-      .When(`I click button`, [`Your documents`])
-      .Then(`I see text`, [`Mediator pattern in TypeScript`])
-      .And(`I wait`, 1500)
-      .And(`System takes picture`, `recent-documents`)
-      .When(`I click button`, [`Old documents`])
-      .Then(`I wait`, 500)
-      .And(`System takes picture`, `old-documents`)
-      .When(`I click button`, [`Really Old documents`])
-      .Then(`I wait`, 500)
-      .And(`System takes picture`, `really-old-documents`)
-      .When(`I click button`, [`Sync documents`])
-      .Then(`I see text`, [`Just a second`])
-      .And(`System takes picture`, `loader`)
-      .Then(`I see button`, [`Really Old documents`])
-      .And(`System takes picture`, `really-old-documents-after-sync`);
+      .and(`System has accepted cookies`)
+      .and(`Im on page`, `home`)
+      .and(`I log in`)
+      .and(`I set white theme`)
+      .then(`I see not disabled button`, [`Your documents`])
+      .when(`I click button`, [`Your documents`])
+      .then(`I see text`, [`Mediator pattern in TypeScript`])
+      .and(`I wait`, 1500)
+      .and(`System takes picture`, `recent-documents`)
+      .when(`I click button`, [`Old documents`])
+      .then(`I wait`, 500)
+      .and(`System takes picture`, `old-documents`)
+      .when(`I click button`, [`Really Old documents`])
+      .then(`I wait`, 500)
+      .and(`System takes picture`, `really-old-documents`)
+      .when(`I click button`, [`Sync documents`])
+      .then(`I see text`, [`Just a second`])
+      .and(`System takes picture`, `loader`)
+      .then(`I see button`, [`Really Old documents`])
+      .and(`System takes picture`, `really-old-documents-after-sync`);
   });
 });
