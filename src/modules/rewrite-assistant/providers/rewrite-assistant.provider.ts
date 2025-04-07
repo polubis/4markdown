@@ -9,6 +9,7 @@ import { suid } from 'development-kit/suid';
 import React, { type Reducer } from 'react';
 import { type RewriteAssistantPersona } from 'api-4markdown-contracts';
 import { rewriteWithAssistantAct } from 'acts/rewrite-with-assistant.act';
+import { from, Subject, switchMap, takeUntil } from 'rxjs';
 
 const initialState: RewriteAssistantState = {
   operation: { is: `idle` },
@@ -105,35 +106,36 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
   ({ content, onClose, onApply }: RewriteAssistantProps) => {
     const [state, dispatch] = React.useReducer(reducer, initialState);
 
-    const askAssistant = async (
-      persona: RewriteAssistantPersona,
-    ): Promise<void> => {
-      const response = await rewriteWithAssistantAct({
-        persona,
-        input: content,
-      });
-
-      if (response.is === `ok`) {
-        dispatch({ type: `AS_OK`, payload: response.data.output });
-      } else {
-        dispatch({ type: `AS_FAIL`, payload: response.error });
-      }
-    };
+    const [askSubject] = React.useState(
+      () =>
+        new Subject<{
+          persona: RewriteAssistantPersona;
+          content: RewriteAssistantProps['content'];
+        }>(),
+    );
+    const [cancelSubject] = React.useState(() => new Subject<void>());
 
     const dispatchMiddleware = (action: RewriteAssistantAction): void => {
       switch (action.type) {
         case `ASK_AGAIN`: {
-          askAssistant(action.payload);
+          cancelSubject.next();
+          askSubject.next({ persona: action.payload, content });
           break;
         }
         case `STOP`: {
+          cancelSubject.next();
           break;
         }
         case `SELECT_PERSONA`: {
-          askAssistant(action.payload);
+          askSubject.next({ persona: action.payload, content });
+          break;
+        }
+        case `RESET`: {
+          cancelSubject.next();
           break;
         }
         case `CLOSE`: {
+          cancelSubject.next();
           onClose();
           break;
         }
@@ -145,6 +147,36 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
 
       dispatch(action);
     };
+
+    React.useEffect(() => {
+      const askSubscription = askSubject
+        .pipe(
+          switchMap(({ persona, content }) =>
+            from(
+              rewriteWithAssistantAct({
+                persona,
+                input: content,
+              }),
+            ).pipe(takeUntil(cancelSubject)),
+          ),
+        )
+        .subscribe({
+          next: (response) => {
+            if (response.is === `ok`) {
+              dispatch({ type: `AS_OK`, payload: response.data.output });
+            } else {
+              dispatch({ type: `AS_FAIL`, payload: response.error });
+            }
+          },
+        });
+
+      return () => {
+        askSubscription.unsubscribe();
+        askSubject.complete();
+        cancelSubject.complete();
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return {
       state,
