@@ -6,8 +6,10 @@ import {
   type RewriteAssistantProps,
 } from '../models';
 import { suid } from 'development-kit/suid';
-import { parseError } from 'api-4markdown';
 import React, { type Reducer } from 'react';
+import { type RewriteAssistantPersona } from 'api-4markdown-contracts';
+import { rewriteWithAssistantAct } from 'acts/rewrite-with-assistant.act';
+import { from, Subject, switchMap, takeUntil } from 'rxjs';
 
 const initialState: RewriteAssistantState = {
   operation: { is: `idle` },
@@ -64,7 +66,7 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
           {
             id: suid(),
             type: `user-input`,
-            content: `Give me other variant of the fragment. Be ${REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS[action.payload]}`,
+            content: `I don't like it. Give me another variant`,
           },
         ],
         operation: { is: `busy` },
@@ -103,58 +105,41 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
 const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
   ({ content, onClose, onApply }: RewriteAssistantProps) => {
     const [state, dispatch] = React.useReducer(reducer, initialState);
-    const abortControllerRef = React.useRef<AbortController | null>(null);
-    const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-    const skipCurrentRequest = (): void => {
-      abortControllerRef.current?.abort();
-      timeoutRef.current && clearTimeout(timeoutRef.current);
-    };
-
-    const askAssistant = async (): Promise<void> => {
-      try {
-        abortControllerRef.current = new AbortController();
-
-        const response = await fetch(`/intro.md`, {
-          signal: abortControllerRef.current?.signal,
-        });
-        const responseContent = await response.text();
-
-        dispatch({ type: `AS_OK`, payload: responseContent.slice(0, 100) });
-      } catch (error) {
-        if (error instanceof Error && error.name !== `AbortError`) {
-          dispatch({ type: `AS_FAIL`, payload: parseError(error) });
-        }
-      }
-    };
+    const [askSubject] = React.useState(
+      () =>
+        new Subject<{
+          persona: RewriteAssistantPersona;
+          content: RewriteAssistantProps['content'];
+        }>(),
+    );
+    const [cancelSubject] = React.useState(() => new Subject<void>());
 
     const dispatchMiddleware = (action: RewriteAssistantAction): void => {
       switch (action.type) {
         case `ASK_AGAIN`: {
-          skipCurrentRequest();
-          askAssistant();
+          cancelSubject.next();
+          askSubject.next({ persona: action.payload, content });
           break;
         }
         case `STOP`: {
-          skipCurrentRequest();
+          cancelSubject.next();
           break;
         }
         case `SELECT_PERSONA`: {
-          skipCurrentRequest();
-          askAssistant();
+          askSubject.next({ persona: action.payload, content });
           break;
         }
         case `RESET`: {
-          skipCurrentRequest();
+          cancelSubject.next();
           break;
         }
         case `CLOSE`: {
-          skipCurrentRequest();
+          cancelSubject.next();
           onClose();
           break;
         }
         case `APPLY`: {
-          skipCurrentRequest();
           onApply(action.payload);
           break;
         }
@@ -164,9 +149,33 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
     };
 
     React.useEffect(() => {
+      const askSubscription = askSubject
+        .pipe(
+          switchMap(({ persona, content }) =>
+            from(
+              rewriteWithAssistantAct({
+                persona,
+                input: content,
+              }),
+            ).pipe(takeUntil(cancelSubject)),
+          ),
+        )
+        .subscribe({
+          next: (response) => {
+            if (response.is === `ok`) {
+              dispatch({ type: `AS_OK`, payload: response.data.output });
+            } else {
+              dispatch({ type: `AS_FAIL`, payload: response.error });
+            }
+          },
+        });
+
       return () => {
-        skipCurrentRequest();
+        askSubscription.unsubscribe();
+        askSubject.complete();
+        cancelSubject.complete();
       };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return {

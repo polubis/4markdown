@@ -46,9 +46,9 @@ type RewriteAssistantProps = {
 };
 
 const REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS = {
-  jelly: `casual, straight to the point`,
-  kate: `technical, detailed, rich`,
-  josh: `edgy, sarcastic, funny`,
+  grammy: `improves grammar and style`,
+  cleany: `simplifies the content`,
+  teacher: `explains the content`,
 } satisfies Record<RewriteAssistantPersona, string>;
 
 export { REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS };
