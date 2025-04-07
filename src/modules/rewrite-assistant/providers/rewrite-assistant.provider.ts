@@ -65,7 +65,7 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
           {
             id: suid(),
             type: `user-input`,
-            content: `Give me other variant of the fragment. Be ${REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS[action.payload]}`,
+            content: `I don't like it. Give me another variant`,
           },
         ],
         operation: { is: `busy` },

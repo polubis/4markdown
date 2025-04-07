@@ -1,4 +1,4 @@
-const REWRITE_ASSISTANT_PERSONAS = [`grammy`, `cleany`, `teacher`] as const;
+const REWRITE_ASSISTANT_PERSONAS = [`cleany`, `grammy`, `teacher`] as const;
 
 type RewriteAssistantPersona = (typeof REWRITE_ASSISTANT_PERSONAS)[number];
 
