@@ -10,6 +10,7 @@ import type {
   DocumentRatingDto,
   MindmapDto,
   FullMindmapDto,
+  RewriteAssistantPersona,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -17,6 +18,15 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   dto: TDto;
   payload: TPayload;
 };
+
+type RewriteWithAssistantContract = Contract<
+  `rewriteWithAssistant`,
+  { output: string },
+  {
+    input: string;
+    persona: RewriteAssistantPersona;
+  }
+>;
 
 type ReportBugContract = Contract<
   `reportBug`,
@@ -207,7 +217,8 @@ type API4MarkdownContracts =
   | UpdateMindmapContract
   | GetAccessibleMindmapContract
   | ReportBugContract
-  | GetPermanentMindmapsContract;
+  | GetPermanentMindmapsContract
+  | RewriteWithAssistantContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
