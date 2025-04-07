@@ -1,8 +1,8 @@
 import { BASE_COMMANDS } from '../utils/commands';
-import { Gherkin } from '../utils/gherkin';
+import { gherkin } from '../utils/gherkin';
 
 describe(`Log in and out works when`, () => {
-  const { Given } = Gherkin({
+  const given = gherkin({
     ...BASE_COMMANDS,
     'I log out': () => {
       BASE_COMMANDS[`I click button`]([`User details and options`]);
@@ -20,9 +20,9 @@ describe(`Log in and out works when`, () => {
   });
 
   it(`user may log in and log out`, () => {
-    Given(`System has accepted cookies`)
-      .And(`Im on page`, `home`)
-      .When(`I log in`)
-      .And(`I log out`);
+    given(`System has accepted cookies`)
+      .and(`Im on page`, `home`)
+      .when(`I log in`)
+      .and(`I log out`);
   });
 });

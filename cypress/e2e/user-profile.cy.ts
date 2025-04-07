@@ -1,5 +1,5 @@
 import { BASE_COMMANDS } from '../utils/commands';
-import { Gherkin } from '../utils/gherkin';
+import { gherkin } from '../utils/gherkin';
 
 describe(`User profile works when`, () => {
   const displayNameInput = `Examples: tom1994, work_work, pro-grammer, ...etc`;
@@ -20,47 +20,47 @@ describe(`User profile works when`, () => {
     twitterUrl: `https://twitter.com/home?lang=en`,
   } as const;
 
-  const { Given } = Gherkin({
+  const given = gherkin({
     ...BASE_COMMANDS,
     'I see no profile section': () => {
-      Given(`I see text`, [
+      given(`I see text`, [
         `Your Account`,
         `Make Yourself visible`,
         `You have not created a profile yet. A profile is like a business card that allows others to recognize the documents you have created.`,
         `Profile cards may be changed or removed any time.`,
-      ]).And(`I see not disabled button`, [`Create your user profile`]);
+      ]).and(`I see not disabled button`, [`Create your user profile`]);
     },
     'I create full profile': () => {
-      Given(`I see text`, [`Your Profile Edition`])
-        .When(`I type in input`, displayNameInput, profileData.displayName)
-        .And(`I type in input`, githubInput, profileData.githubUrl)
-        .And(`I type in input`, bioInput, profileData.bio)
-        .And(`I type in input`, fbInput, profileData.fbUrl)
-        .And(`I type in input`, twitterInput, profileData.twitterUrl)
-        .And(`I type in input`, blogInput, profileData.blogUrl)
-        .And(`I type in input`, linkedInInput, profileData.linkedInUrl)
-        .Then(`System takes picture`, `full-user-profile-form`)
-        .When(`I click button`, [`Save user profile`])
-        .Then(`I see disabled button`, [`Save user profile`]);
+      given(`I see text`, [`Your Profile Edition`])
+        .when(`I type in input`, displayNameInput, profileData.displayName)
+        .and(`I type in input`, githubInput, profileData.githubUrl)
+        .and(`I type in input`, bioInput, profileData.bio)
+        .and(`I type in input`, fbInput, profileData.fbUrl)
+        .and(`I type in input`, twitterInput, profileData.twitterUrl)
+        .and(`I type in input`, blogInput, profileData.blogUrl)
+        .and(`I type in input`, linkedInInput, profileData.linkedInUrl)
+        .then(`System takes picture`, `full-user-profile-form`)
+        .when(`I click button`, [`Save user profile`])
+        .then(`I see disabled button`, [`Save user profile`]);
     },
     'I see profile card': () => {
-      Given(`I see text`, [
+      given(`I see text`, [
         `Your Account`,
         profileData.displayName,
         profileData.bio,
       ]);
     },
     'I create partial profile': () => {
-      Given(`I see text`, [`Your Profile Edition`])
-        .When(`I type in input`, displayNameInput, profileData.displayName)
-        .And(`I type in input`, githubInput, profileData.githubUrl)
-        .Then(`System takes picture`, `filled-user-profile-form`)
-        .When(`I click button`, [`Save user profile`])
-        .Then(`I see disabled button`, [`Save user profile`]);
+      given(`I see text`, [`Your Profile Edition`])
+        .when(`I type in input`, displayNameInput, profileData.displayName)
+        .and(`I type in input`, githubInput, profileData.githubUrl)
+        .then(`System takes picture`, `filled-user-profile-form`)
+        .when(`I click button`, [`Save user profile`])
+        .then(`I see disabled button`, [`Save user profile`]);
     },
     'I clear profile': () => {
-      Given(`I see text`, [`Your Profile Edition`])
-        .When(`I clear input`, [
+      given(`I see text`, [`Your Profile Edition`])
+        .when(`I clear input`, [
           displayNameInput,
           bioInput,
           githubInput,
@@ -69,19 +69,19 @@ describe(`User profile works when`, () => {
           blogInput,
           linkedInInput,
         ])
-        .Then(`System takes picture`, `cleaned-user-profile-form`)
-        .When(`I click button`, [`Save user profile`])
-        .Then(`I see disabled button`, [`Save user profile`]);
+        .then(`System takes picture`, `cleaned-user-profile-form`)
+        .when(`I click button`, [`Save user profile`])
+        .then(`I see disabled button`, [`Save user profile`]);
     },
   });
 
   it(`user may edit his profile`, () => {
-    Given(`System has accepted cookies`)
-      .And(`Im on page`, `home`)
-      .And(`I log in`)
-      .And(`I set white theme`)
-      .When(`I click button`, [`User details and options`])
-      .Then(`I see not disabled button`, [
+    given(`System has accepted cookies`)
+      .and(`Im on page`, `home`)
+      .and(`I log in`)
+      .and(`I set white theme`)
+      .when(`I click button`, [`User details and options`])
+      .then(`I see not disabled button`, [
         `User details and options`,
         `Your documents`,
         `Open user profile settings`,
@@ -89,26 +89,26 @@ describe(`User profile works when`, () => {
         `Close your account panel`,
         `Sign out`,
       ])
-      .And(`I see no profile section`)
-      .When(`I click button`, [`Create your user profile`])
-      .And(`I create partial profile`)
-      .Then(`I see no profile section`)
-      .When(`I click button`, [`Create your user profile`])
-      .And(`I clear profile`)
-      .Then(`I see no profile section`)
-      .When(`I click button`, [`Create your user profile`])
-      .And(`I create full profile`)
-      .Then(`I see profile card`)
-      .And(`I see elements`, [
+      .and(`I see no profile section`)
+      .when(`I click button`, [`Create your user profile`])
+      .and(`I create partial profile`)
+      .then(`I see no profile section`)
+      .when(`I click button`, [`Create your user profile`])
+      .and(`I clear profile`)
+      .then(`I see no profile section`)
+      .when(`I click button`, [`Create your user profile`])
+      .and(`I create full profile`)
+      .then(`I see profile card`)
+      .and(`I see elements`, [
         `Your Blog link`,
         `Your Facebook link`,
         `Your Github link`,
         `Your LinkedIn link`,
         `Your Twitter link`,
       ])
-      .When(`I click button`, [`Open user profile settings`])
-      .And(`I clear profile`)
-      .Then(`I see no profile section`)
-      .And(`System takes picture`, `no-profile-section`);
+      .when(`I click button`, [`Open user profile settings`])
+      .and(`I clear profile`)
+      .then(`I see no profile section`)
+      .and(`System takes picture`, `no-profile-section`);
   });
 });
