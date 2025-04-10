@@ -27,6 +27,7 @@ type UserProfileDto = {
   twitterUrl: string | null;
   fbUrl: string | null;
   blogUrl: string | null;
+  isTrusted: boolean | null;
 };
 
 export type { UserProfileDto };
