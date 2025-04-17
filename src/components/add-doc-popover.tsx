@@ -11,9 +11,9 @@ import { logIn } from 'actions/log-in.action';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
-const CreateDocumentModal = React.lazy(() =>
-  import(`./create-document-modal`).then((m) => ({
-    default: m.CreateDocumentModal,
+const CreateDocumentModalContainer = React.lazy(() =>
+  import(`../containers/create-document-modal.container`).then((m) => ({
+    default: m.CreateDocumentModalContainer,
   })),
 );
 
@@ -57,7 +57,7 @@ const AddDocPopover = () => {
       </Button>
       {menu.isOn && (
         <React.Suspense>
-          <CreateDocumentModal onClose={menu.off} />
+          <CreateDocumentModalContainer onClose={menu.off} />
         </React.Suspense>
       )}
     </>
