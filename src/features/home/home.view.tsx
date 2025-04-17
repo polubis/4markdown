@@ -57,7 +57,6 @@ const AnimatedCompanyLogo = ({
         setScale(pulseVal);
       }
 
-      // Less frequent zap effect
       if (zapEffect && currentTime - lastZapTime > 3000) {
         // Only trigger every 3 seconds
         if (Math.random() < 0.3) {
@@ -260,59 +259,6 @@ const HomeView = () => {
         </Link>
       </AppNavigation>
 
-      <div className="bg-white dark:bg-gray-950 p-6 flex items-center justify-center">
-        <div className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md">
-          <h3 className="text-center mb-4 text-lg font-medium dark:text-white">
-            Animated Logo Test
-          </h3>
-          <div className="flex gap-6 items-center justify-center">
-            <div>
-              <AnimatedCompanyLogo
-                size={64}
-                animationSpeed={1}
-                rotationSpeed={0.01}
-                pulseIntensity={1.37}
-                zapEffect={true}
-                morphIntensity={0.8}
-              />
-              <p className="text-xs text-center mt-2 dark:text-gray-300">
-                Default settings
-              </p>
-            </div>
-            <div>
-              <AnimatedCompanyLogo
-                size={64}
-                animationSpeed={1.5}
-                rotationSpeed={0.02}
-                pulseIntensity={2}
-                zapEffect={false}
-                morphIntensity={1.2}
-              />
-              <p className="text-xs text-center mt-2 dark:text-gray-300">
-                Fast rotation
-              </p>
-            </div>
-            <div>
-              <AnimatedCompanyLogo
-                size={64}
-                animationSpeed={0.7}
-                rotationSpeed={0}
-                pulseIntensity={2.5}
-                zapEffect={true}
-                morphIntensity={0.3}
-              />
-              <p className="text-xs text-center mt-2 dark:text-gray-300">
-                Pulse only
-              </p>
-            </div>
-          </div>
-          <div className="text-center text-xs mt-6 text-gray-500 dark:text-gray-400">
-            Based on brain settings: Base Rotation={0.0092}, Zap Frequency=10,
-            Zap Intensity=1.37, Zap Duration=2s, Morph Intensity=0.8
-          </div>
-        </div>
-      </div>
-      {/* Hero Section */}
       <section className="py-16 px-4 md:py-24 bg-white dark:bg-gray-950">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 dark:text-white">
@@ -330,36 +276,8 @@ const HomeView = () => {
             Start Writing for Free
           </Link>
         </div>
-        <div className="mt-16 max-w-4xl mx-auto">
-          <div className="bg-gray-200 dark:bg-gray-800 rounded-lg w-full h-[450px] flex items-center justify-center overflow-hidden relative">
-            <video
-              className="w-full h-full object-cover"
-              autoPlay
-              muted
-              loop
-              playsInline
-            >
-              <source
-                src="https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                type="video/mp4"
-              />
-              Your browser does not support the video tag.
-            </video>
-            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-              <div className="bg-white/90 dark:bg-black/80 p-4 rounded-lg text-center max-w-md">
-                <h3 className="text-xl font-bold mb-2 dark:text-white">
-                  See 4Markdown in Action
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  Discover how our editor, mindmap, and AI tools work together
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
-      {/* How It Works Section */}
       <section className="py-16 px-4 bg-white dark:bg-gray-950 border-t border-zinc-300 dark:border-zinc-800">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center dark:text-white">
