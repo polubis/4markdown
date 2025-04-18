@@ -1,6 +1,6 @@
 import React, { type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
-import { BiPlusCircle } from 'react-icons/bi';
+import { BiInfoCircle, BiPlusCircle } from 'react-icons/bi';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { Input } from 'design-system/input';
 import { useForm } from 'development-kit/use-form';
@@ -158,20 +158,7 @@ This difference is critical because true productivity comes from self-awareness 
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-3">
-        <Field
-          label="Name*"
-          hint={
-            <Hint
-              trigger={
-                <>
-                  Document will be created in <strong>private</strong> mode.
-                  Visible only to you, but <strong>not encrypted</strong> -
-                  avoid sensitive data
-                </>
-              }
-            />
-          }
-        >
+        <Field label="Name*">
           <Input placeholder={`My Notes, Basics of Math`} {...inject(`name`)} />
         </Field>
         <Field label="Description*">
@@ -210,7 +197,13 @@ This difference is critical because true productivity comes from self-awareness 
             {...inject(`sample`)}
           />
         </Field>
-        <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
+        <div className="flex items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+          <BiInfoCircle size={20} className="shrink-0" />
+          <p>
+            Generation will take <strong>5 tokens</strong>
+          </p>
+        </div>
+        <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
           <Button
             s={2}
             i={1}

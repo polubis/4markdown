@@ -37,7 +37,7 @@ const ConversationListItemContainer = ({
       )}
     >
       <div className="relative flex items-center py-2 gap-1 px-3">
-        <h6 className="truncate w-full text-lg">{conversation.payload.name}</h6>
+        <h6 className="truncate mr-1">{conversation.payload.name}</h6>
         <Button
           i={1}
           s={1}
@@ -65,11 +65,10 @@ const ConversationListItemContainer = ({
         </Button>
         {closeOperation.isOn && (
           <div className="flex py-2 px-3 gap-1 items-center animate-fade-in absolute top-0 left-0 w-full h-full dark:bg-black bg-white">
-            <h6 className="w-full text-lg">
-              Are you sure? Conversation will be lost
-            </h6>
+            <h6 className="mr-1 truncate">Are you sure?</h6>
             <Button
               i={1}
+              className="ml-auto"
               s={1}
               title="Confirm conversation close"
               onClick={closeOperation.confirm}
@@ -172,7 +171,7 @@ const DocumentGenerationsContainer = () => {
   }, []);
 
   return render(
-    <div className="fixed bottom-4 md:max-w-md w-[calc(100%-32px)] right-4">
+    <div className="fixed md:max-w-[360px] w-[calc(100%-16px)] md:w-full right-2 top-2 md:bottom-2 md:top-auto">
       <ol className="flex flex-col gap-2">
         {conversations.map((conversation) => (
           <ConversationListItemContainer
