@@ -1,4 +1,8 @@
-import type { API4MarkdownPayload, ParsedError } from 'api-4markdown-contracts';
+import type {
+  API4MarkdownDto,
+  API4MarkdownPayload,
+  ParsedError,
+} from 'api-4markdown-contracts';
 import type { SUID } from 'development-kit/suid';
 import type { Prettify } from 'development-kit/utility-types';
 
@@ -6,10 +10,13 @@ type History = ({ id: SUID } & (
   | {
       type: `user-started`;
       message: string;
-      payload: API4MarkdownPayload<'createContentWithAI'>;
     }
-  | { type: `user`; message: string }
-  | { type: `assistant`; message: string }
+  | { type: `user-asked`; message: string }
+  | {
+      type: `assistant-reply`;
+      message: string;
+      body: API4MarkdownDto<'createContentWithAI'>;
+    }
 ))[];
 
 type Conversation = Prettify<{

@@ -72,6 +72,7 @@ const ManualFormContainer = () => {
           type="button"
           title="Back to document type selection"
           auto
+          disabled={docManagementStore.is === `busy`}
           onClick={() => setActiveType(`none`)}
         >
           Back
