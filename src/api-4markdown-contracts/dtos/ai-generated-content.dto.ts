@@ -1,7 +1,5 @@
 type AIGeneratedContentDto = {
-  name: string;
-  description: string;
-  content: string;
+  output: string;
 };
 
 export type { AIGeneratedContentDto };

@@ -11,6 +11,7 @@ import { Modal } from 'design-system/modal';
 import { context } from '@greenonsoftware/react-kit';
 import { createDocumentAct } from 'acts/create-document.act';
 import { Textarea } from 'design-system/textarea';
+import { startConversationAction } from 'store/document-generation/actions';
 
 type CreateDocumentModalContainerProps = {
   onClose(): void;
@@ -93,10 +94,9 @@ const ManualFormContainer = () => {
 
 type FormValues = Pick<
   API4MarkdownPayload<'createContentWithAI'>,
-  'name' | 'description' | 'role' | 'sample'
+  'name' | 'description' | 'profession' | 'sample' | 'structure'
 > & {
   style: string;
-  structure: string;
 };
 
 const AIFormContainer = () => {
@@ -105,20 +105,44 @@ const AIFormContainer = () => {
   const docManagementStore = useDocManagementStore();
 
   const [{ invalid, values, untouched }, { inject }] = useForm<FormValues>({
-    name: ``,
-    description: ``,
-    style: ``,
-    structure: ``,
-    sample: ``,
-    role: ``,
+    name: `How to be productive as a software engineer`,
+    description: `Complete guide to mastering productivity and quality in your daily work: Eisenhower Matrix and Awakened Day technique with a Feedback Loop`,
+    style: `soft, edgy, smart`,
+    structure: `# How To Be Productive As A Software Engineer
+## Just Follow The Damn Yourself, CJ
+## The Awakened Day Method
+## Difference Between Strategic And Tactical Goals
+## Don't Begin Until You Are Ready To Finish
+## Mastering Eisenhower Matrix
+## Neverending Fight With Context Switching
+## Apps And Tools
+## Struggling Against Distractions
+## Learning With Passion
+## Using All That We've Learned
+## My Achievements In 2024
+## Summary`,
+    sample: `> The techniques I'm proposing here are my personal ones, based on consultations with professional therapists. You can try them, but I'm 100% sure they won't automatically fit your personal case. However, it's always good to broaden your horizons, and I recommend using others' experiences as inspiration to invent something tailored to your needs.  
+
+# How To Be **Productive** As A **Software Engineer**  
+
+I asked AI about types of people related to their work style, and this is what I got back:  
+
+1. Ticket monkeys.  
+2. Those who reflect on every piece of work they do.  
+
+This difference is critical because true productivity comes from self-awareness (by understanding your work style). By analyzing how you work daily, you step outside your comfort zone and confront your current "self" with reality.`,
+    profession: `Psychologist`,
   });
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    if ((await createDocumentAct(values)).is === `ok`) {
-      onClose();
-    }
+    startConversationAction({
+      ...values,
+      style: values.style.split(`,`),
+    });
+
+    onClose();
   };
 
   const splittedStyle = React.useMemo(
@@ -155,10 +179,10 @@ const AIFormContainer = () => {
             {...inject(`description`)}
           />
         </Field>
-        <Field label="Role*">
+        <Field label="Profession*">
           <Input
             placeholder="Developer if writing about programming and so on"
-            {...inject(`role`)}
+            {...inject(`profession`)}
           />
         </Field>
         <Field
@@ -170,9 +194,7 @@ const AIFormContainer = () => {
           label="Structure*"
           hint={
             <Hint
-              trigger={
-                <>Each new line is a topic, use # symbols to create hierarchy</>
-              }
+              trigger={<>Use &quot;#&quot; symbols to create hierarchy</>}
             />
           }
         >

@@ -38,6 +38,7 @@ import {
   getSelectedText,
   replaceText,
 } from 'development-kit/textarea-utils';
+import { DocumentGenerationsContainer } from 'containers/document-generations.container';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -193,6 +194,7 @@ const CreatorView = () => {
           <CheatSheetModal onClose={cheatsheetModal.off} />
         </React.Suspense>
       )}
+      <DocumentGenerationsContainer />
       <main className="md:mt-[122px] md:mb-0 mb-[122px]">
         <Markdown className="markdown mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
           {code}

@@ -26,12 +26,9 @@ type CreateContentWithAIContract = Contract<
   {
     name: string;
     description: string;
-    role: string;
+    profession: string;
     style: string[];
-    structure: {
-      level: '2' | '3' | '4' | '5' | '6';
-      name: string;
-    }[];
+    structure: string;
     sample: string;
   }
 >;
