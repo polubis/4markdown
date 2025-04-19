@@ -11,6 +11,7 @@ import {
   BiCheck,
   BiChevronDown,
   BiError,
+  BiRefresh,
   BiSave,
   BiShow,
   BiStop,
@@ -20,6 +21,7 @@ import {
   addAssistantErrorAction,
   addAssistantReplyAction,
   closeConversationAction,
+  retryGenerationAction,
   stopGenerationAction,
   toggleConversationAction,
 } from 'store/document-generation/actions';
@@ -203,6 +205,18 @@ const ConversationListItemContainer = ({
                   title="Save as new document"
                 >
                   <BiSave />
+                </Button>
+              </>
+            )}
+            {conversation.operation.is === `fail` && (
+              <>
+                <Button
+                  i={2}
+                  s={1}
+                  title="Retry generation"
+                  onClick={() => retryGenerationAction(conversation.id)}
+                >
+                  <BiRefresh />
                 </Button>
               </>
             )}

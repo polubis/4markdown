@@ -11,7 +11,7 @@ const createContentWithAIAct = async (
 ): AsyncResult<API4MarkdownDto<'createContentWithAI'>> => {
   try {
     // await getAPI().call(`createContentWithAI`)(payload);
-    const data = await mock({ delay: 3, errorFactor: 100 })({
+    const data = await mock({ delay: 2, errorFactor: 0 })({
       output: `#my content
       #my content
       #my content

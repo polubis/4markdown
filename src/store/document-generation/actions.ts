@@ -104,6 +104,32 @@ const closeConversationAction = (conversationId: SUID): void => {
   });
 };
 
+const retryGenerationAction = (conversationId: SUID): void => {
+  const conversation = get().conversations.find(
+    (conversation) => conversation.id === conversationId,
+  );
+
+  if (!conversation) {
+    throw Error(`Conversation not found. Something went wrong`);
+  }
+
+  set({
+    conversations: get().conversations.map((conversation) =>
+      conversation.id === conversationId
+        ? {
+            ...conversation,
+            operation: { is: `busy` },
+          }
+        : conversation,
+    ),
+  });
+
+  documentGenerationSubject.next({
+    payload: conversation.payload,
+    conversationId,
+  });
+};
+
 const stopGenerationAction = (conversationId: SUID): void => {
   documentGenerationCancelSubject.next(conversationId);
   set({
@@ -133,4 +159,5 @@ export {
   closeConversationAction,
   stopGenerationAction,
   addAssistantErrorAction,
+  retryGenerationAction,
 };
