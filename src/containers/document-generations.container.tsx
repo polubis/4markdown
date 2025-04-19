@@ -1,21 +1,39 @@
 import { usePortal } from 'development-kit/use-portal';
 import React from 'react';
 import {
+  documentGenerationCancelSubject,
   documentGenerationSubject,
   useDocumentGenerationState,
 } from 'store/document-generation';
 import c from 'classnames';
 import { Button } from 'design-system/button';
-import { BiCheck, BiChevronDown, BiX } from 'react-icons/bi';
+import {
+  BiCheck,
+  BiChevronDown,
+  BiSave,
+  BiShow,
+  BiStop,
+  BiX,
+} from 'react-icons/bi';
 import {
   closeConversationAction,
+  stopGenerationAction,
   toggleConversationAction,
 } from 'store/document-generation/actions';
 import { Markdown } from 'components/markdown';
 import type { DocumentGenerationState } from 'store/document-generation/models';
-import { from, groupBy, mergeMap, switchMap } from 'rxjs';
+import {
+  filter,
+  from,
+  groupBy,
+  mergeMap,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { createContentWithAIAct } from 'acts/create-content-with-ai.act';
 import { useConfirm } from 'development-kit/use-confirm';
+import { previewGenerationInDocumentsCreatorAct } from 'acts/preview-generation-in-documents-creator.act';
 
 const ConversationListItemContainer = ({
   conversation,
@@ -109,6 +127,18 @@ const ConversationListItemContainer = ({
                       <Markdown>{record.body.output}</Markdown>
                     </li>
                   );
+                case `system-message`:
+                  return (
+                    <li
+                      className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                      key={record.id}
+                    >
+                      <p>
+                        <strong>System: </strong>
+                        {record.message}
+                      </p>
+                    </li>
+                  );
                 default:
                   return null;
               }
@@ -123,12 +153,33 @@ const ConversationListItemContainer = ({
             )}
           </ol>
           <div className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
-            <Button i={1} s={1} auto title="Preview in creator">
-              Preview
-            </Button>
-            <Button i={2} s={1} auto title="Save as new Document">
-              Save As New Document
-            </Button>
+            {conversation.operation.is === `busy` && (
+              <Button
+                i={2}
+                s={1}
+                title="Stop generation"
+                onClick={() => stopGenerationAction(conversation.id)}
+              >
+                <BiStop />
+              </Button>
+            )}
+            {conversation.operation.is === `ok` && (
+              <>
+                <Button
+                  i={2}
+                  s={1}
+                  title="Display generated content in creator"
+                  onClick={() =>
+                    previewGenerationInDocumentsCreatorAct(conversation.id)
+                  }
+                >
+                  <BiShow />
+                </Button>
+                <Button i={2} s={1} title="Save as new document">
+                  <BiSave />
+                </Button>
+              </>
+            )}
           </div>
         </>
       )}
@@ -147,23 +198,21 @@ const DocumentGenerationsContainer = () => {
         mergeMap((grouped$) => {
           const conversationId = grouped$.key;
 
-          // const cancelNotifier$ = documentGenerationCancelSubject.pipe(
-          //   filter((cancelId) => cancelId === conversationId),
-          //   take(1),
-          // );
+          const cancelNotifier$ = documentGenerationCancelSubject.pipe(
+            filter((cancelId) => cancelId === conversationId),
+            take(1),
+          );
 
           return grouped$.pipe(
             switchMap(({ payload }) =>
-              from(createContentWithAIAct(conversationId, payload)),
+              from(createContentWithAIAct(conversationId, payload)).pipe(
+                takeUntil(cancelNotifier$),
+              ),
             ),
           );
         }),
       )
-      .subscribe({
-        next: (conversation) => {
-          console.log(`next`, conversation);
-        },
-      });
+      .subscribe();
 
     return () => {
       subscription.unsubscribe();

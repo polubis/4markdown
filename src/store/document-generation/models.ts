@@ -17,6 +17,7 @@ type History = ({ id: SUID } & (
       message: string;
       body: API4MarkdownDto<'createContentWithAI'>;
     }
+  | { type: `system-message`; message: string }
 ))[];
 
 type Conversation = Prettify<{

@@ -78,13 +78,35 @@ const addAssistantReplyAction = (
   });
 };
 
-const closeConversationAction = (id: SUID): void => {
+const closeConversationAction = (conversationId: SUID): void => {
   set({
     conversations: get().conversations.filter(
-      (conversation) => conversation.id !== id,
+      (conversation) => conversation.id !== conversationId,
     ),
   });
-  documentGenerationCancelSubject.next(id);
+  documentGenerationCancelSubject.next(conversationId);
+};
+
+const stopGenerationAction = (conversationId: SUID): void => {
+  set({
+    conversations: get().conversations.map((conversation) =>
+      conversation.id === conversationId
+        ? {
+            ...conversation,
+            history: [
+              ...conversation.history,
+              {
+                id: suid(),
+                type: `system-message`,
+                message: `Generation stopped`,
+              },
+            ],
+            operation: { is: `stopped` },
+          }
+        : conversation,
+    ),
+  });
+  documentGenerationCancelSubject.next(conversationId);
 };
 
 export {
@@ -92,4 +114,5 @@ export {
   toggleConversationAction,
   addAssistantReplyAction,
   closeConversationAction,
+  stopGenerationAction,
 };
