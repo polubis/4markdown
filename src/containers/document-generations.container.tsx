@@ -11,6 +11,7 @@ import {
   BiCheck,
   BiChevronDown,
   BiError,
+  BiListCheck,
   BiRefresh,
   BiSave,
   BiShow,
@@ -42,6 +43,7 @@ import { useConfirm } from 'development-kit/use-confirm';
 import { previewGenerationInDocumentsCreatorAct } from 'acts/preview-generation-in-documents-creator.act';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { saveGenerationAsDocumentAct } from 'acts/save-generation-as-document.act';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const ConversationListItemContainer = ({
   conversation,
@@ -230,6 +232,7 @@ const ConversationListItemContainer = ({
 const DocumentGenerationsContainer = () => {
   const { render } = usePortal();
   const { conversations } = useDocumentGenerationState();
+  const mobileGenerationList = useSimpleFeature();
 
   React.useEffect(() => {
     const subscription = documentGenerationSubject
@@ -267,16 +270,38 @@ const DocumentGenerationsContainer = () => {
   }, []);
 
   return render(
-    <div className="fixed md:max-w-[360px] w-[calc(100%-16px)] md:w-full right-2 top-2 md:bottom-2 md:top-auto">
-      <ol className="flex flex-col gap-2">
-        {conversations.map((conversation) => (
-          <ConversationListItemContainer
-            key={conversation.id}
-            conversation={conversation}
-          />
-        ))}
-      </ol>
-    </div>,
+    <>
+      <div className="md:block hidden fixed max-w-[360px] bottom-4 right-4">
+        <ol className="flex flex-col gap-2">
+          {conversations.map((conversation) => (
+            <ConversationListItemContainer
+              key={conversation.id}
+              conversation={conversation}
+            />
+          ))}
+        </ol>
+      </div>
+      <div className="flex items-end flex-col gap-2 md:hidden fixed right-4 top-4 max-w-[360px] w-[calc(100%-32px)]">
+        <Button
+          s={1}
+          i={2}
+          title="Show/hide generated documents"
+          onClick={mobileGenerationList.toggle}
+        >
+          {mobileGenerationList.isOn ? <BiX /> : <BiListCheck />}
+        </Button>
+        {mobileGenerationList.isOn && (
+          <ol className="flex flex-col gap-2 w-full">
+            {conversations.map((conversation) => (
+              <ConversationListItemContainer
+                key={conversation.id}
+                conversation={conversation}
+              />
+            ))}
+          </ol>
+        )}
+      </div>
+    </>,
   );
 };
 

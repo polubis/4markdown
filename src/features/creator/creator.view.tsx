@@ -259,7 +259,7 @@ const CreatorView = () => {
             onSelect={maintainAssistantAppearance}
           />
           {assistanceToolbox.is === `on` && rewriteAssistant.isOff && (
-            <div className="absolute bottom-2 right-4 flex flex-col gap-2">
+            <div className="absolute bottom-4 right-4 flex flex-col gap-2">
               <Button
                 s={1}
                 i={2}
