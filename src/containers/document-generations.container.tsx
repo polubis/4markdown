@@ -10,6 +10,7 @@ import { Button } from 'design-system/button';
 import {
   BiCheck,
   BiChevronDown,
+  BiError,
   BiSave,
   BiShow,
   BiStop,
@@ -121,7 +122,7 @@ const ConversationListItemContainer = ({
                       className="rounded-md w-fit py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                       key={record.id}
                     >
-                      <Markdown>{record.message}</Markdown>
+                      <p>{record.message}</p>
                     </li>
                   );
                 case `assistant-reply`:
@@ -136,7 +137,7 @@ const ConversationListItemContainer = ({
                 case `system-message`:
                   return (
                     <li
-                      className="w-fit rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                      className="w-fit rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                       key={record.id}
                     >
                       <p>
@@ -155,6 +156,18 @@ const ConversationListItemContainer = ({
                 key="pending"
               >
                 <Markdown>Pending...</Markdown>
+              </li>
+            )}
+            {conversation.operation.is === `fail` && (
+              <li
+                className="w-fit flex items-center gap-1.5 rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                key="error"
+              >
+                <BiError size={20} className="shrink-0" />
+                <p>
+                  <strong>Error:{` `}</strong>
+                  {conversation.operation.error.message}
+                </p>
               </li>
             )}
           </ol>
