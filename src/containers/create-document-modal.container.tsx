@@ -1,240 +1,44 @@
-import React, { type FormEventHandler } from 'react';
-import { Button } from 'design-system/button';
-import { BiInfoCircle, BiPlusCircle } from 'react-icons/bi';
+import React from 'react';
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
-import { Input } from 'design-system/input';
-import { useForm } from 'development-kit/use-form';
-import type { API4MarkdownPayload } from 'api-4markdown-contracts';
-import { Field } from 'design-system/field';
-import { Hint } from 'design-system/hint';
 import { Modal } from 'design-system/modal';
-import { context } from '@greenonsoftware/react-kit';
 import { createDocumentAct } from 'acts/create-document.act';
-import { Textarea } from 'design-system/textarea';
 import { startConversationAction } from 'store/document-generation/actions';
+import {
+  NewDocumentForm,
+  type NewDocumentFormProps,
+} from 'components/new-document-form';
 
 type CreateDocumentModalContainerProps = {
   onClose(): void;
 };
 
-const [CreateDocumentProvider, useCreateDocumentContext] = context(
-  ({ onClose }: CreateDocumentModalContainerProps) => {
-    const [activeType, setActiveType] = React.useState<
-      `ai` | `manual` | `none`
-    >(`none`);
-
-    return { activeType, setActiveType, onClose };
-  },
-);
-
-const ManualFormContainer = () => {
-  const { onClose, setActiveType } = useCreateDocumentContext();
-
-  const docManagementStore = useDocManagementStore();
-
-  const [{ invalid, values, untouched }, { inject }] = useForm<
-    Pick<API4MarkdownPayload<'createDocument'>, 'name'>
-  >({ name: `` });
-
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-
-    if ((await createDocumentAct(values)).is === `ok`) {
-      onClose();
-    }
-  };
-
-  return (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
-      <Field
-        label="Name*"
-        hint={
-          <Hint
-            trigger={
-              <>
-                Document will be created in <strong>private</strong> mode.
-                Visible only to you, but <strong>not encrypted</strong> - avoid
-                sensitive data
-              </>
-            }
-          />
-        }
-      >
-        <Input
-          placeholder={`My Notes, Basics of Computer Science, ...etc`}
-          {...inject(`name`)}
-        />
-      </Field>
-      <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
-        <Button
-          s={2}
-          i={1}
-          type="button"
-          title="Back to document type selection"
-          auto
-          disabled={docManagementStore.is === `busy`}
-          onClick={() => setActiveType(`none`)}
-        >
-          Back
-        </Button>
-        <Button
-          type="submit"
-          i={2}
-          s={2}
-          auto
-          title="Confirm document creation"
-          disabled={untouched || invalid || docManagementStore.is === `busy`}
-        >
-          Create
-          <BiPlusCircle />
-        </Button>
-      </footer>
-    </form>
+const CreateDocumentModalContainer = ({
+  onClose,
+}: CreateDocumentModalContainerProps) => {
+  const [activeType, setActiveType] = React.useState<`ai` | `manual` | `none`>(
+    `none`,
   );
-};
-
-type FormValues = Pick<
-  API4MarkdownPayload<'createContentWithAI'>,
-  'name' | 'description' | 'profession' | 'sample' | 'structure'
-> & {
-  style: string;
-};
-
-const AIFormContainer = () => {
-  const { onClose, setActiveType } = useCreateDocumentContext();
 
   const docManagementStore = useDocManagementStore();
 
-  const [{ invalid, values, untouched }, { inject }] = useForm<FormValues>({
-    name: `How to be productive as a software engineer`,
-    description: `Complete guide to mastering productivity and quality in your daily work: Eisenhower Matrix and Awakened Day technique with a Feedback Loop`,
-    style: `soft, edgy, smart`,
-    structure: `# How To Be Productive As A Software Engineer
-## Just Follow The Damn Yourself, CJ
-## The Awakened Day Method
-## Difference Between Strategic And Tactical Goals
-## Don't Begin Until You Are Ready To Finish
-## Mastering Eisenhower Matrix
-## Neverending Fight With Context Switching
-## Apps And Tools
-## Struggling Against Distractions
-## Learning With Passion
-## Using All That We've Learned
-## My Achievements In 2024
-## Summary`,
-    sample: `> The techniques I'm proposing here are my personal ones, based on consultations with professional therapists. You can try them, but I'm 100% sure they won't automatically fit your personal case. However, it's always good to broaden your horizons, and I recommend using others' experiences as inspiration to invent something tailored to your needs.  
+  const submitForm: NewDocumentFormProps['onSubmit'] = async (payload) => {
+    if (payload.variant === `manual`) {
+      const result = await createDocumentAct(payload.values);
 
-# How To Be **Productive** As A **Software Engineer**  
+      if (result.is === `ok`) {
+        onClose();
+      }
 
-I asked AI about types of people related to their work style, and this is what I got back:  
-
-1. Ticket monkeys.  
-2. Those who reflect on every piece of work they do.  
-
-This difference is critical because true productivity comes from self-awareness (by understanding your work style). By analyzing how you work daily, you step outside your comfort zone and confront your current "self" with reality.`,
-    profession: `Psychologist`,
-  });
-
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
+      return;
+    }
 
     startConversationAction({
-      ...values,
-      style: values.style.split(`,`),
+      ...payload.values,
+      style: payload.values.style.split(`,`),
     });
 
     onClose();
   };
-
-  const splittedStyle = React.useMemo(
-    () =>
-      values.style
-        .split(`,`)
-        .map((styleEntry) => styleEntry.trim())
-        .filter((styleEntry) => styleEntry.length > 0).length,
-    [values.style],
-  );
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-3">
-        <Field label="Name*">
-          <Input placeholder={`My Notes, Basics of Math`} {...inject(`name`)} />
-        </Field>
-        <Field label="Description*">
-          <Textarea
-            placeholder="Let's explore the basics of computer science through a step-by-step guide filled with plenty of examples"
-            {...inject(`description`)}
-          />
-        </Field>
-        <Field label="Profession*">
-          <Input
-            placeholder="Developer if writing about programming and so on"
-            {...inject(`profession`)}
-          />
-        </Field>
-        <Field
-          label={splittedStyle === 0 ? `Style*` : `Style (${splittedStyle})*`}
-        >
-          <Input placeholder="soft, edgy, smart" {...inject(`style`)} />
-        </Field>
-        <Field
-          label="Structure*"
-          hint={
-            <Hint
-              trigger={<>Use &quot;#&quot; symbols to create hierarchy</>}
-            />
-          }
-        >
-          <Textarea
-            placeholder={`# ${values.name ? values.name : `My Notes, Basics of Math`}\n## Introduction to Math\n### Basic Operations\n#### Algebra\n#### Geometry\n#### Calculus\n## Conclusion`}
-            {...inject(`structure`)}
-          />
-        </Field>
-        <Field label="Sample*">
-          <Textarea
-            placeholder="A fragment from another article, document, or note to help match your writing style"
-            {...inject(`sample`)}
-          />
-        </Field>
-        <div className="flex items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-          <BiInfoCircle size={20} className="shrink-0" />
-          <p>
-            Generation will take <strong>5 tokens</strong>
-          </p>
-        </div>
-        <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
-          <Button
-            s={2}
-            i={1}
-            type="button"
-            title="Back to document type selection"
-            auto
-            onClick={() => setActiveType(`none`)}
-          >
-            Back
-          </Button>
-          <Button
-            type="submit"
-            i={2}
-            s={2}
-            auto
-            title="Confirm document creation with AI"
-            disabled={untouched || invalid || docManagementStore.is === `busy`}
-          >
-            Create
-            <BiPlusCircle />
-          </Button>
-        </footer>
-      </div>
-    </form>
-  );
-};
-
-const CreateDocumentModalContainer = () => {
-  const { onClose, activeType, setActiveType } = useCreateDocumentContext();
-
-  const docManagementStore = useDocManagementStore();
 
   return (
     <Modal disabled={docManagementStore.is === `busy`} onClose={onClose}>
@@ -243,7 +47,7 @@ const CreateDocumentModalContainer = () => {
         closeButtonTitle="Close document adding"
       />
 
-      {activeType === `none` && (
+      {activeType === `none` ? (
         <>
           <section className="flex flex-col gap-3">
             <button
@@ -267,23 +71,16 @@ const CreateDocumentModalContainer = () => {
             </button>
           </section>
         </>
+      ) : (
+        <NewDocumentForm
+          variant={activeType}
+          disabled={docManagementStore.is === `busy`}
+          onSubmit={submitForm}
+          onBack={() => setActiveType(`none`)}
+        />
       )}
-
-      {activeType === `manual` && <ManualFormContainer />}
-
-      {activeType === `ai` && <AIFormContainer />}
     </Modal>
   );
 };
 
-const ConnectedCreateDocumentModalContainer = (
-  props: CreateDocumentModalContainerProps,
-) => {
-  return (
-    <CreateDocumentProvider {...props}>
-      <CreateDocumentModalContainer />
-    </CreateDocumentProvider>
-  );
-};
-
-export { ConnectedCreateDocumentModalContainer as CreateDocumentModalContainer };
+export { CreateDocumentModalContainer };
