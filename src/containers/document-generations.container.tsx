@@ -16,6 +16,8 @@ import {
   BiX,
 } from 'react-icons/bi';
 import {
+  addAssistantErrorAction,
+  addAssistantReplyAction,
   closeConversationAction,
   stopGenerationAction,
   toggleConversationAction,
@@ -26,6 +28,7 @@ import {
   filter,
   from,
   groupBy,
+  map,
   mergeMap,
   switchMap,
   take,
@@ -208,21 +211,30 @@ const DocumentGenerationsContainer = () => {
         mergeMap((grouped$) => {
           const conversationId = grouped$.key;
 
-          const cancelNotifier$ = documentGenerationCancelSubject.pipe(
-            filter((cancelId) => cancelId === conversationId),
-            take(1),
-          );
+          const cancelNotifier$ = documentGenerationCancelSubject
+            .asObservable()
+            .pipe(
+              filter((cancelId) => cancelId === conversationId),
+              take(1),
+            );
 
           return grouped$.pipe(
             switchMap(({ payload }) =>
-              from(createContentWithAIAct(conversationId, payload)).pipe(
+              from(createContentWithAIAct(payload)).pipe(
                 takeUntil(cancelNotifier$),
+                map((response) => ({ response, conversationId })),
               ),
             ),
           );
         }),
       )
-      .subscribe();
+      .subscribe({
+        next: ({ response, conversationId }) => {
+          response.is === `ok`
+            ? addAssistantReplyAction(conversationId, response.data)
+            : addAssistantErrorAction(conversationId, response.error);
+        },
+      });
 
     return () => {
       subscription.unsubscribe();

@@ -8,6 +8,7 @@ import type {
   API4MarkdownDto,
   API4MarkdownPayload,
 } from 'api-4markdown-contracts';
+import { parseError } from 'api-4markdown';
 
 const { get, set } = useDocumentGenerationState;
 
@@ -78,16 +79,33 @@ const addAssistantReplyAction = (
   });
 };
 
+const addAssistantErrorAction = (
+  conversationId: SUID,
+  error: unknown,
+): void => {
+  set({
+    conversations: get().conversations.map((conversation) =>
+      conversation.id === conversationId
+        ? {
+            ...conversation,
+            operation: { is: `fail`, error: parseError(error) },
+          }
+        : conversation,
+    ),
+  });
+};
+
 const closeConversationAction = (conversationId: SUID): void => {
+  documentGenerationCancelSubject.next(conversationId);
   set({
     conversations: get().conversations.filter(
       (conversation) => conversation.id !== conversationId,
     ),
   });
-  documentGenerationCancelSubject.next(conversationId);
 };
 
 const stopGenerationAction = (conversationId: SUID): void => {
+  documentGenerationCancelSubject.next(conversationId);
   set({
     conversations: get().conversations.map((conversation) =>
       conversation.id === conversationId
@@ -106,7 +124,6 @@ const stopGenerationAction = (conversationId: SUID): void => {
         : conversation,
     ),
   });
-  documentGenerationCancelSubject.next(conversationId);
 };
 
 export {
@@ -115,4 +132,5 @@ export {
   addAssistantReplyAction,
   closeConversationAction,
   stopGenerationAction,
+  addAssistantErrorAction,
 };
