@@ -34,6 +34,8 @@ import {
 import { createContentWithAIAct } from 'acts/create-content-with-ai.act';
 import { useConfirm } from 'development-kit/use-confirm';
 import { previewGenerationInDocumentsCreatorAct } from 'acts/preview-generation-in-documents-creator.act';
+import { useDocManagementStore } from 'store/doc-management/doc-management.store';
+import { saveGenerationAsDocumentAct } from 'acts/save-generation-as-document.act';
 
 const ConversationListItemContainer = ({
   conversation,
@@ -43,6 +45,7 @@ const ConversationListItemContainer = ({
   const closeOperation = useConfirm(() =>
     closeConversationAction(conversation.id),
   );
+  const docManagementStore = useDocManagementStore();
 
   return (
     <li
@@ -169,13 +172,20 @@ const ConversationListItemContainer = ({
                   i={2}
                   s={1}
                   title="Display generated content in creator"
+                  disabled={docManagementStore.is === `busy`}
                   onClick={() =>
                     previewGenerationInDocumentsCreatorAct(conversation.id)
                   }
                 >
                   <BiShow />
                 </Button>
-                <Button i={2} s={1} title="Save as new document">
+                <Button
+                  disabled={docManagementStore.is === `busy`}
+                  i={2}
+                  s={1}
+                  onClick={() => saveGenerationAsDocumentAct(conversation.id)}
+                  title="Save as new document"
+                >
                   <BiSave />
                 </Button>
               </>
