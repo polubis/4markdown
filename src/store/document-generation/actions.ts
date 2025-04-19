@@ -19,7 +19,6 @@ const startConversationAction = (
 
   set({
     conversations: [
-      ...get().conversations,
       {
         id: conversationId,
         opened: false,
@@ -33,6 +32,7 @@ const startConversationAction = (
         operation: { is: `busy` },
         payload,
       },
+      ...get().conversations,
     ],
   });
   documentGenerationSubject.next({
