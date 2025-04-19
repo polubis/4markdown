@@ -238,18 +238,16 @@ const DocumentGenerationsContainer = () => {
         mergeMap((grouped$) => {
           const conversationId = grouped$.key;
 
-          const cancelNotifier$ = documentGenerationCancelSubject
-            .asObservable()
-            .pipe(
-              filter((cancelId) => cancelId === conversationId),
-              take(1),
-            );
-
           return grouped$.pipe(
             switchMap(({ payload }) =>
               from(createContentWithAIAct(payload)).pipe(
-                takeUntil(cancelNotifier$),
                 map((response) => ({ response, conversationId })),
+                takeUntil(
+                  documentGenerationCancelSubject.pipe(
+                    filter((cancelId) => cancelId === conversationId),
+                    take(1),
+                  ),
+                ),
               ),
             ),
           );
