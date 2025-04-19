@@ -7,10 +7,13 @@ import {
   NewDocumentForm,
   type NewDocumentFormProps,
 } from 'components/new-document-form';
+import { useDocumentGenerationState } from 'store/document-generation';
 
 type CreateDocumentModalContainerProps = {
   onClose(): void;
 };
+
+const MAX_AIGENERATION_COUNT = 3;
 
 const CreateDocumentModalContainer = ({
   onClose,
@@ -18,7 +21,7 @@ const CreateDocumentModalContainer = ({
   const [activeType, setActiveType] = React.useState<`ai` | `manual` | `none`>(
     `none`,
   );
-
+  const { conversations } = useDocumentGenerationState();
   const docManagementStore = useDocManagementStore();
 
   const submitForm: NewDocumentFormProps['onSubmit'] = async (payload) => {
@@ -40,6 +43,9 @@ const CreateDocumentModalContainer = ({
     onClose();
   };
 
+  const isMaxAIGenerationReached =
+    conversations.length >= MAX_AIGENERATION_COUNT;
+
   return (
     <Modal disabled={docManagementStore.is === `busy`} onClose={onClose}>
       <Modal.Header
@@ -60,14 +66,22 @@ const CreateDocumentModalContainer = ({
               </p>
             </button>
             <button
-              className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+              className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer enabled:hover:bg-zinc-300 dark:enabled:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
               onClick={() => setActiveType(`ai`)}
+              disabled={isMaxAIGenerationReached}
             >
               <h6 className="capitalize text-left">Generate With AI</h6>
-              <p className="mt-1 text-sm text-left">
-                Use AI to generate document. Provide structure, metadata and
-                voilà!
-              </p>
+              {isMaxAIGenerationReached ? (
+                <p className="mt-1 text-sm text-left">
+                  You&apos;ve reached the maximum parallel number of AI
+                  generations ({conversations.length}/{MAX_AIGENERATION_COUNT})
+                </p>
+              ) : (
+                <p className="mt-1 text-sm text-left">
+                  Use AI to generate document. Provide structure, metadata and
+                  voilà!
+                </p>
+              )}
             </button>
           </section>
         </>
