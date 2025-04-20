@@ -269,6 +269,10 @@ const DocumentGenerationsContainer = () => {
     };
   }, []);
 
+  if (conversations.length === 0) {
+    return null;
+  }
+
   return render(
     <>
       <div className="md:block hidden fixed max-w-[360px] bottom-4 right-4">
@@ -281,7 +285,7 @@ const DocumentGenerationsContainer = () => {
           ))}
         </ol>
       </div>
-      <div className="flex items-end flex-col gap-2 md:hidden fixed right-4 top-4 max-w-[360px] w-[calc(100%-32px)]">
+      <div className="flex items-end flex-col gap-2 md:hidden fixed right-4 top-4 max-w-[500px] w-[calc(100%-32px)]">
         <Button
           s={1}
           i={2}
