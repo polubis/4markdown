@@ -57,6 +57,8 @@ const ConversationListItemContainer = ({
 }: {
   conversation: DocumentGenerationState['conversations'][number];
 }) => {
+  const conversationListRef = React.useRef<HTMLDivElement>(null);
+
   const closeOperation = useConfirm(() =>
     closeConversationAction(conversation.id),
   );
@@ -76,6 +78,25 @@ const ConversationListItemContainer = ({
     });
     editForm.off();
   };
+
+  React.useLayoutEffect(() => {
+    if (!conversation.opened) return;
+
+    const conversationList = conversationListRef.current;
+    const lastItem = conversationList?.lastElementChild;
+
+    if (!conversationList || !lastItem) return;
+
+    const observer = new ResizeObserver(() => {
+      lastItem.scrollIntoView({ behavior: `smooth`, block: `end` });
+    });
+
+    observer.observe(conversationList);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [conversation.opened, conversation.history]);
 
   return (
     <>
@@ -139,8 +160,11 @@ const ConversationListItemContainer = ({
           )}
         </div>
         {conversation.opened && (
-          <>
-            <ol className="py-4 px-3 flex flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-t max-h-[300px] overflow-y-auto">
+          <div
+            ref={conversationListRef}
+            className="overflow-y-auto max-h-[300px]"
+          >
+            <ol className="py-4 px-3 flex flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-t">
               {conversation.history.map((record) => {
                 switch (record.type) {
                   case `user-started`:
@@ -198,7 +222,7 @@ const ConversationListItemContainer = ({
                 </li>
               )}
             </ol>
-            <div className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
+            <footer className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
               {conversation.operation.is !== `busy` && (
                 <Button
                   i={2}
@@ -256,8 +280,8 @@ const ConversationListItemContainer = ({
                   </Button>
                 </>
               )}
-            </div>
-          </>
+            </footer>
+          </div>
         )}
       </li>
       {editForm.isOn && (
