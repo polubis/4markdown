@@ -96,7 +96,7 @@ const ConversationListItemContainer = ({
     return () => {
       observer.disconnect();
     };
-  }, [conversation.opened, conversation.history]);
+  }, [conversation.opened, conversation.history, conversation.operation]);
 
   return (
     <>
@@ -163,63 +163,58 @@ const ConversationListItemContainer = ({
           <>
             <ol
               ref={conversationListRef}
-              className="py-4 px-3 flex flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-t overflow-y-auto max-h-[300px]"
+              className="flex flex-col px-3 gap-2 border-zinc-300 dark:border-zinc-800 border-t overflow-y-auto max-h-[300px] [&>*:first-child]:pt-3 [&>*:last-child]:pb-3"
             >
               {conversation.history.map((record) => {
                 switch (record.type) {
                   case `user-started`:
                     return (
-                      <li
-                        className="rounded-md w-fit py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                        key={record.id}
-                      >
-                        <p>{record.message}</p>
-                      </li>
+                      <div key={record.id}>
+                        <li className="rounded-md w-fit py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+                          <p>{record.message}</p>
+                        </li>
+                      </div>
                     );
                   case `assistant-reply`:
                     return (
-                      <li
-                        className="rounded-md w-fit flex flex-col gap-2 py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                        key={record.id}
-                      >
-                        <Markdown>{record.body.output}</Markdown>
-                      </li>
+                      <div key={record.id}>
+                        <li className="rounded-md w-fit flex flex-col gap-2 py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+                          <Markdown>{record.body.output}</Markdown>
+                        </li>
+                      </div>
                     );
                   case `system-message`:
                     return (
-                      <li
-                        className="w-fit rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                        key={record.id}
-                      >
-                        <p>
-                          <strong>System: </strong>
-                          {record.message}
-                        </p>
-                      </li>
+                      <div key={record.id}>
+                        <li className="w-fit rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+                          <p>
+                            <strong>System: </strong>
+                            {record.message}
+                          </p>
+                        </li>
+                      </div>
                     );
                   default:
                     return null;
                 }
               })}
               {conversation.operation.is === `busy` && (
-                <li
-                  className="rounded-md py-1 px-2 w-fit bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
-                  key="pending"
-                >
-                  <Markdown>Pending...</Markdown>
-                </li>
+                <div key="pending">
+                  <li className="rounded-md py-1 px-2 w-fit bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]">
+                    <Markdown>Pending...</Markdown>
+                  </li>
+                </div>
               )}
               {conversation.operation.is === `fail` && (
-                <li
-                  className="w-fit flex items-center gap-1.5 rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                  key="error"
-                >
-                  <BiError size={20} className="shrink-0" />
-                  <p>
-                    <strong>Error:{` `}</strong>
-                    {conversation.operation.error.message}
-                  </p>
-                </li>
+                <div key="error">
+                  <li className="w-fit flex items-center gap-1.5 rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+                    <BiError size={20} className="shrink-0" />
+                    <p>
+                      <strong>Error:{` `}</strong>
+                      {conversation.operation.error.message}
+                    </p>
+                  </li>
+                </div>
               )}
             </ol>
             <footer className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
