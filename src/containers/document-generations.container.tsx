@@ -270,7 +270,7 @@ const ConversationListItemContainer = ({
             variant="ai"
             onBack={editForm.off}
             onSubmit={confirmModifyGenerationModify}
-            renderFooter={(props) => (
+            renderFooter={(props, { untouched, invalid }) => (
               <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
                 <Button
                   s={2}
@@ -289,7 +289,7 @@ const ConversationListItemContainer = ({
                   s={2}
                   auto
                   title="Save generation parameters"
-                  disabled={props.disabled}
+                  disabled={props.disabled || untouched || invalid}
                 >
                   Save
                 </Button>

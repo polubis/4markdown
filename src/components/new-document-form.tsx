@@ -29,7 +29,10 @@ type NewDocumentFormProps = {
   variant: 'ai' | 'manual';
   renderFooter?: (
     props: NewDocumentFormProps,
-    payload: Parameters<OnSubmit>[0],
+    payload: Parameters<OnSubmit>[0] & {
+      untouched: boolean;
+      invalid: boolean;
+    },
   ) => ReactNode;
   onBack(): void;
   onSubmit: OnSubmit;
@@ -77,7 +80,7 @@ const ManualForm = () => {
         />
       </Field>
       {ctx.renderFooter ? (
-        ctx.renderFooter(ctx, { values, variant: `manual` })
+        ctx.renderFooter(ctx, { values, variant: `manual`, untouched, invalid })
       ) : (
         <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
           <Button
@@ -205,7 +208,7 @@ This difference is critical because true productivity comes from self-awareness 
           </p>
         </div>
         {ctx.renderFooter ? (
-          ctx.renderFooter(ctx, { values, variant: `ai` })
+          ctx.renderFooter(ctx, { values, variant: `ai`, untouched, invalid })
         ) : (
           <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
             <Button
