@@ -57,7 +57,7 @@ const ConversationListItemContainer = ({
 }: {
   conversation: DocumentGenerationState['conversations'][number];
 }) => {
-  const conversationListRef = React.useRef<HTMLDivElement>(null);
+  const conversationListRef = React.useRef<HTMLOListElement>(null);
 
   const closeOperation = useConfirm(() =>
     closeConversationAction(conversation.id),
@@ -160,11 +160,11 @@ const ConversationListItemContainer = ({
           )}
         </div>
         {conversation.opened && (
-          <div
-            ref={conversationListRef}
-            className="overflow-y-auto max-h-[300px]"
-          >
-            <ol className="py-4 px-3 flex flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-t">
+          <>
+            <ol
+              ref={conversationListRef}
+              className="py-4 px-3 flex flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-t overflow-y-auto max-h-[300px]"
+            >
               {conversation.history.map((record) => {
                 switch (record.type) {
                   case `user-started`:
@@ -281,7 +281,7 @@ const ConversationListItemContainer = ({
                 </>
               )}
             </footer>
-          </div>
+          </>
         )}
       </li>
       {editForm.isOn && (
