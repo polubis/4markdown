@@ -10,6 +10,7 @@ import { Button } from 'design-system/button';
 import {
   BiCheck,
   BiChevronDown,
+  BiEdit,
   BiError,
   BiListCheck,
   BiRefresh,
@@ -22,6 +23,7 @@ import {
   addAssistantErrorAction,
   addAssistantReplyAction,
   closeConversationAction,
+  modifyGenerationPayloadAction,
   retryGenerationAction,
   stopGenerationAction,
   toggleConversationAction,
@@ -44,6 +46,11 @@ import { previewGenerationInDocumentsCreatorAct } from 'acts/preview-generation-
 import { useDocManagementStore } from 'store/doc-management/doc-management.store';
 import { saveGenerationAsDocumentAct } from 'acts/save-generation-as-document.act';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { Modal } from 'design-system/modal';
+import {
+  NewDocumentForm,
+  type NewDocumentFormProps,
+} from 'components/new-document-form';
 
 const ConversationListItemContainer = ({
   conversation,
@@ -54,178 +61,244 @@ const ConversationListItemContainer = ({
     closeConversationAction(conversation.id),
   );
   const docManagementStore = useDocManagementStore();
+  const editForm = useSimpleFeature();
+
+  const confirmModifyGenerationModify: NewDocumentFormProps['onSubmit'] = (
+    payload,
+  ) => {
+    if (payload.variant !== `ai`) {
+      throw Error(`Invalid variant submission detected`);
+    }
+
+    modifyGenerationPayloadAction(conversation.id, {
+      ...payload.values,
+      style: payload.values.style.split(`,`),
+    });
+    editForm.off();
+  };
 
   return (
-    <li
-      key={conversation.id}
-      className={c(
-        `rounded-md dark:bg-black bg-white border border-zinc-300 dark:border-zinc-800 overflow-hidden`,
-        !conversation.opened &&
-          conversation.operation.is === `busy` &&
-          `bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]`,
-      )}
-    >
-      <div className="relative flex items-center py-2 gap-1 px-3">
-        <h6 className="truncate mr-1">{conversation.payload.name}</h6>
-        <Button
-          i={1}
-          s={1}
-          title="Open/close conversation"
-          className="ml-auto"
-          disabled={closeOperation.isOn}
-          onClick={() => toggleConversationAction(conversation.id)}
-        >
-          <BiChevronDown
-            className={c(
-              `transition-transform`,
-              conversation.opened && `rotate-180`,
-            )}
-            size={24}
-          />
-        </Button>
-        <Button
-          i={1}
-          s={1}
-          disabled={closeOperation.isOn}
-          title="Close conversation"
-          onClick={closeOperation.confirm}
-        >
-          <BiX />
-        </Button>
-        {closeOperation.isOn && (
-          <div className="flex py-2 px-3 gap-1 items-center animate-fade-in absolute top-0 left-0 w-full h-full dark:bg-black bg-white">
-            <h6 className="mr-1 truncate">Are you sure?</h6>
-            <Button
-              i={1}
-              className="ml-auto"
-              s={1}
-              title="Confirm conversation close"
-              onClick={closeOperation.confirm}
-            >
-              <BiCheck />
-            </Button>
-            <Button
-              i={1}
-              s={1}
-              title="Cancel conversation close"
-              onClick={closeOperation.off}
-            >
-              <BiX />
-            </Button>
-          </div>
+    <>
+      <li
+        key={conversation.id}
+        className={c(
+          `rounded-md dark:bg-black bg-white border border-zinc-300 dark:border-zinc-800 overflow-hidden`,
+          !conversation.opened &&
+            conversation.operation.is === `busy` &&
+            `bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]`,
         )}
-      </div>
-      {conversation.opened && (
-        <>
-          <ol className="py-4 px-3 flex flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-t max-h-[300px] overflow-y-auto">
-            {conversation.history.map((record) => {
-              switch (record.type) {
-                case `user-started`:
-                  return (
-                    <li
-                      className="rounded-md w-fit py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                      key={record.id}
-                    >
-                      <p>{record.message}</p>
-                    </li>
-                  );
-                case `assistant-reply`:
-                  return (
-                    <li
-                      className="rounded-md w-fit flex flex-col gap-2 py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                      key={record.id}
-                    >
-                      <Markdown>{record.body.output}</Markdown>
-                    </li>
-                  );
-                case `system-message`:
-                  return (
-                    <li
-                      className="w-fit rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                      key={record.id}
-                    >
-                      <p>
-                        <strong>System: </strong>
-                        {record.message}
-                      </p>
-                    </li>
-                  );
-                default:
-                  return null;
-              }
-            })}
-            {conversation.operation.is === `busy` && (
-              <li
-                className="rounded-md py-1 px-2 w-fit bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
-                key="pending"
-              >
-                <Markdown>Pending...</Markdown>
-              </li>
-            )}
-            {conversation.operation.is === `fail` && (
-              <li
-                className="w-fit flex items-center gap-1.5 rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
-                key="error"
-              >
-                <BiError size={20} className="shrink-0" />
-                <p>
-                  <strong>Error:{` `}</strong>
-                  {conversation.operation.error.message}
-                </p>
-              </li>
-            )}
-          </ol>
-          <div className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
-            {conversation.operation.is === `busy` && (
+      >
+        <div className="relative flex items-center py-2 gap-1 px-3">
+          <h6 className="truncate mr-1">{conversation.payload.name}</h6>
+          <Button
+            i={1}
+            s={1}
+            title="Open/close conversation"
+            className="ml-auto"
+            disabled={closeOperation.isOn}
+            onClick={() => toggleConversationAction(conversation.id)}
+          >
+            <BiChevronDown
+              className={c(
+                `transition-transform`,
+                conversation.opened && `rotate-180`,
+              )}
+              size={24}
+            />
+          </Button>
+          <Button
+            i={1}
+            s={1}
+            disabled={closeOperation.isOn}
+            title="Close conversation"
+            onClick={closeOperation.confirm}
+          >
+            <BiX />
+          </Button>
+          {closeOperation.isOn && (
+            <div className="flex py-2 px-3 gap-1 items-center animate-fade-in absolute top-0 left-0 w-full h-full dark:bg-black bg-white">
+              <h6 className="mr-1 truncate">Are you sure?</h6>
               <Button
-                i={2}
+                i={1}
+                className="ml-auto"
                 s={1}
-                title="Stop generation"
-                onClick={() => stopGenerationAction(conversation.id)}
+                title="Confirm conversation close"
+                onClick={closeOperation.confirm}
               >
-                <BiStop />
+                <BiCheck />
               </Button>
-            )}
-            {conversation.operation.is === `ok` && (
-              <>
+              <Button
+                i={1}
+                s={1}
+                title="Cancel conversation close"
+                onClick={closeOperation.off}
+              >
+                <BiX />
+              </Button>
+            </div>
+          )}
+        </div>
+        {conversation.opened && (
+          <>
+            <ol className="py-4 px-3 flex flex-col gap-2 border-zinc-300 dark:border-zinc-800 border-t max-h-[300px] overflow-y-auto">
+              {conversation.history.map((record) => {
+                switch (record.type) {
+                  case `user-started`:
+                    return (
+                      <li
+                        className="rounded-md w-fit py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                        key={record.id}
+                      >
+                        <p>{record.message}</p>
+                      </li>
+                    );
+                  case `assistant-reply`:
+                    return (
+                      <li
+                        className="rounded-md w-fit flex flex-col gap-2 py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                        key={record.id}
+                      >
+                        <Markdown>{record.body.output}</Markdown>
+                      </li>
+                    );
+                  case `system-message`:
+                    return (
+                      <li
+                        className="w-fit rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                        key={record.id}
+                      >
+                        <p>
+                          <strong>System: </strong>
+                          {record.message}
+                        </p>
+                      </li>
+                    );
+                  default:
+                    return null;
+                }
+              })}
+              {conversation.operation.is === `busy` && (
+                <li
+                  className="rounded-md py-1 px-2 w-fit bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
+                  key="pending"
+                >
+                  <Markdown>Pending...</Markdown>
+                </li>
+              )}
+              {conversation.operation.is === `fail` && (
+                <li
+                  className="w-fit flex items-center gap-1.5 rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                  key="error"
+                >
+                  <BiError size={20} className="shrink-0" />
+                  <p>
+                    <strong>Error:{` `}</strong>
+                    {conversation.operation.error.message}
+                  </p>
+                </li>
+              )}
+            </ol>
+            <div className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
+              {conversation.operation.is !== `busy` && (
                 <Button
                   i={2}
                   s={1}
-                  title="Display generated content in creator"
-                  disabled={docManagementStore.is === `busy`}
-                  onClick={() =>
-                    previewGenerationInDocumentsCreatorAct(conversation.id)
-                  }
+                  title="Modify generation parameters"
+                  onClick={editForm.toggle}
                 >
-                  <BiShow />
+                  <BiEdit />
                 </Button>
-                <Button
-                  disabled={docManagementStore.is === `busy`}
-                  i={2}
-                  s={1}
-                  onClick={() => saveGenerationAsDocumentAct(conversation.id)}
-                  title="Save as new document"
-                >
-                  <BiSave />
-                </Button>
-              </>
-            )}
-            {conversation.operation.is === `fail` && (
-              <>
+              )}
+              {conversation.operation.is === `busy` && (
                 <Button
                   i={2}
                   s={1}
-                  title="Retry generation"
-                  onClick={() => retryGenerationAction(conversation.id)}
+                  title="Stop generation"
+                  onClick={() => stopGenerationAction(conversation.id)}
                 >
-                  <BiRefresh />
+                  <BiStop />
                 </Button>
-              </>
+              )}
+              {conversation.operation.is === `ok` && (
+                <>
+                  <Button
+                    i={2}
+                    s={1}
+                    title="Display generated content in creator"
+                    disabled={docManagementStore.is === `busy`}
+                    onClick={() =>
+                      previewGenerationInDocumentsCreatorAct(conversation.id)
+                    }
+                  >
+                    <BiShow />
+                  </Button>
+                  <Button
+                    disabled={docManagementStore.is === `busy`}
+                    i={2}
+                    s={1}
+                    onClick={() => saveGenerationAsDocumentAct(conversation.id)}
+                    title="Save as new document"
+                  >
+                    <BiSave />
+                  </Button>
+                </>
+              )}
+              {(conversation.operation.is === `idle` ||
+                conversation.operation.is === `fail`) && (
+                <>
+                  <Button
+                    i={2}
+                    s={1}
+                    title="Retry generation"
+                    onClick={() => retryGenerationAction(conversation.id)}
+                  >
+                    <BiRefresh />
+                  </Button>
+                </>
+              )}
+            </div>
+          </>
+        )}
+      </li>
+      {editForm.isOn && (
+        <Modal onClose={editForm.off}>
+          <Modal.Header
+            title="Modify Generation Parameters"
+            closeButtonTitle="Close modify generation parameters (esc)"
+          />
+          <NewDocumentForm
+            variant="ai"
+            onBack={editForm.off}
+            onSubmit={confirmModifyGenerationModify}
+            renderFooter={(props) => (
+              <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
+                <Button
+                  s={2}
+                  i={1}
+                  type="button"
+                  title="Back to generation list"
+                  auto
+                  disabled={props.disabled}
+                  onClick={props.onBack}
+                >
+                  Back
+                </Button>
+                <Button
+                  type="submit"
+                  i={2}
+                  s={2}
+                  auto
+                  title="Save generation parameters"
+                  disabled={props.disabled}
+                >
+                  Save
+                </Button>
+              </footer>
             )}
-          </div>
-        </>
+          />
+        </Modal>
       )}
-    </li>
+    </>
   );
 };
 

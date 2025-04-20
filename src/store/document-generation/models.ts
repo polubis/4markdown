@@ -25,9 +25,9 @@ type Conversation = Prettify<{
   history: History;
   opened: boolean;
   operation:
+    | { is: `idle` }
     | { is: `busy` }
     | { is: `ok` }
-    | { is: `stopped` }
     | { is: `fail`; error: ParsedError };
   id: SUID;
 }>;

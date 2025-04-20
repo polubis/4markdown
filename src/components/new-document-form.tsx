@@ -1,4 +1,4 @@
-import React, { type FormEventHandler } from 'react';
+import React, { type ReactNode, type FormEventHandler } from 'react';
 import { Button } from 'design-system/button';
 import { BiInfoCircle, BiPlusCircle } from 'react-icons/bi';
 import { Input } from 'design-system/input';
@@ -25,8 +25,12 @@ type OnSubmit = (
 ) => void;
 
 type NewDocumentFormProps = {
-  disabled: boolean;
+  disabled?: boolean;
   variant: 'ai' | 'manual';
+  renderFooter?: (
+    props: NewDocumentFormProps,
+    payload: Parameters<OnSubmit>[0],
+  ) => ReactNode;
   onBack(): void;
   onSubmit: OnSubmit;
 };
@@ -72,30 +76,34 @@ const ManualForm = () => {
           {...inject(`name`)}
         />
       </Field>
-      <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
-        <Button
-          s={2}
-          i={1}
-          type="button"
-          title="Back to document type selection"
-          auto
-          disabled={ctx.disabled}
-          onClick={ctx.onBack}
-        >
-          Back
-        </Button>
-        <Button
-          type="submit"
-          i={2}
-          s={2}
-          auto
-          title="Confirm document creation"
-          disabled={untouched || invalid || ctx.disabled}
-        >
-          Create
-          <BiPlusCircle />
-        </Button>
-      </footer>
+      {ctx.renderFooter ? (
+        ctx.renderFooter(ctx, { values, variant: `manual` })
+      ) : (
+        <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
+          <Button
+            s={2}
+            i={1}
+            type="button"
+            title="Back to document type selection"
+            auto
+            disabled={ctx.disabled}
+            onClick={ctx.onBack}
+          >
+            Back
+          </Button>
+          <Button
+            type="submit"
+            i={2}
+            s={2}
+            auto
+            title="Confirm document creation"
+            disabled={untouched || invalid || ctx.disabled}
+          >
+            Create
+            <BiPlusCircle />
+          </Button>
+        </footer>
+      )}
     </form>
   );
 };
@@ -196,30 +204,34 @@ This difference is critical because true productivity comes from self-awareness 
             Generation will take <strong>5 tokens</strong>
           </p>
         </div>
-        <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
-          <Button
-            s={2}
-            i={1}
-            type="button"
-            title="Back to document type selection"
-            auto
-            disabled={ctx.disabled}
-            onClick={ctx.onBack}
-          >
-            Back
-          </Button>
-          <Button
-            type="submit"
-            i={2}
-            s={2}
-            auto
-            title="Confirm document creation with AI"
-            disabled={untouched || invalid || ctx.disabled}
-          >
-            Create
-            <BiPlusCircle />
-          </Button>
-        </footer>
+        {ctx.renderFooter ? (
+          ctx.renderFooter(ctx, { values, variant: `ai` })
+        ) : (
+          <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
+            <Button
+              s={2}
+              i={1}
+              type="button"
+              title="Back to document type selection"
+              auto
+              disabled={ctx.disabled}
+              onClick={ctx.onBack}
+            >
+              Back
+            </Button>
+            <Button
+              type="submit"
+              i={2}
+              s={2}
+              auto
+              title="Confirm document creation with AI"
+              disabled={untouched || invalid || ctx.disabled}
+            >
+              Create
+              <BiPlusCircle />
+            </Button>
+          </footer>
+        )}
       </div>
     </form>
   );

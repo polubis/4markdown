@@ -145,10 +145,40 @@ const stopGenerationAction = (conversationId: SUID): void => {
                 message: `Generation stopped`,
               },
             ],
-            operation: { is: `stopped` },
+            operation: { is: `idle` },
           }
         : conversation,
     ),
+  });
+};
+
+const modifyGenerationPayloadAction = (
+  conversationId: SUID,
+  payload: API4MarkdownPayload<'createContentWithAI'>,
+): void => {
+  set({
+    conversations: get().conversations.map((conversation) =>
+      conversation.id === conversationId
+        ? {
+            ...conversation,
+            history: [
+              ...conversation.history,
+              {
+                id: suid(),
+                type: `system-message`,
+                message: `Generation parameters modified. Generating new content`,
+              },
+            ],
+            operation: { is: `busy` },
+            payload,
+          }
+        : conversation,
+    ),
+  });
+
+  documentGenerationSubject.next({
+    payload,
+    conversationId,
   });
 };
 
@@ -160,4 +190,5 @@ export {
   stopGenerationAction,
   addAssistantErrorAction,
   retryGenerationAction,
+  modifyGenerationPayloadAction,
 };
