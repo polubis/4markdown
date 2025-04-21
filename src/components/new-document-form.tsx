@@ -204,7 +204,7 @@ This difference is critical because true productivity comes from self-awareness 
         <div className="flex items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           <BiInfoCircle size={20} className="shrink-0" />
           <p>
-            Generation will take <strong>5 tokens</strong>
+            Generation will take <strong>10 tokens</strong>
           </p>
         </div>
         {ctx.renderFooter ? (

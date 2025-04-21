@@ -89,7 +89,7 @@ const PromptForm = ({
         <div className="flex items-center gap-1 mr-auto">
           <BiInfoCircle size={20} className="shrink-0" />
           <p className="text-sm">
-            It will take <strong>5 tokens</strong>
+            It will take <strong>10 tokens</strong>
           </p>
         </div>
         <Button
@@ -357,8 +357,7 @@ const ConversationListItemContainer = ({
                     </Button>
                   </>
                 )}
-                {(conversation.operation.is === `idle` ||
-                  conversation.operation.is === `fail`) && (
+                {conversation.operation.is === `fail` && (
                   <>
                     <Button
                       i={2}

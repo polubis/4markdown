@@ -2,7 +2,6 @@ import { context } from '@greenonsoftware/react-kit';
 import {
   type RewriteAssistantState,
   type RewriteAssistantAction,
-  REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS,
   type RewriteAssistantProps,
 } from '../models';
 import { suid } from 'development-kit/suid';
@@ -34,7 +33,7 @@ const reducer: Reducer<RewriteAssistantState, RewriteAssistantAction> = (
           {
             id: suid(),
             type: `user-input`,
-            content: `Please rewrite me selected fragment. Be ${REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS[action.payload]}`,
+            content: `Please rewrite me selected fragment`,
           },
         ],
       };
