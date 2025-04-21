@@ -8,12 +8,12 @@ import type { Prettify } from 'development-kit/utility-types';
 
 type History = ({ id: SUID } & (
   | {
-      type: `user-asked`;
+      type: `user`;
       message: string;
       payload: API4MarkdownPayload<'createContentWithAI'>;
     }
   | {
-      type: `assistant-reply`;
+      type: `assistant`;
       message: string;
       body: API4MarkdownDto<'createContentWithAI'>;
     }

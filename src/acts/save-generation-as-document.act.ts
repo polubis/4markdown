@@ -32,7 +32,7 @@ const saveGenerationAsDocumentAct = async (
 
     const record = [...conversation.history].slice(-1)[0];
 
-    if (record.type !== `assistant-reply`) {
+    if (record.type !== `assistant`) {
       docManagementStoreActions.fail(
         new Error(
           JSON.stringify({
@@ -49,7 +49,7 @@ const saveGenerationAsDocumentAct = async (
 
     const payload = [...conversation.history]
       .reverse()
-      .find((record) => record.type === `user-asked`)?.payload;
+      .find((record) => record.type === `user`)?.payload;
 
     if (!payload) {
       docManagementStoreActions.fail(

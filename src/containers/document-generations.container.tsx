@@ -162,7 +162,7 @@ const ConversationListItemContainer = ({
     () =>
       [...conversation.history]
         .reverse()
-        .find((record) => record.type === `user-asked`),
+        .find((record) => record.type === `user`),
     [conversation],
   );
 
@@ -240,7 +240,7 @@ const ConversationListItemContainer = ({
             >
               {conversation.history.map((record) => {
                 switch (record.type) {
-                  case `user-asked`:
+                  case `user`:
                     return (
                       <div key={record.id}>
                         <li className="rounded-md w-fit py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
@@ -248,7 +248,7 @@ const ConversationListItemContainer = ({
                         </li>
                       </div>
                     );
-                  case `assistant-reply`:
+                  case `assistant`:
                     return (
                       <div key={record.id}>
                         <li className="rounded-md w-fit flex flex-col gap-2 py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">

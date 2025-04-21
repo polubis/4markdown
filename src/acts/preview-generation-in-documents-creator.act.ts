@@ -13,7 +13,7 @@ const previewGenerationInDocumentsCreatorAct = (conversationId: SUID): void => {
 
   const record = [...conversation.history]
     .reverse()
-    .find((record) => record.type === `assistant-reply`);
+    .find((record) => record.type === `assistant`);
 
   if (!record) {
     throw Error(`No assistant reply found`);

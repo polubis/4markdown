@@ -25,7 +25,7 @@ const startConversationAction = (
         history: [
           {
             id: suid(),
-            type: `user-asked`,
+            type: `user`,
             message: `User asked for document generation`,
             payload,
           },
@@ -68,7 +68,7 @@ const addAssistantReplyAction = (
               ...conversation.history,
               {
                 id: suid(),
-                type: `assistant-reply`,
+                type: `assistant`,
                 message: `my content`,
                 body,
               },
@@ -126,7 +126,7 @@ const retryGenerationAction = (conversationId: SUID): void => {
 
   const payload = [...conversation.history]
     .reverse()
-    .find((record) => record.type === `user-asked`)?.payload;
+    .find((record) => record.type === `user`)?.payload;
 
   if (!payload) {
     throw Error(`Cannot find payload for conversation ${conversationId}`);
@@ -174,7 +174,7 @@ const modifyGenerationPayloadAction = (
               ...conversation.history,
               {
                 id: suid(),
-                type: `user-asked`,
+                type: `user`,
                 message: `Generation parameters modified`,
                 payload,
               },
@@ -202,7 +202,7 @@ const addPromptAction = (conversationId: SUID, prompt: string): void => {
 
   const payload = [...conversation.history]
     .reverse()
-    .find((record) => record.type === `user-asked`)?.payload;
+    .find((record) => record.type === `user`)?.payload;
 
   if (!payload) {
     throw Error(`Cannot find payload for conversation ${conversationId}`);
@@ -222,7 +222,7 @@ const addPromptAction = (conversationId: SUID, prompt: string): void => {
               ...conversation.history,
               {
                 id: suid(),
-                type: `user-asked`,
+                type: `user`,
                 message: prompt,
                 payload: newPayload,
               },
