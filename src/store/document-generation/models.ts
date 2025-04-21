@@ -8,10 +8,10 @@ import type { Prettify } from 'development-kit/utility-types';
 
 type History = ({ id: SUID } & (
   | {
-      type: `user-started`;
+      type: `user-asked`;
       message: string;
+      payload: API4MarkdownPayload<'createContentWithAI'>;
     }
-  | { type: `user-asked`; message: string }
   | {
       type: `assistant-reply`;
       message: string;
@@ -21,8 +21,7 @@ type History = ({ id: SUID } & (
 ))[];
 
 type Conversation = Prettify<{
-  payload: API4MarkdownPayload<'createContentWithAI'>;
-  history: History;
+  history: [Extract<History[number], { type: `user-asked` }>, ...History];
   opened: boolean;
   operation:
     | { is: `idle` }

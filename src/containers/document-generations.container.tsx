@@ -103,6 +103,8 @@ const ConversationListItemContainer = ({
     };
   }, [conversation.opened, conversation.history, conversation.operation]);
 
+  const firstHistoryItem = conversation.history[0];
+
   return (
     <>
       <li
@@ -115,7 +117,7 @@ const ConversationListItemContainer = ({
         )}
       >
         <div className="relative flex items-center py-2 gap-1 px-3">
-          <h6 className="truncate mr-1">{conversation.payload.name}</h6>
+          <h6 className="truncate mr-1">{firstHistoryItem.payload.name}</h6>
           <Button
             i={1}
             s={1}
@@ -175,7 +177,7 @@ const ConversationListItemContainer = ({
             >
               {conversation.history.map((record) => {
                 switch (record.type) {
-                  case `user-started`:
+                  case `user-asked`:
                     return (
                       <div key={record.id}>
                         <li className="rounded-md w-fit py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">

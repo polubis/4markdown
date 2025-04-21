@@ -11,6 +11,8 @@ const saveGenerationAsDocumentAct = async (
   conversationId: SUID,
 ): Promise<void> => {
   try {
+    docManagementStoreActions.busy();
+
     const conversation = useDocumentGenerationState
       .get()
       .conversations.find((conversation) => conversation.id === conversationId);
@@ -45,10 +47,25 @@ const saveGenerationAsDocumentAct = async (
 
     const code = record.body.output;
 
-    docManagementStoreActions.busy();
+    const payload = [...conversation.history]
+      .reverse()
+      .find((record) => record.type === `user-asked`)?.payload;
+
+    if (!payload) {
+      docManagementStoreActions.fail(
+        new Error(
+          JSON.stringify({
+            symbol: `client-error`,
+            content: `Cannot find payload for conversation ${conversationId}`,
+            message: `Cannot find payload for conversation ${conversationId}`,
+          }),
+        ),
+      );
+      return;
+    }
 
     const createdDocument = await getAPI().call(`createDocument`)({
-      name: conversation.payload.name,
+      name: payload.name,
       code,
     });
 

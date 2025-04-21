@@ -25,12 +25,12 @@ const startConversationAction = (
         history: [
           {
             id: suid(),
-            type: `user-started`,
+            type: `user-asked`,
             message: `User asked for document generation`,
+            payload,
           },
         ],
         operation: { is: `busy` },
-        payload,
       },
       ...get().conversations,
     ],
@@ -124,14 +124,23 @@ const retryGenerationAction = (conversationId: SUID): void => {
     ),
   });
 
+  const payload = [...conversation.history]
+    .reverse()
+    .find((record) => record.type === `user-asked`)?.payload;
+
+  if (!payload) {
+    throw Error(`Cannot find payload for conversation ${conversationId}`);
+  }
+
   documentGenerationSubject.next({
-    payload: conversation.payload,
+    payload,
     conversationId,
   });
 };
 
 const stopGenerationAction = (conversationId: SUID): void => {
   documentGenerationCancelSubject.next(conversationId);
+
   set({
     conversations: get().conversations.map((conversation) =>
       conversation.id === conversationId
