@@ -30,6 +30,7 @@ type CreateContentWithAIContract = Contract<
     style: string[];
     structure: string;
     sample: string;
+    prompt?: string;
   }
 >;
 type RewriteWithAssistantContract = Contract<

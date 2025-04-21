@@ -1,5 +1,5 @@
 import { usePortal } from 'development-kit/use-portal';
-import React from 'react';
+import React, { type FormEventHandler } from 'react';
 import {
   documentGenerationCancelSubject,
   documentGenerationSubject,
@@ -12,6 +12,7 @@ import {
   BiChevronDown,
   BiEdit,
   BiError,
+  BiInfoCircle,
   BiListCheck,
   BiPencil,
   BiRefresh,
@@ -23,6 +24,7 @@ import {
 import {
   addAssistantErrorAction,
   addAssistantReplyAction,
+  addPromptAction,
   closeConversationAction,
   modifyGenerationPayloadAction,
   retryGenerationAction,
@@ -54,6 +56,59 @@ import {
 } from 'components/new-document-form';
 import Backdrop from 'design-system/backdrop';
 import { Textarea } from 'design-system/textarea';
+
+const PromptForm = ({
+  onCancel,
+  onSubmit,
+}: {
+  onCancel(): void;
+  onSubmit(prompt: string): void;
+}) => {
+  const [prompt, setPrompt] = React.useState(``);
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    onSubmit(prompt);
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit}
+      className="py-2 px-3 flex flex-col items-end gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t"
+    >
+      <Textarea
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        required
+        minLength={5}
+        maxLength={500}
+        placeholder="What I can do for you :)?"
+        className="[&_textarea]:h-[100px] [&_textarea]:resize-none"
+      />
+      <footer className="flex gap-2 w-full">
+        <div className="flex items-center gap-1 mr-auto">
+          <BiInfoCircle size={20} className="shrink-0" />
+          <p className="text-sm">
+            It will take <strong>5 tokens</strong>
+          </p>
+        </div>
+        <Button
+          i={1}
+          s={1}
+          auto
+          type="button"
+          title="Cancel prompt addition"
+          onClick={onCancel}
+        >
+          Cancel
+        </Button>
+        <Button i={2} s={1} auto type="submit" title="Send prompt">
+          Send
+        </Button>
+      </footer>
+    </form>
+  );
+};
 
 const ConversationListItemContainer = ({
   conversation,
@@ -236,27 +291,13 @@ const ConversationListItemContainer = ({
               )}
             </ol>
             {promptField.isOn && (
-              <form className="py-2 px-3 flex flex-col items-end gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
-                <Textarea
-                  placeholder="What I can do for you :)?"
-                  className="[&_textarea]:h-[100px] [&_textarea]:resize-none"
-                />
-                <footer className="flex gap-2">
-                  <Button
-                    i={1}
-                    s={1}
-                    auto
-                    type="button"
-                    title="Cancel prompt addition"
-                    onClick={promptField.off}
-                  >
-                    Back
-                  </Button>
-                  <Button i={2} s={1} auto type="submit" title="Send prompt">
-                    Send
-                  </Button>
-                </footer>
-              </form>
+              <PromptForm
+                onCancel={promptField.off}
+                onSubmit={(prompt) => {
+                  promptField.off();
+                  addPromptAction(conversation.id, prompt);
+                }}
+              />
             )}
             {promptField.isOff && (
               <div className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">

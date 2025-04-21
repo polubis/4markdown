@@ -191,6 +191,54 @@ const modifyGenerationPayloadAction = (
   });
 };
 
+const addPromptAction = (conversationId: SUID, prompt: string): void => {
+  const conversation = get().conversations.find(
+    (conversation) => conversation.id === conversationId,
+  );
+
+  if (!conversation) {
+    throw Error(`Conversation not found. Something went wrong`);
+  }
+
+  const payload = [...conversation.history]
+    .reverse()
+    .find((record) => record.type === `user-asked`)?.payload;
+
+  if (!payload) {
+    throw Error(`Cannot find payload for conversation ${conversationId}`);
+  }
+
+  const newPayload = {
+    ...payload,
+    prompt,
+  };
+
+  set({
+    conversations: get().conversations.map((conversation) =>
+      conversation.id === conversationId
+        ? {
+            ...conversation,
+            history: [
+              ...conversation.history,
+              {
+                id: suid(),
+                type: `user-asked`,
+                message: prompt,
+                payload: newPayload,
+              },
+            ],
+            operation: { is: `busy` },
+          }
+        : conversation,
+    ),
+  });
+
+  documentGenerationSubject.next({
+    payload: newPayload,
+    conversationId,
+  });
+};
+
 export {
   startConversationAction,
   toggleConversationAction,
@@ -200,4 +248,5 @@ export {
   addAssistantErrorAction,
   retryGenerationAction,
   modifyGenerationPayloadAction,
+  addPromptAction,
 };
