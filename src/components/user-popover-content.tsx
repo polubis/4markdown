@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'design-system/button';
-import { BiEdit, BiRefresh } from 'react-icons/bi';
+import { BiPencil, BiRefresh } from 'react-icons/bi';
 import { useConfirm } from 'development-kit/use-confirm';
 import { Modal } from 'design-system/modal';
 import { UserProfileFormModalContainer } from 'containers/user-profile-form-modal.container';
@@ -53,7 +53,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
           disabled={yourUserProfile.is !== `ok`}
           onClick={userProfileForm.on}
         >
-          <BiEdit />
+          <BiPencil />
         </Button>
         <Button
           i={2}

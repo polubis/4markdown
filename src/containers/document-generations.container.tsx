@@ -13,6 +13,7 @@ import {
   BiEdit,
   BiError,
   BiListCheck,
+  BiPencil,
   BiRefresh,
   BiSave,
   BiShow,
@@ -51,6 +52,8 @@ import {
   NewDocumentForm,
   type NewDocumentFormProps,
 } from 'components/new-document-form';
+import Backdrop from 'design-system/backdrop';
+import { Textarea } from 'design-system/textarea';
 
 const ConversationListItemContainer = ({
   conversation,
@@ -58,6 +61,8 @@ const ConversationListItemContainer = ({
   conversation: DocumentGenerationState['conversations'][number];
 }) => {
   const conversationListRef = React.useRef<HTMLOListElement>(null);
+
+  const promptField = useSimpleFeature();
 
   const closeOperation = useConfirm(() =>
     closeConversationAction(conversation.id),
@@ -163,7 +168,10 @@ const ConversationListItemContainer = ({
           <>
             <ol
               ref={conversationListRef}
-              className="flex flex-col px-3 gap-2 border-zinc-300 dark:border-zinc-800 border-t overflow-y-auto max-h-[300px] [&>*:first-child]:pt-3 [&>*:last-child]:pb-3"
+              className={c(
+                `flex flex-col px-3 gap-2 border-zinc-300 dark:border-zinc-800 border-t overflow-y-auto [&>*:first-child]:pt-3 [&>*:last-child]:pb-3`,
+                promptField.isOn ? `max-h-[160px]` : `max-h-[300px]`,
+              )}
             >
               {conversation.history.map((record) => {
                 switch (record.type) {
@@ -217,65 +225,102 @@ const ConversationListItemContainer = ({
                 </div>
               )}
             </ol>
-            <footer className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
-              {conversation.operation.is !== `busy` && (
-                <Button
-                  i={2}
-                  s={1}
-                  title="Modify generation parameters"
-                  onClick={editForm.toggle}
-                >
-                  <BiEdit />
-                </Button>
-              )}
-              {conversation.operation.is === `busy` && (
-                <Button
-                  i={2}
-                  s={1}
-                  title="Stop generation"
-                  onClick={() => stopGenerationAction(conversation.id)}
-                >
-                  <BiStop />
-                </Button>
-              )}
-              {conversation.operation.is === `ok` && (
-                <>
+            {promptField.isOn && (
+              <form className="py-2 px-3 flex flex-col items-end gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
+                <Textarea
+                  placeholder="What I can do for you :)?"
+                  className="[&_textarea]:h-[100px] [&_textarea]:resize-none"
+                />
+                <footer className="flex gap-2">
+                  <Button
+                    i={1}
+                    s={1}
+                    auto
+                    type="button"
+                    title="Cancel prompt addition"
+                    onClick={promptField.off}
+                  >
+                    Back
+                  </Button>
+                  <Button i={2} s={1} auto type="submit" title="Send prompt">
+                    Send
+                  </Button>
+                </footer>
+              </form>
+            )}
+            {promptField.isOff && (
+              <div className="py-2 px-3 flex items-center gap-2 justify-end border-zinc-300 dark:border-zinc-800 border-t">
+                {conversation.operation.is !== `busy` && (
+                  <>
+                    <Button
+                      i={2}
+                      s={1}
+                      title="Customize prompt"
+                      onClick={promptField.toggle}
+                    >
+                      <BiEdit />
+                    </Button>
+                    <Button
+                      i={2}
+                      s={1}
+                      title="Modify generation parameters"
+                      onClick={editForm.toggle}
+                    >
+                      <BiPencil />
+                    </Button>
+                  </>
+                )}
+                {conversation.operation.is === `busy` && (
                   <Button
                     i={2}
                     s={1}
-                    title="Display generated content in creator"
-                    disabled={docManagementStore.is === `busy`}
-                    onClick={() =>
-                      previewGenerationInDocumentsCreatorAct(conversation.id)
-                    }
+                    title="Stop generation"
+                    onClick={() => stopGenerationAction(conversation.id)}
                   >
-                    <BiShow />
+                    <BiStop />
                   </Button>
-                  <Button
-                    disabled={docManagementStore.is === `busy`}
-                    i={2}
-                    s={1}
-                    onClick={() => saveGenerationAsDocumentAct(conversation.id)}
-                    title="Save as new document"
-                  >
-                    <BiSave />
-                  </Button>
-                </>
-              )}
-              {(conversation.operation.is === `idle` ||
-                conversation.operation.is === `fail`) && (
-                <>
-                  <Button
-                    i={2}
-                    s={1}
-                    title="Retry generation"
-                    onClick={() => retryGenerationAction(conversation.id)}
-                  >
-                    <BiRefresh />
-                  </Button>
-                </>
-              )}
-            </footer>
+                )}
+                {conversation.operation.is === `ok` && (
+                  <>
+                    <Button
+                      i={2}
+                      s={1}
+                      title="Display generated content in creator"
+                      disabled={docManagementStore.is === `busy`}
+                      onClick={() =>
+                        previewGenerationInDocumentsCreatorAct(conversation.id)
+                      }
+                    >
+                      <BiShow />
+                    </Button>
+                    <Button
+                      disabled={docManagementStore.is === `busy`}
+                      i={2}
+                      s={1}
+                      onClick={() =>
+                        saveGenerationAsDocumentAct(conversation.id)
+                      }
+                      title="Save as new document"
+                    >
+                      <BiSave />
+                    </Button>
+                  </>
+                )}
+                {(conversation.operation.is === `idle` ||
+                  conversation.operation.is === `fail`) && (
+                  <>
+                    <Button
+                      i={2}
+                      s={1}
+                      title="Retry generation"
+                      onClick={() => retryGenerationAction(conversation.id)}
+                    >
+                      <BiRefresh />
+                    </Button>
+                  </>
+                )}
+              </div>
+            )}
           </>
         )}
       </li>
@@ -290,29 +335,17 @@ const ConversationListItemContainer = ({
             onBack={editForm.off}
             onSubmit={confirmModifyGenerationModify}
             renderFooter={(props, { untouched, invalid }) => (
-              <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
-                <Button
-                  s={2}
-                  i={1}
-                  type="button"
-                  title="Back to generation list"
-                  auto
-                  disabled={props.disabled}
-                  onClick={props.onBack}
-                >
-                  Back
-                </Button>
-                <Button
-                  type="submit"
-                  i={2}
-                  s={2}
-                  auto
-                  title="Save generation parameters"
-                  disabled={props.disabled || untouched || invalid}
-                >
-                  Save
-                </Button>
-              </footer>
+              <Button
+                type="submit"
+                i={2}
+                s={2}
+                className="mt-4"
+                auto
+                title="Save generation parameters"
+                disabled={props.disabled || untouched || invalid}
+              >
+                Save
+              </Button>
             )}
           />
         </Modal>
@@ -382,19 +415,24 @@ const DocumentGenerationsContainer = () => {
           s={1}
           i={2}
           title="Show/hide generated documents"
+          className="z-[11]"
           onClick={mobileGenerationList.toggle}
         >
           {mobileGenerationList.isOn ? <BiX /> : <BiListCheck />}
         </Button>
+
         {mobileGenerationList.isOn && (
-          <ol className="flex flex-col gap-2 w-full">
-            {conversations.map((conversation) => (
-              <ConversationListItemContainer
-                key={conversation.id}
-                conversation={conversation}
-              />
-            ))}
-          </ol>
+          <>
+            <Backdrop />
+            <ol className="flex flex-col gap-2 w-full z-10">
+              {conversations.map((conversation) => (
+                <ConversationListItemContainer
+                  key={conversation.id}
+                  conversation={conversation}
+                />
+              ))}
+            </ol>
+          </>
         )}
       </div>
     </>,

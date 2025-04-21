@@ -3,7 +3,7 @@ import { HandleX, HandleY } from './handles';
 import { type NodeProps } from '@xyflow/react';
 import { NodeTile } from './node-tile';
 import { Button } from 'design-system/button';
-import { BiEdit, BiWorld } from 'react-icons/bi';
+import { BiPencil, BiWorld } from 'react-icons/bi';
 import type { MindmapCreatorExternalNode } from 'store/mindmap-creator/models';
 import { openNodeEditionAction } from 'store/mindmap-creator/actions';
 
@@ -41,7 +41,7 @@ const ExternalNodeTile = ({
             });
           }}
         >
-          <BiEdit />
+          <BiPencil />
         </Button>
         <a
           href={data.url}
