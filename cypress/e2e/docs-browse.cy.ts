@@ -22,6 +22,7 @@ describe(`Docs browse works when`, () => {
       .and(`I see text in creator`, documentCode1)
       .and(`I see button`, [`Your documents`])
       .when(`I click button`, [`Create new document`])
+      .and(`I click button`, [`Go to manual document creation form`])
       .and(
         `I type in input`,
         `My Notes, Basics of Computer Science, ...etc`,
@@ -50,6 +51,7 @@ describe(`Docs browse works when`, () => {
       .and(`I see text`, [documentName1])
       .and(`I see text in creator`, documentCode2)
       .when(`I click button`, [`Create new document`])
+      .and(`I click button`, [`Go to manual document creation form`])
       .and(
         `I type in input`,
         `My Notes, Basics of Computer Science, ...etc`,

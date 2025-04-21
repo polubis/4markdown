@@ -37,6 +37,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     const editedDocumentDescription = `This is totally new description for permament document to prove edition mechanism works with required amount of characters`;
 
     given(`I click button`, [`Create new document`])
+      .and(`I click button`, [`Go to manual document creation form`])
       .then(`I see text`, [`Create Document`, `Document Name*`, `Create`])
       .and(`I see disabled button`, [`Confirm document creation`])
       .when(
@@ -143,6 +144,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
     const documentNameEdited = `Doc 2`;
 
     return given(`I click button`, [`Create new document`])
+      .and(`I click button`, [`Go to manual document creation form`])
       .then(`I see text`, [`Create Document`, `Document Name*`, `Create`])
       .and(`I see disabled button`, [`Confirm document creation`])
       .when(

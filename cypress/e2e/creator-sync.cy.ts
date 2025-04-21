@@ -5,13 +5,11 @@ describe(`Creator sync works when`, () => {
   const given = gherkin({
     ...BASE_COMMANDS,
     'I see sidebar': () => {
-      cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
-        `be.visible`,
-      );
+      cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`exist`);
     },
     'I see no sidebar': () => {
       cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
-        `not.be.visible`,
+        `not.exist`,
       );
     },
   });

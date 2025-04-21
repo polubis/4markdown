@@ -56,7 +56,8 @@ type ClickableControls =
   | `Close markdown cheatsheet`
   | `Close error screen`
   | `Open search`
-  | `Close search`;
+  | `Close search`
+  | `Go to manual document creation form`;
 
 type Element =
   | `Create any content`
@@ -97,11 +98,9 @@ const BASE_COMMANDS = {
   },
   'I change theme': () => {
     BASE_COMMANDS[`I open app navigation`]();
-    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`be.visible`);
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`exist`);
     BASE_COMMANDS[`I click button`]([`Change theme`, `Close navigation`]);
-    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
-      `not.be.visible`,
-    );
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`not.exist`);
   },
   'I click button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {

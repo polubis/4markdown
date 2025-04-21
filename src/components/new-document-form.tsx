@@ -61,7 +61,7 @@ const ManualForm = () => {
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>
       <Field
-        label="Name*"
+        label="Document Name*"
         hint={
           <Hint
             trigger={
