@@ -256,7 +256,7 @@ const ConversationListItemContainer = ({
                         </li>
                       </div>
                     );
-                  case `system-message`:
+                  case `system`:
                     return (
                       <div key={record.id}>
                         <li className="w-fit rounded-md py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">

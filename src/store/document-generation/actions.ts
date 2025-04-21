@@ -150,7 +150,7 @@ const stopGenerationAction = (conversationId: SUID): void => {
               ...conversation.history,
               {
                 id: suid(),
-                type: `system-message`,
+                type: `system`,
                 message: `Generation stopped`,
               },
             ],
