@@ -8,17 +8,15 @@ const previewGenerationInDocumentsCreatorAct = (conversationId: SUID): void => {
     .conversations.find((conversation) => conversation.id === conversationId);
 
   if (!conversation) {
-    return;
+    throw Error(`No conversation found`);
   }
 
-  if (!conversation) {
-    return;
-  }
+  const record = [...conversation.history]
+    .reverse()
+    .find((record) => record.type === `assistant-reply`);
 
-  const record = [...conversation.history].slice(-1)[0];
-
-  if (record.type !== `assistant-reply`) {
-    return;
+  if (!record) {
+    throw Error(`No assistant reply found`);
   }
 
   seeInDocumentsCreatorAct({ code: record.body.output });

@@ -21,7 +21,7 @@ type History = ({ id: SUID } & (
 ))[];
 
 type Conversation = Prettify<{
-  history: [Extract<History[number], { type: `user-asked` }>, ...History];
+  history: History;
   opened: boolean;
   operation:
     | { is: `idle` }

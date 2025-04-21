@@ -103,7 +103,15 @@ const ConversationListItemContainer = ({
     };
   }, [conversation.opened, conversation.history, conversation.operation]);
 
-  const firstHistoryItem = conversation.history[0];
+  const lastHistoryItem = React.useMemo(
+    () =>
+      [...conversation.history]
+        .reverse()
+        .find((record) => record.type === `user-asked`),
+    [conversation],
+  );
+
+  if (!lastHistoryItem) throw Error(`No user asked record found`);
 
   return (
     <>
@@ -117,7 +125,7 @@ const ConversationListItemContainer = ({
         )}
       >
         <div className="relative flex items-center py-2 gap-1 px-3">
-          <h6 className="truncate mr-1">{firstHistoryItem.payload.name}</h6>
+          <h6 className="truncate mr-1">{lastHistoryItem.payload.name}</h6>
           <Button
             i={1}
             s={1}

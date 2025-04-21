@@ -174,12 +174,12 @@ const modifyGenerationPayloadAction = (
               ...conversation.history,
               {
                 id: suid(),
-                type: `system-message`,
-                message: `Generation parameters modified. Generating new content`,
+                type: `user-asked`,
+                message: `Generation parameters modified`,
+                payload,
               },
             ],
             operation: { is: `busy` },
-            payload,
           }
         : conversation,
     ),
