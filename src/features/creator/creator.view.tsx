@@ -38,7 +38,8 @@ import {
   getSelectedText,
   replaceText,
 } from 'development-kit/textarea-utils';
-import { DocumentGenerationsContainer } from 'containers/document-generations.container';
+import { useAuthStore } from 'store/auth/auth.store';
+import { logIn } from 'actions/log-in.action';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -52,6 +53,12 @@ const RewriteAssistantModule = React.lazy(() =>
   ),
 );
 
+const DocumentGenerationsContainer = React.lazy(() =>
+  import(`../../containers/document-generations.container`).then((m) => ({
+    default: m.DocumentGenerationsContainer,
+  })),
+);
+
 const CheatSheetModal = React.lazy(() =>
   import(`./components/cheatsheet-modal`).then((m) => ({
     default: m.CheatSheetModal,
@@ -62,6 +69,7 @@ const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
+  const authStore = useAuthStore();
   const assistanceToolbox = useFeature<{
     content: string;
     from: number;
@@ -136,6 +144,15 @@ const CreatorView = () => {
     );
   };
 
+  const handleRewriteWithAIClick = (): void => {
+    if (authStore.is === `authorized`) {
+      rewriteAssistant.on();
+      return;
+    }
+
+    logIn();
+  };
+
   const maintainAssistantAppearance: ReactEventHandler<HTMLTextAreaElement> = (
     e,
   ) => {
@@ -194,7 +211,11 @@ const CreatorView = () => {
           <CheatSheetModal onClose={cheatsheetModal.off} />
         </React.Suspense>
       )}
-      <DocumentGenerationsContainer />
+      {authStore.is === `authorized` && (
+        <React.Suspense>
+          <DocumentGenerationsContainer />
+        </React.Suspense>
+      )}
       <main className="md:mt-[122px] md:mb-0 mb-[122px]">
         <Markdown className="markdown mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
           {code}
@@ -264,7 +285,7 @@ const CreatorView = () => {
                 s={1}
                 i={2}
                 title="Rewrite with AI"
-                onClick={rewriteAssistant.on}
+                onClick={handleRewriteWithAIClick}
               >
                 <BiBrain />
               </Button>

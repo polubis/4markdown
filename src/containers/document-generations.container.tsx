@@ -444,6 +444,14 @@ const DocumentGenerationsContainer = () => {
     };
   }, []);
 
+  const isGenerating = React.useMemo(
+    () =>
+      conversations.some(
+        (conversation) => conversation.operation.is === `busy`,
+      ),
+    [conversations],
+  );
+
   if (conversations.length === 0) {
     return null;
   }
@@ -465,7 +473,12 @@ const DocumentGenerationsContainer = () => {
           s={1}
           i={2}
           title="Show/hide generated documents"
-          className="z-[11]"
+          className={c(
+            `z-[11]`,
+            mobileGenerationList.isOn &&
+              isGenerating &&
+              `bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]`,
+          )}
           onClick={mobileGenerationList.toggle}
         >
           {mobileGenerationList.isOn ? <BiX /> : <BiListCheck />}

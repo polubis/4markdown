@@ -1,6 +1,7 @@
 import type { SUID } from 'development-kit/suid';
 import { useDocumentGenerationState } from 'store/document-generation';
 import { seeInDocumentsCreatorAct } from './see-in-documents-creator.act';
+import { toggleConversationAction } from 'store/document-generation/actions';
 
 const previewGenerationInDocumentsCreatorAct = (conversationId: SUID): void => {
   const conversation = useDocumentGenerationState
@@ -19,6 +20,7 @@ const previewGenerationInDocumentsCreatorAct = (conversationId: SUID): void => {
     throw Error(`No assistant reply found`);
   }
 
+  toggleConversationAction(conversationId);
   seeInDocumentsCreatorAct({ code: record.body.output });
 };
 

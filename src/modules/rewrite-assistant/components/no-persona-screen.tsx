@@ -1,7 +1,7 @@
 import { REWRITE_ASSISTANT_PERSONAS } from 'api-4markdown-contracts';
 import { Button } from 'design-system/button';
 import React from 'react';
-import { BiX } from 'react-icons/bi';
+import { BiInfoCircle, BiX } from 'react-icons/bi';
 import { useRewriteAssistantContext } from '../providers/rewrite-assistant.provider';
 import { REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS } from '../models';
 
@@ -55,6 +55,12 @@ const NoPersonaScreen = () => {
               {REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS[persona]}
             </Button>
           ))}
+        </div>
+        <div className="mt-4 flex w-fit items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+          <BiInfoCircle size={20} className="shrink-0" />
+          <p>
+            Generation will take <strong>1 token</strong>
+          </p>
         </div>
       </section>
     </div>
