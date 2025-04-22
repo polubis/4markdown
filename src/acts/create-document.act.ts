@@ -26,12 +26,10 @@ const createDocumentAct = async (
     setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
 
     return { is: `ok` };
-  } catch (rawError: unknown) {
-    const error = parseError(rawError);
-
+  } catch (error: unknown) {
     docManagementStoreActions.fail(error);
 
-    return { is: `fail`, error };
+    return { is: `fail`, error: parseError(error) };
   }
 };
 

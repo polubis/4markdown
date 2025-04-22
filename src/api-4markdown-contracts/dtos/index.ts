@@ -6,3 +6,4 @@ export * from './mindmap.dto';
 export * from './full-mindmap.dto';
 export * from './rewrite-assistant.dto';
 export * from './ai-generated-content.dto';
+export * from './your-account.dto';
