@@ -8,7 +8,7 @@ const PrivacyPolicyContent = () => {
       className="p-4 my-6 mx-auto prose dark:prose-invert"
     >
       <p>
-        <i>Updated at 2024-05-17</i>
+        <i>Updated at 2025-04-30</i>
       </p>
       <h1>Privacy Policy</h1>
       <p>
