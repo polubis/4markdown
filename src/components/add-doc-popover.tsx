@@ -40,6 +40,7 @@ const AddDocPopover = () => {
     if (!isDocumentCreationActive()) return;
 
     resetDocumentCreation();
+
     menu.on();
   }, [authStore.is, menu]);
 

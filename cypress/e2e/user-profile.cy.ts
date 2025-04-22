@@ -24,7 +24,7 @@ describe(`User profile works when`, () => {
     ...BASE_COMMANDS,
     'I see no profile section': () => {
       given(`I see text`, [
-        `Your Account`,
+        `Your Account & Profile`,
         `Make Yourself visible`,
         `You have not created a profile yet. A profile is like a business card that allows others to recognize the documents you have created.`,
         `Profile cards may be changed or removed any time.`,
@@ -45,7 +45,7 @@ describe(`User profile works when`, () => {
     },
     'I see profile card': () => {
       given(`I see text`, [
-        `Your Account`,
+        `Your Account & Profile`,
         profileData.displayName,
         profileData.bio,
       ]);

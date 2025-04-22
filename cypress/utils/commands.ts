@@ -195,7 +195,7 @@ const BASE_COMMANDS = {
     BASE_COMMANDS[`I not see button`]([`Sign in`]);
     BASE_COMMANDS[`I see disabled button`]([`Your documents`]);
     BASE_COMMANDS[`I click button`]([`User details and options`]);
-    BASE_COMMANDS[`I see text`]([`Your Account`]);
+    BASE_COMMANDS[`I see text`]([`Your Account & Profile`]);
     BASE_COMMANDS[`I see button`]([`Sign out`]);
     BASE_COMMANDS[`I see not disabled button`]([`Your documents`]);
     BASE_COMMANDS[`I click button`]([`Close your account panel`]);

@@ -43,7 +43,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   return (
     <Modal disabled={yourUserProfile.is === `busy`} onClose={onClose}>
       <Modal.Header
-        title="Your Account"
+        title="Your Account & Profile"
         closeButtonTitle="Close your account panel"
       >
         <Button

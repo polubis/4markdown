@@ -7,6 +7,7 @@ import { YourAvatarContainer } from '../containers/your-avatar.container';
 import { logIn } from 'actions/log-in.action';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
 import { useYourUserProfileState } from 'store/your-user-profile';
+import { useYourAccountState } from 'store/your-account';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
@@ -15,6 +16,7 @@ const UserPopover = ({ className }: { className?: string }) => {
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
   const yourUserProfile = useYourUserProfileState();
+  const yourAccount = useYourAccountState();
 
   const handleClick = () => {
     if (authStore.is === `idle`) return;
@@ -36,7 +38,8 @@ const UserPopover = ({ className }: { className?: string }) => {
         disabled={
           authStore.is === `idle` ||
           docsStore.is === `busy` ||
-          yourUserProfile.is === `busy`
+          yourUserProfile.is === `busy` ||
+          yourAccount.is === `busy`
         }
         title={
           authStore.is === `authorized` ? `User details and options` : `Sign in`

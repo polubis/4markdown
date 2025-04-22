@@ -115,33 +115,12 @@ const AIForm = () => {
   const ctx = useFormContext();
 
   const [{ invalid, values, untouched }, { inject }] = useForm<AIFormValues>({
-    name: `How to be productive as a software engineer`,
-    description: `Complete guide to mastering productivity and quality in your daily work: Eisenhower Matrix and Awakened Day technique with a Feedback Loop`,
-    style: `soft, edgy, smart`,
-    structure: `# How To Be Productive As A Software Engineer
-## Just Follow The Damn Yourself, CJ
-## The Awakened Day Method
-## Difference Between Strategic And Tactical Goals
-## Don't Begin Until You Are Ready To Finish
-## Mastering Eisenhower Matrix
-## Neverending Fight With Context Switching
-## Apps And Tools
-## Struggling Against Distractions
-## Learning With Passion
-## Using All That We've Learned
-## My Achievements In 2024
-## Summary`,
-    sample: `> The techniques I'm proposing here are my personal ones, based on consultations with professional therapists. You can try them, but I'm 100% sure they won't automatically fit your personal case. However, it's always good to broaden your horizons, and I recommend using others' experiences as inspiration to invent something tailored to your needs.  
-
-# How To Be **Productive** As A **Software Engineer**  
-
-I asked AI about types of people related to their work style, and this is what I got back:  
-
-1. Ticket monkeys.  
-2. Those who reflect on every piece of work they do.  
-
-This difference is critical because true productivity comes from self-awareness (by understanding your work style). By analyzing how you work daily, you step outside your comfort zone and confront your current "self" with reality.`,
-    profession: `Psychologist`,
+    name: ``,
+    description: ``,
+    style: ``,
+    structure: ``,
+    sample: ``,
+    profession: ``,
   });
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {

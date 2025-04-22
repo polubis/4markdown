@@ -54,7 +54,7 @@ const RewriteAssistantModule = React.lazy(() =>
 );
 
 const DocumentGenerationsContainer = React.lazy(() =>
-  import(`../../containers/document-generations.container`).then((m) => ({
+  import(`./containers/document-generations.container`).then((m) => ({
     default: m.DocumentGenerationsContainer,
   })),
 );

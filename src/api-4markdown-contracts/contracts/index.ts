@@ -21,12 +21,7 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   payload: TPayload;
 };
 
-type GetYourAccountContract = Contract<
-  `getYourAccount`,
-  {
-    account: YourAccountDto;
-  }
->;
+type GetYourAccountContract = Contract<`getYourAccount`, YourAccountDto>;
 
 type CreateContentWithAIContract = Contract<
   `createContentWithAI`,

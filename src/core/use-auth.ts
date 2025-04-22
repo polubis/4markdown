@@ -6,6 +6,7 @@ import { docsStoreActions } from 'store/docs/docs.store';
 import { initializeAPI } from 'api-4markdown';
 import { useYourUserProfileState } from 'store/your-user-profile';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { useYourAccountState } from 'store/your-account';
 
 const useAuth = () => {
   const [api] = React.useState(initializeAPI);
@@ -28,6 +29,7 @@ const useAuth = () => {
       useYourUserProfileState.reset();
       authStoreActions.unauthorize();
       useMindmapCreatorState.reset();
+      useYourAccountState.reset();
     });
 
     return () => {

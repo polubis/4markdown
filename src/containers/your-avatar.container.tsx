@@ -1,3 +1,4 @@
+import { getYourAccountAct } from 'acts/get-your-account.act';
 import { getYourUserProfileAct } from 'acts/get-your-user-profile.act';
 import type { AvatarSize } from 'design-system/avatar';
 import { Avatar } from 'design-system/avatar';
@@ -15,6 +16,7 @@ const YourAvatarContainer = ({ size }: YourAvatarContainerProps) => {
 
   React.useEffect(() => {
     getYourUserProfileAct();
+    getYourAccountAct();
   }, []);
 
   if (yourUserProfile.is !== `ok`) {
