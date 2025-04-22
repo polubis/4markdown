@@ -175,6 +175,11 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
             <p className="mt-1">
               You&apos;ve still {yourAccount.balance.tokens} tokens to use.
             </p>
+            <p className="mt-1">
+              <i>
+                Your tokens are <strong>refilled to 50 every 24 hours</strong>
+              </i>
+            </p>
           </div>
         )}
 
