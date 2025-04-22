@@ -7,8 +7,8 @@ import {
 import type {
   API4MarkdownDto,
   API4MarkdownPayload,
+  ParsedError,
 } from 'api-4markdown-contracts';
-import { parseError } from 'api-4markdown';
 
 const { get, set } = useDocumentGenerationState;
 
@@ -81,14 +81,14 @@ const addAssistantReplyAction = (
 
 const addAssistantErrorAction = (
   conversationId: SUID,
-  error: unknown,
+  error: ParsedError,
 ): void => {
   set({
     conversations: get().conversations.map((conversation) =>
       conversation.id === conversationId
         ? {
             ...conversation,
-            operation: { is: `fail`, error: parseError(error) },
+            operation: { is: `fail`, error },
           }
         : conversation,
     ),
