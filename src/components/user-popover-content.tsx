@@ -173,8 +173,13 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
           <div className="border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
             <h6 className="font-bold">Your Account Balance</h6>
             <p className="mt-1">
-              Currently you&apos;ve used <strong>0</strong> of your{` `}
-              <strong>10</strong> available tokens
+              You&apos;ve still {yourAccount.balance.tokens} tokens to use.
+            </p>
+            <p className="mt-1">
+              <i>
+                Your tokens are <strong>refilled to 50</strong> every day at
+                23:59 UTC
+              </i>
             </p>
           </div>
         )}
