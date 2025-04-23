@@ -82,7 +82,7 @@ const PromptForm = ({
         onChange={(e) => setPrompt(e.target.value)}
         required
         minLength={5}
-        maxLength={500}
+        maxLength={1024}
         placeholder="What I can do for you :)?"
         className="[&_textarea]:h-[100px] [&_textarea]:resize-none"
       />

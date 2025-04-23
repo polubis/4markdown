@@ -9,7 +9,12 @@ import { Hint } from 'design-system/hint';
 import { context } from '@greenonsoftware/react-kit';
 import { Textarea } from 'design-system/textarea';
 import { AI_CONTENT_GENERATION_TOKEN_COST } from 'core/consts';
-import { chain, maxLength, minLength } from 'development-kit/form';
+import {
+  chain,
+  maxLength,
+  minLength,
+  type ValidatorsSetup,
+} from 'development-kit/form';
 
 type AIFormValues = Pick<
   API4MarkdownPayload<'createContentWithAI'>,
@@ -49,24 +54,85 @@ const limits = {
     min: 1,
     max: 70,
   },
+  description: {
+    min: 10,
+    max: 250,
+  },
+  profession: {
+    min: 1,
+    max: 80,
+  },
+  style: {
+    min: 1,
+    max: 10,
+  },
+  structure: {
+    min: 4,
+    max: 32,
+  },
+  sample: {
+    min: 100,
+    max: 4092,
+  },
 } as const;
+
+const nameValidator = (value: string) =>
+  chain(minLength(limits.name.min), maxLength(limits.name.max))(value.trim());
+
+const manualValidators: ValidatorsSetup<ManualFormValues> = {
+  name: [nameValidator],
+};
+
+const styleValidator = (value: string) =>
+  chain(
+    minLength(limits.style.min),
+    maxLength(limits.style.max),
+  )(
+    value
+      .trim()
+      .split(`,`)
+      .map((styleEntry) => styleEntry.trim())
+      .filter((styleEntry) => styleEntry.length > 0),
+  );
+
+const aiValidators: ValidatorsSetup<AIFormValues> = {
+  name: [nameValidator],
+  description: [
+    (value) =>
+      chain(
+        minLength(limits.description.min),
+        maxLength(limits.description.max),
+      )(value.trim()),
+  ],
+  profession: [
+    (value) =>
+      chain(
+        minLength(limits.profession.min),
+        maxLength(limits.profession.max),
+      )(value.trim()),
+  ],
+  style: [styleValidator],
+  structure: [
+    (value) =>
+      chain(
+        minLength(limits.profession.min),
+        maxLength(limits.profession.max),
+      )(value.trim().split(`\n`).length),
+  ],
+  sample: [
+    (value) =>
+      chain(
+        minLength(limits.sample.min),
+        maxLength(limits.sample.max),
+      )(value.trim()),
+  ],
+};
 
 const ManualForm = () => {
   const ctx = useFormContext();
 
   const [{ invalid, values, untouched }, { inject }] =
-    useForm<ManualFormValues>(
-      { name: `` },
-      {
-        name: [
-          (value) =>
-            chain(
-              minLength(limits.name.min),
-              maxLength(limits.name.max),
-            )(value.trim()),
-        ],
-      },
-    );
+    useForm<ManualFormValues>({ name: `` }, manualValidators);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -130,14 +196,17 @@ const ManualForm = () => {
 const AIForm = () => {
   const ctx = useFormContext();
 
-  const [{ invalid, values, untouched }, { inject }] = useForm<AIFormValues>({
-    name: ``,
-    description: ``,
-    style: ``,
-    structure: ``,
-    sample: ``,
-    profession: ``,
-  });
+  const [{ invalid, values, untouched }, { inject }] = useForm<AIFormValues>(
+    {
+      name: ``,
+      description: ``,
+      style: ``,
+      structure: ``,
+      sample: ``,
+      profession: ``,
+    },
+    aiValidators,
+  );
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -148,6 +217,7 @@ const AIForm = () => {
   const splittedStyle = React.useMemo(
     () =>
       values.style
+        .trim()
         .split(`,`)
         .map((styleEntry) => styleEntry.trim())
         .filter((styleEntry) => styleEntry.length > 0).length,
@@ -157,23 +227,57 @@ const AIForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-3">
-        <Field label="Name*">
+        <Field
+          label={<Field.Label label="Name" value={values.name} required />}
+          hint={
+            <Hint
+              trigger={`Any characters, between ${limits.name.min} to ${limits.name.max} characters`}
+            />
+          }
+        >
           <Input placeholder={`My Notes, Basics of Math`} {...inject(`name`)} />
         </Field>
-        <Field label="Description*">
+        <Field
+          label={
+            <Field.Label
+              label="Description"
+              value={values.description}
+              required
+            />
+          }
+          hint={
+            <Hint
+              trigger={`Any characters, between ${limits.description.min} to ${limits.description.max} characters`}
+            />
+          }
+        >
           <Textarea
             placeholder="Let's explore the basics of computer science through a step-by-step guide filled with plenty of examples"
             {...inject(`description`)}
           />
         </Field>
-        <Field label="Profession*">
+        <Field
+          label={
+            <Field.Label
+              label="Profession"
+              value={values.profession}
+              required
+            />
+          }
+          hint={
+            <Hint
+              trigger={`Any characters, between ${limits.profession.min} to ${limits.profession.max} characters`}
+            />
+          }
+        >
           <Input
-            placeholder="Developer if writing about programming and so on"
+            placeholder="Frontend development, Math, Physics, ...etc"
             {...inject(`profession`)}
           />
         </Field>
         <Field
           label={splittedStyle === 0 ? `Style*` : `Style (${splittedStyle})*`}
+          hint={<Hint trigger={`Between 1 to 10 words, separated by commas`} />}
         >
           <Input placeholder="soft, edgy, smart" {...inject(`style`)} />
         </Field>
@@ -186,7 +290,7 @@ const AIForm = () => {
           }
         >
           <Textarea
-            placeholder={`# ${values.name ? values.name : `My Notes, Basics of Math`}\n## Introduction to Math\n### Basic Operations\n#### Algebra\n#### Geometry\n#### Calculus\n## Conclusion`}
+            placeholder={`# My Notes, Basics of Math \n## Introduction to Math\n### Basic Operations\n#### Algebra\n#### Geometry\n#### Calculus\n## Conclusion`}
             {...inject(`structure`)}
           />
         </Field>
@@ -241,7 +345,16 @@ const NewDocumentForm = () => {
 
   switch (ctx.variant) {
     case `ai`:
-      return <AIForm />;
+      return (
+        <>
+          <p className="mb-4">
+            Generation will be <strong>continued parallel</strong>. After accept
+            you&apos;ll be able to do other things, and customize the document
+            later
+          </p>
+          <AIForm />
+        </>
+      );
     case `manual`:
       return (
         <>

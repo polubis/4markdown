@@ -32,8 +32,7 @@ const Label = ({
   return (
     <>
       {label}
-      {` `}
-      {trimmed.length > 0 && `(${trimmed.length})`}
+      {trimmed.length > 0 && ` (${trimmed.length})`}
       {required && `*`}
     </>
   );
