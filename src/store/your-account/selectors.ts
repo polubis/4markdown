@@ -1,7 +1,7 @@
 import { type YourAccountState } from './models';
 
-const hasNotEnoughTokensSelector =
+const hasTokensForFeatureSelector =
   (tokensCost: number) => (state: YourAccountState) =>
-    state.is === `ok` && state.balance.tokens - tokensCost < 0;
+    state.is === `ok` && state.balance.tokens - tokensCost >= 0;
 
-export { hasNotEnoughTokensSelector };
+export { hasTokensForFeatureSelector };

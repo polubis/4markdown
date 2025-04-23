@@ -40,6 +40,9 @@ import {
 } from 'development-kit/textarea-utils';
 import { useAuthStore } from 'store/auth/auth.store';
 import { logIn } from 'actions/log-in.action';
+import { useYourAccountState } from 'store/your-account';
+import { hasTokensForFeatureSelector } from 'store/your-account/selectors';
+import { REWRITE_ASSISTANT_TOKEN_COST } from 'core/consts';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -64,6 +67,24 @@ const CheatSheetModal = React.lazy(() =>
     default: m.CheatSheetModal,
   })),
 );
+
+const RewriteWithAITriggerContainer = ({ onClick }: { onClick(): void }) => {
+  const hasTokens = useYourAccountState(
+    hasTokensForFeatureSelector(REWRITE_ASSISTANT_TOKEN_COST),
+  );
+
+  return (
+    <Button
+      s={1}
+      i={2}
+      disabled={!hasTokens}
+      title="Rewrite with AI"
+      onClick={onClick}
+    >
+      <BiBrain />
+    </Button>
+  );
+};
 
 const CreatorView = () => {
   const [copyState, copy] = useCopy();
@@ -144,7 +165,7 @@ const CreatorView = () => {
     );
   };
 
-  const handleRewriteWithAIClick = (): void => {
+  const rewriteWithAI = (): void => {
     if (authStore.is === `authorized`) {
       rewriteAssistant.on();
       return;
@@ -287,14 +308,7 @@ const CreatorView = () => {
           />
           {assistanceToolbox.is === `on` && rewriteAssistant.isOff && (
             <div className="absolute bottom-4 right-4 flex flex-col gap-2">
-              <Button
-                s={1}
-                i={2}
-                title="Rewrite with AI"
-                onClick={handleRewriteWithAIClick}
-              >
-                <BiBrain />
-              </Button>
+              <RewriteWithAITriggerContainer onClick={rewriteWithAI} />
               <Button
                 s={1}
                 i={2}
