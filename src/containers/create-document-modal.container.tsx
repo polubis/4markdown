@@ -30,20 +30,20 @@ const CreateDocumentModalContainer = ({
     hasTokensForFeatureSelector(AI_CONTENT_GENERATION_TOKEN_COST),
   );
 
-  const submitForm: NewDocumentFormProps['onSubmit'] = async (payload) => {
-    if (payload.variant === `manual`) {
-      const result = await createDocumentAct(payload.values);
+  const submitManualDocumentCreation: Extract<
+    NewDocumentFormProps,
+    { variant: `manual` }
+  >['onSubmit'] = async (values) => {
+    (await createDocumentAct(values)).is === `ok` && onClose();
+  };
 
-      if (result.is === `ok`) {
-        onClose();
-      }
-
-      return;
-    }
-
+  const submitAIDocumentCreation: Extract<
+    NewDocumentFormProps,
+    { variant: `ai` }
+  >['onSubmit'] = async (values) => {
     startConversationAction({
-      ...payload.values,
-      style: payload.values.style.split(`,`),
+      ...values,
+      style: values.style.split(`,`),
     });
 
     onClose();
@@ -59,7 +59,7 @@ const CreateDocumentModalContainer = ({
         closeButtonTitle="Close document adding"
       />
 
-      {activeType === `none` ? (
+      {activeType === `none` && (
         <>
           <section className="flex flex-col gap-3">
             <button
@@ -102,11 +102,22 @@ const CreateDocumentModalContainer = ({
             </button>
           </section>
         </>
-      ) : (
+      )}
+
+      {activeType === `ai` && (
         <NewDocumentForm
           variant={activeType}
           disabled={docManagementStore.is === `busy`}
-          onSubmit={submitForm}
+          onSubmit={submitAIDocumentCreation}
+          onBack={() => setActiveType(`none`)}
+        />
+      )}
+
+      {activeType === `manual` && (
+        <NewDocumentForm
+          variant={activeType}
+          disabled={docManagementStore.is === `busy`}
+          onSubmit={submitManualDocumentCreation}
           onBack={() => setActiveType(`none`)}
         />
       )}

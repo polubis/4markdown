@@ -15,6 +15,7 @@ import {
   minLength,
   type ValidatorsSetup,
 } from 'development-kit/form';
+import { falsy } from 'development-kit/guards';
 
 type AIFormValues = Pick<
   API4MarkdownPayload<'createContentWithAI'>,
@@ -25,25 +26,25 @@ type AIFormValues = Pick<
 
 type ManualFormValues = Pick<API4MarkdownPayload<'createDocument'>, 'name'>;
 
-type OnSubmit = (
-  payload:
-    | { variant: `ai`; values: AIFormValues }
-    | { variant: `manual`; values: ManualFormValues },
-) => void;
-
 type NewDocumentFormProps = {
   disabled?: boolean;
-  variant: 'ai' | 'manual';
-  renderFooter?: (
-    props: NewDocumentFormProps,
-    payload: Parameters<OnSubmit>[0] & {
-      untouched: boolean;
-      invalid: boolean;
-    },
-  ) => ReactNode;
   onBack(): void;
-  onSubmit: OnSubmit;
-};
+} & (
+  | {
+      variant: `ai`;
+      initialValues?: AIFormValues;
+      onSubmit(values: AIFormValues): void;
+      renderFooter?(
+        props: NewDocumentFormProps,
+        payload: {
+          values: AIFormValues;
+          untouched: boolean;
+          invalid: boolean;
+        },
+      ): ReactNode;
+    }
+  | { variant: `manual`; onSubmit(values: ManualFormValues): void }
+);
 
 const [FormProvider, useFormContext] = context(
   (props: NewDocumentFormProps) => props,
@@ -131,17 +132,14 @@ const aiValidators: ValidatorsSetup<AIFormValues> = {
 const ManualForm = () => {
   const ctx = useFormContext();
 
+  falsy(ctx.variant === `manual`, `Invalid variant submission detected`);
+
   const [{ invalid, values, untouched }, { inject }] =
     useForm<ManualFormValues>({ name: `` }, manualValidators);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-
-    if (ctx.variant !== `manual`) {
-      throw Error(`Invalid variant submission detected`);
-    }
-
-    ctx.onSubmit({ values, variant: `manual` });
+    ctx.onSubmit(values);
   };
 
   return (
@@ -161,34 +159,30 @@ const ManualForm = () => {
           {...inject(`name`)}
         />
       </Field>
-      {ctx.renderFooter ? (
-        ctx.renderFooter(ctx, { values, variant: `manual`, untouched, invalid })
-      ) : (
-        <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
-          <Button
-            s={2}
-            i={1}
-            type="button"
-            title="Back to document type selection"
-            auto
-            disabled={ctx.disabled}
-            onClick={ctx.onBack}
-          >
-            Back
-          </Button>
-          <Button
-            type="submit"
-            i={2}
-            s={2}
-            auto
-            title="Confirm document creation"
-            disabled={untouched || invalid || ctx.disabled}
-          >
-            Create
-            <BiPlusCircle />
-          </Button>
-        </footer>
-      )}
+      <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
+        <Button
+          s={2}
+          i={1}
+          type="button"
+          title="Back to document type selection"
+          auto
+          disabled={ctx.disabled}
+          onClick={ctx.onBack}
+        >
+          Back
+        </Button>
+        <Button
+          type="submit"
+          i={2}
+          s={2}
+          auto
+          title="Confirm document creation"
+          disabled={untouched || invalid || ctx.disabled}
+        >
+          Create
+          <BiPlusCircle />
+        </Button>
+      </footer>
     </form>
   );
 };
@@ -196,22 +190,28 @@ const ManualForm = () => {
 const AIForm = () => {
   const ctx = useFormContext();
 
+  falsy(ctx.variant === `ai`, `Invalid variant submission detected`);
+
+  const [initialValues] = React.useState<AIFormValues>(
+    () =>
+      ctx.initialValues ?? {
+        name: ``,
+        description: ``,
+        style: ``,
+        structure: ``,
+        sample: ``,
+        profession: ``,
+      },
+  );
+
   const [{ invalid, values, untouched }, { inject }] = useForm<AIFormValues>(
-    {
-      name: ``,
-      description: ``,
-      style: ``,
-      structure: ``,
-      sample: ``,
-      profession: ``,
-    },
+    initialValues,
     aiValidators,
   );
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-
-    ctx.onSubmit({ values, variant: `ai` });
+    ctx.onSubmit(values);
   };
 
   const splittedStyle = React.useMemo(
@@ -307,8 +307,8 @@ const AIForm = () => {
             <strong>{AI_CONTENT_GENERATION_TOKEN_COST} tokens</strong>
           </p>
         </div>
-        {ctx.renderFooter ? (
-          ctx.renderFooter(ctx, { values, variant: `ai`, untouched, invalid })
+        {ctx.variant === `ai` && ctx.renderFooter ? (
+          ctx.renderFooter(ctx, { values, untouched, invalid })
         ) : (
           <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
             <Button

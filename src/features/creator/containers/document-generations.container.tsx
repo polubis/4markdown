@@ -127,16 +127,13 @@ const ConversationListItemContainer = ({
   const docManagementStore = useDocManagementStore();
   const editForm = useSimpleFeature();
 
-  const confirmModifyGenerationModify: NewDocumentFormProps['onSubmit'] = (
-    payload,
-  ) => {
-    if (payload.variant !== `ai`) {
-      throw Error(`Invalid variant submission detected`);
-    }
-
+  const confirmModifyGenerationModify: Extract<
+    NewDocumentFormProps,
+    { variant: `ai` }
+  >['onSubmit'] = (values) => {
     modifyGenerationPayloadAction(conversation.id, {
-      ...payload.values,
-      style: payload.values.style.split(`,`),
+      ...values,
+      style: values.style.split(`,`),
     });
     editForm.off();
   };
