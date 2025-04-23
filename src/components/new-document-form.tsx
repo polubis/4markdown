@@ -8,7 +8,10 @@ import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 import { context } from '@greenonsoftware/react-kit';
 import { Textarea } from 'design-system/textarea';
-import { AI_CONTENT_GENERATION_TOKEN_COST } from 'core/consts';
+import {
+  AI_CONTENT_GENERATION_TOKEN_COST,
+  DOCUMENT_NAME_RULES,
+} from 'core/consts';
 import {
   chain,
   maxLength,
@@ -51,10 +54,6 @@ const [FormProvider, useFormContext] = context(
 );
 
 const limits = {
-  name: {
-    min: 1,
-    max: 70,
-  },
   description: {
     min: 10,
     max: 250,
@@ -78,7 +77,10 @@ const limits = {
 } as const;
 
 const nameValidator = (value: string) =>
-  chain(minLength(limits.name.min), maxLength(limits.name.max))(value.trim());
+  chain(
+    minLength(DOCUMENT_NAME_RULES.MIN),
+    maxLength(DOCUMENT_NAME_RULES.MAX),
+  )(value.trim());
 
 const manualValidators: ValidatorsSetup<ManualFormValues> = {
   name: [nameValidator],
@@ -118,7 +120,13 @@ const aiValidators: ValidatorsSetup<AIFormValues> = {
       chain(
         minLength(limits.profession.min),
         maxLength(limits.profession.max),
-      )(value.trim().split(`\n`).length),
+      )(
+        value
+          .trim()
+          .split(`\n`)
+          .map((entry) => entry.trim())
+          .filter((entry) => entry.length > 0),
+      ),
   ],
   sample: [
     (value) =>
@@ -150,7 +158,7 @@ const ManualForm = () => {
         }
         hint={
           <Hint
-            trigger={`Any characters, between ${limits.name.min} to ${limits.name.max} characters`}
+            trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
           />
         }
       >
@@ -224,6 +232,16 @@ const AIForm = () => {
     [values.style],
   );
 
+  const splittedStructure = React.useMemo(
+    () =>
+      values.structure
+        .trim()
+        .split(`\n`)
+        .map((styleEntry) => styleEntry.trim())
+        .filter((styleEntry) => styleEntry.length > 0).length,
+    [values.structure],
+  );
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-col gap-3">
@@ -231,7 +249,7 @@ const AIForm = () => {
           label={<Field.Label label="Name" value={values.name} required />}
           hint={
             <Hint
-              trigger={`Any characters, between ${limits.name.min} to ${limits.name.max} characters`}
+              trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
             />
           }
         >
@@ -282,10 +300,23 @@ const AIForm = () => {
           <Input placeholder="soft, edgy, smart" {...inject(`style`)} />
         </Field>
         <Field
-          label="Structure*"
+          label={
+            splittedStructure === 0
+              ? `Structure*`
+              : `Structure (${splittedStructure})*`
+          }
           hint={
             <Hint
-              trigger={<>Use &quot;#&quot; symbols to create hierarchy</>}
+              trigger={
+                <>
+                  &quot;#&quot; creates hierarchy, between{` `}
+                  {limits.structure.min}
+                  {` `}
+                  and {limits.structure.max}
+                  {` `}
+                  lines
+                </>
+              }
             />
           }
         >
@@ -294,13 +325,20 @@ const AIForm = () => {
             {...inject(`structure`)}
           />
         </Field>
-        <Field label="Sample*">
+        <Field
+          hint={
+            <Hint
+              trigger={`Any characters, between ${limits.sample.min} to ${limits.sample.max} characters`}
+            />
+          }
+          label={<Field.Label label="Sample" value={values.sample} required />}
+        >
           <Textarea
             placeholder="A fragment from another article, document, or note to help match your writing style"
             {...inject(`sample`)}
           />
         </Field>
-        <div className="flex items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+        <div className="flex mb-5 items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           <BiInfoCircle size={20} className="shrink-0" />
           <p>
             Generation will take{` `}
@@ -310,7 +348,7 @@ const AIForm = () => {
         {ctx.variant === `ai` && ctx.renderFooter ? (
           ctx.renderFooter(ctx, { values, untouched, invalid })
         ) : (
-          <footer className="flex space-x-3 [&_button]:flex-1 mt-4">
+          <footer className="flex space-x-3 [&_button]:flex-1">
             <Button
               s={2}
               i={1}

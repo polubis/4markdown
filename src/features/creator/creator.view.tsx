@@ -43,6 +43,8 @@ import { logIn } from 'actions/log-in.action';
 import { useYourAccountState } from 'store/your-account';
 import { hasTokensForFeatureSelector } from 'store/your-account/selectors';
 import { REWRITE_ASSISTANT_TOKEN_COST } from 'core/consts';
+import { useDocStore } from 'store/doc/doc.store';
+import { usePrevious } from 'development-kit/use-previous';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -98,6 +100,8 @@ const CreatorView = () => {
   }>();
   const rewriteAssistant = useSimpleFeature();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
+  const docStore = useDocStore();
+  const previousDocStore = usePrevious(docStore);
 
   useCreatorLocalStorageSync();
 
@@ -218,10 +222,19 @@ const CreatorView = () => {
   }, []);
 
   React.useEffect(() => {
-    assistanceToolbox.off();
-    rewriteAssistant.off();
+    const wentFromActiveToIdle =
+      previousDocStore.is === `active` && docStore.is === `idle`;
+    const wentToOtherDocument =
+      previousDocStore.is === `active` &&
+      docStore.is === `active` &&
+      previousDocStore.id !== docStore.id;
+
+    if (wentFromActiveToIdle || wentToOtherDocument) {
+      rewriteAssistant.off();
+      assistanceToolbox.off();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [code]);
+  }, [docStore]);
 
   return (
     <>

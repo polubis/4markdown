@@ -16,7 +16,6 @@ import {
   BiListCheck,
   BiPencil,
   BiRefresh,
-  BiSave,
   BiShow,
   BiStop,
   BiX,
@@ -57,6 +56,9 @@ import {
 import Backdrop from 'design-system/backdrop';
 import { Textarea } from 'design-system/textarea';
 import { AI_CONTENT_GENERATION_TOKEN_COST } from 'core/consts';
+import { falsy } from 'development-kit/guards';
+import { useDocStore } from 'store/doc/doc.store';
+import { useDocumentCreatorState } from 'store/document-creator';
 
 const PromptForm = ({
   onCancel,
@@ -125,7 +127,9 @@ const ConversationListItemContainer = ({
     closeConversationAction(conversation.id),
   );
   const docManagementStore = useDocManagementStore();
+  const docStore = useDocStore();
   const editForm = useSimpleFeature();
+  const { changed } = useDocumentCreatorState();
 
   const confirmModifyGenerationModify: Extract<
     NewDocumentFormProps,
@@ -157,7 +161,7 @@ const ConversationListItemContainer = ({
     };
   }, [conversation.opened, conversation.history, conversation.operation]);
 
-  const lastHistoryItem = React.useMemo(
+  const lastUserHistoryRecord = React.useMemo(
     () =>
       [...conversation.history]
         .reverse()
@@ -165,7 +169,20 @@ const ConversationListItemContainer = ({
     [conversation],
   );
 
-  if (!lastHistoryItem) throw Error(`No user asked record found`);
+  falsy(lastUserHistoryRecord, `No user asked record found`);
+
+  const lastUserHistoryRecordPayload: Extract<
+    NewDocumentFormProps,
+    { variant: `ai` }
+  >['initialValues'] = React.useMemo(
+    () => ({
+      ...lastUserHistoryRecord.payload,
+      style: lastUserHistoryRecord.payload.style.join(`,`),
+    }),
+    [lastUserHistoryRecord],
+  );
+
+  const hasUnsavedWork = docStore.is === `active` && changed;
 
   return (
     <>
@@ -179,7 +196,9 @@ const ConversationListItemContainer = ({
         )}
       >
         <div className="relative flex items-center py-2 gap-1 px-3">
-          <h6 className="truncate mr-1">{lastHistoryItem.payload.name}</h6>
+          <h6 className="truncate mr-1">
+            {lastUserHistoryRecord.payload.name}
+          </h6>
           <Button
             i={1}
             s={1}
@@ -336,7 +355,9 @@ const ConversationListItemContainer = ({
                       i={2}
                       s={1}
                       title="Display generated content in creator"
-                      disabled={docManagementStore.is === `busy`}
+                      disabled={
+                        docManagementStore.is === `busy` || hasUnsavedWork
+                      }
                       onClick={() =>
                         previewGenerationInDocumentsCreatorAct(conversation.id)
                       }
@@ -352,7 +373,7 @@ const ConversationListItemContainer = ({
                       }
                       title="Save as new document"
                     >
-                      <BiSave />
+                      <BiCheck />
                     </Button>
                   </>
                 )}
@@ -382,13 +403,13 @@ const ConversationListItemContainer = ({
           <NewDocumentForm
             variant="ai"
             onBack={editForm.off}
+            initialValues={lastUserHistoryRecordPayload}
             onSubmit={confirmModifyGenerationModify}
             renderFooter={(props, { untouched, invalid }) => (
               <Button
                 type="submit"
                 i={2}
                 s={2}
-                className="mt-4"
                 auto
                 title="Save generation parameters"
                 disabled={props.disabled || untouched || invalid}
@@ -457,7 +478,7 @@ const DocumentGenerationsContainer = () => {
 
   return render(
     <>
-      <div className="md:block hidden fixed max-w-[360px] bottom-4 right-4">
+      <div className="md:block hidden fixed max-w-[360px] w-full bottom-4 right-4">
         <ol className="flex flex-col gap-2">
           {conversations.map((conversation) => (
             <ConversationListItemContainer
