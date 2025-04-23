@@ -9,6 +9,7 @@ import { Hint } from 'design-system/hint';
 import { context } from '@greenonsoftware/react-kit';
 import { Textarea } from 'design-system/textarea';
 import { AI_CONTENT_GENERATION_TOKEN_COST } from 'core/consts';
+import { chain, maxLength, minLength } from 'development-kit/form';
 
 type AIFormValues = Pick<
   API4MarkdownPayload<'createContentWithAI'>,
@@ -43,11 +44,29 @@ const [FormProvider, useFormContext] = context(
   (props: NewDocumentFormProps) => props,
 );
 
+const limits = {
+  name: {
+    min: 1,
+    max: 70,
+  },
+} as const;
+
 const ManualForm = () => {
   const ctx = useFormContext();
 
   const [{ invalid, values, untouched }, { inject }] =
-    useForm<ManualFormValues>({ name: `` });
+    useForm<ManualFormValues>(
+      { name: `` },
+      {
+        name: [
+          (value) =>
+            chain(
+              minLength(limits.name.min),
+              maxLength(limits.name.max),
+            )(value.trim()),
+        ],
+      },
+    );
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -62,16 +81,12 @@ const ManualForm = () => {
   return (
     <form className="flex flex-col" onSubmit={handleSubmit}>
       <Field
-        label="Document Name*"
+        label={
+          <Field.Label label="Document Name" value={values.name} required />
+        }
         hint={
           <Hint
-            trigger={
-              <>
-                Document will be created in <strong>private</strong> mode.
-                Visible only to you, but <strong>not encrypted</strong> - avoid
-                sensitive data
-              </>
-            }
+            trigger={`Any characters, between ${limits.name.min} to ${limits.name.max} characters`}
           />
         }
       >
@@ -228,7 +243,15 @@ const NewDocumentForm = () => {
     case `ai`:
       return <AIForm />;
     case `manual`:
-      return <ManualForm />;
+      return (
+        <>
+          <p className="mb-4">
+            Document will be created in <strong>private</strong> mode. Visible
+            only to you, but <strong>not encrypted</strong>—avoid sensitive data
+          </p>
+          <ManualForm />
+        </>
+      );
     default:
       throw Error(`Invalid variant detected`);
   }
