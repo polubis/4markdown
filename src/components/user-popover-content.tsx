@@ -49,7 +49,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
       <div className="flex flex-col gap-3">
         {(yourUserProfile.is === `idle` || yourUserProfile.is === `busy`) && (
           <div
-            className="rounded-md bg-gray-300 dark:bg-gray-800 h-[120px] w-full"
+            className="rounded-md bg-gradient-to-r from-gray-300 via-zinc-200 to-gray-200 dark:from-gray-800 dark:via-zinc-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%] h-[120px] w-full"
             data-testid="[user-profile]:profile-loading"
           />
         )}
@@ -170,10 +170,21 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
         )}
 
         {yourAccount.is === `ok` && (
-          <div className="border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+          <div className="relative border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+            <Button
+              i={1}
+              s={1}
+              className="absolute top-2 right-2"
+              title="Resync your account"
+              onClick={reloadYourAccountAct}
+            >
+              <BiRefresh />
+            </Button>
             <h6 className="font-bold">Your Account Balance</h6>
             <p className="mt-1">
-              You&apos;ve still {yourAccount.balance.tokens} tokens to use.
+              You&apos;ve still <strong>{yourAccount.balance.tokens}</strong>
+              {` `}
+              tokens to use.
             </p>
             <p className="mt-1">
               <i>

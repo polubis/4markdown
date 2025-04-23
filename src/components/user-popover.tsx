@@ -11,7 +11,15 @@ import { useYourAccountState } from 'store/your-account';
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
-const UserPopover = ({ className }: { className?: string }) => {
+const TokensBadge = ({ tokens }: { tokens: number }) => {
+  return (
+    <p className="animate-fade-in text-[10px] bg-gray-300 dark:bg-slate-800 shadow-lg flex items-center justify-center size-5 rounded-full absolute -top-2 -right-2">
+      <span>{tokens >= 100 ? `99+` : tokens}</span>
+    </p>
+  );
+};
+
+const UserPopover = () => {
   const menu = useSimpleFeature();
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
@@ -34,7 +42,7 @@ const UserPopover = ({ className }: { className?: string }) => {
       <Button
         i={1}
         s={2}
-        className={className}
+        className="relative"
         disabled={
           authStore.is === `idle` ||
           docsStore.is === `busy` ||
@@ -49,6 +57,12 @@ const UserPopover = ({ className }: { className?: string }) => {
         {authStore.is === `authorized` && <YourAvatarContainer size="tn" />}
         {(authStore.is === `idle` || authStore.is === `unauthorized`) && (
           <BiLogInCircle />
+        )}
+        {yourAccount.is === `ok` && (
+          <TokensBadge
+            key={yourAccount.balance.tokens}
+            tokens={yourAccount.balance.tokens}
+          />
         )}
       </Button>
       {menu.isOn && (

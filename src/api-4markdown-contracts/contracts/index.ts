@@ -11,7 +11,6 @@ import type {
   MindmapDto,
   FullMindmapDto,
   RewriteAssistantPersona,
-  AIGeneratedContentDto,
   YourAccountDto,
 } from '../dtos';
 
@@ -25,7 +24,7 @@ type GetYourAccountContract = Contract<`getYourAccount`, YourAccountDto>;
 
 type CreateContentWithAIContract = Contract<
   `createContentWithAI`,
-  AIGeneratedContentDto,
+  { output: string; tokensAfter: number },
   {
     name: string;
     description: string;
@@ -38,7 +37,7 @@ type CreateContentWithAIContract = Contract<
 >;
 type RewriteWithAssistantContract = Contract<
   `rewriteWithAssistant`,
-  { output: string },
+  { output: string; tokensAfter: number },
   {
     input: string;
     persona: RewriteAssistantPersona;
