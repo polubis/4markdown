@@ -8,6 +8,9 @@ import {
   type NewDocumentFormProps,
 } from 'components/new-document-form';
 import { useDocumentGenerationState } from 'store/document-generation';
+import { useYourAccountState } from 'store/your-account';
+import { hasNotEnoughTokensSelector } from 'store/your-account/selectors';
+import { AI_CONTENT_GENERATION_TOKEN_COST } from 'core/consts';
 
 type CreateDocumentModalContainerProps = {
   onClose(): void;
@@ -23,6 +26,7 @@ const CreateDocumentModalContainer = ({
   );
   const { conversations } = useDocumentGenerationState();
   const docManagementStore = useDocManagementStore();
+  const yourAccount = useYourAccountState();
 
   const submitForm: NewDocumentFormProps['onSubmit'] = async (payload) => {
     if (payload.variant === `manual`) {
@@ -45,6 +49,11 @@ const CreateDocumentModalContainer = ({
 
   const isMaxAIGenerationReached =
     conversations.length >= MAX_AIGENERATION_COUNT;
+  const hasNotEnoughTokens = React.useMemo(
+    () =>
+      hasNotEnoughTokensSelector(AI_CONTENT_GENERATION_TOKEN_COST)(yourAccount),
+    [yourAccount],
+  );
 
   return (
     <Modal disabled={docManagementStore.is === `busy`} onClose={onClose}>
@@ -69,16 +78,32 @@ const CreateDocumentModalContainer = ({
             <button
               className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer enabled:hover:bg-zinc-300 dark:enabled:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
               onClick={() => setActiveType(`ai`)}
-              disabled={isMaxAIGenerationReached}
+              disabled={
+                isMaxAIGenerationReached ||
+                hasNotEnoughTokens ||
+                yourAccount.is !== `ok`
+              }
               title="Go to AI generation form"
             >
               <h6 className="capitalize text-left">Generate With AI</h6>
-              {isMaxAIGenerationReached ? (
+
+              {yourAccount.is === `ok` && hasNotEnoughTokens && (
+                <p className="mt-1 text-sm text-left">
+                  You don&apos;t have enough tokens to generate document.
+                  Currently you&apos;ve {yourAccount.balance.tokens} tokens but
+                  you need {AI_CONTENT_GENERATION_TOKEN_COST} tokens to generate
+                  document
+                </p>
+              )}
+
+              {isMaxAIGenerationReached && (
                 <p className="mt-1 text-sm text-left">
                   You&apos;ve reached the maximum parallel number of AI
                   generations ({conversations.length}/{MAX_AIGENERATION_COUNT})
                 </p>
-              ) : (
+              )}
+
+              {!isMaxAIGenerationReached && !hasNotEnoughTokens && (
                 <p className="mt-1 text-sm text-left">
                   Use AI to generate document. Provide structure, metadata and
                   voilà!

@@ -56,6 +56,7 @@ import {
 } from 'components/new-document-form';
 import Backdrop from 'design-system/backdrop';
 import { Textarea } from 'design-system/textarea';
+import { AI_CONTENT_GENERATION_TOKEN_COST } from 'core/consts';
 
 const PromptForm = ({
   onCancel,
@@ -89,7 +90,8 @@ const PromptForm = ({
         <div className="flex items-center gap-1 mr-auto">
           <BiInfoCircle size={20} className="shrink-0" />
           <p className="text-sm">
-            It will take <strong>10 tokens</strong>
+            It will take{` `}
+            <strong>{AI_CONTENT_GENERATION_TOKEN_COST} tokens</strong>
           </p>
         </div>
         <Button

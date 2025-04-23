@@ -8,6 +8,7 @@ import { Field } from 'design-system/field';
 import { Hint } from 'design-system/hint';
 import { context } from '@greenonsoftware/react-kit';
 import { Textarea } from 'design-system/textarea';
+import { AI_CONTENT_GENERATION_TOKEN_COST } from 'core/consts';
 
 type AIFormValues = Pick<
   API4MarkdownPayload<'createContentWithAI'>,
@@ -183,7 +184,8 @@ const AIForm = () => {
         <div className="flex items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           <BiInfoCircle size={20} className="shrink-0" />
           <p>
-            Generation will take <strong>10 tokens</strong>
+            Generation will take{` `}
+            <strong>{AI_CONTENT_GENERATION_TOKEN_COST} tokens</strong>
           </p>
         </div>
         {ctx.renderFooter ? (

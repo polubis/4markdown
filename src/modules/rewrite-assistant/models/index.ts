@@ -45,13 +45,6 @@ type RewriteAssistantProps = {
   onApply(content: string): void;
 };
 
-const REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS = {
-  grammy: `improves grammar and style`,
-  cleany: `simplifies the content`,
-  teacher: `explains the content`,
-} satisfies Record<RewriteAssistantPersona, string>;
-
-export { REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS };
 export type {
   RewriteAssistantState,
   RewriteAssistantMessage,

@@ -196,6 +196,12 @@ const CreatorView = () => {
     };
   }, []);
 
+  React.useEffect(() => {
+    assistanceToolbox.off();
+    rewriteAssistant.off();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [code]);
+
   return (
     <>
       {copyState.is === `copied` && (
