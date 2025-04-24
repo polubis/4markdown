@@ -11,6 +11,7 @@ import type {
   MindmapDto,
   FullMindmapDto,
   RewriteAssistantPersona,
+  YourAccountDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -19,9 +20,24 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   payload: TPayload;
 };
 
+type GetYourAccountContract = Contract<`getYourAccount`, YourAccountDto>;
+
+type CreateContentWithAIContract = Contract<
+  `createContentWithAI`,
+  { output: string; tokensAfter: number },
+  {
+    name: string;
+    description: string;
+    profession: string;
+    style: string[];
+    structure: string;
+    sample: string;
+    prompt?: string;
+  }
+>;
 type RewriteWithAssistantContract = Contract<
   `rewriteWithAssistant`,
-  { output: string },
+  { output: string; tokensAfter: number },
   {
     input: string;
     persona: RewriteAssistantPersona;
@@ -218,7 +234,9 @@ type API4MarkdownContracts =
   | GetAccessibleMindmapContract
   | ReportBugContract
   | GetPermanentMindmapsContract
-  | RewriteWithAssistantContract;
+  | RewriteWithAssistantContract
+  | CreateContentWithAIContract
+  | GetYourAccountContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
@@ -304,7 +322,13 @@ type NoInternetError = {
   message: string;
 };
 
-type ParsedError = KnownError | UnknownError | NoInternetError;
+type ClientError = {
+  symbol: 'client-error';
+  content: string;
+  message: string;
+};
+
+type ParsedError = KnownError | UnknownError | NoInternetError | ClientError;
 
 export type {
   API4MarkdownContracts,
@@ -318,4 +342,5 @@ export type {
   UnknownError,
   KnownError,
   NoInternetError,
+  ClientError,
 };

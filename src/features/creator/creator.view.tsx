@@ -38,6 +38,13 @@ import {
   getSelectedText,
   replaceText,
 } from 'development-kit/textarea-utils';
+import { useAuthStore } from 'store/auth/auth.store';
+import { logIn } from 'actions/log-in.action';
+import { useYourAccountState } from 'store/your-account';
+import { hasTokensForFeatureSelector } from 'store/your-account/selectors';
+import { REWRITE_ASSISTANT_TOKEN_COST } from 'core/consts';
+import { useDocStore } from 'store/doc/doc.store';
+import { usePrevious } from 'development-kit/use-previous';
 
 const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
@@ -51,16 +58,41 @@ const RewriteAssistantModule = React.lazy(() =>
   ),
 );
 
+const DocumentGenerationsContainer = React.lazy(() =>
+  import(`./containers/document-generations.container`).then((m) => ({
+    default: m.DocumentGenerationsContainer,
+  })),
+);
+
 const CheatSheetModal = React.lazy(() =>
   import(`./components/cheatsheet-modal`).then((m) => ({
     default: m.CheatSheetModal,
   })),
 );
 
+const RewriteWithAITriggerContainer = ({ onClick }: { onClick(): void }) => {
+  const hasTokens = useYourAccountState(
+    hasTokensForFeatureSelector(REWRITE_ASSISTANT_TOKEN_COST),
+  );
+
+  return (
+    <Button
+      s={1}
+      i={2}
+      disabled={!hasTokens}
+      title="Rewrite with AI"
+      onClick={onClick}
+    >
+      <BiBrain />
+    </Button>
+  );
+};
+
 const CreatorView = () => {
   const [copyState, copy] = useCopy();
   const cheatsheetModal = useSimpleFeature();
   const autoScroller = useScrollToPreview();
+  const authStore = useAuthStore();
   const assistanceToolbox = useFeature<{
     content: string;
     from: number;
@@ -68,6 +100,8 @@ const CreatorView = () => {
   }>();
   const rewriteAssistant = useSimpleFeature();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
+  const docStore = useDocStore();
+  const previousDocStore = usePrevious(docStore);
 
   useCreatorLocalStorageSync();
 
@@ -135,6 +169,15 @@ const CreatorView = () => {
     );
   };
 
+  const rewriteWithAI = (): void => {
+    if (authStore.is === `authorized`) {
+      rewriteAssistant.on();
+      return;
+    }
+
+    logIn();
+  };
+
   const maintainAssistantAppearance: ReactEventHandler<HTMLTextAreaElement> = (
     e,
   ) => {
@@ -178,6 +221,21 @@ const CreatorView = () => {
     };
   }, []);
 
+  React.useEffect(() => {
+    const wentFromActiveToIdle =
+      previousDocStore.is === `active` && docStore.is === `idle`;
+    const wentToOtherDocument =
+      previousDocStore.is === `active` &&
+      docStore.is === `active` &&
+      previousDocStore.id !== docStore.id;
+
+    if (wentFromActiveToIdle || wentToOtherDocument) {
+      rewriteAssistant.off();
+      assistanceToolbox.off();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [docStore]);
+
   return (
     <>
       {copyState.is === `copied` && (
@@ -191,6 +249,11 @@ const CreatorView = () => {
       {cheatsheetModal.isOn && (
         <React.Suspense>
           <CheatSheetModal onClose={cheatsheetModal.off} />
+        </React.Suspense>
+      )}
+      {authStore.is === `authorized` && (
+        <React.Suspense>
+          <DocumentGenerationsContainer />
         </React.Suspense>
       )}
       <main className="md:mt-[122px] md:mb-0 mb-[122px]">
@@ -257,15 +320,8 @@ const CreatorView = () => {
             onSelect={maintainAssistantAppearance}
           />
           {assistanceToolbox.is === `on` && rewriteAssistant.isOff && (
-            <div className="absolute bottom-2 right-4 flex flex-col gap-2">
-              <Button
-                s={1}
-                i={2}
-                title="Rewrite with AI"
-                onClick={rewriteAssistant.on}
-              >
-                <BiBrain />
-              </Button>
+            <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+              <RewriteWithAITriggerContainer onClick={rewriteWithAI} />
               <Button
                 s={1}
                 i={2}

@@ -18,4 +18,26 @@ const Field = ({ children, className, label, hint }: FieldProps) => {
   );
 };
 
+const Label = ({
+  label,
+  value,
+  required,
+}: {
+  label: string;
+  value: string;
+  required?: boolean;
+}) => {
+  const trimmed = value.trim();
+
+  return (
+    <>
+      {label}
+      {trimmed.length > 0 && ` (${trimmed.length})`}
+      {required && `*`}
+    </>
+  );
+};
+
+Field.Label = Label;
+
 export { Field };

@@ -29,10 +29,15 @@ module.exports = {
         '50%': { backgroundPosition: `100% 50%` },
         '100%': { backgroundPosition: `0% 50%` },
       },
+      'slide-in-right': {
+        '0%': { transform: `translateX(100%)` },
+        '100%': { transform: `translateX(0)` },
+      },
     },
     animation: {
       'fade-in': `fade-in 0.3s ease-in-out forwards`,
       'gradient-move': `gradient-move 8s ease-in-out infinite`,
+      'slide-in-right': `slide-in-right 0.23s ease-in-out forwards`,
     },
   },
   plugins: [require(`@tailwindcss/typography`)],

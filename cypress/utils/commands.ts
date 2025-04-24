@@ -1,3 +1,5 @@
+import { type API4MarkdownContractKey } from 'api-4markdown-contracts';
+
 type ClickableControls =
   | 'Clear content'
   | 'Sync your profile'
@@ -42,7 +44,6 @@ type ClickableControls =
   | `Confirm private document status change`
   | `Edit current document`
   | `Open user profile settings`
-  | `Create your user profile`
   | `Close your profile form`
   | `Back to user profile`
   | `Save user profile`
@@ -56,7 +57,8 @@ type ClickableControls =
   | `Close markdown cheatsheet`
   | `Close error screen`
   | `Open search`
-  | `Close search`;
+  | `Close search`
+  | `Go to manual document creation form`;
 
 type Element =
   | `Create any content`
@@ -68,11 +70,6 @@ type Element =
   | `Check privacy policy`
   | `Continue editing the document`
   | `Create a new document`;
-
-type Endpoint =
-  | `getYourUserProfile`
-  | `getYourDocuments`
-  | `getAccessibleDocument`;
 
 type Section =
   | `[user-profile]:no-profile-yet`
@@ -97,11 +94,9 @@ const BASE_COMMANDS = {
   },
   'I change theme': () => {
     BASE_COMMANDS[`I open app navigation`]();
-    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`be.visible`);
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`exist`);
     BASE_COMMANDS[`I click button`]([`Change theme`, `Close navigation`]);
-    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(
-      `not.be.visible`,
-    );
+    cy.get(`[data-testid="[menu-nav-sidebar]:container"]`).should(`not.exist`);
   },
   'I click button': (titles: ClickableControls[]) => {
     titles.forEach((title) => {
@@ -154,14 +149,12 @@ const BASE_COMMANDS = {
         }
       });
   },
-  'I reload page': () => {
-    // cy.reload();
-  },
   'System has accepted cookies': () => {
     cy.setCookie(`acceptance`, `true`);
   },
+  // @TODO[PRIO=2]: [add here generic type inference].
   'System mocks api': (config: {
-    endpoint: Endpoint;
+    endpoint: API4MarkdownContractKey;
     code: number;
     response: Record<string | number | symbol, unknown>;
     delay?: number;
@@ -180,7 +173,7 @@ const BASE_COMMANDS = {
       },
     ).as(config.endpoint);
   },
-  'I wait for api': (endpoint: Endpoint, code: number) => {
+  'I wait for api': (endpoint: API4MarkdownContractKey, code: number) => {
     cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);
   },
   'System takes picture': (name: string) => {
@@ -196,7 +189,7 @@ const BASE_COMMANDS = {
     BASE_COMMANDS[`I not see button`]([`Sign in`]);
     BASE_COMMANDS[`I see disabled button`]([`Your documents`]);
     BASE_COMMANDS[`I click button`]([`User details and options`]);
-    BASE_COMMANDS[`I see text`]([`Your Account`]);
+    BASE_COMMANDS[`I see text`]([`Your Account & Profile`]);
     BASE_COMMANDS[`I see button`]([`Sign out`]);
     BASE_COMMANDS[`I see not disabled button`]([`Your documents`]);
     BASE_COMMANDS[`I click button`]([`Close your account panel`]);

@@ -40,7 +40,7 @@ let instance: API4Markdown | null = null;
 let functions: Functions | null = null;
 
 const isOffline = (): boolean =>
-  typeof window !== `undefined` && !navigator.onLine;
+  typeof window !== `undefined` && !navigator?.onLine;
 
 class NoInternetException extends Error {}
 
