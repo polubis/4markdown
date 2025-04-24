@@ -22,6 +22,7 @@ describe(`Docs browse works when`, () => {
       .and(`I see text in creator`, documentCode1)
       .and(`I see button`, [`Your documents`])
       .when(`I click button`, [`Create new document`])
+      .and(`I click button`, [`Go to manual document creation form`])
       .and(
         `I type in input`,
         `My Notes, Basics of Computer Science, ...etc`,
@@ -37,7 +38,6 @@ describe(`Docs browse works when`, () => {
       .when(`I click button`, [`Close your documents`])
       .then(`I not see text`, [`Your Documents`])
       .and(`I not see button`, [`Confirm document creation`])
-      .when(`I reload page`)
       .then(`I see not disabled button`, [`User details and options`])
       .and(`I see text`, [documentName1])
       .and(`I see text in creator`, documentCode1)
@@ -45,11 +45,11 @@ describe(`Docs browse works when`, () => {
       .when(`I clear creator`)
       .and(`I type in creator`, documentCode2)
       .then(`I see text`, [`My content`])
-      .when(`I reload page`)
       .then(`I see not disabled button`, [`User details and options`])
       .and(`I see text`, [documentName1])
       .and(`I see text in creator`, documentCode2)
       .when(`I click button`, [`Create new document`])
+      .and(`I click button`, [`Go to manual document creation form`])
       .and(
         `I type in input`,
         `My Notes, Basics of Computer Science, ...etc`,

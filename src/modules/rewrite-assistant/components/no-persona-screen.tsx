@@ -1,9 +1,16 @@
+import type { RewriteAssistantPersona } from 'api-4markdown-contracts';
 import { REWRITE_ASSISTANT_PERSONAS } from 'api-4markdown-contracts';
 import { Button } from 'design-system/button';
-import React from 'react';
-import { BiX } from 'react-icons/bi';
+import React, { type ReactNode } from 'react';
+import { BiInfoCircle, BiX } from 'react-icons/bi';
 import { useRewriteAssistantContext } from '../providers/rewrite-assistant.provider';
-import { REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS } from '../models';
+import { REWRITE_ASSISTANT_TOKEN_COST } from 'core/consts';
+
+const REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS = {
+  cleany: <>Simplify</>,
+  grammy: <>Grammar++</>,
+  teacher: <>Explain</>,
+} satisfies Record<RewriteAssistantPersona, ReactNode>;
 
 const NoPersonaScreen = () => {
   const assistantCtx = useRewriteAssistantContext();
@@ -33,7 +40,7 @@ const NoPersonaScreen = () => {
       </section>
 
       <section>
-        <h6 className="block mb-2 font-semibold text-sm">Available Personas</h6>
+        <h6 className="block mb-2 font-semibold text-sm">Available Modes</h6>
         <div className="flex flex-wrap gap-2">
           {REWRITE_ASSISTANT_PERSONAS.map((persona) => (
             <Button
@@ -50,11 +57,16 @@ const NoPersonaScreen = () => {
               }
               className="text-sm"
             >
-              <strong className="capitalize">{persona}:</strong>
-              {` `}
               {REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS[persona]}
             </Button>
           ))}
+        </div>
+        <div className="mt-4 flex w-fit items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+          <BiInfoCircle size={20} className="shrink-0" />
+          <p>
+            Generation will take{` `}
+            <strong>{REWRITE_ASSISTANT_TOKEN_COST} tokens</strong>
+          </p>
         </div>
       </section>
     </div>

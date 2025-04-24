@@ -158,7 +158,6 @@ const BugReportContainer = () => {
         i={1}
         s={2}
         onClick={reportBugCtx.on}
-        className="bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]"
         title="It's beta! Report a bug"
       >
         <BiBug />
