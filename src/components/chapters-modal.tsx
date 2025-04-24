@@ -80,7 +80,6 @@ const ChaptersModal = ({
 
   useKeyPress([`a`, `A`], goToPreviousSection);
   useKeyPress([`d`, `D`], goToNextSection);
-  useKeyPress([`c`, `C`], copyActiveChapter);
 
   React.useLayoutEffect(() => {
     const modal = document.getElementById(modalId);
