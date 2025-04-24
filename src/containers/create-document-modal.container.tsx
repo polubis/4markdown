@@ -11,6 +11,7 @@ import { useDocumentGenerationState } from 'store/document-generation';
 import { useYourAccountState } from 'store/your-account';
 import { hasTokensForFeatureSelector } from 'store/your-account/selectors';
 import { AI_CONTENT_GENERATION_TOKEN_COST } from 'core/consts';
+import { AIPolicyDisclaimer } from 'components/ai-policy-disclaimer';
 
 type CreateDocumentModalContainerProps = {
   onClose(): void;
@@ -105,12 +106,14 @@ const CreateDocumentModalContainer = ({
       )}
 
       {activeType === `ai` && (
-        <NewDocumentForm
-          variant={activeType}
-          disabled={docManagementStore.is === `busy`}
-          onSubmit={submitAIDocumentCreation}
-          onBack={() => setActiveType(`none`)}
-        />
+        <AIPolicyDisclaimer onCancel={() => setActiveType(`none`)}>
+          <NewDocumentForm
+            variant={activeType}
+            disabled={docManagementStore.is === `busy`}
+            onSubmit={submitAIDocumentCreation}
+            onBack={() => setActiveType(`none`)}
+          />
+        </AIPolicyDisclaimer>
       )}
 
       {activeType === `manual` && (
