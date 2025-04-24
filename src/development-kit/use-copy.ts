@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { isClient } from './ssr-csr';
+import { copy } from './clipboard';
 
 type CopyValue = string;
 
@@ -57,14 +58,14 @@ const useCopy = (
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
   };
 
-  const copy: CopyHandler = useCallback(async (value) => {
+  const copyHandler: CopyHandler = useCallback(async (value) => {
     cleanUpTimeout();
 
     setState({ value, is: `copying` });
 
-    try {
-      await navigator.clipboard.writeText(value);
+    const [ok] = await copy(value);
 
+    if (ok) {
       setState({ value, is: `copied` });
 
       if (typeof cleansAfter !== `number`) {
@@ -74,23 +75,21 @@ const useCopy = (
       timeoutRef.current = setTimeout(() => {
         setState({ is: `ready` });
       }, cleansAfter);
-    } catch (error) {
+    } else {
       setState({ is: `error` });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const reset = async (): Promise<void> => {
-    try {
-      await navigator?.clipboard.writeText(``);
-    } catch {}
+    await copy(``);
   };
 
   useEffect(() => {
     cleanUpTimeout();
   }, []);
 
-  return [state, copy, reset] as const;
+  return [state, copyHandler, reset] as const;
 };
 
 export { useCopy };

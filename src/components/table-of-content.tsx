@@ -131,7 +131,7 @@ const TableOfContent = React.memo(
                   style={{ paddingLeft: `${(heading.level - 1) * 12}px` }}
                 >
                   <button
-                    className="underline underline-offset-2"
+                    className="underline underline-offset-2 text-left"
                     title={`Scroll to ${heading.text}`}
                     onClick={() => scrollToHeading(heading)}
                   >

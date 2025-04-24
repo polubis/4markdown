@@ -165,16 +165,16 @@ const PersonaScreen = () => {
           >
             <BiArrowBack />
           </Button>
-          <Button
-            className="ml-auto"
-            disabled={operation.is === `busy`}
-            s={1}
-            i={2}
-            onClick={askAssistantAgain}
-            title="Generate new version"
-          >
-            <BiRefresh />
-          </Button>
+          {assistantCtx.state.operation.is === `fail` && (
+            <Button
+              s={1}
+              i={2}
+              onClick={askAssistantAgain}
+              title="Generate new version"
+            >
+              <BiRefresh />
+            </Button>
+          )}
           {operation.is === `busy` ? (
             <Button
               s={1}

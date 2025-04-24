@@ -72,7 +72,7 @@ const trackEvent = (eventName: EventName): void => {
     event_category: eventCategory,
     page_location: window.location.href,
     page_title: document.title,
-    user_agent: navigator.userAgent,
+    user_agent: navigator?.userAgent,
     timestamp: new Date().toISOString(),
     referrer: document.referrer || `direct`,
   });

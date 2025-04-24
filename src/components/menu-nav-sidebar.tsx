@@ -4,11 +4,11 @@ import { BiMoon, BiSun, BiX } from 'react-icons/bi';
 import Backdrop from 'design-system/backdrop';
 import { Link } from 'gatsby';
 import { ButtonLink } from 'design-system/button-link';
-import c from 'classnames';
 import { CompanyLogo } from './company-logo';
 import { meta } from '../../meta';
 import { ThemeProvider } from 'design-system/theme-provider';
 import { useScrollHide } from 'development-kit/use-scroll-hide';
+import { usePortal } from 'development-kit/use-portal';
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -22,20 +22,19 @@ const ScrollHide = ({ children }: { children: ReactNode }) => {
 };
 
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
-  return (
+  const { render } = usePortal();
+
+  if (!opened) return null;
+
+  return render(
     <>
-      {opened && (
-        <ScrollHide>
-          <Backdrop onClick={onClose} />
-        </ScrollHide>
-      )}
+      <ScrollHide>
+        <Backdrop onClick={onClose} />
+      </ScrollHide>
 
       <aside
         data-testid="[menu-nav-sidebar]:container"
-        className={c(
-          `bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[280px] overflow-y-auto transition-transform duration-300`,
-          opened ? `-translate-x-0` : `translate-x-full`,
-        )}
+        className="animate-slide-in-right bg-zinc-200 z-20 dark:bg-gray-950 fixed top-0 right-0 h-full w-[280px] overflow-y-auto"
       >
         <div className="p-4 flex gap-2 items-center h-[72px]">
           <Link
@@ -212,7 +211,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
           </a>
         </div>
       </aside>
-    </>
+    </>,
   );
 };
 

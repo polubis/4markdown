@@ -3,7 +3,7 @@ import React from 'react';
 import { HandleX, HandleY } from '../components/handles';
 import { NodeTile } from '../components/node-tile';
 import { Button } from 'design-system/button';
-import { BiBook, BiEdit } from 'react-icons/bi';
+import { BiBook, BiPencil } from 'react-icons/bi';
 import type { MindmapCreatorEmbeddedNode } from 'store/mindmap-creator/models';
 import {
   openNodeEditionAction,
@@ -43,7 +43,7 @@ const EmbeddedNodeTileContainer = ({
           });
         }}
       >
-        <BiEdit />
+        <BiPencil />
       </Button>
       <Button
         i={2}

@@ -20,18 +20,22 @@ const accept = allowedExtensions.join(`, `);
 const maxSize = 4;
 
 const readImageAsBase64FromClipboard = async (): Promise<string | null> => {
-  const clipboardItems = await navigator.clipboard.read();
+  try {
+    const clipboardItems = await navigator?.clipboard.read();
 
-  for (const item of clipboardItems) {
-    const element = item.types[0];
+    for (const item of clipboardItems) {
+      const element = item.types[0];
 
-    if (allowedExtensions.includes(element)) {
-      const blob = await item.getType(item.types[0]);
-      return await readFileAsBase64(blob);
+      if (allowedExtensions.includes(element)) {
+        const blob = await item.getType(item.types[0]);
+        return await readFileAsBase64(blob);
+      }
     }
-  }
 
-  return null;
+    return null;
+  } catch {
+    return null;
+  }
 };
 
 const ImageUploaderAuthContainer = () => {
