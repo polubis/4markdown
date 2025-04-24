@@ -1,5 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 import type {
+  API4MarkdownDto,
   PublicDocumentDto,
   UserProfileDto,
 } from 'api-4markdown-contracts';
@@ -51,6 +52,16 @@ const getUserProfileResponse: { result: UserProfileDto } = {
   },
 };
 
+const getYourAccountResponse: { result: API4MarkdownDto<`getYourAccount`> } = {
+  result: {
+    trusted: true,
+    balance: {
+      tokens: 50,
+      refillStatus: `initialized`,
+    },
+  },
+};
+
 describe(`Docs display works when`, () => {
   const given = gherkin({
     ...BASE_COMMANDS,
@@ -72,6 +83,11 @@ describe(`Docs display works when`, () => {
       response: getDocsResponse,
     })
       .and(`System mocks api`, {
+        endpoint: `getYourAccount`,
+        code: 200,
+        response: getYourAccountResponse,
+      })
+      .and(`System mocks api`, {
         endpoint: `getAccessibleDocument`,
         code: 200,
         response: getPublicDocResponse,
@@ -84,23 +100,12 @@ describe(`Docs display works when`, () => {
       .and(`System has accepted cookies`)
       .and(`Im on page`, `home`)
       .and(`I log in`)
+      .and(`I wait for api`, `getYourAccount`, 200)
       .and(`I set white theme`)
-      .and(`System mocks api`, {
-        endpoint: `getYourDocuments`,
-        code: 200,
-        response: getDocsResponse,
-      })
-      .and(`System mocks api`, {
-        endpoint: `getAccessibleDocument`,
-        code: 200,
-        response: getPublicDocResponse,
-      })
-      .and(`System mocks api`, {
-        endpoint: `getYourUserProfile`,
-        code: 200,
-        response: getUserProfileResponse,
-      })
       .and(`I see not disabled button`, [`Your documents`])
+      .and(`I see text`, [
+        getYourAccountResponse.result.balance.tokens.toString(),
+      ])
       .when(`I click button`, [`Your documents`])
       .then(`I see text`, [getPublicDocResponse.result.name])
       .when(`I preview document`, getPublicDocResponse.result.name)

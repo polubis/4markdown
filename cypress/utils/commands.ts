@@ -1,3 +1,5 @@
+import { type API4MarkdownContractKey } from 'api-4markdown-contracts';
+
 type ClickableControls =
   | 'Clear content'
   | 'Sync your profile'
@@ -42,7 +44,6 @@ type ClickableControls =
   | `Confirm private document status change`
   | `Edit current document`
   | `Open user profile settings`
-  | `Create your user profile`
   | `Close your profile form`
   | `Back to user profile`
   | `Save user profile`
@@ -69,11 +70,6 @@ type Element =
   | `Check privacy policy`
   | `Continue editing the document`
   | `Create a new document`;
-
-type Endpoint =
-  | `getYourUserProfile`
-  | `getYourDocuments`
-  | `getAccessibleDocument`;
 
 type Section =
   | `[user-profile]:no-profile-yet`
@@ -153,14 +149,12 @@ const BASE_COMMANDS = {
         }
       });
   },
-  'I reload page': () => {
-    // cy.reload();
-  },
   'System has accepted cookies': () => {
     cy.setCookie(`acceptance`, `true`);
   },
+  // @TODO[PRIO=2]: [add here generic type inference].
   'System mocks api': (config: {
-    endpoint: Endpoint;
+    endpoint: API4MarkdownContractKey;
     code: number;
     response: Record<string | number | symbol, unknown>;
     delay?: number;
@@ -179,7 +173,7 @@ const BASE_COMMANDS = {
       },
     ).as(config.endpoint);
   },
-  'I wait for api': (endpoint: Endpoint, code: number) => {
+  'I wait for api': (endpoint: API4MarkdownContractKey, code: number) => {
     cy.wait(`@${endpoint}`).its(`response.statusCode`).should(`equal`, code);
   },
   'System takes picture': (name: string) => {

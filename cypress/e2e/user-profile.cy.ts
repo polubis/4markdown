@@ -1,3 +1,4 @@
+import { type API4MarkdownDto } from 'api-4markdown-contracts';
 import { BASE_COMMANDS } from '../utils/commands';
 import { gherkin } from '../utils/gherkin';
 
@@ -20,6 +21,17 @@ describe(`User profile works when`, () => {
     twitterUrl: `https://twitter.com/home?lang=en`,
   } as const;
 
+  const getYourAccountResponse: { result: API4MarkdownDto<`getYourAccount`> } =
+    {
+      result: {
+        trusted: true,
+        balance: {
+          tokens: 50,
+          refillStatus: `initialized`,
+        },
+      },
+    };
+
   const given = gherkin({
     ...BASE_COMMANDS,
     'I see no profile section': () => {
@@ -28,7 +40,7 @@ describe(`User profile works when`, () => {
         `Make Yourself visible`,
         `You have not created a profile yet. A profile is like a business card that allows others to recognize the documents you have created.`,
         `Profile cards may be changed or removed any time.`,
-      ]).and(`I see not disabled button`, [`Create your user profile`]);
+      ]).and(`I see not disabled button`, [`Open user profile settings`]);
     },
     'I create full profile': () => {
       given(`I see text`, [`Your Profile Edition`])
@@ -76,7 +88,12 @@ describe(`User profile works when`, () => {
   });
 
   it(`user may edit his profile`, () => {
-    given(`System has accepted cookies`)
+    given(`System mocks api`, {
+      endpoint: `getYourAccount`,
+      code: 200,
+      response: getYourAccountResponse,
+    })
+      .and(`System has accepted cookies`)
       .and(`Im on page`, `home`)
       .and(`I log in`)
       .and(`I set white theme`)
@@ -85,18 +102,18 @@ describe(`User profile works when`, () => {
         `User details and options`,
         `Your documents`,
         `Open user profile settings`,
-        `Create your user profile`,
+        `Open user profile settings`,
         `Close your account panel`,
         `Sign out`,
       ])
       .and(`I see no profile section`)
-      .when(`I click button`, [`Create your user profile`])
+      .when(`I click button`, [`Open user profile settings`])
       .and(`I create partial profile`)
       .then(`I see no profile section`)
-      .when(`I click button`, [`Create your user profile`])
+      .when(`I click button`, [`Open user profile settings`])
       .and(`I clear profile`)
       .then(`I see no profile section`)
-      .when(`I click button`, [`Create your user profile`])
+      .when(`I click button`, [`Open user profile settings`])
       .and(`I create full profile`)
       .then(`I see profile card`)
       .and(`I see elements`, [

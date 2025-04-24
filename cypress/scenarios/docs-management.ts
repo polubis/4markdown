@@ -66,7 +66,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .and(`I see enabled visibility options`)
       .when(`I click button`, [`Document preview`])
       .then(`I see text`, [`Wait... Checking required stuff (～￣▽￣)～`])
-      .when(`I reload page`)
       .then(`I see elements`, [`Create any content`])
       .when(`I click elements`, [
         `Create any content`,
@@ -163,7 +162,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Close document adding`,
       ])
       .and(`I see text`, [documentName])
-      .when(`I reload page`)
       .then(`I see text`, [documentName])
       .when(`I click button`, [`Your documents`])
       .then(`I see text`, [`Your Documents`, documentName])
@@ -182,8 +180,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Close document name edition`,
       ])
       .and(`I see text`, [documentNameEdited])
-      .when(`I reload page`)
-      .then(`I see text`, [documentNameEdited])
+      .and(`I see text`, [documentNameEdited])
       .and(`I see not disabled button`, [`Change document name`])
       .when(`I click button`, [`More document options`])
       .then(`I see text`, [`Details`])
@@ -217,9 +214,6 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       ])
       .and(`I not see text`, [`Delete current document`, documentNameEdited])
       .and(`I see text`, [`Markdown Cheatsheet`])
-      .and(`I see text in creator`, `# Markdown Cheatsheet`)
-      .when(`I reload page`)
-      .then(`I see text`, [`Markdown Cheatsheet`])
       .and(`I see text in creator`, `# Markdown Cheatsheet`)
       .and(`I see button`, [`User details and options`]);
   },

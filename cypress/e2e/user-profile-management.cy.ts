@@ -1,7 +1,19 @@
+import type { API4MarkdownDto } from 'api-4markdown-contracts';
 import { BASE_COMMANDS } from '../utils/commands';
 import { gherkin } from '../utils/gherkin';
 
 describe(`User profile works when`, () => {
+  const getYourAccountResponse: { result: API4MarkdownDto<`getYourAccount`> } =
+    {
+      result: {
+        trusted: true,
+        balance: {
+          tokens: 50,
+          refillStatus: `initialized`,
+        },
+      },
+    };
+
   const userProfileFormSelectors = {
     displayName: `Examples: tom1994, work_work, pro-grammer, ...etc`,
     bio: `Example: I like programming and playing computer games...`,
@@ -55,17 +67,23 @@ describe(`User profile works when`, () => {
   });
 
   it(`user is able to manage own profile`, () => {
-    given(`System has accepted cookies`)
+    given(`System mocks api`, {
+      endpoint: `getYourAccount`,
+      code: 200,
+      response: getYourAccountResponse,
+    })
+      .and(`System has accepted cookies`)
       .and(`Im on page`, `home`)
       .and(`I log in`)
       .and(`I set white theme`)
+      .and(`I wait for api`, `getYourAccount`, 200)
       .when(`I click button`, [`User details and options`])
       .then(`I see section`, `[user-profile]:no-profile-yet`)
       .and(`System takes picture`, `no-profile-yet`)
       .when(`I click button`, [`Sync your profile`])
       .then(`I see section`, `[user-profile]:profile-loading`)
       .and(`I see section`, `[user-profile]:no-profile-yet`)
-      .when(`I click button`, [`Create your user profile`])
+      .when(`I click button`, [`Open user profile settings`])
       .then(`I see section`, `[user-profile-form]:container`)
       .when(`I clear all user profile form fields`)
       .and(`System takes picture`, `empty-user-profile-form`)

@@ -21,7 +21,7 @@ describe(`Creator sync works when`, () => {
       .and(`I set white theme`)
       .when(`I click button`, [`Navigation`])
       .then(`I see sidebar`)
-      .and(`I wait`, 1000)
+      .and(`I wait`)
       .and(`System takes picture`, `before-change-theme`)
       .when(`I click button`, [`Change theme`])
       .then(`I wait`)
@@ -30,11 +30,6 @@ describe(`Creator sync works when`, () => {
       .then(`I see no sidebar`)
       .when(`I clear creator`)
       .and(`I type in creator`, `## Markdown local storage sync test`)
-      .then(`I see text`, [
-        `## Markdown local storage sync test`,
-        `Markdown local storage sync test`,
-      ])
-      .when(`I reload page`)
       .then(`I see text`, [
         `## Markdown local storage sync test`,
         `Markdown local storage sync test`,

@@ -1,5 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import type { DocumentDto } from 'api-4markdown-contracts';
+import type { API4MarkdownDto, DocumentDto } from 'api-4markdown-contracts';
 import { BASE_COMMANDS } from '../utils/commands';
 import { gherkin } from '../utils/gherkin';
 import { subDays } from 'date-fns';
@@ -100,6 +100,16 @@ const getDocsResponse: { result: DocumentDto[] } = {
   ],
 };
 
+const getYourAccountResponse: { result: API4MarkdownDto<`getYourAccount`> } = {
+  result: {
+    trusted: true,
+    balance: {
+      tokens: 50,
+      refillStatus: `initialized`,
+    },
+  },
+};
+
 describe(`Documents loading works when`, () => {
   const given = gherkin(BASE_COMMANDS);
 
@@ -109,10 +119,16 @@ describe(`Documents loading works when`, () => {
       code: 200,
       response: getDocsResponse,
     })
+      .and(`System mocks api`, {
+        endpoint: `getYourAccount`,
+        code: 200,
+        response: getYourAccountResponse,
+      })
       .and(`System has accepted cookies`)
       .and(`Im on page`, `home`)
       .and(`I log in`)
       .and(`I set white theme`)
+      .and(`I wait for api`, `getYourAccount`, 200)
       .then(`I see not disabled button`, [`Your documents`])
       .when(`I click button`, [`Your documents`])
       .then(`I see text`, [`Mediator pattern in TypeScript`])
