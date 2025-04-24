@@ -340,7 +340,7 @@ const AIForm = () => {
         </Field>
         <div className="flex mb-5 items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
           <BiInfoCircle size={20} className="shrink-0" />
-          <p>
+          <p className="text-sm">
             Generation will take{` `}
             <strong>{AI_CONTENT_GENERATION_TOKEN_COST} tokens</strong>
           </p>
