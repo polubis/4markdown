@@ -25,7 +25,10 @@ type RewriteAssistantState = {
 
 type RewriteAssistantAction =
   | { type: 'RESET' }
-  | { type: 'SELECT_PERSONA'; payload: RewriteAssistantPersona }
+  | {
+      type: 'SELECT_PERSONA';
+      payload: RewriteAssistantPersona;
+    }
   | {
       type: 'AS_OK';
       payload: RewriteAssistantMessage['content'];
