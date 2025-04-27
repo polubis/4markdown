@@ -1,13 +1,16 @@
 import { getAPI, getCache, parseError, setCache } from 'api-4markdown';
+import type { API4MarkdownContractKey } from 'api-4markdown-contracts';
 import { useYourAccountState } from 'store/your-account';
 
 const getYourAccountAct = async (): Promise<void> => {
   try {
+    const key: API4MarkdownContractKey = `getYourAccount`;
+
     const { is } = useYourAccountState.get();
 
     if (is !== `idle`) return;
 
-    const cachedAccount = getCache(`getYourAccount`);
+    const cachedAccount = getCache(key);
 
     if (cachedAccount !== null) {
       useYourAccountState.swap({ is: `ok`, ...cachedAccount });
@@ -16,9 +19,9 @@ const getYourAccountAct = async (): Promise<void> => {
 
     useYourAccountState.swap({ is: `busy` });
 
-    const account = await getAPI().call(`getYourAccount`)();
+    const account = await getAPI().call(key)();
 
-    setCache(`getYourAccount`, account);
+    setCache(key, account);
 
     useYourAccountState.swap({ is: `ok`, ...account });
   } catch (error: unknown) {
