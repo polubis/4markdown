@@ -26,7 +26,7 @@ const startConversationAction = (
           {
             id: suid(),
             type: `user`,
-            message: `User asked for document generation`,
+            message: `Generate me a document based on provided parameters`,
             payload,
           },
         ],
@@ -68,8 +68,12 @@ const addAssistantReplyAction = (
               ...conversation.history,
               {
                 id: suid(),
+                type: `system`,
+                message: `Here is your document`,
+              },
+              {
+                id: suid(),
                 type: `assistant`,
-                message: `my content`,
                 body,
               },
             ],
