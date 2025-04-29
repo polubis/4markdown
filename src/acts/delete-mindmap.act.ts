@@ -1,4 +1,4 @@
-import { getAPI, parseError } from 'api-4markdown';
+import { getAPI, parseError, setCache } from 'api-4markdown';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import {
   readyMindmapsSelector,
@@ -19,17 +19,24 @@ const deleteMindmapAct = async (): Promise<void> => {
       id: activeMindmap.id,
     });
 
+    const newMindmaps = yourMindmaps.data.filter(
+      (mindmap) => mindmap.id !== activeMindmap.id,
+    );
+
     useMindmapCreatorState.set({
       changesCount: 0,
       mindmaps: {
         is: `ok`,
-        data: yourMindmaps.data.filter(
-          (mindmap) => mindmap.id !== activeMindmap.id,
-        ),
+        data: newMindmaps,
       },
       activeMindmapId: null,
       mindmapDetails: { is: `off` },
       operation: { is: `ok` },
+    });
+
+    setCache(`getYourMindmaps`, {
+      mindmaps: newMindmaps,
+      mindmapsCount: newMindmaps.length,
     });
   } catch (error: unknown) {
     useMindmapCreatorState.set({
