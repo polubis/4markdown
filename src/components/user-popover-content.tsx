@@ -181,11 +181,15 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
               <BiRefresh />
             </Button>
             <h6 className="font-bold">Your Account Balance</h6>
-            <p className="mt-1">
-              You&apos;ve still <strong>{yourAccount.balance.tokens}</strong>
-              {` `}
-              tokens to use.
-            </p>
+            {yourAccount.balance.tokens > 0 ? (
+              <p className="mt-1">
+                You&apos;ve still <strong>{yourAccount.balance.tokens}</strong>
+                {` `}
+                tokens to use.
+              </p>
+            ) : (
+              <p className="mt-1">You have no tokens left.</p>
+            )}
             <p className="mt-1">
               <i>
                 Your tokens are <strong>refilled to 50 every 24 hours</strong>

@@ -14,7 +14,6 @@ type History = ({ id: SUID } & (
     }
   | {
       type: `assistant`;
-      message: string;
       body: API4MarkdownDto<'createContentWithAI'>;
     }
   | { type: `system`; message: string }
