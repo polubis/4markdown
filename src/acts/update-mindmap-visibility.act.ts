@@ -1,4 +1,4 @@
-import { getAPI, parseError } from 'api-4markdown';
+import { getAPI, parseError, setCache } from 'api-4markdown';
 import type { MindmapDto } from 'api-4markdown-contracts';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import {
@@ -23,20 +23,27 @@ const updateMindmapVisibilityAct = async (
       visibility,
     });
 
+    const newMindmaps = yourMindmaps.data.map((mindmap) =>
+      mindmap.id === activeMindmap.id
+        ? {
+            ...mindmap,
+            mdate: response.mdate,
+            visibility,
+          }
+        : mindmap,
+    );
+
     useMindmapCreatorState.set({
       mindmaps: {
         is: `ok`,
-        data: yourMindmaps.data.map((mindmap) =>
-          mindmap.id === activeMindmap.id
-            ? {
-                ...mindmap,
-                mdate: response.mdate,
-                visibility,
-              }
-            : mindmap,
-        ),
+        data: newMindmaps,
       },
       operation: { is: `ok` },
+    });
+
+    setCache(`getYourMindmaps`, {
+      mindmaps: newMindmaps,
+      mindmapsCount: newMindmaps.length,
     });
   } catch (error: unknown) {
     useMindmapCreatorState.set({

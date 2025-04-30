@@ -1,4 +1,4 @@
-import { getAPI, parseError } from 'api-4markdown';
+import { getAPI, parseError, setCache } from 'api-4markdown';
 import type { API4MarkdownPayload } from 'api-4markdown-contracts';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import {
@@ -25,20 +25,27 @@ const updateMindmapAct = async (
       id: activeMindmap.id,
     });
 
+    const newMindmaps = yourMindmaps.data.map((mindmap) =>
+      mindmap.id === activeMindmap.id
+        ? {
+            ...mindmap,
+            ...response,
+          }
+        : mindmap,
+    );
+
     useMindmapCreatorState.set({
       mindmapForm: { is: `closed` },
       mindmaps: {
         is: `ok`,
-        data: yourMindmaps.data.map((mindmap) =>
-          mindmap.id === activeMindmap.id
-            ? {
-                ...mindmap,
-                ...response,
-              }
-            : mindmap,
-        ),
+        data: newMindmaps,
       },
       operation: { is: `ok` },
+    });
+
+    setCache(`getYourMindmaps`, {
+      mindmaps: newMindmaps,
+      mindmapsCount: newMindmaps.length,
     });
   } catch (error: unknown) {
     useMindmapCreatorState.set({

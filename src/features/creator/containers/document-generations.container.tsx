@@ -262,7 +262,10 @@ const ConversationListItemContainer = ({
                     return (
                       <div key={record.id}>
                         <li className="rounded-md w-fit py-1 px-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-                          <p>{record.message}</p>
+                          <p>
+                            <strong>You: </strong>
+                            {record.message}
+                          </p>
                         </li>
                       </div>
                     );
@@ -292,7 +295,7 @@ const ConversationListItemContainer = ({
               {conversation.operation.is === `busy` && (
                 <div key="pending">
                   <li className="rounded-md py-1 px-2 w-fit bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]">
-                    <Markdown>Pending...</Markdown>
+                    <p>Pending...</p>
                   </li>
                 </div>
               )}
