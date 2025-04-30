@@ -34,7 +34,7 @@
     "@xyflow/react": "^12.6.0",
     "classnames": "^2.5.1",
     "date-fns": "^4.1.0",
-    "firebase": "^11.6.0",
+    "firebase": "^11.6.1",
     "gatsby": "^5.14.3",
     "gatsby-plugin-image": "^3.14.0",
     "gatsby-plugin-manifest": "^5.14.0",

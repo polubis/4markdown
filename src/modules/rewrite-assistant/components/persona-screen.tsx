@@ -10,11 +10,18 @@ import {
 } from 'react-icons/bi';
 import { Markdown } from 'components/markdown';
 import { useRewriteAssistantContext } from '../providers/rewrite-assistant.provider';
+import { falsy } from 'development-kit/guards';
+import { REWRITE_ASSISTANT_TRANSLATIONS } from '../config/translations';
 
 const PersonaScreen = () => {
   const conversationListRef = React.useRef<HTMLOListElement>(null);
   const footerRef = React.useRef<HTMLElement>(null);
   const assistantCtx = useRewriteAssistantContext();
+
+  falsy(
+    assistantCtx.state.activePersona !== `none`,
+    `Persona is set as "none"`,
+  );
 
   React.useLayoutEffect(() => {
     const conversationList = conversationListRef.current;
@@ -69,10 +76,10 @@ const PersonaScreen = () => {
     <div className="animate-fade-in border-t pt-4 px-4 absolute w-full bottom-0 left-0 right-0 dark:bg-black bg-white border-zinc-300 dark:border-zinc-800 max-h-[70%] overflow-y-auto">
       <header className="flex items-center justify-between mb-4">
         <h6 className="mr-8">
-          You&apos;re Talking with{` `}
-          <strong className="capitalize">
-            {assistantCtx.state.activePersona}
-          </strong>
+          {
+            REWRITE_ASSISTANT_TRANSLATIONS[assistantCtx.state.activePersona]
+              .title
+          }
         </h6>
         <div className="flex items-center space-x-2">
           <Button

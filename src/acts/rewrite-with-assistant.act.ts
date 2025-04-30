@@ -4,7 +4,7 @@ import type {
   API4MarkdownPayload,
 } from 'api-4markdown-contracts';
 import { type AsyncResult } from 'development-kit/utility-types';
-import { updateTokensAction } from 'store/your-account/actions';
+import { updateTokensAct } from './update-tokens.act';
 
 const rewriteWithAssistantAct = async (
   payload: API4MarkdownPayload<'rewriteWithAssistant'>,
@@ -12,7 +12,7 @@ const rewriteWithAssistantAct = async (
   try {
     const data = await getAPI().call(`rewriteWithAssistant`)(payload);
 
-    updateTokensAction(data.tokensAfter);
+    updateTokensAct(data.tokensAfter);
 
     return { is: `ok`, data };
   } catch (error) {

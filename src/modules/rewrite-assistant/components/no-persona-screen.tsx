@@ -1,18 +1,11 @@
-import type { RewriteAssistantPersona } from 'api-4markdown-contracts';
 import { REWRITE_ASSISTANT_PERSONAS } from 'api-4markdown-contracts';
 import { Button } from 'design-system/button';
-import React, { type ReactNode } from 'react';
+import React from 'react';
 import { BiInfoCircle, BiX } from 'react-icons/bi';
 import { useRewriteAssistantContext } from '../providers/rewrite-assistant.provider';
 import { REWRITE_ASSISTANT_TOKEN_COST } from 'core/consts';
 import { AIPolicyDisclaimer } from 'components/ai-policy-disclaimer';
-
-const REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS = {
-  cleany: <>Simplify</>,
-  grammy: <>Grammar++</>,
-  teacher: <>Explain</>,
-} satisfies Record<RewriteAssistantPersona, ReactNode>;
-
+import { REWRITE_ASSISTANT_TRANSLATIONS } from '../config/translations';
 const NoPersonaScreen = () => {
   const assistantCtx = useRewriteAssistantContext();
 
@@ -52,7 +45,7 @@ const NoPersonaScreen = () => {
                 s={2}
                 auto
                 key={persona}
-                title={`Improve fragment with ${persona}`}
+                title={REWRITE_ASSISTANT_TRANSLATIONS[persona].message}
                 onClick={() =>
                   assistantCtx.dispatch({
                     type: `SELECT_PERSONA`,
@@ -61,7 +54,7 @@ const NoPersonaScreen = () => {
                 }
                 className="text-sm"
               >
-                {REWRITE_ASSISTANT_PERSONA_DESCRIPTIONS[persona]}
+                {REWRITE_ASSISTANT_TRANSLATIONS[persona].name}
               </Button>
             ))}
           </div>

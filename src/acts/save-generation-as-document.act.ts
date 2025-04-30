@@ -4,8 +4,8 @@ import { getAPI, setCache } from 'api-4markdown';
 import { docManagementStoreActions } from 'store/doc-management/doc-management.store';
 import { docStoreActions } from 'store/doc/doc.store';
 import { docsStoreSelectors, docsStoreActions } from 'store/docs/docs.store';
-
 import { markAsUnchangedAction } from 'store/document-creator/actions';
+import { closeConversationAction } from 'store/document-generation/actions';
 
 const saveGenerationAsDocumentAct = async (
   conversationId: SUID,
@@ -75,6 +75,8 @@ const saveGenerationAsDocumentAct = async (
     markAsUnchangedAction();
 
     setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
+
+    closeConversationAction(conversationId);
   } catch (error: unknown) {
     docManagementStoreActions.fail(error);
   }
