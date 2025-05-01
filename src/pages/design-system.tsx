@@ -36,7 +36,10 @@ const DesignSystemButtonPreview = ({ buttonVariants }: ButtonVariantsProps) => {
           Button Variants
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          data-testid="button-variants-container"
+        >
           {buttonVariants.map(({ label, ...props }) => (
             <div key={label} className="flex flex-col items-center">
               <p className="mb-3 text-sm text-zinc-600 dark:text-zinc-400">
