@@ -1,33 +1,13 @@
 import React from 'react';
-import { unified } from 'unified';
-import remarkParse from 'remark-parse';
-import { toString } from 'mdast-util-to-string';
 import c from 'classnames';
-
-type HeadingItem = {
-  level: number;
-  text: string;
-};
+import {
+  type ExtractedHeading,
+  extractHeadings,
+} from 'development-kit/extract-headings';
 
 type TableOfContentProps = {
   markdownContainerId: string;
   markdown: string;
-};
-
-const getPlainText = (markdown: string): string =>
-  toString(unified().use(remarkParse).parse(markdown));
-
-const extractHeadings = (markdown: string): HeadingItem[] => {
-  const headingRegex = /^(#{1,6})\s+(.+)$/gm;
-
-  return (markdown.match(headingRegex) ?? []).map((heading) => {
-    const [, hashes, text] = heading.match(/^(#{1,6})\s+(.+)$/) ?? [];
-
-    return {
-      level: hashes.length,
-      text: getPlainText(text),
-    };
-  });
 };
 
 const TableOfContent = React.memo(
@@ -36,7 +16,7 @@ const TableOfContent = React.memo(
       null,
     );
 
-    const scrollToHeading = (heading: HeadingItem) => {
+    const scrollToHeading = (heading: ExtractedHeading) => {
       const url = new URL(window.location.href);
       url.hash = encodeURIComponent(heading.text);
       window.history.replaceState(null, ``, url.toString());
@@ -78,10 +58,6 @@ const TableOfContent = React.memo(
 
             if (!entry.isIntersecting || !text) return;
 
-            const url = new URL(window.location.href);
-            url.hash = text;
-            window.history.replaceState(null, ``, url.toString());
-
             setActiveHeading(text);
           });
         },
@@ -109,7 +85,7 @@ const TableOfContent = React.memo(
     const headings = React.useMemo(() => extractHeadings(markdown), [markdown]);
 
     return (
-      <aside className="static max-w-prose mx-auto lg:mx-0 lg:sticky lg:max-h-[70vh] lg:max-w-[280px] lg:top-0 lg:right-4 lg:py-4 lg:-mt-6">
+      <aside className="static max-w-prose mx-auto lg:mx-0 lg:sticky lg:max-h-[100vh] lg:pr-4 lg:overflow-y-auto lg:max-w-[280px] lg:top-0 lg:right-4 lg:py-4 lg:-mt-6">
         {headings.length === 0 ? (
           <>
             <h2 className="text-lg mb-2">No Headings</h2>
@@ -126,7 +102,6 @@ const TableOfContent = React.memo(
                     activeHeading === heading.text
                       ? `lg:text-green-700 lg:dark:text-green-400`
                       : `text-gray-900 dark:text-gray-300 hover:text-blue-800 hover:dark:text-blue-500`,
-                    `lg:truncate`,
                   )}
                   style={{ paddingLeft: `${(heading.level - 1) * 12}px` }}
                 >
