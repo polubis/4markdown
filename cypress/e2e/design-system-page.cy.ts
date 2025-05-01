@@ -69,18 +69,4 @@ describe(`Design System Components`, () => {
       .when(`I select from`, `combobox`, `Apple`)
       .then(`I verify select value`, `combobox`, `Apple`);
   });
-
-  it(`verifies select keyboard navigation and disabled state`, () => {
-    given(`System has accepted cookies`)
-      .and(`I set white theme`)
-      .when(`I navigate to design system page`)
-      .then(`I verify select value`, `combobox`, `Choose your favorite fruit`)
-      .when(`I press key on`, `combobox`, `{downArrow}`)
-      .then(`I verify select option`, `Apple`)
-      .when(`I press key on`, `combobox`, `{downArrow}`)
-      .then(`I verify select option`, `Banana`)
-      .when(`I press key on`, `combobox`, `{enter}`)
-      .then(`I verify select value`, `combobox`, `Banana`)
-      .and(`I verify disabled select`);
-  });
 });

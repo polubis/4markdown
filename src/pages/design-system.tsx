@@ -38,19 +38,22 @@ type ButtonVariantsProps = {
 
 const DesignSystemButtonPreview = ({ buttonVariants }: ButtonVariantsProps) => {
   return (
-    <div className="p-8 space-y-8 ">
+    <div className="p-8 space-y-8">
       <section className="max-w-4xl mx-auto">
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Button Variants
         </h2>
 
         <div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8"
           data-testid="button-variants-container"
         >
           {buttonVariants.map(({ label, ...props }) => (
-            <div key={label} className="flex flex-col items-center">
+            <div key={label} className="flex flex-col items-center space-y-2">
               <Button {...props}>{props.auto ? `Button Text` : `A`}</Button>
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                {label}
+              </span>
             </div>
           ))}
         </div>

@@ -251,7 +251,7 @@ const BASE_COMMANDS = {
 
 export const SELECT_COMMANDS = {
   'I select from': (selectRole: string, optionLabel: string) => {
-    cy.get(`[role="${selectRole}"]`).click();
+    cy.get(`[role="${selectRole}"]`).first().click();
     cy.get(`[role="listbox"]`).contains(optionLabel).click();
   },
   'I verify select value': (selectRole: string, value: string) => {
