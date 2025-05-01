@@ -107,14 +107,7 @@ const Select = ({
           break;
       }
     },
-    [
-      dropdownMenu.isOn,
-      options,
-      highlightedIndex,
-      disabled,
-      handleOptionClick,
-      dropdownMenu,
-    ],
+    [options, highlightedIndex, disabled, handleOptionClick, dropdownMenu],
   );
 
   React.useEffect(() => {
