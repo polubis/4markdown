@@ -6,7 +6,15 @@ import LogoThumbnail from 'images/logo-thumbnail.png';
 import { Button, type ButtonProps } from 'design-system/button';
 import { AppNavigation } from 'components/app-navigation';
 import { AppFooterContainer } from 'containers/app-footer.container';
+import { CreationLinkContainer } from 'containers/creation-link.container';
+import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
+import { EducationZoneLinkContainer } from 'containers/education-zone-link.container';
+import { DesignSystemLinkContainer } from 'containers/design-system-link.container';
+import { Select, SelectField, type SelectOption } from 'design-system/select';
+import { Field } from 'design-system/field';
 
+// TODO: Add more button variants, like icon buttons, loading buttons, etc.
+// TODO: Think about the labels
 const buttonVariants: Array<ButtonProps & { label: string }> = [
   { s: 1, i: 1, label: `s=1, i=1` },
   { s: 1, i: 2, label: `s=1, i=2` },
@@ -30,7 +38,7 @@ type ButtonVariantsProps = {
 
 const DesignSystemButtonPreview = ({ buttonVariants }: ButtonVariantsProps) => {
   return (
-    <div className="p-8 space-y-8 min-h-screen">
+    <div className="p-8 space-y-8 ">
       <section className="max-w-4xl mx-auto">
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Button Variants
@@ -42,9 +50,6 @@ const DesignSystemButtonPreview = ({ buttonVariants }: ButtonVariantsProps) => {
         >
           {buttonVariants.map(({ label, ...props }) => (
             <div key={label} className="flex flex-col items-center">
-              <p className="mb-3 text-sm text-zinc-600 dark:text-zinc-400">
-                {label}
-              </p>
               <Button {...props}>{props.auto ? `Button Text` : `A`}</Button>
             </div>
           ))}
@@ -54,11 +59,75 @@ const DesignSystemButtonPreview = ({ buttonVariants }: ButtonVariantsProps) => {
   );
 };
 
+const DesignSystemSelectPreview = () => {
+  const [value, setValue] = React.useState<string>(``);
+
+  const options: SelectOption[] = [
+    { value: `apple`, label: `Apple` },
+    { value: `banana`, label: `Banana` },
+    { value: `orange`, label: `Orange` },
+    { value: `grape`, label: `Grape` },
+    { value: `strawberry`, label: `Strawberry` },
+    { value: `blueberry`, label: `Blueberry` },
+    { value: `raspberry`, label: `Raspberry` },
+    { value: `blackberry`, label: `Blackberry` },
+    { value: `kiwi`, label: `Kiwi` },
+    { value: `mango`, label: `Mango` },
+  ];
+
+  return (
+    <div className="p-8 max-w-md mx-auto space-y-8">
+      <h1 className="text-2xl font-bold">Select Component Demo</h1>
+
+      <div className="space-y-6">
+        <SelectField
+          label="Select a fruit"
+          options={options}
+          value={value}
+          onChange={setValue}
+          hint={
+            <p className="text-xs text-gray-600 dark:text-gray-300">
+              Choose your favorite fruit
+            </p>
+          }
+        />
+
+        <Field label="Disabled Select">
+          <Select
+            options={options}
+            value={value}
+            onChange={setValue}
+            disabled
+          />
+        </Field>
+      </div>
+
+      <div className="p-4 bg-gray-300 dark:bg-slate-800 rounded-md">
+        <p className="font-medium">Selected value: {value || `None`}</p>
+        <p className="text-sm mt-2">Try using keyboard navigation:</p>
+        <ul className="text-sm list-disc list-inside mt-1">
+          <li>Tab to focus the select</li>
+          <li>Space/Enter to open dropdown</li>
+          <li>Arrow keys to navigate options</li>
+          <li>Enter to select an option</li>
+          <li>Escape to close dropdown</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
 const DesignSystemPage = () => {
   return (
     <>
-      <AppNavigation>siemka</AppNavigation>
+      <AppNavigation>
+        <CreationLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
+        <DesignSystemLinkContainer />
+      </AppNavigation>
       <DesignSystemButtonPreview buttonVariants={buttonVariants} />
+      <DesignSystemSelectPreview />
       <AppFooterContainer />
     </>
   );

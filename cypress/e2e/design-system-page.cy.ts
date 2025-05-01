@@ -1,11 +1,12 @@
-import { BASE_COMMANDS } from '../utils/commands';
+import { BASE_COMMANDS, SELECT_COMMANDS } from '../utils/commands';
 import { gherkin } from '../utils/gherkin';
 
-describe(`Design System Button variants`, () => {
+describe(`Design System Components`, () => {
   const buttonVariantsContainerId = `button-variants-container`;
 
   const given = gherkin({
     ...BASE_COMMANDS,
+    ...SELECT_COMMANDS,
     'I navigate to design system page': () => {
       cy.visit(`/design-system`);
     },
@@ -57,5 +58,29 @@ describe(`Design System Button variants`, () => {
     buttonLabels.forEach((label) => {
       given(`I take screenshot of individual button`, label);
     });
+  });
+
+  it(`verifies select component behavior`, () => {
+    given(`System has accepted cookies`)
+      .and(`I set white theme`)
+      .when(`I navigate to design system page`)
+      .and(`I select from`, `combobox`, `Banana`)
+      .then(`I verify select value`, `combobox`, `Banana`)
+      .when(`I select from`, `combobox`, `Apple`)
+      .then(`I verify select value`, `combobox`, `Apple`);
+  });
+
+  it(`verifies select keyboard navigation and disabled state`, () => {
+    given(`System has accepted cookies`)
+      .and(`I set white theme`)
+      .when(`I navigate to design system page`)
+      .then(`I verify select value`, `combobox`, `Choose your favorite fruit`)
+      .when(`I press key on`, `combobox`, `{downArrow}`)
+      .then(`I verify select option`, `Apple`)
+      .when(`I press key on`, `combobox`, `{downArrow}`)
+      .then(`I verify select option`, `Banana`)
+      .when(`I press key on`, `combobox`, `{enter}`)
+      .then(`I verify select value`, `combobox`, `Banana`)
+      .and(`I verify disabled select`);
   });
 });

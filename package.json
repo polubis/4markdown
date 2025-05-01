@@ -20,7 +20,7 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "e2e:1": "cypress run --spec \"cypress/e2e/design-system-button.cy.ts\"",
+    "e2e:1": "cypress run --spec \"cypress/e2e/design-system-page.cy.ts\"",
     "e2e:all": "cypress run",
     "e2e:check-snapshots": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run\"",
     "ci:lint": "npm run lint",
