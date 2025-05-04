@@ -1,142 +1,176 @@
-@tailwind base;
-@tailwind utilities;
-@tailwind components;
+@config '../../tailwind.config.js';
+@import 'tailwindcss';
 
-/* @ Light */
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
-body {
-  @apply bg-zinc-50 text-black;
-}
-
-body .active-link {
-  color: #00501d;
-}
-
-body .active-link:hover {
-  color: #00501d;
-}
-
-body .active-button-link {
-  background: #15803d;
-  color: #fff;
-}
-
-body .active-button-link:hover {
-  background: #15803d;
-  color: #fff;
-}
-
-/* @ Dark */
-
-body.dark {
-  @apply bg-zinc-950 text-white;
-}
-
-body.dark .active-link {
-  color: rgb(34 197 94);
-}
-
-body.dark .active-link:hover {
-  color: rgb(34 197 94);
-}
-
-body.dark .active-button-link {
-  background: #15803d;
-}
-
-body.dark .active-button-link:hover {
-  background: #15803d;
-}
-
-/* @ General */
-
-::-webkit-scrollbar {
-  @apply w-2 h-1;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-zinc-200;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-zinc-700;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-zinc-800;
-}
-
-/* @ Utils */
-
-@keyframes lrotate {
-  100% {
-    transform: rotate(1turn);
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
   }
 }
 
-.loader {
-  animation: lrotate 1s infinite linear;
-}
-
-/* @Tailwind */
-
-@layer components {
-  .prose h1 {
+@utility prose {
+  & h1 {
     @apply text-4xl md:text-5xl;
   }
 
-  .prose h2 {
+  & h2 {
     @apply text-3xl md:text-4xl;
   }
 
-  .prose h3 {
+  & h3 {
     @apply text-2xl md:text-3xl;
   }
 
-  .prose h4 {
+  & h4 {
     @apply text-xl md:text-2xl;
   }
 
-  .prose h5 {
+  & h5 {
     @apply text-lg md:text-xl font-bold;
   }
 
-  .prose h6 {
+  & h6 {
     @apply md:text-lg font-bold;
   }
-
-  .prose {
-    :not(pre) > code[class*='language-'],
-    pre[class*='language-'] {
-      background: #181818;
-    }
+  :not(pre) > code[class*='language-'],
+  pre[class*='language-'] {
+    background: #181818;
   }
 
-  body.dark .prose {
+  body.dark & {
     :not(pre) > code[class*='language-'],
     pre[class*='language-'] {
       background: #0f151b;
     }
   }
 
-  .prose code::before,
-  .prose code::after {
+  & code::before {
     @apply content-none;
   }
 
-  .prose table {
+  & code::after {
+    @apply content-none;
+  }
+
+  & table {
     @apply overflow-auto block;
   }
 
-  .prose td {
+  & td {
     @apply whitespace-nowrap;
   }
 
-  .prose a {
+  & a {
     @apply break-words;
   }
 
-  .prose .katex-display {
+  & .katex-display {
     @apply overflow-x-auto overflow-y-hidden py-1;
   }
+}
+
+@utility dark {
+  &body .prose {
+    :not(pre) > code[class*='language-'],
+    pre[class*='language-'] {
+      background: #0f151b;
+    }
+  }
+}
+
+@utility katex-display {
+  .prose & {
+    @apply overflow-x-auto overflow-y-hidden py-1;
+  }
+}
+
+@layer components {
+  /* @ Light */
+
+  body {
+    @apply bg-zinc-50 text-black;
+  }
+
+  body .active-link {
+    color: #00501d;
+  }
+
+  body .active-link:hover {
+    color: #00501d;
+  }
+
+  body .active-button-link {
+    background: #15803d;
+    color: #fff;
+  }
+
+  body .active-button-link:hover {
+    background: #15803d;
+    color: #fff;
+  }
+
+  /* @ Dark */
+
+  body.dark {
+    @apply bg-zinc-950 text-white;
+  }
+
+  body.dark .active-link {
+    color: rgb(34 197 94);
+  }
+
+  body.dark .active-link:hover {
+    color: rgb(34 197 94);
+  }
+
+  body.dark .active-button-link {
+    background: #15803d;
+  }
+
+  body.dark .active-button-link:hover {
+    background: #15803d;
+  }
+
+  /* @ General */
+
+  ::-webkit-scrollbar {
+    @apply w-2 h-1;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-zinc-200;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-700;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-zinc-800;
+  }
+
+  /* @ Utils */
+
+  @keyframes lrotate {
+    100% {
+      transform: rotate(1turn);
+    }
+  }
+
+  .loader {
+    animation: lrotate 1s infinite linear;
+  }
+
+  /* @Tailwind */
 }

@@ -60,6 +60,7 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.0",
     "@greenonsoftware/vibetest": "^0.0.1",
+    "@simonsmith/cypress-image-snapshot": "^9.1.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -79,7 +80,6 @@
     "babel-jest": "^29.7.0",
     "babel-preset-gatsby": "^3.14.0",
     "cypress": "^14.3.2",
-    "cypress-image-snapshot": "^4.0.1",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
