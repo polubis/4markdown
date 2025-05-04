@@ -1,5 +1,6 @@
-@config '../../tailwind.config.js';
 @import 'tailwindcss';
+
+@config '../../tailwind.config.js';
 
 /*
   The default border color has changed to `currentcolor` in Tailwind CSS v4,
@@ -87,6 +88,30 @@
       background: #0f151b;
     }
   }
+
+  /* @ Dark */
+
+  &body {
+    @apply bg-zinc-950 text-white;
+  }
+
+  &body .active-link {
+    color: rgb(34 197 94);
+  }
+
+  &body .active-link:hover {
+    color: rgb(34 197 94);
+  }
+
+  &body .active-button-link {
+    background: #15803d;
+  }
+
+  &body .active-button-link:hover {
+    background: #15803d;
+  }
+
+  /* @Tailwind */
 }
 
 @utility katex-display {
@@ -95,51 +120,78 @@
   }
 }
 
+@utility active-link {
+  body & {
+    color: #00501d;
+  }
+
+  body &:hover {
+    color: #00501d;
+  }
+
+  body.dark & {
+    color: rgb(34 197 94);
+  }
+
+  body.dark &:hover {
+    color: rgb(34 197 94);
+  }
+
+  /* @Tailwind */
+}
+
+@utility active-button-link {
+  body & {
+    background: #15803d;
+    color: #fff;
+  }
+
+  body &:hover {
+    background: #15803d;
+    color: #fff;
+  }
+
+  body.dark & {
+    background: #15803d;
+  }
+
+  body.dark &:hover {
+    background: #15803d;
+  }
+
+  /* @Tailwind */
+}
+
+@utility loader {
+  /* @ Utils */
+  animation: lrotate 1s infinite linear;
+
+  /* @Tailwind */
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
 @layer components {
   /* @ Light */
 
   body {
     @apply bg-zinc-50 text-black;
-  }
-
-  body .active-link {
-    color: #00501d;
-  }
-
-  body .active-link:hover {
-    color: #00501d;
-  }
-
-  body .active-button-link {
-    background: #15803d;
-    color: #fff;
-  }
-
-  body .active-button-link:hover {
-    background: #15803d;
-    color: #fff;
-  }
-
-  /* @ Dark */
-
-  body.dark {
-    @apply bg-zinc-950 text-white;
-  }
-
-  body.dark .active-link {
-    color: rgb(34 197 94);
-  }
-
-  body.dark .active-link:hover {
-    color: rgb(34 197 94);
-  }
-
-  body.dark .active-button-link {
-    background: #15803d;
-  }
-
-  body.dark .active-button-link:hover {
-    background: #15803d;
   }
 
   /* @ General */
@@ -160,17 +212,9 @@
     @apply bg-zinc-800;
   }
 
-  /* @ Utils */
-
   @keyframes lrotate {
     100% {
       transform: rotate(1turn);
     }
   }
-
-  .loader {
-    animation: lrotate 1s infinite linear;
-  }
-
-  /* @Tailwind */
 }

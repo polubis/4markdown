@@ -72,7 +72,7 @@ const SocialShare = () => {
       </Button>
       {panel.isOn && (
         <Popover
-          className="!absolute flex gap-2 translate-y-2.5 -right-12 sm:right-auto"
+          className="absolute! flex gap-2 translate-y-2.5 -right-12 sm:right-auto"
           onBackdropClick={panel.off}
         >
           <Button

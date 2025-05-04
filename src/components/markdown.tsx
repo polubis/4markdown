@@ -88,7 +88,7 @@ const Markdown = ({ className, children }: MarkdownProps) => {
   return (
     <ReactMarkdown
       className={c(
-        `prose dark:prose-invert [&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`,
+        `prose dark:prose-invert [&_.katex-error]:text-red-600! dark:[&_.katex-error]:text-red-400!`,
         className,
       )}
       {...OPTIONS}

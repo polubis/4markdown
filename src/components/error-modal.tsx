@@ -13,7 +13,7 @@ const ErrorModal = ({ heading, message, footer, onClose }: ErrorModalProps) => {
   return (
     <Modal onClose={onClose}>
       <Modal.Header
-        className="[&_h6]:text-red-600 [&_h6]:dark:text-red-400"
+        className="[&_h6]:text-red-600 dark:[&_h6]:text-red-400"
         title={heading}
         closeButtonTitle="Close error screen"
       />
