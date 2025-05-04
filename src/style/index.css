@@ -194,6 +194,12 @@
     @apply bg-zinc-50 text-black;
   }
 
+  /* @ Dark */
+
+  body.dark {
+    @apply bg-zinc-950 text-white;
+  }
+
   /* @ General */
 
   ::-webkit-scrollbar {
