@@ -22,7 +22,7 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
                 <Avatar
                   size="tn"
                   alt="Author avatar"
-                  className="bg-gray-300 dark:bg-slate-800 mr-1.5"
+                  className="bg-gray-300 dark:bg-slate-800 mr-2.5"
                   char={document.author.displayName.charAt(0)}
                   src={document.author?.avatar?.src}
                 />
