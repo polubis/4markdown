@@ -1,3 +1,4 @@
+@import './mindmaps.css';
 @import 'tailwindcss';
 
 @config '../../tailwind.config.js';
@@ -17,6 +18,11 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
   }
 }
 
@@ -181,6 +187,7 @@
   }
 }
 
+/* I'm not sure of that */
 .prose pre[class*='language-'],
 .prose :not(pre) > code[class*='language-'] {
   background: #181818;
