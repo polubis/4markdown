@@ -118,7 +118,7 @@ const CookiesModal = () => {
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
                       type="checkbox"
-                      className="sr-only active:[&+div]:border-white"
+                      className="sr-only [&+div]:active:border-white"
                       checked={value}
                       onChange={() =>
                         togglePreferences(key as keyof typeof preferences)
@@ -177,7 +177,7 @@ const CookiesModal = () => {
 
       {view === ViewType.Policy && (
         <>
-          <div className="[&>h1]:pb-3 [&>h2]:pb-1 markdown [&>h1]:text-5xl [&>h2]:text-4xl [&>*]:mb-3">
+          <div className="[&>h1]:pb-3 [&>h2]:pb-1 markdown [&>h1]:text-5xl [&>h2]:text-4xl *:mb-3">
             <PrivacyPolicyContent />
           </div>
           <footer className="flex space-x-3 [&_button]:flex-1 mt-8">

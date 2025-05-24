@@ -192,7 +192,7 @@ const ConversationListItemContainer = ({
           `rounded-md dark:bg-black bg-white border border-zinc-300 dark:border-zinc-800 overflow-hidden`,
           !conversation.opened &&
             conversation.operation.is === `busy` &&
-            `bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]`,
+            `bg-linear-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]`,
         )}
       >
         <div className="relative flex items-center py-2 gap-1 px-3">
@@ -294,7 +294,7 @@ const ConversationListItemContainer = ({
               })}
               {conversation.operation.is === `busy` && (
                 <div key="pending">
-                  <li className="rounded-md py-1 px-2 w-fit bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]">
+                  <li className="rounded-md py-1 px-2 w-fit bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 bg-linear-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]">
                     <p>Pending...</p>
                   </li>
                 </div>
@@ -497,10 +497,10 @@ const DocumentGenerationsContainer = () => {
           i={2}
           title="Show/hide generated documents"
           className={c(
-            `z-[11]`,
+            `z-11`,
             mobileGenerationList.isOn &&
               isGenerating &&
-              `bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]`,
+              `bg-linear-to-r from-sky-200 via-pink-200 to-gray-300 dark:from-sky-800 dark:via-pink-800 dark:to-gray-900 animate-gradient-move bg-[length:200%_200%]`,
           )}
           onClick={mobileGenerationList.toggle}
         >

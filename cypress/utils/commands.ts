@@ -249,5 +249,24 @@ const BASE_COMMANDS = {
   },
 } as const;
 
+export const SELECT_COMMANDS = {
+  'I select from': (selectRole: string, optionLabel: string) => {
+    cy.get(`[role="${selectRole}"]`).first().click();
+    cy.get(`[role="listbox"]`).contains(optionLabel).click();
+  },
+  'I verify select value': (selectRole: string, value: string) => {
+    cy.get(`[role="${selectRole}"]`).contains(value).should(`be.visible`);
+  },
+  'I press key on': (selectRole: string, key: string) => {
+    cy.get(`[role="${selectRole}"]`).type(key);
+  },
+  'I verify select option': (option: string) => {
+    cy.get(`[role="listbox"]`).contains(option).should(`be.visible`);
+  },
+  'I verify disabled select': () => {
+    cy.get(`[role="combobox"][aria-disabled="true"]`).should(`exist`);
+  },
+} as const;
+
 export type { Element, ClickableControls };
 export { BASE_COMMANDS };

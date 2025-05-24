@@ -101,7 +101,7 @@ const TableOfContent = React.memo(
                   className={c(
                     activeHeading === heading.text
                       ? `lg:text-green-700 lg:dark:text-green-400`
-                      : `text-gray-900 dark:text-gray-300 hover:text-blue-800 hover:dark:text-blue-500`,
+                      : `text-gray-900 dark:text-gray-300 hover:text-blue-800 dark:hover:text-blue-500`,
                   )}
                   style={{ paddingLeft: `${(heading.level - 1) * 12}px` }}
                 >

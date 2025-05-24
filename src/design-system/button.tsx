@@ -25,7 +25,9 @@ const Button: React.FC<ButtonProps> = ({
   const classes = React.useMemo(() => {
     return c(
       className,
-      `flex gap-1 justify-center items-center shrink-0 enabled:focus:outline dark:outline-2 outline-2.5 outline-black font-medium font-sans disabled:cursor-not-allowed dark:outline-white`,
+      `flex gap-1 justify-center items-center shrink-0`,
+      `enabled:focus:outline-2 outline-current`,
+      `font-medium font-sans disabled:cursor-not-allowed enabled:hover:cursor-pointer`,
       { [`h-8 w-8 text-[18px] [&>svg]:text-xl`]: !auto && s === 1 },
       { [`h-10 w-10 text-xl [&>svg]:text-2xl`]: !auto && s === 2 },
       { [`px-2 py-1 text-sm [&>svg]:text-xl`]: auto && s === 1 },

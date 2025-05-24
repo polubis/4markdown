@@ -27,7 +27,7 @@ const SolidEdgeContainer = ({
   return (
     <>
       <BaseEdge
-        className="!stroke-zinc-400 dark:!stroke-zinc-700"
+        className="stroke-zinc-400! dark:stroke-zinc-700!"
         id={id}
         path={edgePath}
       />

@@ -97,17 +97,17 @@ const ChaptersModal = ({
     <>
       <Modal
         id={modalId}
-        className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0"
+        className="*:w-[100%] *:max-w-3xl *:p-0 md:*:rounded-lg *:rounded-none md:p-4! p-0!"
         onClose={onClose}
       >
         <Modal.Header
-          className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
+          className="p-4 border-b border-zinc-300 dark:border-zinc-800 mb-0!"
           title={`Chapter (${activeSectionIndex + 1}/${chapters.length})`}
           closeButtonTitle="Close display as a book mode (Esc)"
         >
           {controls}
         </Modal.Header>
-        <Markdown className="p-4 !max-w-full">{content}</Markdown>
+        <Markdown className="p-4 max-w-full!">{content}</Markdown>
         <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800">
           <Button
             i={2}

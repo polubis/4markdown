@@ -257,7 +257,7 @@ const CreatorView = () => {
         </React.Suspense>
       )}
       <main className="md:mt-[122px] md:mb-0 mb-[122px]">
-        <Markdown className="markdown mr-auto ml-auto md:!max-w-[50%] md:mr-0 p-4">
+        <Markdown className="markdown mr-auto ml-auto md:max-w-[50%]! md:mr-0 p-4">
           {code}
         </Markdown>
       </main>
@@ -267,13 +267,13 @@ const CreatorView = () => {
           `md:translate-x-0 transition-transform flex dark:bg-black bg-white fixed top-0 md:top-[122px] left-0 right-0 md:right-[50%] h-[calc(100%-122px)] border-zinc-300 dark:border-zinc-800 border-r-0 md:border-r`,
         )}
       >
-        <header className="h-full flex flex-col gap-1.5 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 overflow-y-auto flex-shrink-0">
+        <header className="h-full flex flex-col gap-1.5 border-zinc-300 dark:border-zinc-800 border-r py-3 px-2.5 overflow-y-auto shrink-0">
           <Button
             title="Turn on/off auto scrolling"
             i={1}
             s={1}
             className={c({
-              '!text-green-700 dark:!text-green-400': autoScroller.isOn,
+              'text-green-700! dark:text-green-400!': autoScroller.isOn,
             })}
             onClick={autoScroller.toggle}
           >
@@ -306,7 +306,7 @@ const CreatorView = () => {
         </label>
         <div className="relative w-full h-full">
           <textarea
-            className="resize-none w-full h-full dark:bg-black bg-white focus:outline-none p-4 md:text-base text-sm"
+            className="resize-none w-full h-full dark:bg-black bg-white focus:outline-hidden p-4 md:text-base text-sm"
             ref={creatorRef}
             aria-labelledby="creator"
             defaultValue={code}

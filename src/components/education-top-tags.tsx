@@ -15,9 +15,9 @@ const EducationTopTags = ({ className, tags }: EducationTopTagsProps) => {
       <div className="flex flex-wrap gap-2">
         {tags.map((tag) => (
           <Link
-            activeClassName="!bg-gray-400/60 dark:!bg-slate-800/60"
+            activeClassName="bg-gray-400/60! dark:bg-slate-800/60!"
             key={tag}
-            className="focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white rounded-md text-sm uppercase font-medium bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3"
+            className="focus:outline-[3px] dark:focus:outline-2 dark:focus:outline-white rounded-md text-sm uppercase font-medium bg-slate-200 dark:bg-slate-800 dark:text-white text-black py-1 px-3"
             to={`${meta.routes.education.zone}${tag}/`}
           >
             {tag}

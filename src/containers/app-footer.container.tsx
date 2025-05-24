@@ -31,7 +31,7 @@ const AppFooterContainer = () => {
           <div className="flex flex-col space-y-2">
             <Link
               to={meta.routes.home}
-              className="cursor-pointer flex items-center space-x-3 mb-2 hover:underline underline-offset-2"
+              className="cursor-pointer flex items-center space-x-3 mb-4 hover:underline underline-offset-2"
             >
               <img
                 className="w-8 h-8"
@@ -135,6 +135,13 @@ const AppFooterContainer = () => {
               partiallyActive
             >
               Education Zone
+            </Link>
+            <Link
+              activeClassName="active-link"
+              className="hover:underline underline-offset-2"
+              to={meta.routes.designSystem}
+            >
+              Design System
             </Link>
             <Link
               activeClassName="active-link"

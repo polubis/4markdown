@@ -30,7 +30,7 @@ const CheatSheetModal = ({ onClose }: CheatSheetModalProps) => {
   return (
     <Modal
       data-testid="[cheatsheet-modal]:container"
-      className="[&>*]:w-[100%] [&>*]:max-w-prose"
+      className="*:w-[100%] *:max-w-prose"
       onClose={onClose}
     >
       <Modal.Header

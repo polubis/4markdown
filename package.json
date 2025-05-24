@@ -60,6 +60,8 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.27.0",
     "@greenonsoftware/vibetest": "^0.0.1",
+    "@simonsmith/cypress-image-snapshot": "^9.1.0",
+    "@tailwindcss/postcss": "^4.1.5",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
@@ -75,11 +77,9 @@
     "@types/webpack-bundle-analyzer": "^4.7.0",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
-    "autoprefixer": "^10.4.21",
     "babel-jest": "^29.7.0",
     "babel-preset-gatsby": "^3.14.0",
     "cypress": "^14.3.2",
-    "cypress-image-snapshot": "^4.0.1",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
@@ -102,7 +102,7 @@
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "start-server-and-test": "^2.0.11",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.5",
     "typescript": "^5.8.3",
     "webpack-bundle-analyzer": "^4.10.2"
   }
