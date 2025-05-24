@@ -60,7 +60,7 @@ const Modal = ({
       )}
       {...props}
     >
-      <div className="bg-white m-auto w-[100%] dark:bg-black rounded-lg shadow-xl">
+      <div className="bg-white m-auto w-full max-w-sm mx-4 dark:bg-black rounded-lg shadow-xl p-4">
         <ModalProvider disabled={disabled} close={close}>
           {children}
         </ModalProvider>

@@ -49,7 +49,7 @@
     background: #181818;
   }
 
-  body.dark & {
+  body.dark .prose {
     :not(pre) > code[class*='language-'],
     pre[class*='language-'] {
       background: #0f151b;
@@ -136,8 +136,6 @@
   body.dark &:hover {
     color: rgb(34 197 94);
   }
-
-  /* @Tailwind */
 }
 
 @utility active-button-link {
