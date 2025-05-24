@@ -44,17 +44,6 @@
   & h6 {
     @apply md:text-lg font-bold;
   }
-  :not(pre) > code[class*='language-'],
-  pre[class*='language-'] {
-    background: #181818;
-  }
-
-  body.dark .prose {
-    :not(pre) > code[class*='language-'],
-    pre[class*='language-'] {
-      background: #0f151b;
-    }
-  }
 
   & code::before {
     @apply content-none;
@@ -82,13 +71,6 @@
 }
 
 @utility dark {
-  &body .prose {
-    :not(pre) > code[class*='language-'],
-    pre[class*='language-'] {
-      background: #0f151b;
-    }
-  }
-
   /* @ Dark */
 
   &body {
@@ -110,8 +92,6 @@
   &body .active-button-link:hover {
     background: #15803d;
   }
-
-  /* @Tailwind */
 }
 
 @utility katex-display {
@@ -156,33 +136,11 @@
   body.dark &:hover {
     background: #15803d;
   }
-
-  /* @Tailwind */
 }
 
 @utility loader {
   /* @ Utils */
   animation: lrotate 1s infinite linear;
-
-  /* @Tailwind */
-}
-
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
-  }
 }
 
 @layer components {
@@ -221,4 +179,14 @@
       transform: rotate(1turn);
     }
   }
+}
+
+.prose pre[class*='language-'],
+.prose :not(pre) > code[class*='language-'] {
+  background: #181818;
+}
+
+body.dark .prose pre[class*='language-'],
+body.dark .prose :not(pre) > code[class*='language-'] {
+  background: #0f151b;
 }
