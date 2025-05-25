@@ -34,6 +34,7 @@ export const meta = {
       rank: `/education-rank/`,
       zone: `/education-zone/`,
     },
+    authors: `/authors/`,
     documents: {
       preview: `/document-preview/`,
     },

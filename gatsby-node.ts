@@ -12,12 +12,97 @@ import type {
 import type {
   API4MarkdownDto,
   API4MarkdownPayload,
+  AuthorProfileDto,
   DocumentRatingCategory,
   PermanentDocumentDto,
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
 import { createPathForMindmap } from './src/core/create-path-for-mindmap';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+
+const mockAuthorProfile: AuthorProfileDto = {
+  id: `60fd6451-5324-4131-92a6-f5bff7dcd26f`,
+  cdate: `2024-01-15T10:30:00.000Z`,
+  mdate: `2024-01-15T10:30:00.000Z`,
+  displayNameSlug: `john-doe-developer`,
+  displayName: `John Doe`,
+  bio: `Full-stack developer with 8+ years of experience. Passionate about React, TypeScript, and clean architecture.`,
+  avatar: {
+    tn: {
+      w: 50,
+      h: 50,
+      id: `avatar-tn-123`,
+      src: `/avatars/john-doe-50x50.jpg`,
+    },
+    sm: {
+      w: 100,
+      h: 100,
+      id: `avatar-sm-123`,
+      src: `/avatars/john-doe-100x100.jpg`,
+    },
+    md: {
+      w: 200,
+      h: 200,
+      id: `avatar-md-123`,
+      src: `/avatars/john-doe-200x200.jpg`,
+    },
+    lg: {
+      w: 400,
+      h: 400,
+      id: `avatar-lg-123`,
+      src: `/avatars/john-doe-400x400.jpg`,
+    },
+  },
+  githubUrl: `https://github.com/johndoe`,
+  linkedInUrl: `https://linkedin.com/in/johndoe`,
+  twitterUrl: `https://twitter.com/johndoe_dev`,
+  fbUrl: null,
+  blogUrl: `https://johndoe.dev`,
+  mindmaps: [],
+  rating: {
+    ugly: 3,
+    bad: 8,
+    decent: 22,
+    good: 35,
+    perfect: 32,
+  },
+  testimonials: [
+    {
+      author: {
+        id: `user-456`,
+        cdate: `2024-01-15T10:30:00.000Z`,
+        mdate: `2024-01-15T10:30:00.000Z`,
+        displayNameSlug: `sarah-wilson`,
+        displayName: `Sarah Wilson`,
+        bio: `Frontend Developer`,
+        avatar: null,
+        githubUrl: null,
+        linkedInUrl: `https://linkedin.com/in/sarahwilson`,
+        twitterUrl: null,
+        fbUrl: null,
+        blogUrl: null,
+      },
+      content: `John's tutorials helped me understand React hooks much better!`,
+    },
+    {
+      author: {
+        id: `user-789`,
+        cdate: `2024-01-15T10:30:00.000Z`,
+        mdate: `2024-01-15T10:30:00.000Z`,
+        displayNameSlug: `mike-chen`,
+        displayName: `Mike Chen`,
+        bio: `Backend Developer`,
+        avatar: null,
+        githubUrl: `https://github.com/mikechen`,
+        linkedInUrl: null,
+        twitterUrl: null,
+        fbUrl: null,
+        blogUrl: null,
+      },
+      content: `Excellent content quality. Great explanations!`,
+    },
+  ],
+};
 
 const createSearchDataFile = (documents: PermanentDocumentDto[]): void => {
   if (documents.length === 0) return;
@@ -219,6 +304,14 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
       `getPermanentMindmaps`,
     )({ limit: 100 }),
   ]);
+
+  actions.createPage({
+    path: `${meta.routes.authors}${mockAuthorProfile.id}/`,
+    component: path.resolve(`./src/dynamic-pages/author.page.tsx`),
+    context: {
+      author: mockAuthorProfile,
+    },
+  });
 
   createSearchDataFile(allDocuments);
 

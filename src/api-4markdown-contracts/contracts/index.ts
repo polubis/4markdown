@@ -12,6 +12,7 @@ import type {
   FullMindmapDto,
   RewriteAssistantPersona,
   YourAccountDto,
+  AuthorProfileDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -21,6 +22,7 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
 };
 
 type GetYourAccountContract = Contract<`getYourAccount`, YourAccountDto>;
+type GetAuthorProfileContract = Contract<`getAuthorProfile`, AuthorProfileDto>;
 
 type CreateContentWithAIContract = Contract<
   `createContentWithAI`,
@@ -236,7 +238,8 @@ type API4MarkdownContracts =
   | GetPermanentMindmapsContract
   | RewriteWithAssistantContract
   | CreateContentWithAIContract
-  | GetYourAccountContract;
+  | GetYourAccountContract
+  | GetAuthorProfileContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts['key'];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
