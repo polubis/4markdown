@@ -1,5 +1,5 @@
 import { type Prettify } from 'development-kit/utility-types';
-import type { Base64, Date, Id, Url } from '../atoms';
+import type { Base64, Date, Id, Url, UserId } from '../atoms';
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -125,7 +125,7 @@ type GetYourDocumentsContract = Contract<
 type GetAccessibleDocumentContract = Contract<
   `getAccessibleDocument`,
   PublicDocumentDto | PermanentDocumentDto,
-  Pick<DocumentDto, 'id'>
+  { documentId: DocumentDto['id']; authorId: UserId }
 >;
 type GetPermanentDocumentsContract = Contract<
   `getPermanentDocuments`,

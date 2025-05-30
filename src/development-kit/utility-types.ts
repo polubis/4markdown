@@ -1,5 +1,7 @@
 import type { ParsedError } from 'api-4markdown-contracts';
 
+type Brand<TData, TLabel extends string> = TData & { __brand: TLabel };
+
 type NonNullableProperties<T> = {
   [P in keyof T]: NonNullable<T[P]>;
 };
@@ -44,4 +46,5 @@ export type {
   Nullable,
   AsyncResult,
   Result,
+  Brand,
 };

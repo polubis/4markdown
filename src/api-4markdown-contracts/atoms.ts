@@ -1,3 +1,5 @@
+import { type Brand } from 'development-kit/utility-types';
+
 type Id = string;
 type Name = string;
 type MarkdownCode = string;
@@ -9,6 +11,7 @@ type Description = string;
 type Base64 = string;
 type Slug = string;
 type Url = string;
+type UserId = Brand<string, `UserId`>;
 
 export type {
   Id,
@@ -17,6 +20,7 @@ export type {
   MarkdownContent,
   Url,
   Date,
+  UserId,
   Tags,
   Path,
   Description,

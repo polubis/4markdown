@@ -14,6 +14,7 @@ import { Modal } from 'design-system/modal';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { meta } from '../../../../meta';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { authStoreSelectors } from 'store/auth/auth.store';
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
@@ -24,6 +25,7 @@ const DocumentDetailsContainer = ({
   onClose,
   onOpen,
 }: DocumentDetailsContainerProps) => {
+  const authStore = authStoreSelectors.useAuthorized();
   const privateConfirmation = useSimpleFeature();
   const permanentConfirmation = useSimpleFeature();
   const publicConfirmation = useSimpleFeature();
@@ -151,7 +153,9 @@ const DocumentDetailsContainer = ({
                 className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
                 title="Document preview"
                 onClick={() =>
-                  navigate(`${meta.routes.documents.preview}?id=${docStore.id}`)
+                  navigate(
+                    `${meta.routes.documents.preview}?id=${docStore.id}&authorId=${authStore.user.uid}`,
+                  )
                 }
               >
                 <strong>Preview</strong>
