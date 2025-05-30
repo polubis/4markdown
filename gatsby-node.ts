@@ -220,7 +220,11 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     )({ limit: 100 }),
   ]);
 
-  createSearchDataFile(allDocuments);
+  const trustedDocuments = allDocuments.filter(
+    ({ isAuthorTrusted }) => isAuthorTrusted,
+  );
+
+  createSearchDataFile(trustedDocuments);
 
   actions.createPage<HomePageModel>({
     path: meta.routes.home,
@@ -228,7 +232,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     context: {},
   });
 
-  allDocuments.forEach((document) => {
+  trustedDocuments.forEach((document) => {
     actions.createPage({
       path: document.path,
       component: path.resolve(`./src/dynamic-pages/document.page.tsx`),
@@ -256,7 +260,9 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   });
 
   const documentsPerPage = 20;
-  const documentPagesCount = Math.ceil(allDocuments.length / documentsPerPage);
+  const documentPagesCount = Math.ceil(
+    trustedDocuments.length / documentsPerPage,
+  );
   const paginatedDocuments = Array.from(
     { length: documentPagesCount },
     (_, index) => {
@@ -264,7 +270,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
 
       return {
         page,
-        documents: [...allDocuments].slice(
+        documents: [...trustedDocuments].slice(
           index * documentsPerPage,
           page * documentsPerPage,
         ),
@@ -272,7 +278,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     },
   );
 
-  const topDocuments = getTopDocuments(allDocuments, documentsPerPage).map<
+  const topDocuments = getTopDocuments(trustedDocuments, documentsPerPage).map<
     EducationPageModel['documents']['top'][number]
   >(({ author, name, id, path, rating, cdate }) => ({
     name,
@@ -290,7 +296,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
   }));
   const partialTopDocuments = [...topDocuments].slice(0, 3);
 
-  const topTags = getTopTags(allDocuments, 10);
+  const topTags = getTopTags(trustedDocuments, 10);
 
   topTags.forEach((tag) => {
     actions.createPage<EducationPageModel>({
@@ -303,7 +309,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
         documents: {
           partialTop: partialTopDocuments,
           top: topDocuments,
-          wall: allDocuments
+          wall: trustedDocuments
             .filter((document) => document.tags.includes(tag))
             .map(
               ({
@@ -379,7 +385,7 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     path: meta.routes.education.rank,
     component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
     context: {
-      topDocuments: getTopDocuments(allDocuments, documentsPerPage).map(
+      topDocuments: getTopDocuments(trustedDocuments, documentsPerPage).map(
         ({ author, name, id, path, rating, cdate, description, tags }) => ({
           name,
           id,
