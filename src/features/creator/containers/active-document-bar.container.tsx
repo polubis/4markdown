@@ -34,10 +34,6 @@ const ActiveDocumentBarContainer = () => {
   const morePopover = useSimpleFeature();
   const deleteModal = useSimpleFeature();
 
-  console.log(`stores`, {
-    authStore,
-  });
-
   const handleNameChangeConfirm: React.FormEventHandler<
     HTMLFormElement
   > = async (e) => {

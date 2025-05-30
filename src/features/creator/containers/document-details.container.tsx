@@ -14,6 +14,7 @@ import { Modal } from 'design-system/modal';
 import { PermamentDocFormContainer } from './permament-doc-form.container';
 import { meta } from '../../../../meta';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import { useAuthStore } from 'store/auth/auth.store';
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
@@ -30,6 +31,7 @@ const DocumentDetailsContainer = ({
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
   const permamentDocumentEdition = useSimpleFeature();
+  const authStore = useAuthStore();
 
   return (
     <Modal disabled={docManagementStore.is === `busy`} onClose={onClose}>
@@ -95,9 +97,22 @@ const DocumentDetailsContainer = ({
                 </Button>
               )}
             </Modal.Header>
-            <p>
-              Name: <strong>{docStore.name}</strong>
-            </p>
+            <div className={`flex  items-center justify-between`}>
+              <p>
+                Name: <strong>{docStore.name}</strong>
+              </p>
+              {authStore.is === `authorized` && (
+                <button
+                  className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
+                  title="Document preview"
+                  onClick={() =>
+                    navigate(`${meta.routes.authors}${authStore.user.uid}`)
+                  }
+                >
+                  <strong>See author profile</strong>
+                </button>
+              )}
+            </div>
             {docStore.visibility === `permanent` && (
               <>
                 <p className="mt-1">
