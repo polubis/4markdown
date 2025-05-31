@@ -10,13 +10,13 @@ const loadDocument = async (): Promise<void> => {
     setState({ is: `busy` });
 
     const params = new URLSearchParams(window.location.search);
-    const id = params.get(`id`);
+    const documentId = params.get(`id`);
     const authorId = params.get(`authorId`);
 
-    if (!id || !authorId) throw Error(`Wrong id parameter`);
+    if (!documentId || !authorId) throw Error(`Wrong id parameter`);
 
     const document = await getAPI().call(`getAccessibleDocument`)({
-      documentId: id,
+      documentId,
       authorId: authorId as UserId,
     });
 
