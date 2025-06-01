@@ -1,0 +1,16 @@
+.git
+.gitignore
+node_modules
+npm-debug.log
+Dockerfile*
+docker-compose*
+.env
+# Gatsby specific build artifacts (generated inside container)
+.cache/
+public/
+# Cypress output (mounted as volumes)
+cypress/videos/
+cypress/screenshots/
+# Local build artifacts if any
+build/
+dist/

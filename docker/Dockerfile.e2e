@@ -1,0 +1,14 @@
+FROM cypress/included:cypress-13.11.0-node-18.20.3-chrome-125.0.6422.141-1-ff-126.0.1-edge-125.0.2535.85-1 AS base
+
+WORKDIR /usr/src/app
+
+COPY package.json package-lock.json* ./
+
+RUN --mount=type=cache,target=/root/.npm \
+    npm install --include=dev --legacy-peer-deps
+
+COPY . .
+
+EXPOSE 9000
+
+CMD ["npm", "run", "ci:e2e:docker"]

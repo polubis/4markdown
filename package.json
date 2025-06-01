@@ -13,6 +13,7 @@
     "start": "gatsby develop",
     "build": "gatsby build",
     "serve": "gatsby serve",
+    "serve:docker": "gatsby serve -H 0.0.0.0 -p 9000",
     "clean": "gatsby clean",
     "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
     "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx|json)\" --write",
@@ -20,11 +21,12 @@
     "typecheck": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
-    "e2e:1": "cypress run --spec \"cypress/e2e/creator-sync.cy.ts\"",
+    "e2e:1": "cypress run --spec \"cypress/e2e/docs-browser.cy.ts\"",
     "e2e:all": "cypress run",
     "e2e:check-snapshots": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run\"",
     "ci:lint": "npm run lint",
     "ci:e2e": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run --env failOnSnapshotDiff=false\"",
+    "ci:e2e:docker": "npm run build && start-server-and-test serve:docker http://localhost:9000 \"cypress run --browser chrome --env failOnSnapshotDiff=false\"",
     "ci:units": "npm run test"
   },
   "dependencies": {

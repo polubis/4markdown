@@ -1,0 +1,12 @@
+services:
+  e2e-runner:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.e2e
+    entrypoint: ''
+    ports:
+      - 9000:9000
+    volumes:
+      - ./cypress/videos:/usr/src/app/cypress/videos
+      - ./cypress/screenshots:/usr/src/app/cypress/screenshots
+      - ./cypress/snapshots:/usr/src/app/cypress/snapshots
