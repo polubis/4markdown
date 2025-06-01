@@ -125,7 +125,7 @@ type GetYourDocumentsContract = Contract<
 type GetAccessibleDocumentContract = Contract<
   `getAccessibleDocument`,
   PublicDocumentDto | PermanentDocumentDto,
-  Pick<DocumentDto, 'id'>
+  { documentId: DocumentDto['id'] }
 >;
 type GetPermanentDocumentsContract = Contract<
   `getPermanentDocuments`,
