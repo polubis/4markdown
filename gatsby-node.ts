@@ -12,15 +12,15 @@ import type {
 import type {
   API4MarkdownDto,
   API4MarkdownPayload,
-  AuthorProfileDto,
   DocumentRatingCategory,
   PermanentDocumentDto,
+  UserProfileDto,
 } from 'api-4markdown-contracts';
 import { readFileSync, writeFileSync } from 'fs';
 import { createPathForMindmap } from './src/core/create-path-for-mindmap';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 
-const mockAuthorProfile: AuthorProfileDto = {
+const mockAuthorProfile: UserProfileDto = {
   id: `9c0hXIeLsvSB2KLiaq75gSWEg2D2`,
   cdate: `2024-01-15T10:30:00.000Z`,
   mdate: `2024-01-15T10:30:00.000Z`,
@@ -31,41 +31,34 @@ const mockAuthorProfile: AuthorProfileDto = {
     tn: {
       w: 50,
       h: 50,
-      id: `avatar-tn-123`,
+      id: `avatar-tn-jd`,
       src: `https://i.postimg.cc/wv74LwK4/avatar.png`,
     },
     sm: {
       w: 100,
       h: 100,
-      id: `avatar-sm-123`,
+      id: `avatar-sm-jd`,
       src: `/avatars/john-doe-100x100.jpg`,
     },
     md: {
       w: 200,
       h: 200,
-      id: `avatar-md-123`,
+      id: `avatar-md-jd`,
       src: `/avatars/john-doe-200x200.jpg`,
     },
     lg: {
       w: 400,
       h: 400,
-      id: `avatar-lg-123`,
+      id: `avatar-lg-jd`,
       src: `https://i.postimg.cc/wv74LwK4/avatar.png`,
     },
   },
-  githubUrl: `https://github.com/`,
-  linkedInUrl: `https://www.linkedin.com/`,
-  twitterUrl: `https://x.com/`,
-  fbUrl: `http://facebook.com/`,
-  blogUrl: `https://medium.com/`,
-  mindmaps: [],
-  rating: {
-    ugly: 3,
-    bad: 8,
-    decent: 22,
-    good: 35,
-    perfect: 32,
-  },
+  githubUrl: `https://github.com/johndoe`,
+  linkedInUrl: `https://www.linkedin.com/in/johndoe`,
+  twitterUrl: `https://x.com/johndoe`,
+  fbUrl: `http://facebook.com/johndoe`,
+  blogUrl: `https://medium.com/@johndoe`,
+  // Removed `mindmaps` and `rating` from the top-level as per your provided UserProfileDto
   testimonials: [
     {
       author: {
@@ -79,33 +72,36 @@ const mockAuthorProfile: AuthorProfileDto = {
           tn: {
             w: 50,
             h: 50,
-            id: `avatar-tn-123`,
-            src: `https://i.postimg.cc/wv74LwK4/avatar.png`,
+            id: `avatar-tn-sw`,
+            src: `https://i.postimg.cc/Nf8x0xJj/avatar-sarah.png`,
           },
           sm: {
             w: 100,
             h: 100,
-            id: `avatar-sm-123`,
-            src: `/avatars/john-doe-100x100.jpg`,
+            id: `avatar-sm-sw`,
+            src: `/avatars/sarah-wilson-100x100.jpg`,
           },
           md: {
             w: 200,
             h: 200,
-            id: `avatar-md-123`,
-            src: `/avatars/john-doe-200x200.jpg`,
+            id: `avatar-md-sw`,
+            src: `/avatars/sarah-wilson-200x200.jpg`,
           },
           lg: {
             w: 400,
             h: 400,
-            id: `avatar-lg-123`,
-            src: `https://i.postimg.cc/wv74LwK4/avatar.png`,
+            id: `avatar-lg-sw`,
+            src: `https://i.postimg.cc/Nf8x0xJj/avatar-sarah.png`,
           },
         },
-        githubUrl: `https://github.com/`,
-        linkedInUrl: `https://www.linkedin.com/`,
-        twitterUrl: `https://x.com/`,
-        fbUrl: `http://facebook.com/`,
-        blogUrl: `https://medium.com/`,
+        githubUrl: `https://github.com/sarahw`,
+        linkedInUrl: `https://www.linkedin.com/in/sarahw`,
+        twitterUrl: `https://x.com/sarahw`,
+        fbUrl: `http://facebook.com/sarahw`,
+        blogUrl: `https://medium.com/@sarahw`,
+        // Recursive requirement: These nested authors also need all UserProfileDto fields
+
+        testimonials: [], // This is crucial for recursion
       },
       content: `John's tutorials helped me understand React hooks much better!`,
     },
@@ -121,33 +117,34 @@ const mockAuthorProfile: AuthorProfileDto = {
           tn: {
             w: 50,
             h: 50,
-            id: `avatar-tn-123`,
-            src: `https://i.postimg.cc/wv74LwK4/avatar.png`,
+            id: `avatar-tn-mc`,
+            src: `https://i.postimg.cc/52qRz5G1/avatar-mike.png`,
           },
           sm: {
             w: 100,
             h: 100,
-            id: `avatar-sm-123`,
-            src: `/avatars/john-doe-100x100.jpg`,
+            id: `avatar-sm-mc`,
+            src: `/avatars/mike-chen-100x100.jpg`,
           },
           md: {
             w: 200,
             h: 200,
-            id: `avatar-md-123`,
-            src: `/avatars/john-doe-200x200.jpg`,
+            id: `avatar-md-mc`,
+            src: `/avatars/mike-chen-200x200.jpg`,
           },
           lg: {
             w: 400,
             h: 400,
-            id: `avatar-lg-123`,
-            src: `https://i.postimg.cc/wv74LwK4/avatar.png`,
+            id: `avatar-lg-mc`,
+            src: `https://i.postimg.cc/52qRz5G1/avatar-mike.png`,
           },
         },
-        githubUrl: `https://github.com/`,
-        linkedInUrl: `https://www.linkedin.com/`,
-        twitterUrl: `https://x.com/`,
-        fbUrl: `http://facebook.com/`,
-        blogUrl: `https://medium.com/`,
+        githubUrl: `https://github.com/mikec`,
+        linkedInUrl: `https://www.linkedin.com/in/mikec`,
+        twitterUrl: `https://x.com/mikec`,
+        fbUrl: `http://facebook.com/mikec`,
+        blogUrl: `https://medium.com/@mikec`,
+        testimonials: [],
       },
       content: `Excellent content quality. Great explanations!`,
     },
@@ -340,7 +337,6 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
 
   const functions = getFunctions(app);
 
-  // @TODO[PRIO=1]: [Find a way to call it statically from library].
   const [{ data: allDocuments }, { data: allMindmaps }] = await Promise.all([
     httpsCallable<
       API4MarkdownPayload<`getPermanentDocuments`>,
@@ -355,11 +351,32 @@ export const createPages: GatsbyNode['createPages'] = async ({ actions }) => {
     )({ limit: 100 }),
   ]);
 
+  const getAuthorProfile = async (
+    authorId: string,
+  ): Promise<UserProfileDto | null> => {
+    if (authorId === mockAuthorProfile.id) {
+      return mockAuthorProfile;
+    }
+
+    return null;
+  };
+
+  const author = await getAuthorProfile(mockAuthorProfile.id);
+
   actions.createPage({
-    path: `${meta.routes.authors}${mockAuthorProfile.id}/`,
+    path: `${meta.routes.authors}${author?.id}/`,
     component: path.resolve(`./src/dynamic-pages/author.page.tsx`),
     context: {
-      author: mockAuthorProfile,
+      author,
+    },
+  });
+
+  actions.createPage({
+    path: meta.routes.authors,
+    matchPath: `${meta.routes.authors}*`,
+    component: path.resolve(`./src/dynamic-pages/author.page.tsx`),
+    context: {
+      author: null,
     },
   });
 

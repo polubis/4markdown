@@ -27,6 +27,10 @@ type UserProfileDto = {
   twitterUrl: string | null;
   fbUrl: string | null;
   blogUrl: string | null;
+  testimonials: {
+    author: UserProfileDto;
+    content: string;
+  }[];
 };
 
 export type { UserProfileDto };

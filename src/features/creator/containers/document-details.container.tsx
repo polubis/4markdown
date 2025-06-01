@@ -104,7 +104,7 @@ const DocumentDetailsContainer = ({
               {authStore.is === `authorized` && (
                 <button
                   className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
-                  title="Document preview"
+                  title="See author profile"
                   onClick={() =>
                     navigate(`${meta.routes.authors}${authStore.user.uid}`)
                   }

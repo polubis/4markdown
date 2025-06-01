@@ -1,5 +1,5 @@
 import React from 'react';
-import type { AuthorProfileDto } from 'api-4markdown-contracts';
+import type { UserProfileDto } from 'api-4markdown-contracts';
 import { AppNavigation } from 'components/app-navigation';
 import { CreationLinkContainer } from 'containers/creation-link.container';
 import { EducationRankLinkContainer } from 'containers/education-rank-link.container';
@@ -11,25 +11,10 @@ import { Button } from 'design-system/button';
 import { GoArrowUpRight } from 'react-icons/go';
 
 type AuthorViewProps = {
-  author: AuthorProfileDto;
+  author: UserProfileDto;
 };
 
 const AuthorView = ({ author }: AuthorViewProps) => {
-  console.log(`AuthorView`, author);
-
-  const totalRatings = Object.values(author.rating).reduce(
-    (sum, count) => sum + count,
-    0,
-  );
-  const averageRating =
-    totalRatings > 0
-      ? (author.rating.perfect * 5 +
-          author.rating.good * 4 +
-          author.rating.decent * 3 +
-          author.rating.bad * 2 +
-          author.rating.ugly * 1) /
-        totalRatings
-      : 0;
   return (
     <>
       <AppNavigation>
@@ -101,37 +86,6 @@ const AuthorView = ({ author }: AuthorViewProps) => {
                   {author.bio ||
                     `Passionate about creating amazing digital experiences and sharing knowledge with the community.`}
                 </p>
-
-                <div className={`grid grid-cols-2 gap-6 py-6`}>
-                  <div>
-                    <div className={`text-2xl font-bold text-[#00501d] mb-1`}>
-                      {averageRating.toFixed(1)}/5.0
-                    </div>
-                    <div className={`text-sm text-zinc-600 dark:text-zinc-400`}>
-                      Average Rating
-                    </div>
-                    <div className={`flex items-center gap-1 mt-1`}>
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-4 h-4 ${
-                            i < Math.round(averageRating)
-                              ? `fill-[#00501d] text-[#00501d]`
-                              : `text-zinc-300 dark:text-zinc-600`
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <div className={`text-2xl font-bold text-[#00501d] mb-1`}>
-                      {totalRatings}
-                    </div>
-                    <div className={`text-sm text-zinc-600 dark:text-zinc-400`}>
-                      Total Reviews
-                    </div>
-                  </div>
-                </div>
 
                 <div className={`grid grid-cols-1 md:grid-cols-2 gap-4`}>
                   <div>
@@ -251,18 +205,3 @@ const AuthorView = ({ author }: AuthorViewProps) => {
 };
 
 export { AuthorView };
-
-const Star = ({ className }: { className: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-  >
-    <path
-      fillRule="evenodd"
-      d="M10.788 3.21c.447-1.077 1.977-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.693 21.41c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
-      clipRule="evenodd"
-    />
-  </svg>
-);

@@ -12,7 +12,6 @@ import type {
   FullMindmapDto,
   RewriteAssistantPersona,
   YourAccountDto,
-  AuthorProfileDto,
 } from '../dtos';
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -22,7 +21,7 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
 };
 
 type GetYourAccountContract = Contract<`getYourAccount`, YourAccountDto>;
-type GetAuthorProfileContract = Contract<`getAuthorProfile`, AuthorProfileDto>;
+type GetAuthorProfileContract = Contract<`getAuthorProfile`, UserProfileDto>;
 
 type CreateContentWithAIContract = Contract<
   `createContentWithAI`,
