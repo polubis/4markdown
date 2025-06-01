@@ -33,15 +33,6 @@ const AuthorPage = ({ pageContext }: AuthorPageProps) => {
           <p className="mt-2">
             The profile may not exist or may have been removed.
           </p>
-          <p className="mt-4">
-            <a
-              href={meta.routes.education.zone}
-              className="text-blue-500 underline"
-            >
-              Browse our education zone
-            </a>
-            to discover more content.
-          </p>
         </main>
         <AppFooterContainer />
       </>
@@ -59,9 +50,9 @@ export const Head: HeadFC = () => {
       appName={meta.appName}
       title={`Author Profile`}
       description={`View the profile of this author on our platform. Explore their contributions and documents.`}
-      url={`${meta.siteUrl}${meta.routes.authors}`}
+      url={meta.siteUrl + meta.routes.authors}
       lang={meta.lang}
-      image={`${meta.siteUrl}${LogoThumbnail}`}
+      image={meta.siteUrl + LogoThumbnail}
     />
   );
 };
