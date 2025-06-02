@@ -1,3 +1,4 @@
+import { type Prettify } from 'development-kit/utility-types';
 import type { Base64, Date, Id, Url } from '../atoms';
 import type {
   DocumentDto,
@@ -124,11 +125,11 @@ type GetYourDocumentsContract = Contract<
 type GetAccessibleDocumentContract = Contract<
   `getAccessibleDocument`,
   PublicDocumentDto | PermanentDocumentDto,
-  Pick<DocumentDto, 'id'>
+  { documentId: DocumentDto['id'] }
 >;
 type GetPermanentDocumentsContract = Contract<
   `getPermanentDocuments`,
-  PermanentDocumentDto[]
+  Prettify<PermanentDocumentDto & { isAuthorTrusted: boolean }>[]
 >;
 type DeleteDocumentContract = Contract<
   `deleteDocument`,
