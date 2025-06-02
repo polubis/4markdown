@@ -3,15 +3,15 @@ import React from 'react';
 import c from 'classnames';
 import { Button } from 'design-system/button';
 import { DOCUMENT_RATING_ICONS } from 'core/document-rating-config';
-import debounce from 'lodash.debounce';
 import { useDocumentLayoutContext } from 'providers/document-layout.provider';
 import { rateDocumentAct } from 'acts/rate-document.act';
+import throttle from 'lodash.throttle';
 
 type DocumentRatingContainerProps = {
   className?: string;
 };
 
-const rateDocument = debounce(rateDocumentAct, 2000);
+const rateDocument = throttle(rateDocumentAct, 60000);
 
 const NOTES = [
   { name: `C4`, frequency: 261.63 },
@@ -94,6 +94,12 @@ const DocumentRatingContainer = ({
       };
     });
   };
+
+  React.useEffect(() => {
+    return () => {
+      rateDocument.cancel();
+    };
+  }, []);
 
   return (
     <section className={c(`flex`, className)}>
