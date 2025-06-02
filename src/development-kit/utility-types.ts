@@ -37,6 +37,8 @@ type Result<
   TFailData extends MaybeObject = { error: ParsedError },
 > = Awaited<AsyncResult<TOkData, TFailData>>;
 
+type Brand<TData, TLabel extends string> = TData & { __brand: TLabel };
+
 export type {
   NonNullableProperties,
   Prettify,
@@ -44,4 +46,5 @@ export type {
   Nullable,
   AsyncResult,
   Result,
+  Brand,
 };
