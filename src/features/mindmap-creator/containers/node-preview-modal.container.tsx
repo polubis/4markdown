@@ -2,7 +2,8 @@ import { ChaptersModal } from 'components/chapters-modal';
 import { Button } from 'design-system/button';
 import { Modal } from 'design-system/modal';
 import React from 'react';
-import { BiPencil } from 'react-icons/bi';
+import { BiBookContent, BiPencil } from 'react-icons/bi';
+import { chaptersViewActions } from 'store/chapters/chapters.store';
 import { useMindmapCreatorState } from 'store/mindmap-creator';
 import {
   closeNodePreviewAction,
@@ -11,6 +12,7 @@ import {
 
 const NodePreviewModalContainer = () => {
   const nodePreview = useMindmapCreatorState((state) => state.nodePreview);
+  const { toggle } = chaptersViewActions;
 
   const openNodeEdition = (): void => {
     if (nodePreview.is === `active`) {
@@ -51,14 +53,19 @@ const NodePreviewModalContainer = () => {
   return (
     <ChaptersModal
       controls={
-        <Button
-          i={2}
-          s={1}
-          title="Start node edition"
-          onClick={openNodeEdition}
-        >
-          <BiPencil />
-        </Button>
+        <>
+          <Button
+            i={2}
+            s={1}
+            title="Start node edition"
+            onClick={openNodeEdition}
+          >
+            <BiPencil />
+          </Button>
+          <Button i={2} s={1} title="Toggle Chapters View" onClick={toggle}>
+            <BiBookContent />
+          </Button>
+        </>
       }
       onClose={closeNodePreviewAction}
     >

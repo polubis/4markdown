@@ -12,6 +12,7 @@ import { useKeyPress } from 'development-kit/use-key-press';
 import { falsy } from 'development-kit/guards';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
+import { useIsChaptersView } from 'store/chapters/chapters.store';
 
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
   activeSectionIndex > 0;
@@ -31,8 +32,10 @@ const ChaptersModal = ({
   onClose(): void;
 }) => {
   const modalId = React.useId();
+
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
   const [copyState, copy] = useCopy();
+  const isChaptersView = useIsChaptersView();
 
   const chapters = React.useMemo(() => {
     const parts = children.split(`\n`);
@@ -60,22 +63,25 @@ const ChaptersModal = ({
     return [intro, ...rest];
   }, [children]);
 
-  const content = chapters[activeSectionIndex];
+  const content = isChaptersView ? chapters[activeSectionIndex] : children;
 
   const goToPreviousSection = (): void => {
-    if (!isAbleToPrev(activeSectionIndex)) return;
-
+    if (!isChaptersView || !isAbleToPrev(activeSectionIndex)) return;
     setActiveSectionIndex((prevIndex) => prevIndex - 1);
   };
 
   const goToNextSection = (): void => {
-    if (!isAbleToNext(activeSectionIndex, chapters.length)) return;
-
+    if (!isChaptersView || !isAbleToNext(activeSectionIndex, chapters.length))
+      return;
     setActiveSectionIndex(activeSectionIndex + 1);
   };
 
   const copyActiveChapter = (): void => {
-    copy(content);
+    if (isChaptersView) {
+      copy(content);
+    } else {
+      copy(children);
+    }
   };
 
   useKeyPress([`a`, `A`], goToPreviousSection);
@@ -90,8 +96,9 @@ const ChaptersModal = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeSectionIndex]);
 
-  const ableToPrev = isAbleToPrev(activeSectionIndex);
-  const ableToNext = isAbleToNext(activeSectionIndex, chapters.length);
+  const ableToPrev = isChaptersView && isAbleToPrev(activeSectionIndex);
+  const ableToNext =
+    isChaptersView && isAbleToNext(activeSectionIndex, chapters.length);
 
   return (
     <>
@@ -102,7 +109,11 @@ const ChaptersModal = ({
       >
         <Modal.Header
           className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
-          title={`Chapter (${activeSectionIndex + 1}/${chapters.length})`}
+          title={`${
+            isChaptersView
+              ? `Chapter (${activeSectionIndex + 1}/${chapters.length})`
+              : `Article`
+          }`}
           closeButtonTitle="Close display as a book mode (Esc)"
         >
           {controls}
