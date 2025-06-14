@@ -97,58 +97,58 @@ const ChaptersModal = ({
     <>
       <Modal
         id={modalId}
-        className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0 "
+        className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0 [&>*]:flex [&>*]:flex-col [&>*]:max-h-screen md:[&>*]:max-h-[95vh]"
         onClose={onClose}
       >
-        <div className="flex flex-col max-h-[100vh] md:max-h-[95vh]">
-          <Modal.Header
-            className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
-            title={`Chapter (${activeSectionIndex + 1}/${chapters.length})`}
-            closeButtonTitle="Close display as a book mode (Esc)"
+        <Modal.Header
+          className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
+          title={`Chapter (${activeSectionIndex + 1}/${chapters.length})`}
+          closeButtonTitle="Close display as a book mode (Esc)"
+        >
+          {controls}
+        </Modal.Header>
+
+        <main className="overflow-y-auto">
+          <Markdown className="p-4 !max-w-full">{content}</Markdown>
+        </main>
+
+        <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800">
+          <Button
+            i={2}
+            s={1}
+            title="Copy this chapter markdown (C)"
+            onClick={copyActiveChapter}
           >
-            {controls}
-          </Modal.Header>
-          <main className="overflow-y-auto">
-            <Markdown className="p-4 !max-w-full">{content}</Markdown>
-          </main>
-          <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800 ">
+            {copyState.is === `copied` ? (
+              <BiCheck className="text-green-700" />
+            ) : (
+              <BiCopyAlt />
+            )}
+          </Button>
+          {(ableToPrev || ableToNext) && (
+            <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
+          )}
+          {ableToPrev && (
             <Button
               i={2}
               s={1}
-              title="Copy this chapter markdown (C)"
-              onClick={copyActiveChapter}
+              title="Go to previous chapter (A)"
+              onClick={goToPreviousSection}
             >
-              {copyState.is === `copied` ? (
-                <BiCheck className="text-green-700" />
-              ) : (
-                <BiCopyAlt />
-              )}
+              <BiArrowToLeft />
             </Button>
-            {(ableToPrev || ableToNext) && (
-              <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
-            )}
-            {ableToPrev && (
-              <Button
-                i={2}
-                s={1}
-                title="Go to previous chapter (A)"
-                onClick={goToPreviousSection}
-              >
-                <BiArrowToLeft />
-              </Button>
-            )}
-            {ableToNext && (
-              <Button
-                i={2}
-                s={1}
-                title="Go to next chapter (D)"
-                onClick={goToNextSection}
-              >
-                <BiArrowToRight />
-              </Button>
-            )}
-          </footer>
-        </div>
+          )}
+          {ableToNext && (
+            <Button
+              i={2}
+              s={1}
+              title="Go to next chapter (D)"
+              onClick={goToNextSection}
+            >
+              <BiArrowToRight />
+            </Button>
+          )}
+        </footer>
       </Modal>
       {copyState.is === `copied` && <Status>Chapter markdown copied</Status>}
     </>
