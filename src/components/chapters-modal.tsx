@@ -6,7 +6,7 @@ import {
   BiArrowToRight,
   BiCheck,
   BiCopyAlt,
-  BiMenu, // Ikona dla spisu treści
+  BiMenu,
 } from 'react-icons/bi';
 import { Markdown } from './markdown';
 import { useKeyPress } from 'development-kit/use-key-press';
@@ -15,6 +15,10 @@ import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { useIsChaptersView } from 'store/chapters/chapters.store';
 import c from 'classnames';
+import {
+  extractHeadings,
+  type ExtractedHeading,
+} from 'development-kit/extract-headings';
 
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
   activeSectionIndex > 0;
@@ -40,6 +44,7 @@ const ChaptersModal = ({
   const [copyState, copy] = useCopy();
   const isChaptersView = useIsChaptersView();
   const [isTableOfContentOpen, setIsTableOfContentOpen] = React.useState(false);
+  const [activeHash, setActiveHash] = React.useState(``);
 
   const chapters = React.useMemo(() => {
     const parts = children.split(`\n`);
@@ -64,36 +69,42 @@ const ChaptersModal = ({
     return [...intro, ...rest].filter(Boolean);
   }, [children]);
 
-  const chapterHeadings = React.useMemo(() => {
-    const introExists =
-      chapters.length > 0 && !/^##\s.+$/.test(chapters[0].split(`\n`)[0]);
-
-    return chapters.map((chapterContent, index) => {
-      if (index === 0 && introExists) {
-        return `Introduction`;
-      }
-      return chapterContent.split(`\n`)[0].replace(/^##\s*/, ``);
-    });
-  }, [chapters]);
+  const headingsForToc = React.useMemo(
+    () => extractHeadings(children),
+    [children],
+  );
 
   const content = isChaptersView ? chapters[activeSectionIndex] : children;
 
   const openToc = () => setIsTableOfContentOpen(true);
   const closeToc = () => setIsTableOfContentOpen(false);
 
-  const handleTocItemClick = (headingText: string, index: number) => {
+  const handleTocItemClick = (heading: ExtractedHeading) => {
     closeToc();
+
     if (isChaptersView) {
-      setActiveSectionIndex(index);
+      const chapterIndex = chapters.findIndex((chapter) =>
+        chapter.includes(heading.text),
+      );
+      if (chapterIndex !== -1) {
+        setActiveSectionIndex(chapterIndex);
+      }
     } else {
+      const url = new URL(window.location.href);
+      const newHash = encodeURIComponent(heading.text);
+      url.hash = newHash;
+
+      window.history.replaceState(null, ``, url.toString());
+      setActiveHash(newHash);
+
       const container = document.getElementById(markdownContainerId);
       if (!container) return;
 
-      const headings = container.querySelectorAll(`h2`);
+      const headings = container.querySelectorAll(`h${heading.level}`);
       const targetHeading = Array.from(headings).find(
-        (h) => h.textContent === headingText,
+        (h) => h.textContent === heading.text,
       );
-      targetHeading?.scrollIntoView({ behavior: `smooth`, block: `start` });
+      targetHeading?.scrollIntoView({ behavior: `smooth`, block: `center` });
     }
   };
 
@@ -114,7 +125,6 @@ const ChaptersModal = ({
 
   useKeyPress([`a`, `A`], goToPreviousSection);
   useKeyPress([`d`, `D`], goToNextSection);
-  useKeyPress([`Escape`], closeToc); // Zamykanie ToC klawiszem Escape
 
   React.useLayoutEffect(() => {
     const modal = document.getElementById(markdownContainerId);
@@ -123,6 +133,25 @@ const ChaptersModal = ({
       modal.scrollTo({ top: 0 });
     }
   }, [activeSectionIndex, isChaptersView, markdownContainerId]);
+
+  React.useLayoutEffect(() => {
+    if (isChaptersView) {
+      setActiveHash(``);
+      return;
+    }
+
+    const handleHashChange = () => {
+      setActiveHash(window.location.hash.slice(1));
+    };
+
+    handleHashChange();
+
+    window.addEventListener(`hashchange`, handleHashChange);
+
+    return () => {
+      window.removeEventListener(`hashchange`, handleHashChange);
+    };
+  }, [isChaptersView]);
 
   const ableToPrev = isChaptersView && isAbleToPrev(activeSectionIndex);
   const ableToNext =
@@ -146,7 +175,7 @@ const ChaptersModal = ({
         >
           <div className="flex items-center gap-2">
             {controls}
-            {chapterHeadings.length > 0 && (
+            {headingsForToc.length > 0 && (
               <Button i={2} s={1} title="Table of Contents" onClick={openToc}>
                 <BiMenu />
               </Button>
@@ -214,21 +243,27 @@ const ChaptersModal = ({
             <h2 className="text-lg font-semibold">Table of Contents</h2>
           </header>
           <ul className="space-y-1.5 p-4 overflow-y-auto flex-1">
-            {chapterHeadings.map((title, index) => (
-              <li key={index}>
-                <button
-                  onClick={() => handleTocItemClick(title, index)}
-                  className={c(
-                    `w-full text-left p-2 rounded-md transition-colors`,
-                    isChaptersView && activeSectionIndex === index
-                      ? `bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 font-semibold`
-                      : `text-gray-900 dark:text-gray-300 hover:bg-gray-100 hover:dark:bg-gray-800`,
-                  )}
-                >
-                  {title}
-                </button>
-              </li>
-            ))}
+            {headingsForToc.map((heading, index) => {
+              const isActive = isChaptersView
+                ? chapters[activeSectionIndex]?.includes(heading.text)
+                : activeHash === encodeURIComponent(heading.text);
+
+              return (
+                <li key={index}>
+                  <button
+                    onClick={() => handleTocItemClick(heading)}
+                    className={c(
+                      `w-full text-left p-2 rounded-md transition-colors`,
+                      isActive
+                        ? `bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 font-semibold`
+                        : `text-gray-900 dark:text-gray-300 hover:bg-gray-100 hover:dark:bg-gray-800`,
+                    )}
+                  >
+                    {heading.text}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </aside>
       </Modal>
