@@ -104,7 +104,7 @@ const ChaptersModal = ({
     <>
       <Modal
         id={modalId}
-        className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0"
+        className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0 [&>*]:flex [&>*]:flex-col [&>*]:max-h-screen md:[&>*]:max-h-[95vh]"
         onClose={onClose}
       >
         <Modal.Header
@@ -118,7 +118,11 @@ const ChaptersModal = ({
         >
           {controls}
         </Modal.Header>
-        <Markdown className="p-4 !max-w-full">{content}</Markdown>
+
+        <main className="overflow-y-auto">
+          <Markdown className="p-4 !max-w-full">{content}</Markdown>
+        </main>
+
         <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800">
           <Button
             i={2}
