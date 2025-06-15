@@ -69,10 +69,17 @@ const ChaptersModal = ({
     return [...intro, ...rest].filter(Boolean);
   }, [children]);
 
-  const headingsForToc = React.useMemo(
+  const allHeadings = React.useMemo(
     () => extractHeadings(children),
     [children],
   );
+
+  const headingsForToc = React.useMemo(() => {
+    if (isChaptersView) {
+      return allHeadings.filter((heading) => heading.level === 2);
+    }
+    return allHeadings;
+  }, [isChaptersView, allHeadings]);
 
   const content = isChaptersView ? chapters[activeSectionIndex] : children;
 
@@ -84,11 +91,9 @@ const ChaptersModal = ({
 
     if (isChaptersView) {
       const chapterIndex = chapters.findIndex((chapter) =>
-        chapter.includes(heading.text),
+        chapter.trim().startsWith(`## ${heading.text}`),
       );
-      if (chapterIndex !== -1) {
-        setActiveSectionIndex(chapterIndex);
-      }
+      setActiveSectionIndex(chapterIndex);
     } else {
       const url = new URL(window.location.href);
       const newHash = encodeURIComponent(heading.text);
@@ -137,6 +142,11 @@ const ChaptersModal = ({
   React.useLayoutEffect(() => {
     if (isChaptersView) {
       setActiveHash(``);
+      const url = new URL(window.location.href);
+      if (url.hash) {
+        url.hash = ``;
+        window.history.replaceState(null, ``, url.toString());
+      }
       return;
     }
 
@@ -258,6 +268,10 @@ const ChaptersModal = ({
                         ? `bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 font-semibold`
                         : `text-gray-900 dark:text-gray-300 hover:bg-gray-100 hover:dark:bg-gray-800`,
                     )}
+                    style={{
+                      paddingLeft: `${(heading.level - 1) * 12}px`,
+                      fontSize: `${16 - (heading.level - 1) * 2}px`,
+                    }}
                   >
                     {heading.text}
                   </button>
