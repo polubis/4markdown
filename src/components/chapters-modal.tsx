@@ -66,7 +66,7 @@ const ChaptersModal = ({
       return parts.slice(start, end).join(`\n`).trim();
     });
 
-    return [...intro, ...rest].filter(Boolean);
+    return [...intro, ...rest];
   }, [children]);
 
   const allHeadings = React.useMemo(
@@ -252,7 +252,7 @@ const ChaptersModal = ({
           <header className="p-4 border-b border-zinc-300 dark:border-zinc-800">
             <h2 className="text-lg font-semibold">Table of Contents</h2>
           </header>
-          <ul className="space-y-1.5 p-4 overflow-y-auto flex-1">
+          <ul className="space-y-1.5 p-4 overflow-y-auto flex-1 ">
             {headingsForToc.map((heading, index) => {
               const isActive = isChaptersView
                 ? chapters[activeSectionIndex]?.includes(heading.text)
@@ -268,10 +268,7 @@ const ChaptersModal = ({
                         ? `bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 font-semibold`
                         : `text-gray-900 dark:text-gray-300 hover:bg-gray-100 hover:dark:bg-gray-800`,
                     )}
-                    style={{
-                      paddingLeft: `${(heading.level - 1) * 12}px`,
-                      fontSize: `${16 - (heading.level - 1) * 2}px`,
-                    }}
+                    style={{ paddingLeft: `${(heading.level - 1) * 12}px` }}
                   >
                     {heading.text}
                   </button>
