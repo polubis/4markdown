@@ -19,6 +19,7 @@ import {
   extractHeadings,
   type ExtractedHeading,
 } from 'development-kit/extract-headings';
+import { useSimpleFeature } from '@greenonsoftware/react-kit';
 
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
   activeSectionIndex > 0;
@@ -43,10 +44,10 @@ const ChaptersModal = ({
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
   const [copyState, copy] = useCopy();
   const isChaptersView = useIsChaptersView();
-  const [isTableOfContentOpen, setIsTableOfContentOpen] = React.useState(false);
   const [activeHash, setActiveHash] = React.useState(``);
+  const tableOfContent = useSimpleFeature();
 
-  const chapters = React.useMemo(() => {
+  const chaptersContent = React.useMemo(() => {
     const parts = children.split(`\n`);
     const headingPositions: number[] = [];
     let introEnd = parts.length;
@@ -69,6 +70,21 @@ const ChaptersModal = ({
     return [...intro, ...rest];
   }, [children]);
 
+  const chapters = React.useMemo(() => {
+    return chaptersContent.map((content, index) => {
+      const headingsInChapter = extractHeadings(content);
+      const mainHeading = headingsInChapter[0] ?? {
+        text: `Chapter ${index + 1}`,
+        level: 1,
+      };
+
+      return {
+        content,
+        heading: mainHeading,
+      };
+    });
+  }, [chaptersContent]);
+
   const allHeadings = React.useMemo(
     () => extractHeadings(children),
     [children],
@@ -76,24 +92,20 @@ const ChaptersModal = ({
 
   const headingsForToc = React.useMemo(() => {
     if (isChaptersView) {
-      return allHeadings.filter((heading) => heading.level === 2);
+      return chapters.map((chapter) => chapter.heading);
     }
     return allHeadings;
-  }, [isChaptersView, allHeadings]);
+  }, [isChaptersView, allHeadings, chapters]);
 
-  const content = isChaptersView ? chapters[activeSectionIndex] : children;
+  const content = isChaptersView
+    ? (chapters[activeSectionIndex]?.content ?? ``)
+    : children;
 
-  const openToc = () => setIsTableOfContentOpen(true);
-  const closeToc = () => setIsTableOfContentOpen(false);
-
-  const handleTocItemClick = (heading: ExtractedHeading) => {
-    closeToc();
+  const handleTocItemClick = (heading: ExtractedHeading, index: number) => {
+    tableOfContent.off();
 
     if (isChaptersView) {
-      const chapterIndex = chapters.findIndex((chapter) =>
-        chapter.trim().startsWith(`## ${heading.text}`),
-      );
-      setActiveSectionIndex(chapterIndex);
+      setActiveSectionIndex(index);
     } else {
       const url = new URL(window.location.href);
       const newHash = encodeURIComponent(heading.text);
@@ -109,7 +121,10 @@ const ChaptersModal = ({
       const targetHeading = Array.from(headings).find(
         (h) => h.textContent === heading.text,
       );
-      targetHeading?.scrollIntoView({ behavior: `smooth`, block: `center` });
+      targetHeading?.scrollIntoView({
+        behavior: `smooth`,
+        block: `center`,
+      });
     }
   };
 
@@ -155,7 +170,6 @@ const ChaptersModal = ({
     };
 
     handleHashChange();
-
     window.addEventListener(`hashchange`, handleHashChange);
 
     return () => {
@@ -171,53 +185,60 @@ const ChaptersModal = ({
     <>
       <Modal
         id={modalId}
-        className="[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0 [&>*]:flex [&>*]:flex-col [&>*]:max-h-screen md:[&>*]:max-h-[95vh] [&>*]:relative [&>*]:overflow-hidden"
+        className={`[&>*]:w-[100%] [&>*]:max-w-3xl [&>*]:p-0 md:[&>*]:rounded-lg [&>*]:rounded-none md:!p-4 !p-0 [&>*]:flex [&>*]:flex-col [&>*]:max-h-screen md:[&>*]:max-h-[95vh] [&>*]:relative [&>*]:overflow-hidden`}
         onClose={onClose}
       >
         <Modal.Header
-          className="p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0"
+          className={`p-4 border-b border-zinc-300 dark:border-zinc-800 !mb-0`}
           title={
             isChaptersView
               ? `Chapter (${activeSectionIndex + 1}/${chapters.length})`
               : `Article`
           }
-          closeButtonTitle="Close display as a book mode (Esc)"
+          closeButtonTitle={`Close display as a book mode (Esc)`}
         >
-          <div className="flex items-center gap-2">
+          <div className={`flex items-center gap-2`}>
             {controls}
             {headingsForToc.length > 0 && (
-              <Button i={2} s={1} title="Table of Contents" onClick={openToc}>
+              <Button
+                i={2}
+                s={1}
+                title={`Table of Contents`}
+                onClick={tableOfContent.on}
+              >
                 <BiMenu />
               </Button>
             )}
           </div>
         </Modal.Header>
 
-        <main id={markdownContainerId} className="overflow-y-auto flex-1">
-          <Markdown className="p-4 !max-w-full">{content}</Markdown>
+        <main id={markdownContainerId} className={`overflow-y-auto flex-1`}>
+          <Markdown className={`p-4 !max-w-full`}>{content}</Markdown>
         </main>
 
-        <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800">
+        <footer
+          className={`flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800`}
+        >
           <Button
             i={2}
             s={1}
-            title="Copy this content markdown (C)"
+            title={`Copy this content markdown (C)`}
             onClick={copyActiveChapter}
           >
             {copyState.is === `copied` ? (
-              <BiCheck className="text-green-700" />
+              <BiCheck className={`text-green-700`} />
             ) : (
               <BiCopyAlt />
             )}
           </Button>
           {(ableToPrev || ableToNext) && (
-            <div className="h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
+            <div className={`h-4 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800`} />
           )}
           {ableToPrev && (
             <Button
               i={2}
               s={1}
-              title="Go to previous chapter (A)"
+              title={`Go to previous chapter (A)`}
               onClick={goToPreviousSection}
             >
               <BiArrowToLeft />
@@ -227,7 +248,7 @@ const ChaptersModal = ({
             <Button
               i={2}
               s={1}
-              title="Go to next chapter (D)"
+              title={`Go to next chapter (D)`}
               onClick={goToNextSection}
             >
               <BiArrowToRight />
@@ -235,10 +256,10 @@ const ChaptersModal = ({
           )}
         </footer>
 
-        {isTableOfContentOpen && (
+        {tableOfContent.isOn && (
           <div
-            className="absolute inset-0 bg-black/50 z-10 animate-fade-in"
-            onClick={closeToc}
+            className={`absolute inset-0 bg-black/50 z-10 animate-fade-in`}
+            onClick={tableOfContent.off}
             aria-hidden="true"
           />
         )}
@@ -246,29 +267,33 @@ const ChaptersModal = ({
         <aside
           className={c(
             `absolute top-0 bottom-0 right-0 z-20 w-full max-w-xs bg-white dark:bg-black shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col`,
-            isTableOfContentOpen ? `translate-x-0` : `translate-x-full`,
+            tableOfContent.isOn ? `translate-x-0` : `translate-x-full`,
           )}
         >
-          <header className="p-4 border-b border-zinc-300 dark:border-zinc-800">
-            <h2 className="text-lg font-semibold">Table of Contents</h2>
+          <header
+            className={`p-4 border-b border-zinc-300 dark:border-zinc-800`}
+          >
+            <h2 className={`text-lg font-semibold`}>Table of Contents</h2>
           </header>
-          <ul className="space-y-1.5 p-4 overflow-y-auto flex-1 ">
+          <ul className={`space-y-1.5 p-4 overflow-y-auto flex-1`}>
             {headingsForToc.map((heading, index) => {
               const isActive = isChaptersView
-                ? chapters[activeSectionIndex]?.includes(heading.text)
+                ? activeSectionIndex === index
                 : activeHash === encodeURIComponent(heading.text);
 
               return (
                 <li key={index}>
                   <button
-                    onClick={() => handleTocItemClick(heading)}
+                    onClick={() => handleTocItemClick(heading, index)}
                     className={c(
                       `w-full text-left p-2 rounded-md transition-colors`,
                       isActive
                         ? `bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300 font-semibold`
                         : `text-gray-900 dark:text-gray-300 hover:bg-gray-100 hover:dark:bg-gray-800`,
                     )}
-                    style={{ paddingLeft: `${(heading.level - 1) * 12}px` }}
+                    style={{
+                      paddingLeft: `${(heading.level - 1) * 12 + 8}px`,
+                    }}
                   >
                     {heading.text}
                   </button>
