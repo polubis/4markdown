@@ -4,6 +4,7 @@ import React, { type ReactNode } from 'react';
 import {
   BiArrowToLeft,
   BiArrowToRight,
+  BiBookContent,
   BiCheck,
   BiCopyAlt,
   BiMenu,
@@ -13,13 +14,45 @@ import { useKeyPress } from 'development-kit/use-key-press';
 import { falsy } from 'development-kit/guards';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
-import { useIsChaptersView } from 'store/chapters/chapters.store';
 import c from 'classnames';
 import {
   extractHeadings,
   type ExtractedHeading,
 } from 'development-kit/extract-headings';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
+
+const ChapterModalControls = ({
+  onToggleToc,
+  onToggleChapters,
+  tocDisabled,
+  chaptersDisabled,
+}: {
+  onToggleToc: () => void;
+  onToggleChapters: () => void;
+  tocDisabled: boolean;
+  chaptersDisabled: boolean;
+}) => (
+  <>
+    <Button
+      i={2}
+      s={1}
+      title="Table of Contents"
+      onClick={onToggleToc}
+      disabled={tocDisabled}
+    >
+      <BiMenu />
+    </Button>
+    <Button
+      i={2}
+      s={1}
+      title="Toggle Chapters View"
+      onClick={onToggleChapters}
+      disabled={chaptersDisabled}
+    >
+      <BiBookContent />
+    </Button>
+  </>
+);
 
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
   activeSectionIndex > 0;
@@ -43,9 +76,10 @@ const ChaptersModal = ({
 
   const [activeSectionIndex, setActiveSectionIndex] = React.useState(0);
   const [copyState, copy] = useCopy();
-  const isChaptersView = useIsChaptersView();
   const [activeHash, setActiveHash] = React.useState(``);
   const tableOfContent = useSimpleFeature();
+  const chaptersView = useSimpleFeature();
+  const isChaptersView = chaptersView.isOn;
 
   const chaptersContent = React.useMemo(() => {
     const parts = children.split(`\n`);
@@ -89,6 +123,11 @@ const ChaptersModal = ({
     () => extractHeadings(children),
     [children],
   );
+
+  // Disable TOC if there are no headings at all
+  const tocDisabled = allHeadings.length === 0;
+  // Disable Chapters View if there are no '##' headings
+  const chaptersDisabled = chapters.length <= 1;
 
   const headingsForToc = React.useMemo(() => {
     if (isChaptersView) {
@@ -199,16 +238,12 @@ const ChaptersModal = ({
         >
           <div className={`flex items-center gap-2`}>
             {controls}
-            {headingsForToc.length > 0 && (
-              <Button
-                i={2}
-                s={1}
-                title={`Table of Contents`}
-                onClick={tableOfContent.on}
-              >
-                <BiMenu />
-              </Button>
-            )}
+            <ChapterModalControls
+              onToggleToc={tableOfContent.on}
+              onToggleChapters={chaptersView.toggle}
+              tocDisabled={tocDisabled}
+              chaptersDisabled={chaptersDisabled}
+            />
           </div>
         </Modal.Header>
 
@@ -256,6 +291,7 @@ const ChaptersModal = ({
           )}
         </footer>
 
+        {/* Table of Contents Side Panel */}
         {tableOfContent.isOn && (
           <div
             className={`absolute inset-0 bg-black/50 z-10 animate-fade-in`}
@@ -263,7 +299,6 @@ const ChaptersModal = ({
             aria-hidden="true"
           />
         )}
-
         <aside
           className={c(
             `absolute top-0 bottom-0 right-0 z-20 w-full max-w-xs bg-white dark:bg-black shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col`,
