@@ -124,9 +124,7 @@ const ChaptersModal = ({
     [children],
   );
 
-  // Disable TOC if there are no headings at all
   const tocDisabled = allHeadings.length === 0;
-  // Disable Chapters View if there are no '##' headings
   const chaptersDisabled = chapters.length <= 1;
 
   const headingsForToc = React.useMemo(() => {
