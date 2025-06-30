@@ -30,10 +30,7 @@ const config: GatsbyConfig = {
       },
     },
     ...seoPlugins(),
-    `gatsby-plugin-image`,
     `gatsby-plugin-mdx`,
-    `gatsby-plugin-sharp`,
-    `gatsby-transformer-sharp`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
