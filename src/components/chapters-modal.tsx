@@ -87,7 +87,6 @@ const ChaptersModal = ({
 		falsy(modal, `Cannot find ${modalId}`);
 
 		modal.scrollTo({ top: 0 });
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [activeSectionIndex]);
 
 	const ableToPrev = isAbleToPrev(activeSectionIndex);

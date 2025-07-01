@@ -37,7 +37,6 @@ currentBenchmark().then((currentBenchmark) => {
 
 		console.table(
 			Object.entries(currentBenchmark.chunks).reduce(
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				(acc, [key, { sizes, ...values }]) => {
 					acc[key] = values;
 					return acc;
@@ -56,7 +55,6 @@ currentBenchmark().then((currentBenchmark) => {
 
 		console.table(
 			Object.entries(newBenchmark.chunks).reduce(
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				(acc, [key, { sizes, ...values }]) => {
 					acc[key] = values;
 					return acc;

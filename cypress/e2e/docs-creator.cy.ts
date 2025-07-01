@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import { BASE_COMMANDS } from "../utils/commands";
 import { gherkin } from "../utils/gherkin";
 

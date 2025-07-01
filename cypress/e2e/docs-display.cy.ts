@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 import type {
 	API4MarkdownDto,
 	PublicDocumentDto,

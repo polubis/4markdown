@@ -233,7 +233,6 @@ const CreatorView = () => {
 			rewriteAssistant.off();
 			assistanceToolbox.off();
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [docStore]);
 
 	return (

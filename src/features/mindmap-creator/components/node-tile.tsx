@@ -22,20 +22,17 @@ const NodeTile = ({
 	);
 };
 
-// eslint-disable-next-line react/display-name
 NodeTile.Name = ({ children }: { children: ReactNode }) => {
 	return <h6 className="font-bold line-clamp-2">{children}</h6>;
 };
-// eslint-disable-next-line react/display-name
 NodeTile.Label = ({ children }: { children: ReactNode }) => {
 	return <p className="text-sm capitalize mb-0.5 italic">{children}</p>;
 };
 
-// eslint-disable-next-line react/display-name
 NodeTile.Description = ({ children }: { children: ReactNode }) => {
 	return <p className="mt-1 line-clamp-4">{children}</p>;
 };
-// eslint-disable-next-line react/display-name
+
 NodeTile.Toolbox = ({ children }: { children: ReactNode }) => {
 	return (
 		<div className="node-tile-toolbox flex items-center space-x-1 absolute top-2 right-2">

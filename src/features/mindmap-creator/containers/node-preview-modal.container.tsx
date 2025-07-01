@@ -14,7 +14,6 @@ const NodePreviewModalContainer = () => {
 
 	const openNodeEdition = (): void => {
 		if (nodePreview.is === `active`) {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { is, ...data } = nodePreview;
 			openNodeEditionAction(data);
 		}

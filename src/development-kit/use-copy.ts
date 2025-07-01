@@ -78,7 +78,6 @@ const useCopy = (
 		} else {
 			setState({ is: `error` });
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const reset = async (): Promise<void> => {

@@ -173,7 +173,6 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
 			return () => {
 				askSubscription.unsubscribe();
 			};
-			// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, []);
 
 		return {

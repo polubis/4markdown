@@ -1,4 +1,3 @@
-/* eslint-disable no-template-curly-in-string */
 import type { API4MarkdownDto, DocumentDto } from "api-4markdown-contracts";
 import { BASE_COMMANDS } from "../utils/commands";
 import { gherkin } from "../utils/gherkin";

@@ -48,7 +48,6 @@ const AddDocPopover = () => {
 		if (docManagementStore.is === `fail`) {
 			menu.off();
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [docManagementStore]);
 
 	return (
