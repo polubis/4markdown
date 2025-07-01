@@ -1,9 +1,9 @@
 type Assert = (condition: unknown, message: string) => asserts condition;
 
 const falsy: Assert = (condition, message) => {
-  if (condition) return;
+	if (condition) return;
 
-  throw Error(message);
+	throw Error(message);
 };
 
 export { falsy };

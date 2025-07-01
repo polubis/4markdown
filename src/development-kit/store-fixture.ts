@@ -1,28 +1,28 @@
-import { renderHook, act } from '@testing-library/react';
-import type { state } from './state';
+import { renderHook, act } from "@testing-library/react";
+import type { state } from "./state";
 
 const storeFixture = <T>(
-  useStore: ReturnType<typeof state<T>>,
-  defaultState?: T,
+	useStore: ReturnType<typeof state<T>>,
+	defaultState?: T,
 ) => {
-  if (defaultState) {
-    act(() => {
-      useStore.set(defaultState);
-    });
-  }
+	if (defaultState) {
+		act(() => {
+			useStore.set(defaultState);
+		});
+	}
 
-  const restore = (): void => {
-    act(() => {
-      useStore.set(useStore.getInitial());
-    });
-  };
+	const restore = (): void => {
+		act(() => {
+			useStore.set(useStore.getInitial());
+		});
+	};
 
-  const { result } = renderHook(() => useStore());
+	const { result } = renderHook(() => useStore());
 
-  return {
-    restore,
-    result,
-  };
+	return {
+		restore,
+		result,
+	};
 };
 
 export { storeFixture };

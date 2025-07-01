@@ -1,47 +1,47 @@
 const isInvalidSelection = ({
-  selectionStart,
-  selectionEnd,
+	selectionStart,
+	selectionEnd,
 }: {
-  selectionStart: number;
-  selectionEnd: number;
+	selectionStart: number;
+	selectionEnd: number;
 }): boolean => {
-  return selectionStart === selectionEnd;
+	return selectionStart === selectionEnd;
 };
 
 const getSelectedText = ({
-  value,
-  selectionStart,
-  selectionEnd,
+	value,
+	selectionStart,
+	selectionEnd,
 }: {
-  selectionStart: number;
-  selectionEnd: number;
-  value: string;
+	selectionStart: number;
+	selectionEnd: number;
+	value: string;
 }): string | null => {
-  if (isInvalidSelection({ selectionStart, selectionEnd })) {
-    return null;
-  }
+	if (isInvalidSelection({ selectionStart, selectionEnd })) {
+		return null;
+	}
 
-  return value.slice(selectionStart, selectionEnd);
+	return value.slice(selectionStart, selectionEnd);
 };
 
 const replaceText = ({
-  selectionStart,
-  selectionEnd,
-  value,
-  valueToReplace,
+	selectionStart,
+	selectionEnd,
+	value,
+	valueToReplace,
 }: {
-  selectionStart: number;
-  selectionEnd: number;
-  value: string;
-  valueToReplace: string;
+	selectionStart: number;
+	selectionEnd: number;
+	value: string;
+	valueToReplace: string;
 }): string => {
-  if (isInvalidSelection({ selectionStart, selectionEnd })) {
-    return value;
-  }
+	if (isInvalidSelection({ selectionStart, selectionEnd })) {
+		return value;
+	}
 
-  return (
-    value.slice(0, selectionStart) + valueToReplace + value.slice(selectionEnd)
-  );
+	return (
+		value.slice(0, selectionStart) + valueToReplace + value.slice(selectionEnd)
+	);
 };
 
 export { replaceText, getSelectedText, isInvalidSelection };

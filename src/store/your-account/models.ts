@@ -1,5 +1,5 @@
-import type { YourAccountDto } from 'api-4markdown-contracts';
-import type { Transaction } from 'development-kit/utility-types';
+import type { YourAccountDto } from "api-4markdown-contracts";
+import type { Transaction } from "development-kit/utility-types";
 
 type YourAccountState = Transaction<YourAccountDto>;
 
