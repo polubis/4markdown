@@ -7,6 +7,7 @@ import {
   BiBookContent,
   BiCheck,
   BiCopyAlt,
+  BiNews,
 } from 'react-icons/bi';
 import { Markdown } from './markdown';
 import { useKeyPress } from 'development-kit/use-key-press';
@@ -14,12 +15,6 @@ import { falsy } from 'development-kit/guards';
 import { useCopy } from 'development-kit/use-copy';
 import { Status } from 'design-system/status';
 import { useSimpleFeature } from '@greenonsoftware/react-kit';
-
-const ChapterModalControls = ({ toggle }: { toggle(): void }) => (
-  <Button i={2} s={1} title="Toggle Chapters View" onClick={toggle}>
-    <BiBookContent />
-  </Button>
-);
 
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
   activeSectionIndex > 0;
@@ -126,7 +121,18 @@ const ChaptersModal = ({
           closeButtonTitle="Close display as a book mode (Esc)"
         >
           {controls}
-          <ChapterModalControls toggle={chaptersView.toggle} />
+          <Button
+            i={2}
+            s={1}
+            title={
+              isChaptersView
+                ? `Display as a single article`
+                : `Display as a book`
+            }
+            onClick={chaptersView.toggle}
+          >
+            {isChaptersView ? <BiNews /> : <BiBookContent />}
+          </Button>
         </Modal.Header>
         <Markdown className="p-4 !max-w-full">{content}</Markdown>
         <footer className="flex items-center justify-end p-4 gap-2 py-3 border-t border-zinc-300 dark:border-zinc-800">

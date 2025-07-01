@@ -52,16 +52,14 @@ const NodePreviewModalContainer = () => {
   return (
     <ChaptersModal
       controls={
-        <>
-          <Button
-            i={2}
-            s={1}
-            title="Start node edition"
-            onClick={openNodeEdition}
-          >
-            <BiPencil />
-          </Button>
-        </>
+        <Button
+          i={2}
+          s={1}
+          title="Start node edition"
+          onClick={openNodeEdition}
+        >
+          <BiPencil />
+        </Button>
       }
       onClose={closeNodePreviewAction}
     >
