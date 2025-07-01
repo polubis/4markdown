@@ -3,8 +3,8 @@ import { COOKIE_TYPE } from "./cookies";
 
 declare global {
 	interface Window {
-		dataLayer?: Array<any>;
-		gtag?: (...args: any[]) => void;
+		dataLayer?: Array<unknown>;
+		gtag?: (...args: unknown[]) => void;
 	}
 }
 
@@ -25,8 +25,8 @@ const initAnalytics = (): Promise<void> => {
 		const triggerAnalytics = (): void => {
 			w.dataLayer = w.dataLayer || [];
 
-			w.gtag = () => {
-				w.dataLayer?.push(arguments);
+			w.gtag = (...args: unknown[]) => {
+				w.dataLayer?.push(args);
 			};
 
 			w.gtag(`js`, new Date());

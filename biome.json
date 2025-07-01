@@ -15,8 +15,7 @@
 	},
 	"formatter": {
 		"enabled": true,
-		"indentStyle": "tab",
-		"lineEnding": "lf"
+		"indentStyle": "tab"
 	},
 	"linter": {
 		"enabled": true,
