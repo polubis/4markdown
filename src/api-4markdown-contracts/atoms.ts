@@ -1,7 +1,7 @@
 type Id = string;
 type Name = string;
 type MarkdownCode = string;
-type Date = string;
+type DateFormat = string;
 type Tags = string[];
 type Path = string;
 type MarkdownContent = string;
@@ -16,7 +16,7 @@ export type {
 	MarkdownCode,
 	MarkdownContent,
 	Url,
-	Date,
+	DateFormat,
 	Tags,
 	Path,
 	Description,

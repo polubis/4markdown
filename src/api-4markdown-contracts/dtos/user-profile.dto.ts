@@ -1,4 +1,4 @@
-import type { Date, Id, Path, Slug } from "../atoms";
+import type { DateFormat, Id, Path, Slug } from "../atoms";
 
 type AvatarVariant = {
 	w: number;
@@ -16,8 +16,8 @@ type Avatar = {
 
 type UserProfileDto = {
 	id: Id;
-	cdate: Date;
-	mdate: Date;
+	cdate: DateFormat;
+	mdate: DateFormat;
 	displayNameSlug: Slug | null;
 	displayName: string | null;
 	bio: string | null;

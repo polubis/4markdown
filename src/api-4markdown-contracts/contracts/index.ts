@@ -1,5 +1,5 @@
 import type { Prettify } from "development-kit/utility-types";
-import type { Base64, Date, Id, Url } from "../atoms";
+import type { Base64, DateFormat, Id, Url } from "../atoms";
 import type {
 	DocumentDto,
 	DocumentRatingCategory,
@@ -174,14 +174,14 @@ type GetYourUserProfileContract = Contract<
 	`getYourUserProfile`,
 	{
 		profile: UserProfileDto;
-		mdate: Date;
+		mdate: DateFormat;
 	} | null
 >;
 type UpdateYourUserProfileContract = Contract<
 	`updateYourUserProfileV2`,
 	{
 		profile: UserProfileDto;
-		mdate: Date;
+		mdate: DateFormat;
 	},
 	Pick<
 		UserProfileDto,
@@ -193,7 +193,7 @@ type UpdateYourUserProfileContract = Contract<
 		| "linkedInUrl"
 		| "twitterUrl"
 	> & {
-		mdate: Date | null;
+		mdate: DateFormat | null;
 		avatar:
 			| {
 					type: `noop`;

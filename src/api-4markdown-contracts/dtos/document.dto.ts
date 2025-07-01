@@ -1,5 +1,5 @@
 import type {
-	Date,
+	DateFormat,
 	Description,
 	Id,
 	MarkdownCode,
@@ -14,8 +14,8 @@ type Base = {
 	id: Id;
 	name: Name;
 	code: MarkdownCode;
-	mdate: Date;
-	cdate: Date;
+	mdate: DateFormat;
+	cdate: DateFormat;
 	path: Path;
 };
 // @TODO[PRIO=2]: [Re-design contracts to be atomic, instead of creating huge shared objects...].
