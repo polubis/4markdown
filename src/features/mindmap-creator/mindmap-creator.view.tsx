@@ -97,7 +97,7 @@ const MindmapCreatorView = () => {
   return (
     <>
       <Button
-        i={1}
+        i={2}
         s={1}
         className={c(`fixed top-4 left-4 z-50`, {
           'md:mt-[122px]': header.isOn,

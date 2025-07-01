@@ -72,7 +72,7 @@ const RemoveSelectedNodesContainer = () => {
 
 const ToolboxContainer = () => {
   return (
-    <nav className="fixed flex justify-center space-x-2 py-2 max-w-sm mx-auto bottom-[126px] right-4 md:right-0 md:left-0 md:bottom-0">
+    <nav className="absolute bottom-3 left-14 z-10 flex space-x-2 md:left-1/2 md:-translate-x-1/2">
       <RemoveSelectedNodesContainer />
       <Button
         i={2}
@@ -174,8 +174,8 @@ const MindmapCreatorContainer = () => {
         </Controls>
         <Background />
         <MiniMap className="hidden md:block" />
+        <ToolboxContainer />
       </ReactFlow>
-      <ToolboxContainer />
       {nodeForm.is !== `closed` && (
         <React.Suspense>
           <NodeFormModalContainer />
