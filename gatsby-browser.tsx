@@ -9,24 +9,24 @@ import "./src/style/index.css";
 import "./src/style/mindmaps.css";
 
 const ExceptionScreen = React.lazy(() =>
-  import(`./src/components/exception-screen`).then((m) => ({
-    default: m.ExceptionScreen,
-  }))
+	import(`./src/components/exception-screen`).then((m) => ({
+		default: m.ExceptionScreen,
+	})),
 );
 
 const SafeExceptionScreen = () => (
-  <React.Suspense>
-    <ExceptionScreen />
-  </React.Suspense>
+	<React.Suspense>
+		<ExceptionScreen />
+	</React.Suspense>
 );
 
 export const wrapPageElement = ({ element }) => {
-  useAuth();
+	useAuth();
 
-  return (
-    <ErrorBoundary fallback={SafeExceptionScreen}>
-      {element}
-      <CookiesModalLoader />
-    </ErrorBoundary>
-  );
+	return (
+		<ErrorBoundary fallback={SafeExceptionScreen}>
+			{element}
+			<CookiesModalLoader />
+		</ErrorBoundary>
+	);
 };
