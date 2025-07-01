@@ -1,6 +1,6 @@
-import { useMindmapCreatorState } from "store/mindmap-creator";
-import type { API4MarkdownContractKey } from "api-4markdown-contracts";
 import { getAPI, parseError, setCache } from "api-4markdown";
+import type { API4MarkdownContractKey } from "api-4markdown-contracts";
+import { useMindmapCreatorState } from "store/mindmap-creator";
 
 const reloadYourMindmapsAct = async (): Promise<void> => {
 	try {

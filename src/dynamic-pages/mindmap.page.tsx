@@ -1,11 +1,11 @@
-import React from "react";
-import type { HeadFC } from "gatsby";
 import Meta from "components/meta";
-import LogoThumbnail from "images/logo-thumbnail.png";
-import { meta } from "../../meta";
-import type { MindmapPageModel } from "models/page-models";
-import { useMindmapPreviewState } from "store/mindmap-preview";
 import { MindmapDisplayView } from "features/mindmap-display/mindmap-display.view";
+import type { HeadFC } from "gatsby";
+import LogoThumbnail from "images/logo-thumbnail.png";
+import type { MindmapPageModel } from "models/page-models";
+import React from "react";
+import { useMindmapPreviewState } from "store/mindmap-preview";
+import { meta } from "../../meta";
 
 interface MindmapPageProps {
 	pageContext: MindmapPageModel;

@@ -1,7 +1,7 @@
 import type { SUID } from "development-kit/suid";
 import { useDocumentGenerationState } from "store/document-generation";
-import { seeInDocumentsCreatorAct } from "./see-in-documents-creator.act";
 import { toggleConversationAction } from "store/document-generation/actions";
+import { seeInDocumentsCreatorAct } from "./see-in-documents-creator.act";
 
 const previewGenerationInDocumentsCreatorAct = (conversationId: SUID): void => {
 	const conversation = useDocumentGenerationState

@@ -1,8 +1,11 @@
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { updateYourUserProfileAct } from "acts/update-your-user-profile.act";
 import type { API4MarkdownPayload } from "api-4markdown-contracts";
 import ErrorModal from "components/error-modal";
 import { Avatar } from "design-system/avatar";
 import { Button } from "design-system/button";
 import { Field } from "design-system/field";
+import { Hint } from "design-system/hint";
 import { Input } from "design-system/input";
 import { Modal } from "design-system/modal";
 import { Status } from "design-system/status";
@@ -18,12 +21,9 @@ import {
 	updateYourProfileStoreActions,
 	updateYourProfileStoreSelectors,
 } from "store/update-your-profile/update-your-profile.store";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
-import type { YourUserProfileOkState } from "store/your-user-profile/models";
 import { useYourUserProfileState } from "store/your-user-profile";
+import type { YourUserProfileOkState } from "store/your-user-profile/models";
 import { yourOkUserProfileSelector } from "store/your-user-profile/selectors";
-import { updateYourUserProfileAct } from "acts/update-your-user-profile.act";
-import { Hint } from "design-system/hint";
 
 interface UserProfileFormModalContainerProps {
 	onClose(): void;

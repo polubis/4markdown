@@ -1,19 +1,19 @@
-import { Button } from "design-system/button";
-import React from "react";
-import { BiPencil, BiTrash } from "react-icons/bi";
-import { useDocManagementStore } from "store/doc-management/doc-management.store";
-import { docStoreSelectors } from "store/doc/doc.store";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import c from "classnames";
 import { formatDistance } from "date-fns";
-import { navigate } from "gatsby";
-import { Tabs } from "design-system/tabs";
-import { PublicConfirmationContainer } from "features/creator/containers/public-confirmation.container";
-import { PrivateConfirmationContainer } from "features/creator/containers/private-confirmation.container";
-import { PermanentConfirmationContainer } from "features/creator/containers/permanent-confirmation.container";
+import { Button } from "design-system/button";
 import { Modal } from "design-system/modal";
-import { PermamentDocFormContainer } from "./permament-doc-form.container";
+import { Tabs } from "design-system/tabs";
+import { PermanentConfirmationContainer } from "features/creator/containers/permanent-confirmation.container";
+import { PrivateConfirmationContainer } from "features/creator/containers/private-confirmation.container";
+import { PublicConfirmationContainer } from "features/creator/containers/public-confirmation.container";
+import { navigate } from "gatsby";
+import React from "react";
+import { BiPencil, BiTrash } from "react-icons/bi";
+import { docStoreSelectors } from "store/doc/doc.store";
+import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { meta } from "../../../../meta";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { PermamentDocFormContainer } from "./permament-doc-form.container";
 
 interface DocumentDetailsContainerProps {
 	onClose(): void;

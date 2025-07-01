@@ -1,26 +1,26 @@
-import { Button } from "design-system/button";
-import { Modal } from "design-system/modal";
-import React, { type FormEventHandler } from "react";
+import { context } from "@greenonsoftware/react-kit";
+import { deleteMindmapAct } from "acts/delete-mindmap.act";
+import { updateMindmapVisibilityAct } from "acts/update-mindmap-visibility.act";
+import type { MindmapDto } from "api-4markdown-contracts";
 import c from "classnames";
+import { createPathForMindmap } from "core/create-path-for-mindmap";
+import { formatDistance } from "date-fns";
+import { Button } from "design-system/button";
+import { Field } from "design-system/field";
+import { Input } from "design-system/input";
+import { Modal } from "design-system/modal";
+import { Tabs } from "design-system/tabs";
+import { navigate } from "gatsby";
+import React, { type FormEventHandler } from "react";
 import { BiPencil, BiTrash } from "react-icons/bi";
+import { authStoreSelectors } from "store/auth/auth.store";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
 	closeMindmapDetailsAction,
 	openMindmapFormAction,
 } from "store/mindmap-creator/actions";
 import { safeActiveMindmapSelector } from "store/mindmap-creator/selectors";
-import { navigate } from "gatsby";
-import { formatDistance } from "date-fns";
-import { Tabs } from "design-system/tabs";
-import { Input } from "design-system/input";
-import { Field } from "design-system/field";
 import { meta } from "../../../../meta";
-import { deleteMindmapAct } from "acts/delete-mindmap.act";
-import { updateMindmapVisibilityAct } from "acts/update-mindmap-visibility.act";
-import type { MindmapDto } from "api-4markdown-contracts";
-import { authStoreSelectors } from "store/auth/auth.store";
-import { createPathForMindmap } from "core/create-path-for-mindmap";
-import { context } from "@greenonsoftware/react-kit";
 
 enum ViewType {
 	Details = `details`,

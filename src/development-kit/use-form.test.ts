@@ -1,7 +1,7 @@
-import { act, renderHook } from "@testing-library/react";
-import { useForm } from "./use-form";
-import { maxLength, minLength, optional } from "./form";
 import { expect } from "@jest/globals";
+import { act, renderHook } from "@testing-library/react";
+import { maxLength, minLength, optional } from "./form";
+import { useForm } from "./use-form";
 
 describe(`Form management is integrated with React when: `, () => {
 	interface SignInFormValues {

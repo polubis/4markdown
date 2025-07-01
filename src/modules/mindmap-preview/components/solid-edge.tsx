@@ -1,4 +1,4 @@
-import { BaseEdge, getSimpleBezierPath, type EdgeProps } from "@xyflow/react";
+import { BaseEdge, type EdgeProps, getSimpleBezierPath } from "@xyflow/react";
 import React from "react";
 import type { MindmapPreviewSolidEdge } from "store/mindmap-preview/models";
 

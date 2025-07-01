@@ -1,6 +1,6 @@
+import c from "classnames";
 import React from "react";
 import { BiQuestionMark } from "react-icons/bi";
-import c from "classnames";
 
 type AvatarSize = "tn" | "sm" | "md" | "lg";
 

@@ -1,13 +1,13 @@
-import React, {
-	type Dispatch,
-	type SetStateAction,
-	type ReactNode,
-} from "react";
 import type {
 	DocumentRatingCategory,
 	PermanentDocumentDto,
 	PublicDocumentDto,
 } from "api-4markdown-contracts";
+import React, {
+	type Dispatch,
+	type ReactNode,
+	type SetStateAction,
+} from "react";
 
 type DocumentLayoutState = {
 	document: PublicDocumentDto | PermanentDocumentDto;

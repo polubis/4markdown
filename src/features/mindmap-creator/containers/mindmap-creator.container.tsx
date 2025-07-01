@@ -6,16 +6,19 @@ import type {
 	Viewport,
 } from "@xyflow/react";
 import { Background, Controls, MiniMap, ReactFlow } from "@xyflow/react";
-import React, { type ComponentType } from "react";
-import { setLastViewport, useMindmapCreatorState } from "store/mindmap-creator";
+import { reloadYourMindmapsAct } from "acts/reload-your-mindmaps.act";
+import c from "classnames";
+import ErrorModal from "components/error-modal";
 import { Button } from "design-system/button";
+import { ScreenLoader } from "design-system/screen-loader";
+import React, { type ComponentType } from "react";
 import {
 	BiAddToQueue,
 	BiGrid,
 	BiHorizontalRight,
 	BiTrash,
 } from "react-icons/bi";
-import c from "classnames";
+import { setLastViewport, useMindmapCreatorState } from "store/mindmap-creator";
 import {
 	alignViewAction,
 	connectNodesAction,
@@ -31,6 +34,7 @@ import type {
 	MindmapCreatorNode,
 	MindmapCreatorState,
 } from "store/mindmap-creator/models";
+import { selectedNodesSelector } from "store/mindmap-creator/selectors";
 import {
 	ExternalNodeTileX,
 	ExternalNodeTileY,
@@ -39,14 +43,10 @@ import {
 	EmbeddedNodeTileContainerX,
 	EmbeddedNodeTileContainerY,
 } from "./embedded-node-tile.container";
-import { SolidEdgeContainer } from "./solid-edge.container";
-import { selectedNodesSelector } from "store/mindmap-creator/selectors";
-import { NodesRemovalConfirmationContainer } from "./nodes-removal-confirmation.container";
-import ErrorModal from "components/error-modal";
-import { reloadYourMindmapsAct } from "acts/reload-your-mindmaps.act";
-import { NodePreviewModalContainer } from "./node-preview-modal.container";
-import { ScreenLoader } from "design-system/screen-loader";
 import { MindmapDetailsModalContainer } from "./mindmap-details-modal.container";
+import { NodePreviewModalContainer } from "./node-preview-modal.container";
+import { NodesRemovalConfirmationContainer } from "./nodes-removal-confirmation.container";
+import { SolidEdgeContainer } from "./solid-edge.container";
 
 const NodeFormModalContainer = React.lazy(() =>
 	import(`./node-form-modal.container`).then((m) => ({

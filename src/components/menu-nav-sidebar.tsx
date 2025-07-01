@@ -1,14 +1,14 @@
-import React, { type ReactNode } from "react";
-import { Button } from "design-system/button";
-import { BiMoon, BiSun, BiX } from "react-icons/bi";
 import Backdrop from "design-system/backdrop";
-import { Link } from "gatsby";
+import { Button } from "design-system/button";
 import { ButtonLink } from "design-system/button-link";
-import { CompanyLogo } from "./company-logo";
-import { meta } from "../../meta";
 import { ThemeProvider } from "design-system/theme-provider";
-import { useScrollHide } from "development-kit/use-scroll-hide";
 import { usePortal } from "development-kit/use-portal";
+import { useScrollHide } from "development-kit/use-scroll-hide";
+import { Link } from "gatsby";
+import React, { type ReactNode } from "react";
+import { BiMoon, BiSun, BiX } from "react-icons/bi";
+import { meta } from "../../meta";
+import { CompanyLogo } from "./company-logo";
 
 interface MenuNavSidebarProps {
 	onClose(): void;

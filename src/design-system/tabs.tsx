@@ -1,9 +1,9 @@
+import c from "classnames";
 import React, {
-	type DetailedHTMLProps,
 	type ButtonHTMLAttributes,
+	type DetailedHTMLProps,
 	type ReactElement,
 } from "react";
-import c from "classnames";
 
 interface TabsItemProps
 	extends DetailedHTMLProps<

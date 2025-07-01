@@ -1,20 +1,20 @@
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { updateMindmapNameAct } from "acts/update-mindmap-name.act";
+import { updateMindmapShapeAct } from "acts/update-mindmap-shape.act";
+import { Button } from "design-system/button";
+import { maxLength, minLength } from "development-kit/form";
+import { useForm } from "development-kit/use-form";
 import React, { type FormEventHandler } from "react";
+import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from "react-icons/bi";
 import { useAuthStore } from "store/auth/auth.store";
-import { YourMindmapsContainer } from "./your-mindmaps.container";
 import { useMindmapCreatorState } from "store/mindmap-creator";
+import { openMindmapDetailsAction } from "store/mindmap-creator/actions";
 import {
 	activeMindmapSelector,
 	safeActiveMindmapSelector,
 } from "store/mindmap-creator/selectors";
-import { Button } from "design-system/button";
-import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from "react-icons/bi";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
-import { useForm } from "development-kit/use-form";
-import { maxLength, minLength } from "development-kit/form";
 import { validationLimits } from "../core/validation";
-import { updateMindmapNameAct } from "acts/update-mindmap-name.act";
-import { updateMindmapShapeAct } from "acts/update-mindmap-shape.act";
-import { openMindmapDetailsAction } from "store/mindmap-creator/actions";
+import { YourMindmapsContainer } from "./your-mindmaps.container";
 
 const Loader = () => (
 	<div className="flex gap-2">

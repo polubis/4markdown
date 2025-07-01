@@ -1,7 +1,7 @@
 import { Button } from "design-system/button";
+import { navigate } from "gatsby";
 import React from "react";
 import { meta } from "../../../../meta";
-import { navigate } from "gatsby";
 
 const ErrorScreen = () => {
 	return (

@@ -1,14 +1,15 @@
-import React from "react";
-import { BiArrowBack, BiArrowToBottom, BiPlus } from "react-icons/bi";
-import { Button } from "design-system/button";
-import { Link } from "gatsby";
-import { meta } from "../../meta";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import c from "classnames";
 import { triggerDocumentCreation } from "core/creation-management";
+import { Button } from "design-system/button";
+import { Link } from "gatsby";
+import React from "react";
+import { BiArrowBack, BiArrowToBottom, BiPlus } from "react-icons/bi";
 import { docStoreSelectors } from "store/doc/doc.store";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import { activeMindmapSelector } from "store/mindmap-creator/selectors";
+import { meta } from "../../meta";
+
 // @TODO[PRIO=2]: [Remove duplication with creation-link.container.tsx].
 const CreationLinkContainer2 = () => {
 	const menu = useSimpleFeature();

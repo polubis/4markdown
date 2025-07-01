@@ -1,9 +1,9 @@
-import React from "react";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { Button } from "design-system/button";
+import React from "react";
+import { BiCollection } from "react-icons/bi";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { useDocsStore } from "store/docs/docs.store";
-import { BiCollection } from "react-icons/bi";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
 
 const DocsListModal = React.lazy(
 	() => import(`../../../components/docs-list-modal`),

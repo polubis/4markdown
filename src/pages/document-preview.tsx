@@ -1,9 +1,9 @@
-import React from "react";
-import type { HeadFC } from "gatsby";
 import Meta from "components/meta";
-import LogoThumbnail from "images/logo-thumbnail.png";
-import { meta } from "../../meta";
 import { DocumentPreviewView } from "features/document-preview/document-preview.view";
+import type { HeadFC } from "gatsby";
+import LogoThumbnail from "images/logo-thumbnail.png";
+import React from "react";
+import { meta } from "../../meta";
 
 const DocumentPreviewPage = () => {
 	return <DocumentPreviewView />;

@@ -1,11 +1,11 @@
 import type {
-	Id,
-	Name,
 	Date,
-	MarkdownCode,
 	Description,
-	Tags,
+	Id,
+	MarkdownCode,
+	Name,
 	Path,
+	Tags,
 } from "../atoms";
 import type { DocumentRatingDto } from "./document-rating.dto";
 import type { UserProfileDto } from "./user-profile.dto";

@@ -1,16 +1,16 @@
+import { uploadImageAct } from "acts/upload-image.act";
+import { IMAGE_EXTENSIONS } from "api-4markdown-contracts";
+import ErrorModal from "components/error-modal";
 import { Button } from "design-system/button";
 import { Modal } from "design-system/modal";
-import { useFileInput } from "development-kit/use-file-input";
-import React from "react";
-import ErrorModal from "components/error-modal";
-import { useCopy } from "development-kit/use-copy";
 import { Status } from "design-system/status";
-import { IMAGE_EXTENSIONS } from "api-4markdown-contracts";
-import { uploadImageAct } from "acts/upload-image.act";
-import { useUploadImageState } from "store/upload-image";
-import { UploadImageButton } from "../components/upload-image-button";
 import { readFileAsBase64 } from "development-kit/file-reading";
 import { useComboPress } from "development-kit/use-combo-press";
+import { useCopy } from "development-kit/use-copy";
+import { useFileInput } from "development-kit/use-file-input";
+import React from "react";
+import { useUploadImageState } from "store/upload-image";
+import { UploadImageButton } from "../components/upload-image-button";
 
 const allowedExtensions = IMAGE_EXTENSIONS.map(
 	(extension) => `image/${extension}`,

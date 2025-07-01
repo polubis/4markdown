@@ -1,8 +1,8 @@
-import type { FormSubscriber, FormSubscriberAction } from "./defs";
 import { expect } from "@jest/globals";
-import { form } from "./form";
-import { minLength, maxLength } from "./validators";
 import { optional } from "./core";
+import type { FormSubscriber, FormSubscriberAction } from "./defs";
+import { form } from "./form";
+import { maxLength, minLength } from "./validators";
 
 describe(`Form management can be used when: `, () => {
 	interface SignInFormValues {

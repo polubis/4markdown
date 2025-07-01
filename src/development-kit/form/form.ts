@@ -1,12 +1,12 @@
 import { chain } from "./core";
 import type {
-	ValidatorsSetup,
-	ValuesBase,
+	Formable,
 	FormState,
-	ValidationResult,
 	FormSubscriber,
 	FormSubscriberAction,
-	Formable,
+	ValidationResult,
+	ValidatorsSetup,
+	ValuesBase,
 } from "./defs";
 
 export const form = <Values extends ValuesBase>(

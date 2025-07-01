@@ -1,13 +1,13 @@
+import c from "classnames";
+import { initAnalytics } from "core/analytics";
+import { ACCEPTANCE_COOKIE_NAME, COOKIE_TYPE } from "core/cookies";
 import { Button } from "design-system/button";
 import { Modal } from "design-system/modal";
-import React from "react";
-import c from "classnames";
 import { getCookie, setCookie } from "development-kit/cookies";
 import { isClient } from "development-kit/ssr-csr";
-import { ACCEPTANCE_COOKIE_NAME, COOKIE_TYPE } from "core/cookies";
-import { initAnalytics } from "core/analytics";
-import { PrivacyPolicyContent } from "./privacy-policy-content";
+import React from "react";
 import { meta } from "../../meta";
+import { PrivacyPolicyContent } from "./privacy-policy-content";
 
 const ONE_MONTH = 31;
 

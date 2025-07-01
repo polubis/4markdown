@@ -1,11 +1,11 @@
 import React from "react";
+import { NoPersonaScreen } from "./components/no-persona-screen";
+import { PersonaScreen } from "./components/persona-screen";
+import type { RewriteAssistantProps } from "./models";
 import {
 	RewriteAssistantProvider,
 	useRewriteAssistantContext,
 } from "./providers/rewrite-assistant.provider";
-import type { RewriteAssistantProps } from "./models";
-import { NoPersonaScreen } from "./components/no-persona-screen";
-import { PersonaScreen } from "./components/persona-screen";
 
 const RewriteAssistantModule = () => {
 	const {

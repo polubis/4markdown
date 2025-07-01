@@ -1,9 +1,9 @@
-import React from "react";
+import Meta from "components/meta";
+import { ScreenLoader } from "design-system/screen-loader";
 import type { HeadFC } from "gatsby";
 import LogoThumbnail from "images/logo-thumbnail.png";
-import Meta from "components/meta";
+import React from "react";
 import { meta } from "../../meta";
-import { ScreenLoader } from "design-system/screen-loader";
 
 const MindmapCreatorView = React.lazy(() =>
 	import(`../features/mindmap-creator/mindmap-creator.view`).then((m) => ({

@@ -1,9 +1,9 @@
-import React, { type ReactNode } from "react";
-import { meta } from "../../meta";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { Button } from "design-system/button";
 import { getCookie, setCookie } from "development-kit/cookies";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { isClient } from "development-kit/ssr-csr";
+import React, { type ReactNode } from "react";
+import { meta } from "../../meta";
 
 const confirmAIPolicy = (): void => {
 	setCookie(`rewrite-assistant-policy`, `true`, 30);

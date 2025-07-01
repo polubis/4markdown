@@ -1,27 +1,28 @@
-import React, {
-	type ReactEventHandler,
-	type ChangeEventHandler,
-	type KeyboardEventHandler,
-} from "react";
-import { Markdown } from "components/markdown";
+import { useFeature, useSimpleFeature } from "@greenonsoftware/react-kit";
+import { logIn } from "actions/log-in.action";
 import c from "classnames";
-import { useConfirm } from "development-kit/use-confirm";
 import AddDocPopover from "components/add-doc-popover";
-import { useDocManagementStore } from "store/doc-management/doc-management.store";
-import { ImageUploaderContainer } from "./containers/image-uploader.container";
-import { meta } from "../../../meta";
-import { useCreatorLocalStorageSync } from "core/use-creator-local-storage-sync";
-import { changeAction } from "store/document-creator/actions";
-import { useDocumentCreatorState } from "store/document-creator";
-import { useScrollToPreview } from "./utils/use-scroll-to-preview";
+import { Markdown } from "components/markdown";
 import MoreNav from "components/more-nav";
 import UserPopover from "components/user-popover";
-import {
-	CreatorToolbox,
-	type CreatorToolboxProps,
-} from "./components/creator-toolbox";
-import { DocBarContainer } from "./containers/doc-bar.container";
+import { REWRITE_ASSISTANT_TOKEN_COST } from "core/consts";
+import { useCreatorLocalStorageSync } from "core/use-creator-local-storage-sync";
 import { Button } from "design-system/button";
+import { Status } from "design-system/status";
+import {
+	getSelectedText,
+	isInvalidSelection,
+	replaceText,
+} from "development-kit/textarea-utils";
+import { useConfirm } from "development-kit/use-confirm";
+import { useCopy } from "development-kit/use-copy";
+import { usePrevious } from "development-kit/use-previous";
+import { Link } from "gatsby";
+import React, {
+	type ChangeEventHandler,
+	type KeyboardEventHandler,
+	type ReactEventHandler,
+} from "react";
 import {
 	BiBrain,
 	BiLogoBing,
@@ -29,22 +30,21 @@ import {
 	BiSolidBookContent,
 	BiWindows,
 } from "react-icons/bi";
-import { Link } from "gatsby";
-import { useCopy } from "development-kit/use-copy";
-import { Status } from "design-system/status";
-import { useFeature, useSimpleFeature } from "@greenonsoftware/react-kit";
-import {
-	isInvalidSelection,
-	getSelectedText,
-	replaceText,
-} from "development-kit/textarea-utils";
 import { useAuthStore } from "store/auth/auth.store";
-import { logIn } from "actions/log-in.action";
+import { useDocStore } from "store/doc/doc.store";
+import { useDocManagementStore } from "store/doc-management/doc-management.store";
+import { useDocumentCreatorState } from "store/document-creator";
+import { changeAction } from "store/document-creator/actions";
 import { useYourAccountState } from "store/your-account";
 import { hasTokensForFeatureSelector } from "store/your-account/selectors";
-import { REWRITE_ASSISTANT_TOKEN_COST } from "core/consts";
-import { useDocStore } from "store/doc/doc.store";
-import { usePrevious } from "development-kit/use-previous";
+import { meta } from "../../../meta";
+import {
+	CreatorToolbox,
+	type CreatorToolboxProps,
+} from "./components/creator-toolbox";
+import { DocBarContainer } from "./containers/doc-bar.container";
+import { ImageUploaderContainer } from "./containers/image-uploader.container";
+import { useScrollToPreview } from "./utils/use-scroll-to-preview";
 
 const CreatorErrorModalContainer = React.lazy(
 	() => import(`./containers/creator-error-modal.container`),

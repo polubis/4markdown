@@ -1,6 +1,6 @@
 import type {
-	RewriteAssistantPersona,
 	ParsedError,
+	RewriteAssistantPersona,
 } from "api-4markdown-contracts";
 import type { SUID } from "development-kit/suid";
 

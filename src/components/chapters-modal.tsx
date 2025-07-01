@@ -1,5 +1,9 @@
 import { Button } from "design-system/button";
 import { Modal } from "design-system/modal";
+import { Status } from "design-system/status";
+import { falsy } from "development-kit/guards";
+import { useCopy } from "development-kit/use-copy";
+import { useKeyPress } from "development-kit/use-key-press";
 import React, { type ReactNode } from "react";
 import {
 	BiArrowToLeft,
@@ -8,10 +12,6 @@ import {
 	BiCopyAlt,
 } from "react-icons/bi";
 import { Markdown } from "./markdown";
-import { useKeyPress } from "development-kit/use-key-press";
-import { falsy } from "development-kit/guards";
-import { useCopy } from "development-kit/use-copy";
-import { Status } from "design-system/status";
 
 const isAbleToPrev = (activeSectionIndex: number): boolean =>
 	activeSectionIndex > 0;

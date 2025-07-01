@@ -1,5 +1,5 @@
-import React from "react";
 import { Button } from "design-system/button";
+import React from "react";
 import { BiX } from "react-icons/bi";
 import { removeEdgeAction } from "store/mindmap-creator/actions";
 import type { MindmapCreatorEdge } from "store/mindmap-creator/models";

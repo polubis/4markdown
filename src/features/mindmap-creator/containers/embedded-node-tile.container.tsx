@@ -1,14 +1,14 @@
 import type { NodeProps } from "@xyflow/react";
-import React from "react";
-import { HandleX, HandleY } from "../components/handles";
-import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
+import React from "react";
 import { BiBook, BiPencil } from "react-icons/bi";
-import type { MindmapCreatorEmbeddedNode } from "store/mindmap-creator/models";
 import {
 	openNodeEditionAction,
 	openNodePreviewAction,
 } from "store/mindmap-creator/actions";
+import type { MindmapCreatorEmbeddedNode } from "store/mindmap-creator/models";
+import { HandleX, HandleY } from "../components/handles";
+import { NodeTile } from "../components/node-tile";
 
 type EmbeddedNodeTileContainerProps = NodeProps<MindmapCreatorEmbeddedNode>;
 

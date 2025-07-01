@@ -1,3 +1,5 @@
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { logIn } from "actions/log-in.action";
 import {
 	isDocumentCreationActive,
 	resetDocumentCreation,
@@ -7,9 +9,7 @@ import { Button } from "design-system/button";
 import React from "react";
 import { BiPlus } from "react-icons/bi";
 import { useAuthStore } from "store/auth/auth.store";
-import { logIn } from "actions/log-in.action";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
 
 const CreateDocumentModalContainer = React.lazy(() =>
 	import(`../containers/create-document-modal.container`).then((m) => ({

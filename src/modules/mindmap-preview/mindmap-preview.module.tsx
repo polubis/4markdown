@@ -1,32 +1,32 @@
 import {
 	Background,
-	MiniMap,
-	type NodeTypes,
-	type EdgeTypes,
-	ReactFlow,
-	type EdgeProps,
-	type NodeProps,
 	Controls,
+	type EdgeProps,
+	type EdgeTypes,
+	MiniMap,
+	type NodeProps,
+	type NodeTypes,
+	ReactFlow,
 } from "@xyflow/react";
+import { ChaptersModal } from "components/chapters-modal";
 import React, { type ComponentType } from "react";
 import { useMindmapPreviewState } from "store/mindmap-preview";
+import { closeNodePreviewAction } from "store/mindmap-preview/actions";
+import type {
+	MindmapPreviewEdge,
+	MindmapPreviewNode,
+	MindmapPreviewOkMindmap,
+} from "store/mindmap-preview/models";
 import { readyMindmapPreviewSelector } from "store/mindmap-preview/selectors";
 import {
 	ExternalNodeTileX,
 	ExternalNodeTileY,
 } from "./components/external-node-tile";
 import { SolidEdge } from "./components/solid-edge";
-import type {
-	MindmapPreviewEdge,
-	MindmapPreviewNode,
-	MindmapPreviewOkMindmap,
-} from "store/mindmap-preview/models";
 import {
 	EmbeddedNodeTileContainerX,
 	EmbeddedNodeTileContainerY,
 } from "./containers/embedded-node-tile.container";
-import { ChaptersModal } from "components/chapters-modal";
-import { closeNodePreviewAction } from "store/mindmap-preview/actions";
 
 type MindmapNodeTypes = {
 	[Orientation in MindmapPreviewOkMindmap["orientation"]]: {

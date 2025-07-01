@@ -1,10 +1,10 @@
-import React from "react";
-import type { HeadFC } from "gatsby";
-import CreatorView from "features/creator/creator.view";
 import Meta from "components/meta";
+import CreatorView from "features/creator/creator.view";
+import type { HeadFC } from "gatsby";
 import LogoThumbnail from "images/logo-thumbnail.png";
-import { meta } from "../../meta";
 import type { HomePageModel } from "models/page-models";
+import React from "react";
+import { meta } from "../../meta";
 
 interface HomePageProps {
 	pageContext: HomePageModel;

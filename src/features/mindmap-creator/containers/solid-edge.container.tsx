@@ -1,8 +1,8 @@
 import {
 	BaseEdge,
 	EdgeLabelRenderer,
-	getSimpleBezierPath,
 	type EdgeProps,
+	getSimpleBezierPath,
 } from "@xyflow/react";
 import React from "react";
 import type { MindmapCreatorSolidEdge } from "store/mindmap-creator/models";

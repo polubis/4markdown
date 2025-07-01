@@ -1,11 +1,12 @@
 import { REWRITE_ASSISTANT_PERSONAS } from "api-4markdown-contracts";
+import { AIPolicyDisclaimer } from "components/ai-policy-disclaimer";
+import { REWRITE_ASSISTANT_TOKEN_COST } from "core/consts";
 import { Button } from "design-system/button";
 import React from "react";
 import { BiInfoCircle, BiX } from "react-icons/bi";
-import { useRewriteAssistantContext } from "../providers/rewrite-assistant.provider";
-import { REWRITE_ASSISTANT_TOKEN_COST } from "core/consts";
-import { AIPolicyDisclaimer } from "components/ai-policy-disclaimer";
 import { REWRITE_ASSISTANT_TRANSLATIONS } from "../config/translations";
+import { useRewriteAssistantContext } from "../providers/rewrite-assistant.provider";
+
 const NoPersonaScreen = () => {
 	const assistantCtx = useRewriteAssistantContext();
 

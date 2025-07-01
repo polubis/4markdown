@@ -1,17 +1,17 @@
-import React from "react";
-import { Button } from "design-system/button";
-import { BiPencil, BiRefresh } from "react-icons/bi";
-import { useConfirm } from "development-kit/use-confirm";
-import { Modal } from "design-system/modal";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { logOut } from "actions/log-out.action";
+import { reloadYourUserProfile } from "actions/reload-your-user-profile.action";
+import { reloadYourAccountAct } from "acts/reload-your-account.act";
 import { UserProfileFormModalContainer } from "containers/user-profile-form-modal.container";
 import { Avatar } from "design-system/avatar";
-import { UserSocials } from "./user-socials";
-import { reloadYourUserProfile } from "actions/reload-your-user-profile.action";
-import { logOut } from "actions/log-out.action";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
-import { useYourUserProfileState } from "store/your-user-profile";
+import { Button } from "design-system/button";
+import { Modal } from "design-system/modal";
+import { useConfirm } from "development-kit/use-confirm";
+import React from "react";
+import { BiPencil, BiRefresh } from "react-icons/bi";
 import { useYourAccountState } from "store/your-account";
-import { reloadYourAccountAct } from "acts/reload-your-account.act";
+import { useYourUserProfileState } from "store/your-user-profile";
+import { UserSocials } from "./user-socials";
 
 const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 	const yourUserProfile = useYourUserProfileState();

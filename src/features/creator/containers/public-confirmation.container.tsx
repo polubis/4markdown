@@ -1,9 +1,9 @@
-import React, { type FormEventHandler } from "react";
+import { updateDocumentVisibility } from "actions/update-document-visibility.action";
 import { Button } from "design-system/button";
+import React, { type FormEventHandler } from "react";
 import { BiX } from "react-icons/bi";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { meta } from "../../../../meta";
-import { updateDocumentVisibility } from "actions/update-document-visibility.action";
 
 interface PublicConfirmationContainerProps {
 	onClose(): void;

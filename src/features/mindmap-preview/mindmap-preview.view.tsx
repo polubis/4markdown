@@ -1,20 +1,20 @@
-import { Link, navigate } from "gatsby";
-import React from "react";
-import { meta } from "../../../meta";
-import { Button } from "design-system/button";
-import { BiArrowBack, BiDownload } from "react-icons/bi";
+import { getAccessibleMindmapAct } from "acts/get-accessible-mindmap.act";
 import MoreNav from "components/more-nav";
 import UserPopover from "components/user-popover";
-import { ScreenLoader } from "design-system/screen-loader";
-import { useMindmapPreviewState } from "store/mindmap-preview";
-import { getAccessibleMindmapAct } from "acts/get-accessible-mindmap.act";
-import { Communicate } from "design-system/communicate";
-import { downloadMindmapAction } from "store/mindmap-preview/actions";
 import { BugReportContainer } from "containers/bug-report.container";
+import { CreationLinkContainer2 } from "containers/creation-link-2.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
-import { CreationLinkContainer2 } from "containers/creation-link-2.container";
+import { Button } from "design-system/button";
+import { Communicate } from "design-system/communicate";
+import { ScreenLoader } from "design-system/screen-loader";
+import { Link, navigate } from "gatsby";
 import { MindmapPreviewModule } from "modules/mindmap-preview/mindmap-preview.module";
+import React from "react";
+import { BiArrowBack, BiDownload } from "react-icons/bi";
+import { useMindmapPreviewState } from "store/mindmap-preview";
+import { downloadMindmapAction } from "store/mindmap-preview/actions";
+import { meta } from "../../../meta";
 
 const Loader = () => (
 	<div className="flex gap-2">

@@ -1,5 +1,7 @@
-import React from "react";
+import { Markdown } from "components/markdown";
 import { Button } from "design-system/button";
+import { falsy } from "development-kit/guards";
+import React from "react";
 import {
 	BiArrowBack,
 	BiCheck,
@@ -8,10 +10,8 @@ import {
 	BiStop,
 	BiX,
 } from "react-icons/bi";
-import { Markdown } from "components/markdown";
-import { useRewriteAssistantContext } from "../providers/rewrite-assistant.provider";
-import { falsy } from "development-kit/guards";
 import { REWRITE_ASSISTANT_TRANSLATIONS } from "../config/translations";
+import { useRewriteAssistantContext } from "../providers/rewrite-assistant.provider";
 
 const PersonaScreen = () => {
 	const conversationListRef = React.useRef<HTMLOListElement>(null);

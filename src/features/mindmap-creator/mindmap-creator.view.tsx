@@ -1,13 +1,14 @@
-import React, { type MouseEventHandler } from "react";
-import { Link } from "gatsby";
-import { BiDownload, BiPlus } from "react-icons/bi";
-import { Button } from "design-system/button";
-import UserPopover from "components/user-popover";
-import MoreNav from "components/more-nav";
-import { MindmapCreatorContainer } from "./containers/mindmap-creator.container";
-import { useAuthStore } from "store/auth/auth.store";
 import { logIn } from "actions/log-in.action";
-import { meta } from "../../../meta";
+import { getYourMindmapsAct } from "acts/get-your-mindmaps.act";
+import MoreNav from "components/more-nav";
+import UserPopover from "components/user-popover";
+import { BugReportContainer } from "containers/bug-report.container";
+import { Button } from "design-system/button";
+import { useConfirm } from "development-kit/use-confirm";
+import { Link } from "gatsby";
+import React, { type MouseEventHandler } from "react";
+import { BiDownload, BiPlus } from "react-icons/bi";
+import { useAuthStore } from "store/auth/auth.store";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
 	clearMindmapAction,
@@ -15,11 +16,10 @@ import {
 	openMindmapFormAction,
 	resetMindmapAction,
 } from "store/mindmap-creator/actions";
+import { meta } from "../../../meta";
+import { MindmapCreatorContainer } from "./containers/mindmap-creator.container";
 import { MindmapFormModalContainer } from "./containers/mindmap-form-modal.container";
 import { SubNavContainer } from "./containers/sub-nav.container";
-import { useConfirm } from "development-kit/use-confirm";
-import { getYourMindmapsAct } from "acts/get-your-mindmaps.act";
-import { BugReportContainer } from "containers/bug-report.container";
 
 const ADD_MINDMAP_KEY = `add-mindmap`;
 

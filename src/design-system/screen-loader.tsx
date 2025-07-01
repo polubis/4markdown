@@ -1,9 +1,8 @@
-import React from "react";
-
-import Backdrop from "./backdrop";
 import c from "classnames";
-import { Loader } from "./loader";
 import { usePortal } from "development-kit/use-portal";
+import React from "react";
+import Backdrop from "./backdrop";
+import { Loader } from "./loader";
 
 type ScreenLoaderProps = {
 	className?: string;

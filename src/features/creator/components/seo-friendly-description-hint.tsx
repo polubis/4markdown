@@ -1,8 +1,8 @@
-import React from "react";
-import { Hint } from "design-system/hint";
-import { BiInfoCircle } from "react-icons/bi";
 import { Markdown } from "components/markdown";
+import { Hint } from "design-system/hint";
 import { Modal } from "design-system/modal";
+import React from "react";
+import { BiInfoCircle } from "react-icons/bi";
 
 const md = `**Description**
 

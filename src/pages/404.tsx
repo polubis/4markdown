@@ -1,13 +1,13 @@
-import React from "react";
-import type { HeadFC } from "gatsby";
-import LogoThumbnail from "images/logo-thumbnail.png";
-import Meta from "components/meta";
-import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
 import { AppNavigation } from "components/app-navigation";
+import Meta from "components/meta";
 import { AppFooterContainer } from "containers/app-footer.container";
-import { meta } from "../../meta";
 import { CreationLinkContainer } from "containers/creation-link.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
+import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
+import type { HeadFC } from "gatsby";
+import LogoThumbnail from "images/logo-thumbnail.png";
+import React from "react";
+import { meta } from "../../meta";
 
 const NotFoundPage = () => {
 	return (

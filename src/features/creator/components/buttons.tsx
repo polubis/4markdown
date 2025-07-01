@@ -1,7 +1,7 @@
-import React from "react";
-import { BiCode, BiHeading, BiImage, BiLink, BiTable } from "react-icons/bi";
 import { Button as DSButton } from "design-system/button";
+import React from "react";
 import type { IconType } from "react-icons";
+import { BiCode, BiHeading, BiImage, BiLink, BiTable } from "react-icons/bi";
 
 interface BaseButtonProps {
 	icon: IconType;

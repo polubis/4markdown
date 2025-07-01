@@ -1,12 +1,22 @@
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { createContentWithAIAct } from "acts/create-content-with-ai.act";
+import { previewGenerationInDocumentsCreatorAct } from "acts/preview-generation-in-documents-creator.act";
+import { saveGenerationAsDocumentAct } from "acts/save-generation-as-document.act";
+import c from "classnames";
+import { Markdown } from "components/markdown";
+import {
+	NewDocumentForm,
+	type NewDocumentFormProps,
+} from "components/new-document-form";
+import { AI_CONTENT_GENERATION_TOKEN_COST } from "core/consts";
+import Backdrop from "design-system/backdrop";
+import { Button } from "design-system/button";
+import { Modal } from "design-system/modal";
+import { Textarea } from "design-system/textarea";
+import { falsy } from "development-kit/guards";
+import { useConfirm } from "development-kit/use-confirm";
 import { usePortal } from "development-kit/use-portal";
 import React, { type FormEventHandler } from "react";
-import {
-	documentGenerationCancelSubject,
-	documentGenerationSubject,
-	useDocumentGenerationState,
-} from "store/document-generation";
-import c from "classnames";
-import { Button } from "design-system/button";
 import {
 	BiCheck,
 	BiChevronDown,
@@ -21,18 +31,6 @@ import {
 	BiX,
 } from "react-icons/bi";
 import {
-	addAssistantErrorAction,
-	addAssistantReplyAction,
-	addPromptAction,
-	closeConversationAction,
-	modifyGenerationPayloadAction,
-	retryGenerationAction,
-	stopGenerationAction,
-	toggleConversationAction,
-} from "store/document-generation/actions";
-import { Markdown } from "components/markdown";
-import type { DocumentGenerationState } from "store/document-generation/models";
-import {
 	filter,
 	from,
 	groupBy,
@@ -42,23 +40,25 @@ import {
 	take,
 	takeUntil,
 } from "rxjs";
-import { createContentWithAIAct } from "acts/create-content-with-ai.act";
-import { useConfirm } from "development-kit/use-confirm";
-import { previewGenerationInDocumentsCreatorAct } from "acts/preview-generation-in-documents-creator.act";
-import { useDocManagementStore } from "store/doc-management/doc-management.store";
-import { saveGenerationAsDocumentAct } from "acts/save-generation-as-document.act";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
-import { Modal } from "design-system/modal";
-import {
-	NewDocumentForm,
-	type NewDocumentFormProps,
-} from "components/new-document-form";
-import Backdrop from "design-system/backdrop";
-import { Textarea } from "design-system/textarea";
-import { AI_CONTENT_GENERATION_TOKEN_COST } from "core/consts";
-import { falsy } from "development-kit/guards";
 import { useDocStore } from "store/doc/doc.store";
+import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { useDocumentCreatorState } from "store/document-creator";
+import {
+	documentGenerationCancelSubject,
+	documentGenerationSubject,
+	useDocumentGenerationState,
+} from "store/document-generation";
+import {
+	addAssistantErrorAction,
+	addAssistantReplyAction,
+	addPromptAction,
+	closeConversationAction,
+	modifyGenerationPayloadAction,
+	retryGenerationAction,
+	stopGenerationAction,
+	toggleConversationAction,
+} from "store/document-generation/actions";
+import type { DocumentGenerationState } from "store/document-generation/models";
 
 const PromptForm = ({
 	onCancel,

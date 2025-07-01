@@ -1,6 +1,6 @@
 import { state } from "development-kit/state";
-import type { DocumentCreatorState } from "./models";
 import { meta } from "../../../meta";
+import type { DocumentCreatorState } from "./models";
 
 const initialCode = `# Markdown Cheatsheet
 

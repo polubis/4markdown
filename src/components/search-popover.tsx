@@ -1,8 +1,7 @@
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { Button } from "design-system/button";
-
 import React from "react";
 import { BiSearch } from "react-icons/bi";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
 
 const SearchPopoverContent = React.lazy(() =>
 	import(`./search-popover-content`).then((m) => ({

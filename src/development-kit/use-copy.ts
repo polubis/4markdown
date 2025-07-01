@@ -1,6 +1,6 @@
-import { useState, useCallback, useRef, useEffect } from "react";
-import { isClient } from "./ssr-csr";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { copy } from "./clipboard";
+import { isClient } from "./ssr-csr";
 
 type CopyValue = string;
 

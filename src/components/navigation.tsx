@@ -1,10 +1,10 @@
-import React, { type ReactNode } from "react";
 import c from "classnames";
-import MoreNav from "./more-nav";
-import UserPopover from "./user-popover";
 import { Link } from "gatsby";
+import React, { type ReactNode } from "react";
 import { meta } from "../../meta";
+import MoreNav from "./more-nav";
 import { SearchPopover } from "./search-popover";
+import UserPopover from "./user-popover";
 
 interface NavigationProps {
 	className?: string;

@@ -2,6 +2,7 @@ import { parseError } from "api-4markdown";
 import type { API4MarkdownDto, DocumentDto } from "api-4markdown-contracts";
 import type { Transaction } from "development-kit/utility-types";
 import { create } from "zustand";
+
 // @TODO[PRIO=2]: [Align type definitions for retrieving documents].
 type DocsStoreState = Transaction<{
 	docs: API4MarkdownDto<`getYourDocuments`>;

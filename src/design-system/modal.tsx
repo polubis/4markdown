@@ -1,15 +1,15 @@
-import React, {
-	type ReactNode,
-	type HTMLAttributes,
-	type DetailedHTMLProps,
-} from "react";
-import { usePortal } from "development-kit/use-portal";
-import c from "classnames";
-import { useScrollHide } from "development-kit/use-scroll-hide";
-import { useKeyPress } from "development-kit/use-key-press";
-import { Button } from "./button";
-import { BiX } from "react-icons/bi";
 import { context } from "@greenonsoftware/react-kit";
+import c from "classnames";
+import { useKeyPress } from "development-kit/use-key-press";
+import { usePortal } from "development-kit/use-portal";
+import { useScrollHide } from "development-kit/use-scroll-hide";
+import React, {
+	type DetailedHTMLProps,
+	type HTMLAttributes,
+	type ReactNode,
+} from "react";
+import { BiX } from "react-icons/bi";
+import { Button } from "./button";
 
 type ModalProps = {
 	children: ReactNode;

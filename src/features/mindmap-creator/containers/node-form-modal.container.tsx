@@ -1,15 +1,17 @@
-import { Modal } from "design-system/modal";
-import type { ComponentType, FormEventHandler } from "react";
-import React from "react";
-import { useForm } from "development-kit/use-form";
-import { maxLength, minLength, optional, url } from "development-kit/form";
+import { context } from "@greenonsoftware/react-kit";
+import { openNodeContentInCreatorAct } from "acts/open-node-content-in-creator.act";
+import { Button } from "design-system/button";
 import { Field } from "design-system/field";
 import { Hint } from "design-system/hint";
 import { Input } from "design-system/input";
+import { Modal } from "design-system/modal";
 import { Textarea } from "design-system/textarea";
-import { Button } from "design-system/button";
+import { maxLength, minLength, optional, url } from "development-kit/form";
+import { useForm } from "development-kit/use-form";
+import type { ComponentType, FormEventHandler } from "react";
+import React from "react";
 import { BiPlusCircle, BiSave } from "react-icons/bi";
-import type { MindmapCreatorNode } from "store/mindmap-creator/models";
+import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
 	addNewEmbeddedNodeAction,
 	addNewExternalNodeAction,
@@ -17,11 +19,9 @@ import {
 	updateEmbeddedNodeAction,
 	updateExternalNodeAction,
 } from "store/mindmap-creator/actions";
-import { validationLimits } from "../core/validation";
-import { useMindmapCreatorState } from "store/mindmap-creator";
+import type { MindmapCreatorNode } from "store/mindmap-creator/models";
 import { openedNodeFormSelector } from "store/mindmap-creator/selectors";
-import { openNodeContentInCreatorAct } from "acts/open-node-content-in-creator.act";
-import { context } from "@greenonsoftware/react-kit";
+import { validationLimits } from "../core/validation";
 
 type StepType = MindmapCreatorNode["type"] | `none`;
 

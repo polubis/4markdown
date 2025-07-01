@@ -1,20 +1,20 @@
-import React, {
-	type ReactNode,
-	type HTMLAttributes,
-	type DetailedHTMLProps,
-	type ReactElement,
-} from "react";
-import { highlightElement } from "prismjs";
 import c from "classnames";
 import type { ButtonProps } from "design-system/button";
 import { Button } from "design-system/button";
-import { BiCheck, BiCopyAlt } from "react-icons/bi";
 import { useCopy } from "development-kit/use-copy";
+import { highlightElement } from "prismjs";
+import React, {
+	type DetailedHTMLProps,
+	type HTMLAttributes,
+	type ReactElement,
+	type ReactNode,
+} from "react";
+import { BiCheck, BiCopyAlt } from "react-icons/bi";
 import ReactMarkdown, { type Options } from "react-markdown";
-import remarkGfm from "remark-gfm";
-import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
 
 const Code = ({
 	children,

@@ -1,23 +1,23 @@
-import { initializeApp } from "firebase/app";
-import { getFunctions, httpsCallable } from "firebase/functions";
-import type { GatsbyNode } from "gatsby";
-import path from "path";
-import { meta } from "./meta";
-import type {
-	EducationRankPageModel,
-	EducationPageModel,
-	HomePageModel,
-	MindmapPageModel,
-} from "models/page-models";
 import type {
 	API4MarkdownDto,
 	API4MarkdownPayload,
 	DocumentRatingCategory,
 	PermanentDocumentDto,
 } from "api-4markdown-contracts";
+import { initializeApp } from "firebase/app";
+import { getFunctions, httpsCallable } from "firebase/functions";
 import { readFileSync, writeFileSync } from "fs";
-import { createPathForMindmap } from "./src/core/create-path-for-mindmap";
+import type { GatsbyNode } from "gatsby";
+import type {
+	EducationPageModel,
+	EducationRankPageModel,
+	HomePageModel,
+	MindmapPageModel,
+} from "models/page-models";
+import path from "path";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+import { meta } from "./meta";
+import { createPathForMindmap } from "./src/core/create-path-for-mindmap";
 
 const createSearchDataFile = (documents: PermanentDocumentDto[]): void => {
 	if (documents.length === 0) return;

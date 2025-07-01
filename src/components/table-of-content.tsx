@@ -1,9 +1,9 @@
-import React from "react";
 import c from "classnames";
 import {
 	type ExtractedHeading,
 	extractHeadings,
 } from "development-kit/extract-headings";
+import React from "react";
 
 type TableOfContentProps = {
 	markdownContainerId: string;

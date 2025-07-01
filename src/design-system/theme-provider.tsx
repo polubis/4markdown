@@ -1,5 +1,5 @@
-import React, { type ReactNode } from "react";
 import { isClient } from "development-kit/ssr-csr";
+import React, { type ReactNode } from "react";
 
 const themes = [`light`, `dark`] as const;
 

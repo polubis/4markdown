@@ -1,7 +1,7 @@
-import React from "react";
+import Meta from "components/meta";
 import type { HeadFC } from "gatsby";
 import LogoThumbnail from "images/logo-thumbnail.png";
-import Meta from "components/meta";
+import React from "react";
 import { meta } from "../../meta";
 
 const SandboxPage = () => {

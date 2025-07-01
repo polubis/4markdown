@@ -1,6 +1,6 @@
 import type { DocumentRatingCategory } from "api-4markdown-contracts";
 import type { IconType } from "react-icons";
-import { BiBulb, BiHeart, BiLaugh, BiLike, BiDislike } from "react-icons/bi";
+import { BiBulb, BiDislike, BiHeart, BiLaugh, BiLike } from "react-icons/bi";
 
 const DOCUMENT_RATING_ICONS: [IconType, DocumentRatingCategory][] = [
 	[BiHeart, `perfect`],

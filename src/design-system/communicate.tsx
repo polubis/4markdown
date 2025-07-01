@@ -1,6 +1,6 @@
+import c from "classnames";
 import React, { type ReactNode } from "react";
 import { Button, type ButtonProps } from "./button";
-import c from "classnames";
 
 const Communicate = ({
 	className,

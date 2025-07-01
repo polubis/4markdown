@@ -1,5 +1,5 @@
-import React from "react";
 import { Button } from "design-system/button";
+import React from "react";
 import {
 	BiLogoFacebook,
 	BiLogoGithub,

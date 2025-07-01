@@ -1,11 +1,11 @@
-import type { DocumentRatingCategory } from "api-4markdown-contracts";
-import React from "react";
-import c from "classnames";
-import { Button } from "design-system/button";
-import { DOCUMENT_RATING_ICONS } from "core/document-rating-config";
-import { useDocumentLayoutContext } from "providers/document-layout.provider";
 import { rateDocumentAct } from "acts/rate-document.act";
+import type { DocumentRatingCategory } from "api-4markdown-contracts";
+import c from "classnames";
+import { DOCUMENT_RATING_ICONS } from "core/document-rating-config";
+import { Button } from "design-system/button";
 import throttle from "lodash.throttle";
+import { useDocumentLayoutContext } from "providers/document-layout.provider";
+import React from "react";
 
 type DocumentRatingContainerProps = {
 	className?: string;

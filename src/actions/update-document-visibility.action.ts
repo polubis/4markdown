@@ -5,8 +5,8 @@ import type {
 	PrivateDocumentDto,
 	PublicDocumentDto,
 } from "api-4markdown-contracts";
-import { docManagementStoreActions } from "store/doc-management/doc-management.store";
 import { docStoreActions, docStoreSelectors } from "store/doc/doc.store";
+import { docManagementStoreActions } from "store/doc-management/doc-management.store";
 import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
 import { useDocumentCreatorState } from "store/document-creator";
 import { changeWithoutMarkAsUnchangedAction } from "store/document-creator/actions";

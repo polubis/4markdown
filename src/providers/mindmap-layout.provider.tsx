@@ -1,9 +1,9 @@
+import type { FullMindmapDto } from "api-4markdown-contracts";
 import React, {
 	type Dispatch,
-	type SetStateAction,
 	type ReactNode,
+	type SetStateAction,
 } from "react";
-import type { FullMindmapDto } from "api-4markdown-contracts";
 
 type MindmapLayoutState = {
 	mindmap: FullMindmapDto;

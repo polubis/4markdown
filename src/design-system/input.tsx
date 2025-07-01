@@ -1,5 +1,5 @@
-import React, { type DetailedHTMLProps, type InputHTMLAttributes } from "react";
 import c from "classnames";
+import React, { type DetailedHTMLProps, type InputHTMLAttributes } from "react";
 
 interface InputProps
 	extends DetailedHTMLProps<

@@ -1,4 +1,4 @@
-import type { MindmapPreviewState, MindmapPreviewOkMindmap } from "./models";
+import type { MindmapPreviewOkMindmap, MindmapPreviewState } from "./models";
 
 const readyMindmapPreviewSelector = (
 	mindmap: MindmapPreviewState["mindmap"],

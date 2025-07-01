@@ -1,5 +1,5 @@
-import { replaceText, getSelectedText } from "../textarea-utils";
 import { expect } from "@jest/globals";
+import { getSelectedText, replaceText } from "../textarea-utils";
 
 describe(getSelectedText.name, () => {
 	it(`returns null when selection start and end are the same`, () => {

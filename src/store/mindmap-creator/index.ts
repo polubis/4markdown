@@ -1,6 +1,6 @@
+import type { Viewport } from "@xyflow/react";
 import { state } from "development-kit/state";
 import type { MindmapCreatorState } from "./models";
-import type { Viewport } from "@xyflow/react";
 
 const defaultMindmapData: Pick<
 	MindmapCreatorState,

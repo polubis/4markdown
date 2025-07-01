@@ -1,15 +1,15 @@
 import { context } from "@greenonsoftware/react-kit";
-import type {
-	RewriteAssistantState,
-	RewriteAssistantAction,
-	RewriteAssistantProps,
-} from "../models";
+import { rewriteWithAssistantAct } from "acts/rewrite-with-assistant.act";
+import type { RewriteAssistantPersona } from "api-4markdown-contracts";
 import { suid } from "development-kit/suid";
 import React, { type Reducer } from "react";
-import type { RewriteAssistantPersona } from "api-4markdown-contracts";
-import { rewriteWithAssistantAct } from "acts/rewrite-with-assistant.act";
 import { from, Subject, switchMap, takeUntil } from "rxjs";
 import { REWRITE_ASSISTANT_TRANSLATIONS } from "../config/translations";
+import type {
+	RewriteAssistantAction,
+	RewriteAssistantProps,
+	RewriteAssistantState,
+} from "../models";
 
 const initialState: RewriteAssistantState = {
 	operation: { is: `idle` },

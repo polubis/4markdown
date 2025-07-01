@@ -1,21 +1,21 @@
-import React from "react";
-import { Badge } from "design-system/badge";
-import { Avatar } from "design-system/avatar";
-import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from "react-icons/bi";
-import { Button } from "design-system/button";
-import { useCopy } from "development-kit/use-copy";
-import { Status } from "design-system/status";
-import { seeInDocumentsCreatorAct } from "acts/see-in-documents-creator.act";
-import { navigate } from "gatsby";
-import { meta } from "../../meta";
-import { useDocumentLayoutContext } from "providers/document-layout.provider";
-import { SocialShare } from "components/social-share";
-import { DocumentRatingContainer } from "containers/document-rating.container";
-import { UserSocials } from "components/user-socials";
-import { ScrollToTop } from "components/scroll-to-top";
-import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { seeInDocumentsCreatorAct } from "acts/see-in-documents-creator.act";
+import { Markdown } from "components/markdown";
+import { ScrollToTop } from "components/scroll-to-top";
+import { SocialShare } from "components/social-share";
 import { TableOfContent } from "components/table-of-content";
+import { UserSocials } from "components/user-socials";
+import { DocumentRatingContainer } from "containers/document-rating.container";
+import { Avatar } from "design-system/avatar";
+import { Badge } from "design-system/badge";
+import { Button } from "design-system/button";
+import { Status } from "design-system/status";
+import { useCopy } from "development-kit/use-copy";
+import { navigate } from "gatsby";
+import { useDocumentLayoutContext } from "providers/document-layout.provider";
+import React from "react";
+import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from "react-icons/bi";
+import { meta } from "../../meta";
 
 const ChaptersModal = React.lazy(() =>
 	import(`../components/chapters-modal`).then((m) => ({

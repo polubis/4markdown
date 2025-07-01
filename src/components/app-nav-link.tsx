@@ -1,7 +1,7 @@
+import c from "classnames";
 import type { GatsbyLinkProps } from "gatsby";
 import { Link } from "gatsby";
 import React from "react";
-import c from "classnames";
 
 interface AppNavLinkProps {
 	className?: string;

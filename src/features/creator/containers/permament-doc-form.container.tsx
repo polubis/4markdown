@@ -1,3 +1,4 @@
+import { updateDocumentVisibility } from "actions/update-document-visibility.action";
 import { Button } from "design-system/button";
 import { Field } from "design-system/field";
 import { Hint } from "design-system/hint";
@@ -6,9 +7,8 @@ import { Textarea } from "design-system/textarea";
 import { useForm } from "development-kit/use-form";
 import React, { type FormEventHandler } from "react";
 import { BiX } from "react-icons/bi";
-import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
-import { updateDocumentVisibility } from "actions/update-document-visibility.action";
+import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { SeoFriendlyDescriptionHint } from "../components/seo-friendly-description-hint";
 
 type PermamentDocFormContainerProps = {

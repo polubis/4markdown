@@ -1,8 +1,8 @@
+import c from "classnames";
 import React, {
 	type DetailedHTMLProps,
 	type TextareaHTMLAttributes,
 } from "react";
-import c from "classnames";
 
 interface TextareaProps
 	extends DetailedHTMLProps<

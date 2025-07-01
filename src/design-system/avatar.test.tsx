@@ -1,7 +1,7 @@
-import React from "react";
-import { render } from "@testing-library/react";
-import { Avatar } from "./avatar";
 import { expect } from "@jest/globals";
+import { render } from "@testing-library/react";
+import React from "react";
+import { Avatar } from "./avatar";
 
 describe(`Avatar can be used when`, () => {
 	it(`renders character when image is not available but character is given`, () => {

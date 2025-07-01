@@ -1,5 +1,5 @@
-import React from "react";
 import type { GatsbySSR } from "gatsby";
+import React from "react";
 // Based on following implementation:
 // https://github.com/insin/gatsby-plugin-dark-mode
 export const onRenderBody: GatsbySSR["onRenderBody"] = ({

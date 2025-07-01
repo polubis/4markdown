@@ -1,11 +1,11 @@
-import React from "react";
-import { HandleX, HandleY } from "./handles";
 import type { NodeProps } from "@xyflow/react";
-import { NodeTile } from "./node-tile";
 import { Button } from "design-system/button";
+import React from "react";
 import { BiPencil, BiWorld } from "react-icons/bi";
-import type { MindmapCreatorExternalNode } from "store/mindmap-creator/models";
 import { openNodeEditionAction } from "store/mindmap-creator/actions";
+import type { MindmapCreatorExternalNode } from "store/mindmap-creator/models";
+import { HandleX, HandleY } from "./handles";
+import { NodeTile } from "./node-tile";
 
 type ExternalNodeTileProps = NodeProps<MindmapCreatorExternalNode>;
 

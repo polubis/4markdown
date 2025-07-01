@@ -1,10 +1,10 @@
+import { deleteDocument } from "actions/delete-document.action";
 import { Button } from "design-system/button";
 import { Input } from "design-system/input";
 import { Modal } from "design-system/modal";
 import React from "react";
-import { deleteDocument } from "actions/delete-document.action";
-import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
+import { useDocManagementStore } from "store/doc-management/doc-management.store";
 
 const DeleteDocumentModalContainer = ({ onClose }: { onClose(): void }) => {
 	const docStore = docStoreSelectors.useActive();

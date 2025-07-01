@@ -1,20 +1,20 @@
-import React from "react";
-import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
 import { AppNavigation } from "components/app-navigation";
-import { formatDistance } from "date-fns";
-import { AppFooterContainer } from "containers/app-footer.container";
-import { Avatar } from "design-system/avatar";
-import { CreationLinkContainer } from "containers/creation-link.container";
-import { Link } from "gatsby";
-import { DOCUMENT_RATING_ICONS } from "core/document-rating-config";
-import { meta } from "../../../meta";
-import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
-import { paginate } from "development-kit/paginate";
-import { EducationLayout } from "components/education-layout";
 import { EducationDocumentsList } from "components/education-documents-list";
+import { EducationLayout } from "components/education-layout";
 import { EducationTopTags } from "components/education-top-tags";
-import type { EducationPageModel } from "models/page-models";
+import { AppFooterContainer } from "containers/app-footer.container";
+import { CreationLinkContainer } from "containers/creation-link.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
+import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
+import { DOCUMENT_RATING_ICONS } from "core/document-rating-config";
+import { formatDistance } from "date-fns";
+import { Avatar } from "design-system/avatar";
+import { paginate } from "development-kit/paginate";
+import { Link } from "gatsby";
+import type { EducationPageModel } from "models/page-models";
+import React from "react";
+import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
+import { meta } from "../../../meta";
 
 type EducationZoneViewProps = EducationPageModel;
 

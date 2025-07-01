@@ -1,5 +1,5 @@
-import React from "react";
 import { Button, type ButtonProps } from "design-system/button";
+import React from "react";
 import { BiImageAdd } from "react-icons/bi";
 
 interface UploadImageButtonProps

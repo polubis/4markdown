@@ -1,6 +1,6 @@
 import { getAPI, setCache } from "api-4markdown";
-import { docManagementStoreActions } from "store/doc-management/doc-management.store";
 import { docStoreActions, docStoreSelectors } from "store/doc/doc.store";
+import { docManagementStoreActions } from "store/doc-management/doc-management.store";
 import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
 import { resetAction } from "store/document-creator/actions";
 

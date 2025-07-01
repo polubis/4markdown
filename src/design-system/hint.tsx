@@ -1,7 +1,7 @@
-import React, { type ReactNode, type ComponentType } from "react";
-import { Modal } from "./modal";
-import c from "classnames";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import c from "classnames";
+import React, { type ComponentType, type ReactNode } from "react";
+import { Modal } from "./modal";
 
 type SimpleFeature = ReturnType<typeof useSimpleFeature>;
 

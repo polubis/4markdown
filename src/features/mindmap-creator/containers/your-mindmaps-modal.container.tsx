@@ -1,5 +1,11 @@
+import { reloadYourMindmapsAct } from "acts/reload-your-mindmaps.act";
+import type { MindmapDto } from "api-4markdown-contracts";
+import c from "classnames";
+import { differenceInDays, formatDistance } from "date-fns";
 import { Button } from "design-system/button";
+import { Loader } from "design-system/loader";
 import { Modal } from "design-system/modal";
+import { Tabs } from "design-system/tabs";
 import React from "react";
 import {
 	BiErrorAlt,
@@ -8,18 +14,12 @@ import {
 	BiShow,
 	BiWorld,
 } from "react-icons/bi";
-import c from "classnames";
-import { differenceInDays, formatDistance } from "date-fns";
-import { Tabs } from "design-system/tabs";
-import type { MindmapDto } from "api-4markdown-contracts";
 import { useMindmapCreatorState } from "store/mindmap-creator";
-import { readyMindmapsSelector } from "store/mindmap-creator/selectors";
 import {
 	closeYourMindmapsViewAction,
 	selectMindmapAction,
 } from "store/mindmap-creator/actions";
-import { reloadYourMindmapsAct } from "acts/reload-your-mindmaps.act";
-import { Loader } from "design-system/loader";
+import { readyMindmapsSelector } from "store/mindmap-creator/selectors";
 
 const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
 

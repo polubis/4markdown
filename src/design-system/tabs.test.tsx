@@ -1,7 +1,7 @@
-import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
-import { Tabs } from "./tabs";
 import { expect } from "@jest/globals";
+import { fireEvent, render, screen } from "@testing-library/react";
+import React from "react";
+import { Tabs } from "./tabs";
 
 describe(`Tabs works when:`, () => {
 	it(`displays selection and items`, () => {

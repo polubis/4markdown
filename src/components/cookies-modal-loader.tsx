@@ -1,5 +1,5 @@
-import React from "react";
 import { useOnFirstInteraction } from "development-kit/use-on-first-interaction";
+import React from "react";
 
 const CookiesModal = React.lazy(() =>
 	import(`./cookies-modal`).then((m) => ({

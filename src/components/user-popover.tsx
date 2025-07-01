@@ -1,13 +1,13 @@
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { logIn } from "actions/log-in.action";
 import { Button } from "design-system/button";
 import React from "react";
 import { BiLogInCircle } from "react-icons/bi";
 import { useAuthStore } from "store/auth/auth.store";
 import { useDocsStore } from "store/docs/docs.store";
-import { YourAvatarContainer } from "../containers/your-avatar.container";
-import { logIn } from "actions/log-in.action";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
-import { useYourUserProfileState } from "store/your-user-profile";
 import { useYourAccountState } from "store/your-account";
+import { useYourUserProfileState } from "store/your-user-profile";
+import { YourAvatarContainer } from "../containers/your-avatar.container";
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 

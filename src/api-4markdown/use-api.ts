@@ -5,23 +5,24 @@ import type {
 	NoInternetError,
 } from "api-4markdown-contracts";
 import { type FirebaseOptions, initializeApp } from "firebase/app";
-import type { Functions } from "firebase/functions";
 import {
+	browserLocalPersistence,
 	type CompleteFn,
 	type ErrorFn,
 	GoogleAuthProvider,
-	type NextOrObserver,
-	type Unsubscribe,
-	type User,
-	browserLocalPersistence,
 	getAuth,
+	type NextOrObserver,
 	onAuthStateChanged,
 	setPersistence,
 	signInWithEmailAndPassword,
 	signInWithPopup,
 	signOut,
+	type Unsubscribe,
+	type User,
 } from "firebase/auth";
+import type { Functions } from "firebase/functions";
 import { emit } from "./observer";
+
 // @TODO[PRIO=2]: [Decouple from Firebase interfaces, and lazy load what can be lazy loaded].
 
 // @TODO[PRIO=2]: [Make this API less "object" oriented, maybe there is a possibility to three-shake it].

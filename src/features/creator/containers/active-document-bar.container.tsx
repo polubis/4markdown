@@ -1,16 +1,16 @@
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { updateDocumentCode } from "actions/update-document-code.action";
+import { updateDocumentName } from "actions/update-document-name.action";
 import { Button } from "design-system/button";
+import { useForm } from "development-kit/use-form";
 import React from "react";
 import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from "react-icons/bi";
 import { useAuthStore } from "store/auth/auth.store";
-import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
+import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { useDocsStore } from "store/docs/docs.store";
-import { YourDocumentsContainer } from "./your-documents.container";
-import { useForm } from "development-kit/use-form";
-import { updateDocumentCode } from "actions/update-document-code.action";
-import { updateDocumentName } from "actions/update-document-name.action";
 import { useDocumentCreatorState } from "store/document-creator";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { YourDocumentsContainer } from "./your-documents.container";
 
 const DocumentDetailsContainer = React.lazy(
 	() => import(`./document-details.container`),

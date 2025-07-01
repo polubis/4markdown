@@ -1,17 +1,17 @@
-import React from "react";
-import { useDocManagementStore } from "store/doc-management/doc-management.store";
-import { Modal } from "design-system/modal";
 import { createDocumentAct } from "acts/create-document.act";
-import { startConversationAction } from "store/document-generation/actions";
+import { AIPolicyDisclaimer } from "components/ai-policy-disclaimer";
 import {
 	NewDocumentForm,
 	type NewDocumentFormProps,
 } from "components/new-document-form";
+import { AI_CONTENT_GENERATION_TOKEN_COST } from "core/consts";
+import { Modal } from "design-system/modal";
+import React from "react";
+import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { useDocumentGenerationState } from "store/document-generation";
+import { startConversationAction } from "store/document-generation/actions";
 import { useYourAccountState } from "store/your-account";
 import { hasTokensForFeatureSelector } from "store/your-account/selectors";
-import { AI_CONTENT_GENERATION_TOKEN_COST } from "core/consts";
-import { AIPolicyDisclaimer } from "components/ai-policy-disclaimer";
 
 type CreateDocumentModalContainerProps = {
 	onClose(): void;

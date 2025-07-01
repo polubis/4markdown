@@ -1,8 +1,8 @@
-import React from "react";
-import { useDocStore } from "store/doc/doc.store";
-import { useAuthStore } from "store/auth/auth.store";
-import { YourDocumentsContainer } from "./your-documents.container";
 import { getYourDocuments } from "actions/get-your-documents.action";
+import React from "react";
+import { useAuthStore } from "store/auth/auth.store";
+import { useDocStore } from "store/doc/doc.store";
+import { YourDocumentsContainer } from "./your-documents.container";
 
 const ActiveDocumentBarContainer = React.lazy(
 	() => import(`./active-document-bar.container`),

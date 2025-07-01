@@ -1,9 +1,9 @@
-import React from "react";
+import { parseError } from "api-4markdown";
+import { Markdown } from "components/markdown";
+import { Loader } from "design-system/loader";
 import { Modal } from "design-system/modal";
 import type { Transaction } from "development-kit/utility-types";
-import { parseError } from "api-4markdown";
-import { Loader } from "design-system/loader";
-import { Markdown } from "components/markdown";
+import React from "react";
 
 type CheatSheetModalProps = {
 	onClose(): void;

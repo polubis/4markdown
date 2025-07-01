@@ -1,3 +1,13 @@
+import Dagre from "@dagrejs/dagre";
+import {
+	applyEdgeChanges,
+	applyNodeChanges,
+	type Connection,
+	type EdgeChange,
+	type NodeChange,
+} from "@xyflow/react";
+import type { MindmapDto } from "api-4markdown-contracts";
+import { downloadJSON } from "development-kit/download-file";
 import { type SUID, suid } from "development-kit/suid";
 import { getLastViewport, useMindmapCreatorState } from ".";
 import type {
@@ -7,17 +17,7 @@ import type {
 	MindmapCreatorNode,
 	MindmapCreatorState,
 } from "./models";
-import {
-	applyEdgeChanges,
-	applyNodeChanges,
-	type Connection,
-	type EdgeChange,
-	type NodeChange,
-} from "@xyflow/react";
-import Dagre from "@dagrejs/dagre";
-import type { MindmapDto } from "api-4markdown-contracts";
 import { readyMindmapsSelector } from "./selectors";
-import { downloadJSON } from "development-kit/download-file";
 
 const { get, set, getInitial } = useMindmapCreatorState;
 

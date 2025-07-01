@@ -1,7 +1,7 @@
-import React from "react";
+import { isServer } from "development-kit/ssr-csr";
 
 import debounce from "lodash.debounce";
-import { isServer } from "development-kit/ssr-csr";
+import React from "react";
 
 const removeMdFromLine = (value: string): string =>
 	value.replace(/\*|#|`|_/g, ``).trim();

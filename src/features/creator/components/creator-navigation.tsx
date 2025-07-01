@@ -1,5 +1,5 @@
-import React, { type ReactNode } from "react";
 import { Navigation } from "components/navigation";
+import React, { type ReactNode } from "react";
 
 interface CreatorNavigationProps {
 	children: ReactNode;

@@ -1,11 +1,11 @@
-import React from "react";
+import { Markdown } from "components/markdown";
+import Meta from "components/meta";
+import { useCreatorLocalStorageSync } from "core/use-creator-local-storage-sync";
 import type { HeadFC } from "gatsby";
 import LogoThumbnail from "images/logo-thumbnail.png";
-import Meta from "components/meta";
-import { meta } from "../../meta";
-import { useCreatorLocalStorageSync } from "core/use-creator-local-storage-sync";
+import React from "react";
 import { useDocumentCreatorState } from "store/document-creator";
-import { Markdown } from "components/markdown";
+import { meta } from "../../meta";
 
 const CreatorPreviewPage = () => {
 	useCreatorLocalStorageSync();

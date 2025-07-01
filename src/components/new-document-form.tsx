@@ -1,17 +1,14 @@
-import React, { type ReactNode, type FormEventHandler } from "react";
-import { Button } from "design-system/button";
-import { BiInfoCircle, BiPlusCircle } from "react-icons/bi";
-import { Input } from "design-system/input";
-import { useForm } from "development-kit/use-form";
-import type { API4MarkdownPayload } from "api-4markdown-contracts";
-import { Field } from "design-system/field";
-import { Hint } from "design-system/hint";
 import { context } from "@greenonsoftware/react-kit";
-import { Textarea } from "design-system/textarea";
+import type { API4MarkdownPayload } from "api-4markdown-contracts";
 import {
 	AI_CONTENT_GENERATION_TOKEN_COST,
 	DOCUMENT_NAME_RULES,
 } from "core/consts";
+import { Button } from "design-system/button";
+import { Field } from "design-system/field";
+import { Hint } from "design-system/hint";
+import { Input } from "design-system/input";
+import { Textarea } from "design-system/textarea";
 import {
 	chain,
 	maxLength,
@@ -19,6 +16,9 @@ import {
 	type ValidatorsSetup,
 } from "development-kit/form";
 import { falsy } from "development-kit/guards";
+import { useForm } from "development-kit/use-form";
+import React, { type FormEventHandler, type ReactNode } from "react";
+import { BiInfoCircle, BiPlusCircle } from "react-icons/bi";
 
 type AIFormValues = Pick<
 	API4MarkdownPayload<"createContentWithAI">,

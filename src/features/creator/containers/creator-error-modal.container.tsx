@@ -1,11 +1,11 @@
-import React from "react";
+import { reloadYourDocuments } from "actions/reload-your-documents.action";
 import ErrorModal from "components/error-modal";
 import { Button } from "design-system/button";
+import React from "react";
 import {
 	docManagementStoreActions,
 	docManagementStoreSelectors,
 } from "store/doc-management/doc-management.store";
-import { reloadYourDocuments } from "actions/reload-your-documents.action";
 
 const CreatorErrorModalContainer = () => {
 	const docManagementStore = docManagementStoreSelectors.useFail();

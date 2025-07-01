@@ -1,10 +1,10 @@
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { Button } from "design-system/button";
 import React, { type FormEventHandler } from "react";
 import { BiX } from "react-icons/bi";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
-import { PermamentDocFormContainer } from "./permament-doc-form.container";
 import { meta } from "../../../../meta";
-import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { PermamentDocFormContainer } from "./permament-doc-form.container";
 
 interface PermanentConfirmationContainerProps {
 	onConfirm(): void;

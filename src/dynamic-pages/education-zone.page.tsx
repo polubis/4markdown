@@ -1,10 +1,10 @@
-import React from "react";
-import type { HeadFC } from "gatsby";
 import Meta from "components/meta";
-import LogoThumbnail from "images/logo-thumbnail.png";
-import { meta } from "../../meta";
 import { EducationZoneView } from "features/education-zone/education-zone.view";
+import type { HeadFC } from "gatsby";
+import LogoThumbnail from "images/logo-thumbnail.png";
 import type { EducationPageModel } from "models/page-models";
+import React from "react";
+import { meta } from "../../meta";
 
 type EducationZonePageProps = {
 	pageContext: EducationPageModel;

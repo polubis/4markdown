@@ -1,10 +1,10 @@
-import React from "react";
-import { Modal } from "design-system/modal";
-import { Input } from "design-system/input";
-import { navigate } from "gatsby";
 import { searchStaticContentAct } from "acts/search-static-content.act";
-import type { SearchDataItem } from "models/pages-data";
 import type { ParsedError } from "api-4markdown-contracts";
+import { Input } from "design-system/input";
+import { Modal } from "design-system/modal";
+import { navigate } from "gatsby";
+import type { SearchDataItem } from "models/pages-data";
+import React from "react";
 
 type SearchPopoverContentProps = {
 	onClose(): void;

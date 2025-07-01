@@ -1,22 +1,22 @@
+import { createMindmapAct } from "acts/create-mindmap.act";
+import { updateMindmapAct } from "acts/update-mindmap.act";
 import { Button } from "design-system/button";
 import { Field } from "design-system/field";
 import { Hint } from "design-system/hint";
 import { Input } from "design-system/input";
+import { Modal } from "design-system/modal";
 import { Textarea } from "design-system/textarea";
 import { maxLength, minLength, optional } from "development-kit/form";
 import { useForm } from "development-kit/use-form";
 import React, { type FormEventHandler } from "react";
 import { BiPlusCircle } from "react-icons/bi";
-import { Modal } from "design-system/modal";
+import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
 	backToMindmapDetailsAction,
 	closeMindmapFormAction,
 } from "store/mindmap-creator/actions";
-import { createMindmapAct } from "acts/create-mindmap.act";
-import { validationLimits } from "../core/validation";
-import { useMindmapCreatorState } from "store/mindmap-creator";
 import { openedMindmapFormSelector } from "store/mindmap-creator/selectors";
-import { updateMindmapAct } from "acts/update-mindmap.act";
+import { validationLimits } from "../core/validation";
 
 const MindmapFormModalContainer = () => {
 	const { operation } = useMindmapCreatorState();

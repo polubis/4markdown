@@ -1,9 +1,9 @@
-import React from "react";
-import type { HeadFC } from "gatsby";
 import Meta from "components/meta";
-import LogoThumbnail from "images/logo-thumbnail.png";
-import { meta } from "../../meta";
 import { MindmapPreviewView } from "features/mindmap-preview/mindmap-preview.view";
+import type { HeadFC } from "gatsby";
+import LogoThumbnail from "images/logo-thumbnail.png";
+import React from "react";
+import { meta } from "../../meta";
 
 const MindmapPreviewPage = () => {
 	return <MindmapPreviewView />;
