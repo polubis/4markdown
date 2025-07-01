@@ -1,9 +1,0 @@
-{
-	"td": {
-		"prefix": "td",
-		"body": [
-		  "// @TODO[PRIO=${1}]: [${2}].",
-		],
-		"description": "Template for tech dept reduction comment"
-	  }
-}
