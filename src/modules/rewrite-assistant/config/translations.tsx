@@ -1,4 +1,4 @@
-import { type RewriteAssistantPersona } from "api-4markdown-contracts";
+import type { RewriteAssistantPersona } from "api-4markdown-contracts";
 import React, { type ReactNode } from "react";
 
 const REWRITE_ASSISTANT_TRANSLATIONS = {

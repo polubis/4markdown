@@ -1,4 +1,4 @@
-import { type Prettify } from "development-kit/utility-types";
+import type { Prettify } from "development-kit/utility-types";
 import type { Base64, Date, Id, Url } from "../atoms";
 import type {
 	DocumentDto,

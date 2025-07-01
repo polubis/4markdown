@@ -15,7 +15,7 @@ import {
 	type NodeChange,
 } from "@xyflow/react";
 import Dagre from "@dagrejs/dagre";
-import { type MindmapDto } from "api-4markdown-contracts";
+import type { MindmapDto } from "api-4markdown-contracts";
 import { readyMindmapsSelector } from "./selectors";
 import { downloadJSON } from "development-kit/download-file";
 

@@ -1,5 +1,5 @@
 import { getCache, setCache } from "api-4markdown";
-import { type API4MarkdownDto } from "api-4markdown-contracts";
+import type { API4MarkdownDto } from "api-4markdown-contracts";
 import { updateTokensAction } from "store/your-account/actions";
 
 const updateTokensAct = async (

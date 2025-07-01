@@ -6,7 +6,7 @@ import type {
 	Tags,
 	Url,
 } from "api-4markdown-contracts";
-import { type SUID } from "development-kit/suid";
+import type { SUID } from "development-kit/suid";
 
 const MINDMAP_NODE_TYPES = [`external`, `embedded`] as const;
 

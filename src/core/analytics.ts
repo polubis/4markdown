@@ -25,7 +25,7 @@ const initAnalytics = (): Promise<void> => {
 		const triggerAnalytics = (): void => {
 			w.dataLayer = w.dataLayer || [];
 
-			w.gtag = function () {
+			w.gtag = () => {
 				w.dataLayer?.push(arguments);
 			};
 

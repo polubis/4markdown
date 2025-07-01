@@ -3,7 +3,7 @@ import type {
 	API4MarkdownDto,
 	API4MarkdownPayload,
 } from "api-4markdown-contracts";
-import { type AsyncResult } from "development-kit/utility-types";
+import type { AsyncResult } from "development-kit/utility-types";
 import { updateTokensAct } from "./update-tokens.act";
 
 const rewriteWithAssistantAct = async (

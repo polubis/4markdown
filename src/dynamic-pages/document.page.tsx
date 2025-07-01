@@ -1,5 +1,5 @@
 import React from "react";
-import { type HeadFC } from "gatsby";
+import type { HeadFC } from "gatsby";
 import Meta from "components/meta";
 import LogoThumbnail from "images/logo-thumbnail.png";
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";

@@ -1,5 +1,5 @@
 import React from "react";
-import { type HeadFC } from "gatsby";
+import type { HeadFC } from "gatsby";
 import CreatorView from "features/creator/creator.view";
 import Meta from "components/meta";
 import LogoThumbnail from "images/logo-thumbnail.png";

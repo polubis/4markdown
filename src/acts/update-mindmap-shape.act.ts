@@ -1,5 +1,5 @@
 import { getAPI, parseError, setCache } from "api-4markdown";
-import { type AsyncResult } from "development-kit/utility-types";
+import type { AsyncResult } from "development-kit/utility-types";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
 	readyMindmapsSelector,

@@ -1,4 +1,4 @@
-import { type API4MarkdownContractKey } from "api-4markdown-contracts";
+import type { API4MarkdownContractKey } from "api-4markdown-contracts";
 
 type ClickableControls =
 	| "Clear content"

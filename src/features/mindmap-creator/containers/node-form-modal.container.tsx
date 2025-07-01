@@ -9,7 +9,7 @@ import { Input } from "design-system/input";
 import { Textarea } from "design-system/textarea";
 import { Button } from "design-system/button";
 import { BiPlusCircle, BiSave } from "react-icons/bi";
-import { type MindmapCreatorNode } from "store/mindmap-creator/models";
+import type { MindmapCreatorNode } from "store/mindmap-creator/models";
 import {
 	addNewEmbeddedNodeAction,
 	addNewExternalNodeAction,

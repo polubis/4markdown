@@ -22,7 +22,7 @@ import { authStoreSelectors } from "store/auth/auth.store";
 import { createPathForMindmap } from "core/create-path-for-mindmap";
 import { context } from "@greenonsoftware/react-kit";
 
-const enum ViewType {
+enum ViewType {
 	Details = `details`,
 	Delete = `delete`,
 }

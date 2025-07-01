@@ -1,4 +1,4 @@
-import { type API4MarkdownDto } from "api-4markdown-contracts";
+import type { API4MarkdownDto } from "api-4markdown-contracts";
 import { BASE_COMMANDS } from "../utils/commands";
 import { gherkin } from "../utils/gherkin";
 

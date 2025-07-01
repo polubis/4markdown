@@ -1,4 +1,4 @@
-import { type YourAccountState } from "./models";
+import type { YourAccountState } from "./models";
 
 const hasTokensForFeatureSelector =
 	(tokensCost: number) => (state: YourAccountState) =>

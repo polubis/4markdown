@@ -1,6 +1,6 @@
 import React from "react";
 import { HandleX, HandleY } from "./handles";
-import { type NodeProps } from "@xyflow/react";
+import type { NodeProps } from "@xyflow/react";
 import { NodeTile } from "./node-tile";
 import { Button } from "design-system/button";
 import { BiPencil, BiWorld } from "react-icons/bi";

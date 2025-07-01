@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { type GatsbyNode } from "gatsby";
+import type { GatsbyNode } from "gatsby";
 import path from "path";
 import { meta } from "./meta";
 import type {

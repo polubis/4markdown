@@ -11,7 +11,7 @@ import { meta } from "../../meta";
 
 const ONE_MONTH = 31;
 
-const enum ViewType {
+enum ViewType {
 	Intro = `intro`,
 	Manage = `manage`,
 	Policy = `policy`,
