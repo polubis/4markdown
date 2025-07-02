@@ -1,8 +1,8 @@
-import { vibetest } from '@greenonsoftware/vibetest';
+import { vibetest } from "@greenonsoftware/vibetest";
 
 const gherkin = vibetest({
-  mode: `gherkin`,
-  engine: `cypress`,
+	mode: `gherkin`,
+	engine: `cypress`,
 });
 
 export { gherkin };

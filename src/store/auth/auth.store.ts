@@ -1,59 +1,59 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 type AuthorizedData = {
-  user: {
-    name: string | null;
-    avatar: string | null;
-    uid: string;
-  };
+	user: {
+		name: string | null;
+		avatar: string | null;
+		uid: string;
+	};
 };
 
-type AuthStoreStateIdle = { is: 'idle' };
+type AuthStoreStateIdle = { is: "idle" };
 type AuthStoreStateAuthorized = {
-  is: 'authorized';
+	is: "authorized";
 } & AuthorizedData;
 
 type AuthStoreStateUnauthorized = {
-  is: 'unauthorized';
+	is: "unauthorized";
 };
 
 type AuthStoreState =
-  | AuthStoreStateIdle
-  | AuthStoreStateAuthorized
-  | AuthStoreStateUnauthorized;
+	| AuthStoreStateIdle
+	| AuthStoreStateAuthorized
+	| AuthStoreStateUnauthorized;
 
 const useAuthStore = create<AuthStoreState>(() => ({
-  is: `idle`,
+	is: `idle`,
 }));
 
 const { setState, getState } = useAuthStore;
 
 const getAuthorized = (state: AuthStoreState): AuthStoreStateAuthorized => {
-  if (state.is !== `authorized`)
-    throw Error(`Tried to access authorized only state`);
+	if (state.is !== `authorized`)
+		throw Error(`Tried to access authorized only state`);
 
-  return state;
+	return state;
 };
 
 const authStoreSelectors = {
-  authorized: () => getAuthorized(getState()),
-  useAuthorized: () => useAuthStore(getAuthorized),
+	authorized: () => getAuthorized(getState()),
+	useAuthorized: () => useAuthStore(getAuthorized),
 } as const;
 
 const set = (state: AuthStoreState): void => {
-  setState(state, true);
+	setState(state, true);
 };
 
 const authStoreActions = {
-  authorize: (user: AuthorizedData['user']) => {
-    set({
-      is: `authorized`,
-      user,
-    });
-  },
-  unauthorize: () => {
-    set({ is: `unauthorized` });
-  },
+	authorize: (user: AuthorizedData["user"]) => {
+		set({
+			is: `authorized`,
+			user,
+		});
+	},
+	unauthorize: () => {
+		set({ is: `unauthorized` });
+	},
 };
 
 export { useAuthStore, authStoreActions, authStoreSelectors };
