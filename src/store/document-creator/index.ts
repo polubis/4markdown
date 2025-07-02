@@ -1,6 +1,6 @@
-import { state } from 'development-kit/state';
-import type { DocumentCreatorState } from './models';
-import { meta } from '../../../meta';
+import { state } from "development-kit/state";
+import type { DocumentCreatorState } from "./models";
+import { meta } from "../../../meta";
 
 const initialCode = `# Markdown Cheatsheet
 
@@ -59,9 +59,9 @@ Like our [LinkedIn](${meta.linkedInUrl}) profile or join [Discord](${meta.discor
 Any suggestions, comments, or ideas for improvement? Feel free to join our [Discord](${meta.discordUrl}) or add info on [LinkedIn](${meta.linkedInUrl}) profile. If you want to contribute, here you have a repository: [${meta.appName} repository](${meta.sourceCodeUrl}).`;
 
 const useDocumentCreatorState = state<DocumentCreatorState>({
-  initialCode,
-  code: initialCode,
-  changed: false,
+	initialCode,
+	code: initialCode,
+	changed: false,
 });
 
 export { useDocumentCreatorState };

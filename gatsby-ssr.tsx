@@ -1,16 +1,16 @@
-import React from 'react';
-import type { GatsbySSR } from 'gatsby';
+import React from "react";
+import type { GatsbySSR } from "gatsby";
 // Based on following implementation:
 // https://github.com/insin/gatsby-plugin-dark-mode
-export const onRenderBody: GatsbySSR['onRenderBody'] = ({
-  setPreBodyComponents,
+export const onRenderBody: GatsbySSR["onRenderBody"] = ({
+	setPreBodyComponents,
 }) => {
-  setPreBodyComponents([
-    <script
-      id="dark-mode"
-      key="dark-mode"
-      dangerouslySetInnerHTML={{
-        __html: `
+	setPreBodyComponents([
+		<script
+			id="dark-mode"
+			key="dark-mode"
+			dangerouslySetInnerHTML={{
+				__html: `
         void function() {
           window.__onThemeChange = function() {}
         
@@ -46,7 +46,7 @@ export const onRenderBody: GatsbySSR['onRenderBody'] = ({
           setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'))
         }()
             `,
-      }}
-    />,
-  ]);
+			}}
+		/>,
+	]);
 };

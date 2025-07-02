@@ -1,24 +1,24 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 const state = <TValue>(initialValue: TValue) => {
-  const useZustandStore = create(() => initialValue);
+	const useZustandStore = create(() => initialValue);
 
-  const useState = <TSelected = TValue>(
-    selector?: (value: TValue) => TSelected,
-  ) => useZustandStore(selector as (value: TValue) => TSelected);
+	const useState = <TSelected = TValue>(
+		selector?: (value: TValue) => TSelected,
+	) => useZustandStore(selector as (value: TValue) => TSelected);
 
-  const swap = (setter: TValue | ((value: TValue) => TValue)): void => {
-    useZustandStore.setState(setter, true);
-  };
+	const swap = (setter: TValue | ((value: TValue) => TValue)): void => {
+		useZustandStore.setState(setter, true);
+	};
 
-  useState.subscribe = useZustandStore.subscribe;
-  useState.get = useZustandStore.getState;
-  useState.getInitial = () => initialValue;
-  useState.set = useZustandStore.setState;
-  useState.reset = () => useZustandStore.setState(initialValue, true);
-  useState.swap = swap;
+	useState.subscribe = useZustandStore.subscribe;
+	useState.get = useZustandStore.getState;
+	useState.getInitial = () => initialValue;
+	useState.set = useZustandStore.setState;
+	useState.reset = () => useZustandStore.setState(initialValue, true);
+	useState.swap = swap;
 
-  return useState;
+	return useState;
 };
 
 export { state };

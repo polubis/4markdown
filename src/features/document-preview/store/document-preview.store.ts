@@ -1,8 +1,8 @@
-import { create } from 'zustand';
-import type { DocumentPreviewStoreState } from './document-preview.models';
+import { create } from "zustand";
+import type { DocumentPreviewStoreState } from "./document-preview.models";
 
 const useDocumentPreviewStore = create<DocumentPreviewStoreState>(() => ({
-  is: `idle`,
+	is: `idle`,
 }));
 
 export { useDocumentPreviewStore };

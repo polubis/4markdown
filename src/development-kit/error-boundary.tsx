@@ -1,31 +1,31 @@
-import React, { type ReactNode, type FunctionComponent } from 'react';
+import React, { type ReactNode, type FunctionComponent } from "react";
 
 interface ErrorBoundaryProps {
-  children: ReactNode;
-  fallback: FunctionComponent;
-  onError?(): void;
+	children: ReactNode;
+	fallback: FunctionComponent;
+	onError?(): void;
 }
 
 class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
-  state = { hasError: false } as const;
+	state = { hasError: false } as const;
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
-  }
+	static getDerivedStateFromError() {
+		return { hasError: true };
+	}
 
-  componentDidCatch() {
-    this.props.onError?.();
-  }
+	componentDidCatch() {
+		this.props.onError?.();
+	}
 
-  render() {
-    const { children, fallback: Fallback } = this.props;
+	render() {
+		const { children, fallback: Fallback } = this.props;
 
-    if (this.state.hasError) {
-      return <Fallback />;
-    }
+		if (this.state.hasError) {
+			return <Fallback />;
+		}
 
-    return children;
-  }
+		return children;
+	}
 }
 
 export default ErrorBoundary;

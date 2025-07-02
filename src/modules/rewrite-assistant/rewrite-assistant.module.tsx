@@ -1,30 +1,30 @@
-import React from 'react';
+import React from "react";
 import {
-  RewriteAssistantProvider,
-  useRewriteAssistantContext,
-} from './providers/rewrite-assistant.provider';
-import type { RewriteAssistantProps } from './models';
-import { NoPersonaScreen } from './components/no-persona-screen';
-import { PersonaScreen } from './components/persona-screen';
+	RewriteAssistantProvider,
+	useRewriteAssistantContext,
+} from "./providers/rewrite-assistant.provider";
+import type { RewriteAssistantProps } from "./models";
+import { NoPersonaScreen } from "./components/no-persona-screen";
+import { PersonaScreen } from "./components/persona-screen";
 
 const RewriteAssistantModule = () => {
-  const {
-    state: { activePersona },
-  } = useRewriteAssistantContext();
+	const {
+		state: { activePersona },
+	} = useRewriteAssistantContext();
 
-  if (activePersona === `none`) {
-    return <NoPersonaScreen />;
-  }
+	if (activePersona === `none`) {
+		return <NoPersonaScreen />;
+	}
 
-  return <PersonaScreen />;
+	return <PersonaScreen />;
 };
 
 const ConnectedRewriteAssistantModule = (props: RewriteAssistantProps) => {
-  return (
-    <RewriteAssistantProvider {...props}>
-      <RewriteAssistantModule />
-    </RewriteAssistantProvider>
-  );
+	return (
+		<RewriteAssistantProvider {...props}>
+			<RewriteAssistantModule />
+		</RewriteAssistantProvider>
+	);
 };
 
 export { ConnectedRewriteAssistantModule as RewriteAssistantModule };
