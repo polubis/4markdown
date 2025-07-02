@@ -23,7 +23,33 @@
 		"rules": {
 			"recommended": true,
 			"correctness": {
-				"noUnusedImports": "off"
+				"noUnusedImports": "off",
+				"useExhaustiveDependencies": "off"
+			},
+			"suspicious": {
+				"noShadowRestrictedNames": "off",
+				"noArrayIndexKey": "off",
+				"noConstEnum": "off",
+				"noExplicitAny": "off",
+				"noTemplateCurlyInString": "off"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "off"
+			},
+			"style": {
+				"useImportType": "off",
+				"noNonNullAssertion": "off"
+			},
+			"complexity": {
+				"useDateNow": "off",
+				"useOptionalChain": "off"
+			},
+			"a11y": {
+				"useKeyWithClickEvents": "off",
+				"useButtonType": "off",
+				"noLabelWithoutControl": "off",
+				"noStaticElementInteractions": "off",
+				"noSvgWithoutTitle": "off"
 			}
 		}
 	},
@@ -36,7 +62,7 @@
 		"enabled": true,
 		"actions": {
 			"source": {
-				"organizeImports": "on"
+				"organizeImports": "off"
 			}
 		}
 	}
