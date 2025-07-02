@@ -15,7 +15,7 @@
 		"benchmark": "node benchmark.js",
 		"develop": "gatsby develop",
 		"start": "gatsby develop",
-		"build": "gatsby build",
+		"build": "npm run clean && gatsby build",
 		"serve": "gatsby serve",
 		"clean": "gatsby clean",
 		"lint": "npx @biomejs/biome check",
