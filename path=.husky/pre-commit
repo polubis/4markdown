@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx concurrently -c "auto" -n "typecheck,lint,test" --kill-others-on-fail \
+  "npm run typecheck" \
+  "npm run ci:lint" \
+  "npm run ci:units" 

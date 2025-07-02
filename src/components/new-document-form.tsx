@@ -1,419 +1,419 @@
-import React, { type ReactNode, type FormEventHandler } from 'react';
-import { Button } from 'design-system/button';
-import { BiInfoCircle, BiPlusCircle } from 'react-icons/bi';
-import { Input } from 'design-system/input';
-import { useForm } from 'development-kit/use-form';
-import type { API4MarkdownPayload } from 'api-4markdown-contracts';
-import { Field } from 'design-system/field';
-import { Hint } from 'design-system/hint';
-import { context } from '@greenonsoftware/react-kit';
-import { Textarea } from 'design-system/textarea';
+import React, { type ReactNode, type FormEventHandler } from "react";
+import { Button } from "design-system/button";
+import { BiInfoCircle, BiPlusCircle } from "react-icons/bi";
+import { Input } from "design-system/input";
+import { useForm } from "development-kit/use-form";
+import type { API4MarkdownPayload } from "api-4markdown-contracts";
+import { Field } from "design-system/field";
+import { Hint } from "design-system/hint";
+import { context } from "@greenonsoftware/react-kit";
+import { Textarea } from "design-system/textarea";
 import {
-  AI_CONTENT_GENERATION_TOKEN_COST,
-  DOCUMENT_NAME_RULES,
-} from 'core/consts';
+	AI_CONTENT_GENERATION_TOKEN_COST,
+	DOCUMENT_NAME_RULES,
+} from "core/consts";
 import {
-  chain,
-  maxLength,
-  minLength,
-  type ValidatorsSetup,
-} from 'development-kit/form';
-import { falsy } from 'development-kit/guards';
+	chain,
+	maxLength,
+	minLength,
+	type ValidatorsSetup,
+} from "development-kit/form";
+import { falsy } from "development-kit/guards";
 
 type AIFormValues = Pick<
-  API4MarkdownPayload<'createContentWithAI'>,
-  'name' | 'description' | 'profession' | 'sample' | 'structure'
+	API4MarkdownPayload<"createContentWithAI">,
+	"name" | "description" | "profession" | "sample" | "structure"
 > & {
-  style: string;
+	style: string;
 };
 
-type ManualFormValues = Pick<API4MarkdownPayload<'createDocument'>, 'name'>;
+type ManualFormValues = Pick<API4MarkdownPayload<"createDocument">, "name">;
 
 type NewDocumentFormProps = {
-  disabled?: boolean;
-  onBack(): void;
+	disabled?: boolean;
+	onBack(): void;
 } & (
-  | {
-      variant: `ai`;
-      initialValues?: AIFormValues;
-      onSubmit(values: AIFormValues): void;
-      renderFooter?(
-        props: NewDocumentFormProps,
-        payload: {
-          values: AIFormValues;
-          untouched: boolean;
-          invalid: boolean;
-        },
-      ): ReactNode;
-    }
-  | { variant: `manual`; onSubmit(values: ManualFormValues): void }
+	| {
+			variant: `ai`;
+			initialValues?: AIFormValues;
+			onSubmit(values: AIFormValues): void;
+			renderFooter?(
+				props: NewDocumentFormProps,
+				payload: {
+					values: AIFormValues;
+					untouched: boolean;
+					invalid: boolean;
+				},
+			): ReactNode;
+	  }
+	| { variant: `manual`; onSubmit(values: ManualFormValues): void }
 );
 
 const [FormProvider, useFormContext] = context(
-  (props: NewDocumentFormProps) => props,
+	(props: NewDocumentFormProps) => props,
 );
 
 const limits = {
-  description: {
-    min: 10,
-    max: 250,
-  },
-  profession: {
-    min: 1,
-    max: 80,
-  },
-  style: {
-    min: 1,
-    max: 10,
-  },
-  structure: {
-    min: 4,
-    max: 32,
-  },
-  sample: {
-    min: 100,
-    max: 4092,
-  },
+	description: {
+		min: 10,
+		max: 250,
+	},
+	profession: {
+		min: 1,
+		max: 80,
+	},
+	style: {
+		min: 1,
+		max: 10,
+	},
+	structure: {
+		min: 4,
+		max: 32,
+	},
+	sample: {
+		min: 100,
+		max: 4092,
+	},
 } as const;
 
 const nameValidator = (value: string) =>
-  chain(
-    minLength(DOCUMENT_NAME_RULES.MIN),
-    maxLength(DOCUMENT_NAME_RULES.MAX),
-  )(value.trim());
+	chain(
+		minLength(DOCUMENT_NAME_RULES.MIN),
+		maxLength(DOCUMENT_NAME_RULES.MAX),
+	)(value.trim());
 
 const manualValidators: ValidatorsSetup<ManualFormValues> = {
-  name: [nameValidator],
+	name: [nameValidator],
 };
 
 const styleValidator = (value: string) =>
-  chain(
-    minLength(limits.style.min),
-    maxLength(limits.style.max),
-  )(
-    value
-      .trim()
-      .split(`,`)
-      .map((styleEntry) => styleEntry.trim())
-      .filter((styleEntry) => styleEntry.length > 0),
-  );
+	chain(
+		minLength(limits.style.min),
+		maxLength(limits.style.max),
+	)(
+		value
+			.trim()
+			.split(`,`)
+			.map((styleEntry) => styleEntry.trim())
+			.filter((styleEntry) => styleEntry.length > 0),
+	);
 
 const aiValidators: ValidatorsSetup<AIFormValues> = {
-  name: [nameValidator],
-  description: [
-    (value) =>
-      chain(
-        minLength(limits.description.min),
-        maxLength(limits.description.max),
-      )(value.trim()),
-  ],
-  profession: [
-    (value) =>
-      chain(
-        minLength(limits.profession.min),
-        maxLength(limits.profession.max),
-      )(value.trim()),
-  ],
-  style: [styleValidator],
-  structure: [
-    (value) =>
-      chain(
-        minLength(limits.profession.min),
-        maxLength(limits.profession.max),
-      )(
-        value
-          .trim()
-          .split(`\n`)
-          .map((entry) => entry.trim())
-          .filter((entry) => entry.length > 0),
-      ),
-  ],
-  sample: [
-    (value) =>
-      chain(
-        minLength(limits.sample.min),
-        maxLength(limits.sample.max),
-      )(value.trim()),
-  ],
+	name: [nameValidator],
+	description: [
+		(value) =>
+			chain(
+				minLength(limits.description.min),
+				maxLength(limits.description.max),
+			)(value.trim()),
+	],
+	profession: [
+		(value) =>
+			chain(
+				minLength(limits.profession.min),
+				maxLength(limits.profession.max),
+			)(value.trim()),
+	],
+	style: [styleValidator],
+	structure: [
+		(value) =>
+			chain(
+				minLength(limits.profession.min),
+				maxLength(limits.profession.max),
+			)(
+				value
+					.trim()
+					.split(`\n`)
+					.map((entry) => entry.trim())
+					.filter((entry) => entry.length > 0),
+			),
+	],
+	sample: [
+		(value) =>
+			chain(
+				minLength(limits.sample.min),
+				maxLength(limits.sample.max),
+			)(value.trim()),
+	],
 };
 
 const ManualForm = () => {
-  const ctx = useFormContext();
+	const ctx = useFormContext();
 
-  falsy(ctx.variant === `manual`, `Invalid variant submission detected`);
+	falsy(ctx.variant === `manual`, `Invalid variant submission detected`);
 
-  const [{ invalid, values, untouched }, { inject }] =
-    useForm<ManualFormValues>({ name: `` }, manualValidators);
+	const [{ invalid, values, untouched }, { inject }] =
+		useForm<ManualFormValues>({ name: `` }, manualValidators);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    ctx.onSubmit(values);
-  };
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+		e.preventDefault();
+		ctx.onSubmit(values);
+	};
 
-  return (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
-      <Field
-        label={
-          <Field.Label label="Document Name" value={values.name} required />
-        }
-        hint={
-          <Hint
-            trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
-          />
-        }
-      >
-        <Input
-          placeholder={`My Notes, Basics of Computer Science, ...etc`}
-          {...inject(`name`)}
-        />
-      </Field>
-      <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
-        <Button
-          s={2}
-          i={1}
-          type="button"
-          title="Back to document type selection"
-          auto
-          disabled={ctx.disabled}
-          onClick={ctx.onBack}
-        >
-          Back
-        </Button>
-        <Button
-          type="submit"
-          i={2}
-          s={2}
-          auto
-          title="Confirm document creation"
-          disabled={untouched || invalid || ctx.disabled}
-        >
-          Create
-          <BiPlusCircle />
-        </Button>
-      </footer>
-    </form>
-  );
+	return (
+		<form className="flex flex-col" onSubmit={handleSubmit}>
+			<Field
+				label={
+					<Field.Label label="Document Name" value={values.name} required />
+				}
+				hint={
+					<Hint
+						trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
+					/>
+				}
+			>
+				<Input
+					placeholder={`My Notes, Basics of Computer Science, ...etc`}
+					{...inject(`name`)}
+				/>
+			</Field>
+			<footer className="flex space-x-3 [&_button]:flex-1 mt-8">
+				<Button
+					s={2}
+					i={1}
+					type="button"
+					title="Back to document type selection"
+					auto
+					disabled={ctx.disabled}
+					onClick={ctx.onBack}
+				>
+					Back
+				</Button>
+				<Button
+					type="submit"
+					i={2}
+					s={2}
+					auto
+					title="Confirm document creation"
+					disabled={untouched || invalid || ctx.disabled}
+				>
+					Create
+					<BiPlusCircle />
+				</Button>
+			</footer>
+		</form>
+	);
 };
 
 const AIForm = () => {
-  const ctx = useFormContext();
+	const ctx = useFormContext();
 
-  falsy(ctx.variant === `ai`, `Invalid variant submission detected`);
+	falsy(ctx.variant === `ai`, `Invalid variant submission detected`);
 
-  const [initialValues] = React.useState<AIFormValues>(
-    () =>
-      ctx.initialValues ?? {
-        name: ``,
-        description: ``,
-        style: ``,
-        structure: ``,
-        sample: ``,
-        profession: ``,
-      },
-  );
+	const [initialValues] = React.useState<AIFormValues>(
+		() =>
+			ctx.initialValues ?? {
+				name: ``,
+				description: ``,
+				style: ``,
+				structure: ``,
+				sample: ``,
+				profession: ``,
+			},
+	);
 
-  const [{ invalid, values, untouched }, { inject }] = useForm<AIFormValues>(
-    initialValues,
-    aiValidators,
-  );
+	const [{ invalid, values, untouched }, { inject }] = useForm<AIFormValues>(
+		initialValues,
+		aiValidators,
+	);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
-    ctx.onSubmit(values);
-  };
+	const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+		e.preventDefault();
+		ctx.onSubmit(values);
+	};
 
-  const splittedStyle = React.useMemo(
-    () =>
-      values.style
-        .trim()
-        .split(`,`)
-        .map((styleEntry) => styleEntry.trim())
-        .filter((styleEntry) => styleEntry.length > 0).length,
-    [values.style],
-  );
+	const splittedStyle = React.useMemo(
+		() =>
+			values.style
+				.trim()
+				.split(`,`)
+				.map((styleEntry) => styleEntry.trim())
+				.filter((styleEntry) => styleEntry.length > 0).length,
+		[values.style],
+	);
 
-  const splittedStructure = React.useMemo(
-    () =>
-      values.structure
-        .trim()
-        .split(`\n`)
-        .map((styleEntry) => styleEntry.trim())
-        .filter((styleEntry) => styleEntry.length > 0).length,
-    [values.structure],
-  );
+	const splittedStructure = React.useMemo(
+		() =>
+			values.structure
+				.trim()
+				.split(`\n`)
+				.map((styleEntry) => styleEntry.trim())
+				.filter((styleEntry) => styleEntry.length > 0).length,
+		[values.structure],
+	);
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-3">
-        <Field
-          label={<Field.Label label="Name" value={values.name} required />}
-          hint={
-            <Hint
-              trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
-            />
-          }
-        >
-          <Input placeholder={`My Notes, Basics of Math`} {...inject(`name`)} />
-        </Field>
-        <Field
-          label={
-            <Field.Label
-              label="Description"
-              value={values.description}
-              required
-            />
-          }
-          hint={
-            <Hint
-              trigger={`Any characters, between ${limits.description.min} to ${limits.description.max} characters`}
-            />
-          }
-        >
-          <Textarea
-            placeholder="Let's explore the basics of computer science through a step-by-step guide filled with plenty of examples"
-            {...inject(`description`)}
-          />
-        </Field>
-        <Field
-          label={
-            <Field.Label
-              label="Profession"
-              value={values.profession}
-              required
-            />
-          }
-          hint={
-            <Hint
-              trigger={`Any characters, between ${limits.profession.min} to ${limits.profession.max} characters`}
-            />
-          }
-        >
-          <Input
-            placeholder="Frontend development, Math, Physics, ...etc"
-            {...inject(`profession`)}
-          />
-        </Field>
-        <Field
-          label={splittedStyle === 0 ? `Style*` : `Style (${splittedStyle})*`}
-          hint={<Hint trigger={`Between 1 to 10 words, separated by commas`} />}
-        >
-          <Input placeholder="soft, edgy, smart" {...inject(`style`)} />
-        </Field>
-        <Field
-          label={
-            splittedStructure === 0
-              ? `Structure*`
-              : `Structure (${splittedStructure})*`
-          }
-          hint={
-            <Hint
-              trigger={
-                <>
-                  &quot;#&quot; creates hierarchy, between{` `}
-                  {limits.structure.min}
-                  {` `}
-                  and {limits.structure.max}
-                  {` `}
-                  lines
-                </>
-              }
-            />
-          }
-        >
-          <Textarea
-            placeholder={`# My Notes, Basics of Math \n## Introduction to Math\n### Basic Operations\n#### Algebra\n#### Geometry\n#### Calculus\n## Conclusion`}
-            {...inject(`structure`)}
-          />
-        </Field>
-        <Field
-          hint={
-            <Hint
-              trigger={`Any characters, between ${limits.sample.min} to ${limits.sample.max} characters`}
-            />
-          }
-          label={<Field.Label label="Sample" value={values.sample} required />}
-        >
-          <Textarea
-            placeholder="A fragment from another article, document, or note to help match your writing style"
-            {...inject(`sample`)}
-          />
-        </Field>
-        <div className="flex mb-5 items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-          <BiInfoCircle size={20} className="shrink-0" />
-          <p className="text-sm">
-            Generation will take{` `}
-            <strong>{AI_CONTENT_GENERATION_TOKEN_COST} tokens</strong>
-          </p>
-        </div>
-        {ctx.variant === `ai` && ctx.renderFooter ? (
-          ctx.renderFooter(ctx, { values, untouched, invalid })
-        ) : (
-          <footer className="flex space-x-3 [&_button]:flex-1">
-            <Button
-              s={2}
-              i={1}
-              type="button"
-              title="Back to document type selection"
-              auto
-              disabled={ctx.disabled}
-              onClick={ctx.onBack}
-            >
-              Back
-            </Button>
-            <Button
-              type="submit"
-              i={2}
-              s={2}
-              auto
-              title="Confirm document creation with AI"
-              disabled={untouched || invalid || ctx.disabled}
-            >
-              Create
-              <BiPlusCircle />
-            </Button>
-          </footer>
-        )}
-      </div>
-    </form>
-  );
+	return (
+		<form onSubmit={handleSubmit}>
+			<div className="flex flex-col gap-3">
+				<Field
+					label={<Field.Label label="Name" value={values.name} required />}
+					hint={
+						<Hint
+							trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
+						/>
+					}
+				>
+					<Input placeholder={`My Notes, Basics of Math`} {...inject(`name`)} />
+				</Field>
+				<Field
+					label={
+						<Field.Label
+							label="Description"
+							value={values.description}
+							required
+						/>
+					}
+					hint={
+						<Hint
+							trigger={`Any characters, between ${limits.description.min} to ${limits.description.max} characters`}
+						/>
+					}
+				>
+					<Textarea
+						placeholder="Let's explore the basics of computer science through a step-by-step guide filled with plenty of examples"
+						{...inject(`description`)}
+					/>
+				</Field>
+				<Field
+					label={
+						<Field.Label
+							label="Profession"
+							value={values.profession}
+							required
+						/>
+					}
+					hint={
+						<Hint
+							trigger={`Any characters, between ${limits.profession.min} to ${limits.profession.max} characters`}
+						/>
+					}
+				>
+					<Input
+						placeholder="Frontend development, Math, Physics, ...etc"
+						{...inject(`profession`)}
+					/>
+				</Field>
+				<Field
+					label={splittedStyle === 0 ? `Style*` : `Style (${splittedStyle})*`}
+					hint={<Hint trigger={`Between 1 to 10 words, separated by commas`} />}
+				>
+					<Input placeholder="soft, edgy, smart" {...inject(`style`)} />
+				</Field>
+				<Field
+					label={
+						splittedStructure === 0
+							? `Structure*`
+							: `Structure (${splittedStructure})*`
+					}
+					hint={
+						<Hint
+							trigger={
+								<>
+									&quot;#&quot; creates hierarchy, between{` `}
+									{limits.structure.min}
+									{` `}
+									and {limits.structure.max}
+									{` `}
+									lines
+								</>
+							}
+						/>
+					}
+				>
+					<Textarea
+						placeholder={`# My Notes, Basics of Math \n## Introduction to Math\n### Basic Operations\n#### Algebra\n#### Geometry\n#### Calculus\n## Conclusion`}
+						{...inject(`structure`)}
+					/>
+				</Field>
+				<Field
+					hint={
+						<Hint
+							trigger={`Any characters, between ${limits.sample.min} to ${limits.sample.max} characters`}
+						/>
+					}
+					label={<Field.Label label="Sample" value={values.sample} required />}
+				>
+					<Textarea
+						placeholder="A fragment from another article, document, or note to help match your writing style"
+						{...inject(`sample`)}
+					/>
+				</Field>
+				<div className="flex mb-5 items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+					<BiInfoCircle size={20} className="shrink-0" />
+					<p className="text-sm">
+						Generation will take{` `}
+						<strong>{AI_CONTENT_GENERATION_TOKEN_COST} tokens</strong>
+					</p>
+				</div>
+				{ctx.variant === `ai` && ctx.renderFooter ? (
+					ctx.renderFooter(ctx, { values, untouched, invalid })
+				) : (
+					<footer className="flex space-x-3 [&_button]:flex-1">
+						<Button
+							s={2}
+							i={1}
+							type="button"
+							title="Back to document type selection"
+							auto
+							disabled={ctx.disabled}
+							onClick={ctx.onBack}
+						>
+							Back
+						</Button>
+						<Button
+							type="submit"
+							i={2}
+							s={2}
+							auto
+							title="Confirm document creation with AI"
+							disabled={untouched || invalid || ctx.disabled}
+						>
+							Create
+							<BiPlusCircle />
+						</Button>
+					</footer>
+				)}
+			</div>
+		</form>
+	);
 };
 
 const NewDocumentForm = () => {
-  const ctx = useFormContext();
+	const ctx = useFormContext();
 
-  switch (ctx.variant) {
-    case `ai`:
-      return (
-        <>
-          <p className="mb-4">
-            Generation will be <strong>continued parallel</strong>. After accept
-            you&apos;ll be able to do other things, and customize the document
-            later
-          </p>
-          <AIForm />
-        </>
-      );
-    case `manual`:
-      return (
-        <>
-          <p className="mb-4">
-            Document will be created in <strong>private</strong> mode. Visible
-            only to you, but <strong>not encrypted</strong>—avoid sensitive data
-          </p>
-          <ManualForm />
-        </>
-      );
-    default:
-      throw Error(`Invalid variant detected`);
-  }
+	switch (ctx.variant) {
+		case `ai`:
+			return (
+				<>
+					<p className="mb-4">
+						Generation will be <strong>continued parallel</strong>. After accept
+						you&apos;ll be able to do other things, and customize the document
+						later
+					</p>
+					<AIForm />
+				</>
+			);
+		case `manual`:
+			return (
+				<>
+					<p className="mb-4">
+						Document will be created in <strong>private</strong> mode. Visible
+						only to you, but <strong>not encrypted</strong>—avoid sensitive data
+					</p>
+					<ManualForm />
+				</>
+			);
+		default:
+			throw Error(`Invalid variant detected`);
+	}
 };
 
 const ConnectedNewDocumentForm = (props: NewDocumentFormProps) => {
-  return (
-    <FormProvider {...props}>
-      <NewDocumentForm />
-    </FormProvider>
-  );
+	return (
+		<FormProvider {...props}>
+			<NewDocumentForm />
+		</FormProvider>
+	);
 };
 
 export type { NewDocumentFormProps };
