@@ -11,15 +11,15 @@ type Slug = string;
 type Url = string;
 
 export type {
-  Id,
-  Name,
-  MarkdownCode,
-  MarkdownContent,
-  Url,
-  Date,
-  Tags,
-  Path,
-  Description,
-  Base64,
-  Slug,
+	Id,
+	Name,
+	MarkdownCode,
+	MarkdownContent,
+	Url,
+	Date,
+	Tags,
+	Path,
+	Description,
+	Base64,
+	Slug,
 };

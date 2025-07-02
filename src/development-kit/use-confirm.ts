@@ -1,42 +1,42 @@
-import React from 'react';
-import { useSimpleFeature } from '@greenonsoftware/react-kit';
+import React from "react";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 
 const useConfirm = (action: () => void) => {
-  const toggler = useSimpleFeature();
-  const timeout = React.useRef<null | any>(null);
+	const toggler = useSimpleFeature();
+	const timeout = React.useRef<null | any>(null);
 
-  const cleanTimeouts = (): void => {
-    const t = timeout.current;
+	const cleanTimeouts = (): void => {
+		const t = timeout.current;
 
-    t && clearTimeout(t);
-  };
+		t && clearTimeout(t);
+	};
 
-  const confirm = (): void => {
-    cleanTimeouts();
+	const confirm = (): void => {
+		cleanTimeouts();
 
-    if (toggler.isOn) {
-      action();
-      toggler.off();
-      return;
-    }
+		if (toggler.isOn) {
+			action();
+			toggler.off();
+			return;
+		}
 
-    toggler.on();
+		toggler.on();
 
-    timeout.current = setTimeout(() => {
-      toggler.off();
-    }, 4000);
-  };
+		timeout.current = setTimeout(() => {
+			toggler.off();
+		}, 4000);
+	};
 
-  React.useEffect(() => {
-    return () => {
-      cleanTimeouts();
-    };
-  }, []);
+	React.useEffect(() => {
+		return () => {
+			cleanTimeouts();
+		};
+	}, []);
 
-  return {
-    ...toggler,
-    confirm,
-  };
+	return {
+		...toggler,
+		confirm,
+	};
 };
 
 export { useConfirm };

@@ -1,18 +1,18 @@
-import React from 'react';
-import { observeFirstInteraction } from './observe-first-interaction';
+import React from "react";
+import { observeFirstInteraction } from "./observe-first-interaction";
 
 const useOnFirstInteraction = (): { interacted: boolean } => {
-  const [interacted, setInteracted] = React.useState(false);
+	const [interacted, setInteracted] = React.useState(false);
 
-  React.useEffect(() => {
-    const { unobserve } = observeFirstInteraction(() => setInteracted(true));
+	React.useEffect(() => {
+		const { unobserve } = observeFirstInteraction(() => setInteracted(true));
 
-    return () => {
-      unobserve();
-    };
-  }, []);
+		return () => {
+			unobserve();
+		};
+	}, []);
 
-  return { interacted };
+	return { interacted };
 };
 
 export { useOnFirstInteraction };

@@ -1,9 +1,9 @@
 const DOCUMENT_RATING_CATEGORIES = [
-  `ugly`,
-  `bad`,
-  `decent`,
-  `good`,
-  `perfect`,
+	`ugly`,
+	`bad`,
+	`decent`,
+	`good`,
+	`perfect`,
 ] as const;
 
 type DocumentRatingCategory = (typeof DOCUMENT_RATING_CATEGORIES)[number];

@@ -1,32 +1,32 @@
-import { getAPI, getCache, setCache } from 'api-4markdown';
-import type { API4MarkdownContractKey } from 'api-4markdown-contracts';
-import { docsStoreActions, docsStoreSelectors } from 'store/docs/docs.store';
+import { getAPI, getCache, setCache } from "api-4markdown";
+import type { API4MarkdownContractKey } from "api-4markdown-contracts";
+import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
 
 const getYourDocuments = async (): Promise<void> => {
-  try {
-    const key: API4MarkdownContractKey = `getYourDocuments`;
+	try {
+		const key: API4MarkdownContractKey = `getYourDocuments`;
 
-    const { is } = docsStoreSelectors.state();
+		const { is } = docsStoreSelectors.state();
 
-    if (is !== `idle`) return;
+		if (is !== `idle`) return;
 
-    const cachedDocuments = getCache(key);
+		const cachedDocuments = getCache(key);
 
-    if (cachedDocuments !== null) {
-      docsStoreActions.ok(cachedDocuments);
-      return;
-    }
+		if (cachedDocuments !== null) {
+			docsStoreActions.ok(cachedDocuments);
+			return;
+		}
 
-    docsStoreActions.busy();
+		docsStoreActions.busy();
 
-    const documents = await getAPI().call(key)();
+		const documents = await getAPI().call(key)();
 
-    setCache(key, documents);
+		setCache(key, documents);
 
-    docsStoreActions.ok(documents);
-  } catch (error: unknown) {
-    docsStoreActions.fail(error);
-  }
+		docsStoreActions.ok(documents);
+	} catch (error: unknown) {
+		docsStoreActions.fail(error);
+	}
 };
 
 export { getYourDocuments };

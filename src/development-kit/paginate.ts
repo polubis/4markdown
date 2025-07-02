@@ -1,31 +1,31 @@
 const paginate = ({
-  pagesCount,
-  limit,
-  currentPage,
+	pagesCount,
+	limit,
+	currentPage,
 }: {
-  pagesCount: number;
-  limit: number;
-  currentPage: number;
+	pagesCount: number;
+	limit: number;
+	currentPage: number;
 }): number[] => {
-  const halfLimit = Math.floor(limit / 2);
-  let startPage = Math.max(1, currentPage - halfLimit);
-  let endPage = Math.min(pagesCount, currentPage + halfLimit);
+	const halfLimit = Math.floor(limit / 2);
+	let startPage = Math.max(1, currentPage - halfLimit);
+	let endPage = Math.min(pagesCount, currentPage + halfLimit);
 
-  if (endPage - startPage + 1 < limit) {
-    if (currentPage - halfLimit <= 1) {
-      endPage = Math.min(startPage + limit - 1, pagesCount);
-    } else {
-      startPage = Math.max(endPage - limit + 1, 1);
-    }
-  }
+	if (endPage - startPage + 1 < limit) {
+		if (currentPage - halfLimit <= 1) {
+			endPage = Math.min(startPage + limit - 1, pagesCount);
+		} else {
+			startPage = Math.max(endPage - limit + 1, 1);
+		}
+	}
 
-  const pages: number[] = [];
+	const pages: number[] = [];
 
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i);
-  }
+	for (let i = startPage; i <= endPage; i++) {
+		pages.push(i);
+	}
 
-  return pages;
+	return pages;
 };
 
 export { paginate };

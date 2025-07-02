@@ -1,26 +1,26 @@
 const observeFirstInteraction = (
-  onInteraction: () => void,
+	onInteraction: () => void,
 ): { unobserve(): void } => {
-  const events = [
-    `mousemove`,
-    `mousedown`,
-    `touchstart`,
-    `touchmove`,
-    `click`,
-  ] as const;
+	const events = [
+		`mousemove`,
+		`mousedown`,
+		`touchstart`,
+		`touchmove`,
+		`click`,
+	] as const;
 
-  const unobserve = (): void => {
-    events.forEach((event) => removeEventListener(event, markAsInteracted));
-  };
+	const unobserve = (): void => {
+		events.forEach((event) => removeEventListener(event, markAsInteracted));
+	};
 
-  const markAsInteracted = (): void => {
-    unobserve();
-    onInteraction();
-  };
+	const markAsInteracted = (): void => {
+		unobserve();
+		onInteraction();
+	};
 
-  events.forEach((event) => addEventListener(event, markAsInteracted));
+	events.forEach((event) => addEventListener(event, markAsInteracted));
 
-  return { unobserve };
+	return { unobserve };
 };
 
 export { observeFirstInteraction };

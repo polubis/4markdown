@@ -1,59 +1,59 @@
-import { getAPI, parseError, setCache } from 'api-4markdown';
-import type { API4MarkdownPayload } from 'api-4markdown-contracts';
-import { type AsyncResult } from 'development-kit/utility-types';
-import { useMindmapCreatorState } from 'store/mindmap-creator';
+import { getAPI, parseError, setCache } from "api-4markdown";
+import type { API4MarkdownPayload } from "api-4markdown-contracts";
+import { type AsyncResult } from "development-kit/utility-types";
+import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
-  readyMindmapsSelector,
-  safeActiveMindmapSelector,
-} from 'store/mindmap-creator/selectors';
+	readyMindmapsSelector,
+	safeActiveMindmapSelector,
+} from "store/mindmap-creator/selectors";
 
 const updateMindmapNameAct = async (
-  payload: Pick<API4MarkdownPayload<'updateMindmapName'>, 'name'>,
+	payload: Pick<API4MarkdownPayload<"updateMindmapName">, "name">,
 ): AsyncResult => {
-  try {
-    useMindmapCreatorState.set({ operation: { is: `busy` } });
+	try {
+		useMindmapCreatorState.set({ operation: { is: `busy` } });
 
-    const activeMindmap = safeActiveMindmapSelector(
-      useMindmapCreatorState.get(),
-    );
-    const yourMindmaps = readyMindmapsSelector(
-      useMindmapCreatorState.get().mindmaps,
-    );
+		const activeMindmap = safeActiveMindmapSelector(
+			useMindmapCreatorState.get(),
+		);
+		const yourMindmaps = readyMindmapsSelector(
+			useMindmapCreatorState.get().mindmaps,
+		);
 
-    const response = await getAPI().call(`updateMindmapName`)({
-      name: payload.name,
-      mdate: activeMindmap.mdate,
-      id: activeMindmap.id,
-    });
+		const response = await getAPI().call(`updateMindmapName`)({
+			name: payload.name,
+			mdate: activeMindmap.mdate,
+			id: activeMindmap.id,
+		});
 
-    const newMindmaps = yourMindmaps.data.map((mindmap) =>
-      mindmap.id === activeMindmap.id
-        ? {
-            ...mindmap,
-            ...response,
-          }
-        : mindmap,
-    );
+		const newMindmaps = yourMindmaps.data.map((mindmap) =>
+			mindmap.id === activeMindmap.id
+				? {
+						...mindmap,
+						...response,
+					}
+				: mindmap,
+		);
 
-    useMindmapCreatorState.set({
-      mindmaps: {
-        is: `ok`,
-        data: newMindmaps,
-      },
-      operation: { is: `ok` },
-    });
+		useMindmapCreatorState.set({
+			mindmaps: {
+				is: `ok`,
+				data: newMindmaps,
+			},
+			operation: { is: `ok` },
+		});
 
-    setCache(`getYourMindmaps`, {
-      mindmaps: newMindmaps,
-      mindmapsCount: newMindmaps.length,
-    });
+		setCache(`getYourMindmaps`, {
+			mindmaps: newMindmaps,
+			mindmapsCount: newMindmaps.length,
+		});
 
-    return { is: `ok` };
-  } catch (error: unknown) {
-    const err = parseError(error);
-    useMindmapCreatorState.set({ operation: { is: `fail`, error: err } });
-    return { is: `fail`, error: err };
-  }
+		return { is: `ok` };
+	} catch (error: unknown) {
+		const err = parseError(error);
+		useMindmapCreatorState.set({ operation: { is: `fail`, error: err } });
+		return { is: `fail`, error: err };
+	}
 };
 
 export { updateMindmapNameAct };
