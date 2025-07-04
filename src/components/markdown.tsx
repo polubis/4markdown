@@ -86,15 +86,14 @@ type MarkdownProps = {
 
 const Markdown = ({ className, children }: MarkdownProps) => {
 	return (
-		<ReactMarkdown
+		<div
 			className={c(
 				`prose dark:prose-invert [&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`,
 				className,
 			)}
-			{...OPTIONS}
 		>
-			{children}
-		</ReactMarkdown>
+			<ReactMarkdown {...OPTIONS}>{children}</ReactMarkdown>
+		</div>
 	);
 };
 
