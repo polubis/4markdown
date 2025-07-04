@@ -71,14 +71,14 @@ const DocsListModalContainer = ({ onClose }: { onClose(): void }) => {
 			<Modal2.Body>
 				{pending && <Loader size="xl" className="mx-auto" />}
 				{docsStore.is === `fail` && (
-					<p className="text-xl text-red-600 dark:text-red-400 text-center">
+					<p className="text-red-600 dark:text-red-400 text-center font-medium">
 						Something went wrong... Try again with above button refresh button
 					</p>
 				)}
 				{docsStore.is === `ok` && (
 					<>
 						{docs.length > 0 ? (
-							<ul className="flex flex-col space-y-3 ">
+							<ul className="flex flex-col space-y-3">
 								{docs.map((doc) => (
 									<li
 										className={c(
@@ -118,9 +118,9 @@ const DocsListModalContainer = ({ onClose }: { onClose(): void }) => {
 								))}
 							</ul>
 						) : (
-							<h6 className="p-4 text-center">
+							<p className="text-center font-medium">
 								No documents for selected filters
-							</h6>
+							</p>
 						)}
 					</>
 				)}
