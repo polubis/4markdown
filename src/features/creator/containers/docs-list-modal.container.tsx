@@ -11,14 +11,14 @@ import type { API4MarkdownDto } from "api-4markdown-contracts";
 import { Modal2 } from "design-system/modal2";
 import { Loader } from "design-system/loader";
 
-const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
+const rangeFilters = [`Recent`, `Older`, `Old`] as const;
 
 type RangeFilter = (typeof rangeFilters)[number];
 
 const rangeLookup: Record<RangeFilter, [number, number]> = {
 	Recent: [0, 7],
-	Old: [8, 30],
-	"Really Old": [31, Number.MAX_VALUE],
+	Older: [8, 30],
+	Old: [31, Number.MAX_VALUE],
 };
 
 const DocsListModalContainer = ({ onClose }: { onClose(): void }) => {
