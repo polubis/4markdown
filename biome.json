@@ -8,10 +8,10 @@
 	"files": {
 		"ignoreUnknown": false,
 		"includes": [
-			"*.{ts,tsx,js,jsx,json}",
-			"src/**/*.{ts,tsx,js,jsx,json}",
-			"cypress/**/*.{ts,tsx,js,jsx,json}",
-			".vscode/**/*.{json}"
+			"*.{ts,tsx,js,jsx,json,css}",
+			"src/**/*.{ts,tsx,js,jsx,json,css}",
+			"cypress/**/*.{ts,tsx,js,jsx,json,css}",
+			".vscode/**/*.{json,css}"
 		]
 	},
 	"formatter": {
