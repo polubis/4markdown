@@ -24,7 +24,7 @@
 		"typecheck": "tsc --noEmit",
 		"test": "jest",
 		"test:watch": "jest --watch",
-		"e2e:1": "cypress run --spec \"cypress/e2e/creator-sync.cy.ts\"",
+		"e2e:1": "cypress run --spec \"cypress/e2e/docs-display.cy.ts\"",
 		"e2e:all": "cypress run",
 		"e2e:check-snapshots": "npm run build && start-server-and-test serve http://localhost:9000 \"cypress run\"",
 		"ci:lint": "npm run lint",
