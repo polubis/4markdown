@@ -21,7 +21,7 @@ const rangeLookup: Record<RangeFilter, [number, number]> = {
 	"Really Old": [31, Number.MAX_VALUE],
 };
 
-const DocsListModal = ({ onClose }: { onClose(): void }) => {
+const DocsListModalContainer = ({ onClose }: { onClose(): void }) => {
 	const docsStore = useDocsStore();
 	const docStore = useDocStore();
 	const [activeRange, setActiveRange] = React.useState<RangeFilter>(
@@ -144,4 +144,4 @@ const DocsListModal = ({ onClose }: { onClose(): void }) => {
 	);
 };
 
-export default DocsListModal;
+export { DocsListModalContainer };
