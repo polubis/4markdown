@@ -6,7 +6,7 @@ type OnMatch = (key: KeysCombo[number]) => void;
 
 const useComboPress = (combo: KeysCombo, onMatch: OnMatch) => {
 	const pressedKeys = React.useRef(new Set<string>());
-	const handleMatch = React.useRef<OnMatch>();
+	const handleMatch = React.useRef(onMatch);
 
 	React.useEffect(() => {
 		handleMatch.current = (key: string): void => {

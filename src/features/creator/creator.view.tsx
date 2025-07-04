@@ -108,7 +108,7 @@ const CreatorView = () => {
 	const docManagementStore = useDocManagementStore();
 	const { code, initialCode } = useDocumentCreatorState();
 
-	const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>();
+	const timeoutRef = React.useRef<ReturnType<typeof setTimeout>>(null);
 	const creatorRef = React.useRef<HTMLTextAreaElement>(null);
 
 	const clearConfirm = useConfirm(() => changeAction(``));

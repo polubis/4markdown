@@ -3,7 +3,7 @@ import React from "react";
 type OnKeyPress = (event: KeyboardEvent) => void;
 
 const useKeyPress = (keys: string[], onKeyPress?: OnKeyPress) => {
-	const eventHandler = React.useRef<OnKeyPress>();
+	const eventHandler = React.useRef(onKeyPress);
 
 	eventHandler.current = (event: KeyboardEvent): void => {
 		if (Array.isArray(keys) && keys.includes(event.key)) {
