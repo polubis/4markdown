@@ -11,6 +11,8 @@ import { setLastViewport, useMindmapCreatorState } from "store/mindmap-creator";
 import { Button } from "design-system/button";
 import {
 	BiAddToQueue,
+	BiCollapse,
+	BiExpand,
 	BiGrid,
 	BiHorizontalRight,
 	BiTrash,
@@ -23,6 +25,7 @@ import {
 	resetOperationAction,
 	rotateViewAction,
 	startNodesRemovalAction,
+	toggleHeaderAction,
 	updateEdgesAction,
 	updateNodesAction,
 } from "store/mindmap-creator/actions";
@@ -71,8 +74,15 @@ const RemoveSelectedNodesContainer = () => {
 };
 
 const ToolboxContainer = () => {
+	const { headerVisible } = useMindmapCreatorState();
+
 	return (
-		<nav className="fixed flex justify-center space-x-2 py-2 max-w-sm mx-auto bottom-[126px] right-4 md:right-0 md:left-0 md:bottom-0">
+		<nav
+			className={c(
+				"fixed flex justify-center space-x-2 max-w-sm mx-auto right-3 md:right-0 md:left-0",
+				headerVisible ? "bottom-[134px] md:bottom-3" : "bottom-3",
+			)}
+		>
 			<RemoveSelectedNodesContainer />
 			<Button
 				i={2}
@@ -126,6 +136,7 @@ const MindmapCreatorContainer = () => {
 		activeMindmapId,
 		nodeForm,
 		nodesRemovalConfirmation,
+		headerVisible,
 	} = useMindmapCreatorState();
 
 	const updateLatestViewport = React.useCallback((viewport: Viewport) => {
@@ -156,6 +167,18 @@ const MindmapCreatorContainer = () => {
 				fitView
 			>
 				<Controls>
+					<Button
+						i={2}
+						s={1}
+						title={
+							headerVisible
+								? `Enter full screen mode`
+								: `Finish full screen mode`
+						}
+						onClick={toggleHeaderAction}
+					>
+						{headerVisible ? <BiExpand /> : <BiCollapse />}
+					</Button>
 					<Button
 						i={2}
 						s={1}
