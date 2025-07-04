@@ -51,7 +51,7 @@ body.dark .active-button-link:hover {
 /* @ General */
 
 ::-webkit-scrollbar {
-	@apply w-2 h-1;
+	@apply w-2 h-2;
 }
 
 ::-webkit-scrollbar-track {
