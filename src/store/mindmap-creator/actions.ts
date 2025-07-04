@@ -387,7 +387,7 @@ const backToMindmapDetailsAction = (): void => {
 };
 
 const toggleHeaderAction = (): void => {
-	set(({ headerVisible }) => ({ headerVisible: !headerVisible }));
+	set({ headerVisible: !get().headerVisible });
 };
 
 export {
