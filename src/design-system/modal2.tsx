@@ -56,12 +56,14 @@ const Modal = ({
 				aria-modal
 				role="dialog"
 				className={c(
-					`bg-black/40 dark:bg-white/20 fixed items-center justify-center flex py-4 z-20 bottom-0 right-0 left-0 top-0 animate-fade-in`,
+					`bg-black/40 dark:bg-white/20 fixed z-20 inset-0 flex justify-center`,
+					"items-end pt-20 md:animate-fade-in md:py-4 md:inset-0 md:items-center",
+					"[&>*]:rounded-tl-lg [&>*]:rounded-tr-lg md:[&>*]:rounded-lg",
 					className,
 				)}
 				{...props}
 			>
-				<div className="bg-white max-h-full m-auto w-full tn:max-w-sm dark:bg-black rounded-lg shadow-xl grid grid-rows-[auto_1fr_auto]">
+				<div className="bg-white max-h-full w-full tn:max-w-sm dark:bg-black shadow-xl grid grid-rows-[auto_1fr_auto] animate-slide-in-bottom md:animate-none">
 					{children}
 				</div>
 			</div>
