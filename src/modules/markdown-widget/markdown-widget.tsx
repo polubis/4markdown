@@ -7,7 +7,6 @@ import {
 	ExtractedHeading,
 	extractHeadings,
 } from "development-kit/extract-headings";
-import { falsy } from "development-kit/guards";
 import { useCopy } from "development-kit/use-copy";
 import { useKeyPress } from "development-kit/use-key-press";
 import React, { ReactNode } from "react";
@@ -88,7 +87,7 @@ const MarkdownWidget = ({
 	const scrollToTop = () => {
 		const body = document.getElementById(bodyId);
 
-		falsy(body, `Cannot find ${bodyId}`);
+		if (!body) return;
 
 		body.scrollTo({ top: 0, behavior: "smooth" });
 	};
@@ -121,13 +120,13 @@ const MarkdownWidget = ({
 
 		const markdownContainer = document.getElementById(markdownId);
 
-		falsy(markdownContainer, `Cannot find markdown widget container`);
+		if (!markdownContainer) return;
 
 		const headings = markdownContainer.querySelectorAll(`h${heading.level}`);
 		const foundHeading = Array.from(headings).find(
 			(el) => el.textContent === heading.text,
 		);
-		foundHeading?.scrollIntoView({ block: `center`, behavior: "smooth" });
+		foundHeading?.scrollIntoView({ block: `center` });
 	};
 
 	useKeyPress([`a`, `A`, `ArrowLeft`], goToPreviousChunk);
@@ -140,7 +139,7 @@ const MarkdownWidget = ({
 
 		const markdownContainer = document.getElementById(markdownId);
 
-		falsy(markdownContainer, `Cannot find markdown widget container`);
+		if (!markdownContainer) return;
 
 		const observer = new IntersectionObserver(
 			(entries) => {
