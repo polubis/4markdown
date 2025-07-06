@@ -23,19 +23,19 @@ import {
 	BiListOl,
 } from "react-icons/bi";
 
-type MarkdownPreviewProps = {
+type MarkdownWidgetProps = {
 	chunksActive?: boolean;
 	header?: ReactNode;
 	markdown: string;
 	onClose(): void;
 };
 
-const MarkdownPreview = ({
+const MarkdownWidget = ({
 	chunksActive = true,
 	header,
 	markdown,
 	onClose,
-}: MarkdownPreviewProps) => {
+}: MarkdownWidgetProps) => {
 	const bodyId = React.useId();
 	const markdownId = React.useId();
 	const chunksMode = useSimpleFeature(chunksActive);
@@ -303,4 +303,4 @@ const MarkdownPreview = ({
 	);
 };
 
-export { MarkdownPreview };
+export { MarkdownWidget };

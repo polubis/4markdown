@@ -17,10 +17,12 @@ import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { TableOfContent } from "components/table-of-content";
 
-const MarkdownPreview = React.lazy(() =>
-	import("components/markdown-preview").then(({ MarkdownPreview }) => ({
-		default: MarkdownPreview,
-	})),
+const MarkdownWidget = React.lazy(() =>
+	import("modules/markdown-widget/markdown-widget").then(
+		({ MarkdownWidget }) => ({
+			default: MarkdownWidget,
+		}),
+	),
 );
 
 const CONTENT_ID = `document-layout-content`;
@@ -122,7 +124,7 @@ const DocumentLayoutContainer = () => {
 
 			{sectionsModal.isOn && (
 				<React.Suspense>
-					<MarkdownPreview markdown={code} onClose={sectionsModal.off} />
+					<MarkdownWidget markdown={code} onClose={sectionsModal.off} />
 				</React.Suspense>
 			)}
 			{copyState.is === `copied` && <Status>Document markdown copied</Status>}
