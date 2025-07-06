@@ -121,9 +121,7 @@ const MarkdownWidget = ({
 
 		const markdownContainer = document.getElementById(markdownId);
 
-		if (!markdownContainer) {
-			return;
-		}
+		falsy(markdownContainer, `Cannot find markdown widget container`);
 
 		const headings = markdownContainer.querySelectorAll(`h${heading.level}`);
 		const foundHeading = Array.from(headings).find(
@@ -142,9 +140,7 @@ const MarkdownWidget = ({
 
 		const markdownContainer = document.getElementById(markdownId);
 
-		if (!markdownContainer) {
-			return;
-		}
+		falsy(markdownContainer, `Cannot find markdown widget container`);
 
 		const observer = new IntersectionObserver(
 			(entries) => {
