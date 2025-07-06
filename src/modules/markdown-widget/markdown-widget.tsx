@@ -114,7 +114,7 @@ const MarkdownWidget = ({
 		asideNavigation.off();
 
 		if (chunksMode.isOn) {
-			setActiveChunkIdx(index + 1);
+			setActiveChunkIdx(index);
 			return;
 		}
 
@@ -219,7 +219,7 @@ const MarkdownWidget = ({
 							<ul className="flex-1 overflow-y-auto bg-white dark:bg-black">
 								{headings.map((heading, index) => {
 									const isActive = chunksMode.isOn
-										? activeChunkIdx === index + 1
+										? activeChunkIdx === index
 										: activeHeading === heading.text;
 
 									return (
