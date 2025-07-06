@@ -126,7 +126,7 @@ const DocsListModalContainer = ({ onClose }: { onClose(): void }) => {
 				)}
 			</Modal2.Body>
 			<Modal2.Footer>
-				<Tabs>
+				<Tabs className="w-full">
 					{rangeFilters.map((range) => (
 						<Tabs.Item
 							key={range}

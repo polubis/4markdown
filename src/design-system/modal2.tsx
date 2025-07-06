@@ -57,13 +57,13 @@ const Modal = ({
 				role="dialog"
 				className={c(
 					`bg-black/40 dark:bg-white/20 fixed z-20 inset-0 flex justify-center`,
-					"items-end pt-20 md:animate-fade-in md:py-4 md:inset-0 md:items-center",
+					"items-end pt-10 md:animate-fade-in md:py-4 md:inset-0 md:items-center",
 					"[&>*]:rounded-tl-lg [&>*]:rounded-tr-lg md:[&>*]:rounded-lg",
 					className,
 				)}
 				{...props}
 			>
-				<div className="bg-white max-h-full w-full tn:max-w-sm dark:bg-black shadow-xl grid grid-rows-[auto_1fr_auto] animate-slide-in-bottom md:animate-none">
+				<div className="bg-white overflow-hidden max-h-full w-full tn:max-w-sm dark:bg-black shadow-xl grid grid-rows-[auto_1fr_auto] animate-slide-in-bottom md:animate-none">
 					{children}
 				</div>
 			</div>
@@ -89,7 +89,7 @@ const ModalHeader = ({
 	return (
 		<header
 			className={c(
-				`flex items-center justify-between p-4 border-b border-zinc-300 dark:border-zinc-800`,
+				`flex items-center justify-between p-4 border-b border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950`,
 				className,
 			)}
 		>
@@ -117,12 +117,14 @@ const ModalHeader = ({
 const ModalBody = ({
 	children,
 	className,
+	id,
 }: {
 	children: ReactNode;
 	className?: string;
+	id?: string;
 }) => {
 	return (
-		<section className={c(`overflow-y-auto p-4`, className)}>
+		<section id={id} className={c(`overflow-y-auto p-4`, className)}>
 			{children}
 		</section>
 	);
@@ -138,7 +140,7 @@ const ModalFooter = ({
 	return (
 		<footer
 			className={c(
-				`p-4 border-t border-zinc-300 dark:border-zinc-800`,
+				`flex items-center p-4 border-t border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950`,
 				className,
 			)}
 		>

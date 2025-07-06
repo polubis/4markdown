@@ -17,9 +17,9 @@ import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { TableOfContent } from "components/table-of-content";
 
-const ChaptersModal = React.lazy(() =>
-	import(`../components/chapters-modal`).then((m) => ({
-		default: m.ChaptersModal,
+const MarkdownPreview = React.lazy(() =>
+	import("components/markdown-preview").then(({ MarkdownPreview }) => ({
+		default: MarkdownPreview,
 	})),
 );
 
@@ -122,7 +122,7 @@ const DocumentLayoutContainer = () => {
 
 			{sectionsModal.isOn && (
 				<React.Suspense>
-					<ChaptersModal onClose={sectionsModal.off}>{code}</ChaptersModal>
+					<MarkdownPreview markdown={code} onClose={sectionsModal.off} />
 				</React.Suspense>
 			)}
 			{copyState.is === `copied` && <Status>Document markdown copied</Status>}
