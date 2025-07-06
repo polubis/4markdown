@@ -1,7 +1,12 @@
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { Markdown } from "components/markdown";
 import { Button } from "design-system/button";
+import { c } from "design-system/c";
 import { Modal2 } from "design-system/modal2";
+import {
+	ExtractedHeading,
+	extractHeadings,
+} from "development-kit/extract-headings";
 import { falsy } from "development-kit/guards";
 import { useCopy } from "development-kit/use-copy";
 import { useKeyPress } from "development-kit/use-key-press";
@@ -10,12 +15,12 @@ import {
 	BiArrowToLeft,
 	BiArrowToRight,
 	BiArrowToTop,
+	BiBookContent,
 	BiCheck,
+	BiChevronDown,
 	BiCopyAlt,
 	BiDetail,
-	BiLeftIndent,
 	BiListOl,
-	BiRightIndent,
 } from "react-icons/bi";
 
 type MarkdownPreviewProps = {
@@ -32,9 +37,16 @@ const MarkdownPreview = ({
 	onClose,
 }: MarkdownPreviewProps) => {
 	const bodyId = React.useId();
+	const markdownId = React.useId();
 	const chunksMode = useSimpleFeature(chunksActive);
 	const [activeChunkIdx, setActiveChunkIdx] = React.useState(0);
 	const asideNavigation = useSimpleFeature();
+	const [activeHeading, setActiveHeading] = React.useState<string | null>(null);
+
+	const headings = React.useMemo(
+		() => (asideNavigation.isOn ? extractHeadings(markdown) : []),
+		[markdown, asideNavigation.isOn],
+	);
 
 	const chunks = React.useMemo((): string[] => {
 		if (chunksMode.isOff) return [];
@@ -68,35 +80,104 @@ const MarkdownPreview = ({
 	const ableToNext = activeChunkIdx <= chunks.length - 2;
 	const activeChunk = chunks[activeChunkIdx];
 
+	const toggleMode = () => {
+		chunksMode.toggle();
+		asideNavigation.off();
+	};
+
 	const scrollToTop = () => {
 		const body = document.getElementById(bodyId);
 
 		falsy(body, `Cannot find ${bodyId}`);
 
-		body.scrollTo({ top: 0, behavior: `smooth` });
+		body.scrollTo({ top: 0, behavior: "smooth" });
 	};
 
 	const goToPreviousChunk = () => {
 		if (!ableToPrev || chunksMode.isOff) return;
 
 		setActiveChunkIdx((prevChunkIdx) => prevChunkIdx - 1);
+		asideNavigation.off();
 	};
 
 	const goToNextChunk = () => {
 		if (!ableToNext || chunksMode.isOff) return;
 
 		setActiveChunkIdx((prevChunkIdx) => prevChunkIdx + 1);
+		asideNavigation.off();
 	};
 
 	const copyMarkdown = () => {
 		copy(chunksMode.isOn ? activeChunk : markdown);
 	};
 
+	const goToHeading = (heading: ExtractedHeading, index: number) => {
+		asideNavigation.off();
+
+		if (chunksMode.isOn) {
+			setActiveChunkIdx(index + 1);
+			return;
+		}
+
+		const markdownContainer = document.getElementById(markdownId);
+
+		if (!markdownContainer) {
+			return;
+		}
+
+		const headings = markdownContainer.querySelectorAll(`h${heading.level}`);
+		const foundHeading = Array.from(headings).find(
+			(el) => el.textContent === heading.text,
+		);
+		foundHeading?.scrollIntoView({ block: `center`, behavior: "smooth" });
+	};
+
 	useKeyPress([`a`, `A`, `ArrowLeft`], goToPreviousChunk);
 	useKeyPress([`d`, `D`, `ArrowRight`], goToNextChunk);
-	useKeyPress([`t`, `T`, `ArrowUp`], scrollToTop);
 
 	const [copyState, copy] = useCopy();
+
+	React.useLayoutEffect(() => {
+		if (chunksMode.isOn) return;
+
+		const markdownContainer = document.getElementById(markdownId);
+
+		if (!markdownContainer) {
+			return;
+		}
+
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					const text = entry.target.textContent;
+
+					if (!entry.isIntersecting || !text) return;
+
+					setActiveHeading(text);
+				});
+			},
+			{
+				rootMargin: `-45% 0px -45% 0px`,
+				threshold: 0,
+			},
+		);
+
+		const headingTypesCount = 6;
+
+		const headingsSelector = Array.from(
+			{ length: headingTypesCount },
+			(_, i) => `h${i + 1}`,
+		).join(`, `);
+
+		const headings = markdownContainer.querySelectorAll(headingsSelector);
+
+		headings.forEach((heading) => observer.observe(heading));
+
+		return () => {
+			headings.forEach((heading) => observer.unobserve(heading));
+			observer.disconnect();
+		};
+	}, [markdownId, chunksMode.isOn]);
 
 	return (
 		<Modal2 className="[&>*]:max-w-3xl [&>*]:h-full" onClose={onClose}>
@@ -111,23 +192,11 @@ const MarkdownPreview = ({
 				{header}
 				<Button
 					title={
-						asideNavigation.isOn
-							? "Hide content navigation"
-							: "Show content navigation"
-					}
-					i={2}
-					s={1}
-					onClick={asideNavigation.toggle}
-				>
-					{asideNavigation.isOn ? <BiRightIndent /> : <BiLeftIndent />}
-				</Button>
-				<Button
-					title={
 						chunksMode.isOn ? "Show full content" : "Show content as chapters"
 					}
 					i={2}
 					s={1}
-					onClick={chunksMode.toggle}
+					onClick={toggleMode}
 				>
 					{chunksMode.isOn ? <BiDetail /> : <BiListOl />}
 				</Button>
@@ -139,42 +208,96 @@ const MarkdownPreview = ({
 					)}
 				</Button>
 			</Modal2.Header>
-			<Modal2.Body id={bodyId}>
-				<Markdown className="!max-w-full">
+			<Modal2.Body
+				id={bodyId}
+				className={c("p-0", asideNavigation.isOn && "overflow-hidden")}
+			>
+				<Markdown id={markdownId} className="!max-w-full p-4">
 					{chunksMode.isOn ? activeChunk : markdown}
 				</Markdown>
+				{asideNavigation.isOn && (
+					<>
+						<aside className="sticky h-full left-0 right-0 bottom-0 w-full flex flex-col animate-slide-in-bottom">
+							<header className="px-4 py-3 border-b border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950">
+								<h6 className="text-lg">Table of Contents</h6>
+							</header>
+							<ul className="flex-1 overflow-y-auto bg-white dark:bg-black">
+								{headings.map((heading, index) => {
+									const isActive = chunksMode.isOn
+										? activeChunkIdx === index + 1
+										: activeHeading === heading.text;
+
+									return (
+										<li key={index}>
+											<button
+												onClick={() => goToHeading(heading, index)}
+												className={c(
+													`w-full text-left px-2 py-4 transition-colors`,
+													isActive
+														? `text-green-700 dark:text-green-400 font-semibold`
+														: `text-gray-900 dark:text-gray-300 hover:bg-gray-100 hover:dark:bg-gray-900/40`,
+												)}
+												style={{
+													paddingLeft: `${(heading.level - 1) * 12 + 16}px`,
+												}}
+											>
+												{heading.text}
+											</button>
+										</li>
+									);
+								})}
+							</ul>
+						</aside>
+					</>
+				)}
 			</Modal2.Body>
 			<Modal2.Footer className="justify-between">
 				<Button
 					i={2}
 					s={1}
 					title="Scroll to top preview top (T or ArrowUp)"
+					disabled={asideNavigation.isOn}
 					onClick={scrollToTop}
 				>
 					<BiArrowToTop />
 				</Button>
-				{chunksMode.isOn && (
-					<div className="flex items-center gap-2">
-						<Button
-							i={2}
-							s={1}
-							disabled={!ableToPrev}
-							title="Go to previous chapter (ArrowLeft or A)"
-							onClick={goToPreviousChunk}
-						>
-							<BiArrowToLeft />
-						</Button>
-						<Button
-							disabled={!ableToNext}
-							i={2}
-							s={1}
-							title="Go to next chapter (ArrowRight or D)"
-							onClick={goToNextChunk}
-						>
-							<BiArrowToRight />
-						</Button>
-					</div>
-				)}
+
+				<div className="flex items-center gap-2">
+					<Button
+						title={
+							asideNavigation.isOn
+								? "Hide content navigation"
+								: "Show content navigation"
+						}
+						i={2}
+						s={1}
+						onClick={asideNavigation.toggle}
+					>
+						{asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
+					</Button>
+					{chunksMode.isOn && (
+						<>
+							<Button
+								i={2}
+								s={1}
+								disabled={!ableToPrev}
+								title="Go to previous chapter (ArrowLeft or A)"
+								onClick={goToPreviousChunk}
+							>
+								<BiArrowToLeft />
+							</Button>
+							<Button
+								disabled={!ableToNext}
+								i={2}
+								s={1}
+								title="Go to next chapter (ArrowRight or D)"
+								onClick={goToNextChunk}
+							>
+								<BiArrowToRight />
+							</Button>
+						</>
+					)}
+				</div>
 			</Modal2.Footer>
 		</Modal2>
 	);
