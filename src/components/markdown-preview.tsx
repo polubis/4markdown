@@ -13,7 +13,9 @@ import {
 	BiCheck,
 	BiCopyAlt,
 	BiDetail,
+	BiLeftIndent,
 	BiListOl,
+	BiRightIndent,
 } from "react-icons/bi";
 
 type MarkdownPreviewProps = {
@@ -32,6 +34,7 @@ const MarkdownPreview = ({
 	const bodyId = React.useId();
 	const chunksMode = useSimpleFeature(chunksActive);
 	const [activeChunkIdx, setActiveChunkIdx] = React.useState(0);
+	const asideNavigation = useSimpleFeature();
 
 	const chunks = React.useMemo((): string[] => {
 		if (chunksMode.isOff) return [];
@@ -105,6 +108,19 @@ const MarkdownPreview = ({
 				}
 				closeButtonTitle="Close preview mode (Esc)"
 			>
+				{header}
+				<Button
+					title={
+						asideNavigation.isOn
+							? "Hide content navigation"
+							: "Show content navigation"
+					}
+					i={2}
+					s={1}
+					onClick={asideNavigation.toggle}
+				>
+					{asideNavigation.isOn ? <BiRightIndent /> : <BiLeftIndent />}
+				</Button>
 				<Button
 					title={
 						chunksMode.isOn ? "Show full content" : "Show content as chapters"
@@ -122,7 +138,6 @@ const MarkdownPreview = ({
 						<BiCopyAlt />
 					)}
 				</Button>
-				{header}
 			</Modal2.Header>
 			<Modal2.Body id={bodyId}>
 				<Markdown className="!max-w-full">
