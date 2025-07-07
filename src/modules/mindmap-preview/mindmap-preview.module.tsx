@@ -25,8 +25,8 @@ import {
 	EmbeddedNodeTileContainerX,
 	EmbeddedNodeTileContainerY,
 } from "./containers/embedded-node-tile.container";
-import { ChaptersModal } from "components/chapters-modal";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
+import { MarkdownWidget } from "components/markdown-widget";
 
 type MindmapNodeTypes = {
 	[Orientation in MindmapPreviewOkMindmap["orientation"]]: {
@@ -77,9 +77,11 @@ const MindmapPreviewModule = () => {
 				<MiniMap className="hidden md:block" />
 			</ReactFlow>
 			{nodePreview.is === `on` && (
-				<ChaptersModal onClose={closeNodePreviewAction}>
-					{nodePreview.data.content || `No content for this node`}
-				</ChaptersModal>
+				<MarkdownWidget
+					chunksActive={false}
+					onClose={closeNodePreviewAction}
+					markdown={nodePreview.data.content || `No content for this node`}
+				/>
 			)}
 		</>
 	);

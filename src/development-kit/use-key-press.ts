@@ -5,11 +5,13 @@ type OnKeyPress = (event: KeyboardEvent) => void;
 const useKeyPress = (keys: string[], onKeyPress?: OnKeyPress) => {
 	const eventHandler = React.useRef<OnKeyPress>();
 
-	eventHandler.current = (event: KeyboardEvent): void => {
-		if (Array.isArray(keys) && keys.includes(event.key)) {
-			onKeyPress?.(event);
-		}
-	};
+	React.useEffect(() => {
+		eventHandler.current = (event: KeyboardEvent) => {
+			if (Array.isArray(keys) && keys.includes(event.key)) {
+				onKeyPress?.(event);
+			}
+		};
+	}, [keys, onKeyPress]);
 
 	React.useEffect(() => {
 		const handleKeyPress = (event: KeyboardEvent): void => {

@@ -386,6 +386,10 @@ const backToMindmapDetailsAction = (): void => {
 	set({ mindmapDetails: { is: `on` }, mindmapForm: { is: `closed` } });
 };
 
+const toggleHeaderAction = (): void => {
+	set({ headerVisible: !get().headerVisible });
+};
+
 export {
 	addNewEmbeddedNodeAction,
 	addNewExternalNodeAction,
@@ -395,6 +399,7 @@ export {
 	updateEdgesAction,
 	connectNodesAction,
 	removeEdgeAction,
+	toggleHeaderAction,
 	downloadMindmapAction,
 	rotateViewAction,
 	startNodesRemovalAction,

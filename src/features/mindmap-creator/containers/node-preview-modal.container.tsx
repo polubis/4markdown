@@ -1,4 +1,4 @@
-import { ChaptersModal } from "components/chapters-modal";
+import { MarkdownWidget } from "components/markdown-widget";
 import { Button } from "design-system/button";
 import { Modal } from "design-system/modal";
 import React from "react";
@@ -14,7 +14,6 @@ const NodePreviewModalContainer = () => {
 
 	const openNodeEdition = (): void => {
 		if (nodePreview.is === `active`) {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			const { is, ...data } = nodePreview;
 			openNodeEditionAction(data);
 		}
@@ -49,8 +48,9 @@ const NodePreviewModalContainer = () => {
 	}
 
 	return (
-		<ChaptersModal
-			controls={
+		<MarkdownWidget
+			chunksActive={false}
+			headerControls={
 				<Button
 					i={2}
 					s={1}
@@ -61,9 +61,8 @@ const NodePreviewModalContainer = () => {
 				</Button>
 			}
 			onClose={closeNodePreviewAction}
-		>
-			{nodePreview.data.content}
-		</ChaptersModal>
+			markdown={nodePreview.data.content}
+		/>
 	);
 };
 
