@@ -81,6 +81,12 @@ const MarkdownWidgetModule = ({
 	const ableToNext = activeChunkIdx <= chunks.length - MAX_CHUNK_HEADING_LEVEL;
 	const activeChunk = chunks[activeChunkIdx];
 
+	const finalHeadings = React.useMemo(() => {
+		return chunksMode.isOn
+			? headings.filter((heading) => heading.level <= MAX_CHUNK_HEADING_LEVEL)
+			: headings;
+	}, [headings, chunksMode.isOn]);
+
 	const toggleMode = () => {
 		chunksMode.toggle();
 		asideNavigation.off();
@@ -241,12 +247,7 @@ const MarkdownWidgetModule = ({
 								</Button>
 							</header>
 							<ul className="flex-1 overflow-y-auto bg-white dark:bg-black">
-								{(chunksMode.isOn
-									? headings.filter(
-											(heading) => heading.level <= MAX_CHUNK_HEADING_LEVEL,
-										)
-									: headings
-								).map((heading, index) => {
+								{finalHeadings.map((heading, index) => {
 									const isActive = chunksMode.isOn
 										? activeChunkIdx === index
 										: activeHeading === heading.text;

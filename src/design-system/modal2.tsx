@@ -89,11 +89,11 @@ const ModalHeader = ({
 	return (
 		<header
 			className={c(
-				`flex items-center justify-between p-4 border-b border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950`,
+				`grid items-center gap-6 grid-cols-[1fr_auto] p-4 border-b border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950`,
 				className,
 			)}
 		>
-			<h6 className="text-xl mr-8">{title}</h6>
+			<h6 className="text-xl truncate">{title}</h6>
 			<div className="flex items-center space-x-2">
 				{children}
 				{skipX || (
