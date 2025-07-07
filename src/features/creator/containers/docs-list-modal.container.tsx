@@ -69,7 +69,13 @@ const DocsListModalContainer = ({ onClose }: { onClose(): void }) => {
 			</Modal2.Header>
 
 			<Modal2.Body>
-				{pending && <Loader size="xl" className="mx-auto" />}
+				{pending && (
+					<Loader
+						data-testid="[docs-list-modal]:loader"
+						size="xl"
+						className="mx-auto"
+					/>
+				)}
 				{docsStore.is === `fail` && (
 					<p className="text-red-600 dark:text-red-400 text-center font-medium">
 						Something went wrong... Try again with above button refresh button

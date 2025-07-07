@@ -49,8 +49,8 @@ type ClickableControls =
 	| `Save user profile`
 	| `Add your avatar`
 	| `Recent documents`
+	| `Older documents`
 	| `Old documents`
-	| `Really Old documents`
 	| `Accept cookies`
 	| `Accept customized cookies`
 	| `Cheatsheet`
@@ -75,7 +75,8 @@ type Section =
 	| `[user-profile]:no-profile-yet`
 	| `[user-profile]:profile-loading`
 	| `[user-profile]:profile-ready`
-	| `[user-profile-form]:container`;
+	| `[user-profile-form]:container`
+	| `[docs-list-modal]:loader`;
 
 const BASE_COMMANDS = {
 	"I see text in creator": (value: string) => {
