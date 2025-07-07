@@ -116,43 +116,7 @@ const MarkdownWidgetModule = ({
 		asideNavigation.off();
 
 		if (chunksMode.isOn) {
-			const validHeadings = headings.filter(
-				(heading) => heading.level <= MAX_CHUNK_HEADING_LEVEL,
-			);
-
-			if (heading.level <= MAX_CHUNK_HEADING_LEVEL) {
-				const foundIndex = validHeadings.findIndex(
-					({ text }) => text === heading.text,
-				);
-
-				if (foundIndex === -1) {
-					return;
-				}
-
-				setActiveChunkIdx(foundIndex);
-				return;
-			}
-
-			const nearestHeading = [...headings.slice(0, index)]
-				.reverse()
-				.find((heading) => heading.level <= MAX_CHUNK_HEADING_LEVEL);
-
-			if (!nearestHeading) {
-				return;
-			}
-
-			const foundIndex = headings.findIndex(
-				({ text }) => text === nearestHeading.text,
-			);
-
-			if (foundIndex === -1) {
-				return;
-			}
-
-			setActiveChunkIdx(
-				headings.findIndex(({ text }) => text === nearestHeading.text),
-			);
-
+			setActiveChunkIdx(index);
 			return;
 		}
 
@@ -263,7 +227,12 @@ const MarkdownWidgetModule = ({
 								</Button>
 							</header>
 							<ul className="flex-1 overflow-y-auto bg-white dark:bg-black">
-								{headings.map((heading, index) => {
+								{(chunksMode.isOn
+									? headings.filter(
+											(heading) => heading.level <= MAX_CHUNK_HEADING_LEVEL,
+										)
+									: headings
+								).map((heading, index) => {
 									const isActive = chunksMode.isOn
 										? activeChunkIdx === index
 										: activeHeading === heading.text;
