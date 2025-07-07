@@ -1,7 +1,7 @@
 import React from "react";
 import { usePortal } from "development-kit/use-portal";
 import { Badge, type BadgeProps } from "./badge";
-import c from "classnames";
+import { c } from "./c";
 
 interface StatusProps extends BadgeProps {}
 

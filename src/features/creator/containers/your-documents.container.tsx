@@ -5,8 +5,10 @@ import { useDocsStore } from "store/docs/docs.store";
 import { BiCollection } from "react-icons/bi";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 
-const DocsListModal = React.lazy(
-	() => import(`../../../components/docs-list-modal`),
+const DocsListModalContainer = React.lazy(() =>
+	import(`./docs-list-modal.container`).then((m) => ({
+		default: m.DocsListModalContainer,
+	})),
 );
 
 const YourDocumentsContainer = () => {
@@ -28,7 +30,7 @@ const YourDocumentsContainer = () => {
 
 			{modal.isOn && (
 				<React.Suspense>
-					<DocsListModal onClose={modal.off} />
+					<DocsListModalContainer onClose={modal.off} />
 				</React.Suspense>
 			)}
 		</>
