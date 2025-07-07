@@ -182,7 +182,7 @@ const MarkdownWidgetModule = ({
 				title={
 					chunksMode.isOn
 						? `By Chapters (${activeChunkIdx + 1}/${chunks.length})`
-						: "Full Content"
+						: (activeHeading ?? "Full Content")
 				}
 				closeButtonTitle="Close preview mode (Esc)"
 			>
@@ -195,7 +195,7 @@ const MarkdownWidgetModule = ({
 					s={1}
 					onClick={toggleMode}
 				>
-					{chunksMode.isOn ? <BiDetail /> : <BiListOl />}
+					{chunksMode.isOn ? <BiListOl /> : <BiDetail />}
 				</Button>
 				<Button i={2} s={1} title="Copy markdown" onClick={copyMarkdown}>
 					{copyState.is === `copied` ? (
@@ -251,7 +251,7 @@ const MarkdownWidgetModule = ({
 													paddingLeft: `${(heading.level - 1) * 12 + 16}px`,
 												}}
 											>
-												{heading.text}
+												({index + 1}) {heading.text}
 											</button>
 										</li>
 									);
