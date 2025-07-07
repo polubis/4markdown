@@ -62,7 +62,7 @@ const TableOfContent = React.memo(
 					});
 				},
 				{
-					rootMargin: `0% 0px 0% 0px`,
+					rootMargin: `-45% 0px -45% 0px`,
 					threshold: 0,
 				},
 			);
