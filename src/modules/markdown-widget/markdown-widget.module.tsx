@@ -29,6 +29,8 @@ type MarkdownWidgetProps = {
 	onClose(): void;
 };
 
+const MAX_CHUNK_HEADING_LEVEL = 2;
+
 const MarkdownWidgetModule = ({
 	chunksActive = true,
 	header,
@@ -76,7 +78,7 @@ const MarkdownWidgetModule = ({
 	}, [markdown, chunksMode.isOn]);
 
 	const ableToPrev = activeChunkIdx > 0;
-	const ableToNext = activeChunkIdx <= chunks.length - 2;
+	const ableToNext = activeChunkIdx <= chunks.length - MAX_CHUNK_HEADING_LEVEL;
 	const activeChunk = chunks[activeChunkIdx];
 
 	const toggleMode = () => {
@@ -114,7 +116,43 @@ const MarkdownWidgetModule = ({
 		asideNavigation.off();
 
 		if (chunksMode.isOn) {
-			setActiveChunkIdx(index);
+			const validHeadings = headings.filter(
+				(heading) => heading.level <= MAX_CHUNK_HEADING_LEVEL,
+			);
+
+			if (heading.level <= MAX_CHUNK_HEADING_LEVEL) {
+				const foundIndex = validHeadings.findIndex(
+					({ text }) => text === heading.text,
+				);
+
+				if (foundIndex === -1) {
+					return;
+				}
+
+				setActiveChunkIdx(foundIndex);
+				return;
+			}
+
+			const nearestHeading = [...headings.slice(0, index)]
+				.reverse()
+				.find((heading) => heading.level <= MAX_CHUNK_HEADING_LEVEL);
+
+			if (!nearestHeading) {
+				return;
+			}
+
+			const foundIndex = headings.findIndex(
+				({ text }) => text === nearestHeading.text,
+			);
+
+			if (foundIndex === -1) {
+				return;
+			}
+
+			setActiveChunkIdx(
+				headings.findIndex(({ text }) => text === nearestHeading.text),
+			);
+
 			return;
 		}
 
@@ -122,8 +160,8 @@ const MarkdownWidgetModule = ({
 
 		if (!markdownContainer) return;
 
-		const headings = markdownContainer.querySelectorAll(`h${heading.level}`);
-		const foundHeading = Array.from(headings).find(
+		const domHeadings = markdownContainer.querySelectorAll(`h${heading.level}`);
+		const foundHeading = Array.from(domHeadings).find(
 			(el) => el.textContent === heading.text,
 		);
 		foundHeading?.scrollIntoView({ block: `center` });
@@ -152,7 +190,7 @@ const MarkdownWidgetModule = ({
 				});
 			},
 			{
-				rootMargin: `-45% 0px -45% 0px`,
+				rootMargin: `0% 0px 0% 0px`,
 				threshold: 0,
 			},
 		);
@@ -164,12 +202,12 @@ const MarkdownWidgetModule = ({
 			(_, i) => `h${i + 1}`,
 		).join(`, `);
 
-		const headings = markdownContainer.querySelectorAll(headingsSelector);
+		const domHeadings = markdownContainer.querySelectorAll(headingsSelector);
 
-		headings.forEach((heading) => observer.observe(heading));
+		domHeadings.forEach((heading) => observer.observe(heading));
 
 		return () => {
-			headings.forEach((heading) => observer.unobserve(heading));
+			domHeadings.forEach((heading) => observer.unobserve(heading));
 			observer.disconnect();
 		};
 	}, [markdownId, chunksMode.isOn]);
@@ -179,8 +217,8 @@ const MarkdownWidgetModule = ({
 			<Modal2.Header
 				title={
 					chunksMode.isOn
-						? `Chapter (${activeChunkIdx + 1}/${chunks.length})`
-						: `Full Content`
+						? `By Chapters (${activeChunkIdx + 1}/${chunks.length})`
+						: "Full Content"
 				}
 				closeButtonTitle="Close preview mode (Esc)"
 			>
@@ -264,7 +302,6 @@ const MarkdownWidgetModule = ({
 				>
 					<BiArrowToTop />
 				</Button>
-
 				<div className="flex items-center gap-2">
 					<Button
 						title={
@@ -272,7 +309,6 @@ const MarkdownWidgetModule = ({
 								? "Hide table of contents"
 								: "Show table of contents"
 						}
-						disabled={headings.length === 0}
 						i={2}
 						s={1}
 						onClick={asideNavigation.toggle}
