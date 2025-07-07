@@ -174,8 +174,7 @@ const MarkdownWidgetModule = ({
 				});
 			},
 			{
-				rootMargin: `0% 0px 0% 0px`,
-				threshold: 0,
+				rootMargin: `-45% 0px -45% 0px`,
 			},
 		);
 
