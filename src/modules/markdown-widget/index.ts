@@ -1,1 +1,1 @@
-export { MarkdownWidget } from "./markdown-widget";
+export { MarkdownWidgetModule } from "./markdown-widget.module";

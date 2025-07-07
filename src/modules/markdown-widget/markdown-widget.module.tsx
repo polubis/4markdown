@@ -29,7 +29,7 @@ type MarkdownWidgetProps = {
 	onClose(): void;
 };
 
-const MarkdownWidget = ({
+const MarkdownWidgetModule = ({
 	chunksActive = true,
 	header,
 	markdown,
@@ -213,8 +213,16 @@ const MarkdownWidget = ({
 				{asideNavigation.isOn && (
 					<>
 						<aside className="sticky h-full left-0 right-0 bottom-0 w-full flex flex-col animate-slide-in-bottom">
-							<header className="px-4 py-3 border-b border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950">
+							<header className="flex justify-between gap-8 px-4 py-3 border-b border-zinc-300 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-950">
 								<h6 className="text-lg">Table of Contents</h6>
+								<Button
+									title="Collapse table of contents"
+									i={2}
+									s={1}
+									onClick={asideNavigation.toggle}
+								>
+									<BiChevronDown />
+								</Button>
 							</header>
 							<ul className="flex-1 overflow-y-auto bg-white dark:bg-black">
 								{headings.map((heading, index) => {
@@ -250,7 +258,7 @@ const MarkdownWidget = ({
 				<Button
 					i={2}
 					s={1}
-					title="Scroll to top preview top (T or ArrowUp)"
+					title="Scroll to top preview top"
 					disabled={asideNavigation.isOn}
 					onClick={scrollToTop}
 				>
@@ -261,9 +269,10 @@ const MarkdownWidget = ({
 					<Button
 						title={
 							asideNavigation.isOn
-								? "Hide content navigation"
-								: "Show content navigation"
+								? "Hide table of contents"
+								: "Show table of contents"
 						}
+						disabled={headings.length === 0}
 						i={2}
 						s={1}
 						onClick={asideNavigation.toggle}
@@ -298,4 +307,4 @@ const MarkdownWidget = ({
 	);
 };
 
-export { MarkdownWidget };
+export { MarkdownWidgetModule };
