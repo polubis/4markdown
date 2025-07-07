@@ -132,18 +132,17 @@ describe(`Documents loading works when`, () => {
 			.then(`I see not disabled button`, [`Your documents`])
 			.when(`I click button`, [`Your documents`])
 			.then(`I see text`, [`Mediator pattern in TypeScript`])
-			.and(`I wait`, 1500)
 			.and(`System takes picture`, `recent-documents`)
+			.when(`I click button`, [`Older documents`])
+			.and(`System takes picture`, `older-documents`)
 			.when(`I click button`, [`Old documents`])
-			.then(`I wait`, 500)
 			.and(`System takes picture`, `old-documents`)
-			.when(`I click button`, [`Really Old documents`])
-			.then(`I wait`, 500)
-			.and(`System takes picture`, `really-old-documents`)
 			.when(`I click button`, [`Sync documents`])
-			.then(`I see text`, [`Just a second`])
-			.and(`System takes picture`, `loader`)
-			.then(`I see button`, [`Really Old documents`])
-			.and(`System takes picture`, `really-old-documents-after-sync`);
+			.then("I see disabled button", ["Sync documents"])
+			.and(`I see section`, "[docs-list-modal]:loader")
+			.and(`I not see section`, "[docs-list-modal]:loader")
+			.and("I see not disabled button", ["Sync documents"])
+			.and(`I see button`, [`Old documents`])
+			.and(`System takes picture`, `old-documents-after-sync`);
 	});
 });

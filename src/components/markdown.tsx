@@ -82,11 +82,13 @@ const OPTIONS: Options = {
 type MarkdownProps = {
 	className?: string;
 	children: string;
+	id?: string;
 };
 
-const Markdown = ({ className, children }: MarkdownProps) => {
+const Markdown = ({ className, children, id }: MarkdownProps) => {
 	return (
 		<div
+			id={id}
 			className={c(
 				`prose dark:prose-invert [&_.katex-error]:!text-red-600 dark:[&_.katex-error]:!text-red-400`,
 				className,
