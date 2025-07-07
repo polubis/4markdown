@@ -24,16 +24,16 @@ import {
 
 type MarkdownWidgetProps = {
 	chunksActive?: boolean;
-	header?: ReactNode;
+	headerControls?: ReactNode;
 	markdown: string;
 	onClose(): void;
 };
 
 const MAX_CHUNK_HEADING_LEVEL = 2;
 
-const MarkdownWidgetModule = ({
+const MarkdownWidget = ({
 	chunksActive = true,
-	header,
+	headerControls,
 	markdown,
 	onClose,
 }: MarkdownWidgetProps) => {
@@ -205,7 +205,7 @@ const MarkdownWidgetModule = ({
 				}
 				closeButtonTitle="Close preview mode (Esc)"
 			>
-				{header}
+				{headerControls}
 				<Button
 					title={
 						chunksMode.isOn ? "Show full content" : "Show content as chapters"
@@ -326,4 +326,4 @@ const MarkdownWidgetModule = ({
 	);
 };
 
-export { MarkdownWidgetModule };
+export { MarkdownWidget };
