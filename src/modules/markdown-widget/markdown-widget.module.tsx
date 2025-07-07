@@ -137,6 +137,20 @@ const MarkdownWidgetModule = ({
 	const [copyState, copy] = useCopy();
 
 	React.useLayoutEffect(() => {
+		const timeout = setTimeout(() => {
+			const body = document.getElementById(bodyId);
+
+			if (!body) return;
+
+			body.scrollTo({ top: 0 });
+		});
+
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, [activeChunkIdx, chunksMode.isOn]);
+
+	React.useLayoutEffect(() => {
 		if (chunksMode.isOn) return;
 
 		const markdownContainer = document.getElementById(markdownId);
