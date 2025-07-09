@@ -6,7 +6,7 @@ import { AppFooterContainer } from "containers/app-footer.container";
 import { Avatar } from "design-system/avatar";
 import { CreationLinkContainer } from "containers/creation-link.container";
 import { Link } from "gatsby";
-import { DOCUMENT_RATING_ICONS } from "core/document-rating-config";
+import { RATING_ICONS } from "core/rating-config";
 import { meta } from "../../../meta";
 import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
 import { paginate } from "development-kit/paginate";
@@ -118,7 +118,7 @@ const ContentRank = ({
 							</Link>
 						</h3>
 						<div className="flex items-center space-x-2">
-							{DOCUMENT_RATING_ICONS.map(([Icon, category]) => (
+							{RATING_ICONS.map(([Icon, category]) => (
 								<div className="flex items-center" key={category}>
 									<Icon className="mr-1" size={20} />
 									<strong>{document.rating[category]}</strong>

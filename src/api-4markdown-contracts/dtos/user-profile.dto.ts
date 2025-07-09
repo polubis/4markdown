@@ -1,3 +1,4 @@
+import { Prettify } from "development-kit/utility-types";
 import type { Date, Id, Path, Slug } from "../atoms";
 
 type AvatarVariant = {
@@ -29,4 +30,11 @@ type UserProfileDto = {
 	blogUrl: string | null;
 };
 
-export type { UserProfileDto };
+type CreatedUserProfileDto = Prettify<
+	Omit<UserProfileDto, "displayName" | "displayNameSlug"> & {
+		displayName: string;
+		displayNameSlug: Slug;
+	}
+>;
+
+export type { UserProfileDto, CreatedUserProfileDto };
