@@ -2,6 +2,7 @@ import React from "react";
 import { Loader } from "design-system/loader";
 import { useUserProfileContext } from "../providers/user-profile.provider";
 import { ErrorScreen } from "../components/error-screen";
+import { UserProfileStatsContainer } from "./user-profile-stats.container";
 
 const UserProfileContentContainer = () => {
 	const [state] = useUserProfileContext();
@@ -11,7 +12,7 @@ const UserProfileContentContainer = () => {
 			{(state.is === `idle` || state.is === `busy`) && (
 				<Loader data-testid="[user-profile]:loader" size="xl" />
 			)}
-			{state.is === `ok` && <div>hi</div>}
+			{state.is === `ok` && <UserProfileStatsContainer />}
 			{state.is === `fail` && (
 				<ErrorScreen
 					title={

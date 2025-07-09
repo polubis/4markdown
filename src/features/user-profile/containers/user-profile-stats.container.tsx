@@ -20,7 +20,6 @@ const UserProfileStatsContainer = () => {
 	return (
 		<div className={`min-h-screen bg-zinc-50 dark:bg-zinc-950`}>
 			<div className={`relative overflow-hidden`}>
-				{/* Background Pattern */}
 				<div className={`absolute inset-0 opacity-5`}>
 					<div
 						className={`absolute top-20 left-10 w-32 h-32 bg-[#00501d] rounded-full blur-3xl`}
