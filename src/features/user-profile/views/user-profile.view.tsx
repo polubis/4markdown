@@ -5,13 +5,7 @@ import { CreationLinkContainer } from "containers/creation-link.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
 import { useUserProfileLoad } from "../hooks/use-user-profile-load";
-import { useUserProfileContext } from "../providers/user-profile.provider";
-
-const UserProfileContent = () => {
-	const [state] = useUserProfileContext();
-
-	return <main className="h-screen">hi</main>;
-};
+import { UserProfileContentContainer } from "../containers/user-profile-content.container";
 
 const UserProfileView = () => {
 	useUserProfileLoad();
@@ -23,7 +17,7 @@ const UserProfileView = () => {
 				<EducationRankLinkContainer />
 				<EducationZoneLinkContainer />
 			</AppNavigation>
-			<UserProfileContent />
+			<UserProfileContentContainer />
 			<AppFooterContainer />
 		</>
 	);

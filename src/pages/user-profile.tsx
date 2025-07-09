@@ -24,6 +24,7 @@ export const Head: HeadFC = () => {
 			url={meta.siteUrl + meta.routes.userProfile}
 			lang={meta.lang}
 			image={meta.siteUrl + LogoThumbnail}
+			robots="noindex, nofollow"
 		/>
 	);
 };

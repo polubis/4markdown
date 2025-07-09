@@ -16,6 +16,7 @@ import type {
 	CreatedUserProfileDto,
 	CommentDto,
 } from "../dtos";
+// @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
 	key: TKey;
