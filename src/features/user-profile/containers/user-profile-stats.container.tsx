@@ -66,13 +66,19 @@ const UserProfileStatsContainer = () => {
 					)}
 				</div>
 			</section>
+			<section className="mt-6">
+				<Button i={2} s={2} auto title="Add a comment" className="mx-auto">
+					Add Comment
+					<BiPlusCircle size={24} />
+				</Button>
+			</section>
 			{comments.length > 0 && (
 				<section className="mt-10 max-w-7xl w-full">
 					<h2 className="text-2xl font-bold mb-5">
 						What People Say ({comments.length})
 					</h2>
 					<ul className="columns-1 md:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
-						{[...comments].map((comment) => (
+						{comments.map((comment) => (
 							<li
 								key={comment.id}
 								className="break-inside-avoid mb-4 p-4 flex flex-col rounded-lg border border-zinc-300 dark:border-zinc-800"
@@ -100,16 +106,6 @@ const UserProfileStatsContainer = () => {
 							</li>
 						))}
 					</ul>
-					<Button
-						i={2}
-						s={2}
-						auto
-						title="Add a comment"
-						className="mt-2 ml-auto"
-					>
-						Add Comment
-						<BiPlusCircle size={24} />
-					</Button>
 				</section>
 			)}
 		</>
