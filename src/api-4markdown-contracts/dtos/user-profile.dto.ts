@@ -30,11 +30,4 @@ type UserProfileDto = {
 	blogUrl: string | null;
 };
 
-type CreatedUserProfileDto = Prettify<
-	Omit<UserProfileDto, "displayName" | "displayNameSlug"> & {
-		displayName: string;
-		displayNameSlug: Slug;
-	}
->;
-
-export type { UserProfileDto, CreatedUserProfileDto };
+export type { UserProfileDto };

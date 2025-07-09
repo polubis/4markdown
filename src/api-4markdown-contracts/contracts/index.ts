@@ -13,7 +13,6 @@ import type {
 	FullMindmapDto,
 	RewriteAssistantPersona,
 	YourAccountDto,
-	CreatedUserProfileDto,
 	CommentDto,
 } from "../dtos";
 // @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
@@ -218,7 +217,7 @@ type RateDocumentContract = Contract<
 type GetUserProfileContract = Contract<
 	`getUserProfile`,
 	{
-		profile: CreatedUserProfileDto;
+		profile: UserProfileDto;
 		comments: CommentDto[];
 	},
 	{
