@@ -10,7 +10,7 @@ type ErrorScreenProps = {
 const ErrorScreen = ({ title }: ErrorScreenProps) => {
 	return (
 		<section className="flex flex-col items-center max-w-md">
-			<h1 className="text-xl text-center">{title}</h1>
+			<h6 className="text-xl text-center">{title}</h6>
 			<Button
 				title="Go back to education zone"
 				className="mt-4"
