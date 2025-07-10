@@ -1,10 +1,9 @@
 import { API4MarkdownDto, API4MarkdownPayload } from "api-4markdown-contracts";
 import { Transaction } from "development-kit/utility-types";
 
-type AddUserProfileCommentFormValues = Pick<
-	API4MarkdownPayload<"addUserProfileComment">,
-	"comment"
->;
+type AddUserProfileCommentFormValues = {
+	content: API4MarkdownPayload<"addUserProfileComment">["comment"];
+};
 
 type UserProfileState = {
 	stats: Transaction<{

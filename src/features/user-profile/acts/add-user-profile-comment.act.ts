@@ -7,12 +7,12 @@ import { safeUserProfileStatsSelector } from "../models/selectors";
 import { useUserProfileState } from "../store";
 
 const addUserProfileCommentAct = async ({
-	comment,
+	content,
 }: AddUserProfileCommentFormValues): AsyncResult => {
 	try {
 		const addedComment = await getAPI().call("addUserProfileComment")({
 			receiverProfileId: getProfileId(),
-			comment,
+			comment: content,
 		});
 
 		const stats = safeUserProfileStatsSelector(useUserProfileState.get());

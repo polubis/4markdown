@@ -7,7 +7,8 @@ import { maxLength, minLength } from "development-kit/form";
 import { useForm } from "development-kit/use-form";
 import React from "react";
 import { AddUserProfileCommentFormValues } from "../models";
-import { addUserProfileCommentAct } from "../acts/add-user-profile-comment.act";
+import { useAddUserProfileComment } from "../hooks/use-add-user-profile-comment";
+import { BiErrorAlt } from "react-icons/bi";
 
 type AddCommentWidgetContainerProps = {
 	onClose(): void;
@@ -23,22 +24,24 @@ const limits = {
 const AddCommentWidgetContainer = ({
 	onClose,
 }: AddCommentWidgetContainerProps) => {
+	const [adding, { add }] = useAddUserProfileComment();
+
 	const [{ invalid, values, untouched }, { inject }] =
 		useForm<AddUserProfileCommentFormValues>(
 			{
-				comment: "",
+				content: "",
 			},
 			{
-				comment: [minLength(limits.content.min), maxLength(limits.content.max)],
+				content: [minLength(limits.content.min), maxLength(limits.content.max)],
 			},
 		);
 
-	const confirmCommentAdd = async () => {
-		const result = await addUserProfileCommentAct(values);
+	const confirmAdd = () => {
+		add({ content: values.content });
 	};
 
 	return (
-		<Modal2 onClose={onClose}>
+		<Modal2 onClose={onClose} disabled={adding.is === `busy`}>
 			<Modal2.Header
 				title="Add Comment"
 				closeButtonTitle="Close comment adding"
@@ -51,16 +54,22 @@ const AddCommentWidgetContainer = ({
 				</p>
 				<Field
 					label={
-						values.comment.length === 0
+						values.content.length === 0
 							? `Comment*`
-							: `Comment (${values.comment.length}/${limits.content.max})*`
+							: `Comment (${values.content.length}/${limits.content.max})*`
 					}
 				>
 					<Textarea
 						placeholder="Write your comment here... Be polite and respectful"
-						{...inject(`comment`)}
+						{...inject(`content`)}
 					/>
 				</Field>
+				{adding.is === "fail" && (
+					<p className="mt-4 flex gap-2 text-sm justify-center mb-4 items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
+						<BiErrorAlt className="shrink-0" size={20} />
+						{adding.error.message}
+					</p>
+				)}
 			</Modal2.Body>
 			<Modal2.Footer>
 				<Button
@@ -68,9 +77,9 @@ const AddCommentWidgetContainer = ({
 					i={2}
 					s={2}
 					auto
-					disabled={invalid || untouched}
+					disabled={invalid || untouched || adding.is === `busy`}
 					title="Confirm comment add"
-					onClick={confirmCommentAdd}
+					onClick={confirmAdd}
 				>
 					Confirm
 				</Button>

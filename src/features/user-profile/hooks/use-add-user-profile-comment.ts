@@ -4,7 +4,7 @@ import { AddUserProfileCommentFormValues } from "../models";
 import { Transaction } from "development-kit/utility-types";
 
 const useAddUserProfileComment = () => {
-	const [state, setState] = React.useState<Transaction>();
+	const [state, setState] = React.useState<Transaction>({ is: `idle` });
 
 	const actions = React.useMemo(
 		() => ({
