@@ -3,14 +3,10 @@ import type { HeadFC } from "gatsby";
 import LogoThumbnail from "images/logo-thumbnail.png";
 import Meta from "components/meta";
 import { meta } from "../../meta";
-import { UserProfileProvider, UserProfileView } from "features/user-profile";
+import { UserProfileView } from "features/user-profile";
 
 const UserProfilePage = () => {
-	return (
-		<UserProfileProvider>
-			<UserProfileView />
-		</UserProfileProvider>
-	);
+	return <UserProfileView />;
 };
 
 export default UserProfilePage;

@@ -1,10 +1,9 @@
 import React from "react";
-import { useUserProfileContext } from "../providers/user-profile.provider";
 import { Avatar } from "design-system/avatar";
 import { UserSocials } from "components/user-socials";
 import { formatDistance } from "date-fns";
-import { Button } from "design-system/button";
-import { BiPlus, BiPlusCircle } from "react-icons/bi";
+import { AddCommentTriggerContainer } from "./add-comment-trigger.container";
+import { useUserProfileState } from "../store";
 
 // Todo
 // 1. Align UI
@@ -16,16 +15,14 @@ import { BiPlus, BiPlusCircle } from "react-icons/bi";
 // 7. User should be able to also add a rate from 1-10
 
 const UserProfileStatsContainer = () => {
-	const [state] = useUserProfileContext();
+	const { stats } = useUserProfileState();
 
-	if (state.is !== `ok`)
+	if (stats.is !== `ok`)
 		throw Error(
 			`User profile is not loaded yet but you are trying to render the stats`,
 		);
 
-	const {
-		data: { profile, comments },
-	} = state;
+	const { profile, comments } = stats;
 
 	const hasSocials =
 		profile.githubUrl ||
@@ -67,10 +64,7 @@ const UserProfileStatsContainer = () => {
 				</div>
 			</section>
 			<section className="mt-6">
-				<Button i={2} s={2} auto title="Add a comment" className="mx-auto">
-					Add Comment
-					<BiPlusCircle size={24} />
-				</Button>
+				<AddCommentTriggerContainer />
 			</section>
 			{comments.length > 0 && (
 				<section className="mt-10 max-w-7xl w-full">
