@@ -5,15 +5,6 @@ import { formatDistance } from "date-fns";
 import { AddCommentTriggerContainer } from "./add-comment-trigger.container";
 import { useUserProfileState } from "../store";
 
-// Todo
-// 1. Align UI
-// 2. Author profiles may be null so protect that
-// 3. Add comment zone area
-// 4. Comment may be added only be user who has profile
-// 5. If not prpfile aunonymous badge is displayed
-// 6. Rating may be done by anyone
-// 7. User should be able to also add a rate from 1-10
-
 const UserProfileStatsContainer = () => {
 	const { stats } = useUserProfileState();
 
@@ -86,7 +77,7 @@ const UserProfileStatsContainer = () => {
 										className="shrink-0 bg-gray-300 dark:bg-slate-800"
 									/>
 									<div className="flex flex-col">
-										<h3 className="text-lg font-bold">
+										<h3 className="text-lg font-bold leading-6 mb-1">
 											{comment.ownerProfile.displayName ?? `Anonymous`}
 										</h3>
 										<p className="text-sm">
