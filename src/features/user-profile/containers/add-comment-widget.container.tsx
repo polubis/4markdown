@@ -7,8 +7,9 @@ import { maxLength, minLength } from "development-kit/form";
 import { useForm } from "development-kit/use-form";
 import React from "react";
 import { AddUserProfileCommentFormValues } from "../models";
-import { useAddUserProfileComment } from "../hooks/use-add-user-profile-comment";
 import { BiErrorAlt } from "react-icons/bi";
+import { Transaction } from "development-kit/utility-types";
+import { addUserProfileCommentAct } from "../acts/add-user-profile-comment.act";
 
 type AddCommentWidgetContainerProps = {
 	onClose(): void;
@@ -24,7 +25,7 @@ const limits = {
 const AddCommentWidgetContainer = ({
 	onClose,
 }: AddCommentWidgetContainerProps) => {
-	const [adding, { add }] = useAddUserProfileComment();
+	const [state, setState] = React.useState<Transaction>({ is: `idle` });
 
 	const [{ invalid, values, untouched }, { inject }] =
 		useForm<AddUserProfileCommentFormValues>(
@@ -36,12 +37,21 @@ const AddCommentWidgetContainer = ({
 			},
 		);
 
-	const confirmAdd = () => {
-		add({ content: values.content });
+	const confirmAdd = async () => {
+		setState({ is: "busy" });
+
+		const result = await addUserProfileCommentAct(values);
+
+		if (result.is === `ok`) {
+			onClose();
+			return;
+		}
+
+		setState(result);
 	};
 
 	return (
-		<Modal2 onClose={onClose} disabled={adding.is === `busy`}>
+		<Modal2 onClose={onClose} disabled={state.is === `busy`}>
 			<Modal2.Header
 				title="Add Comment"
 				closeButtonTitle="Close comment adding"
@@ -64,10 +74,10 @@ const AddCommentWidgetContainer = ({
 						{...inject(`content`)}
 					/>
 				</Field>
-				{adding.is === "fail" && (
+				{state.is === "fail" && (
 					<p className="mt-4 flex gap-2 text-sm justify-center mb-4 items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
 						<BiErrorAlt className="shrink-0" size={20} />
-						{adding.error.message}
+						{state.error.message}
 					</p>
 				)}
 			</Modal2.Body>
@@ -77,7 +87,7 @@ const AddCommentWidgetContainer = ({
 					i={2}
 					s={2}
 					auto
-					disabled={invalid || untouched || adding.is === `busy`}
+					disabled={invalid || untouched || state.is === `busy`}
 					title="Confirm comment add"
 					onClick={confirmAdd}
 				>

@@ -4,11 +4,13 @@ import { AppFooterContainer } from "containers/app-footer.container";
 import { CreationLinkContainer } from "containers/creation-link.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
-import { useUserProfileLoad } from "../hooks/use-user-profile-load";
 import { UserProfileContentContainer } from "../containers/user-profile-content.container";
+import { getUserProfileAct } from "../acts/get-user-profile.act";
 
 const UserProfileView = () => {
-	useUserProfileLoad();
+	React.useEffect(() => {
+		getUserProfileAct();
+	}, []);
 
 	return (
 		<>
