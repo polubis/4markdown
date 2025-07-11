@@ -63,7 +63,7 @@ const Modal = ({
 				)}
 				{...props}
 			>
-				<div className="bg-white overflow-hidden max-h-full w-full sm:max-w-sm dark:bg-black shadow-xl grid grid-rows-[auto_1fr_auto] animate-slide-in-bottom sm:animate-none">
+				<div className="bg-white overflow-hidden max-h-full w-full tn:max-w-[480px] dark:bg-black shadow-xl grid grid-rows-[auto_1fr_auto] animate-slide-in-bottom sm:animate-none">
 					{children}
 				</div>
 			</div>
