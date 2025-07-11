@@ -8,6 +8,7 @@ import { logIn } from "actions/log-in.action";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { useYourAccountState } from "store/your-account";
+import { useLocation } from "@reach/router";
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
@@ -25,6 +26,7 @@ const UserPopover = () => {
 	const docsStore = useDocsStore();
 	const yourUserProfile = useYourUserProfileState();
 	const yourAccount = useYourAccountState();
+	const location = useLocation();
 
 	const handleClick = () => {
 		if (authStore.is === `idle`) return;
@@ -36,6 +38,20 @@ const UserPopover = () => {
 
 		logIn();
 	};
+
+	React.useEffect(() => {
+		const isOpenUserProfileFormState = (
+			state: unknown,
+		): state is { openUserProfileForm: boolean } => {
+			return (
+				typeof state === "object" && !!state && "openUserProfileForm" in state
+			);
+		};
+
+		if (isOpenUserProfileFormState(location.state)) {
+			menu.on();
+		}
+	}, [location.state]);
 
 	return (
 		<>
