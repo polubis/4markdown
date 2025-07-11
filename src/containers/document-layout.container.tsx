@@ -6,7 +6,7 @@ import { Button } from "design-system/button";
 import { useCopy } from "development-kit/use-copy";
 import { Status } from "design-system/status";
 import { seeInDocumentsCreatorAct } from "acts/see-in-documents-creator.act";
-import { navigate } from "gatsby";
+import { Link, navigate } from "gatsby";
 import { meta } from "../../meta";
 import { useDocumentLayoutContext } from "providers/document-layout.provider";
 import { SocialShare } from "components/social-share";
@@ -95,9 +95,12 @@ const DocumentLayoutContainer = () => {
 								/>
 								<div className="flex flex-col overflow-hidden">
 									<i>About Author</i>
-									<strong className="mb-1 text-black dark:text-white">
+									<Link
+										to={meta.routes.userProfile + `?profileId=${author.id}`}
+										className="mb-2 text-black dark:text-white font-bold hover:underline underline-offset-4 w-fit"
+									>
 										{author.displayName}
-									</strong>
+									</Link>
 									<p>{author.bio}</p>
 									<div className="flex space-x-2 mt-4">
 										<UserSocials

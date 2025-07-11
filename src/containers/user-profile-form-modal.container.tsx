@@ -24,6 +24,7 @@ import { useYourUserProfileState } from "store/your-user-profile";
 import { yourOkUserProfileSelector } from "store/your-user-profile/selectors";
 import { updateYourUserProfileAct } from "acts/update-your-user-profile.act";
 import { Hint } from "design-system/hint";
+import { BiInfoCircle } from "react-icons/bi";
 
 interface UserProfileFormModalContainerProps {
 	onClose(): void;
@@ -192,7 +193,15 @@ const UserProfileFormModalContainer = ({
 						closeButtonTitle="Close your profile form"
 					/>
 					<form onSubmit={save} data-testid="[user-profile-form]:container">
-						<div className="flex flex-col space-y-3 mt-8">
+						<p className="flex mb-4 gap-2 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
+							<BiInfoCircle className="shrink-0" size={20} />
+							<span>
+								User profile allows you to add comments and makes your profile
+								visible under <strong>Public</strong> and{" "}
+								<strong>Permanent</strong> content you're creating.
+							</span>
+						</p>
+						<div className="flex flex-col space-y-3 mt-4">
 							<Field className="items-center mx-auto [&>label]:mb-2">
 								<Button
 									type="button"

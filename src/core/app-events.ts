@@ -1,3 +1,4 @@
+import React, { useRef } from "react";
 import { Subject, Subscription } from "rxjs";
 
 type AppEvent = {
@@ -14,4 +15,20 @@ const emit = (event: AppEvent): void => {
 const subscribe = (callback: (event: AppEvent) => void): Subscription =>
 	appEventsBus$.subscribe(callback);
 
-export { emit, subscribe };
+const useAppEvent = (callback: (event: AppEvent) => void): void => {
+	const callbackRef = useRef(callback);
+
+	React.useEffect(() => {
+		callbackRef.current = callback;
+	}, [callback]);
+
+	React.useEffect(() => {
+		const subscription = subscribe(callbackRef.current);
+
+		return () => {
+			subscription.unsubscribe();
+		};
+	}, []);
+};
+
+export { emit, subscribe, useAppEvent };
