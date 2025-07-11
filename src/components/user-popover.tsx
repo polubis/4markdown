@@ -8,7 +8,7 @@ import { logIn } from "actions/log-in.action";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { useYourAccountState } from "store/your-account";
-import { useLocation } from "@reach/router";
+import { subscribe } from "core/app-events";
 
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
@@ -26,7 +26,6 @@ const UserPopover = () => {
 	const docsStore = useDocsStore();
 	const yourUserProfile = useYourUserProfileState();
 	const yourAccount = useYourAccountState();
-	const location = useLocation();
 
 	const handleClick = () => {
 		if (authStore.is === `idle`) return;
@@ -40,18 +39,16 @@ const UserPopover = () => {
 	};
 
 	React.useEffect(() => {
-		const isOpenUserProfileFormState = (
-			state: unknown,
-		): state is { openUserProfileForm: boolean } => {
-			return (
-				typeof state === "object" && !!state && "openUserProfileForm" in state
-			);
-		};
+		const subscription = subscribe((event) => {
+			if (event.type === "SHOW_USER_PROFILE_FORM") {
+				menu.on();
+			}
+		});
 
-		if (isOpenUserProfileFormState(location.state)) {
-			menu.on();
-		}
-	}, [location.state]);
+		return () => {
+			subscription.unsubscribe();
+		};
+	}, []);
 
 	return (
 		<>

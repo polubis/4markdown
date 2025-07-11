@@ -10,7 +10,7 @@ import { BiErrorAlt, BiInfoCircle } from "react-icons/bi";
 import { Transaction } from "development-kit/utility-types";
 import { addUserProfileCommentAct } from "../acts/add-user-profile-comment.act";
 import { useYourUserProfileState } from "store/your-user-profile";
-import { navigate } from "gatsby";
+import { emit } from "core/app-events";
 
 type AddCommentWidgetContainerProps = {
 	onClose(): void;
@@ -56,10 +56,7 @@ const AddCommentWidgetContainer = ({
 
 	const goToUserProfileForm = () => {
 		onClose();
-		navigate(location.pathname + location.search, {
-			replace: true,
-			state: { openUserProfileForm: true },
-		});
+		emit({ type: "SHOW_USER_PROFILE_FORM" });
 	};
 
 	const userProfileExists = yourUserProfile.is === `ok` && yourUserProfile.user;
