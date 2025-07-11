@@ -291,6 +291,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 				? {
 						displayName: author.displayName,
 						avatar: author?.avatar ? author.avatar.sm : null,
+						id: author.id,
 					}
 				: null,
 	}));
@@ -334,6 +335,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 										? {
 												displayName: author.displayName,
 												avatar: author?.avatar ? author.avatar.sm : null,
+												id: author.id,
 											}
 										: null,
 							}),
@@ -371,6 +373,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 									? {
 											displayName: author.displayName,
 											avatar: author?.avatar ? author.avatar.sm : null,
+											id: author.id,
 										}
 									: null,
 						}),
@@ -399,6 +402,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 							? {
 									displayName: author.displayName,
 									avatar: author?.avatar ? author.avatar.sm : null,
+									id: author.id,
 								}
 							: null,
 				}),

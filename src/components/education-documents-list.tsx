@@ -4,6 +4,7 @@ import { Avatar } from "design-system/avatar";
 import { Link } from "gatsby";
 import type { RichEducationDocumentModel } from "models/page-models";
 import React from "react";
+import { meta } from "../../meta";
 
 type EducationDocumentsListProps = {
 	documents: RichEducationDocumentModel[];
@@ -26,13 +27,18 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
 									char={document.author.displayName.charAt(0)}
 									src={document.author?.avatar?.src}
 								/>
-								<i>
+								<Link
+									className="text-black dark:text-white italic hover:underline underline-offset-4 w-fit"
+									to={
+										meta.routes.userProfile + `?profileId=${document.author.id}`
+									}
+								>
 									{document.author.displayName}
 									{` `}
 									{formatDistance(document.cdate, now, {
 										addSuffix: true,
 									})}
-								</i>
+								</Link>
 							</>
 						) : (
 							<i>

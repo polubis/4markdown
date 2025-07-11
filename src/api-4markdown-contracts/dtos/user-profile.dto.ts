@@ -1,4 +1,3 @@
-import { Prettify } from "development-kit/utility-types";
 import type { Date, Id, Path, Slug } from "../atoms";
 
 type AvatarVariant = {
