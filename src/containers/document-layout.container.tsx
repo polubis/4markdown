@@ -96,7 +96,10 @@ const DocumentLayoutContainer = () => {
 								<div className="flex flex-col overflow-hidden">
 									<i>About Author</i>
 									<Link
-										to={meta.routes.userProfile + `?profileId=${author.id}`}
+										to={
+											meta.routes.userProfile.preview +
+											`?profileId=${author.id}`
+										}
 										className="mb-2 text-black dark:text-white font-bold hover:underline underline-offset-4 w-fit"
 									>
 										{author.displayName}

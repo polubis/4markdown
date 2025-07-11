@@ -39,6 +39,8 @@ export const meta = {
 		},
 		notFound: `/404/`,
 		privacyPolicy: `/privacy-policy/`,
-		userProfile: `/user-profile/`,
+		userProfile: {
+			preview: `/user-profile-preview/`,
+		},
 	},
 } as const;

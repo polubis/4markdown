@@ -5,11 +5,11 @@ import Meta from "components/meta";
 import { meta } from "../../meta";
 import { UserProfileView } from "features/user-profile";
 
-const UserProfilePage = () => {
+const UserProfilePreviewPage = () => {
 	return <UserProfileView />;
 };
 
-export default UserProfilePage;
+export default UserProfilePreviewPage;
 
 export const Head: HeadFC = () => {
 	return (
@@ -17,7 +17,7 @@ export const Head: HeadFC = () => {
 			appName={meta.appName}
 			title={`Browse ${meta.appName} authors content, rating and see their work`}
 			description={`Browse your favorite ${meta.appName} authors content and rate their work`}
-			url={meta.siteUrl + meta.routes.userProfile}
+			url={meta.siteUrl + meta.routes.userProfile.preview}
 			lang={meta.lang}
 			image={meta.siteUrl + LogoThumbnail}
 			robots="noindex, nofollow"

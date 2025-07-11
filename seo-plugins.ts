@@ -26,7 +26,7 @@ const legacyRoutes = {
 const disallowedPaths = [
 	meta.routes.documents.preview,
 	meta.routes.notFound,
-	meta.routes.userProfile,
+	meta.routes.userProfile.preview,
 	meta.routes.creator.preview,
 	meta.routes.sandbox,
 	meta.routes.mindmaps.preview,

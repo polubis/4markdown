@@ -30,7 +30,8 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
 								<Link
 									className="text-black dark:text-white italic hover:underline underline-offset-4 w-fit"
 									to={
-										meta.routes.userProfile + `?profileId=${document.author.id}`
+										meta.routes.userProfile.preview +
+										`?profileId=${document.author.id}`
 									}
 								>
 									{document.author.displayName}
