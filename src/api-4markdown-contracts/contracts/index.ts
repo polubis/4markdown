@@ -1,5 +1,5 @@
 import { type Prettify } from "development-kit/utility-types";
-import type { Base64, Date, Id, Url } from "../atoms";
+import type { Base64, Date, Id, Url, UserProfileId } from "../atoms";
 import type {
 	DocumentDto,
 	PermanentDocumentDto,
@@ -7,13 +7,15 @@ import type {
 	PublicDocumentDto,
 	ImageDto,
 	UserProfileDto,
-	DocumentRatingCategory,
-	DocumentRatingDto,
+	RatingCategory,
+	RatingDto,
 	MindmapDto,
 	FullMindmapDto,
 	RewriteAssistantPersona,
 	YourAccountDto,
+	CommentDto,
 } from "../dtos";
+// @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
 	key: TKey;
@@ -205,10 +207,30 @@ type UpdateYourUserProfileContract = Contract<
 
 type RateDocumentContract = Contract<
 	`rateDocument`,
-	DocumentRatingDto,
+	RatingDto,
 	{
 		documentId: DocumentDto["id"];
-		category: DocumentRatingCategory;
+		category: RatingCategory;
+	}
+>;
+
+type GetUserProfileContract = Contract<
+	`getUserProfile`,
+	{
+		profile: UserProfileDto;
+		comments: CommentDto[];
+	},
+	{
+		profileId: UserProfileId;
+	}
+>;
+
+type AddUserProfileCommentContract = Contract<
+	`addUserProfileComment`,
+	CommentDto,
+	{
+		receiverProfileId: UserProfileId;
+		comment: string;
 	}
 >;
 
@@ -237,7 +259,9 @@ type API4MarkdownContracts =
 	| GetPermanentMindmapsContract
 	| RewriteWithAssistantContract
 	| CreateContentWithAIContract
-	| GetYourAccountContract;
+	| GetYourAccountContract
+	| GetUserProfileContract
+	| AddUserProfileCommentContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
