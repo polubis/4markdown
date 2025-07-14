@@ -13,72 +13,72 @@ import { useAppEvent } from "core/app-events";
 const UserPopoverContent = React.lazy(() => import(`./user-popover-content`));
 
 const TokensBadge = ({ tokens }: { tokens: number }) => {
-	return (
-		<p className="animate-fade-in text-[10px] bg-gray-300 dark:bg-slate-800 shadow-lg flex items-center justify-center size-5 rounded-full absolute -top-2 -right-2">
-			<span>{tokens >= 100 ? `99+` : tokens}</span>
-		</p>
-	);
+  return (
+    <p className="animate-fade-in text-[10px] bg-gray-300 dark:bg-slate-800 shadow-lg flex items-center justify-center size-5 rounded-full absolute -top-2 -right-2">
+      <span>{tokens >= 100 ? `99+` : tokens}</span>
+    </p>
+  );
 };
 
 const UserPopover = () => {
-	const menu = useSimpleFeature();
-	const authStore = useAuthStore();
-	const docsStore = useDocsStore();
-	const yourUserProfile = useYourUserProfileState();
-	const yourAccount = useYourAccountState();
+  const menu = useSimpleFeature();
+  const authStore = useAuthStore();
+  const docsStore = useDocsStore();
+  const yourUserProfile = useYourUserProfileState();
+  const yourAccount = useYourAccountState();
 
-	useAppEvent((event) => {
-		if (event.type === "SHOW_USER_PROFILE_FORM") {
-			menu.on();
-		}
-	});
+  useAppEvent((event) => {
+    if (event.type === "SHOW_USER_PROFILE_FORM") {
+      menu.on();
+    }
+  });
 
-	const handleClick = () => {
-		if (authStore.is === `idle`) return;
+  const handleClick = () => {
+    if (authStore.is === `idle`) return;
 
-		if (authStore.is === `authorized`) {
-			menu.on();
-			return;
-		}
+    if (authStore.is === `authorized`) {
+      menu.on();
+      return;
+    }
 
-		logIn();
-	};
+    logIn();
+  };
 
-	return (
-		<>
-			<Button
-				i={1}
-				s={2}
-				className="relative"
-				disabled={
-					authStore.is === `idle` ||
-					docsStore.is === `busy` ||
-					yourUserProfile.is === `busy` ||
-					yourAccount.is === `busy`
-				}
-				title={
-					authStore.is === `authorized` ? `User details and options` : `Sign in`
-				}
-				onClick={handleClick}
-			>
-				{authStore.is === `authorized` && <YourAvatarContainer size="tn" />}
-				{(authStore.is === `idle` || authStore.is === `unauthorized`) && (
-					<BiLogInCircle />
-				)}
-				{yourAccount.is === `ok` && (
-					<TokensBadge
-						key={yourAccount.balance.tokens}
-						tokens={yourAccount.balance.tokens}
-					/>
-				)}
-			</Button>
-			{menu.isOn && (
-				<React.Suspense>
-					<UserPopoverContent onClose={menu.off} />
-				</React.Suspense>
-			)}
-		</>
-	);
+  return (
+    <>
+      <Button
+        i={1}
+        s={2}
+        className="relative"
+        disabled={
+          authStore.is === `idle` ||
+          docsStore.is === `busy` ||
+          yourUserProfile.is === `busy` ||
+          yourAccount.is === `busy`
+        }
+        title={
+          authStore.is === `authorized` ? `User details and options` : `Sign in`
+        }
+        onClick={handleClick}
+      >
+        {authStore.is === `authorized` && <YourAvatarContainer size="tn" />}
+        {(authStore.is === `idle` || authStore.is === `unauthorized`) && (
+          <BiLogInCircle />
+        )}
+        {yourAccount.is === `ok` && (
+          <TokensBadge
+            key={yourAccount.balance.tokens}
+            tokens={yourAccount.balance.tokens}
+          />
+        )}
+      </Button>
+      {menu.isOn && (
+        <React.Suspense>
+          <UserPopoverContent onClose={menu.off} />
+        </React.Suspense>
+      )}
+    </>
+  );
 };
 
 export default UserPopover;

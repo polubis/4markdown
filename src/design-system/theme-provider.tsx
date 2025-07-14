@@ -7,44 +7,44 @@ type Theme = (typeof themes)[number];
 type NullableTheme = Theme | null;
 
 declare global {
-	interface Window {
-		__theme: Theme;
-		__setPreferredTheme(theme: Theme): void;
-		__onThemeChange(theme: Theme): void;
-	}
+  interface Window {
+    __theme: Theme;
+    __setPreferredTheme(theme: Theme): void;
+    __onThemeChange(theme: Theme): void;
+  }
 }
 
 interface ThemeContext {
-	theme: NullableTheme;
-	set(theme: Theme): void;
+  theme: NullableTheme;
+  set(theme: Theme): void;
 }
 
 interface ThemeProviderProps {
-	children(context: ThemeContext): ReactNode;
+  children(context: ThemeContext): ReactNode;
 }
 
 const getInitialTheme = (): NullableTheme =>
-	isClient() ? window.__theme : null;
+  isClient() ? window.__theme : null;
 
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
-	const [theme, setTheme] = React.useState<NullableTheme>(null);
+  const [theme, setTheme] = React.useState<NullableTheme>(null);
 
-	const set: ThemeContext["set"] = React.useCallback((theme) => {
-		window.__setPreferredTheme(theme);
-	}, []);
+  const set: ThemeContext["set"] = React.useCallback((theme) => {
+    window.__setPreferredTheme(theme);
+  }, []);
 
-	React.useEffect(() => {
-		window.__onThemeChange = () => {
-			setTheme(window.__theme);
-		};
+  React.useEffect(() => {
+    window.__onThemeChange = () => {
+      setTheme(window.__theme);
+    };
 
-		setTheme(getInitialTheme());
-	}, []);
+    setTheme(getInitialTheme());
+  }, []);
 
-	return children({
-		theme,
-		set,
-	});
+  return children({
+    theme,
+    set,
+  });
 };
 
 export { ThemeProvider };

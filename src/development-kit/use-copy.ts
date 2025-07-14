@@ -5,91 +5,91 @@ import { copy } from "./clipboard";
 type CopyValue = string;
 
 interface BaseState {
-	value: CopyValue;
+  value: CopyValue;
 }
 
 interface Idle {
-	is: "idle";
+  is: "idle";
 }
 
 interface Unsupported {
-	is: "unsupported";
+  is: "unsupported";
 }
 
 interface Ready {
-	is: "ready";
+  is: "ready";
 }
 
 interface Copying extends BaseState {
-	is: "copying";
+  is: "copying";
 }
 
 interface Copied extends BaseState {
-	is: "copied";
+  is: "copied";
 }
 
 interface Error {
-	is: "error";
+  is: "error";
 }
 
 type ClipboardState = Idle | Unsupported | Ready | Copying | Copied | Error;
 
 interface ClipboardConfig {
-	cleansAfter?: number | null;
+  cleansAfter?: number | null;
 }
 
 type CopyHandler = (value: CopyValue) => Promise<void>;
 
 const useCopy = (
-	{ cleansAfter }: ClipboardConfig = {
-		cleansAfter: 2500,
-	},
+  { cleansAfter }: ClipboardConfig = {
+    cleansAfter: 2500,
+  },
 ) => {
-	const [state, setState] = useState<ClipboardState>(() =>
-		isClient()
-			? navigator?.clipboard
-				? { is: `ready` }
-				: { is: `unsupported` }
-			: { is: `unsupported` },
-	);
-	const timeoutRef = useRef<any | null>(null);
+  const [state, setState] = useState<ClipboardState>(() =>
+    isClient()
+      ? navigator?.clipboard
+        ? { is: `ready` }
+        : { is: `unsupported` }
+      : { is: `unsupported` },
+  );
+  const timeoutRef = useRef<any | null>(null);
 
-	const cleanUpTimeout = (): void => {
-		if (timeoutRef.current) clearTimeout(timeoutRef.current);
-	};
+  const cleanUpTimeout = (): void => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  };
 
-	const copyHandler: CopyHandler = useCallback(async (value) => {
-		cleanUpTimeout();
+  const copyHandler: CopyHandler = useCallback(async (value) => {
+    cleanUpTimeout();
 
-		setState({ value, is: `copying` });
+    setState({ value, is: `copying` });
 
-		const [ok] = await copy(value);
+    const [ok] = await copy(value);
 
-		if (ok) {
-			setState({ value, is: `copied` });
+    if (ok) {
+      setState({ value, is: `copied` });
 
-			if (typeof cleansAfter !== `number`) {
-				return;
-			}
+      if (typeof cleansAfter !== `number`) {
+        return;
+      }
 
-			timeoutRef.current = setTimeout(() => {
-				setState({ is: `ready` });
-			}, cleansAfter);
-		} else {
-			setState({ is: `error` });
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+      timeoutRef.current = setTimeout(() => {
+        setState({ is: `ready` });
+      }, cleansAfter);
+    } else {
+      setState({ is: `error` });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-	const reset = async (): Promise<void> => {
-		await copy(``);
-	};
+  const reset = async (): Promise<void> => {
+    await copy(``);
+  };
 
-	useEffect(() => {
-		cleanUpTimeout();
-	}, []);
+  useEffect(() => {
+    cleanUpTimeout();
+  }, []);
 
-	return [state, copyHandler, reset] as const;
+  return [state, copyHandler, reset] as const;
 };
 
 export { useCopy };

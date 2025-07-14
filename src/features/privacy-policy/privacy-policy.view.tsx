@@ -7,17 +7,17 @@ import { EducationRankLinkContainer } from "containers/education-rank-link.conta
 import { PrivacyPolicyContent } from "components/privacy-policy-content";
 
 const PrivacyPolicyView = () => {
-	return (
-		<>
-			<AppNavigation>
-				<CreationLinkContainer />
-				<EducationRankLinkContainer />
-				<EducationZoneLinkContainer />
-			</AppNavigation>
-			<PrivacyPolicyContent />
-			<AppFooterContainer />
-		</>
-	);
+  return (
+    <>
+      <AppNavigation>
+        <CreationLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
+      </AppNavigation>
+      <PrivacyPolicyContent />
+      <AppFooterContainer />
+    </>
+  );
 };
 
 export { PrivacyPolicyView };

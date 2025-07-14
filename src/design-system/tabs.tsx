@@ -1,59 +1,59 @@
 import React, {
-	type DetailedHTMLProps,
-	type ButtonHTMLAttributes,
-	type ReactElement,
+  type DetailedHTMLProps,
+  type ButtonHTMLAttributes,
+  type ReactElement,
 } from "react";
 import c from "classnames";
 
 interface TabsItemProps
-	extends DetailedHTMLProps<
-		ButtonHTMLAttributes<HTMLButtonElement>,
-		HTMLButtonElement
-	> {
-	active?: boolean;
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  active?: boolean;
 }
 
 interface TabsProps {
-	className?: string;
-	children: ReactElement | ReactElement[];
-	fit?: boolean;
+  className?: string;
+  children: ReactElement | ReactElement[];
+  fit?: boolean;
 }
 
 const Tabs = ({ className, children, fit }: TabsProps) => {
-	return (
-		<div
-			className={c(
-				className,
-				`relative 
+  return (
+    <div
+      className={c(
+        className,
+        `relative 
         flex [&>*:first-child]:rounded-s-md [&>*:last-child]:rounded-r-md`,
-				{
-					[`w-fit`]: fit,
-				},
-			)}
-		>
-			{children}
-		</div>
-	);
+        {
+          [`w-fit`]: fit,
+        },
+      )}
+    >
+      {children}
+    </div>
+  );
 };
 
 const Item = ({ active, className, ...props }: TabsItemProps) => {
-	return (
-		<button
-			className={c(
-				`font-medium flex-1 py-2 px-3`,
-				{
-					[`bg-green-700 disabled:bg-green-700/30 text-white cursor-auto disabled:text-white/60 dark:disabled:text-white/30`]:
-						active,
-				},
-				{
-					[`enabled:hover:bg-gray-400/70 dark:enabled:hover:bg-slate-800/70 dark:bg-slate-800 bg-gray-300 text-black dark:text-white disabled:bg-neutral-300/30 disabled:text-black/30 dark:disabled:bg-gray-900 dark:disabled:text-white/30`]:
-						!active,
-				},
-				className,
-			)}
-			{...props}
-		/>
-	);
+  return (
+    <button
+      className={c(
+        `font-medium flex-1 py-2 px-3`,
+        {
+          [`bg-green-700 disabled:bg-green-700/30 text-white cursor-auto disabled:text-white/60 dark:disabled:text-white/30`]:
+            active,
+        },
+        {
+          [`enabled:hover:bg-gray-400/70 dark:enabled:hover:bg-slate-800/70 dark:bg-slate-800 bg-gray-300 text-black dark:text-white disabled:bg-neutral-300/30 disabled:text-black/30 dark:disabled:bg-gray-900 dark:disabled:text-white/30`]:
+            !active,
+        },
+        className,
+      )}
+      {...props}
+    />
+  );
 };
 
 Tabs.Item = Item;

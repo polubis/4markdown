@@ -5,26 +5,26 @@ import { updateYourProfileStoreActions } from "store/update-your-profile/update-
 import { useYourUserProfileState } from "store/your-user-profile";
 
 const updateYourUserProfileAct = async (
-	payload: API4MarkdownPayload<"updateYourUserProfileV2">,
+  payload: API4MarkdownPayload<"updateYourUserProfileV2">,
 ): AsyncResult => {
-	try {
-		updateYourProfileStoreActions.busy();
+  try {
+    updateYourProfileStoreActions.busy();
 
-		const { mdate, profile } = await getAPI().call(`updateYourUserProfileV2`)(
-			payload,
-		);
+    const { mdate, profile } = await getAPI().call(`updateYourUserProfileV2`)(
+      payload,
+    );
 
-		setCache(`getYourUserProfile`, { profile, mdate });
+    setCache(`getYourUserProfile`, { profile, mdate });
 
-		updateYourProfileStoreActions.ok();
-		useYourUserProfileState.swap({ is: `ok`, mdate, user: profile });
+    updateYourProfileStoreActions.ok();
+    useYourUserProfileState.swap({ is: `ok`, mdate, user: profile });
 
-		return { is: `ok` };
-	} catch (error: unknown) {
-		updateYourProfileStoreActions.fail(error);
+    return { is: `ok` };
+  } catch (error: unknown) {
+    updateYourProfileStoreActions.fail(error);
 
-		return { is: `fail`, error: parseError(error) };
-	}
+    return { is: `fail`, error: parseError(error) };
+  }
 };
 
 export { updateYourUserProfileAct };

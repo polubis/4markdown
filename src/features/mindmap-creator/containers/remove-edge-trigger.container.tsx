@@ -5,26 +5,26 @@ import { removeEdgeAction } from "store/mindmap-creator/actions";
 import type { MindmapCreatorEdge } from "store/mindmap-creator/models";
 
 const RemoveEdgeTriggerContainer = ({
-	labelX,
-	labelY,
-	id,
+  labelX,
+  labelY,
+  id,
 }: {
-	id: MindmapCreatorEdge["id"];
-	labelX: number;
-	labelY: number;
+  id: MindmapCreatorEdge["id"];
+  labelX: number;
+  labelY: number;
 }) => (
-	<Button
-		i={2}
-		s="auto"
-		style={{
-			transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
-			pointerEvents: `all`,
-		}}
-		className="nodrag nopan absolute h-5 w-5"
-		onClick={() => removeEdgeAction(id)}
-	>
-		<BiX />
-	</Button>
+  <Button
+    i={2}
+    s="auto"
+    style={{
+      transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
+      pointerEvents: `all`,
+    }}
+    className="nodrag nopan absolute h-5 w-5"
+    onClick={() => removeEdgeAction(id)}
+  >
+    <BiX />
+  </Button>
 );
 
 export { RemoveEdgeTriggerContainer };

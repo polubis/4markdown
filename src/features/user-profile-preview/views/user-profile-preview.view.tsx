@@ -8,21 +8,21 @@ import { UserProfileContentContainer } from "../containers/user-profile-content.
 import { getUserProfileAct } from "../acts/get-user-profile.act";
 
 const UserProfilePreviewView = () => {
-	React.useEffect(() => {
-		getUserProfileAct();
-	}, []);
+  React.useEffect(() => {
+    getUserProfileAct();
+  }, []);
 
-	return (
-		<>
-			<AppNavigation>
-				<CreationLinkContainer />
-				<EducationRankLinkContainer />
-				<EducationZoneLinkContainer />
-			</AppNavigation>
-			<UserProfileContentContainer />
-			<AppFooterContainer />
-		</>
-	);
+  return (
+    <>
+      <AppNavigation>
+        <CreationLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
+      </AppNavigation>
+      <UserProfileContentContainer />
+      <AppFooterContainer />
+    </>
+  );
 };
 
 export { UserProfilePreviewView };

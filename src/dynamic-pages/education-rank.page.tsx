@@ -7,26 +7,26 @@ import type { EducationRankPageModel } from "models/page-models";
 import { EducationRankView } from "features/education-rank/education-rank.view";
 
 type EducationRankPageProps = {
-	pageContext: EducationRankPageModel;
+  pageContext: EducationRankPageModel;
 };
 
 const EducationRankPage = ({
-	pageContext: { topDocuments, topTags },
+  pageContext: { topDocuments, topTags },
 }: EducationRankPageProps) => {
-	return <EducationRankView topDocuments={topDocuments} topTags={topTags} />;
+  return <EducationRankView topDocuments={topDocuments} topTags={topTags} />;
 };
 
 export default EducationRankPage;
 
 export const Head: HeadFC = () => {
-	return (
-		<Meta
-			appName={meta.appName}
-			title="The Education Rank: Programming, Science & More"
-			description="Explore the top educational resources in programming, science, and math. Enhance your knowledge with the best content."
-			url={meta.siteUrl + meta.routes.education.rank}
-			lang={meta.lang}
-			image={meta.siteUrl + LogoThumbnail}
-		/>
-	);
+  return (
+    <Meta
+      appName={meta.appName}
+      title="The Education Rank: Programming, Science & More"
+      description="Explore the top educational resources in programming, science, and math. Enhance your knowledge with the best content."
+      url={meta.siteUrl + meta.routes.education.rank}
+      lang={meta.lang}
+      image={meta.siteUrl + LogoThumbnail}
+    />
+  );
 };
