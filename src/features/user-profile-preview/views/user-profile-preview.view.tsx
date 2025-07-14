@@ -7,7 +7,7 @@ import { EducationZoneLinkContainer } from "containers/education-zone-link.conta
 import { UserProfileContentContainer } from "../containers/user-profile-content.container";
 import { getUserProfileAct } from "../acts/get-user-profile.act";
 
-const UserProfileView = () => {
+const UserProfilePreviewView = () => {
 	React.useEffect(() => {
 		getUserProfileAct();
 	}, []);
@@ -25,4 +25,4 @@ const UserProfileView = () => {
 	);
 };
 
-export { UserProfileView };
+export { UserProfilePreviewView };
