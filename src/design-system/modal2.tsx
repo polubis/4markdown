@@ -57,13 +57,13 @@ const Modal = ({
 				role="dialog"
 				className={c(
 					`bg-black/40 dark:bg-white/20 fixed z-20 inset-0 flex justify-center`,
-					"items-end pt-10 md:animate-fade-in md:py-4 md:inset-0 md:items-center",
-					"[&>*]:rounded-tl-lg [&>*]:rounded-tr-lg md:[&>*]:rounded-lg",
+					"items-end pt-10 sm:animate-fade-in sm:py-4 sm:inset-0 sm:items-center",
+					"[&>*]:rounded-tl-lg [&>*]:rounded-tr-lg sm:[&>*]:rounded-lg",
 					className,
 				)}
 				{...props}
 			>
-				<div className="bg-white overflow-hidden max-h-full w-full tn:max-w-sm dark:bg-black shadow-xl grid grid-rows-[auto_1fr_auto] animate-slide-in-bottom md:animate-none">
+				<div className="bg-white overflow-hidden max-h-full w-full tn:max-w-[480px] dark:bg-black shadow-xl grid grid-rows-[auto_1fr_auto] animate-slide-in-bottom sm:animate-none">
 					{children}
 				</div>
 			</div>

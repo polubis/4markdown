@@ -7,7 +7,7 @@ import type {
 	Tags,
 	Path,
 } from "../atoms";
-import type { DocumentRatingDto } from "./document-rating.dto";
+import type { RatingDto } from "./rating.dto";
 import type { UserProfileDto } from "./user-profile.dto";
 
 type Base = {
@@ -26,7 +26,7 @@ type PrivateDocumentDto = Base & {
 type PublicDocumentDto = Base & {
 	visibility: "public";
 	author: UserProfileDto | null;
-	rating: DocumentRatingDto;
+	rating: RatingDto;
 };
 
 type PermanentDocumentDto = Base & {
@@ -34,7 +34,7 @@ type PermanentDocumentDto = Base & {
 	description: Description;
 	tags: Tags;
 	author: UserProfileDto | null;
-	rating: DocumentRatingDto;
+	rating: RatingDto;
 };
 
 type DocumentDto =

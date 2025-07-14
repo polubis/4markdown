@@ -1,6 +1,11 @@
 import React from "react";
 import { Button } from "design-system/button";
-import { BiPencil, BiRefresh } from "react-icons/bi";
+import {
+	BiPencil,
+	BiRefresh,
+	BiSolidUserDetail,
+	BiWorld,
+} from "react-icons/bi";
 import { useConfirm } from "development-kit/use-confirm";
 import { Modal } from "design-system/modal";
 import { UserProfileFormModalContainer } from "containers/user-profile-form-modal.container";
@@ -12,6 +17,8 @@ import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { useYourAccountState } from "store/your-account";
 import { reloadYourAccountAct } from "acts/reload-your-account.act";
+import { navigate } from "gatsby";
+import { meta } from "../../meta";
 
 const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 	const yourUserProfile = useYourUserProfileState();
@@ -22,6 +29,17 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 		logOut();
 		onClose();
 	});
+
+	const goToUserProfile = () => {
+		onClose();
+
+		if (yourUserProfile.is === `ok` && yourUserProfile.user?.id) {
+			navigate(
+				meta.routes.userProfile.preview +
+					`?profileId=${yourUserProfile.user.id}`,
+			);
+		}
+	};
 
 	if (userProfileForm.isOn) {
 		return (
@@ -79,6 +97,16 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 										>
 											<BiRefresh />
 										</Button>
+										{yourUserProfile.user && (
+											<Button
+												i={1}
+												s={1}
+												title="See your public profile"
+												onClick={goToUserProfile}
+											>
+												<BiSolidUserDetail />
+											</Button>
+										)}
 									</div>
 									<Avatar
 										size="lg"
@@ -138,6 +166,16 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 									>
 										<BiRefresh />
 									</Button>
+									{yourUserProfile.user && (
+										<Button
+											i={1}
+											s={1}
+											title="See your public profile"
+											onClick={goToUserProfile}
+										>
+											<BiSolidUserDetail />
+										</Button>
+									)}
 								</div>
 							</div>
 						)}

@@ -1,8 +1,8 @@
-import type { DocumentRatingCategory } from "api-4markdown-contracts";
+import type { RatingCategory } from "api-4markdown-contracts";
 import React from "react";
 import c from "classnames";
 import { Button } from "design-system/button";
-import { DOCUMENT_RATING_ICONS } from "core/document-rating-config";
+import { RATING_ICONS } from "core/rating-config";
 import { useDocumentLayoutContext } from "providers/document-layout.provider";
 import { rateDocumentAct } from "acts/rate-document.act";
 import throttle from "lodash.throttle";
@@ -49,7 +49,7 @@ const DocumentRatingContainer = ({
 		useDocumentLayoutContext();
 
 	const handleClick = async (
-		category: DocumentRatingCategory,
+		category: RatingCategory,
 		index: number,
 	): Promise<void> => {
 		playNote(NOTES[index].frequency);
@@ -103,7 +103,7 @@ const DocumentRatingContainer = ({
 
 	return (
 		<section className={c(`flex`, className)}>
-			{DOCUMENT_RATING_ICONS.map(([Icon, category], idx) => (
+			{RATING_ICONS.map(([Icon, category], idx) => (
 				<Button
 					i={yourRate === category ? 2 : 1}
 					s={1}

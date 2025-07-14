@@ -11,6 +11,7 @@ type HomePageModel = {};
 type EducationDocumentAvatarModel = {
 	avatar: NonNullable<UserProfileDto["avatar"]>["sm"] | null;
 	displayName: NonNullable<UserProfileDto["displayName"]>;
+	id: UserProfileDto["id"];
 } | null;
 
 type RichEducationDocumentModel = Pick<
