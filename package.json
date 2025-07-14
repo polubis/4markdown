@@ -36,7 +36,7 @@
 		"@dagrejs/dagre": "^1.1.5",
 		"@greenonsoftware/react-kit": "^0.1.0",
 		"@tailwindcss/typography": "^0.5.16",
-		"@xyflow/react": "^12.8.1",
+		"@xyflow/react": "^12.8.2",
 		"classnames": "^2.5.1",
 		"clsx": "^2.1.1",
 		"date-fns": "^4.1.0",
@@ -64,7 +64,7 @@
 	},
 	"devDependencies": {
 		"@babel/preset-typescript": "^7.27.1",
-		"@biomejs/biome": "^2.0.6",
+		"@biomejs/biome": "^2.1.1",
 		"@greenonsoftware/vibetest": "^0.0.1",
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/jest-dom": "^6.6.3",
