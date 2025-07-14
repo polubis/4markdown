@@ -9,34 +9,34 @@ import { useMindmapCreatorState } from "store/mindmap-creator";
 import { useYourAccountState } from "store/your-account";
 
 const useAuth = () => {
-	const [api] = React.useState(initializeAPI);
+  const [api] = React.useState(initializeAPI);
 
-	React.useEffect(() => {
-		const unsubscribe = api.onAuthChange((user) => {
-			if (user) {
-				authStoreActions.authorize({
-					avatar: user.photoURL,
-					name: user.displayName,
-					uid: user.uid,
-				});
+  React.useEffect(() => {
+    const unsubscribe = api.onAuthChange((user) => {
+      if (user) {
+        authStoreActions.authorize({
+          avatar: user.photoURL,
+          name: user.displayName,
+          uid: user.uid,
+        });
 
-				return;
-			}
+        return;
+      }
 
-			docStoreActions.reset();
-			docManagementStoreActions.idle();
-			docsStoreActions.idle();
-			useYourUserProfileState.reset();
-			authStoreActions.unauthorize();
-			useMindmapCreatorState.reset();
-			useYourAccountState.reset();
-		});
+      docStoreActions.reset();
+      docManagementStoreActions.idle();
+      docsStoreActions.idle();
+      useYourUserProfileState.reset();
+      authStoreActions.unauthorize();
+      useMindmapCreatorState.reset();
+      useYourAccountState.reset();
+    });
 
-		return () => {
-			unsubscribe();
-		};
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+    return () => {
+      unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 };
 
 export { useAuth };

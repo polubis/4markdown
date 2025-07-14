@@ -13,41 +13,41 @@ import { DocumentLayoutContainer } from "containers/document-layout.container";
 import { AppFooterContainer } from "containers/app-footer.container";
 
 interface DocumentPageProps {
-	pageContext: {
-		doc: PermanentDocumentDto;
-	};
+  pageContext: {
+    doc: PermanentDocumentDto;
+  };
 }
 
 const DocumentPage = ({ pageContext }: DocumentPageProps) => {
-	return (
-		<>
-			<AppNavigation>
-				<CreationLinkContainer />
-				<EducationRankLinkContainer />
-				<EducationZoneLinkContainer />
-			</AppNavigation>
-			<DocumentLayoutProvider document={pageContext.doc}>
-				<DocumentLayoutContainer />
-			</DocumentLayoutProvider>
-			<AppFooterContainer />
-		</>
-	);
+  return (
+    <>
+      <AppNavigation>
+        <CreationLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
+      </AppNavigation>
+      <DocumentLayoutProvider document={pageContext.doc}>
+        <DocumentLayoutContainer />
+      </DocumentLayoutProvider>
+      <AppFooterContainer />
+    </>
+  );
 };
 
 export default DocumentPage;
 
 export const Head: HeadFC<unknown, DocumentPageProps["pageContext"]> = ({
-	pageContext,
+  pageContext,
 }) => {
-	return (
-		<Meta
-			appName={meta.appName}
-			title={pageContext.doc.name}
-			description={pageContext.doc.description}
-			url={`${meta.siteUrl}${pageContext.doc.path}`}
-			keywords={`${meta.appName}, ${pageContext.doc.name}`}
-			lang={meta.lang}
-			image={meta.siteUrl + LogoThumbnail}
-		/>
-	);
+  return (
+    <Meta
+      appName={meta.appName}
+      title={pageContext.doc.name}
+      description={pageContext.doc.description}
+      url={`${meta.siteUrl}${pageContext.doc.path}`}
+      keywords={`${meta.appName}, ${pageContext.doc.name}`}
+      lang={meta.lang}
+      image={meta.siteUrl + LogoThumbnail}
+    />
+  );
 };

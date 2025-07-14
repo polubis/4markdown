@@ -7,25 +7,25 @@ import { safeUserProfileStatsSelector } from "../models/selectors";
 import { useUserProfileState } from "../store";
 
 const addUserProfileCommentAct = async ({
-	content,
+  content,
 }: AddUserProfileCommentFormValues): AsyncResult => {
-	try {
-		const addedComment = await getAPI().call("addUserProfileComment")({
-			receiverProfileId: getProfileId(),
-			comment: content,
-		});
+  try {
+    const addedComment = await getAPI().call("addUserProfileComment")({
+      receiverProfileId: getProfileId(),
+      comment: content,
+    });
 
-		const stats = safeUserProfileStatsSelector(useUserProfileState.get());
+    const stats = safeUserProfileStatsSelector(useUserProfileState.get());
 
-		setUserProfileStatsAction({
-			...stats,
-			comments: [...stats.comments, addedComment],
-		});
+    setUserProfileStatsAction({
+      ...stats,
+      comments: [...stats.comments, addedComment],
+    });
 
-		return { is: `ok` };
-	} catch (error) {
-		return { is: `fail`, error: parseError(error) };
-	}
+    return { is: `ok` };
+  } catch (error) {
+    return { is: `fail`, error: parseError(error) };
+  }
 };
 
 export { addUserProfileCommentAct };

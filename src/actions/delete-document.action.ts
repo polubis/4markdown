@@ -5,23 +5,23 @@ import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
 import { resetAction } from "store/document-creator/actions";
 
 const deleteDocument = async (onOk?: () => void): Promise<void> => {
-	try {
-		const id = docStoreSelectors.active().id;
+  try {
+    const id = docStoreSelectors.active().id;
 
-		docManagementStoreActions.busy();
-		await getAPI().call(`deleteDocument`)({ id });
+    docManagementStoreActions.busy();
+    await getAPI().call(`deleteDocument`)({ id });
 
-		docManagementStoreActions.ok();
-		docsStoreActions.deleteDoc(id);
-		docStoreActions.reset();
-		resetAction();
+    docManagementStoreActions.ok();
+    docsStoreActions.deleteDoc(id);
+    docStoreActions.reset();
+    resetAction();
 
-		setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
+    setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
 
-		onOk?.();
-	} catch (error: unknown) {
-		docManagementStoreActions.fail(error);
-	}
+    onOk?.();
+  } catch (error: unknown) {
+    docManagementStoreActions.fail(error);
+  }
 };
 
 export { deleteDocument };

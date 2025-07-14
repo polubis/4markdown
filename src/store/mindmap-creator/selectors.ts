@@ -2,60 +2,60 @@ import type { MindmapDto } from "api-4markdown-contracts";
 import type { MindmapCreatorState } from "./models";
 
 const selectedNodesSelector = (
-	state: MindmapCreatorState,
+  state: MindmapCreatorState,
 ): MindmapCreatorState["nodes"] => state.nodes.filter((node) => node.selected);
 
 const readyMindmapsSelector = (
-	mindmaps: MindmapCreatorState["mindmaps"],
+  mindmaps: MindmapCreatorState["mindmaps"],
 ): Extract<MindmapCreatorState["mindmaps"], { is: `ok` }> => {
-	if (mindmaps.is === `ok`) return mindmaps;
+  if (mindmaps.is === `ok`) return mindmaps;
 
-	throw Error(`Invalid reading attempt in mindmap creator state`);
+  throw Error(`Invalid reading attempt in mindmap creator state`);
 };
 
 const activeMindmapSelector = (
-	state: MindmapCreatorState,
+  state: MindmapCreatorState,
 ): MindmapDto | null => {
-	if (state.activeMindmapId === null || state.mindmaps.is !== `ok`) return null;
+  if (state.activeMindmapId === null || state.mindmaps.is !== `ok`) return null;
 
-	return (
-		state.mindmaps.data.find(
-			(mindmap) => mindmap.id === state.activeMindmapId,
-		) ?? null
-	);
+  return (
+    state.mindmaps.data.find(
+      (mindmap) => mindmap.id === state.activeMindmapId,
+    ) ?? null
+  );
 };
 
 const safeActiveMindmapSelector = (state: MindmapCreatorState): MindmapDto => {
-	const mindmap = activeMindmapSelector(state);
+  const mindmap = activeMindmapSelector(state);
 
-	if (!mindmap) throw Error(`Invalid reading attempt. Cannot find mindmap`);
+  if (!mindmap) throw Error(`Invalid reading attempt. Cannot find mindmap`);
 
-	return mindmap;
+  return mindmap;
 };
 
 const openedNodeFormSelector = (
-	nodeForm: MindmapCreatorState["nodeForm"],
+  nodeForm: MindmapCreatorState["nodeForm"],
 ): Exclude<MindmapCreatorState["nodeForm"], { is: `closed` }> => {
-	if (nodeForm.is === `closed`)
-		throw Error(`Invalid reading attempt in node form`);
+  if (nodeForm.is === `closed`)
+    throw Error(`Invalid reading attempt in node form`);
 
-	return nodeForm;
+  return nodeForm;
 };
 
 const openedMindmapFormSelector = (
-	mindmapForm: MindmapCreatorState["mindmapForm"],
+  mindmapForm: MindmapCreatorState["mindmapForm"],
 ): Exclude<MindmapCreatorState["mindmapForm"], { is: `closed` }> => {
-	if (mindmapForm.is === `closed`)
-		throw Error(`Invalid reading attempt in node form`);
+  if (mindmapForm.is === `closed`)
+    throw Error(`Invalid reading attempt in node form`);
 
-	return mindmapForm;
+  return mindmapForm;
 };
 
 export {
-	selectedNodesSelector,
-	readyMindmapsSelector,
-	activeMindmapSelector,
-	safeActiveMindmapSelector,
-	openedNodeFormSelector,
-	openedMindmapFormSelector,
+  selectedNodesSelector,
+  readyMindmapsSelector,
+  activeMindmapSelector,
+  safeActiveMindmapSelector,
+  openedNodeFormSelector,
+  openedMindmapFormSelector,
 };

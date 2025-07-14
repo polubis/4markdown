@@ -8,29 +8,29 @@ import { useDocumentCreatorState } from "store/document-creator";
 import { Markdown } from "components/markdown";
 
 const CreatorPreviewPage = () => {
-	useCreatorLocalStorageSync();
+  useCreatorLocalStorageSync();
 
-	const { code } = useDocumentCreatorState();
+  const { code } = useDocumentCreatorState();
 
-	return (
-		<main>
-			<Markdown className="p-4 mx-auto">{code}</Markdown>
-		</main>
-	);
+  return (
+    <main>
+      <Markdown className="p-4 mx-auto">{code}</Markdown>
+    </main>
+  );
 };
 
 export default CreatorPreviewPage;
 
 export const Head: HeadFC = () => {
-	return (
-		<Meta
-			appName={meta.appName}
-			title={meta.title}
-			description={meta.description}
-			url={meta.siteUrl + meta.routes.creator.preview}
-			lang={meta.lang}
-			image={meta.siteUrl + LogoThumbnail}
-			robots="noindex, nofollow"
-		/>
-	);
+  return (
+    <Meta
+      appName={meta.appName}
+      title={meta.title}
+      description={meta.description}
+      url={meta.siteUrl + meta.routes.creator.preview}
+      lang={meta.lang}
+      image={meta.siteUrl + LogoThumbnail}
+      robots="noindex, nofollow"
+    />
+  );
 };

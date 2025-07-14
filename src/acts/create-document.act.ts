@@ -8,29 +8,29 @@ import { useDocumentCreatorState } from "store/document-creator";
 import { markAsUnchangedAction } from "store/document-creator/actions";
 
 const createDocumentAct = async (
-	payload: Pick<API4MarkdownPayload<"createDocument">, "name">,
+  payload: Pick<API4MarkdownPayload<"createDocument">, "name">,
 ): AsyncResult => {
-	const { code } = useDocumentCreatorState.get();
+  const { code } = useDocumentCreatorState.get();
 
-	try {
-		docManagementStoreActions.busy();
-		const createdDocument = await getAPI().call(`createDocument`)({
-			...payload,
-			code,
-		});
-		docManagementStoreActions.ok();
-		docStoreActions.setActive(createdDocument);
-		docsStoreActions.addDoc(createdDocument);
-		markAsUnchangedAction();
+  try {
+    docManagementStoreActions.busy();
+    const createdDocument = await getAPI().call(`createDocument`)({
+      ...payload,
+      code,
+    });
+    docManagementStoreActions.ok();
+    docStoreActions.setActive(createdDocument);
+    docsStoreActions.addDoc(createdDocument);
+    markAsUnchangedAction();
 
-		setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
+    setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
 
-		return { is: `ok` };
-	} catch (error: unknown) {
-		docManagementStoreActions.fail(error);
+    return { is: `ok` };
+  } catch (error: unknown) {
+    docManagementStoreActions.fail(error);
 
-		return { is: `fail`, error: parseError(error) };
-	}
+    return { is: `fail`, error: parseError(error) };
+  }
 };
 
 export { createDocumentAct };

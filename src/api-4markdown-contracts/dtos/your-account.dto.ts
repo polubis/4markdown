@@ -1,9 +1,9 @@
 type YourAccountDto = {
-	balance: {
-		tokens: number;
-		refillStatus: "initialized" | "refilled" | "not-refilled";
-	};
-	trusted: boolean;
+  balance: {
+    tokens: number;
+    refillStatus: "initialized" | "refilled" | "not-refilled";
+  };
+  trusted: boolean;
 };
 
 export type { YourAccountDto };

@@ -1,52 +1,52 @@
 import React, {
-	type Dispatch,
-	type SetStateAction,
-	type ReactNode,
+  type Dispatch,
+  type SetStateAction,
+  type ReactNode,
 } from "react";
 import type { FullMindmapDto } from "api-4markdown-contracts";
 
 type MindmapLayoutState = {
-	mindmap: FullMindmapDto;
+  mindmap: FullMindmapDto;
 };
 
 type MindmapLayoutContextValue = [
-	MindmapLayoutState,
-	Dispatch<
-		SetStateAction<{
-			mindmap: FullMindmapDto;
-		}>
-	>,
+  MindmapLayoutState,
+  Dispatch<
+    SetStateAction<{
+      mindmap: FullMindmapDto;
+    }>
+  >,
 ];
 
 type MindmapLayoutProviderProps = {
-	children: ReactNode;
-	mindmap: FullMindmapDto;
+  children: ReactNode;
+  mindmap: FullMindmapDto;
 };
 
 const MindmapLayoutContext =
-	React.createContext<MindmapLayoutContextValue | null>(null);
+  React.createContext<MindmapLayoutContextValue | null>(null);
 
 const MindmapLayoutProvider = ({
-	mindmap,
-	children,
+  mindmap,
+  children,
 }: MindmapLayoutProviderProps) => {
-	const value = React.useState<MindmapLayoutState>(() => ({
-		mindmap,
-	}));
+  const value = React.useState<MindmapLayoutState>(() => ({
+    mindmap,
+  }));
 
-	return (
-		<MindmapLayoutContext.Provider value={value}>
-			{children}
-		</MindmapLayoutContext.Provider>
-	);
+  return (
+    <MindmapLayoutContext.Provider value={value}>
+      {children}
+    </MindmapLayoutContext.Provider>
+  );
 };
 
 const useMindmapLayoutContext = (): MindmapLayoutContextValue => {
-	const ctx = React.useContext(MindmapLayoutContext);
+  const ctx = React.useContext(MindmapLayoutContext);
 
-	if (!ctx) throw Error(`Lack of provider for mindmap layout`);
+  if (!ctx) throw Error(`Lack of provider for mindmap layout`);
 
-	return ctx;
+  return ctx;
 };
 
 export { MindmapLayoutProvider, useMindmapLayoutContext };
