@@ -12,7 +12,7 @@ import type {
 import type {
 	API4MarkdownDto,
 	API4MarkdownPayload,
-	DocumentRatingCategory,
+	RatingCategory,
 	PermanentDocumentDto,
 } from "api-4markdown-contracts";
 import { readFileSync, writeFileSync } from "fs";
@@ -126,7 +126,7 @@ const getTopDocuments = (
 	documents: PermanentDocumentDto[],
 	amount: number,
 ): PermanentDocumentDto[] => {
-	const weights: Record<DocumentRatingCategory, number> = {
+	const weights: Record<RatingCategory, number> = {
 		perfect: 5,
 		good: 4,
 		decent: 3,
@@ -139,7 +139,7 @@ const getTopDocuments = (
 	>((acc, document) => {
 		acc[document.id] = Object.entries(document.rating).reduce(
 			(acc, [category, rate]) =>
-				rate * weights[category as DocumentRatingCategory] + acc,
+				rate * weights[category as RatingCategory] + acc,
 			0,
 		);
 
@@ -291,6 +291,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 				? {
 						displayName: author.displayName,
 						avatar: author?.avatar ? author.avatar.sm : null,
+						id: author.id,
 					}
 				: null,
 	}));
@@ -334,6 +335,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 										? {
 												displayName: author.displayName,
 												avatar: author?.avatar ? author.avatar.sm : null,
+												id: author.id,
 											}
 										: null,
 							}),
@@ -371,6 +373,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 									? {
 											displayName: author.displayName,
 											avatar: author?.avatar ? author.avatar.sm : null,
+											id: author.id,
 										}
 									: null,
 						}),
@@ -399,6 +402,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 							? {
 									displayName: author.displayName,
 									avatar: author?.avatar ? author.avatar.sm : null,
+									id: author.id,
 								}
 							: null,
 				}),
