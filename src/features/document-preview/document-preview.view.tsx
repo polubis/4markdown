@@ -12,40 +12,40 @@ import { DocumentLayoutProvider } from "providers/document-layout.provider";
 import { DocumentLayoutContainer } from "containers/document-layout.container";
 
 const ErrorScreen = React.lazy(() =>
-	import(`./components/error-screen`).then(({ ErrorScreen }) => ({
-		default: ErrorScreen,
-	})),
+  import(`./components/error-screen`).then(({ ErrorScreen }) => ({
+    default: ErrorScreen,
+  })),
 );
 
 const DocumentPreviewView = () => {
-	const documentPreviewStore = useDocumentPreviewStore();
+  const documentPreviewStore = useDocumentPreviewStore();
 
-	React.useEffect(() => {
-		loadDocument();
-	}, []);
+  React.useEffect(() => {
+    loadDocument();
+  }, []);
 
-	return (
-		<>
-			<AppNavigation>
-				<CreationLinkContainer />
-				<EducationRankLinkContainer />
-				<EducationZoneLinkContainer />
-			</AppNavigation>
-			{(documentPreviewStore.is === `idle` ||
-				documentPreviewStore.is === `busy`) && <LoadingScreen />}
-			{documentPreviewStore.is === `fail` && (
-				<React.Suspense fallback={<LoadingScreen />}>
-					<ErrorScreen />
-				</React.Suspense>
-			)}
-			{documentPreviewStore.is === `ok` && (
-				<DocumentLayoutProvider document={documentPreviewStore.document}>
-					<DocumentLayoutContainer />
-				</DocumentLayoutProvider>
-			)}
-			<AppFooterContainer />
-		</>
-	);
+  return (
+    <>
+      <AppNavigation>
+        <CreationLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
+      </AppNavigation>
+      {(documentPreviewStore.is === `idle` ||
+        documentPreviewStore.is === `busy`) && <LoadingScreen />}
+      {documentPreviewStore.is === `fail` && (
+        <React.Suspense fallback={<LoadingScreen />}>
+          <ErrorScreen />
+        </React.Suspense>
+      )}
+      {documentPreviewStore.is === `ok` && (
+        <DocumentLayoutProvider document={documentPreviewStore.document}>
+          <DocumentLayoutContainer />
+        </DocumentLayoutProvider>
+      )}
+      <AppFooterContainer />
+    </>
+  );
 };
 
 export { DocumentPreviewView };

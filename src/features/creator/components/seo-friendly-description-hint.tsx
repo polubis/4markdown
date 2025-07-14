@@ -25,34 +25,34 @@ Based on [Ahrefs](https://ahrefs.com/) audits and articles.
 `;
 
 const Content = () => (
-	<>
-		<Modal.Header
-			title="Details"
-			closeButtonTitle="Close document permanent status change"
-		/>
-		<Markdown>{md}</Markdown>
-	</>
+  <>
+    <Modal.Header
+      title="Details"
+      closeButtonTitle="Close document permanent status change"
+    />
+    <Markdown>{md}</Markdown>
+  </>
 );
 
 const SeoFriendlyDescriptionHint = () => {
-	return (
-		<Hint
-			className="flex justify-between"
-			content={Content}
-			trigger={({ on }) => (
-				<>
-					110-160 characters
-					<button
-						type="button"
-						onClick={on}
-						title="Open SEO description explanation"
-					>
-						<BiInfoCircle size={20} className="ml-3 shrink-0" />
-					</button>
-				</>
-			)}
-		/>
-	);
+  return (
+    <Hint
+      className="flex justify-between"
+      content={Content}
+      trigger={({ on }) => (
+        <>
+          110-160 characters
+          <button
+            type="button"
+            onClick={on}
+            title="Open SEO description explanation"
+          >
+            <BiInfoCircle size={20} className="ml-3 shrink-0" />
+          </button>
+        </>
+      )}
+    />
+  );
 };
 
 export { SeoFriendlyDescriptionHint };

@@ -6,10 +6,10 @@ type ImageExtension = (typeof IMAGE_EXTENSIONS)[number];
 type ImageContentType = `image/${ImageExtension}`;
 
 type ImageDto = {
-	extension: ImageExtension;
-	contentType: ImageContentType;
-	url: Path;
-	id: Id;
+  extension: ImageExtension;
+  contentType: ImageContentType;
+  url: Path;
+  id: Id;
 };
 
 export { IMAGE_EXTENSIONS };

@@ -6,35 +6,35 @@ import { BiCollection } from "react-icons/bi";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 
 const DocsListModalContainer = React.lazy(() =>
-	import(`./docs-list-modal.container`).then((m) => ({
-		default: m.DocsListModalContainer,
-	})),
+  import(`./docs-list-modal.container`).then((m) => ({
+    default: m.DocsListModalContainer,
+  })),
 );
 
 const YourDocumentsContainer = () => {
-	const docManagementStore = useDocManagementStore();
-	const docsStore = useDocsStore();
-	const modal = useSimpleFeature();
+  const docManagementStore = useDocManagementStore();
+  const docsStore = useDocsStore();
+  const modal = useSimpleFeature();
 
-	return (
-		<>
-			<Button
-				i={1}
-				s={1}
-				disabled={docManagementStore.is === `busy` || docsStore.is === `busy`}
-				title="Your documents"
-				onClick={modal.on}
-			>
-				<BiCollection className="rotate-180" />
-			</Button>
+  return (
+    <>
+      <Button
+        i={1}
+        s={1}
+        disabled={docManagementStore.is === `busy` || docsStore.is === `busy`}
+        title="Your documents"
+        onClick={modal.on}
+      >
+        <BiCollection className="rotate-180" />
+      </Button>
 
-			{modal.isOn && (
-				<React.Suspense>
-					<DocsListModalContainer onClose={modal.off} />
-				</React.Suspense>
-			)}
-		</>
-	);
+      {modal.isOn && (
+        <React.Suspense>
+          <DocsListModalContainer onClose={modal.off} />
+        </React.Suspense>
+      )}
+    </>
+  );
 };
 
 export { YourDocumentsContainer };

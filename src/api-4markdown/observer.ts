@@ -1,54 +1,54 @@
 import type {
-	API4MarkdownContractKey,
-	API4MarkdownResult,
+  API4MarkdownContractKey,
+  API4MarkdownResult,
 } from "api-4markdown-contracts";
 
 type Observer = <TKey extends API4MarkdownContractKey>(
-	result: API4MarkdownResult<TKey>,
+  result: API4MarkdownResult<TKey>,
 ) => void;
 
 const observersMap = new Map<API4MarkdownContractKey, Map<symbol, Observer>>();
 
 const observe = <TKey extends API4MarkdownContractKey>(
-	key: TKey,
-	observer: (result: API4MarkdownResult<TKey>) => void,
+  key: TKey,
+  observer: (result: API4MarkdownResult<TKey>) => void,
 ) => {
-	const id = Symbol(`id`);
+  const id = Symbol(`id`);
 
-	const unobserve = (): void => {
-		const observers = observersMap.get(key);
+  const unobserve = (): void => {
+    const observers = observersMap.get(key);
 
-		if (observers === undefined || observers.size === 0) {
-			observersMap.delete(key);
-			return;
-		}
+    if (observers === undefined || observers.size === 0) {
+      observersMap.delete(key);
+      return;
+    }
 
-		observers.delete(id);
-	};
+    observers.delete(id);
+  };
 
-	let observers = observersMap.get(key);
+  let observers = observersMap.get(key);
 
-	if (observers === undefined) {
-		observers = new Map();
-		observersMap.set(key, observers);
-	}
-	// @TODO[PRIO=4]: [Go back here and improve type defs to make].
-	observers.set(id, observer as Observer);
+  if (observers === undefined) {
+    observers = new Map();
+    observersMap.set(key, observers);
+  }
+  // @TODO[PRIO=4]: [Go back here and improve type defs to make].
+  observers.set(id, observer as Observer);
 
-	return unobserve;
+  return unobserve;
 };
 
 const emit = <TKey extends API4MarkdownContractKey>(
-	key: TKey,
-	result: API4MarkdownResult<TKey>,
+  key: TKey,
+  result: API4MarkdownResult<TKey>,
 ): void => {
-	observersMap.get(key)?.forEach((observer) => {
-		observer(result);
-	});
+  observersMap.get(key)?.forEach((observer) => {
+    observer(result);
+  });
 };
 
 const unobserveAll = (): void => {
-	observersMap.clear();
+  observersMap.clear();
 };
 
 export { observe, emit, unobserveAll };

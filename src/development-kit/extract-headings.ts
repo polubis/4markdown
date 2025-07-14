@@ -5,22 +5,22 @@ import { toString } from "mdast-util-to-string";
 import type { Heading } from "mdast";
 
 type ExtractedHeading = {
-	level: number;
-	text: string;
+  level: number;
+  text: string;
 };
 
 const extractHeadings = (markdown: string): ExtractedHeading[] => {
-	const tree = unified().use(remarkParse).parse(markdown);
+  const tree = unified().use(remarkParse).parse(markdown);
 
-	const headings: ExtractedHeading[] = [];
+  const headings: ExtractedHeading[] = [];
 
-	visit(tree, `heading`, (node: Heading) => {
-		const level = node.depth;
-		const text = toString(node);
-		headings.push({ level, text });
-	});
+  visit(tree, `heading`, (node: Heading) => {
+    const level = node.depth;
+    const text = toString(node);
+    headings.push({ level, text });
+  });
 
-	return headings;
+  return headings;
 };
 
 export type { ExtractedHeading };

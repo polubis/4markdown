@@ -4,24 +4,24 @@ import { seeInDocumentsCreatorAct } from "./see-in-documents-creator.act";
 import { toggleConversationAction } from "store/document-generation/actions";
 
 const previewGenerationInDocumentsCreatorAct = (conversationId: SUID): void => {
-	const conversation = useDocumentGenerationState
-		.get()
-		.conversations.find((conversation) => conversation.id === conversationId);
+  const conversation = useDocumentGenerationState
+    .get()
+    .conversations.find((conversation) => conversation.id === conversationId);
 
-	if (!conversation) {
-		throw Error(`No conversation found`);
-	}
+  if (!conversation) {
+    throw Error(`No conversation found`);
+  }
 
-	const record = [...conversation.history]
-		.reverse()
-		.find((record) => record.type === `assistant`);
+  const record = [...conversation.history]
+    .reverse()
+    .find((record) => record.type === `assistant`);
 
-	if (!record) {
-		throw Error(`No assistant reply found`);
-	}
+  if (!record) {
+    throw Error(`No assistant reply found`);
+  }
 
-	toggleConversationAction(conversationId);
-	seeInDocumentsCreatorAct({ code: record.body.output });
+  toggleConversationAction(conversationId);
+  seeInDocumentsCreatorAct({ code: record.body.output });
 };
 
 export { previewGenerationInDocumentsCreatorAct };

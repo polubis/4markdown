@@ -4,13 +4,13 @@ import { CommentId, Date } from "../atoms";
 import { UserProfileDto } from "./user-profile.dto";
 
 type CommentDto = Prettify<
-	RatingDto & {
-		id: CommentId;
-		ownerProfile: UserProfileDto;
-		cdate: Date;
-		mdate: Date;
-		content: string;
-	}
+  RatingDto & {
+    id: CommentId;
+    ownerProfile: UserProfileDto;
+    cdate: Date;
+    mdate: Date;
+    content: string;
+  }
 >;
 
 export type { CommentDto };

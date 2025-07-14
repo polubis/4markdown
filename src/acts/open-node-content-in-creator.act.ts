@@ -4,11 +4,11 @@ import type { DocumentCreatorState } from "store/document-creator/models";
 import { meta } from "../../meta";
 
 const openNodeContentInCreatorAct = (
-	code: DocumentCreatorState["code"],
+  code: DocumentCreatorState["code"],
 ): void => {
-	docStoreActions.reset();
-	changeWithoutMarkAsUnchangedAction(code);
-	window.open(meta.routes.home, `_blank`);
+  docStoreActions.reset();
+  changeWithoutMarkAsUnchangedAction(code);
+  window.open(meta.routes.home, `_blank`);
 };
 
 export { openNodeContentInCreatorAct };
