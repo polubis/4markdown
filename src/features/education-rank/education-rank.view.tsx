@@ -12,28 +12,28 @@ import { EducationRankLinkContainer } from "containers/education-rank-link.conta
 type EducationRankViewProps = EducationRankPageModel;
 
 const EducationRankView = ({
-	topDocuments,
-	topTags,
+  topDocuments,
+  topTags,
 }: EducationRankViewProps) => {
-	return (
-		<>
-			<AppNavigation>
-				<CreationLinkContainer />
-				<EducationRankLinkContainer />
-				<EducationZoneLinkContainer />
-			</AppNavigation>
-			<EducationLayout
-				subTitle={`Top ${topDocuments.length} educational assets`}
-				title="Education Rank"
-			>
-				<EducationDocumentsList documents={topDocuments} />
-				<>
-					<EducationTopTags tags={topTags} />
-				</>
-			</EducationLayout>
-			<AppFooterContainer />
-		</>
-	);
+  return (
+    <>
+      <AppNavigation>
+        <CreationLinkContainer />
+        <EducationRankLinkContainer />
+        <EducationZoneLinkContainer />
+      </AppNavigation>
+      <EducationLayout
+        subTitle={`Top ${topDocuments.length} educational assets`}
+        title="Education Rank"
+      >
+        <EducationDocumentsList documents={topDocuments} />
+        <>
+          <EducationTopTags tags={topTags} />
+        </>
+      </EducationLayout>
+      <AppFooterContainer />
+    </>
+  );
 };
 
 export { EducationRankView };

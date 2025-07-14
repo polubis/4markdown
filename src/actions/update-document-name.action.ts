@@ -7,34 +7,34 @@ import { useDocumentCreatorState } from "store/document-creator";
 import { changeWithoutMarkAsUnchangedAction } from "store/document-creator/actions";
 
 const updateDocumentName = async (
-	name: API4MarkdownPayload<"updateDocumentName">["name"],
+  name: API4MarkdownPayload<"updateDocumentName">["name"],
 ): Promise<void> => {
-	try {
-		const { code } = useDocumentCreatorState.get();
-		const activeDocument = docStoreSelectors.active();
-		docManagementStoreActions.busy();
-		const response = await getAPI().call(`updateDocumentName`)({
-			mdate: activeDocument.mdate,
-			id: activeDocument.id,
-			name,
-		});
-		const updatedDocument = {
-			...activeDocument,
-			code,
-			name: response.name,
-			mdate: response.mdate,
-		};
+  try {
+    const { code } = useDocumentCreatorState.get();
+    const activeDocument = docStoreSelectors.active();
+    docManagementStoreActions.busy();
+    const response = await getAPI().call(`updateDocumentName`)({
+      mdate: activeDocument.mdate,
+      id: activeDocument.id,
+      name,
+    });
+    const updatedDocument = {
+      ...activeDocument,
+      code,
+      name: response.name,
+      mdate: response.mdate,
+    };
 
-		docManagementStoreActions.ok();
-		changeWithoutMarkAsUnchangedAction(updatedDocument.code);
-		docStoreActions.setActiveWithoutCodeChange(updatedDocument);
-		docsStoreActions.updateDoc(updatedDocument);
+    docManagementStoreActions.ok();
+    changeWithoutMarkAsUnchangedAction(updatedDocument.code);
+    docStoreActions.setActiveWithoutCodeChange(updatedDocument);
+    docsStoreActions.updateDoc(updatedDocument);
 
-		setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
-	} catch (error: unknown) {
-		docManagementStoreActions.fail(error);
-		throw error;
-	}
+    setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
+  } catch (error: unknown) {
+    docManagementStoreActions.fail(error);
+    throw error;
+  }
 };
 
 export { updateDocumentName };

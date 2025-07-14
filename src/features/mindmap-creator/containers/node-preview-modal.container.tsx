@@ -5,65 +5,65 @@ import React from "react";
 import { BiPencil } from "react-icons/bi";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
-	closeNodePreviewAction,
-	openNodeEditionAction,
+  closeNodePreviewAction,
+  openNodeEditionAction,
 } from "store/mindmap-creator/actions";
 
 const NodePreviewModalContainer = () => {
-	const nodePreview = useMindmapCreatorState((state) => state.nodePreview);
+  const nodePreview = useMindmapCreatorState((state) => state.nodePreview);
 
-	const openNodeEdition = (): void => {
-		if (nodePreview.is === `active`) {
-			const { is, ...data } = nodePreview;
-			openNodeEditionAction(data);
-		}
-	};
+  const openNodeEdition = (): void => {
+    if (nodePreview.is === `active`) {
+      const { is, ...data } = nodePreview;
+      openNodeEditionAction(data);
+    }
+  };
 
-	if (nodePreview.is === `closed`) return null;
+  if (nodePreview.is === `closed`) return null;
 
-	if (!nodePreview.data.content) {
-		return (
-			<Modal onClose={closeNodePreviewAction}>
-				<Modal.Header
-					title="No Content For Selected Node"
-					closeButtonTitle="Close node preview"
-				/>
-				<p>
-					There is no content for the selected node. Fill it with data by
-					clicking the button below.
-				</p>
-				<Button
-					i={2}
-					s={2}
-					className="ml-auto mt-8"
-					auto
-					title="Go to node content edition"
-					onClick={openNodeEdition}
-				>
-					<BiPencil />
-					Edit Node Content
-				</Button>
-			</Modal>
-		);
-	}
+  if (!nodePreview.data.content) {
+    return (
+      <Modal onClose={closeNodePreviewAction}>
+        <Modal.Header
+          title="No Content For Selected Node"
+          closeButtonTitle="Close node preview"
+        />
+        <p>
+          There is no content for the selected node. Fill it with data by
+          clicking the button below.
+        </p>
+        <Button
+          i={2}
+          s={2}
+          className="ml-auto mt-8"
+          auto
+          title="Go to node content edition"
+          onClick={openNodeEdition}
+        >
+          <BiPencil />
+          Edit Node Content
+        </Button>
+      </Modal>
+    );
+  }
 
-	return (
-		<MarkdownWidget
-			chunksActive={false}
-			headerControls={
-				<Button
-					i={2}
-					s={1}
-					title="Start node edition"
-					onClick={openNodeEdition}
-				>
-					<BiPencil />
-				</Button>
-			}
-			onClose={closeNodePreviewAction}
-			markdown={nodePreview.data.content}
-		/>
-	);
+  return (
+    <MarkdownWidget
+      chunksActive={false}
+      headerControls={
+        <Button
+          i={2}
+          s={1}
+          title="Start node edition"
+          onClick={openNodeEdition}
+        >
+          <BiPencil />
+        </Button>
+      }
+      onClose={closeNodePreviewAction}
+      markdown={nodePreview.data.content}
+    />
+  );
 };
 
 export { NodePreviewModalContainer };

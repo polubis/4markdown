@@ -8,43 +8,43 @@ import { useMindmapPreviewState } from "store/mindmap-preview";
 import { MindmapDisplayView } from "features/mindmap-display/mindmap-display.view";
 
 interface MindmapPageProps {
-	pageContext: MindmapPageModel;
+  pageContext: MindmapPageModel;
 }
 
 const useMindmapPageHydration = ({ pageContext }: MindmapPageProps) => {
-	const hydrated = React.useRef(false);
+  const hydrated = React.useRef(false);
 
-	if (!hydrated.current) {
-		useMindmapPreviewState.swap({
-			...useMindmapPreviewState.getInitial(),
-			mindmap: {
-				is: `ok`,
-				...pageContext.mindmap,
-			},
-		});
+  if (!hydrated.current) {
+    useMindmapPreviewState.swap({
+      ...useMindmapPreviewState.getInitial(),
+      mindmap: {
+        is: `ok`,
+        ...pageContext.mindmap,
+      },
+    });
 
-		hydrated.current = true;
-	}
+    hydrated.current = true;
+  }
 };
 
 const MindmapPage = (props: MindmapPageProps) => {
-	useMindmapPageHydration(props);
+  useMindmapPageHydration(props);
 
-	return <MindmapDisplayView />;
+  return <MindmapDisplayView />;
 };
 
 export default MindmapPage;
 
 export const Head: HeadFC<unknown, MindmapPageModel> = ({ pageContext }) => {
-	return (
-		<Meta
-			appName={meta.appName}
-			title={pageContext.mindmap.name}
-			description={pageContext.mindmap.description ?? pageContext.mindmap.name}
-			url={`${meta.siteUrl}${pageContext.mindmapPath}`}
-			keywords={[meta.appName, ...(pageContext.mindmap.tags ?? [])].join(`, `)}
-			lang={meta.lang}
-			image={meta.siteUrl + LogoThumbnail}
-		/>
-	);
+  return (
+    <Meta
+      appName={meta.appName}
+      title={pageContext.mindmap.name}
+      description={pageContext.mindmap.description ?? pageContext.mindmap.name}
+      url={`${meta.siteUrl}${pageContext.mindmapPath}`}
+      keywords={[meta.appName, ...(pageContext.mindmap.tags ?? [])].join(`, `)}
+      lang={meta.lang}
+      image={meta.siteUrl + LogoThumbnail}
+    />
+  );
 };

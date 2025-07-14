@@ -5,138 +5,138 @@
 /* @ Light */
 
 body {
-	@apply bg-zinc-50 text-black;
+  @apply bg-zinc-50 text-black;
 }
 
 body .active-link {
-	color: #00501d;
+  color: #00501d;
 }
 
 body .active-link:hover {
-	color: #00501d;
+  color: #00501d;
 }
 
 body .active-button-link {
-	background: #15803d;
-	color: #fff;
+  background: #15803d;
+  color: #fff;
 }
 
 body .active-button-link:hover {
-	background: #15803d;
-	color: #fff;
+  background: #15803d;
+  color: #fff;
 }
 
 /* @ Dark */
 
 body.dark {
-	@apply bg-zinc-950 text-white;
+  @apply bg-zinc-950 text-white;
 }
 
 body.dark .active-link {
-	color: rgb(34 197 94);
+  color: rgb(34 197 94);
 }
 
 body.dark .active-link:hover {
-	color: rgb(34 197 94);
+  color: rgb(34 197 94);
 }
 
 body.dark .active-button-link {
-	background: #15803d;
+  background: #15803d;
 }
 
 body.dark .active-button-link:hover {
-	background: #15803d;
+  background: #15803d;
 }
 
 /* @ General */
 
 ::-webkit-scrollbar {
-	@apply w-2 h-2;
+  @apply w-2 h-2;
 }
 
 ::-webkit-scrollbar-track {
-	@apply bg-zinc-200;
+  @apply bg-zinc-200;
 }
 
 ::-webkit-scrollbar-thumb {
-	@apply bg-zinc-700;
+  @apply bg-zinc-700;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-	@apply bg-zinc-800;
+  @apply bg-zinc-800;
 }
 
 /* @ Utils */
 
 @keyframes lrotate {
-	100% {
-		transform: rotate(1turn);
-	}
+  100% {
+    transform: rotate(1turn);
+  }
 }
 
 .loader {
-	animation: lrotate 1s infinite linear;
+  animation: lrotate 1s infinite linear;
 }
 
 /* @Tailwind */
 
 @layer components {
-	.prose h1 {
-		@apply text-4xl md:text-5xl;
-	}
+  .prose h1 {
+    @apply text-4xl md:text-5xl;
+  }
 
-	.prose h2 {
-		@apply text-3xl md:text-4xl;
-	}
+  .prose h2 {
+    @apply text-3xl md:text-4xl;
+  }
 
-	.prose h3 {
-		@apply text-2xl md:text-3xl;
-	}
+  .prose h3 {
+    @apply text-2xl md:text-3xl;
+  }
 
-	.prose h4 {
-		@apply text-xl md:text-2xl;
-	}
+  .prose h4 {
+    @apply text-xl md:text-2xl;
+  }
 
-	.prose h5 {
-		@apply text-lg md:text-xl font-bold;
-	}
+  .prose h5 {
+    @apply text-lg md:text-xl font-bold;
+  }
 
-	.prose h6 {
-		@apply md:text-lg font-bold;
-	}
+  .prose h6 {
+    @apply md:text-lg font-bold;
+  }
 
-	.prose {
-		:not(pre) > code[class*="language-"],
-		pre[class*="language-"] {
-			background: #181818;
-		}
-	}
+  .prose {
+    :not(pre) > code[class*="language-"],
+    pre[class*="language-"] {
+      background: #181818;
+    }
+  }
 
-	body.dark .prose {
-		:not(pre) > code[class*="language-"],
-		pre[class*="language-"] {
-			background: #0f151b;
-		}
-	}
+  body.dark .prose {
+    :not(pre) > code[class*="language-"],
+    pre[class*="language-"] {
+      background: #0f151b;
+    }
+  }
 
-	.prose code::before,
-	.prose code::after {
-		@apply content-none;
-	}
+  .prose code::before,
+  .prose code::after {
+    @apply content-none;
+  }
 
-	.prose table {
-		@apply overflow-auto block;
-	}
+  .prose table {
+    @apply overflow-auto block;
+  }
 
-	.prose td {
-		@apply whitespace-nowrap;
-	}
+  .prose td {
+    @apply whitespace-nowrap;
+  }
 
-	.prose a {
-		@apply break-words;
-	}
+  .prose a {
+    @apply break-words;
+  }
 
-	.prose .katex-display {
-		@apply overflow-x-auto overflow-y-hidden py-1;
-	}
+  .prose .katex-display {
+    @apply overflow-x-auto overflow-y-hidden py-1;
+  }
 }

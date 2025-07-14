@@ -1,59 +1,59 @@
 import React, {
-	type Dispatch,
-	type SetStateAction,
-	type ReactNode,
+  type Dispatch,
+  type SetStateAction,
+  type ReactNode,
 } from "react";
 import type {
-	RatingCategory,
-	PermanentDocumentDto,
-	PublicDocumentDto,
+  RatingCategory,
+  PermanentDocumentDto,
+  PublicDocumentDto,
 } from "api-4markdown-contracts";
 
 type DocumentLayoutState = {
-	document: PublicDocumentDto | PermanentDocumentDto;
-	yourRate: RatingCategory | null;
+  document: PublicDocumentDto | PermanentDocumentDto;
+  yourRate: RatingCategory | null;
 };
 
 type DocumentLayoutContextValue = [
-	DocumentLayoutState,
-	Dispatch<
-		SetStateAction<{
-			document: PublicDocumentDto | PermanentDocumentDto;
-			yourRate: RatingCategory | null;
-		}>
-	>,
+  DocumentLayoutState,
+  Dispatch<
+    SetStateAction<{
+      document: PublicDocumentDto | PermanentDocumentDto;
+      yourRate: RatingCategory | null;
+    }>
+  >,
 ];
 
 type DocumentLayoutProviderProps = {
-	children: ReactNode;
-	document: DocumentLayoutState["document"];
+  children: ReactNode;
+  document: DocumentLayoutState["document"];
 };
 
 const DocumentLayoutContext =
-	React.createContext<DocumentLayoutContextValue | null>(null);
+  React.createContext<DocumentLayoutContextValue | null>(null);
 
 const DocumentLayoutProvider = ({
-	document,
-	children,
+  document,
+  children,
 }: DocumentLayoutProviderProps) => {
-	const value = React.useState<DocumentLayoutState>(() => ({
-		document,
-		yourRate: null,
-	}));
+  const value = React.useState<DocumentLayoutState>(() => ({
+    document,
+    yourRate: null,
+  }));
 
-	return (
-		<DocumentLayoutContext.Provider value={value}>
-			{children}
-		</DocumentLayoutContext.Provider>
-	);
+  return (
+    <DocumentLayoutContext.Provider value={value}>
+      {children}
+    </DocumentLayoutContext.Provider>
+  );
 };
 
 const useDocumentLayoutContext = (): DocumentLayoutContextValue => {
-	const ctx = React.useContext(DocumentLayoutContext);
+  const ctx = React.useContext(DocumentLayoutContext);
 
-	if (!ctx) throw Error(`Lack of provider for document layout`);
+  if (!ctx) throw Error(`Lack of provider for document layout`);
 
-	return ctx;
+  return ctx;
 };
 
 export { DocumentLayoutProvider, useDocumentLayoutContext };

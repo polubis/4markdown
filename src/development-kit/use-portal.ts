@@ -6,28 +6,28 @@ import { isServer } from "./ssr-csr";
 type RenderPortal = (children: ReactNode) => ReactPortal | null;
 
 type UsePortal = () => {
-	render: RenderPortal;
+  render: RenderPortal;
 };
 
 const usePortal: UsePortal = () => {
-	const wrapper = React.useMemo(
-		() => (isServer() ? null : document.createElement(`div`)),
-		[],
-	);
+  const wrapper = React.useMemo(
+    () => (isServer() ? null : document.createElement(`div`)),
+    [],
+  );
 
-	useIsomorphicLayoutEffect(() => {
-		if (!wrapper) return;
+  useIsomorphicLayoutEffect(() => {
+    if (!wrapper) return;
 
-		document.body.appendChild(wrapper);
+    document.body.appendChild(wrapper);
 
-		return () => {
-			document.body.removeChild(wrapper);
-		};
-	}, []);
+    return () => {
+      document.body.removeChild(wrapper);
+    };
+  }, []);
 
-	return {
-		render: (children) => (wrapper ? createPortal(children, wrapper) : null),
-	};
+  return {
+    render: (children) => (wrapper ? createPortal(children, wrapper) : null),
+  };
 };
 
 export { usePortal };

@@ -5,21 +5,21 @@ import { getAPI, setCache } from "api-4markdown";
 import type { API4MarkdownContractKey } from "api-4markdown-contracts";
 
 const reloadYourDocuments = async (): Promise<void> => {
-	try {
-		const key: API4MarkdownContractKey = `getYourDocuments`;
-		docsStoreActions.idle();
-		docManagementStoreActions.idle();
-		docsStoreActions.busy();
+  try {
+    const key: API4MarkdownContractKey = `getYourDocuments`;
+    docsStoreActions.idle();
+    docManagementStoreActions.idle();
+    docsStoreActions.busy();
 
-		const documents = await getAPI().call(key)();
+    const documents = await getAPI().call(key)();
 
-		setCache(key, documents);
+    setCache(key, documents);
 
-		docsStoreActions.ok(documents);
-		docStoreActions.reset();
-	} catch (error: unknown) {
-		docsStoreActions.fail(error);
-	}
+    docsStoreActions.ok(documents);
+    docStoreActions.reset();
+  } catch (error: unknown) {
+    docsStoreActions.fail(error);
+  }
 };
 
 export { reloadYourDocuments };
