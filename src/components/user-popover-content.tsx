@@ -97,14 +97,16 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 										>
 											<BiRefresh />
 										</Button>
-										<Button
-											i={1}
-											s={1}
-											title="See your public profile"
-											onClick={goToUserProfile}
-										>
-											<BiSolidUserDetail />
-										</Button>
+										{yourUserProfile.user && (
+											<Button
+												i={1}
+												s={1}
+												title="See your public profile"
+												onClick={goToUserProfile}
+											>
+												<BiSolidUserDetail />
+											</Button>
+										)}
 									</div>
 									<Avatar
 										size="lg"
@@ -164,14 +166,16 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 									>
 										<BiRefresh />
 									</Button>
-									<Button
-										i={1}
-										s={1}
-										title="See your public profile"
-										onClick={goToUserProfile}
-									>
-										<BiSolidUserDetail />
-									</Button>
+									{yourUserProfile.user && (
+										<Button
+											i={1}
+											s={1}
+											title="See your public profile"
+											onClick={goToUserProfile}
+										>
+											<BiSolidUserDetail />
+										</Button>
+									)}
 								</div>
 							</div>
 						)}
