@@ -3,6 +3,7 @@ import type {
   Base64,
   Date,
   Id,
+  ResourceCompletionType,
   ResourceId,
   Url,
   UserProfileId,
@@ -247,7 +248,8 @@ type UpdateResourceCompletionContract = Contract<
   ResourcesCompletionDto,
   {
     resourceId: ResourceId;
-    isCompleted: boolean;
+    type: ResourceCompletionType;
+    completed: boolean;
   }
 >;
 

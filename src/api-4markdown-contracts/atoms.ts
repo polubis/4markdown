@@ -19,6 +19,8 @@ type MindmapNodeId = Brand<Id, `MindmapNodeId`>;
 
 type ResourceId = DocumentId | MindmapNodeId;
 
+type ResourceCompletionType = "document" | "mindmap" | "mindmap-node";
+
 export type {
   Id,
   Name,
@@ -34,4 +36,5 @@ export type {
   UserProfileId,
   CommentId,
   ResourceId,
+  ResourceCompletionType,
 };

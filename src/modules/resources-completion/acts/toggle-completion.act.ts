@@ -1,4 +1,8 @@
-import { API4MarkdownContractKey, ResourceId } from "api-4markdown-contracts";
+import {
+  API4MarkdownContractKey,
+  ResourceCompletionType,
+  ResourceId,
+} from "api-4markdown-contracts";
 import {
   toggleCompletionAction,
   updateResourceCompletionAction,
@@ -7,7 +11,10 @@ import { getAPI, setCache } from "api-4markdown";
 import { useResourcesCompletionState } from "../store";
 import { okResourcesCompletionSelector } from "../store/selectors";
 
-const toggleCompletionAct = async (resourceId: ResourceId): Promise<void> => {
+const toggleCompletionAct = async (
+  resourceId: ResourceId,
+  type: ResourceCompletionType,
+): Promise<void> => {
   try {
     const key: API4MarkdownContractKey = `updateResourceCompletion`;
 
@@ -19,7 +26,8 @@ const toggleCompletionAct = async (resourceId: ResourceId): Promise<void> => {
 
     const dto = await getAPI().call(key)({
       resourceId,
-      isCompleted: state.completion[resourceId],
+      type,
+      completed: state.completion[resourceId],
     });
 
     updateResourceCompletionAction(dto);

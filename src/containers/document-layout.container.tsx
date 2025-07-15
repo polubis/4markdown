@@ -96,6 +96,7 @@ const DocumentLayoutContainer = () => {
             <section className="mt-6">
               <CompletionTriggerContainer
                 resourceId={document.id as ResourceId}
+                type="document"
               />
             </section>
           )}
