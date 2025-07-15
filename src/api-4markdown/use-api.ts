@@ -2,6 +2,7 @@ import type {
   API4MarkdownContractCall,
   API4MarkdownContractKey,
   API4MarkdownDto,
+  CacheVersion,
   NoInternetError,
 } from "api-4markdown-contracts";
 import { type FirebaseOptions, initializeApp } from "firebase/app";
@@ -38,13 +39,16 @@ type API4Markdown = {
 
 let instance: API4Markdown | null = null;
 let functions: Functions | null = null;
+let cacheVersion: CacheVersion | null = null;
 
 const isOffline = (): boolean =>
   typeof window !== `undefined` && !navigator?.onLine;
 
 class NoInternetException extends Error {}
 
-const initializeAPI = (): API4Markdown => {
+const initializeAPI = (version: CacheVersion): API4Markdown => {
+  cacheVersion = version;
+
   const config: FirebaseOptions = {
     apiKey: process.env.GATSBY_API_KEY,
     authDomain: process.env.GATSBY_AUTH_DOMAIN,
@@ -138,4 +142,13 @@ const getAPI = (): API4Markdown => {
   return instance;
 };
 
-export { initializeAPI, getAPI };
+const getCacheVersion = (): CacheVersion => {
+  if (!cacheVersion) {
+    throw Error(`Cache version is not initialized`);
+  }
+
+  return cacheVersion;
+};
+
+export type { API4Markdown };
+export { initializeAPI, getAPI, getCacheVersion };
