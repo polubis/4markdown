@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "design-system/button";
-import { BiCheck, BiErrorAlt, BiX } from "react-icons/bi";
+import { BiCheck, BiX } from "react-icons/bi";
 import { useResourcesCompletionState } from "../store";
 import { ResourceCompletionType, ResourceId } from "api-4markdown-contracts";
 import { toggleCompletionAct } from "../acts/toggle-completion.act";
@@ -62,17 +62,8 @@ const CompletionTriggerContainer = ({
 }: CompletionTriggerContainerProps) => {
   const state = useResourcesCompletionState();
 
-  if (state.is === `idle` || state.is === `busy`) {
+  if (state.is !== "ok") {
     return null;
-  }
-
-  if (state.is === `fail`) {
-    return (
-      <p className="flex gap-2 text-sm justify-center mb-4 items-center bg-red-400 dark:bg-red-700 p-2 rounded-md">
-        <BiErrorAlt className="shrink-0" size={20} />
-        <span>Cannot load completion module. {state.error.message}</span>
-      </p>
-    );
   }
 
   return (
