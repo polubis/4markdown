@@ -4,7 +4,6 @@ import { useResourcesCompletionState } from "../store";
 import { ResourceId } from "api-4markdown-contracts";
 import { c } from "design-system/c";
 import { OkResourcesCompletionState } from "../store/models";
-import { Loader } from "design-system/loader";
 
 type CompletionMarkerContainerProps = {
   className?: string;
@@ -44,10 +43,6 @@ const CompletionMarker = ({
 
 const CompletionMarkerContainer = (props: CompletionMarkerContainerProps) => {
   const state = useResourcesCompletionState();
-
-  if (state.is === "idle" || state.is === "busy") {
-    return <Loader />;
-  }
 
   if (state.is !== `ok`) {
     return null;
