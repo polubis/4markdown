@@ -16,6 +16,9 @@ import { ScrollToTop } from "components/scroll-to-top";
 import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { TableOfContent } from "components/table-of-content";
+import { ResourcesCompletionTriggerContainer } from "modules/resources-completion/containers/resources-completion-trigger.container";
+import { ResourceId } from "api-4markdown-contracts";
+import { useAuthStore } from "store/auth/auth.store";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -30,6 +33,7 @@ const DocumentLayoutContainer = () => {
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
+  const authState = useAuthStore();
 
   const openInDocumentsCreator = (): void => {
     seeInDocumentsCreatorAct({ code });
@@ -83,6 +87,13 @@ const DocumentLayoutContainer = () => {
           <section id={CONTENT_ID}>
             <Markdown>{code}</Markdown>
           </section>
+          {authState.is === "authorized" && (
+            <section className="mt-6">
+              <ResourcesCompletionTriggerContainer
+                resourceId={document.id as ResourceId}
+              />
+            </section>
+          )}
           {author?.bio && author?.displayName && (
             <section className="mt-12">
               <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">

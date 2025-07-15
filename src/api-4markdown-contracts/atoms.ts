@@ -14,6 +14,12 @@ type Url = string;
 type UserProfileId = Brand<Id, `UserProfileId`>;
 type CommentId = Brand<Id, `CommentId`>;
 
+type MindmapId = Brand<Id, `MindmapId`>;
+type DocumentId = Brand<Id, `DocumentId`>;
+type MindmapNodeId = Brand<Id, `MindmapNodeId`>;
+
+type ResourceId = MindmapId | DocumentId | MindmapNodeId;
+
 export type {
   Id,
   Name,
@@ -28,4 +34,5 @@ export type {
   Slug,
   UserProfileId,
   CommentId,
+  ResourceId,
 };
