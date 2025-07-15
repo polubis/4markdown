@@ -1,13 +1,20 @@
 import type { GatsbyConfig } from "gatsby";
 import { meta } from "./meta";
 import { seoPlugins } from "./seo-plugins";
+import { CacheVersion } from "api-4markdown-contracts";
+import { SiteMetadata } from "core/models";
 
 require(`dotenv`).config({
   path: `.env.${process.env.NODE_ENV}`,
 });
 
+const siteMetadata: SiteMetadata = {
+  ...meta,
+  buildStamp: new Date().toISOString() as CacheVersion,
+};
+
 const config: GatsbyConfig = {
-  siteMetadata: meta,
+  siteMetadata,
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
   // Learn more at: https://gatsby.dev/graphql-typegen
