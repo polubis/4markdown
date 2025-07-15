@@ -23,6 +23,7 @@ const useAuth = () => {
           name: user.displayName,
           uid: user.uid,
         });
+
         loadCompletionAct();
 
         return;
