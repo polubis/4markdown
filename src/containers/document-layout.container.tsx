@@ -19,6 +19,7 @@ import { TableOfContent } from "components/table-of-content";
 import { ResourcesCompletionTriggerContainer } from "modules/resources-completion/containers/resources-completion-trigger.container";
 import { ResourceId } from "api-4markdown-contracts";
 import { useAuthStore } from "store/auth/auth.store";
+import { ResourceCompletionMarkerContainer } from "modules/resources-completion/containers/resource-completion-marker.container";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -44,6 +45,10 @@ const DocumentLayoutContainer = () => {
     <>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
+          <ResourceCompletionMarkerContainer
+            className="mb-4 z-[3] top-4 sticky left-0 right-0 "
+            resourceId={document.id as ResourceId}
+          />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button
               title="Open in documents creator"
