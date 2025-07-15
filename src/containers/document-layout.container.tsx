@@ -46,7 +46,7 @@ const DocumentLayoutContainer = () => {
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
           <ResourceCompletionMarkerContainer
-            className="mb-4 z-[3] top-4 sticky left-0 right-0 "
+            className="mb-4"
             resourceId={document.id as ResourceId}
           />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
