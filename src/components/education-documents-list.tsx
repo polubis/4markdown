@@ -5,14 +5,20 @@ import { Link } from "gatsby";
 import type { RichEducationDocumentModel } from "models/page-models";
 import React from "react";
 import { meta } from "../../meta";
+import { BiCheck } from "react-icons/bi";
+import { ResourceId, ResourcesCompletionDto } from "api-4markdown-contracts";
 
 type EducationDocumentsListProps = {
   documents: RichEducationDocumentModel[];
+  completion: ResourcesCompletionDto["completion"];
 };
 
 const now = new Date();
 
-const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
+const EducationDocumentsList = ({
+  documents,
+  completion,
+}: EducationDocumentsListProps) => {
   return (
     <ol className="flex flex-col space-y-8">
       {documents.map((document) => (
@@ -56,10 +62,18 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
               {document.name}
             </Link>
           </h2>
-          <p className="lg:max-w-[70%] mt-1 mb-3">{document.description}</p>
-          <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
-            {document.tags.join(`, `)}
-          </p>
+          <p className="lg:max-w-[70%] mt-2 mb-3">{document.description}</p>
+          <div className="mb-5 flex flex-wrap gap-2">
+            {completion[document.id as ResourceId] && (
+              <span className="flex items-center gap-1 text-sm font-medium uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-2 line-clamp-1">
+                <BiCheck className="shrink-0" size={20} />{" "}
+                <span>Completed</span>
+              </span>
+            )}
+            <span className="text-sm font-medium uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
+              {document.tags.join(`, `)}
+            </span>
+          </div>
           <div className="flex items-center space-x-2">
             {RATING_ICONS.map(([Icon, category]) => (
               <div className="flex items-center" key={category}>

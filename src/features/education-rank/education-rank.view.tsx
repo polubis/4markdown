@@ -5,9 +5,9 @@ import { AppFooterContainer } from "containers/app-footer.container";
 import { CreationLinkContainer } from "containers/creation-link.container";
 import type { EducationRankPageModel } from "models/page-models";
 import { EducationLayout } from "components/education-layout";
-import { EducationDocumentsList } from "components/education-documents-list";
 import { EducationTopTags } from "components/education-top-tags";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
+import { EducationDocumentsListContainer } from "containers/education-documents-list.container";
 
 type EducationRankViewProps = EducationRankPageModel;
 
@@ -26,7 +26,7 @@ const EducationRankView = ({
         subTitle={`Top ${topDocuments.length} educational assets`}
         title="Education Rank"
       >
-        <EducationDocumentsList documents={topDocuments} />
+        <EducationDocumentsListContainer documents={topDocuments} />
         <>
           <EducationTopTags tags={topTags} />
         </>

@@ -11,10 +11,10 @@ import { meta } from "../../../meta";
 import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
 import { paginate } from "development-kit/paginate";
 import { EducationLayout } from "components/education-layout";
-import { EducationDocumentsList } from "components/education-documents-list";
 import { EducationTopTags } from "components/education-top-tags";
 import type { EducationPageModel } from "models/page-models";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
+import { EducationDocumentsListContainer } from "containers/education-documents-list.container";
 
 type EducationZoneViewProps = EducationPageModel;
 
@@ -183,7 +183,7 @@ const EducationZoneView = ({
         }
       >
         <>
-          <EducationDocumentsList documents={documents.wall} />
+          <EducationDocumentsListContainer documents={documents.wall} />
           <Pagination page={page} pagesCount={pagesCount} />
         </>
         <>
