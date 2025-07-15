@@ -7,6 +7,10 @@ import { initializeAPI } from "api-4markdown";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import { useYourAccountState } from "store/your-account";
+import {
+  loadCompletionAct,
+  useResourcesCompletionState,
+} from "modules/resources-completion";
 
 const useAuth = () => {
   const [api] = React.useState(initializeAPI);
@@ -19,6 +23,7 @@ const useAuth = () => {
           name: user.displayName,
           uid: user.uid,
         });
+        loadCompletionAct();
 
         return;
       }
@@ -30,12 +35,12 @@ const useAuth = () => {
       authStoreActions.unauthorize();
       useMindmapCreatorState.reset();
       useYourAccountState.reset();
+      useResourcesCompletionState.reset();
     });
 
     return () => {
       unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
