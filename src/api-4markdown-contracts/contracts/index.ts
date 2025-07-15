@@ -251,6 +251,11 @@ type UpdateResourceCompletionContract = Contract<
   }
 >;
 
+type GetResourcesCompletionContract = Contract<
+  `getResourcesCompletion`,
+  ResourcesCompletionDto
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -279,7 +284,8 @@ type API4MarkdownContracts =
   | GetYourAccountContract
   | GetUserProfileContract
   | AddUserProfileCommentContract
-  | UpdateResourceCompletionContract;
+  | UpdateResourceCompletionContract
+  | GetResourcesCompletionContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
