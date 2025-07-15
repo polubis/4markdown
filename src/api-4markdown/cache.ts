@@ -3,6 +3,7 @@ import type {
   API4MarkdownContractKey,
   API4MarkdownDto,
 } from "api-4markdown-contracts";
+import { getCacheVersion } from "./use-api";
 
 const hasValidSignature = <TKey extends API4MarkdownContractKey>(
   parsed: unknown,
@@ -10,7 +11,9 @@ const hasValidSignature = <TKey extends API4MarkdownContractKey>(
   return (
     parsed !== null &&
     typeof parsed === `object` &&
-    typeof (parsed as API4MarkdownCacheSignature<TKey>).__expiry__ === `number`
+    typeof (parsed as API4MarkdownCacheSignature<TKey>).__expiry__ ===
+      `number` &&
+    typeof (parsed as API4MarkdownCacheSignature<TKey>).__version__ === `string`
   );
 };
 
@@ -20,11 +23,13 @@ const setCache = <TKey extends API4MarkdownContractKey>(
   ttlInMinutes = 960,
 ): void => {
   try {
+    const version = getCacheVersion();
     localStorage.setItem(
       key,
       JSON.stringify({
         value: dto,
         __expiry__: new Date().getTime() + ttlInMinutes * 60 * 1000,
+        __version__: version,
       }),
     );
   } catch {}
@@ -40,6 +45,7 @@ const getCache = <TKey extends API4MarkdownContractKey>(
   key: TKey,
 ): API4MarkdownDto<TKey> | null => {
   try {
+    const version = getCacheVersion();
     const raw = localStorage.getItem(key);
 
     if (!raw) return null;
@@ -51,7 +57,10 @@ const getCache = <TKey extends API4MarkdownContractKey>(
       return null;
     }
 
-    if (parsed.__expiry__ < new Date().getTime()) {
+    if (
+      parsed.__expiry__ < new Date().getTime() ||
+      parsed.__version__ !== version
+    ) {
       removeCache(key);
       return null;
     }

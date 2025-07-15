@@ -3,13 +3,33 @@ import { authStoreActions } from "store/auth/auth.store";
 import { docManagementStoreActions } from "store/doc-management/doc-management.store";
 import { docStoreActions } from "store/doc/doc.store";
 import { docsStoreActions } from "store/docs/docs.store";
-import { initializeAPI } from "api-4markdown";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import { useYourAccountState } from "store/your-account";
+import { initializeAPI } from "api-4markdown";
+import { graphql, useStaticQuery } from "gatsby";
+import { SiteMetadata } from "./models";
+
+type SiteMetadataQuery = {
+  site: {
+    siteMetadata: Pick<SiteMetadata, "buildStamp">;
+  };
+};
 
 const useAuth = () => {
-  const [api] = React.useState(initializeAPI);
+  const data = useStaticQuery<SiteMetadataQuery>(graphql`
+    query BuildStampQuery {
+      site {
+        siteMetadata {
+          buildStamp
+        }
+      }
+    }
+  `);
+
+  const [api] = React.useState(() =>
+    initializeAPI(data.site.siteMetadata.buildStamp),
+  );
 
   React.useEffect(() => {
     const unsubscribe = api.onAuthChange((user) => {
@@ -35,7 +55,6 @@ const useAuth = () => {
     return () => {
       unsubscribe();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 

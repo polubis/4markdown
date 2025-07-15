@@ -1,4 +1,4 @@
-import { type Prettify } from "development-kit/utility-types";
+import { Brand, type Prettify } from "development-kit/utility-types";
 import type { Base64, Date, Id, Url, UserProfileId } from "../atoms";
 import type {
   DocumentDto,
@@ -288,8 +288,11 @@ type API4MarkdownResult<TKey extends API4MarkdownContractKey> =
       dto: API4MarkdownDto<TKey>;
     };
 
+type CacheVersion = Brand<string, "CacheVersion">;
+
 type API4MarkdownCacheSignature<TKey extends API4MarkdownContractKey> = {
   __expiry__: number;
+  __version__: CacheVersion;
   value: API4MarkdownDto<TKey> | null;
 };
 
@@ -368,4 +371,5 @@ export type {
   KnownError,
   NoInternetError,
   ClientError,
+  CacheVersion,
 };
