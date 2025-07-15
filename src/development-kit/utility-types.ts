@@ -17,8 +17,10 @@ type Transaction<
 > =
   | { is: "idle" }
   | { is: "busy" }
-  | (TOkData extends undefined ? { is: "ok" } : { is: "ok" } & TOkData)
-  | (TFailData extends undefined ? { is: `fail` } : { is: `fail` } & TFailData);
+  | Prettify<TOkData extends undefined ? { is: "ok" } : { is: "ok" } & TOkData>
+  | Prettify<
+      TFailData extends undefined ? { is: `fail` } : { is: `fail` } & TFailData
+    >;
 
 type Nullable<T> = {
   [P in keyof T]: T[P] extends object ? Nullable<T[P]> | null : T[P] | null;

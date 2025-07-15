@@ -16,10 +16,10 @@ import { ScrollToTop } from "components/scroll-to-top";
 import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { TableOfContent } from "components/table-of-content";
-import { ResourcesCompletionTriggerContainer } from "modules/resources-completion/containers/resources-completion-trigger.container";
+import { CompletionTriggerContainer } from "modules/resources-completion/containers/completion-trigger.container";
 import { ResourceId } from "api-4markdown-contracts";
 import { useAuthStore } from "store/auth/auth.store";
-import { ResourceCompletionMarkerContainer } from "modules/resources-completion/containers/resource-completion-marker.container";
+import { CompletionMarkerContainer } from "modules/resources-completion/containers/completion-marker.container";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -45,7 +45,7 @@ const DocumentLayoutContainer = () => {
     <>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
-          <ResourceCompletionMarkerContainer
+          <CompletionMarkerContainer
             className="mb-4"
             resourceId={document.id as ResourceId}
           />
@@ -94,7 +94,7 @@ const DocumentLayoutContainer = () => {
           </section>
           {authState.is === "authorized" && (
             <section className="mt-6">
-              <ResourcesCompletionTriggerContainer
+              <CompletionTriggerContainer
                 resourceId={document.id as ResourceId}
               />
             </section>

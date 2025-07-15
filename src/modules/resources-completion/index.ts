@@ -1,2 +1,3 @@
-export { ResourcesCompletionTriggerContainer } from "./containers/resources-completion-trigger.container";
+export { CompletionTriggerContainer } from "./containers/completion-trigger.container";
+export { CompletionMarkerContainer } from "./containers/completion-marker.container";
 export { useResourcesCompletionState } from "./store";

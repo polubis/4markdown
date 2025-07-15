@@ -14,11 +14,10 @@ type Url = string;
 type UserProfileId = Brand<Id, `UserProfileId`>;
 type CommentId = Brand<Id, `CommentId`>;
 
-type MindmapId = Brand<Id, `MindmapId`>;
 type DocumentId = Brand<Id, `DocumentId`>;
 type MindmapNodeId = Brand<Id, `MindmapNodeId`>;
 
-type ResourceId = MindmapId | DocumentId | MindmapNodeId;
+type ResourceId = DocumentId | MindmapNodeId;
 
 export type {
   Id,

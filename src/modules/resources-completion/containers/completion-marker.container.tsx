@@ -3,18 +3,20 @@ import { BiInfoCircle } from "react-icons/bi";
 import { useResourcesCompletionState } from "../store";
 import { ResourceId } from "api-4markdown-contracts";
 import { c } from "design-system/c";
+import { OkResourcesCompletionState } from "../store/models";
 
-type ResourceCompletionMarkerContainerProps = {
+type CompletionMarkerContainerProps = {
   className?: string;
   resourceId: ResourceId;
 };
 
-const ResourceCompletionMarkerContainer = ({
+const CompletionMarker = ({
   resourceId,
   className,
-}: ResourceCompletionMarkerContainerProps) => {
-  const { completion } = useResourcesCompletionState();
-
+  completion,
+}: CompletionMarkerContainerProps & {
+  completion: OkResourcesCompletionState["completion"];
+}) => {
   const isCompleted = React.useMemo(
     () => Boolean(completion[resourceId]),
     [completion, resourceId],
@@ -39,4 +41,14 @@ const ResourceCompletionMarkerContainer = ({
   );
 };
 
-export { ResourceCompletionMarkerContainer };
+const CompletionMarkerContainer = (props: CompletionMarkerContainerProps) => {
+  const state = useResourcesCompletionState();
+
+  if (state.is !== `ok`) {
+    return null;
+  }
+
+  return <CompletionMarker {...props} completion={state.completion} />;
+};
+
+export { CompletionMarkerContainer };
