@@ -18,7 +18,6 @@ const toggleCompletionAct = async (resourceId: ResourceId): Promise<void> => {
     const dto = await getAPI().call("updateResourceCompletion")({
       resourceId,
       isCompleted: state.completion[resourceId],
-      mdate: state.mdate,
     });
 
     updateResourceCompletionAction(dto);

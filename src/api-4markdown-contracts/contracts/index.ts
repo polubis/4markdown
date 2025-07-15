@@ -248,7 +248,6 @@ type UpdateResourceCompletionContract = Contract<
   {
     resourceId: ResourceId;
     isCompleted: boolean;
-    mdate: Date;
   }
 >;
 
