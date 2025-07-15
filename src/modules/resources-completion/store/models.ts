@@ -1,9 +1,7 @@
-import { ResourceCompletionDto } from "api-4markdown-contracts";
-import { Prettify, Transaction } from "development-kit/utility-types";
+import { ResourceId } from "api-4markdown-contracts";
 
-type ResourcesCompletionState = Transaction<ResourceCompletionDto>;
-type OkResourcesCompletionState = Prettify<
-  Extract<ResourcesCompletionState, { is: `ok` }>
->;
+type ResourcesCompletionState = {
+  completion: Record<ResourceId, boolean>;
+};
 
-export type { ResourcesCompletionState, OkResourcesCompletionState };
+export type { ResourcesCompletionState };

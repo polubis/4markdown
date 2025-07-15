@@ -1,33 +1,29 @@
-import { ResourceCompletionDto, ResourceId } from "api-4markdown-contracts";
-import { useResourcesCompletionState } from ".";
-import { okResourcesCompletionSelector } from "./selectors";
+import { ResourcesCompletionDto, ResourceId } from "api-4markdown-contracts";
+import { setLastCompletionMdate, useResourcesCompletionState } from ".";
 
 const { set, get } = useResourcesCompletionState;
 
 const toggleResourceCompletionAction = (resourceId: ResourceId): void => {
-  const state = okResourcesCompletionSelector(get());
+  const { completion } = get();
 
   set({
-    ...state,
     completion: {
-      ...state.completion,
-      [resourceId]: !state.completion[resourceId],
+      ...completion,
+      [resourceId]: !completion[resourceId],
     },
   });
 };
 
 const updateResourceCompletionAction = (
-  completion: ResourceCompletionDto,
+  completion: ResourcesCompletionDto,
 ): void => {
-  const state = okResourcesCompletionSelector(get());
-
   set({
-    ...state,
     completion: {
-      ...state.completion,
+      ...get().completion,
       ...completion,
     },
   });
+  setLastCompletionMdate(completion.mdate);
 };
 
 export { toggleResourceCompletionAction, updateResourceCompletionAction };

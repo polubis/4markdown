@@ -4,22 +4,26 @@ import {
   updateResourceCompletionAction,
 } from "../store/actions";
 import { getAPI } from "api-4markdown";
-import { useResourcesCompletionState } from "../store";
-import { okResourcesCompletionSelector } from "../store/selectors";
+import { getLastCompletionMdate, useResourcesCompletionState } from "../store";
 
 const toggleResourceCompletionAct = async (
   resourceId: ResourceId,
 ): Promise<void> => {
   toggleResourceCompletionAction(resourceId);
 
-  const state = okResourcesCompletionSelector(
-    useResourcesCompletionState.get(),
-  );
+  const { completion: currentCompletion } = useResourcesCompletionState.get();
 
   try {
+    const mdate = getLastCompletionMdate();
+
+    if (!mdate) {
+      throw Error(`Invalid update attempt. Cannot find last completion mdate`);
+    }
+
     const completion = await getAPI().call("updateResourceCompletion")({
       resourceId,
-      isCompleted: state.completion[resourceId],
+      isCompleted: currentCompletion[resourceId],
+      mdate,
     });
 
     updateResourceCompletionAction(completion);

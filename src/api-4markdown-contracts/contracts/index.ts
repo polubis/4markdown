@@ -21,7 +21,7 @@ import type {
   RewriteAssistantPersona,
   YourAccountDto,
   CommentDto,
-  ResourceCompletionDto,
+  ResourcesCompletionDto,
 } from "../dtos";
 // @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
 
@@ -244,7 +244,7 @@ type AddUserProfileCommentContract = Contract<
 
 type UpdateResourceCompletionContract = Contract<
   `updateResourceCompletion`,
-  ResourceCompletionDto,
+  ResourcesCompletionDto,
   {
     resourceId: ResourceId;
     isCompleted: boolean;

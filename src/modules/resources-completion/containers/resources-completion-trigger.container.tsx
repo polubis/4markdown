@@ -3,8 +3,7 @@ import { Button } from "design-system/button";
 import { BiCheck, BiX } from "react-icons/bi";
 import { useResourcesCompletionState } from "../store";
 import { ResourceId } from "api-4markdown-contracts";
-import { toggleResourceCompletionAction } from "../store/actions";
-import { okResourcesCompletionSelector } from "../store/selectors";
+import { toggleResourceCompletionAct } from "../acts/toggle-resource-completion.act";
 
 type ResourcesCompletionTriggerContainerProps = {
   resourceId: ResourceId;
@@ -13,13 +12,11 @@ type ResourcesCompletionTriggerContainerProps = {
 const ResourcesCompletionTriggerContainer = ({
   resourceId,
 }: ResourcesCompletionTriggerContainerProps) => {
-  const resourcesCompletionState = useResourcesCompletionState(
-    okResourcesCompletionSelector,
-  );
+  const { completion } = useResourcesCompletionState();
 
   const isCompleted = React.useMemo(
-    () => Boolean(resourcesCompletionState.completion[resourceId]),
-    [resourcesCompletionState.completion, resourceId],
+    () => Boolean(completion[resourceId]),
+    [completion, resourceId],
   );
 
   return (
@@ -27,7 +24,7 @@ const ResourcesCompletionTriggerContainer = ({
       s={2}
       i={2}
       auto
-      onClick={() => toggleResourceCompletionAction(resourceId)}
+      onClick={() => toggleResourceCompletionAct(resourceId)}
     >
       {isCompleted ? (
         <>

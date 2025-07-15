@@ -1,9 +1,8 @@
 import type { Date, ResourceId } from "../atoms";
 
-type ResourceCompletionDto = {
-  cdate: Date;
+type ResourcesCompletionDto = {
   mdate: Date;
   completion: Record<ResourceId, boolean>;
 };
 
-export type { ResourceCompletionDto };
+export type { ResourcesCompletionDto };
