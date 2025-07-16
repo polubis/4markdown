@@ -15,6 +15,8 @@ import { EducationTopTags } from "components/education-top-tags";
 import type { EducationPageModel } from "models/page-models";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { EducationDocumentsListContainer } from "containers/education-documents-list.container";
+import { useResourcesCompletionState } from "modules/resources-completion";
+import { ResourceId } from "api-4markdown-contracts";
 
 type EducationZoneViewProps = EducationPageModel;
 
@@ -75,9 +77,15 @@ const Pagination = ({
   );
 };
 
-const ContentRank = ({
+const ContentRankContainer = ({
   documents,
 }: Pick<EducationZoneViewProps, "documents">) => {
+  const resourcesCompletionState = useResourcesCompletionState();
+  const completion =
+    resourcesCompletionState.is === "ok"
+      ? resourcesCompletionState.completion
+      : {};
+
   return (
     <>
       <h2 className="text-xl">Content Rank</h2>
@@ -125,12 +133,14 @@ const ContentRank = ({
               </Link>
             </h3>
             <div className="flex items-center space-x-2">
-              <span
-                title="This resource is completed"
-                className="shrink-0 rounded-md bg-green-700 text-white p-0.5"
-              >
-                <BiCheck aria-hidden="true" size={20} />
-              </span>
+              {completion[document.id as ResourceId] && (
+                <span
+                  title="This resource is completed"
+                  className="shrink-0 rounded-md bg-green-700 text-white p-0.5"
+                >
+                  <BiCheck aria-hidden="true" size={20} />
+                </span>
+              )}
               {RATING_ICONS.map(([Icon, category]) => (
                 <div className="flex items-center" key={category}>
                   <Icon className="mr-1" size={20} />
@@ -194,7 +204,7 @@ const EducationZoneView = ({
         </>
         <>
           <EducationTopTags className="mb-6" tags={topTags} />
-          <ContentRank documents={documents} />
+          <ContentRankContainer documents={documents} />
         </>
       </EducationLayout>
       <AppFooterContainer />
