@@ -30,7 +30,6 @@
         "noUnusedVariables": "off"
       },
       "suspicious": {
-        "noShadowRestrictedNames": "off",
         "noArrayIndexKey": "off",
         "noConstEnum": "off",
         "noExplicitAny": "off",

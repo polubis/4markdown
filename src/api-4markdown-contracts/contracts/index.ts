@@ -1,7 +1,7 @@
 import { type Brand, type Prettify } from "development-kit/utility-types";
 import type {
   Base64,
-  Date,
+  DateStamp,
   Id,
   ResourceCompletionType,
   ResourceId,
@@ -185,14 +185,14 @@ type GetYourUserProfileContract = Contract<
   `getYourUserProfile`,
   {
     profile: UserProfileDto;
-    mdate: Date;
+    mdate: DateStamp;
   } | null
 >;
 type UpdateYourUserProfileContract = Contract<
   `updateYourUserProfileV2`,
   {
     profile: UserProfileDto;
-    mdate: Date;
+    mdate: DateStamp;
   },
   Pick<
     UserProfileDto,
@@ -204,7 +204,7 @@ type UpdateYourUserProfileContract = Contract<
     | "linkedInUrl"
     | "twitterUrl"
   > & {
-    mdate: Date | null;
+    mdate: DateStamp | null;
     avatar:
       | {
           type: `noop`;

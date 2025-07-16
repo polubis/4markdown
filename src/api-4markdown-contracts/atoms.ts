@@ -3,7 +3,7 @@ import { Brand } from "development-kit/utility-types";
 type Id = string;
 type Name = string;
 type MarkdownCode = string;
-type Date = string;
+type DateStamp = string;
 type Tags = string[];
 type Path = string;
 type MarkdownContent = string;
@@ -27,7 +27,7 @@ export type {
   MarkdownCode,
   MarkdownContent,
   Url,
-  Date,
+  DateStamp,
   Tags,
   Path,
   Description,

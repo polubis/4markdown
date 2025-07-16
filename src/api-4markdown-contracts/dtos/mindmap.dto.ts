@@ -1,5 +1,5 @@
 import type {
-  Date,
+  DateStamp,
   Id,
   MarkdownContent,
   Path,
@@ -50,8 +50,8 @@ type MindmapEdge = SolidEdge;
 
 type MindmapDto = {
   id: Id;
-  cdate: Date;
-  mdate: Date;
+  cdate: DateStamp;
+  mdate: DateStamp;
   name: string;
   orientation: `x` | `y`;
   path: Path;

@@ -1,8 +1,8 @@
 import { Prettify } from "development-kit/utility-types";
-import type { Date, ResourceId } from "../atoms";
+import type { DateStamp, ResourceId } from "../atoms";
 
 type ResourcesCompletionDto = Prettify<{
-  mdate: Date;
+  mdate: DateStamp;
   completion: Record<ResourceId, boolean>;
 }>;
 
