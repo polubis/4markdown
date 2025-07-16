@@ -8,7 +8,7 @@ import { CreationLinkContainer } from "containers/creation-link.container";
 import { Link } from "gatsby";
 import { RATING_ICONS } from "core/rating-config";
 import { meta } from "../../../meta";
-import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
+import { BiArrowToLeft, BiArrowToRight, BiCheck } from "react-icons/bi";
 import { paginate } from "development-kit/paginate";
 import { EducationLayout } from "components/education-layout";
 import { EducationTopTags } from "components/education-top-tags";
@@ -81,7 +81,7 @@ const ContentRank = ({
   return (
     <>
       <h2 className="text-xl">Content Rank</h2>
-      <ol className="flex flex-col mb-4 mt-3 space-y-4 w-[280px]">
+      <ol className="flex flex-col my-4 space-y-4 w-[280px]">
         {documents.partialTop.map((document) => (
           <li className="flex flex-col" key={document.id}>
             <div className="flex items-center space-x-1 mb-0.5">
@@ -125,6 +125,12 @@ const ContentRank = ({
               </Link>
             </h3>
             <div className="flex items-center space-x-2">
+              <span
+                title="This resource is completed"
+                className="shrink-0 rounded-md bg-green-700 text-white p-0.5"
+              >
+                <BiCheck aria-hidden="true" size={20} />
+              </span>
               {RATING_ICONS.map(([Icon, category]) => (
                 <div className="flex items-center" key={category}>
                   <Icon className="mr-1" size={20} />
