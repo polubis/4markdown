@@ -1,3 +1,4 @@
+import { ResourceId } from "api-4markdown-contracts";
 import { OkResourcesCompletionState, ResourcesCompletionState } from "./models";
 
 const okResourcesCompletionSelector = (
@@ -9,4 +10,12 @@ const okResourcesCompletionSelector = (
   return state;
 };
 
-export { okResourcesCompletionSelector };
+const rawResourcesCompletionSelector = (
+  state: ResourcesCompletionState,
+): Record<ResourceId, boolean> => {
+  if (state.is !== `ok`) return {};
+
+  return state.completion;
+};
+
+export { okResourcesCompletionSelector, rawResourcesCompletionSelector };

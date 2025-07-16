@@ -1,7 +1,14 @@
 import React from "react";
 import { Badge } from "design-system/badge";
 import { Avatar } from "design-system/avatar";
-import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from "react-icons/bi";
+import {
+  BiBook,
+  BiCheck,
+  BiCopyAlt,
+  BiInfoCircle,
+  BiLogoMarkdown,
+  BiX,
+} from "react-icons/bi";
 import { Button } from "design-system/button";
 import { useCopy } from "development-kit/use-copy";
 import { Status } from "design-system/status";
@@ -16,10 +23,12 @@ import { ScrollToTop } from "components/scroll-to-top";
 import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { TableOfContent } from "components/table-of-content";
-import { CompletionTriggerContainer } from "modules/resources-completion/containers/completion-trigger.container";
 import { ResourceId } from "api-4markdown-contracts";
 import { useAuthStore } from "store/auth/auth.store";
-import { CompletionMarkerContainer } from "modules/resources-completion/containers/completion-marker.container";
+import {
+  useResourcesCompletionState,
+  useResourcesCompletion,
+} from "modules/resources-completion";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -28,6 +37,57 @@ const MarkdownWidget = React.lazy(() =>
 );
 
 const CONTENT_ID = `document-layout-content`;
+
+const CompletionMarkerContainer = () => {
+  const [{ document }] = useDocumentLayoutContext();
+  const { isCompleted } = useResourcesCompletion(
+    document.id as ResourceId,
+    "document",
+  );
+
+  if (!isCompleted) {
+    return null;
+  }
+
+  return (
+    <p className="flex gap-2 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
+      <BiInfoCircle className="shrink-0" size={20} />
+      <span>
+        You're browsing already <strong>completed resource</strong>.
+      </span>
+    </p>
+  );
+};
+
+const CompletionSectionContainer = () => {
+  const [{ document }] = useDocumentLayoutContext();
+  const state = useResourcesCompletionState();
+  const { toggle, isCompleted, message } = useResourcesCompletion(
+    document.id as ResourceId,
+    "document",
+  );
+
+  if (state.is !== "ok") {
+    return null;
+  }
+
+  return (
+    <section className="mt-6">
+      {message.is === "copied" && <Status>{message.value}</Status>}
+      <Button s={2} i={2} auto onClick={toggle}>
+        {isCompleted ? (
+          <>
+            Mark As Uncompleted <BiX />
+          </>
+        ) : (
+          <>
+            Mark As Completed <BiCheck />
+          </>
+        )}
+      </Button>
+    </section>
+  );
+};
 
 const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
@@ -45,10 +105,7 @@ const DocumentLayoutContainer = () => {
     <>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
-          <CompletionMarkerContainer
-            className="mb-4"
-            resourceId={document.id as ResourceId}
-          />
+          {authState.is === "authorized" && <CompletionMarkerContainer />}
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button
               title="Open in documents creator"
@@ -92,14 +149,7 @@ const DocumentLayoutContainer = () => {
           <section id={CONTENT_ID}>
             <Markdown>{code}</Markdown>
           </section>
-          {authState.is === "authorized" && (
-            <section className="mt-6">
-              <CompletionTriggerContainer
-                resourceId={document.id as ResourceId}
-                type="document"
-              />
-            </section>
-          )}
+          {authState.is === "authorized" && <CompletionSectionContainer />}
           {author?.bio && author?.displayName && (
             <section className="mt-12">
               <div className="flex max-w-xl space-x-5 ml-auto rounded-lg">

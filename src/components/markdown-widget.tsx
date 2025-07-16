@@ -25,6 +25,7 @@ import {
 type MarkdownWidgetProps = {
   chunksActive?: boolean;
   headerControls?: ReactNode;
+  additionalBody?: ReactNode;
   markdown: string;
   onClose(): void;
 };
@@ -34,6 +35,7 @@ const MAX_CHUNK_HEADING_LEVEL = 2;
 const MarkdownWidget = ({
   chunksActive = true,
   headerControls,
+  additionalBody,
   markdown,
   onClose,
 }: MarkdownWidgetProps) => {
@@ -231,6 +233,7 @@ const MarkdownWidget = ({
         <Markdown id={markdownId} className="!max-w-full p-4">
           {chunksMode.isOn ? activeChunk : markdown}
         </Markdown>
+        {additionalBody}
         {asideNavigation.isOn && (
           <>
             <aside className="sticky h-full left-0 right-0 bottom-0 w-full flex flex-col animate-slide-in-bottom">
