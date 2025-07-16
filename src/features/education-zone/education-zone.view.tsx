@@ -15,7 +15,10 @@ import { EducationTopTags } from "components/education-top-tags";
 import type { EducationPageModel } from "models/page-models";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { EducationDocumentsListContainer } from "containers/education-documents-list.container";
-import { useResourcesCompletionState } from "modules/resources-completion";
+import {
+  rawResourcesCompletionSelector,
+  useResourcesCompletionState,
+} from "modules/resources-completion";
 import { ResourceId } from "api-4markdown-contracts";
 
 type EducationZoneViewProps = EducationPageModel;
@@ -80,11 +83,9 @@ const Pagination = ({
 const ContentRankContainer = ({
   documents,
 }: Pick<EducationZoneViewProps, "documents">) => {
-  const resourcesCompletionState = useResourcesCompletionState();
-  const completion =
-    resourcesCompletionState.is === "ok"
-      ? resourcesCompletionState.completion
-      : {};
+  const completion = useResourcesCompletionState(
+    rawResourcesCompletionSelector,
+  );
 
   return (
     <>
