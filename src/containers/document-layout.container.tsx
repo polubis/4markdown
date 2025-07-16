@@ -50,7 +50,7 @@ const CompletionMarkerContainer = () => {
   }
 
   return (
-    <p className="flex gap-2 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
+    <p className="mb-4 flex gap-2 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
       <BiInfoCircle className="shrink-0" size={20} />
       <span>
         You're browsing already <strong>completed resource</strong>.
