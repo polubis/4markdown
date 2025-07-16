@@ -65,8 +65,8 @@ const EducationDocumentsList = ({
           <p className="lg:max-w-[70%] mt-2 mb-3">{document.description}</p>
           <div className="mb-5 flex flex-wrap gap-2">
             {completion[document.id as ResourceId] && (
-              <span className="flex items-center gap-1 text-sm font-medium uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-2 line-clamp-1">
-                <BiCheck className="shrink-0" size={20} />{" "}
+              <span className="flex items-center gap-1 text-sm font-medium uppercase w-fit rounded-md bg-green-300/40 dark:bg-green-400/20 py-1 px-2 line-clamp-1">
+                <BiCheck aria-hidden="true" className="shrink-0" size={20} />{" "}
                 <span>Completed</span>
               </span>
             )}
