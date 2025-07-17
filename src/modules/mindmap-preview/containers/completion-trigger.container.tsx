@@ -1,7 +1,6 @@
 import React from "react";
 import { ResourceId } from "api-4markdown-contracts";
 import { Button } from "design-system/button";
-import { Status } from "design-system/status";
 import {
   useResourcesCompletion,
   useResourcesCompletionState,
@@ -13,7 +12,7 @@ import { onMindmapPreviewNodeSelector } from "store/mindmap-preview/selectors";
 const CompletionTriggerContainer = () => {
   const nodePreview = useMindmapPreviewState(onMindmapPreviewNodeSelector);
   const state = useResourcesCompletionState();
-  const { toggle, isCompleted, message } = useResourcesCompletion(
+  const { toggle, isCompleted } = useResourcesCompletion(
     nodePreview.id as ResourceId,
     "document",
   );
@@ -23,18 +22,19 @@ const CompletionTriggerContainer = () => {
   }
 
   return (
-    <>
-      {message.is === "copied" && <Status>{message.value}</Status>}
-      <Button
-        className="mx-auto"
-        s={1}
-        i={2}
-        onClick={toggle}
-        title={isCompleted ? "Mark as uncompleted" : "Mark as completed"}
-      >
-        {isCompleted ? <BiCheckboxMinus /> : <BiCheckboxChecked />}
-      </Button>
-    </>
+    <Button
+      className="mx-auto"
+      s={1}
+      i={2}
+      onClick={toggle}
+      title={isCompleted ? "Mark as uncompleted" : "Mark as completed"}
+    >
+      {isCompleted ? (
+        <BiCheckboxMinus size={24} />
+      ) : (
+        <BiCheckboxChecked size={24} />
+      )}
+    </Button>
   );
 };
 
