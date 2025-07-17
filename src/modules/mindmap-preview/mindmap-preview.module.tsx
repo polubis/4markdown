@@ -26,9 +26,13 @@ import {
   EmbeddedNodeTileContainerY,
 } from "./containers/embedded-node-tile.container";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
-import { MarkdownWidget } from "components/markdown-widget";
-import { CompletionMarkerContainer } from "./containers/completion-marker.container";
 import { CompletionTriggerContainer } from "./containers/completion-trigger.container";
+
+const MarkdownWidget = React.lazy(() =>
+  import("components/markdown-widget").then(({ MarkdownWidget }) => ({
+    default: MarkdownWidget,
+  })),
+);
 
 type MindmapNodeTypes = {
   [Orientation in MindmapPreviewOkMindmap["orientation"]]: {
@@ -79,13 +83,14 @@ const MindmapPreviewModule = () => {
         <MiniMap className="hidden md:block" />
       </ReactFlow>
       {nodePreview.is === `on` && (
-        <MarkdownWidget
-          chunksActive={false}
-          bodyTop={<CompletionMarkerContainer />}
-          bodyBottom={<CompletionTriggerContainer />}
-          onClose={closeNodePreviewAction}
-          markdown={nodePreview.data.content || `No content for this node`}
-        />
+        <React.Suspense>
+          <MarkdownWidget
+            headerControls={<CompletionTriggerContainer />}
+            chunksActive={false}
+            onClose={closeNodePreviewAction}
+            markdown={nodePreview.data.content || `No content for this node`}
+          />
+        </React.Suspense>
       )}
     </>
   );

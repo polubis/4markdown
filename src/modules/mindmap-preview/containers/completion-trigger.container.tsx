@@ -23,20 +23,18 @@ const CompletionTriggerContainer = () => {
   }
 
   return (
-    <div className="pt-8 px-4 pb-4">
+    <>
       {message.is === "copied" && <Status>{message.value}</Status>}
-      <Button className="mx-auto" s={2} i={2} auto onClick={toggle}>
-        {isCompleted ? (
-          <>
-            Mark As Uncompleted <BiCheckboxMinus />
-          </>
-        ) : (
-          <>
-            Mark As Completed <BiCheckboxChecked />
-          </>
-        )}
+      <Button
+        className="mx-auto"
+        s={1}
+        i={2}
+        onClick={toggle}
+        title={isCompleted ? "Mark as uncompleted" : "Mark as completed"}
+      >
+        {isCompleted ? <BiCheckboxMinus /> : <BiCheckboxChecked />}
       </Button>
-    </div>
+    </>
   );
 };
 
