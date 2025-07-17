@@ -10,7 +10,7 @@ type ExternalNodeTileProps = NodeProps<MindmapPreviewExternalNode>;
 
 const ExternalNodeTile = ({ data }: ExternalNodeTileProps) => {
   return (
-    <NodeTile selected={false}>
+    <NodeTile>
       <NodeTile.Label>External Resource</NodeTile.Label>
       <NodeTile.Name>{data.name}</NodeTile.Name>
       {data.description && (

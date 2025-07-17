@@ -15,7 +15,7 @@ const EmbeddedNodeTileContainer = ({
   positionAbsoluteY,
   data,
 }: EmbeddedNodeTileContainerProps) => (
-  <NodeTile selected={false}>
+  <NodeTile>
     <NodeTile.Label>Embedded Resource</NodeTile.Label>
     <NodeTile.Name>{data.name}</NodeTile.Name>
     {data.description && (
