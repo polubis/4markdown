@@ -4,10 +4,10 @@ import { Avatar } from "design-system/avatar";
 import {
   BiBook,
   BiCheck,
+  BiCheckboxChecked,
+  BiCheckboxMinus,
   BiCopyAlt,
-  BiInfoCircle,
   BiLogoMarkdown,
-  BiX,
 } from "react-icons/bi";
 import { Button } from "design-system/button";
 import { useCopy } from "development-kit/use-copy";
@@ -50,8 +50,8 @@ const CompletionMarkerContainer = () => {
   }
 
   return (
-    <p className="mb-4 flex gap-2 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
-      <BiInfoCircle className="shrink-0" size={20} />
+    <p className="mb-4 flex gap-1 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
+      <BiCheckboxChecked className="shrink-0" size={24} />
       <span>
         You're browsing already <strong>completed resource</strong>.
       </span>
@@ -72,16 +72,16 @@ const CompletionSectionContainer = () => {
   }
 
   return (
-    <section className="mt-6">
+    <section className="mt-10">
       {message.is === "copied" && <Status>{message.value}</Status>}
-      <Button s={2} i={2} auto onClick={toggle}>
+      <Button className="mx-auto" s={2} i={2} auto onClick={toggle}>
         {isCompleted ? (
           <>
-            Mark As Uncompleted <BiX />
+            Mark As Uncompleted <BiCheckboxMinus />
           </>
         ) : (
           <>
-            Mark As Completed <BiCheck />
+            Mark As Completed <BiCheckboxChecked />
           </>
         )}
       </Button>

@@ -8,7 +8,11 @@ import { CreationLinkContainer } from "containers/creation-link.container";
 import { Link } from "gatsby";
 import { RATING_ICONS } from "core/rating-config";
 import { meta } from "../../../meta";
-import { BiArrowToLeft, BiArrowToRight, BiCheck } from "react-icons/bi";
+import {
+  BiArrowToLeft,
+  BiArrowToRight,
+  BiCheckboxChecked,
+} from "react-icons/bi";
 import { paginate } from "development-kit/paginate";
 import { EducationLayout } from "components/education-layout";
 import { EducationTopTags } from "components/education-top-tags";
@@ -139,7 +143,7 @@ const ContentRankContainer = ({
                   title="This resource is completed"
                   className="shrink-0 rounded-md bg-green-700 text-white p-0.5"
                 >
-                  <BiCheck aria-hidden="true" size={20} />
+                  <BiCheckboxChecked aria-hidden="true" size={20} />
                 </span>
               )}
               {RATING_ICONS.map(([Icon, category]) => (

@@ -5,7 +5,7 @@ import { Link } from "gatsby";
 import type { RichEducationDocumentModel } from "models/page-models";
 import React from "react";
 import { meta } from "../../meta";
-import { BiCheck } from "react-icons/bi";
+import { BiCheckboxChecked } from "react-icons/bi";
 import { ResourceId, ResourcesCompletionDto } from "api-4markdown-contracts";
 
 type EducationDocumentsListProps = {
@@ -65,8 +65,12 @@ const EducationDocumentsList = ({
           <p className="lg:max-w-[70%] mt-2 mb-3">{document.description}</p>
           <div className="mb-5 flex flex-wrap gap-2">
             {completion[document.id as ResourceId] && (
-              <span className="flex items-center gap-1 text-sm font-medium uppercase w-fit rounded-md bg-green-700 text-white py-1 px-2 line-clamp-1">
-                <BiCheck aria-hidden="true" className="shrink-0" size={20} />{" "}
+              <span className="flex items-center gap-0.5 text-sm font-medium uppercase w-fit rounded-md bg-green-700 text-white py-1 px-2 line-clamp-1">
+                <BiCheckboxChecked
+                  aria-hidden="true"
+                  className="shrink-0"
+                  size={20}
+                />{" "}
                 <span>Completed</span>
               </span>
             )}
