@@ -213,13 +213,6 @@ const MarkdownWidget = ({
         >
           {chunksMode.isOn ? <BiListOl /> : <BiDetail />}
         </Button>
-        <Button i={2} s={1} title="Copy markdown" onClick={copyMarkdown}>
-          {copyState.is === `copied` ? (
-            <BiCheck className="text-green-700" />
-          ) : (
-            <BiCopyAlt />
-          )}
-        </Button>
       </Modal2.Header>
       <Modal2.Body
         id={bodyId}
@@ -273,15 +266,25 @@ const MarkdownWidget = ({
         )}
       </Modal2.Body>
       <Modal2.Footer className="justify-between">
-        <Button
-          i={2}
-          s={1}
-          title="Scroll to top preview top"
-          disabled={asideNavigation.isOn}
-          onClick={scrollToTop}
-        >
-          <BiArrowToTop />
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            i={2}
+            s={1}
+            title="Scroll to top preview top"
+            disabled={asideNavigation.isOn}
+            onClick={scrollToTop}
+          >
+            <BiArrowToTop />
+          </Button>
+          <Button i={2} s={1} title="Copy markdown" onClick={copyMarkdown}>
+            {copyState.is === `copied` ? (
+              <BiCheck className="text-green-700" />
+            ) : (
+              <BiCopyAlt />
+            )}
+          </Button>
+        </div>
+
         <div className="flex items-center gap-2">
           {finalHeadings.length > 1 && (
             <Button

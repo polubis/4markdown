@@ -14,7 +14,7 @@ const CompletionTriggerContainer = () => {
   const state = useResourcesCompletionState();
   const { toggle, isCompleted } = useResourcesCompletion(
     nodePreview.id as ResourceId,
-    "document",
+    "mindmap-node",
   );
 
   if (state.is !== "ok") {
