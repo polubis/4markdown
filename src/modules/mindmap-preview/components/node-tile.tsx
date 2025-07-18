@@ -37,7 +37,7 @@ NodeTile.Description = ({ children }: { children: ReactNode }) => {
 // eslint-disable-next-line react/display-name
 NodeTile.Toolbox = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="node-tile-toolbox flex items-center space-x-1 absolute top-2 right-2">
+    <div className="node-tile-toolbox flex items-center space-x-2 absolute top-2 right-2">
       {children}
     </div>
   );

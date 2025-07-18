@@ -2,8 +2,6 @@ import { useCopy } from "development-kit/use-copy";
 import React from "react";
 import { toggleCompletionAct } from "../acts/toggle-completion.act";
 import { ResourceId, ResourceCompletionType } from "api-4markdown-contracts";
-import { useResourcesCompletionState } from "../store";
-import { rawResourcesCompletionSelector } from "../store/selectors";
 import { useResourceCompletionCheck } from "./use-resource-completion-check";
 
 const useResourcesCompletion = (
