@@ -1,8 +1,20 @@
+import { c } from "design-system/c";
 import React, { type ReactNode } from "react";
 
-const NodeTile = ({ children }: { children: ReactNode }) => {
+const NodeTile = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) => {
   return (
-    <div className="border-zinc-300 dark:border-zinc-800 node-tile cursor-move flex flex-col border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:bg-gray-950 w-[280px]">
+    <div
+      className={c(
+        "border-zinc-300 dark:border-zinc-800 node-tile cursor-move flex flex-col border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:bg-gray-950 w-[280px]",
+        className,
+      )}
+    >
       {children}
     </div>
   );
@@ -21,6 +33,7 @@ NodeTile.Label = ({ children }: { children: ReactNode }) => {
 NodeTile.Description = ({ children }: { children: ReactNode }) => {
   return <p className="mt-1 line-clamp-4">{children}</p>;
 };
+
 // eslint-disable-next-line react/display-name
 NodeTile.Toolbox = ({ children }: { children: ReactNode }) => {
   return (
