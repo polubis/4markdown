@@ -1,5 +1,12 @@
 import { Brand, type Prettify } from "development-kit/utility-types";
-import type { Base64, Date, Id, Url, UserProfileId } from "../atoms";
+import type {
+  Base64,
+  Date,
+  Id,
+  ResourceId,
+  Url,
+  UserProfileId,
+} from "../atoms";
 import type {
   DocumentDto,
   PermanentDocumentDto,
@@ -14,6 +21,7 @@ import type {
   RewriteAssistantPersona,
   YourAccountDto,
   CommentDto,
+  ResourceCompletionDto,
 } from "../dtos";
 // @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
 
@@ -234,6 +242,11 @@ type AddUserProfileCommentContract = Contract<
   }
 >;
 
+type GetUserResourceCompletionsContract = Contract<
+  `getUserResourceCompletions`,
+  Record<ResourceId, ResourceCompletionDto>
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -261,7 +274,8 @@ type API4MarkdownContracts =
   | CreateContentWithAIContract
   | GetYourAccountContract
   | GetUserProfileContract
-  | AddUserProfileCommentContract;
+  | AddUserProfileCommentContract
+  | GetUserResourceCompletionsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

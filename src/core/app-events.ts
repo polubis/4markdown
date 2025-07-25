@@ -1,9 +1,13 @@
 import React, { useRef } from "react";
 import { Subject, Subscription } from "rxjs";
 
-type AppEvent = {
-  type: "SHOW_USER_PROFILE_FORM";
-};
+type AppEvent =
+  | {
+      type: "SHOW_USER_PROFILE_FORM";
+    }
+  | {
+      type: "USER_AUTHENTICATED";
+    };
 
 const appEventsBus = new Subject<AppEvent>();
 const appEventsBus$ = appEventsBus.asObservable();
@@ -31,4 +35,5 @@ const useAppEvent = (callback: (event: AppEvent) => void): void => {
   }, []);
 };
 
+export type { AppEvent };
 export { emit, subscribe, useAppEvent };
