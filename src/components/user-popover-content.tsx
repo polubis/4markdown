@@ -19,19 +19,11 @@ import { useYourAccountState } from "store/your-account";
 import { reloadYourAccountAct } from "acts/reload-your-account.act";
 import { navigate } from "gatsby";
 import { meta } from "../../meta";
-import { useAppEvent } from "core/app-events";
-import { loadCompletionAct } from "modules/resource-completions";
 
 const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   const yourUserProfile = useYourUserProfileState();
   const userProfileForm = useSimpleFeature();
   const yourAccount = useYourAccountState();
-
-  useAppEvent((event) => {
-    if (event.type === "USER_AUTHENTICATED") {
-      loadCompletionAct();
-    }
-  });
 
   const signOutConfirmation = useConfirm(() => {
     logOut();

@@ -9,7 +9,10 @@ import { useYourAccountState } from "store/your-account";
 import { initializeAPI } from "api-4markdown";
 import { graphql, useStaticQuery } from "gatsby";
 import { SiteMetadata } from "./models";
-import { emit } from "./app-events";
+import {
+  loadCompletionAct,
+  useResourcesCompletionState,
+} from "modules/resource-completions";
 
 type SiteMetadataQuery = {
   site: {
@@ -35,7 +38,7 @@ const useAuth = () => {
   React.useEffect(() => {
     const unsubscribe = api.onAuthChange((user) => {
       if (user) {
-        emit({ type: "USER_AUTHENTICATED" });
+        loadCompletionAct();
 
         authStoreActions.authorize({
           avatar: user.photoURL,
@@ -53,6 +56,7 @@ const useAuth = () => {
       authStoreActions.unauthorize();
       useMindmapCreatorState.reset();
       useYourAccountState.reset();
+      useResourcesCompletionState.reset();
     });
 
     return () => {
