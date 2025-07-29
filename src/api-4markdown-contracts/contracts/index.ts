@@ -253,35 +253,16 @@ type GetUserResourceCompletionsContract = Contract<
 
 type SetUserResourceCompletionContract = Contract<
   "setUserResourceCompletion",
+  ResourceCompletionDto | null,
   | {
-      resourceId: DocumentId;
-      type: Extract<ResourceType, "document">;
-      cdate: Date;
-    }
-  | {
-      resourceId: MindmapId;
-      type: Extract<ResourceType, "mindmap">;
-      cdate: Date;
-    }
-  | {
-      resourceId: MindmapNodeId;
-      type: Extract<ResourceType, "mindmap-node">;
-      cdate: Date;
-      parentId: MindmapId;
-    }
-  | null,
-  | {
-      cdate: Date;
       type: Extract<ResourceType, "document">;
       resourceId: DocumentId;
     }
   | {
-      cdate: Date;
       type: Extract<ResourceType, "mindmap">;
       resourceId: MindmapId;
     }
   | {
-      cdate: Date;
       type: Extract<ResourceType, "mindmap-node">;
       resourceId: MindmapNodeId;
       parentId: MindmapId;

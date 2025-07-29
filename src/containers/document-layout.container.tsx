@@ -20,7 +20,7 @@ import {
   ResourceCompletionTriggerContainer,
   ResourceCompletionMarkerContainer,
 } from "modules/resource-completions";
-import { ResourceId } from "api-4markdown-contracts";
+import { DocumentId, ResourceId } from "api-4markdown-contracts";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -94,7 +94,8 @@ const DocumentLayoutContainer = () => {
           </section>
           <section className="mt-10">
             <ResourceCompletionTriggerContainer
-              resourceId={document.id as ResourceId}
+              type="document"
+              resourceId={document.id as DocumentId}
             />
           </section>
           {author?.bio && author?.displayName && (

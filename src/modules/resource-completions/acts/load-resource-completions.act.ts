@@ -1,10 +1,20 @@
-import { getAPI, getCache, parseError, setCache } from "api-4markdown";
+import {
+  getAPI,
+  getCache,
+  parseError,
+  removeCache,
+  setCache,
+} from "api-4markdown";
 import { useResourcesCompletionState } from "../store";
 import { API4MarkdownContractKey } from "api-4markdown-contracts";
 
-const loadCompletionAct = async (): Promise<void> => {
+const loadCompletionAct = async (reload = false): Promise<void> => {
   try {
     const key: API4MarkdownContractKey = `getUserResourceCompletions`;
+
+    if (reload) {
+      removeCache(key);
+    }
 
     const cachedCompletions = getCache(key);
 
