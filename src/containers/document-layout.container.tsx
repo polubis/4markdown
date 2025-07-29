@@ -20,7 +20,7 @@ import {
   ResourceCompletionTriggerContainer,
   ResourceCompletionMarkerContainer,
 } from "modules/resource-completions";
-import { DocumentId, ResourceId } from "api-4markdown-contracts";
+import { DocumentId } from "api-4markdown-contracts";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -48,7 +48,7 @@ const DocumentLayoutContainer = () => {
           <ResourceCompletionMarkerContainer
             className="mb-4"
             variant="info"
-            resourceId={document.id as ResourceId}
+            resourceId={document.id as DocumentId}
           />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button

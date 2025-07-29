@@ -15,6 +15,8 @@ import { EducationDocumentsList } from "components/education-documents-list";
 import { EducationTopTags } from "components/education-top-tags";
 import type { EducationPageModel } from "models/page-models";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
+import { DocumentId } from "api-4markdown-contracts";
+import { ResourceCompletionMarkerContainer } from "modules/resource-completions";
 
 type EducationZoneViewProps = EducationPageModel;
 
@@ -81,7 +83,7 @@ const ContentRank = ({
   return (
     <>
       <h2 className="text-xl">Content Rank</h2>
-      <ol className="flex flex-col mb-4 mt-3 space-y-4 w-[280px]">
+      <ol className="flex flex-col my-4 space-y-4 w-[280px]">
         {documents.partialTop.map((document) => (
           <li className="flex flex-col" key={document.id}>
             <div className="flex items-center space-x-1 mb-0.5">
@@ -125,6 +127,10 @@ const ContentRank = ({
               </Link>
             </h3>
             <div className="flex items-center space-x-2">
+              <ResourceCompletionMarkerContainer
+                resourceId={document.id as DocumentId}
+                variant="icon"
+              />
               {RATING_ICONS.map(([Icon, category]) => (
                 <div className="flex items-center" key={category}>
                   <Icon className="mr-1" size={20} />
