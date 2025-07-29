@@ -5,6 +5,8 @@ import { Link } from "gatsby";
 import type { RichEducationDocumentModel } from "models/page-models";
 import React from "react";
 import { meta } from "../../meta";
+import { ResourceCompletionMarkerContainer } from "modules/resource-completions";
+import { DocumentId } from "api-4markdown-contracts";
 
 type EducationDocumentsListProps = {
   documents: RichEducationDocumentModel[];
@@ -56,10 +58,16 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
               {document.name}
             </Link>
           </h2>
-          <p className="lg:max-w-[70%] mt-1 mb-3">{document.description}</p>
-          <p className="mb-5 text-sm uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
-            {document.tags.join(`, `)}
-          </p>
+          <p className="lg:max-w-[70%] mt-2 mb-3">{document.description}</p>
+          <div className="mb-5 flex flex-wrap gap-2">
+            <ResourceCompletionMarkerContainer
+              resourceId={document.id as DocumentId}
+              variant="badge"
+            />
+            <span className="flex text-sm font-medium uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
+              {document.tags.join(`, `)}
+            </span>
+          </div>
           <div className="flex items-center space-x-2">
             {RATING_ICONS.map(([Icon, category]) => (
               <div className="flex items-center" key={category}>

@@ -47,6 +47,7 @@ const DocumentLayoutContainer = () => {
         <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
           <ResourceCompletionMarkerContainer
             className="mb-4"
+            variant="info"
             resourceId={document.id as ResourceId}
           />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
