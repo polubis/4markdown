@@ -71,13 +71,21 @@ const TriggerContainer = ({
       auto
       onClick={triggerToggleCompletion}
     >
-      {completions.data[payload.resourceId] ? (
+      {completionChange.is === "fail" ? (
         <>
-          Mark As Uncompleted <BiCheckboxMinus />
+          <BiError /> Ups, Change Failed
         </>
       ) : (
         <>
-          Mark As Completed <BiCheckboxChecked />
+          {completions.data[payload.resourceId] ? (
+            <>
+              Mark As Uncompleted <BiCheckboxMinus />
+            </>
+          ) : (
+            <>
+              Mark As Completed <BiCheckboxChecked />
+            </>
+          )}
         </>
       )}
     </Button>
