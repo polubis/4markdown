@@ -13,6 +13,8 @@ type ResourceCompletionTriggerContainerProps = {
   className?: string;
 } & API4MarkdownPayload<"setUserResourceCompletion">;
 
+const CHANGE_COMPLETION_KEY = `change-completion`;
+
 const TriggerContainer = ({
   className,
   ...payload
@@ -21,11 +23,22 @@ const TriggerContainer = ({
   const [completionChange, setCompletionChange] = React.useState<Transaction>({
     is: `idle`,
   });
+  const authStore = useAuthStore();
 
   const triggerToggleCompletion = async () => {
     setCompletionChange({ is: `busy` });
     setCompletionChange(await toggleResourceCompletionAct(payload));
   };
+
+  React.useEffect(() => {
+    if (
+      authStore.is === "authorized" &&
+      localStorage.getItem(CHANGE_COMPLETION_KEY) === `1`
+    ) {
+      localStorage.removeItem(CHANGE_COMPLETION_KEY);
+      toggleResourceCompletionAct(payload);
+    }
+  }, [authStore]);
 
   if (completions.is === "idle" || completions.is === "busy") {
     return (
@@ -77,6 +90,11 @@ const ResourceCompletionTriggerContainer = ({
 }: ResourceCompletionTriggerContainerProps) => {
   const authStore = useAuthStore();
 
+  const triggerLoginWithCompletionChange = () => {
+    localStorage.setItem(CHANGE_COMPLETION_KEY, `1`);
+    logIn();
+  };
+
   if (authStore.is === "authorized") {
     return <TriggerContainer {...payload} className={className} />;
   }
@@ -88,7 +106,7 @@ const ResourceCompletionTriggerContainer = ({
       s={2}
       i={2}
       auto
-      onClick={logIn}
+      onClick={triggerLoginWithCompletionChange}
     >
       Mark As Completed <BiCheckboxChecked />
     </Button>
