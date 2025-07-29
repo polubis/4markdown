@@ -16,6 +16,11 @@ import { ScrollToTop } from "components/scroll-to-top";
 import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { TableOfContent } from "components/table-of-content";
+import {
+  ResourceCompletionTriggerContainer,
+  ResourceCompletionMarkerContainer,
+} from "modules/resource-completions";
+import { ResourceId } from "api-4markdown-contracts";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -40,6 +45,10 @@ const DocumentLayoutContainer = () => {
     <>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
+          <ResourceCompletionMarkerContainer
+            className="mb-4"
+            resourceId={document.id as ResourceId}
+          />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button
               title="Open in documents creator"
@@ -82,6 +91,11 @@ const DocumentLayoutContainer = () => {
           )}
           <section id={CONTENT_ID}>
             <Markdown>{code}</Markdown>
+          </section>
+          <section className="mt-10">
+            <ResourceCompletionTriggerContainer
+              resourceId={document.id as ResourceId}
+            />
           </section>
           {author?.bio && author?.displayName && (
             <section className="mt-12">
