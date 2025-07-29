@@ -9,38 +9,27 @@ const loadCompletionAct = async (): Promise<void> => {
     const cachedCompletions = getCache(key);
 
     if (cachedCompletions !== null) {
-      useResourcesCompletionState.setState({
-        idle: false,
-        busy: false,
-        error: null,
-        completions: cachedCompletions,
+      useResourcesCompletionState.swap({
+        is: `ok`,
+        data: cachedCompletions,
       });
       return;
     }
 
-    useResourcesCompletionState.setState({
-      idle: false,
-      busy: true,
-      error: null,
-      completions: {},
-    });
+    useResourcesCompletionState.swap({ is: `busy` });
 
     const completions = await getAPI().call(key)();
 
-    useResourcesCompletionState.setState({
-      idle: false,
-      busy: false,
-      error: null,
-      completions,
+    useResourcesCompletionState.swap({
+      is: `ok`,
+      data: completions,
     });
 
     setCache(key, completions);
   } catch (error) {
-    useResourcesCompletionState.setState({
-      idle: false,
-      busy: false,
+    useResourcesCompletionState.swap({
+      is: `fail`,
       error: parseError(error),
-      completions: {},
     });
   }
 };

@@ -1,8 +1,10 @@
 import React from "react";
 import { useResourcesCompletionState } from "../store";
-import { ResourceCompletionDto, ResourceId } from "api-4markdown-contracts";
+import { ResourceId } from "api-4markdown-contracts";
 import { BiCheckboxChecked } from "react-icons/bi";
 import { c } from "design-system/c";
+import { rawResourcesCompletionSelector } from "../store/selectors";
+import { useShallow } from "zustand/react/shallow";
 
 type ResourceCompletionMarkerContainerProps = {
   resourceId: ResourceId;
@@ -13,10 +15,9 @@ const ResourceCompletionMarkerContainer = ({
   resourceId,
   className,
 }: ResourceCompletionMarkerContainerProps) => {
-  const completions = useResourcesCompletionState.use.completions();
-  const completion = completions[resourceId] as
-    | ResourceCompletionDto
-    | undefined;
+  const completion = useResourcesCompletionState(
+    useShallow((state) => rawResourcesCompletionSelector(state)[resourceId]),
+  );
 
   if (!completion) {
     return null;

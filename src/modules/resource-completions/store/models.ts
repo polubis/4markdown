@@ -1,10 +1,13 @@
-import { API4MarkdownDto, ParsedError } from "api-4markdown-contracts";
+import { API4MarkdownDto } from "api-4markdown-contracts";
+import { Transaction } from "development-kit/utility-types";
 
-type ResourcesCompletionState = {
-  idle: boolean;
-  busy: boolean;
-  error: ParsedError | null;
-  completions: API4MarkdownDto<"getUserResourceCompletions">;
-};
+type ResourcesCompletionState = Transaction<{
+  data: API4MarkdownDto<"getUserResourceCompletions">;
+}>;
 
-export type { ResourcesCompletionState };
+type OkResourcesCompletionState = Extract<
+  ResourcesCompletionState,
+  { is: `ok` }
+>;
+
+export type { ResourcesCompletionState, OkResourcesCompletionState };

@@ -2,8 +2,12 @@ import { Brand, type Prettify } from "development-kit/utility-types";
 import type {
   Base64,
   Date,
+  DocumentId,
   Id,
+  MindmapId,
+  MindmapNodeId,
   ResourceId,
+  ResourceType,
   Url,
   UserProfileId,
 } from "../atoms";
@@ -247,6 +251,43 @@ type GetUserResourceCompletionsContract = Contract<
   Record<ResourceId, ResourceCompletionDto>
 >;
 
+type SetUserResourceCompletionContract = Contract<
+  "setUserResourceCompletion",
+  | {
+      resourceId: DocumentId;
+      type: Extract<ResourceType, "document">;
+      cdate: Date;
+    }
+  | {
+      resourceId: MindmapId;
+      type: Extract<ResourceType, "mindmap">;
+      cdate: Date;
+    }
+  | {
+      resourceId: MindmapNodeId;
+      type: Extract<ResourceType, "mindmap-node">;
+      cdate: Date;
+      parentId: MindmapId;
+    }
+  | null,
+  | {
+      cdate: Date;
+      type: Extract<ResourceType, "document">;
+      resourceId: DocumentId;
+    }
+  | {
+      cdate: Date;
+      type: Extract<ResourceType, "mindmap">;
+      resourceId: MindmapId;
+    }
+  | {
+      cdate: Date;
+      type: Extract<ResourceType, "mindmap-node">;
+      resourceId: MindmapNodeId;
+      parentId: MindmapId;
+    }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -275,7 +316,8 @@ type API4MarkdownContracts =
   | GetYourAccountContract
   | GetUserProfileContract
   | AddUserProfileCommentContract
-  | GetUserResourceCompletionsContract;
+  | GetUserResourceCompletionsContract
+  | SetUserResourceCompletionContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

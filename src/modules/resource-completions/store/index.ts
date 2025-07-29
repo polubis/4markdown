@@ -1,14 +1,8 @@
-import { createSelectors } from "development-kit/create-selectors";
+import { state } from "development-kit/state";
 import type { ResourcesCompletionState } from "./models";
-import { create } from "zustand";
 
-const useResourcesCompletionState = createSelectors(
-  create<ResourcesCompletionState>(() => ({
-    idle: true,
-    busy: false,
-    error: null,
-    completions: {},
-  })),
-);
+const useResourcesCompletionState = state<ResourcesCompletionState>({
+  is: `idle`,
+});
 
 export { useResourcesCompletionState };

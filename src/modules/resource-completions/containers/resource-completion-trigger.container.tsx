@@ -1,33 +1,41 @@
 import React from "react";
-import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
+import { BiCheckboxChecked, BiCheckboxMinus, BiError } from "react-icons/bi";
 import { useResourcesCompletionState } from "../store";
 import { Button } from "design-system/button";
-import { ResourceCompletionDto, ResourceId } from "api-4markdown-contracts";
+import { API4MarkdownPayload } from "api-4markdown-contracts";
 import { useAuthStore } from "store/auth/auth.store";
 import { logIn } from "actions/log-in.action";
+import { toggleResourceCompletionAct } from "../acts/toggle-resource-completion.act";
 
 type ResourceCompletionTriggerContainerProps = {
-  resourceId: ResourceId;
   className?: string;
-};
+} & API4MarkdownPayload<"setUserResourceCompletion">;
 
-const ResourceCompletionTriggerContainer = ({
-  resourceId,
+const TriggerContainer = ({
   className,
+  ...payload
 }: ResourceCompletionTriggerContainerProps) => {
-  const { completions } = useResourcesCompletionState();
-  const completion = completions[resourceId] as
-    | ResourceCompletionDto
-    | undefined;
+  const completions = useResourcesCompletionState();
 
   const triggerToggleCompletion = () => {
-    const authStore = useAuthStore.getState();
-
-    if (authStore.is !== "authorized") {
-      logIn();
-      return;
-    }
+    toggleResourceCompletionAct(payload);
   };
+
+  if (completions.is === "idle" || completions.is === "busy") {
+    return (
+      <Button className={className} disabled s={2} i={2} auto>
+        Loading...
+      </Button>
+    );
+  }
+
+  if (completions.is === "fail") {
+    return (
+      <Button className={className} s={2} i={2} auto>
+        <BiError /> Ups, Try Again
+      </Button>
+    );
+  }
 
   return (
     <Button
@@ -37,7 +45,7 @@ const ResourceCompletionTriggerContainer = ({
       auto
       onClick={triggerToggleCompletion}
     >
-      {completion ? (
+      {completions.data[payload.resourceId] ? (
         <>
           Mark As Uncompleted <BiCheckboxMinus />
         </>
@@ -46,6 +54,30 @@ const ResourceCompletionTriggerContainer = ({
           Mark As Completed <BiCheckboxChecked />
         </>
       )}
+    </Button>
+  );
+};
+
+const ResourceCompletionTriggerContainer = ({
+  className,
+  ...payload
+}: ResourceCompletionTriggerContainerProps) => {
+  const authStore = useAuthStore();
+
+  if (authStore.is === "authorized") {
+    return <TriggerContainer {...payload} className={className} />;
+  }
+
+  return (
+    <Button
+      disabled={authStore.is === "idle"}
+      className={className}
+      s={2}
+      i={2}
+      auto
+      onClick={logIn}
+    >
+      Mark As Completed <BiCheckboxChecked />
     </Button>
   );
 };
