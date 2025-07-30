@@ -26,13 +26,19 @@ import {
 } from "./containers/embedded-node-tile.container";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
 import {
-  ResourceCompletionTriggerContainer,
+  useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
-import { MindmapId, MindmapNodeId } from "api-4markdown-contracts";
+import {
+  API4MarkdownPayload,
+  MindmapId,
+  MindmapNodeId,
+} from "api-4markdown-contracts";
 import { rawResourcesCompletionSelector } from "modules/resource-completions/store/selectors";
 import { useShallow } from "zustand/react/shallow";
 import { MindmapPreviewNodeWithCompletion } from "./models";
+import { Button } from "design-system/button";
+import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -65,6 +71,21 @@ const mindmapNodeTypes: MindmapNodeTypes = {
   },
 };
 
+const ResourceCompletionTriggerContainer = (
+  props: API4MarkdownPayload<"setUserResourceCompletion">,
+) => {
+  const [state, completion, toggle] = useResourceCompletionToggle(props);
+  // @TODO[PRIO=2]: [Handle error case with some toast or error message].
+  return (
+    <Button s={1} i={2} disabled={state.is === `busy`} onClick={toggle}>
+      {completion ? (
+        <BiCheckboxMinus size={24} />
+      ) : (
+        <BiCheckboxChecked size={24} />
+      )}
+    </Button>
+  );
+};
 const edgeTypes: MindmapEdgeTypes = {
   solid: SolidEdge,
 };

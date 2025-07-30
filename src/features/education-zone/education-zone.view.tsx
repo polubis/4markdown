@@ -8,7 +8,11 @@ import { CreationLinkContainer } from "containers/creation-link.container";
 import { Link } from "gatsby";
 import { RATING_ICONS } from "core/rating-config";
 import { meta } from "../../../meta";
-import { BiArrowToLeft, BiArrowToRight } from "react-icons/bi";
+import {
+  BiArrowToLeft,
+  BiArrowToRight,
+  BiCheckboxChecked,
+} from "react-icons/bi";
 import { paginate } from "development-kit/paginate";
 import { EducationLayout } from "components/education-layout";
 import { EducationDocumentsList } from "components/education-documents-list";
@@ -16,7 +20,7 @@ import { EducationTopTags } from "components/education-top-tags";
 import type { EducationPageModel } from "models/page-models";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { DocumentId } from "api-4markdown-contracts";
-import { ResourceCompletionMarkerContainer } from "modules/resource-completions";
+import { useResourceCompletion } from "modules/resource-completions";
 
 type EducationZoneViewProps = EducationPageModel;
 
@@ -77,6 +81,23 @@ const Pagination = ({
   );
 };
 
+const ResourceCompletionMarkerContainer = ({ id }: { id: DocumentId }) => {
+  const completion = useResourceCompletion(id);
+
+  if (!completion) {
+    return null;
+  }
+
+  return (
+    <span
+      title="This resource is completed"
+      className="shrink-0 rounded-md bg-green-700 text-white p-0.5"
+    >
+      <BiCheckboxChecked aria-hidden="true" size={20} />
+    </span>
+  );
+};
+
 const ContentRank = ({
   documents,
 }: Pick<EducationZoneViewProps, "documents">) => {
@@ -128,8 +149,7 @@ const ContentRank = ({
             </h3>
             <div className="flex items-center space-x-2">
               <ResourceCompletionMarkerContainer
-                resourceId={document.id as DocumentId}
-                variant="icon"
+                id={document.id as DocumentId}
               />
               {RATING_ICONS.map(([Icon, category]) => (
                 <div className="flex items-center" key={category}>

@@ -8,13 +8,9 @@ import {
 import { useResourcesCompletionState } from "../store";
 import { API4MarkdownContractKey } from "api-4markdown-contracts";
 
-const loadCompletionAct = async (reload = false): Promise<void> => {
+const loadCompletionAct = async (): Promise<void> => {
   try {
     const key: API4MarkdownContractKey = `getUserResourceCompletions`;
-
-    if (reload) {
-      removeCache(key);
-    }
 
     const cachedCompletions = getCache(key);
 
