@@ -1,4 +1,4 @@
-import { ResourceCompletionDto } from "api-4markdown-contracts";
+import { MindmapId, ResourceCompletionDto } from "api-4markdown-contracts";
 import { Prettify } from "development-kit/utility-types";
 import {
   MindmapPreviewEmbeddedNode,
@@ -9,7 +9,7 @@ type MindmapPreviewEmbeddedNodeWithCompletion = Prettify<
   Omit<MindmapPreviewEmbeddedNode, "data"> & {
     data: Prettify<
       MindmapPreviewEmbeddedNode["data"] & {
-        completion: ResourceCompletionDto | null;
+        mindmapId: MindmapId;
       }
     >;
   }
@@ -19,7 +19,7 @@ type MindmapPreviewExternalNodeWithCompletion = Prettify<
   Omit<MindmapPreviewExternalNode, "data"> & {
     data: Prettify<
       MindmapPreviewExternalNode["data"] & {
-        completion: ResourceCompletionDto | null;
+        mindmapId: MindmapId;
       }
     >;
   }

@@ -1,17 +1,30 @@
 import React from "react";
-import { HandleX, HandleY } from "./handles";
+import { HandleX, HandleY } from "../components/handles";
 import { type NodeProps } from "@xyflow/react";
-import { NodeTile } from "./node-tile";
+import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
 import { BiCheckboxChecked, BiCheckboxMinus, BiWorld } from "react-icons/bi";
 import { MindmapPreviewExternalNodeWithCompletion } from "../models";
+import { useResourceCompletionToggle } from "modules/resource-completions";
+import { MindmapNodeId } from "api-4markdown-contracts";
 
-type ExternalNodeTileProps =
+type ExternalNodeTileContainerProps =
   NodeProps<MindmapPreviewExternalNodeWithCompletion>;
 
-const ExternalNodeTile = ({ data }: ExternalNodeTileProps) => {
+const ExternalNodeTileContainer = ({
+  id,
+  data,
+}: ExternalNodeTileContainerProps) => {
+  const [state, completion, toggle] = useResourceCompletionToggle({
+    type: "mindmap-node",
+    resourceId: id as MindmapNodeId,
+    parentId: data.mindmapId,
+  });
+
   return (
-    <NodeTile>
+    <NodeTile
+      className={completion ? "border-green-700 dark:border-green-700" : ""}
+    >
       <NodeTile.Label>External Resource</NodeTile.Label>
       <NodeTile.Name>{data.name}</NodeTile.Name>
       {data.description && (
@@ -19,15 +32,16 @@ const ExternalNodeTile = ({ data }: ExternalNodeTileProps) => {
       )}
       <NodeTile.Toolbox>
         <Button
-          title={data.completion ? "Remove from completed" : "Add to completed"}
+          title={completion ? "Remove from completed" : "Add to completed"}
           i={2}
+          disabled={state.is === "busy"}
           s={1}
           onClick={(e) => {
             e.stopPropagation();
-            // toggle();
+            toggle();
           }}
         >
-          {data.completion ? (
+          {completion ? (
             <BiCheckboxMinus size={24} />
           ) : (
             <BiCheckboxChecked size={24} />
@@ -54,16 +68,16 @@ const ExternalNodeTile = ({ data }: ExternalNodeTileProps) => {
   );
 };
 
-const ExternalNodeTileX = (props: ExternalNodeTileProps) => (
+const ExternalNodeTileContainerX = (props: ExternalNodeTileContainerProps) => (
   <HandleX>
-    <ExternalNodeTile {...props} />
+    <ExternalNodeTileContainer {...props} />
   </HandleX>
 );
 
-const ExternalNodeTileY = (props: ExternalNodeTileProps) => (
+const ExternalNodeTileContainerY = (props: ExternalNodeTileContainerProps) => (
   <HandleY>
-    <ExternalNodeTile {...props} />
+    <ExternalNodeTileContainer {...props} />
   </HandleY>
 );
 
-export { ExternalNodeTileX, ExternalNodeTileY };
+export { ExternalNodeTileContainerX, ExternalNodeTileContainerY };

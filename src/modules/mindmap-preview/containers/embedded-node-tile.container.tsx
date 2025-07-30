@@ -6,6 +6,8 @@ import { Button } from "design-system/button";
 import { BiBook, BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
 import { openNodePreviewAction } from "store/mindmap-preview/actions";
 import { MindmapPreviewEmbeddedNodeWithCompletion } from "../models";
+import { useResourceCompletionToggle } from "modules/resource-completions";
+import { MindmapNodeId } from "api-4markdown-contracts";
 
 type EmbeddedNodeTileContainerProps =
   NodeProps<MindmapPreviewEmbeddedNodeWithCompletion>;
@@ -16,11 +18,15 @@ const EmbeddedNodeTileContainer = ({
   positionAbsoluteY,
   data,
 }: EmbeddedNodeTileContainerProps) => {
+  const [state, completion, toggle] = useResourceCompletionToggle({
+    type: "mindmap-node",
+    resourceId: id as MindmapNodeId,
+    parentId: data.mindmapId,
+  });
+
   return (
     <NodeTile
-      className={
-        data.completion ? "border-green-700 dark:border-green-700" : ""
-      }
+      className={completion ? "border-green-700 dark:border-green-700" : ""}
     >
       <NodeTile.Label>Embedded Resource</NodeTile.Label>
       <NodeTile.Name>{data.name}</NodeTile.Name>
@@ -29,15 +35,16 @@ const EmbeddedNodeTileContainer = ({
       )}
       <NodeTile.Toolbox>
         <Button
-          title={data.completion ? "Remove from completed" : "Add to completed"}
+          title={completion ? "Remove from completed" : "Add to completed"}
           i={2}
+          disabled={state.is === "busy"}
           s={1}
           onClick={(e) => {
             e.stopPropagation();
-            // toggle();
+            toggle();
           }}
         >
-          {data.completion ? (
+          {completion ? (
             <BiCheckboxMinus size={24} />
           ) : (
             <BiCheckboxChecked size={24} />

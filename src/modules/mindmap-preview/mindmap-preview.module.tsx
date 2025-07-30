@@ -12,9 +12,9 @@ import React, { type ComponentType } from "react";
 import { useMindmapPreviewState } from "store/mindmap-preview";
 import { readyMindmapPreviewSelector } from "store/mindmap-preview/selectors";
 import {
-  ExternalNodeTileX,
-  ExternalNodeTileY,
-} from "./components/external-node-tile";
+  ExternalNodeTileContainerX,
+  ExternalNodeTileContainerY,
+} from "./containers/external-node-tile.container";
 import { SolidEdge } from "./components/solid-edge";
 import type {
   MindmapPreviewEdge,
@@ -25,17 +25,12 @@ import {
   EmbeddedNodeTileContainerY,
 } from "./containers/embedded-node-tile.container";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
-import {
-  useResourceCompletionToggle,
-  useResourcesCompletionState,
-} from "modules/resource-completions";
+import { useResourceCompletionToggle } from "modules/resource-completions";
 import {
   API4MarkdownPayload,
   MindmapId,
   MindmapNodeId,
 } from "api-4markdown-contracts";
-import { rawResourcesCompletionSelector } from "modules/resource-completions/store/selectors";
-import { useShallow } from "zustand/react/shallow";
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
 import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
@@ -62,11 +57,11 @@ type MindmapEdgeTypes = {
 
 const mindmapNodeTypes: MindmapNodeTypes = {
   x: {
-    external: ExternalNodeTileX,
+    external: ExternalNodeTileContainerX,
     embedded: EmbeddedNodeTileContainerX,
   },
   y: {
-    external: ExternalNodeTileY,
+    external: ExternalNodeTileContainerY,
     embedded: EmbeddedNodeTileContainerY,
   },
 };
@@ -95,24 +90,23 @@ const MindmapPreviewModule = () => {
     readyMindmapPreviewSelector(state.mindmap),
   );
   const nodePreview = useMindmapPreviewState((state) => state.nodePreview);
-  const nodesWithCompletion = useResourcesCompletionState(
-    useShallow((state) => {
-      const completions = rawResourcesCompletionSelector(state);
 
-      return mindmap.nodes.map((node) => ({
+  const nodes = React.useMemo(
+    () =>
+      mindmap.nodes.map((node) => ({
         ...node,
         data: {
           ...node.data,
-          completion: completions[node.id as MindmapNodeId] ?? null,
+          mindmapId: mindmap.id,
         },
-      }));
-    }),
+      })),
+    [mindmap.nodes, mindmap.id],
   );
 
   return (
     <>
       <ReactFlow
-        nodes={nodesWithCompletion}
+        nodes={nodes}
         edges={mindmap.edges}
         nodeTypes={mindmapNodeTypes[mindmap.orientation] as NodeTypes}
         edgeTypes={edgeTypes as EdgeTypes}

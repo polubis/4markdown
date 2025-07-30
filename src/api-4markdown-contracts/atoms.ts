@@ -1,3 +1,4 @@
+import { SUID } from "development-kit/suid";
 import { Brand } from "development-kit/utility-types";
 
 type Id = string;
@@ -15,7 +16,7 @@ type UserProfileId = Brand<Id, `UserProfileId`>;
 type CommentId = Brand<Id, `CommentId`>;
 
 type DocumentId = Brand<Id, `DocumentId`>;
-type MindmapNodeId = Brand<Id, `MindmapNodeId`>;
+type MindmapNodeId = Brand<SUID, `MindmapNodeId`>;
 type MindmapId = Brand<Id, `MindmapId`>;
 
 type ResourceId = DocumentId | MindmapNodeId | MindmapId;
