@@ -10,7 +10,7 @@ import { initializeAPI } from "api-4markdown";
 import { graphql, useStaticQuery } from "gatsby";
 import { SiteMetadata } from "./models";
 import {
-  loadCompletionAct,
+  loadResourceCompletionsAct,
   useResourcesCompletionState,
 } from "modules/resource-completions";
 
@@ -38,7 +38,7 @@ const useAuth = () => {
   React.useEffect(() => {
     const unsubscribe = api.onAuthChange((user) => {
       if (user) {
-        loadCompletionAct();
+        loadResourceCompletionsAct();
 
         authStoreActions.authorize({
           avatar: user.photoURL,

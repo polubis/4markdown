@@ -8,7 +8,7 @@ import {
 import { useResourcesCompletionState } from "../store";
 import { API4MarkdownContractKey } from "api-4markdown-contracts";
 
-const loadCompletionAct = async (): Promise<void> => {
+const loadResourceCompletionsAct = async (): Promise<void> => {
   try {
     const key: API4MarkdownContractKey = `getUserResourceCompletions`;
 
@@ -40,4 +40,4 @@ const loadCompletionAct = async (): Promise<void> => {
   }
 };
 
-export { loadCompletionAct };
+export { loadResourceCompletionsAct };
