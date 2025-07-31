@@ -31,4 +31,5 @@ const useAppEvent = (callback: (event: AppEvent) => void): void => {
   }, []);
 };
 
+export type { AppEvent };
 export { emit, subscribe, useAppEvent };

@@ -1,26 +1,23 @@
-import type { NodeProps } from "@xyflow/react";
 import React from "react";
 import { HandleX, HandleY } from "../components/handles";
+import { type NodeProps } from "@xyflow/react";
 import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
-import { BiBook, BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
-import { openNodePreviewAction } from "store/mindmap-preview/actions";
-import { MindmapPreviewEmbeddedNodeWithCompletion } from "../models";
+import { BiCheckboxChecked, BiCheckboxMinus, BiWorld } from "react-icons/bi";
+import { MindmapPreviewExternalNodeWithCompletion } from "../models";
 import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
 import { MindmapNodeId } from "api-4markdown-contracts";
 
-type EmbeddedNodeTileContainerProps =
-  NodeProps<MindmapPreviewEmbeddedNodeWithCompletion>;
+type ExternalNodeTileContainerProps =
+  NodeProps<MindmapPreviewExternalNodeWithCompletion>;
 
-const EmbeddedNodeTileContainer = ({
+const ExternalNodeTileContainer = ({
   id,
-  positionAbsoluteX,
-  positionAbsoluteY,
   data,
-}: EmbeddedNodeTileContainerProps) => {
+}: ExternalNodeTileContainerProps) => {
   const resourcesCompletionState = useResourcesCompletionState();
   const [state, completion, toggle] = useResourceCompletionToggle({
     type: "mindmap-node",
@@ -32,7 +29,7 @@ const EmbeddedNodeTileContainer = ({
     <NodeTile
       className={completion ? "border-green-700 dark:border-green-700" : ""}
     >
-      <NodeTile.Label>Embedded Resource</NodeTile.Label>
+      <NodeTile.Label>External Resource</NodeTile.Label>
       <NodeTile.Name>{data.name}</NodeTile.Name>
       {data.description && (
         <NodeTile.Description>{data.description}</NodeTile.Description>
@@ -56,39 +53,37 @@ const EmbeddedNodeTileContainer = ({
             <BiCheckboxChecked size={24} />
           )}
         </Button>
-        <Button
-          i={2}
-          s={1}
-          onClick={(e) => {
-            e.stopPropagation();
-            openNodePreviewAction({
-              type: `embedded`,
-              id,
-              data,
-              position: {
-                x: positionAbsoluteX,
-                y: positionAbsoluteY,
-              },
-            });
-          }}
+        <a
+          href={data.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          title="Open linked material in a new tab"
         >
-          <BiBook />
-        </Button>
+          <Button
+            i={2}
+            s={1}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <BiWorld />
+          </Button>
+        </a>
       </NodeTile.Toolbox>
     </NodeTile>
   );
 };
 
-const EmbeddedNodeTileContainerX = (props: EmbeddedNodeTileContainerProps) => (
+const ExternalNodeTileContainerX = (props: ExternalNodeTileContainerProps) => (
   <HandleX>
-    <EmbeddedNodeTileContainer {...props} />
+    <ExternalNodeTileContainer {...props} />
   </HandleX>
 );
 
-const EmbeddedNodeTileContainerY = (props: EmbeddedNodeTileContainerProps) => (
+const ExternalNodeTileContainerY = (props: ExternalNodeTileContainerProps) => (
   <HandleY>
-    <EmbeddedNodeTileContainer {...props} />
+    <ExternalNodeTileContainer {...props} />
   </HandleY>
 );
 
-export { EmbeddedNodeTileContainerX, EmbeddedNodeTileContainerY };
+export { ExternalNodeTileContainerX, ExternalNodeTileContainerY };

@@ -1,7 +1,14 @@
 import React from "react";
 import { Badge } from "design-system/badge";
 import { Avatar } from "design-system/avatar";
-import { BiBook, BiCheck, BiCopyAlt, BiLogoMarkdown } from "react-icons/bi";
+import {
+  BiBook,
+  BiCheck,
+  BiCheckboxChecked,
+  BiCheckboxMinus,
+  BiCopyAlt,
+  BiLogoMarkdown,
+} from "react-icons/bi";
 import { Button } from "design-system/button";
 import { useCopy } from "development-kit/use-copy";
 import { Status } from "design-system/status";
@@ -16,6 +23,12 @@ import { ScrollToTop } from "components/scroll-to-top";
 import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { TableOfContent } from "components/table-of-content";
+import {
+  useResourceCompletion,
+  useResourceCompletionToggle,
+  useResourcesCompletionState,
+} from "modules/resource-completions";
+import { API4MarkdownPayload, DocumentId } from "api-4markdown-contracts";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -24,6 +37,60 @@ const MarkdownWidget = React.lazy(() =>
 );
 
 const CONTENT_ID = `document-layout-content`;
+
+const ResourceCompletionTriggerContainer = () => {
+  const [{ document }] = useDocumentLayoutContext();
+  const [toggleConfig] = React.useState<
+    API4MarkdownPayload<"setUserResourceCompletion">
+  >(() => ({
+    type: "document",
+    resourceId: document.id as DocumentId,
+  }));
+  const [toggleState, completion, toggle] =
+    useResourceCompletionToggle(toggleConfig);
+  const resourcesCompletionState = useResourcesCompletionState();
+
+  // @TODO[PRIO=2]: [Handle error case with some toast or error message].
+  return (
+    <Button
+      s={2}
+      i={2}
+      disabled={
+        toggleState.is === `busy` || resourcesCompletionState.is === `busy`
+      }
+      auto
+      onClick={toggle}
+    >
+      {completion ? (
+        <>
+          Mark As Uncompleted <BiCheckboxMinus />
+        </>
+      ) : (
+        <>
+          Mark As Completed <BiCheckboxChecked />
+        </>
+      )}
+    </Button>
+  );
+};
+
+const ResourceCompletionMarkerContainer = () => {
+  const [{ document }] = useDocumentLayoutContext();
+  const completion = useResourceCompletion(document.id as DocumentId);
+
+  if (!completion) {
+    return null;
+  }
+
+  return (
+    <p className="mb-4 flex gap-1 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
+      <BiCheckboxChecked className="shrink-0" size={24} />
+      <span>
+        You're browsing already <strong>completed resource</strong>.
+      </span>
+    </p>
+  );
+};
 
 const DocumentLayoutContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
@@ -40,6 +107,7 @@ const DocumentLayoutContainer = () => {
     <>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
+          <ResourceCompletionMarkerContainer />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button
               title="Open in documents creator"
@@ -82,6 +150,9 @@ const DocumentLayoutContainer = () => {
           )}
           <section id={CONTENT_ID}>
             <Markdown>{code}</Markdown>
+          </section>
+          <section className="mt-10">
+            <ResourceCompletionTriggerContainer />
           </section>
           {author?.bio && author?.displayName && (
             <section className="mt-12">
