@@ -26,6 +26,7 @@ import { TableOfContent } from "components/table-of-content";
 import {
   useResourceCompletion,
   useResourceCompletionToggle,
+  useResourcesCompletionState,
 } from "modules/resource-completions";
 import { API4MarkdownPayload, DocumentId } from "api-4markdown-contracts";
 
@@ -45,10 +46,21 @@ const ResourceCompletionTriggerContainer = () => {
     type: "document",
     resourceId: document.id as DocumentId,
   }));
-  const [state, completion, toggle] = useResourceCompletionToggle(toggleConfig);
+  const [toggleState, completion, toggle] =
+    useResourceCompletionToggle(toggleConfig);
+  const resourcesCompletionState = useResourcesCompletionState();
+
   // @TODO[PRIO=2]: [Handle error case with some toast or error message].
   return (
-    <Button s={2} i={2} disabled={state.is === `busy`} auto onClick={toggle}>
+    <Button
+      s={2}
+      i={2}
+      disabled={
+        toggleState.is === `busy` || resourcesCompletionState.is === `busy`
+      }
+      auto
+      onClick={toggle}
+    >
       {completion ? (
         <>
           Mark As Uncompleted <BiCheckboxMinus />
