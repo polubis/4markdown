@@ -9,6 +9,7 @@ const logOut = async (): Promise<void> => {
       `getYourDocuments`,
       `getYourAccount`,
       `getYourMindmaps`,
+      `getUserResourceCompletions`,
     );
   } catch {}
 };

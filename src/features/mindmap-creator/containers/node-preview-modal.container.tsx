@@ -1,4 +1,3 @@
-import { MarkdownWidget } from "components/markdown-widget";
 import { Button } from "design-system/button";
 import { Modal } from "design-system/modal";
 import React from "react";
@@ -8,6 +7,12 @@ import {
   closeNodePreviewAction,
   openNodeEditionAction,
 } from "store/mindmap-creator/actions";
+
+const MarkdownWidget = React.lazy(() =>
+  import("components/markdown-widget").then(({ MarkdownWidget }) => ({
+    default: MarkdownWidget,
+  })),
+);
 
 const NodePreviewModalContainer = () => {
   const nodePreview = useMindmapCreatorState((state) => state.nodePreview);
@@ -48,21 +53,23 @@ const NodePreviewModalContainer = () => {
   }
 
   return (
-    <MarkdownWidget
-      chunksActive={false}
-      headerControls={
-        <Button
-          i={2}
-          s={1}
-          title="Start node edition"
-          onClick={openNodeEdition}
-        >
-          <BiPencil />
-        </Button>
-      }
-      onClose={closeNodePreviewAction}
-      markdown={nodePreview.data.content}
-    />
+    <React.Suspense>
+      <MarkdownWidget
+        chunksActive={false}
+        headerControls={
+          <Button
+            i={2}
+            s={1}
+            title="Start node edition"
+            onClick={openNodeEdition}
+          >
+            <BiPencil />
+          </Button>
+        }
+        onClose={closeNodePreviewAction}
+        markdown={nodePreview.data.content}
+      />
+    </React.Suspense>
   );
 };
 

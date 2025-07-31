@@ -7,3 +7,4 @@ export * from "./full-mindmap.dto";
 export * from "./rewrite-assistant.dto";
 export * from "./your-account.dto";
 export * from "./comment.dto";
+export * from "./resource-completion.dto";

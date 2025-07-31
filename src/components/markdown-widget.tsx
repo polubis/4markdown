@@ -44,10 +44,7 @@ const MarkdownWidget = ({
   const asideNavigation = useSimpleFeature();
   const [activeHeading, setActiveHeading] = React.useState<string | null>(null);
 
-  const headings = React.useMemo(
-    () => (asideNavigation.isOn ? extractHeadings(markdown) : []),
-    [markdown, asideNavigation.isOn],
-  );
+  const headings = React.useMemo(() => extractHeadings(markdown), [markdown]);
 
   const chunks = React.useMemo((): string[] => {
     if (chunksMode.isOff) return [];
@@ -216,13 +213,6 @@ const MarkdownWidget = ({
         >
           {chunksMode.isOn ? <BiListOl /> : <BiDetail />}
         </Button>
-        <Button i={2} s={1} title="Copy markdown" onClick={copyMarkdown}>
-          {copyState.is === `copied` ? (
-            <BiCheck className="text-green-700" />
-          ) : (
-            <BiCopyAlt />
-          )}
-        </Button>
       </Modal2.Header>
       <Modal2.Body
         id={bodyId}
@@ -276,28 +266,41 @@ const MarkdownWidget = ({
         )}
       </Modal2.Body>
       <Modal2.Footer className="justify-between">
-        <Button
-          i={2}
-          s={1}
-          title="Scroll to top preview top"
-          disabled={asideNavigation.isOn}
-          onClick={scrollToTop}
-        >
-          <BiArrowToTop />
-        </Button>
         <div className="flex items-center gap-2">
           <Button
-            title={
-              asideNavigation.isOn
-                ? "Hide table of contents"
-                : "Show table of contents"
-            }
             i={2}
             s={1}
-            onClick={asideNavigation.toggle}
+            title="Scroll to top preview top"
+            disabled={asideNavigation.isOn}
+            onClick={scrollToTop}
           >
-            {asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
+            <BiArrowToTop />
           </Button>
+          <Button i={2} s={1} title="Copy markdown" onClick={copyMarkdown}>
+            {copyState.is === `copied` ? (
+              <BiCheck className="text-green-700" />
+            ) : (
+              <BiCopyAlt />
+            )}
+          </Button>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {finalHeadings.length > 1 && (
+            <Button
+              title={
+                asideNavigation.isOn
+                  ? "Hide table of contents"
+                  : "Show table of contents"
+              }
+              i={2}
+              s={1}
+              onClick={asideNavigation.toggle}
+            >
+              {asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
+            </Button>
+          )}
+
           {chunksMode.isOn && (
             <>
               <Button
