@@ -3,6 +3,7 @@ import type {
   API4MarkdownDto,
   PublicDocumentDto,
   UserProfileDto,
+  UserProfileId,
 } from "api-4markdown-contracts";
 import { BASE_COMMANDS } from "../utils/commands";
 import { gherkin } from "../utils/gherkin";
@@ -37,7 +38,7 @@ const getPublicDocResponse: { result: PublicDocumentDto } = {
 
 const getUserProfileResponse: { result: UserProfileDto } = {
   result: {
-    id: `e9799f7b-013e-4231-88fe-e2072514f96a`,
+    id: `e9799f7b-013e-4231-88fe-e2072514f96a` as UserProfileId,
     displayNameSlug: null,
     cdate: `2025-01-22T13:43:25.337Z`,
     mdate: `2025-01-22T13:43:25.337Z`,

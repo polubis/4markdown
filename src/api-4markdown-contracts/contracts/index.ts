@@ -128,6 +128,25 @@ type GetYourMindmapsContract = Contract<
   }
 >;
 
+type FindUserContract = Contract<
+  "findUser",
+  {
+    userProfile: UserProfileDto & { email: string };
+  },
+  { phrase: string }
+>;
+
+type GetResourceAccessGroupsContract = Contract<
+  "getResourceAccessGroups",
+  {
+    userProfiles: (UserProfileDto & { email: string })[];
+  },
+  {
+    resourceId: ResourceId;
+    resourceType: Extract<ResourceType, "document" | "mindmap">;
+  }
+>;
+
 type GetYourDocumentsContract = Contract<
   `getYourDocuments`,
   (
@@ -298,7 +317,9 @@ type API4MarkdownContracts =
   | GetUserProfileContract
   | AddUserProfileCommentContract
   | GetUserResourceCompletionsContract
-  | SetUserResourceCompletionContract;
+  | SetUserResourceCompletionContract
+  | FindUserContract
+  | GetResourceAccessGroupsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

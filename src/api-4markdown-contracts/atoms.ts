@@ -12,9 +12,9 @@ type Description = string;
 type Base64 = string;
 type Slug = string;
 type Url = string;
+
 type UserProfileId = Brand<Id, `UserProfileId`>;
 type CommentId = Brand<Id, `CommentId`>;
-
 type DocumentId = Brand<Id, `DocumentId`>;
 type MindmapNodeId = Brand<SUID, `MindmapNodeId`>;
 type MindmapId = Brand<Id, `MindmapId`>;
