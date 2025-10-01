@@ -19,13 +19,22 @@ type DocumentId = Brand<Id, `DocumentId`>;
 type MindmapNodeId = Brand<SUID, `MindmapNodeId`>;
 type MindmapId = Brand<Id, `MindmapId`>;
 
+const RESOURCE_VISIBILITIES = [
+  "private",
+  "public",
+  "permanent",
+  "manual",
+] as const;
+
+type ResourceVisibility = (typeof RESOURCE_VISIBILITIES)[number];
+
 type ResourceId = DocumentId | MindmapNodeId | MindmapId;
 
 const RESOURCE_TYPES = ["document", "mindmap", "mindmap-node"] as const;
 
 type ResourceType = (typeof RESOURCE_TYPES)[number];
 
-export { RESOURCE_TYPES };
+export { RESOURCE_TYPES, RESOURCE_VISIBILITIES };
 export type {
   Id,
   Name,
@@ -43,6 +52,7 @@ export type {
   ResourceId,
   DocumentId,
   MindmapId,
+  ResourceVisibility,
   MindmapNodeId,
   ResourceType,
 };

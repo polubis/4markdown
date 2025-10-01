@@ -1,6 +1,6 @@
 import { Button } from "design-system/button";
-import { Modal } from "design-system/modal";
-import React, { type FormEventHandler } from "react";
+import { Modal2 } from "design-system/modal2";
+import React from "react";
 import c from "classnames";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { useMindmapCreatorState } from "store/mindmap-creator";
@@ -11,20 +11,25 @@ import {
 import { safeActiveMindmapSelector } from "store/mindmap-creator/selectors";
 import { navigate } from "gatsby";
 import { formatDistance } from "date-fns";
-import { Tabs } from "design-system/tabs";
 import { Input } from "design-system/input";
 import { Field } from "design-system/field";
 import { meta } from "../../../../meta";
 import { deleteMindmapAct } from "acts/delete-mindmap.act";
 import { updateMindmapVisibilityAct } from "acts/update-mindmap-visibility.act";
-import type { MindmapDto } from "api-4markdown-contracts";
+import {
+  RESOURCE_VISIBILITIES,
+  ResourceVisibility,
+} from "api-4markdown-contracts";
 import { authStoreSelectors } from "store/auth/auth.store";
 import { createPathForMindmap } from "core/create-path-for-mindmap";
 import { context } from "@greenonsoftware/react-kit";
+import { Tabs2 } from "design-system/tabs-2";
+import { VisibilityIcon } from "components/visibility-icon";
 
 const enum ViewType {
   Details = `details`,
   Delete = `delete`,
+  ManualForm = `manual-form`,
 }
 
 const [FeatureProvider, useFeatureContext] = context(() => {
@@ -48,29 +53,32 @@ const DeleteMindmapViewContainer = () => {
     setView(ViewType.Details);
   };
 
-  const handleConfirm: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+  const handleConfirm = (): void => {
     deleteMindmapAct();
   };
 
   return (
     <>
-      <Modal.Header
+      <Modal2.Header
         title="Remove Mindmap"
         closeButtonTitle="Close mindmap details"
       />
-      <form onSubmit={handleConfirm}>
-        <p className="mb-4">
-          Type <strong>{activeMindmap.name}</strong> to remove this mindmap
-        </p>
-        <Field label="Mindmap Name*">
-          <Input
-            placeholder="Type mindmap name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-          />
-        </Field>
-        <footer className="mt-6 flex space-x-3">
+      <Modal2.Body>
+        <div>
+          <p className="mb-4">
+            Type <strong>{activeMindmap.name}</strong> to remove this mindmap
+          </p>
+          <Field label="Mindmap Name*">
+            <Input
+              placeholder="Type mindmap name"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+            />
+          </Field>
+        </div>
+      </Modal2.Body>
+      <Modal2.Footer>
+        <div className="flex space-x-3 w-full">
           <Button
             className="flex-1"
             type="button"
@@ -91,11 +99,12 @@ const DeleteMindmapViewContainer = () => {
             auto
             title="Confirm mindmap removal"
             disabled={name !== activeMindmap.name || disabled}
+            onClick={handleConfirm}
           >
             Remove
           </Button>
-        </footer>
-      </form>
+        </div>
+      </Modal2.Footer>
     </>
   );
 };
@@ -108,15 +117,20 @@ const MindmapDetailsViewContainer = () => {
   const disabled = operation.is === `busy`;
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
 
-  const changeVisibility = (visibility: MindmapDto["visibility"]): void => {
+  const changeVisibility = (visibility: ResourceVisibility): void => {
     if (activeMindmap.visibility === visibility) return;
+
+    if (visibility === `manual`) {
+      setView(ViewType.ManualForm);
+      return;
+    }
 
     updateMindmapVisibilityAct(visibility);
   };
 
   return (
     <>
-      <Modal.Header
+      <Modal2.Header
         title="Mindmap Details"
         closeButtonTitle="Close mindmap details"
       >
@@ -138,117 +152,170 @@ const MindmapDetailsViewContainer = () => {
         >
           <BiPencil />
         </Button>
-      </Modal.Header>
-      <section className="flex flex-col space-y-1">
-        <p>
-          Name: <strong>{activeMindmap.name}</strong>
-        </p>
-        {activeMindmap.description && (
+      </Modal2.Header>
+      <Modal2.Body>
+        <section className="flex flex-col space-y-1">
           <p>
-            Description:{` `}
-            <strong className="break-words">{activeMindmap.description}</strong>
+            Name: <strong>{activeMindmap.name}</strong>
           </p>
-        )}
-        {Array.isArray(activeMindmap.tags) && activeMindmap.tags.length > 0 && (
+          {activeMindmap.description && (
+            <p>
+              Description:{` `}
+              <strong className="break-words">
+                {activeMindmap.description}
+              </strong>
+            </p>
+          )}
+          {Array.isArray(activeMindmap.tags) &&
+            activeMindmap.tags.length > 0 && (
+              <p>
+                Tags:{` `}
+                <strong className="break-words">
+                  {activeMindmap.tags.join(`, `)}
+                </strong>
+              </p>
+            )}
+          <div className="flex items-center gap-1.5">
+            <span>Visibility:</span>
+            <strong
+              className={c(
+                `capitalize inline-flex items-center gap-1`,
+                activeMindmap.visibility === "private"
+                  ? "text-gray-600 dark:text-gray-400"
+                  : "text-green-700 dark:text-green-600",
+              )}
+            >
+              <VisibilityIcon
+                className="size-6"
+                visibility={activeMindmap.visibility}
+              />
+              {activeMindmap.visibility}
+            </strong>
+          </div>
           <p>
-            Tags:{` `}
-            <strong className="break-words">
-              {activeMindmap.tags.join(`, `)}
+            Created:{` `}
+            <strong>
+              {formatDistance(new Date().toISOString(), activeMindmap.cdate)}
+              {` `}
+              ago
             </strong>
           </p>
-        )}
-        <p>
-          Visibility:{` `}
-          <strong
-            className={c(
-              `capitalize`,
-              {
-                "text-green-700 dark:text-green-600":
-                  activeMindmap.visibility === `public` ||
-                  activeMindmap.visibility === `permanent`,
-              },
-              {
-                "text-gray-600 dark:text-gray-400":
-                  activeMindmap.visibility === `private`,
-              },
+          <p>
+            Edited:{` `}
+            <strong>
+              {formatDistance(new Date().toISOString(), activeMindmap.mdate)}
+              {` `}
+              ago
+            </strong>
+          </p>
+          <footer>
+            {activeMindmap.visibility !== `private` && (
+              <button
+                className="underline underline-offset-2 text-blue-800 dark:text-blue-500"
+                title="Mindmap public link"
+                onClick={() =>
+                  navigate(
+                    `${meta.routes.mindmaps.preview}?mindmapId=${activeMindmap.id}&authorId=${user.uid}`,
+                  )
+                }
+              >
+                <strong>Public Link</strong>
+              </button>
             )}
-          >
-            {activeMindmap.visibility}
-          </strong>
-        </p>
-        <p>
-          Created:{` `}
-          <strong>
-            {formatDistance(new Date().toISOString(), activeMindmap.cdate)}
-            {` `}
-            ago
-          </strong>
-        </p>
-        <p>
-          Edited:{` `}
-          <strong>
-            {formatDistance(new Date().toISOString(), activeMindmap.mdate)}
-            {` `}
-            ago
-          </strong>
-        </p>
-        <footer>
-          {(activeMindmap.visibility === `public` ||
-            activeMindmap.visibility === `permanent`) && (
-            <button
-              className="underline underline-offset-2 text-blue-800 dark:text-blue-500"
-              title="Mindmap public link"
-              onClick={() =>
-                navigate(
-                  `${meta.routes.mindmaps.preview}?mindmapId=${activeMindmap.id}&authorId=${user.uid}`,
-                )
-              }
+            {activeMindmap.visibility === `permanent` && (
+              <button
+                className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
+                title="Mindmap static stable URL"
+                onClick={() =>
+                  navigate(
+                    createPathForMindmap(activeMindmap.id, activeMindmap.path),
+                  )
+                }
+              >
+                <strong>Static Stable URL</strong>
+              </button>
+            )}
+          </footer>
+        </section>
+      </Modal2.Body>
+      <Modal2.Footer className="overflow-x-auto">
+        <Tabs2>
+          {RESOURCE_VISIBILITIES.map((type) => (
+            <Tabs2.Item
+              key={type}
+              title={`Make this mindmap ${type}`}
+              className="capitalize"
+              active={activeMindmap.visibility === type}
+              onClick={() => changeVisibility(type)}
+              disabled={disabled}
             >
-              <strong>Public Link</strong>
-            </button>
-          )}
-          {activeMindmap.visibility === `permanent` && (
-            <button
-              className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
-              title="Mindmap static stable URL"
-              onClick={() =>
-                navigate(
-                  createPathForMindmap(activeMindmap.id, activeMindmap.path),
-                )
-              }
-            >
-              <strong>Static Stable URL</strong>
-            </button>
-          )}
-        </footer>
-      </section>
+              <VisibilityIcon className="size-6 shrink-0" visibility={type} />
+              <Tabs2.ItemText>{type}</Tabs2.ItemText>
+            </Tabs2.Item>
+          ))}
+        </Tabs2>
+      </Modal2.Footer>
+    </>
+  );
+};
 
-      <Tabs className="mt-8">
-        <Tabs.Item
-          title="Make this mindmap private"
-          active={activeMindmap.visibility === `private`}
-          onClick={() => changeVisibility(`private`)}
-          disabled={disabled}
-        >
-          Private
-        </Tabs.Item>
-        <Tabs.Item
-          title="Make this mindmap public"
-          active={activeMindmap.visibility === `public`}
-          onClick={() => changeVisibility(`public`)}
-          disabled={disabled}
-        >
-          Public
-        </Tabs.Item>
-        <Tabs.Item
-          title="Make this mindmap permanent"
-          active={activeMindmap.visibility === `permanent`}
-          onClick={() => changeVisibility(`permanent`)}
-          disabled={disabled}
-        >
-          Permanent
-        </Tabs.Item>
-      </Tabs>
+const ManualFormViewContainer = () => {
+  const { setView } = useFeatureContext();
+
+  const close = (): void => {
+    setView(ViewType.Details);
+  };
+
+  return (
+    <>
+      <Modal2.Header
+        title="Manual Visibility Management"
+        closeButtonTitle="Close manual visibility management"
+      />
+      <Modal2.Body>
+        <div>
+          <p className="mb-4">
+            Provide <strong>Email</strong> or <strong>Display Name</strong> and{" "}
+            <strong>confirm</strong> to give access to this mindmap only for
+            specific users/user groups.
+          </p>
+          <Field label="Email/Display Name">
+            <Input
+              placeholder="tom@gmail.com or tom1994"
+              // onChange={(e) => setName(e.target.value)}
+              // value={name}
+            />
+          </Field>
+        </div>
+      </Modal2.Body>
+      <Modal2.Footer>
+        <div className="flex space-x-3 w-full">
+          <Button
+            className="flex-1"
+            type="button"
+            i={1}
+            s={2}
+            auto
+            // disabled={disabled}
+            title="Cancel manual visibility changes"
+            onClick={close}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="flex-1"
+            i={2}
+            s={2}
+            auto
+            title="Confirm manual visibility changes"
+            // disabled={name !== activeMindmap.name || disabled}
+            // onClick={handleConfirm}
+          >
+            Save
+          </Button>
+        </div>
+      </Modal2.Footer>
     </>
   );
 };
@@ -260,10 +327,11 @@ const MindmapDetailsModalContainer = () => {
   const disabled = operation.is === `busy`;
 
   return (
-    <Modal disabled={disabled} onClose={closeMindmapDetailsAction}>
+    <Modal2 disabled={disabled} onClose={closeMindmapDetailsAction}>
       {view === ViewType.Details && <MindmapDetailsViewContainer />}
       {view === ViewType.Delete && <DeleteMindmapViewContainer />}
-    </Modal>
+      {view === ViewType.ManualForm && <ManualFormViewContainer />}
+    </Modal2>
   );
 };
 
