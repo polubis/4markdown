@@ -3,9 +3,9 @@ import { Field } from "design-system/field";
 import { Hint } from "design-system/hint";
 import { Input } from "design-system/input";
 import { Textarea } from "design-system/textarea";
+import { Modal2 } from "design-system/modal2";
 import { useForm } from "development-kit/use-form";
-import React, { type FormEventHandler } from "react";
-import { BiX } from "react-icons/bi";
+import React from "react";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
 import { updateDocumentVisibility } from "actions/update-document-visibility.action";
@@ -13,13 +13,11 @@ import { SeoFriendlyDescriptionHint } from "../components/seo-friendly-descripti
 
 type PermamentDocFormContainerProps = {
   onConfirm(): void;
-  onClose(): void;
   onBack(): void;
 };
 
 const PermamentDocFormContainer = ({
   onConfirm,
-  onClose,
   onBack,
 }: PermamentDocFormContainerProps) => {
   const docStore = docStoreSelectors.active();
@@ -33,11 +31,9 @@ const PermamentDocFormContainer = ({
 
   const { name, description, tags } = values;
 
-  const handleConfirm: FormEventHandler<HTMLFormElement> = async (
-    e,
-  ): Promise<void> => {
-    e.preventDefault();
+  const disabled = docManagementStore.is === `busy`;
 
+  const handleConfirm = async (): Promise<void> => {
     try {
       await updateDocumentVisibility({
         name,
@@ -59,73 +55,69 @@ const PermamentDocFormContainer = ({
   );
 
   return (
-    <form className="flex flex-col" onSubmit={handleConfirm}>
-      <header className="flex items-center mb-4">
-        <h6 className="text-xl mr-4">Add Required Data</h6>
-        <Button
-          i={2}
-          s={1}
-          className="ml-auto"
-          disabled={docManagementStore.is === `busy`}
-          title="Close document permanent status change"
-          onClick={onClose}
+    <>
+      <Modal2.Header
+        title="Add Required Data"
+        closeButtonTitle="Close document permanent status change"
+      />
+      <Modal2.Body>
+        <Field
+          label={`Name (${name.length})*`}
+          hint={<Hint trigger="3-15 separate words, and max 70 characters" />}
         >
-          <BiX />
-        </Button>
-      </header>
-      <Field
-        label={`Name (${name.length})*`}
-        className="mt-2"
-        hint={<Hint trigger="3-15 separate words, and max 70 characters" />}
-      >
-        <Input autoFocus placeholder="Type document name" {...inject(`name`)} />
-      </Field>
-      <Field
-        label={`Description (${description.length})*`}
-        className="mt-3"
-        hint={<SeoFriendlyDescriptionHint />}
-      >
-        <Textarea
-          placeholder="The description will be displayed in Google and under document"
-          {...inject(`description`)}
-        />
-      </Field>
-      <Field
-        label={splittedTags === 0 ? `Tags*` : `Tags (${splittedTags})*`}
-        className="mt-2"
-        hint={<Hint trigger={`Comma-separated, 1-10 tags, each unique`} />}
-      >
-        <Input
-          placeholder="React, ruby-on-rails, c++, c# ...etc"
-          {...inject(`tags`)}
-        />
-      </Field>
-      <footer className="mt-6 flex">
+          <Input
+            autoFocus
+            placeholder="Type document name"
+            {...inject(`name`)}
+          />
+        </Field>
+        <Field
+          label={`Description (${description.length})*`}
+          className="mt-3"
+          hint={<SeoFriendlyDescriptionHint />}
+        >
+          <Textarea
+            placeholder="The description will be displayed in Google and under document"
+            {...inject(`description`)}
+          />
+        </Field>
+        <Field
+          label={splittedTags === 0 ? `Tags*` : `Tags (${splittedTags})*`}
+          className="mt-2"
+          hint={<Hint trigger={`Comma-separated, 1-10 tags, each unique`} />}
+        >
+          <Input
+            placeholder="React, ruby-on-rails, c++, c# ...etc"
+            {...inject(`tags`)}
+          />
+        </Field>
+      </Modal2.Body>
+      <Modal2.Footer className="flex space-x-3 w-full">
         <Button
-          className="ml-auto"
           type="button"
           i={1}
           s={2}
+          className="flex-1"
           auto
           title="Back to document status confirmation"
-          disabled={docManagementStore.is === `busy`}
+          disabled={disabled}
           onClick={onBack}
         >
           Back
         </Button>
         <Button
-          type="submit"
-          className="ml-2"
           i={2}
           s={2}
           auto
-          disabled={invalid || untouched || docManagementStore.is === `busy`}
+          className="flex-1"
+          disabled={invalid || untouched || disabled}
+          onClick={handleConfirm}
           title="Make document permanent"
         >
           Confirm
         </Button>
-      </footer>
-    </form>
+      </Modal2.Footer>
+    </>
   );
 };
 

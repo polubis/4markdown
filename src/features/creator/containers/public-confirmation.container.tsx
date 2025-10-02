@@ -1,95 +1,83 @@
-import React, { type FormEventHandler } from "react";
+import React from "react";
 import { Button } from "design-system/button";
-import { BiX } from "react-icons/bi";
+import { Modal2 } from "design-system/modal2";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { meta } from "../../../../meta";
 import { updateDocumentVisibility } from "actions/update-document-visibility.action";
 
 interface PublicConfirmationContainerProps {
-  onClose(): void;
   onCancel(): void;
   onConfirm(): void;
 }
 
 const PublicConfirmationContainer = ({
-  onClose,
   onCancel,
   onConfirm,
 }: PublicConfirmationContainerProps) => {
   const docManagementStore = useDocManagementStore();
 
-  const handleConfirm: FormEventHandler<HTMLFormElement> = async (
-    e,
-  ): Promise<void> => {
-    e.preventDefault();
+  const disabled = docManagementStore.is === `busy`;
 
+  const handleConfirm = async (): Promise<void> => {
     try {
       await updateDocumentVisibility({ visibility: `public` });
-
       onConfirm();
     } catch {}
   };
 
   return (
-    <form className="flex flex-col" onSubmit={handleConfirm}>
-      <header className="flex items-center">
-        <h6 className="text-xl mr-4 capitalize">Make it public</h6>
+    <>
+      <Modal2.Header
+        title="Make it public"
+        closeButtonTitle="Close public document confirmation"
+      />
+      <Modal2.Body>
+        <p className="mb-1">
+          You can share this document using a <strong>unique link</strong>.
+          Public documents are not visible on Google or in the{` `}
+          <a
+            className="underline underline-offset-2 text-blue-800 dark:text-blue-500 font-bold"
+            href={meta.routes.education.zone}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Education Zone
+          </a>
+          .
+        </p>
+        <p>
+          <i>
+            Public means the document is visible <strong>to you</strong> and
+            anyone with the <strong>link</strong> you share.
+          </i>
+        </p>
+      </Modal2.Body>
+      <Modal2.Footer className="flex space-x-3 w-full">
         <Button
-          i={2}
-          s={1}
-          className="ml-auto"
-          disabled={docManagementStore.is === `busy`}
-          title="Close public document confirmation"
-          onClick={onClose}
-        >
-          <BiX />
-        </Button>
-      </header>
-      <p className="mt-4 mb-1">
-        You can share this document using a <strong>unique link</strong>. Public
-        documents are not visible on Google or in the{` `}
-        <a
-          className="underline underline-offset-2 text-blue-800 dark:text-blue-500 font-bold"
-          href={meta.routes.education.zone}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Education Zone
-        </a>
-        .
-      </p>
-      <p>
-        <i>
-          Public means the document is visible <strong>to you</strong> and
-          anyone with the <strong>link</strong> you share.
-        </i>
-      </p>
-      <footer className="mt-6 flex">
-        <Button
-          className="ml-auto"
           type="button"
           i={1}
           s={2}
+          className="flex-1"
           auto
           title="Cancel public document confirmation"
-          disabled={docManagementStore.is === `busy`}
+          disabled={disabled}
           onClick={onCancel}
         >
           Cancel
         </Button>
         <Button
-          type="submit"
-          className="ml-2"
           i={2}
           s={2}
           auto
-          disabled={docManagementStore.is === `busy`}
+          className="flex-1"
+          disabled={disabled}
+          onClick={handleConfirm}
           title="Confirm public document status change"
         >
           Confirm
         </Button>
-      </footer>
-    </form>
+      </Modal2.Footer>
+    </>
   );
 };
 

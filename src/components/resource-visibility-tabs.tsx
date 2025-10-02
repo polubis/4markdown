@@ -7,6 +7,7 @@ import {
 } from "api-4markdown-contracts";
 
 type ResourceVisibilityTabsProps = {
+  className?: string;
   disabled: boolean;
   visibility: ResourceVisibility;
   title: (visibility: ResourceVisibility) => string;
@@ -14,13 +15,14 @@ type ResourceVisibilityTabsProps = {
 };
 
 const ResourceVisibilityTabs = ({
+  className,
   visibility,
   title,
   onChange,
   disabled,
 }: ResourceVisibilityTabsProps) => {
   return (
-    <Tabs2>
+    <Tabs2 className={className}>
       {RESOURCE_VISIBILITIES.map((type) => (
         <Tabs2.Item
           key={type}

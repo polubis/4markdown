@@ -16,17 +16,11 @@ import { Field } from "design-system/field";
 import { meta } from "../../../../meta";
 import { deleteMindmapAct } from "acts/delete-mindmap.act";
 import { updateMindmapVisibilityAct } from "acts/update-mindmap-visibility.act";
-import {
-  API4MarkdownDto,
-  RESOURCE_VISIBILITIES,
-  ResourceVisibility,
-} from "api-4markdown-contracts";
+import { ResourceVisibility } from "api-4markdown-contracts";
 import { authStoreSelectors } from "store/auth/auth.store";
 import { createPathForMindmap } from "core/create-path-for-mindmap";
 import { context } from "@greenonsoftware/react-kit";
-import { Tabs2 } from "design-system/tabs-2";
 import { VisibilityIcon } from "components/visibility-icon";
-import { Transaction } from "development-kit/utility-types";
 import {
   ResourceAccessManagerModule,
   useResourceAccessState,
