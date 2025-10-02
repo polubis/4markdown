@@ -1,5 +1,6 @@
 import React, { type ReactNode, type FormEventHandler } from "react";
 import { Button } from "design-system/button";
+import { Modal2 } from "design-system/modal2";
 import { BiInfoCircle, BiPlusCircle } from "react-icons/bi";
 import { Input } from "design-system/input";
 import { useForm } from "development-kit/use-form";
@@ -145,33 +146,39 @@ const ManualForm = () => {
   const [{ invalid, values, untouched }, { inject }] =
     useForm<ManualFormValues>({ name: `` }, manualValidators);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
+  const handleSubmit = (): void => {
     ctx.onSubmit(values);
   };
 
   return (
-    <form className="flex flex-col" onSubmit={handleSubmit}>
-      <Field
-        label={
-          <Field.Label label="Document Name" value={values.name} required />
-        }
-        hint={
-          <Hint
-            trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
+    <>
+      <Modal2.Body>
+        <p className="mb-4">
+          Document will be created in <strong>private</strong> mode. Visible
+          only to you, but <strong>not encrypted</strong>—avoid sensitive data
+        </p>
+        <Field
+          label={
+            <Field.Label label="Document Name" value={values.name} required />
+          }
+          hint={
+            <Hint
+              trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
+            />
+          }
+        >
+          <Input
+            placeholder={`My Notes, Basics of Computer Science, ...etc`}
+            {...inject(`name`)}
           />
-        }
-      >
-        <Input
-          placeholder={`My Notes, Basics of Computer Science, ...etc`}
-          {...inject(`name`)}
-        />
-      </Field>
-      <footer className="flex space-x-3 [&_button]:flex-1 mt-8">
+        </Field>
+      </Modal2.Body>
+      <Modal2.Footer className="flex space-x-3 w-full">
         <Button
           s={2}
           i={1}
           type="button"
+          className="flex-1"
           title="Back to document type selection"
           auto
           disabled={ctx.disabled}
@@ -180,18 +187,19 @@ const ManualForm = () => {
           Back
         </Button>
         <Button
-          type="submit"
           i={2}
           s={2}
           auto
+          className="flex-1"
           title="Confirm document creation"
           disabled={untouched || invalid || ctx.disabled}
+          onClick={handleSubmit}
         >
           Create
           <BiPlusCircle />
         </Button>
-      </footer>
-    </form>
+      </Modal2.Footer>
+    </>
   );
 };
 
@@ -217,8 +225,7 @@ const AIForm = () => {
     aiValidators,
   );
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-    e.preventDefault();
+  const handleSubmit = (): void => {
     ctx.onSubmit(values);
   };
 
@@ -243,138 +250,154 @@ const AIForm = () => {
   );
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-3">
-        <Field
-          label={<Field.Label label="Name" value={values.name} required />}
-          hint={
-            <Hint
-              trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
+    <>
+      <Modal2.Body>
+        <p className="mb-4">
+          Generation will be <strong>continued parallel</strong>. After accept
+          you&apos;ll be able to do other things, and customize the document
+          later
+        </p>
+        <div className="flex flex-col gap-3">
+          <Field
+            label={<Field.Label label="Name" value={values.name} required />}
+            hint={
+              <Hint
+                trigger={`Any characters, between ${DOCUMENT_NAME_RULES.MIN} to ${DOCUMENT_NAME_RULES.MAX} characters`}
+              />
+            }
+          >
+            <Input
+              placeholder={`My Notes, Basics of Math`}
+              {...inject(`name`)}
             />
-          }
-        >
-          <Input placeholder={`My Notes, Basics of Math`} {...inject(`name`)} />
-        </Field>
-        <Field
-          label={
-            <Field.Label
-              label="Description"
-              value={values.description}
-              required
+          </Field>
+          <Field
+            label={
+              <Field.Label
+                label="Description"
+                value={values.description}
+                required
+              />
+            }
+            hint={
+              <Hint
+                trigger={`Any characters, between ${limits.description.min} to ${limits.description.max} characters`}
+              />
+            }
+          >
+            <Textarea
+              placeholder="Let's explore the basics of computer science through a step-by-step guide filled with plenty of examples"
+              {...inject(`description`)}
             />
-          }
-          hint={
-            <Hint
-              trigger={`Any characters, between ${limits.description.min} to ${limits.description.max} characters`}
+          </Field>
+          <Field
+            label={
+              <Field.Label
+                label="Profession"
+                value={values.profession}
+                required
+              />
+            }
+            hint={
+              <Hint
+                trigger={`Any characters, between ${limits.profession.min} to ${limits.profession.max} characters`}
+              />
+            }
+          >
+            <Input
+              placeholder="Frontend development, Math, Physics, ...etc"
+              {...inject(`profession`)}
             />
-          }
-        >
-          <Textarea
-            placeholder="Let's explore the basics of computer science through a step-by-step guide filled with plenty of examples"
-            {...inject(`description`)}
-          />
-        </Field>
-        <Field
-          label={
-            <Field.Label
-              label="Profession"
-              value={values.profession}
-              required
+          </Field>
+          <Field
+            label={splittedStyle === 0 ? `Style*` : `Style (${splittedStyle})*`}
+            hint={
+              <Hint trigger={`Between 1 to 10 words, separated by commas`} />
+            }
+          >
+            <Input placeholder="soft, edgy, smart" {...inject(`style`)} />
+          </Field>
+          <Field
+            label={
+              splittedStructure === 0
+                ? `Structure*`
+                : `Structure (${splittedStructure})*`
+            }
+            hint={
+              <Hint
+                trigger={
+                  <>
+                    &quot;#&quot; creates hierarchy, between{` `}
+                    {limits.structure.min}
+                    {` `}
+                    and {limits.structure.max}
+                    {` `}
+                    lines
+                  </>
+                }
+              />
+            }
+          >
+            <Textarea
+              placeholder={`# My Notes, Basics of Math \n## Introduction to Math\n### Basic Operations\n#### Algebra\n#### Geometry\n#### Calculus\n## Conclusion`}
+              {...inject(`structure`)}
             />
-          }
-          hint={
-            <Hint
-              trigger={`Any characters, between ${limits.profession.min} to ${limits.profession.max} characters`}
+          </Field>
+          <Field
+            hint={
+              <Hint
+                trigger={`Any characters, between ${limits.sample.min} to ${limits.sample.max} characters`}
+              />
+            }
+            label={
+              <Field.Label label="Sample" value={values.sample} required />
+            }
+          >
+            <Textarea
+              placeholder="A fragment from another article, document, or note to help match your writing style"
+              {...inject(`sample`)}
             />
-          }
-        >
-          <Input
-            placeholder="Frontend development, Math, Physics, ...etc"
-            {...inject(`profession`)}
-          />
-        </Field>
-        <Field
-          label={splittedStyle === 0 ? `Style*` : `Style (${splittedStyle})*`}
-          hint={<Hint trigger={`Between 1 to 10 words, separated by commas`} />}
-        >
-          <Input placeholder="soft, edgy, smart" {...inject(`style`)} />
-        </Field>
-        <Field
-          label={
-            splittedStructure === 0
-              ? `Structure*`
-              : `Structure (${splittedStructure})*`
-          }
-          hint={
-            <Hint
-              trigger={
-                <>
-                  &quot;#&quot; creates hierarchy, between{` `}
-                  {limits.structure.min}
-                  {` `}
-                  and {limits.structure.max}
-                  {` `}
-                  lines
-                </>
-              }
-            />
-          }
-        >
-          <Textarea
-            placeholder={`# My Notes, Basics of Math \n## Introduction to Math\n### Basic Operations\n#### Algebra\n#### Geometry\n#### Calculus\n## Conclusion`}
-            {...inject(`structure`)}
-          />
-        </Field>
-        <Field
-          hint={
-            <Hint
-              trigger={`Any characters, between ${limits.sample.min} to ${limits.sample.max} characters`}
-            />
-          }
-          label={<Field.Label label="Sample" value={values.sample} required />}
-        >
-          <Textarea
-            placeholder="A fragment from another article, document, or note to help match your writing style"
-            {...inject(`sample`)}
-          />
-        </Field>
-        <div className="flex mb-5 items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
-          <BiInfoCircle size={20} className="shrink-0" />
-          <p className="text-sm">
-            Generation will take{` `}
-            <strong>{AI_CONTENT_GENERATION_TOKEN_COST} tokens</strong>
-          </p>
+          </Field>
+          <div className="flex items-center gap-1.5 rounded-md p-2 bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800">
+            <BiInfoCircle size={20} className="shrink-0" />
+            <p className="text-sm">
+              Generation will take{` `}
+              <strong>{AI_CONTENT_GENERATION_TOKEN_COST} tokens</strong>
+            </p>
+          </div>
         </div>
-        {ctx.variant === `ai` && ctx.renderFooter ? (
-          ctx.renderFooter(ctx, { values, untouched, invalid })
-        ) : (
-          <footer className="flex space-x-3 [&_button]:flex-1">
-            <Button
-              s={2}
-              i={1}
-              type="button"
-              title="Back to document type selection"
-              auto
-              disabled={ctx.disabled}
-              onClick={ctx.onBack}
-            >
-              Back
-            </Button>
-            <Button
-              type="submit"
-              i={2}
-              s={2}
-              auto
-              title="Confirm document creation with AI"
-              disabled={untouched || invalid || ctx.disabled}
-            >
-              Create
-              <BiPlusCircle />
-            </Button>
-          </footer>
-        )}
-      </div>
-    </form>
+      </Modal2.Body>
+      {ctx.variant === `ai` && ctx.renderFooter ? (
+        ctx.renderFooter(ctx, { values, untouched, invalid })
+      ) : (
+        <Modal2.Footer className="flex space-x-3 w-full">
+          <Button
+            s={2}
+            i={1}
+            type="button"
+            className="flex-1"
+            title="Back to document type selection"
+            auto
+            disabled={ctx.disabled}
+            onClick={ctx.onBack}
+          >
+            Back
+          </Button>
+          <Button
+            i={2}
+            s={2}
+            auto
+            className="flex-1"
+            title="Confirm document creation with AI"
+            disabled={untouched || invalid || ctx.disabled}
+            onClick={handleSubmit}
+          >
+            Create
+            <BiPlusCircle />
+          </Button>
+        </Modal2.Footer>
+      )}
+    </>
   );
 };
 
@@ -383,26 +406,9 @@ const NewDocumentForm = () => {
 
   switch (ctx.variant) {
     case `ai`:
-      return (
-        <>
-          <p className="mb-4">
-            Generation will be <strong>continued parallel</strong>. After accept
-            you&apos;ll be able to do other things, and customize the document
-            later
-          </p>
-          <AIForm />
-        </>
-      );
+      return <AIForm />;
     case `manual`:
-      return (
-        <>
-          <p className="mb-4">
-            Document will be created in <strong>private</strong> mode. Visible
-            only to you, but <strong>not encrypted</strong>—avoid sensitive data
-          </p>
-          <ManualForm />
-        </>
-      );
+      return <ManualForm />;
     default:
       throw Error(`Invalid variant detected`);
   }

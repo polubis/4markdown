@@ -1,6 +1,6 @@
 import React from "react";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import { createDocumentAct } from "acts/create-document.act";
 import { startConversationAction } from "store/document-generation/actions";
 import {
@@ -50,18 +50,20 @@ const CreateDocumentModalContainer = ({
     onClose();
   };
 
+  const disabled = docManagementStore.is === `busy`;
+
   const isMaxAIGenerationReached =
     conversations.length >= MAX_AI_GENERATION_COUNT;
 
   return (
-    <Modal disabled={docManagementStore.is === `busy`} onClose={onClose}>
-      <Modal.Header
+    <Modal2 disabled={disabled} onClose={onClose}>
+      <Modal2.Header
         title="Create Document"
         closeButtonTitle="Close document adding"
       />
 
       {activeType === `none` && (
-        <>
+        <Modal2.Body>
           <section className="flex flex-col gap-3">
             <button
               className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
@@ -102,14 +104,14 @@ const CreateDocumentModalContainer = ({
               )}
             </button>
           </section>
-        </>
+        </Modal2.Body>
       )}
 
       {activeType === `ai` && (
         <AIPolicyDisclaimer onCancel={() => setActiveType(`none`)}>
           <NewDocumentForm
             variant={activeType}
-            disabled={docManagementStore.is === `busy`}
+            disabled={disabled}
             onSubmit={submitAIDocumentCreation}
             onBack={() => setActiveType(`none`)}
           />
@@ -119,12 +121,12 @@ const CreateDocumentModalContainer = ({
       {activeType === `manual` && (
         <NewDocumentForm
           variant={activeType}
-          disabled={docManagementStore.is === `busy`}
+          disabled={disabled}
           onSubmit={submitManualDocumentCreation}
           onBack={() => setActiveType(`none`)}
         />
       )}
-    </Modal>
+    </Modal2>
   );
 };
 
