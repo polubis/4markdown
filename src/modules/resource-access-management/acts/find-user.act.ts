@@ -1,10 +1,12 @@
 import { parseError } from "api-4markdown";
-import { API4MarkdownDto, UserProfileId } from "api-4markdown-contracts";
+import { UserProfileId } from "api-4markdown-contracts";
 import { mock } from "development-kit/mock";
-import { AsyncResult } from "development-kit/utility-types";
+import { useResourceAccessState } from "../store";
 
-const findUserAct = async (): AsyncResult<API4MarkdownDto<"findUser">> => {
+const findUserAct = async (): Promise<void> => {
   try {
+    useResourceAccessState.set({ busy: true });
+
     const res = await mock({
       delay: 2,
       errorFactor: 0.5,
@@ -55,11 +57,14 @@ const findUserAct = async (): AsyncResult<API4MarkdownDto<"findUser">> => {
       displayNameSlug: "praca-praca",
     })(null);
 
-    return { is: `ok`, data: { userProfile: res } };
+    useResourceAccessState.set(({ access }) => ({
+      busy: false,
+      access: [res, ...access],
+    }));
   } catch (error) {
-    const err = parseError(error);
+    const parsed = parseError(error);
 
-    return { is: `fail`, error: err };
+    useResourceAccessState.set({ busy: false, error: parsed });
   }
 };
 

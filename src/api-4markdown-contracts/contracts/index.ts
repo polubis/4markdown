@@ -136,8 +136,8 @@ type FindUserContract = Contract<
   { phrase: string }
 >;
 
-type GetResourceAccessGroupsContract = Contract<
-  "getResourceAccessGroups",
+type GetResourceAccessInfoContract = Contract<
+  "getResourceAccessInfoAct",
   {
     userProfiles: (UserProfileDto & { email: string })[];
   },
@@ -319,7 +319,7 @@ type API4MarkdownContracts =
   | GetUserResourceCompletionsContract
   | SetUserResourceCompletionContract
   | FindUserContract
-  | GetResourceAccessGroupsContract;
+  | GetResourceAccessInfoContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

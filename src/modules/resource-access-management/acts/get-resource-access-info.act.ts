@@ -1,14 +1,14 @@
 import { parseError } from "api-4markdown";
-import { API4MarkdownDto, UserProfileId } from "api-4markdown-contracts";
+import { UserProfileId } from "api-4markdown-contracts";
 import { mock } from "development-kit/mock";
-import { AsyncResult } from "development-kit/utility-types";
+import { useResourceAccessState } from "../store";
 
-const getResourceAccessGroupAct = async (): AsyncResult<
-  API4MarkdownDto<"getResourceAccessGroups">
-> => {
+const getResourceAccessInfoAct = async (): Promise<void> => {
   try {
+    useResourceAccessState.set({ loading: true, error: null, access: [] });
+
     const res = await mock({
-      delay: 0,
+      delay: 2,
       errorFactor: 0.5,
       error: () => new Error(`Test error`),
     })({
@@ -61,21 +61,23 @@ const getResourceAccessGroupAct = async (): AsyncResult<
       ],
     })(null);
 
-    return {
-      is: `ok`,
-      data: {
-        userProfiles: [
-          ...res.userProfilesAccess,
-          ...res.userProfilesAccess,
-          ...res.userProfilesAccess,
-        ],
-      },
-    };
+    useResourceAccessState.set({
+      loading: false,
+      access: [
+        ...res.userProfilesAccess,
+        ...res.userProfilesAccess,
+        ...res.userProfilesAccess,
+      ],
+    });
   } catch (error) {
-    const err = parseError(error);
+    const parsed = parseError(error);
 
-    return { is: `fail`, error: err };
+    useResourceAccessState.set({
+      loading: false,
+      error: parsed,
+      access: [],
+    });
   }
 };
 
-export { getResourceAccessGroupAct };
+export { getResourceAccessInfoAct };
