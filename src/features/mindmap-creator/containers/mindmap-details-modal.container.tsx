@@ -21,10 +21,7 @@ import { authStoreSelectors } from "store/auth/auth.store";
 import { createPathForMindmap } from "core/create-path-for-mindmap";
 import { context } from "@greenonsoftware/react-kit";
 import { VisibilityIcon } from "components/visibility-icon";
-import {
-  ResourceAccessManagerModule,
-  useResourceAccessState,
-} from "modules/resource-access-management";
+import { ResourceAccessManagerModule } from "modules/resource-access-management";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
 
 const enum ViewType {
@@ -251,66 +248,33 @@ const MindmapDetailsViewContainer = () => {
   );
 };
 
-const ManualFormViewContainer = () => {
-  const { setView } = useFeatureContext();
-  const { busy, loading } = useResourceAccessState();
-
-  const close = (): void => {
-    setView(ViewType.Details);
-  };
-
-  return (
-    <>
-      <Modal2.Header
-        title="Manual Visibility Management"
-        closeButtonTitle="Close manual visibility management"
-      />
-      <Modal2.Body>
-        <ResourceAccessManagerModule />
-      </Modal2.Body>
-      <Modal2.Footer>
-        <div className="flex space-x-3 w-full">
-          <Button
-            className="flex-1"
-            type="button"
-            i={1}
-            s={2}
-            auto
-            disabled={busy}
-            title="Cancel manual visibility changes"
-            onClick={close}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="submit"
-            className="flex-1"
-            i={2}
-            s={2}
-            disabled={busy || loading}
-            auto
-            title="Confirm manual visibility changes"
-          >
-            Save
-          </Button>
-        </div>
-      </Modal2.Footer>
-    </>
-  );
-};
-
 const MindmapDetailsModalContainer = () => {
-  const { view } = useFeatureContext();
+  const { view, setView } = useFeatureContext();
   const { operation: mindmapOperation } = useMindmapCreatorState();
 
   const disabled = mindmapOperation.is === `busy`;
 
+  if (view === ViewType.Details) {
+    return (
+      <Modal2 disabled={disabled} onClose={closeMindmapDetailsAction}>
+        <MindmapDetailsViewContainer />
+      </Modal2>
+    );
+  }
+
+  if (view === ViewType.Delete) {
+    return (
+      <Modal2 disabled={disabled} onClose={closeMindmapDetailsAction}>
+        <DeleteMindmapViewContainer />
+      </Modal2>
+    );
+  }
+
   return (
-    <Modal2 disabled={disabled} onClose={closeMindmapDetailsAction}>
-      {view === ViewType.Details && <MindmapDetailsViewContainer />}
-      {view === ViewType.Delete && <DeleteMindmapViewContainer />}
-      {view === ViewType.ManualForm && <ManualFormViewContainer />}
-    </Modal2>
+    <ResourceAccessManagerModule
+      onBack={() => setView(ViewType.Details)}
+      onClose={closeMindmapDetailsAction}
+    />
   );
 };
 

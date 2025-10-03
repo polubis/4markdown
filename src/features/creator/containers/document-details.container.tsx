@@ -15,6 +15,7 @@ import { meta } from "../../../../meta";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
 import { VisibilityIcon } from "components/visibility-icon";
+import { ResourceAccessManagerModule } from "modules/resource-access-management";
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
@@ -63,6 +64,13 @@ const DocumentDetailsContainer = ({
         <PublicConfirmationContainer
           onConfirm={publicConfirmation.off}
           onCancel={publicConfirmation.off}
+        />
+      )}
+
+      {manualConfirmation.isOn && (
+        <ResourceAccessManagerModule
+          onBack={manualConfirmation.off}
+          onClose={onClose}
         />
       )}
 
