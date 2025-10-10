@@ -3,15 +3,11 @@ import { API4MarkdownPayload } from "api-4markdown-contracts";
 import { AsyncResult } from "development-kit/utility-types";
 import { addAccessGroupAction } from "../store/actions";
 
-const createAccessGroupAct = async ({
-  name,
-  description,
-}: API4MarkdownPayload<"createAccessGroup">): AsyncResult => {
+const createAccessGroupAct = async (
+  payload: API4MarkdownPayload<"createAccessGroup">,
+): AsyncResult => {
   try {
-    const createdGroup = await getAPI().call(`createAccessGroup`)({
-      name,
-      description,
-    });
+    const createdGroup = await getAPI().call(`createAccessGroup`)(payload);
 
     addAccessGroupAction(createdGroup);
 

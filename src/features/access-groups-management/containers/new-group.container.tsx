@@ -95,7 +95,7 @@ const NewGroupContainer = () => {
   };
 
   return (
-    <div className="max-w-md w-full m-auto">
+    <div className="max-w-md w-full m-auto animate-fade-in">
       <header className="mb-5">
         <h1 className="text-2xl font-bold mb-1.5">Create New Group</h1>
         <p className="text-sm">
