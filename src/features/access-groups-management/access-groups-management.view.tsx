@@ -2,6 +2,8 @@ import React from "react";
 import { useAccessGroupsManagementStore } from "./store";
 import { GroupsListContainer } from "./containers/groups-list.container";
 import { NewGroupContainer } from "./containers/new-group.container";
+import { useAuthStore } from "store/auth/auth.store";
+import { Loader } from "design-system/loader";
 
 const ViewsManager = () => {
   const view = useAccessGroupsManagementStore.use.view();
@@ -14,9 +16,23 @@ const ViewsManager = () => {
 };
 
 const AccessGroupsManagementView = () => {
+  const auth = useAuthStore();
+
   return (
     <main className="flex flex-col min-h-[calc(100svh-72px)] py-10 px-4">
-      <ViewsManager />
+      {auth.is === `idle` && (
+        <Loader
+          data-testid="[access-groups]:loader"
+          className="m-auto"
+          size="xl"
+        />
+      )}
+      {auth.is === `unauthorized` && (
+        <h1 className="text-2xl m-auto text-center">
+          Resource Not Found at the Specified URL
+        </h1>
+      )}
+      {auth.is === `authorized` && <ViewsManager />}
     </main>
   );
 };

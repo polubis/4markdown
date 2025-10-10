@@ -9,9 +9,11 @@ import { docStoreSelectors } from "store/doc/doc.store";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import { activeMindmapSelector } from "store/mindmap-creator/selectors";
+import { useAuthStore } from "store/auth/auth.store";
 // @TODO[PRIO=2]: [Remove duplication with creation-link.container.tsx].
 const CreationLinkContainer2 = () => {
   const menu = useSimpleFeature();
+  const auth = useAuthStore();
   const docStore = docStoreSelectors.state();
   const activeMindmap = useMindmapCreatorState(activeMindmapSelector);
 
@@ -97,6 +99,19 @@ const CreationLinkContainer2 = () => {
             )}
           </Link>
         </li>
+        {auth.is === `authorized` && (
+          <li className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 border-b border-zinc-300 dark:border-zinc-800">
+            <Link
+              to={meta.routes.accessGroups.management}
+              title="Create access groups and manage access to your content"
+            >
+              <h6>Access Groups</h6>
+              <p className="mt-1 text-sm">
+                Create access groups and manage access to your content
+              </p>
+            </Link>
+          </li>
+        )}
       </ul>
     </div>
   );
