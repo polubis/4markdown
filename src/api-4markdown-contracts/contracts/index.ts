@@ -1,8 +1,10 @@
 import { Brand, type Prettify } from "development-kit/utility-types";
 import type {
+  AccessGroupId,
   Base64,
   Date,
   DocumentId,
+  Etag,
   Id,
   MindmapId,
   MindmapNodeId,
@@ -27,6 +29,7 @@ import type {
   CommentDto,
   ResourceCompletionDto,
 } from "../dtos";
+import { AccessGroupDto } from "../dtos/access-group.dto";
 // @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -269,6 +272,33 @@ type SetUserResourceCompletionContract = Contract<
     }
 >;
 
+type GetYourAccessGroupsContract = Contract<
+  "getYourAccessGroups",
+  {
+    hasMore: boolean;
+    nextAccessGroupId: AccessGroupId | null;
+    accessGroups: AccessGroupDto[];
+  },
+  { limit: number | null; nextAccessGroupId: AccessGroupId | null }
+>;
+
+type CreateAccessGroupContract = Contract<
+  "createAccessGroup",
+  AccessGroupDto,
+  { name: string; description: string | null }
+>;
+
+type EditAccessGroupContract = Contract<
+  "editAccessGroup",
+  AccessGroupDto,
+  {
+    name: string;
+    description: string | null;
+    accessGroupId: AccessGroupId;
+    etag: Etag;
+  }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -298,7 +328,10 @@ type API4MarkdownContracts =
   | GetUserProfileContract
   | AddUserProfileCommentContract
   | GetUserResourceCompletionsContract
-  | SetUserResourceCompletionContract;
+  | SetUserResourceCompletionContract
+  | GetYourAccessGroupsContract
+  | CreateAccessGroupContract
+  | EditAccessGroupContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

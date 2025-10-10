@@ -13,6 +13,7 @@ module.exports = {
     "^layouts/(.*)": `<rootDir>/src/layouts/$1`,
     "^core/(.*)": `<rootDir>/src/core/$1`,
     "^components/(.*)": `<rootDir>/src/components/$1`,
+    "^libs/(.*)": `<rootDir>/src/libs/$1`,
     "^providers/(.*)": `<rootDir>/src/providers/$1`,
     "^containers/(.*)": `<rootDir>/src/containers/$1`,
     "^design-system/(.*)": `<rootDir>/src/design-system/$1`,

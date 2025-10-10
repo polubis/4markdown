@@ -5,6 +5,8 @@ type Id = string;
 type Name = string;
 type MarkdownCode = string;
 type Date = string;
+type UTCDate = Brand<string, `UTCDate`>;
+type Etag = Brand<string, `Etag`>;
 type Tags = string[];
 type Path = string;
 type MarkdownContent = string;
@@ -18,6 +20,8 @@ type CommentId = Brand<Id, `CommentId`>;
 type DocumentId = Brand<Id, `DocumentId`>;
 type MindmapNodeId = Brand<SUID, `MindmapNodeId`>;
 type MindmapId = Brand<Id, `MindmapId`>;
+
+type AccessGroupId = Brand<Id, `AccessGroupId`>;
 
 type ResourceId = DocumentId | MindmapNodeId | MindmapId;
 
@@ -45,4 +49,7 @@ export type {
   MindmapId,
   MindmapNodeId,
   ResourceType,
+  AccessGroupId,
+  Etag,
+  UTCDate,
 };

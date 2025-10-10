@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "design-system/button";
 import {
+  BiArrowToRight,
   BiPencil,
   BiRefresh,
   BiSolidUserDetail,
@@ -74,6 +75,27 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 
         {yourUserProfile.is === `ok` && (
           <>
+            <div
+              className="relative flex flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden"
+              data-testid="[user-profile]:profile-ready"
+            >
+              <div className="absolute flex flex-col gap-2 top-2 right-2">
+                <Button
+                  i={1}
+                  s={1}
+                  title="Go to access groups management"
+                  onClick={() => navigate(meta.routes.accessGroups.management)}
+                >
+                  <BiArrowToRight />
+                </Button>
+              </div>
+              <h6 className="font-bold">Your Access Groups</h6>
+              <p className="mt-1 mb-1">
+                Engage your audience and assign them to access groups to share
+                specific materials.
+              </p>
+            </div>
+
             {yourUserProfile.user?.displayName && yourUserProfile.user?.bio ? (
               <>
                 <div
