@@ -7,8 +7,8 @@ import React from "react";
 import { ValidatorFn, ValidatorsSetup } from "development-kit/form";
 import { changeViewAction } from "../store/actions";
 import { BiPlus } from "react-icons/bi";
-import { useAct } from "libs/act";
 import { createAccessGroupAct } from "../acts/create-access-group.act";
+import { useAct } from "libs/act";
 
 const validationLimits = {
   name: {
