@@ -1,4 +1,4 @@
-import { getAPI, parseError } from "api-4markdown";
+import { getAPI } from "api-4markdown";
 import { API4MarkdownPayload } from "api-4markdown-contracts";
 import { updateAccessGroupAction } from "../store/actions";
 

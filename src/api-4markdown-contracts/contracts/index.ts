@@ -276,10 +276,13 @@ type GetYourAccessGroupsContract = Contract<
   "getYourAccessGroups",
   {
     hasMore: boolean;
-    nextAccessGroupId: AccessGroupId | null;
+    nextCursor: Pick<AccessGroupDto, "mdate" | "name"> | null;
     accessGroups: AccessGroupDto[];
   },
-  { limit: number | null; nextAccessGroupId: AccessGroupId | null }
+  {
+    limit: number | null;
+    cursor: Pick<AccessGroupDto, "mdate" | "name"> | null;
+  }
 >;
 
 type CreateAccessGroupContract = Contract<
@@ -290,12 +293,11 @@ type CreateAccessGroupContract = Contract<
 
 type EditAccessGroupContract = Contract<
   "editAccessGroup",
-  AccessGroupDto,
+  Pick<AccessGroupDto, "mdate" | "etag" | "id" | "name" | "description">,
   {
     name: string;
     description: string | null;
     id: AccessGroupId;
-    etag: Etag;
   }
 >;
 

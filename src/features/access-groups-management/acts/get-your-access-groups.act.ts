@@ -11,7 +11,7 @@ const getYourAccessGroupsAct = async (): Promise<void> => {
 
     const data = await getAPI().call(`getYourAccessGroups`)({
       limit: 10,
-      nextAccessGroupId: null,
+      cursor: null,
     });
     useAccessGroupsManagementStore.setState({
       busy: false,

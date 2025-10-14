@@ -13,11 +13,13 @@ const addAccessGroupAction = (accessGroup: AccessGroupDto): void => {
   }));
 };
 
-const updateAccessGroupAction = (accessGroup: AccessGroupDto): void => {
+const updateAccessGroupAction = (
+  accessGroup: Partial<AccessGroupDto>,
+): void => {
   useAccessGroupsManagementStore.setState((prevState) => ({
     ...prevState,
     accessGroups: prevState.accessGroups.map((group) =>
-      group.id === accessGroup.id ? accessGroup : group,
+      group.id === accessGroup.id ? { ...accessGroup, ...group } : group,
     ),
   }));
 };
