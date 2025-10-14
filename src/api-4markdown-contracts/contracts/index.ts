@@ -296,6 +296,7 @@ type EditAccessGroupContract = Contract<
   Pick<AccessGroupDto, "mdate" | "etag" | "id" | "name" | "description">,
   {
     name: string;
+    etag: Etag;
     description: string | null;
     id: AccessGroupId;
   }

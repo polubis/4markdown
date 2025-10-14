@@ -100,6 +100,7 @@ const AccessGroupFormContainer = () => {
         ? editAccessGroupAct({
             name,
             description: description || null,
+            etag: accessGroupToEdit.etag,
             id: accessGroupToEdit.id,
           })
         : createAccessGroupAct({
