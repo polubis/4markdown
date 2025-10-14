@@ -1,11 +1,12 @@
 import React from "react";
 import { c } from "./c";
+import { Button } from "./button";
 
 type EmptyProps = React.ComponentPropsWithoutRef<"div">;
 type EmptyIconProps = React.ComponentPropsWithoutRef<"div">;
 type EmptyTitleProps = React.ComponentPropsWithoutRef<"h3">;
 type EmptyDescriptionProps = React.ComponentPropsWithoutRef<"p">;
-type EmptyActionProps = React.ComponentPropsWithoutRef<"div">;
+type EmptyActionProps = React.ComponentPropsWithoutRef<typeof Button>;
 
 const Empty = ({ className, children, ...props }: EmptyProps) => {
   return (
@@ -14,6 +15,7 @@ const Empty = ({ className, children, ...props }: EmptyProps) => {
         `flex flex-col justify-center items-center py-12 px-4`,
         className,
       )}
+      aria-live="polite"
       {...props}
     >
       <div className="flex flex-col items-center max-w-md text-center">
@@ -27,6 +29,7 @@ const EmptyIcon = ({ className, children, ...props }: EmptyIconProps) => {
   return (
     <div
       className={c(`mb-6 text-gray-400 dark:text-gray-500`, className)}
+      aria-hidden="true"
       {...props}
     >
       {children}
@@ -63,15 +66,8 @@ const EmptyDescription = ({
   );
 };
 
-const EmptyAction = ({ className, children, ...props }: EmptyActionProps) => {
-  return (
-    <div className={c(`flex justify-center`, className)} {...props}>
-      {children}
-    </div>
-  );
-};
+const EmptyAction = Button;
 
-// Compound component pattern
 Empty.Icon = EmptyIcon;
 Empty.Title = EmptyTitle;
 Empty.Description = EmptyDescription;

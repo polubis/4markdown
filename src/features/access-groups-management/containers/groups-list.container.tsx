@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BiPencil, BiPlus, BiSearch, BiUserPlus } from "react-icons/bi";
+import {
+  BiError,
+  BiPencil,
+  BiPlus,
+  BiSearch,
+  BiUserPlus,
+} from "react-icons/bi";
 import { changeViewAction, startAccessGroupEditAction } from "../store/actions";
 import { Button } from "design-system/button";
 import { useAccessGroupsManagementStore } from "../store";
@@ -9,6 +15,7 @@ import { formatDistance } from "date-fns";
 import { GroupsSkeletonLoader } from "../components/groups-skeleton-loader";
 import { MAX_ACCESS_GROUP_MEMBERS } from "../config/constraints";
 import { Empty } from "design-system/empty";
+import { Error } from "design-system/error";
 
 const Content = () => {
   const now = new Date();
@@ -20,19 +27,22 @@ const Content = () => {
 
   if (error) {
     return (
-      <div className="flex flex-col items-center max-w-md mx-auto animate-fade-in">
-        <h6 className="text-xl text-center">{error.message}</h6>
-        <Button
-          title="Go to document creator"
-          className="mt-4"
+      <Error>
+        <Error.Icon>
+          <BiError size={80} />
+        </Error.Icon>
+        <Error.Title>Something went wrong!</Error.Title>
+        <Error.Description>{error.message}</Error.Description>
+        <Error.Action
+          title="Retry loading access groups"
           auto
           s={2}
           i={2}
           onClick={getYourAccessGroupsAct}
         >
           Try Again
-        </Button>
-      </div>
+        </Error.Action>
+      </Error>
     );
   }
 
@@ -46,10 +56,8 @@ const Content = () => {
         <Empty.Description aria-describedby="empty-title">
           Tap Create to make your first
         </Empty.Description>
-        <Empty.Action>
-          <Button auto onClick={() => changeViewAction("form")} s={2} i={2}>
-            <BiPlus /> Create Group
-          </Button>
+        <Empty.Action auto onClick={() => changeViewAction("form")} s={2} i={2}>
+          <BiPlus /> Create Group
         </Empty.Action>
       </Empty>
     );
