@@ -8,6 +8,7 @@ const useAccessGroupsManagementStore = createSelectors(
     idle: true,
     busy: false,
     error: null,
+    accessGroupToEdit: null,
     accessGroups: [],
   })),
 );

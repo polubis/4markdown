@@ -6,9 +6,11 @@ import { useForm } from "development-kit/use-form";
 import React from "react";
 import { ValidatorFn, ValidatorsSetup } from "development-kit/form";
 import { changeViewAction } from "../store/actions";
-import { BiPlus } from "react-icons/bi";
+import { BiSave } from "react-icons/bi";
 import { createAccessGroupAct } from "../acts/create-access-group.act";
 import { useAct } from "core/act";
+import { useAccessGroupsManagementStore } from "../store";
+import { editAccessGroupAct } from "../acts/edit-access-group.act";
 
 const validationLimits = {
   name: {
@@ -32,8 +34,8 @@ const groupNameValidator: ValidatorFn<string, string> = (value: string) => {
     return `Group name must be at most ${validationLimits.name.max} characters long`;
   }
 
-  if (!/^[a-zA-Z0-9_-]+$/.test(trimmed)) {
-    return `Group name can only contain letters, numbers, underscores, and dashes`;
+  if (!/^[ a-zA-Z0-9_-]+$/.test(trimmed)) {
+    return `Group name can only contain letters, spaces, numbers, underscores, and dashes`;
   }
 
   return null;
@@ -69,13 +71,20 @@ const validators: ValidatorsSetup<FormValues> = {
   description: [groupDescriptionValidator],
 };
 
-const NewGroupContainer = () => {
+const AccessGroupFormContainer = () => {
+  const accessGroupToEdit =
+    useAccessGroupsManagementStore.use.accessGroupToEdit();
   const [{ invalid, values, untouched, result }, { inject }] =
     useForm<FormValues>(
-      {
-        name: "",
-        description: "",
-      },
+      accessGroupToEdit
+        ? {
+            name: accessGroupToEdit.name,
+            description: accessGroupToEdit.description || "",
+          }
+        : {
+            name: "",
+            description: "",
+          },
       validators,
     );
 
@@ -87,17 +96,30 @@ const NewGroupContainer = () => {
 
   const handleSubmit = () => {
     start(() =>
-      createAccessGroupAct({
-        name,
-        description: description || null,
-      }),
+      accessGroupToEdit
+        ? editAccessGroupAct({
+            name,
+            description: description || null,
+            id: accessGroupToEdit.id,
+            etag: accessGroupToEdit.etag,
+          })
+        : createAccessGroupAct({
+            name,
+            description: description || null,
+          }),
     );
   };
 
   return (
     <div className="max-w-md w-full m-auto animate-fade-in">
       <header className="mb-5">
-        <h1 className="text-2xl font-bold mb-1.5">Create New Group</h1>
+        {accessGroupToEdit ? (
+          <h1 className="text-2xl font-bold mb-1.5">
+            Edit Group "{accessGroupToEdit.name}"
+          </h1>
+        ) : (
+          <h1 className="text-2xl font-bold mb-1.5">Create New Group</h1>
+        )}
         <p className="text-sm">
           You'll be able to manage access to your created content. After this
           step you can add users to the group.
@@ -153,7 +175,7 @@ const NewGroupContainer = () => {
             s={2}
             className="flex-1"
             auto
-            title="Cancel group creation"
+            title={`Cancel group ${accessGroupToEdit ? "update" : "creation"}`}
             disabled={busy}
             onClick={() => changeViewAction("list")}
           >
@@ -166,10 +188,10 @@ const NewGroupContainer = () => {
             className="flex-1"
             disabled={busy || invalid || untouched}
             onClick={handleSubmit}
-            title="Create group"
+            title={`Confirm group ${accessGroupToEdit ? "update" : "creation"}`}
           >
-            <BiPlus />
-            Create
+            <BiSave />
+            Confirm
           </Button>
         </div>
       </section>
@@ -177,4 +199,4 @@ const NewGroupContainer = () => {
   );
 };
 
-export { NewGroupContainer };
+export { AccessGroupFormContainer };

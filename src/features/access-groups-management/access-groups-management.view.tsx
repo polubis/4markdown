@@ -1,9 +1,9 @@
 import React from "react";
 import { useAccessGroupsManagementStore } from "./store";
 import { GroupsListContainer } from "./containers/groups-list.container";
-import { NewGroupContainer } from "./containers/new-group.container";
 import { useAuthStore } from "store/auth/auth.store";
 import { Loader } from "design-system/loader";
+import { AccessGroupFormContainer } from "./containers/access-group-form.container";
 
 const ViewsManager = () => {
   const view = useAccessGroupsManagementStore.use.view();
@@ -12,7 +12,7 @@ const ViewsManager = () => {
     return <GroupsListContainer />;
   }
 
-  return <NewGroupContainer />;
+  return <AccessGroupFormContainer />;
 };
 
 const AccessGroupsManagementView = () => {

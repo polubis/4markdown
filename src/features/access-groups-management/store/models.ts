@@ -1,11 +1,14 @@
-import { API4MarkdownDto, ParsedError } from "api-4markdown-contracts";
+import { AccessGroupDto, ParsedError } from "api-4markdown-contracts";
+
+type AccessGroup = AccessGroupDto;
 
 type AccessGroupsManagementState = {
-  view: "list" | "create";
+  view: "list" | "form";
   idle: boolean;
   busy: boolean;
   error: ParsedError | null;
-  accessGroups: API4MarkdownDto<"getYourAccessGroups">["accessGroups"];
+  accessGroupToEdit: AccessGroup | null;
+  accessGroups: AccessGroup[];
 };
 
 export type { AccessGroupsManagementState };

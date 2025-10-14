@@ -294,7 +294,7 @@ type EditAccessGroupContract = Contract<
   {
     name: string;
     description: string | null;
-    accessGroupId: AccessGroupId;
+    id: AccessGroupId;
     etag: Etag;
   }
 >;

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BiPencil, BiPlus, BiUserPlus } from "react-icons/bi";
-import { changeViewAction } from "../store/actions";
+import { changeViewAction, startAccessGroupEditAction } from "../store/actions";
 import { Button } from "design-system/button";
 import { useAccessGroupsManagementStore } from "../store";
 import { getYourAccessGroupsAct } from "../acts/get-your-access-groups.act";
@@ -74,13 +74,18 @@ const Content = () => {
             <p className=" mt-4">{accessGroup.description}</p>
           )}
           <div className="mt-4 flex items-center justify-end gap-1">
-            <div className="mr-auto flex items-center gap-1">
-              <i>24 members in total</i>
+            <div className="mr-auto flex items-center">
+              <i>24/200 members in total</i>
             </div>
             <Button title="Add members to access group" s={1} i={1}>
               <BiUserPlus />
             </Button>
-            <Button title="Edit access group" s={1} i={1}>
+            <Button
+              title="Edit access group"
+              s={1}
+              i={1}
+              onClick={() => startAccessGroupEditAction(accessGroup)}
+            >
               <BiPencil />
             </Button>
           </div>
@@ -105,7 +110,7 @@ const GroupsListContainer = () => {
           title="Create group"
           auto
           onClick={() => {
-            changeViewAction("create");
+            changeViewAction("form");
           }}
         >
           <BiPlus />
