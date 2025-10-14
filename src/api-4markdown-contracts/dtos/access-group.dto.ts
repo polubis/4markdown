@@ -1,4 +1,4 @@
-import { AccessGroupId, Etag, UTCDate } from "../atoms";
+import { AccessGroupId, Etag, UserProfileId, UTCDate } from "../atoms";
 
 type AccessGroupDto = {
   id: AccessGroupId;
@@ -7,6 +7,7 @@ type AccessGroupDto = {
   mdate: UTCDate;
   name: string;
   description: string | null;
+  members: UserProfileId[];
 };
 
 export type { AccessGroupDto };

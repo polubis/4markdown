@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BiPencil, BiPlus, BiUserPlus } from "react-icons/bi";
+import { BiPencil, BiPlus, BiSearch, BiUserPlus } from "react-icons/bi";
 import { changeViewAction, startAccessGroupEditAction } from "../store/actions";
 import { Button } from "design-system/button";
 import { useAccessGroupsManagementStore } from "../store";
@@ -7,7 +7,8 @@ import { getYourAccessGroupsAct } from "../acts/get-your-access-groups.act";
 import { Avatar } from "design-system/avatar";
 import { formatDistance } from "date-fns";
 import { GroupsSkeletonLoader } from "../components/groups-skeleton-loader";
-import { Skeleton } from "design-system/skeleton";
+import { MAX_ACCESS_GROUP_MEMBERS } from "../config/constraints";
+import { Empty } from "design-system/empty";
 
 const Content = () => {
   const now = new Date();
@@ -37,9 +38,20 @@ const Content = () => {
 
   if (accessGroups.length === 0) {
     return (
-      <div className="flex flex-col items-center max-w-md mx-auto animate-fade-in">
-        <p className="text-xl text-center">No access groups found</p>
-      </div>
+      <Empty id="empty-state">
+        <Empty.Icon>
+          <BiSearch size={80} />
+        </Empty.Icon>
+        <Empty.Title id="empty-title">No Access Groups here yet!</Empty.Title>
+        <Empty.Description aria-describedby="empty-title">
+          Tap Create to make your first
+        </Empty.Description>
+        <Empty.Action>
+          <Button auto onClick={() => changeViewAction("form")} s={2} i={2}>
+            <BiPlus /> Create Group
+          </Button>
+        </Empty.Action>
+      </Empty>
     );
   }
 
@@ -75,7 +87,10 @@ const Content = () => {
           )}
           <div className="mt-4 flex items-center justify-end gap-1">
             <div className="mr-auto flex items-center">
-              <i>24/200 members in total</i>
+              <i>
+                {accessGroup.members.length}/{MAX_ACCESS_GROUP_MEMBERS} members
+                in total
+              </i>
             </div>
             <Button title="Add members to access group" s={1} i={1}>
               <BiUserPlus />
@@ -108,13 +123,11 @@ const GroupsListContainer = () => {
           i={2}
           s={2}
           title="Create group"
-          auto
           onClick={() => {
             changeViewAction("form");
           }}
         >
           <BiPlus />
-          Create
         </Button>
       </header>
       <section className="mt-10">
