@@ -302,6 +302,15 @@ type EditAccessGroupContract = Contract<
   }
 >;
 
+type GetAccessGroupContract = Contract<
+  "getAccessGroup",
+  Pick<
+    AccessGroupDto,
+    "cdate" | "description" | "etag" | "id" | "mdate" | "name"
+  > & { members: UserProfileDto[] },
+  { id: AccessGroupId }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -334,7 +343,8 @@ type API4MarkdownContracts =
   | SetUserResourceCompletionContract
   | GetYourAccessGroupsContract
   | CreateAccessGroupContract
-  | EditAccessGroupContract;
+  | EditAccessGroupContract
+  | GetAccessGroupContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

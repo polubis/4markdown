@@ -7,27 +7,28 @@ type Idle = ["idle"];
 type Busy = ["busy"];
 type Ok<TData> = ["ok", TData];
 type Fail = ["fail", ParsedError, RawError];
-type ActState<TData> = Idle | Busy | Ok<TData> | Fail;
+type MutationState<TData> = Idle | Busy | Ok<TData> | Fail;
 type Handler<TData> = (signal: AbortSignal) => Promise<TData>;
 
-type ActConfig<TData> = {
+type MutationConfig<TData> = {
+  handler?: Handler<TData>;
   onBusy?: () => void;
   onOk?: (data: TData) => void;
   onFail?: (error: ParsedError, rawError: RawError) => void;
 };
 
-const initialState: ActState<unknown> = ["idle"];
+const initialState: MutationState<unknown> = ["idle"];
 
-const useAct = <TData>(config: ActConfig<TData> = {}) => {
-  const { onBusy, onOk, onFail } = config;
-  const [state, setState] = React.useState<ActState<TData>>(initialState);
+const useMutation = <TData>(config: MutationConfig<TData> = {}) => {
+  const { onBusy, onOk, onFail, handler } = config;
+  const [state, setState] = React.useState<MutationState<TData>>(initialState);
 
-  const configRef = React.useRef<ActConfig<TData>>(config);
+  const configRef = React.useRef<MutationConfig<TData>>(config);
   const abortRef = React.useRef<AbortController>();
 
   React.useEffect(() => {
     configRef.current = config;
-  }, [onBusy, onOk, onFail]);
+  }, [onBusy, onOk, onFail, handler]);
 
   React.useEffect(() => {
     return () => {
@@ -36,16 +37,22 @@ const useAct = <TData>(config: ActConfig<TData> = {}) => {
   }, []);
 
   const start = React.useCallback(
-    async (handler: Handler<TData>): Promise<void> => {
+    async (handler?: Handler<TData>): Promise<void> => {
       abortRef.current?.abort();
 
       const controller = new AbortController();
       abortRef.current = controller;
 
       try {
+        const finalHandler = handler || configRef.current.handler;
+
+        if (!finalHandler) {
+          throw new Error("Handler is required");
+        }
+
         setState(["busy"]);
         configRef.current.onBusy?.();
-        const data = await handler(controller.signal);
+        const data = await finalHandler(controller.signal);
 
         if (controller.signal.aborted) return;
 
@@ -62,14 +69,26 @@ const useAct = <TData>(config: ActConfig<TData> = {}) => {
     [setState],
   );
 
+  const abort = React.useCallback(
+    (reset = false) => {
+      abortRef.current?.abort();
+
+      if (reset) {
+        setState(initialState);
+      }
+    },
+    [setState],
+  );
+
   const [status] = state;
   const idle = status === "idle";
   const busy = status === "busy";
+  const blocked = busy || idle;
   const ok = status === "ok";
   const fail = status === "fail";
 
-  return [state, { idle, busy, ok, fail }, start] as const;
+  return { idle, busy, blocked, ok, fail, state, status, start, abort };
 };
 
-export type { ActState, ActConfig };
-export { useAct };
+export type { MutationState, MutationConfig };
+export { useMutation };

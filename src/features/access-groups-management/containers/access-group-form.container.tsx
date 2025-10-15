@@ -8,7 +8,7 @@ import { ValidatorFn, ValidatorsSetup } from "development-kit/form";
 import { changeViewAction } from "../store/actions";
 import { BiSave } from "react-icons/bi";
 import { createAccessGroupAct } from "../acts/create-access-group.act";
-import { useAct } from "core/act";
+import { useMutation } from "core/use-mutation";
 import { useAccessGroupsManagementStore } from "../store";
 import { editAccessGroupAct } from "../acts/edit-access-group.act";
 
@@ -90,12 +90,8 @@ const AccessGroupFormContainer = () => {
 
   const { name, description } = values;
 
-  const [, { busy }, start] = useAct({
-    onOk: () => changeViewAction("list"),
-  });
-
-  const handleSubmit = () => {
-    start(() =>
+  const mutation = useMutation({
+    handler: () =>
       accessGroupToEdit
         ? editAccessGroupAct({
             name,
@@ -107,7 +103,11 @@ const AccessGroupFormContainer = () => {
             name,
             description: description || null,
           }),
-    );
+    onOk: () => changeViewAction("list"),
+  });
+
+  const handleSubmit = () => {
+    mutation.start();
   };
 
   return (
@@ -176,7 +176,7 @@ const AccessGroupFormContainer = () => {
             className="flex-1"
             auto
             title={`Cancel group ${accessGroupToEdit ? "update" : "creation"}`}
-            disabled={busy}
+            disabled={mutation.busy}
             onClick={() => changeViewAction("list")}
           >
             Cancel
@@ -186,7 +186,7 @@ const AccessGroupFormContainer = () => {
             s={2}
             auto
             className="flex-1"
-            disabled={busy || invalid || untouched}
+            disabled={mutation.busy || invalid || untouched}
             onClick={handleSubmit}
             title={`Confirm group ${accessGroupToEdit ? "update" : "creation"}`}
           >
