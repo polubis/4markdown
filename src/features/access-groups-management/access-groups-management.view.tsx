@@ -4,12 +4,17 @@ import { GroupsListContainer } from "./containers/groups-list.container";
 import { useAuthStore } from "store/auth/auth.store";
 import { Loader } from "design-system/loader";
 import { AccessGroupFormContainer } from "./containers/access-group-form.container";
+import { MembersManagementContainer } from "./containers/members-management.container";
 
 const ViewsManager = () => {
   const view = useAccessGroupsManagementStore.use.view();
 
   if (view === "list") {
     return <GroupsListContainer />;
+  }
+
+  if (view === "members") {
+    return <MembersManagementContainer />;
   }
 
   return <AccessGroupFormContainer />;

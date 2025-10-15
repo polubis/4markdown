@@ -6,7 +6,11 @@ import {
   BiSearch,
   BiUserPlus,
 } from "react-icons/bi";
-import { changeViewAction, startAccessGroupEditAction } from "../store/actions";
+import {
+  changeViewAction,
+  startAccessGroupEditAction,
+  startAccessGroupMembersEditAction,
+} from "../store/actions";
 import { Button } from "design-system/button";
 import { useAccessGroupsManagementStore } from "../store";
 import { getYourAccessGroupsAct } from "../acts/get-your-access-groups.act";
@@ -100,7 +104,12 @@ const Content = () => {
                 in total
               </i>
             </div>
-            <Button title="Add members to access group" s={1} i={1}>
+            <Button
+              title="Add members to access group"
+              s={1}
+              i={1}
+              onClick={() => startAccessGroupMembersEditAction(accessGroup)}
+            >
               <BiUserPlus />
             </Button>
             <Button

@@ -31,9 +31,19 @@ const startAccessGroupEditAction = (accessGroup: AccessGroupDto): void => {
   });
 };
 
+const startAccessGroupMembersEditAction = (
+  accessGroup: AccessGroupDto,
+): void => {
+  useAccessGroupsManagementStore.setState({
+    accessGroupToEdit: accessGroup,
+    view: "members",
+  });
+};
+
 export {
   changeViewAction,
   addAccessGroupAction,
   startAccessGroupEditAction,
   updateAccessGroupAction,
+  startAccessGroupMembersEditAction,
 };
