@@ -3,10 +3,10 @@ import { ParsedError } from "api-4markdown-contracts";
 import React from "react";
 
 type RawError = unknown;
-type Idle = ["idle"];
-type Busy = ["busy"];
-type Ok<TData> = ["ok", TData];
-type Fail = ["fail", ParsedError, RawError];
+type Idle = { is: "idle" };
+type Busy = { is: "busy" };
+type Ok<TData> = { is: "ok"; data: TData };
+type Fail = { is: "fail"; error: ParsedError; rawError: RawError };
 type MutationState<TData> = Idle | Busy | Ok<TData> | Fail;
 type Handler<TData> = (signal: AbortSignal) => Promise<TData>;
 
@@ -17,7 +17,7 @@ type MutationConfig<TData> = {
   onFail?: (error: ParsedError, rawError: RawError) => void;
 };
 
-const initialState: MutationState<unknown> = ["idle"];
+const initialState: MutationState<unknown> = { is: "idle" };
 
 const useMutation = <TData>(config: MutationConfig<TData> = {}) => {
   const { onBusy, onOk, onFail, handler } = config;
@@ -50,19 +50,19 @@ const useMutation = <TData>(config: MutationConfig<TData> = {}) => {
           throw new Error("Handler is required");
         }
 
-        setState(["busy"]);
+        setState({ is: "busy" });
         configRef.current.onBusy?.();
         const data = await finalHandler(controller.signal);
 
         if (controller.signal.aborted) return;
 
-        setState(["ok", data]);
+        setState({ is: "ok", data });
         configRef.current.onOk?.(data);
       } catch (error) {
         if (controller.signal.aborted) return;
 
         const parsedError = parseError(error);
-        setState(["fail", parsedError, error]);
+        setState({ is: "fail", error: parsedError, rawError: error });
         configRef.current.onFail?.(parsedError, error);
       }
     },
@@ -80,14 +80,7 @@ const useMutation = <TData>(config: MutationConfig<TData> = {}) => {
     [setState],
   );
 
-  const [status] = state;
-  const idle = status === "idle";
-  const busy = status === "busy";
-  const blocked = busy || idle;
-  const ok = status === "ok";
-  const fail = status === "fail";
-
-  return { idle, busy, blocked, ok, fail, state, status, start, abort };
+  return { ...state, start, abort };
 };
 
 export type { MutationState, MutationConfig };

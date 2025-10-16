@@ -17,9 +17,9 @@ const SelectedUsersSkeletonLoader = ({
       {Array.from({ length: 4 }).map((_, index) => (
         <div
           key={index}
-          className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg"
+          className="p-4 rounded-lg border border-zinc-300 dark:border-zinc-800"
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <Skeleton className="shrink-0 w-8 h-8 rounded-full" />
             <div className="flex-1 min-w-0">
               <Skeleton className="h-4 w-3/4 mb-1" />

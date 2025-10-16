@@ -176,7 +176,7 @@ const AccessGroupFormContainer = () => {
             className="flex-1"
             auto
             title={`Cancel group ${accessGroupToEdit ? "update" : "creation"}`}
-            disabled={mutation.busy}
+            disabled={mutation.is === "busy"}
             onClick={() => changeViewAction("list")}
           >
             Cancel
@@ -186,7 +186,7 @@ const AccessGroupFormContainer = () => {
             s={2}
             auto
             className="flex-1"
-            disabled={mutation.busy || invalid || untouched}
+            disabled={mutation.is === "busy" || invalid || untouched}
             onClick={handleSubmit}
             title={`Confirm group ${accessGroupToEdit ? "update" : "creation"}`}
           >

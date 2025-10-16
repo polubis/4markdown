@@ -311,6 +311,15 @@ type GetAccessGroupContract = Contract<
   { id: AccessGroupId }
 >;
 
+type FindUserProfilesContract = Contract<
+  "findUserProfiles",
+  {
+    hasMore: boolean;
+    userProfiles: UserProfileDto[];
+  },
+  { query: string; by: "displayName" | "id"; limit?: number }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -344,7 +353,8 @@ type API4MarkdownContracts =
   | GetYourAccessGroupsContract
   | CreateAccessGroupContract
   | EditAccessGroupContract
-  | GetAccessGroupContract;
+  | GetAccessGroupContract
+  | FindUserProfilesContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

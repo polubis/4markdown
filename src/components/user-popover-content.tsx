@@ -5,7 +5,6 @@ import {
   BiPencil,
   BiRefresh,
   BiSolidUserDetail,
-  BiWorld,
 } from "react-icons/bi";
 import { useConfirm } from "development-kit/use-confirm";
 import { Modal } from "design-system/modal";
