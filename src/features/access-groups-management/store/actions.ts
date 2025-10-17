@@ -40,10 +40,20 @@ const startAccessGroupMembersEditAction = (
   });
 };
 
+const removeAccessGroupAction = (accessGroup: AccessGroupDto): void => {
+  useAccessGroupsManagementStore.setState((prevState) => ({
+    ...prevState,
+    accessGroups: prevState.accessGroups.filter(
+      (group) => group.id !== accessGroup.id,
+    ),
+  }));
+};
+
 export {
   changeViewAction,
   addAccessGroupAction,
   startAccessGroupEditAction,
   updateAccessGroupAction,
   startAccessGroupMembersEditAction,
+  removeAccessGroupAction,
 };

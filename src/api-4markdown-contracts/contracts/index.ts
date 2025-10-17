@@ -338,6 +338,12 @@ type RemoveAccessGroupMemberContract = Contract<
   { id: AccessGroupId; memberProfileId: UserProfileId; etag: Etag }
 >;
 
+type RemoveAccessGroupContract = Contract<
+  "removeAccessGroup",
+  null,
+  { id: AccessGroupId }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -374,7 +380,8 @@ type API4MarkdownContracts =
   | GetAccessGroupContract
   | FindUserProfilesContract
   | AddAccessGroupMemberContract
-  | RemoveAccessGroupMemberContract;
+  | RemoveAccessGroupMemberContract
+  | RemoveAccessGroupContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
