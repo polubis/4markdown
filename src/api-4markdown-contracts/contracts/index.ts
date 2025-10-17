@@ -320,6 +320,24 @@ type FindUserProfilesContract = Contract<
   { query: string; by: "displayName" | "id"; limit?: number }
 >;
 
+type AddAccessGroupMemberContract = Contract<
+  "addAccessGroupMember",
+  Pick<
+    AccessGroupDto,
+    "mdate" | "etag" | "id" | "cdate" | "description" | "name"
+  > & { member: UserProfileDto },
+  { id: AccessGroupId; memberProfileId: UserProfileId; etag: Etag }
+>;
+
+type RemoveAccessGroupMemberContract = Contract<
+  "removeAccessGroupMember",
+  Pick<
+    AccessGroupDto,
+    "mdate" | "etag" | "id" | "cdate" | "description" | "name"
+  > & { member: UserProfileDto },
+  { id: AccessGroupId; memberProfileId: UserProfileId; etag: Etag }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -354,7 +372,9 @@ type API4MarkdownContracts =
   | CreateAccessGroupContract
   | EditAccessGroupContract
   | GetAccessGroupContract
-  | FindUserProfilesContract;
+  | FindUserProfilesContract
+  | AddAccessGroupMemberContract
+  | RemoveAccessGroupMemberContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

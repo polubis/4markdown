@@ -87,7 +87,19 @@ const useQuery = <TData>(config: QueryConfig<TData> = {}) => {
     [setState],
   );
 
-  return { ...state, start, abort };
+  const setData = React.useCallback(
+    (data: Partial<TData>) => {
+      setState((prev) => {
+        if (prev.is === "ok") {
+          return { is: "ok", data: { ...prev.data, ...data } };
+        }
+        return prev;
+      });
+    },
+    [setState],
+  );
+
+  return { ...state, start, abort, setData };
 };
 
 export { useQuery };
