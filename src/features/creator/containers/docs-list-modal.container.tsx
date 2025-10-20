@@ -1,6 +1,6 @@
 import { Button } from "design-system/button";
 import React from "react";
-import { BiLowVision, BiRefresh, BiShow, BiWorld } from "react-icons/bi";
+import { BiRefresh } from "react-icons/bi";
 import { docStoreActions, useDocStore } from "store/doc/doc.store";
 import { type DocsStoreOkState, useDocsStore } from "store/docs/docs.store";
 import c from "classnames";
@@ -10,6 +10,7 @@ import { reloadYourDocuments } from "actions/reload-your-documents.action";
 import type { API4MarkdownDto } from "api-4markdown-contracts";
 import { Modal2 } from "design-system/modal2";
 import { Loader } from "design-system/loader";
+import { VisibilityIcon } from "components/visibility-icon";
 
 const rangeFilters = [`Recent`, `Older`, `Old`] as const;
 
@@ -106,18 +107,10 @@ const DocsListModalContainer = ({ onClose }: { onClose(): void }) => {
                         {` `}
                         ago
                       </span>
-                      {doc.visibility === `private` && (
-                        <BiLowVision
-                          size="20"
-                          title="This document is private"
-                        />
-                      )}
-                      {doc.visibility === `public` && (
-                        <BiShow size="20" title="This document is public" />
-                      )}
-                      {doc.visibility === `permanent` && (
-                        <BiWorld size="20" title="This document is permanent" />
-                      )}
+                      <VisibilityIcon
+                        visibility={doc.visibility}
+                        className="size-5 shrink-0"
+                      />
                     </div>
                     <strong>{doc.name}</strong>
                   </li>

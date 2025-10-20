@@ -1,5 +1,6 @@
 import { getAPI, parseError, setCache } from "api-4markdown";
 import type { AccessGroupId, MindmapDto } from "api-4markdown-contracts";
+import { AsyncResult } from "development-kit/utility-types";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
   readyMindmapsSelector,
@@ -9,7 +10,7 @@ import {
 const updateMindmapVisibilityAct = async (
   visibility: MindmapDto["visibility"],
   sharedForGroups?: AccessGroupId[],
-): Promise<void> => {
+): AsyncResult => {
   try {
     useMindmapCreatorState.set({ operation: { is: `busy` } });
 
@@ -56,10 +57,14 @@ const updateMindmapVisibilityAct = async (
       mindmaps: newMindmaps,
       mindmapsCount: newMindmaps.length,
     });
+
+    return { is: "ok" };
   } catch (error: unknown) {
+    const parsed = parseError(error);
     useMindmapCreatorState.set({
-      operation: { is: `fail`, error: parseError(error) },
+      operation: { is: `fail`, error: parsed },
     });
+    return { is: `fail`, error: parsed };
   }
 };
 

@@ -16,6 +16,12 @@ import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
 import { VisibilityIcon } from "components/visibility-icon";
 
+const AccessGroupsAssignModule = React.lazy(() =>
+  import("modules/access-groups-assign").then((m) => ({
+    default: m.AccessGroupsAssignModule,
+  })),
+);
+
 interface DocumentDetailsContainerProps {
   onClose(): void;
   onOpen(): void;
@@ -64,6 +70,22 @@ const DocumentDetailsContainer = ({
           onConfirm={publicConfirmation.off}
           onCancel={publicConfirmation.off}
         />
+      )}
+
+      {manualConfirmation.isOn && (
+        <React.Suspense>
+          <AccessGroupsAssignModule
+            accessGroups={docStore.sharedForGroups}
+            disabled={disabled}
+            onBack={manualConfirmation.off}
+            onClose={onClose}
+            onConfirm={() => {
+              alert(
+                "Currently this feature is off ;/. We're working to make it back.",
+              );
+            }}
+          />
+        </React.Suspense>
       )}
 
       {permanentConfirmation.isOff &&
@@ -205,4 +227,4 @@ const DocumentDetailsContainer = ({
   );
 };
 
-export default DocumentDetailsContainer;
+export { DocumentDetailsContainer };

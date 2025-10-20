@@ -11,17 +11,13 @@ import { meta } from "../../../meta";
 import { useQuery } from "core/use-query";
 import { Search } from "design-system/search-input";
 import { getYourAccessGroupsAct } from "./acts/get-your-access-groups.act";
-import {
-  AccessGroupId,
-  API4MarkdownDto,
-  MindmapDto,
-} from "api-4markdown-contracts";
+import { AccessGroupId, API4MarkdownDto } from "api-4markdown-contracts";
 import { formatDistance } from "date-fns";
 import { Avatar } from "design-system/avatar";
 import { c } from "design-system/c";
 
 type AccessGroupsAssignModuleProps = {
-  resource: MindmapDto;
+  accessGroups?: AccessGroupId[];
   disabled: boolean;
   onClose(): void;
   onBack(): void;
@@ -29,7 +25,7 @@ type AccessGroupsAssignModuleProps = {
 };
 
 const AccessGroupsAssignModule = ({
-  resource,
+  accessGroups,
   disabled,
   onBack,
   onClose,
@@ -43,7 +39,7 @@ const AccessGroupsAssignModule = ({
 
   const [selectedGroups, setSelectedGroups] = React.useState<
     Set<AccessGroupId>
-  >(() => new Set(resource.sharedForGroups || []));
+  >(() => new Set(accessGroups || []));
 
   const [query, setQuery] = React.useState("");
 
