@@ -23,7 +23,7 @@ import { formatDistance } from "date-fns";
 import { GroupsSkeletonLoader } from "../components/groups-skeleton-loader";
 import { MAX_ACCESS_GROUP_MEMBERS } from "../config/constraints";
 import { Empty } from "design-system/empty";
-import { Error as ErrorComponent } from "design-system/error";
+import { Err } from "design-system/err";
 import { useFeature } from "@greenonsoftware/react-kit";
 import { AccessGroupDto, ParsedError } from "api-4markdown-contracts";
 import { Modal2 } from "design-system/modal2";
@@ -69,13 +69,13 @@ const Content = () => {
 
   if (error) {
     return (
-      <ErrorComponent>
-        <ErrorComponent.Icon>
+      <Err>
+        <Err.Icon>
           <BiError size={80} />
-        </ErrorComponent.Icon>
-        <ErrorComponent.Title>Something went wrong!</ErrorComponent.Title>
-        <ErrorComponent.Description>{error.message}</ErrorComponent.Description>
-        <ErrorComponent.Action
+        </Err.Icon>
+        <Err.Title>Something went wrong!</Err.Title>
+        <Err.Description>{error.message}</Err.Description>
+        <Err.Action
           title="Retry loading access groups"
           auto
           s={2}
@@ -83,8 +83,8 @@ const Content = () => {
           onClick={getYourAccessGroupsAct}
         >
           Try Again
-        </ErrorComponent.Action>
-      </ErrorComponent>
+        </Err.Action>
+      </Err>
     );
   }
 
@@ -114,15 +114,13 @@ const Content = () => {
             closeButtonTitle="Close error screen"
           />
           <Modal2.Body>
-            <ErrorComponent>
-              <ErrorComponent.Icon>
+            <Err>
+              <Err.Icon>
                 <BiError size={80} />
-              </ErrorComponent.Icon>
-              <ErrorComponent.Title>Something went wrong!</ErrorComponent.Title>
-              <ErrorComponent.Description>
-                {errorModal.data.message}
-              </ErrorComponent.Description>
-            </ErrorComponent>
+              </Err.Icon>
+              <Err.Title>Something went wrong!</Err.Title>
+              <Err.Description>{errorModal.data.message}</Err.Description>
+            </Err>
           </Modal2.Body>
           <Modal2.Footer className="flex justify-end gap-2">
             <Button i={1} s={2} auto title="Close" onClick={errorModal.off}>

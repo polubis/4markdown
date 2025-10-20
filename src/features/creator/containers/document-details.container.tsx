@@ -15,6 +15,7 @@ import { meta } from "../../../../meta";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
 import { VisibilityIcon } from "components/visibility-icon";
+import { updateDocumentVisibilityAct } from "../acts/update-document-visibility.act";
 
 const AccessGroupsAssignModule = React.lazy(() =>
   import("modules/access-groups-assign").then((m) => ({
@@ -79,10 +80,15 @@ const DocumentDetailsContainer = ({
             disabled={disabled}
             onBack={manualConfirmation.off}
             onClose={onClose}
-            onConfirm={() => {
-              alert(
-                "Currently this feature is off ;/. We're working to make it back.",
-              );
+            onConfirm={async (accessGroups) => {
+              const result = await updateDocumentVisibilityAct({
+                visibility: "manual",
+                accessGroups,
+              });
+
+              if (result.is === "ok") {
+                manualConfirmation.off();
+              }
             }}
           />
         </React.Suspense>

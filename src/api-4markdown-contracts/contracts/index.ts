@@ -28,6 +28,7 @@ import type {
   YourAccountDto,
   CommentDto,
   ResourceCompletionDto,
+  ManualDocumentDto,
 } from "../dtos";
 import { AccessGroupDto } from "../dtos/access-group.dto";
 // @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
@@ -173,12 +174,14 @@ type UpdateDocumentVisibilityContract = Contract<
   | PrivateDocumentDto
   | Omit<PublicDocumentDto, "author" | "rating">
   | Omit<PermanentDocumentDto, "author" | "rating">,
+  | Omit<ManualDocumentDto, "author" | "rating">
   | Pick<PrivateDocumentDto, "id" | "mdate" | "visibility">
   | Pick<PublicDocumentDto, "id" | "mdate" | "visibility">
   | Pick<
       PermanentDocumentDto,
       "id" | "mdate" | "visibility" | "description" | "tags" | "name"
     >
+  | Pick<ManualDocumentDto, "id" | "mdate" | "visibility">
 >;
 
 type UploadImageContract = Contract<

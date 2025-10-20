@@ -11,7 +11,7 @@ import { MAX_ACCESS_GROUP_MEMBERS } from "../config/constraints";
 import { SelectedUsersSkeletonLoader } from "../components/selected-users-skeleton-loader";
 import { useQuery } from "core/use-query";
 import { getAccessGroupAct } from "../acts/get-access-group.act";
-import { Error as ErrorComponent } from "design-system/error";
+import { Err } from "design-system/err";
 import { useTypeaheadQuery } from "core/use-typeahead-query";
 import { findUserProfilesAct } from "../acts/find-user-profiles.act";
 import {
@@ -205,14 +205,12 @@ const MembersManagementContainer = () => {
             closeButtonTitle="Close error screen"
           />
           <Modal2.Body>
-            <ErrorComponent className="py-4">
-              <ErrorComponent.Icon>
+            <Err className="py-4">
+              <Err.Icon>
                 <BiError size={80} />
-              </ErrorComponent.Icon>
-              <ErrorComponent.Title>
-                Ups! Something went wrong
-              </ErrorComponent.Title>
-              <ErrorComponent.Description
+              </Err.Icon>
+              <Err.Title>Ups! Something went wrong</Err.Title>
+              <Err.Description
                 className={
                   errorModal.data.symbol === "out-of-date" ? "mt-0" : ""
                 }
@@ -226,9 +224,9 @@ const MembersManagementContainer = () => {
                 ) : (
                   <>{errorModal.data.message}</>
                 )}
-              </ErrorComponent.Description>
+              </Err.Description>
               {errorModal.data.symbol === "out-of-date" && (
-                <ErrorComponent.Action
+                <Err.Action
                   title="Reload Group Data"
                   auto
                   s={2}
@@ -239,9 +237,9 @@ const MembersManagementContainer = () => {
                   }}
                 >
                   Reload Group Data
-                </ErrorComponent.Action>
+                </Err.Action>
               )}
-            </ErrorComponent>
+            </Err>
           </Modal2.Body>
           <Modal2.Footer className="flex justify-end gap-2">
             <Button i={1} s={2} auto title="Close" onClick={errorModal.off}>
@@ -401,17 +399,15 @@ const MembersManagementContainer = () => {
               )}
               {typeaheadQuery.is === "fail" && (
                 <li>
-                  <ErrorComponent className="py-4">
-                    <ErrorComponent.Icon>
+                  <Err className="py-4">
+                    <Err.Icon>
                       <BiError size={80} />
-                    </ErrorComponent.Icon>
-                    <ErrorComponent.Title>
-                      Something went wrong!
-                    </ErrorComponent.Title>
-                    <ErrorComponent.Description className="mb-0">
+                    </Err.Icon>
+                    <Err.Title>Something went wrong!</Err.Title>
+                    <Err.Description className="mb-0">
                       {typeaheadQuery.error.message}
-                    </ErrorComponent.Description>
-                  </ErrorComponent>
+                    </Err.Description>
+                  </Err>
                 </li>
               )}
             </Search.List>
@@ -423,15 +419,13 @@ const MembersManagementContainer = () => {
             <SelectedUsersSkeletonLoader />
           )}
           {groupQuery.is === "fail" && (
-            <ErrorComponent>
-              <ErrorComponent.Icon>
+            <Err>
+              <Err.Icon>
                 <BiError size={80} />
-              </ErrorComponent.Icon>
-              <ErrorComponent.Title>Something went wrong!</ErrorComponent.Title>
-              <ErrorComponent.Description>
-                {groupQuery.error.message}
-              </ErrorComponent.Description>
-              <ErrorComponent.Action
+              </Err.Icon>
+              <Err.Title>Something went wrong!</Err.Title>
+              <Err.Description>{groupQuery.error.message}</Err.Description>
+              <Err.Action
                 title="Retry loading access groups"
                 auto
                 s={2}
@@ -439,8 +433,8 @@ const MembersManagementContainer = () => {
                 onClick={() => groupQuery.start()}
               >
                 Try Again
-              </ErrorComponent.Action>
-            </ErrorComponent>
+              </Err.Action>
+            </Err>
           )}
           {groupQuery.is === "ok" && (
             <>

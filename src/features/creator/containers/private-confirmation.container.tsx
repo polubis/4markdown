@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "design-system/button";
 import { Modal2 } from "design-system/modal2";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
-import { updateDocumentVisibility } from "actions/update-document-visibility.action";
+import { updateDocumentVisibilityAct } from "../acts/update-document-visibility.act";
 
 interface PrivateConfirmationContainerProps {
   onCancel(): void;
@@ -18,10 +18,10 @@ const PrivateConfirmationContainer = ({
   const disabled = docManagementStore.is === `busy`;
 
   const handleConfirm = async (): Promise<void> => {
-    try {
-      await updateDocumentVisibility({ visibility: `private` });
+    const result = await updateDocumentVisibilityAct({ visibility: `private` });
+    if (result.is === "ok") {
       onConfirm();
-    } catch {}
+    }
   };
 
   return (

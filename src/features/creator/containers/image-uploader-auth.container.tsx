@@ -1,5 +1,5 @@
 import { Button } from "design-system/button";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import { useFileInput } from "development-kit/use-file-input";
 import React from "react";
 import ErrorModal from "components/error-modal";
@@ -89,26 +89,30 @@ const ImageUploaderAuthContainer = () => {
       {uploadImageStatus.is === `busy` && <Status>Uploading image...</Status>}
 
       {uploadImageStatus.is === `ok` && (
-        <Modal onClose={close}>
-          <Modal.Header
+        <Modal2 onClose={close}>
+          <Modal2.Header
             title="Image uploaded ✅"
             closeButtonTitle="Close image upload"
           />
-          <p>
-            To use <strong>uploaded image</strong> in markdown editor click
-            below button.
-          </p>
-          <Button
-            title="Copy image link"
-            className="capitalize mt-8 ml-auto"
-            auto
-            s={2}
-            i={2}
-            onClick={copyAndClose}
-          >
-            Copy Link
-          </Button>
-        </Modal>
+          <Modal2.Body>
+            <p>
+              To use <strong>uploaded image</strong> in markdown editor click
+              below button.
+            </p>
+          </Modal2.Body>
+          <Modal2.Footer>
+            <Button
+              title="Copy image link"
+              className="capitalize ml-auto"
+              auto
+              s={2}
+              i={2}
+              onClick={copyAndClose}
+            >
+              Copy Link
+            </Button>
+          </Modal2.Footer>
+        </Modal2>
       )}
 
       {uploadImageStatus.is === `fail` && (
