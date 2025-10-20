@@ -52,9 +52,6 @@ const Avatar = ({ className, size, src, char, alt, title }: AvatarProps) => {
           className={c(
             `capitalize font-bold text-black dark:text-white`,
             {
-              "text-xs": size === `tn`,
-            },
-            {
               "text-xl": size === `sm`,
             },
             {

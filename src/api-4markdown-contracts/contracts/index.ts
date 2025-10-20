@@ -114,7 +114,7 @@ type DeleteMindmapContract = Contract<
 type UpdateMindmapVisibilityContract = Contract<
   `updateMindmapVisibility`,
   Pick<MindmapDto, "mdate">,
-  Pick<MindmapDto, "mdate" | "id" | "visibility">
+  Pick<MindmapDto, "mdate" | "id" | "visibility" | "sharedForGroups">
 >;
 
 type UpdateMindmapContract = Contract<

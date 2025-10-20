@@ -1,13 +1,7 @@
 import { Button } from "design-system/button";
 import { Modal } from "design-system/modal";
 import React from "react";
-import {
-  BiErrorAlt,
-  BiLowVision,
-  BiRefresh,
-  BiShow,
-  BiWorld,
-} from "react-icons/bi";
+import { BiErrorAlt, BiRefresh } from "react-icons/bi";
 import c from "classnames";
 import { differenceInDays, formatDistance } from "date-fns";
 import { Tabs } from "design-system/tabs";
@@ -20,6 +14,7 @@ import {
 } from "store/mindmap-creator/actions";
 import { reloadYourMindmapsAct } from "acts/reload-your-mindmaps.act";
 import { Loader } from "design-system/loader";
+import { VisibilityIcon } from "components/visibility-icon";
 
 const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
 
@@ -90,15 +85,10 @@ const YourMindmapsContentContainer = () => {
                   {` `}
                   ago
                 </span>
-                {mindmap.visibility === `private` && (
-                  <BiLowVision size="20" title="This mindmap is private" />
-                )}
-                {mindmap.visibility === `public` && (
-                  <BiShow size="20" title="This mindmap is public" />
-                )}
-                {mindmap.visibility === `permanent` && (
-                  <BiWorld size="20" title="This mindmap is permanent" />
-                )}
+                <VisibilityIcon
+                  visibility={mindmap.visibility}
+                  className="size-6 shrink-0"
+                />
               </div>
               <strong>{mindmap.name}</strong>
             </li>
