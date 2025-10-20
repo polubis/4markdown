@@ -22,12 +22,7 @@ import { createPathForMindmap } from "core/create-path-for-mindmap";
 import { context } from "@greenonsoftware/react-kit";
 import { VisibilityIcon } from "components/visibility-icon";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
-
-const AccessGroupsAssignModule = React.lazy(() =>
-  import("modules/access-groups-assign").then((m) => ({
-    default: m.AccessGroupsAssignModule,
-  })),
-);
+import { AccessGroupsAssignModule } from "modules/access-groups-assign";
 
 const enum ViewType {
   Details = `details`,
@@ -296,24 +291,22 @@ const MindmapDetailsModalContainer = () => {
   }
 
   return (
-    <React.Suspense>
-      <AccessGroupsAssignModule
-        accessGroups={activeMindmap.sharedForGroups}
-        disabled={disabled}
-        onBack={() => setView(ViewType.Details)}
-        onClose={closeMindmapDetailsAction}
-        onConfirm={async (sharedForGroups) => {
-          const result = await updateMindmapVisibilityAct(
-            "manual",
-            sharedForGroups,
-          );
+    <AccessGroupsAssignModule
+      accessGroups={activeMindmap.sharedForGroups}
+      disabled={disabled}
+      onBack={() => setView(ViewType.Details)}
+      onClose={closeMindmapDetailsAction}
+      onConfirm={async (sharedForGroups) => {
+        const result = await updateMindmapVisibilityAct(
+          "manual",
+          sharedForGroups,
+        );
 
-          if (result.is === "ok") {
-            setView(ViewType.Details);
-          }
-        }}
-      />
-    </React.Suspense>
+        if (result.is === "ok") {
+          setView(ViewType.Details);
+        }
+      }}
+    />
   );
 };
 
