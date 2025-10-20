@@ -1,8 +1,10 @@
 import type {
+  AccessGroupId,
   Date,
   Id,
   MarkdownContent,
   Path,
+  ResourceVisibility,
   Tags,
   Url,
 } from "api-4markdown-contracts";
@@ -53,11 +55,12 @@ type MindmapDto = {
   cdate: Date;
   mdate: Date;
   name: string;
+  sharedForGroups?: AccessGroupId[];
   orientation: `x` | `y`;
   path: Path;
   nodes: MindmapNode[];
   edges: MindmapEdge[];
-  visibility: `private` | `public` | `permanent`;
+  visibility: ResourceVisibility;
   description: string | null;
   tags: Tags | null;
 };

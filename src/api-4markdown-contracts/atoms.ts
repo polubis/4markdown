@@ -5,6 +5,8 @@ type Id = string;
 type Name = string;
 type MarkdownCode = string;
 type Date = string;
+type UTCDate = Brand<string, `UTCDate`>;
+type Etag = Brand<string, `Etag`>;
 type Tags = string[];
 type Path = string;
 type MarkdownContent = string;
@@ -19,13 +21,24 @@ type DocumentId = Brand<Id, `DocumentId`>;
 type MindmapNodeId = Brand<SUID, `MindmapNodeId`>;
 type MindmapId = Brand<Id, `MindmapId`>;
 
+type AccessGroupId = Brand<Id, `AccessGroupId`>;
+
 type ResourceId = DocumentId | MindmapNodeId | MindmapId;
+
+const RESOURCE_VISIBILITIES = [
+  "private",
+  "public",
+  "permanent",
+  "manual",
+] as const;
+
+type ResourceVisibility = (typeof RESOURCE_VISIBILITIES)[number];
 
 const RESOURCE_TYPES = ["document", "mindmap", "mindmap-node"] as const;
 
 type ResourceType = (typeof RESOURCE_TYPES)[number];
 
-export { RESOURCE_TYPES };
+export { RESOURCE_TYPES, RESOURCE_VISIBILITIES };
 export type {
   Id,
   Name,
@@ -45,4 +58,8 @@ export type {
   MindmapId,
   MindmapNodeId,
   ResourceType,
+  AccessGroupId,
+  Etag,
+  UTCDate,
+  ResourceVisibility,
 };

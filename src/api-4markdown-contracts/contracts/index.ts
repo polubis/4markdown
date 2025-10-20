@@ -1,8 +1,10 @@
 import { Brand, type Prettify } from "development-kit/utility-types";
 import type {
+  AccessGroupId,
   Base64,
   Date,
   DocumentId,
+  Etag,
   Id,
   MindmapId,
   MindmapNodeId,
@@ -27,6 +29,7 @@ import type {
   CommentDto,
   ResourceCompletionDto,
 } from "../dtos";
+import { AccessGroupDto } from "../dtos/access-group.dto";
 // @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
@@ -111,7 +114,7 @@ type DeleteMindmapContract = Contract<
 type UpdateMindmapVisibilityContract = Contract<
   `updateMindmapVisibility`,
   Pick<MindmapDto, "mdate">,
-  Pick<MindmapDto, "mdate" | "id" | "visibility">
+  Pick<MindmapDto, "mdate" | "id" | "visibility" | "sharedForGroups">
 >;
 
 type UpdateMindmapContract = Contract<
@@ -269,6 +272,78 @@ type SetUserResourceCompletionContract = Contract<
     }
 >;
 
+type GetYourAccessGroupsContract = Contract<
+  "getYourAccessGroups",
+  {
+    hasMore: boolean;
+    nextCursor: Pick<AccessGroupDto, "mdate" | "name"> | null;
+    accessGroups: AccessGroupDto[];
+  },
+  {
+    limit: number | null;
+    cursor: Pick<AccessGroupDto, "mdate" | "name"> | null;
+  }
+>;
+
+type CreateAccessGroupContract = Contract<
+  "createAccessGroup",
+  AccessGroupDto,
+  { name: string; description: string | null }
+>;
+
+type EditAccessGroupContract = Contract<
+  "editAccessGroup",
+  Pick<AccessGroupDto, "mdate" | "etag" | "id" | "name" | "description">,
+  {
+    name: string;
+    etag: Etag;
+    description: string | null;
+    id: AccessGroupId;
+  }
+>;
+
+type GetAccessGroupContract = Contract<
+  "getAccessGroup",
+  Pick<
+    AccessGroupDto,
+    "cdate" | "description" | "etag" | "id" | "mdate" | "name"
+  > & { members: UserProfileDto[] },
+  { id: AccessGroupId }
+>;
+
+type FindUserProfilesContract = Contract<
+  "findUserProfiles",
+  {
+    hasMore: boolean;
+    userProfiles: UserProfileDto[];
+  },
+  { query: string; by: "displayName" | "id"; limit?: number }
+>;
+
+type AddAccessGroupMemberContract = Contract<
+  "addAccessGroupMember",
+  Pick<
+    AccessGroupDto,
+    "mdate" | "etag" | "id" | "cdate" | "description" | "name"
+  > & { member: UserProfileDto },
+  { id: AccessGroupId; memberProfileId: UserProfileId; etag: Etag }
+>;
+
+type RemoveAccessGroupMemberContract = Contract<
+  "removeAccessGroupMember",
+  Pick<
+    AccessGroupDto,
+    "mdate" | "etag" | "id" | "cdate" | "description" | "name"
+  > & { member: UserProfileDto },
+  { id: AccessGroupId; memberProfileId: UserProfileId; etag: Etag }
+>;
+
+type RemoveAccessGroupContract = Contract<
+  "removeAccessGroup",
+  null,
+  { id: AccessGroupId }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -298,7 +373,15 @@ type API4MarkdownContracts =
   | GetUserProfileContract
   | AddUserProfileCommentContract
   | GetUserResourceCompletionsContract
-  | SetUserResourceCompletionContract;
+  | SetUserResourceCompletionContract
+  | GetYourAccessGroupsContract
+  | CreateAccessGroupContract
+  | EditAccessGroupContract
+  | GetAccessGroupContract
+  | FindUserProfilesContract
+  | AddAccessGroupMemberContract
+  | RemoveAccessGroupMemberContract
+  | RemoveAccessGroupContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

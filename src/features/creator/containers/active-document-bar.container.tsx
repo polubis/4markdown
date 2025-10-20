@@ -12,8 +12,10 @@ import { updateDocumentName } from "actions/update-document-name.action";
 import { useDocumentCreatorState } from "store/document-creator";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 
-const DocumentDetailsContainer = React.lazy(
-  () => import(`./document-details.container`),
+const DocumentDetailsContainer = React.lazy(() =>
+  import(`./document-details.container`).then((m) => ({
+    default: m.DocumentDetailsContainer,
+  })),
 );
 
 const DeleteDocumentModalContainer = React.lazy(() =>
