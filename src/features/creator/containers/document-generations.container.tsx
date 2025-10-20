@@ -48,7 +48,7 @@ import { previewGenerationInDocumentsCreatorAct } from "acts/preview-generation-
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { saveGenerationAsDocumentAct } from "acts/save-generation-as-document.act";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import {
   NewDocumentForm,
   type NewDocumentFormProps,
@@ -398,30 +398,32 @@ const ConversationListItemContainer = ({
         )}
       </li>
       {editForm.isOn && (
-        <Modal onClose={editForm.off}>
-          <Modal.Header
+        <Modal2 onClose={editForm.off}>
+          <Modal2.Header
             title="Modify Generation Parameters"
             closeButtonTitle="Close modify generation parameters (esc)"
           />
-          <NewDocumentForm
-            variant="ai"
-            onBack={editForm.off}
-            initialValues={lastUserHistoryRecordPayload}
-            onSubmit={confirmModifyGenerationModify}
-            renderFooter={(props, { untouched, invalid }) => (
-              <Button
-                type="submit"
-                i={2}
-                s={2}
-                auto
-                title="Save generation parameters"
-                disabled={props.disabled || untouched || invalid}
-              >
-                Save
-              </Button>
-            )}
-          />
-        </Modal>
+          <Modal2.Body>
+            <NewDocumentForm
+              variant="ai"
+              onBack={editForm.off}
+              initialValues={lastUserHistoryRecordPayload}
+              onSubmit={confirmModifyGenerationModify}
+              renderFooter={(props, { untouched, invalid }) => (
+                <Button
+                  type="submit"
+                  i={2}
+                  s={2}
+                  auto
+                  title="Save generation parameters"
+                  disabled={props.disabled || untouched || invalid}
+                >
+                  Save
+                </Button>
+              )}
+            />
+          </Modal2.Body>
+        </Modal2>
       )}
     </>
   );

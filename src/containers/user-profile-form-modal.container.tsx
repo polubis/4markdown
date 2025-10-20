@@ -4,7 +4,7 @@ import { Avatar } from "design-system/avatar";
 import { Button } from "design-system/button";
 import { Field } from "design-system/field";
 import { Input } from "design-system/input";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import { Status } from "design-system/status";
 import { Textarea } from "design-system/textarea";
 import { readFileAsBase64 } from "development-kit/file-reading";
@@ -131,9 +131,7 @@ const UserProfileFormModalContainer = ({
     onBack();
   };
 
-  const save = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-    e.preventDefault();
-
+  const save = async (): Promise<void> => {
     const result = await updateYourUserProfileAct({
       displayName: values.displayName || null,
       bio: values.bio || null,
@@ -187,12 +185,12 @@ const UserProfileFormModalContainer = ({
   return (
     <>
       {updateYourProfileStore.is !== `fail` && avatarErrorModal.isOff && (
-        <Modal disabled={updateYourProfileStore.is === `busy`} onClose={close}>
-          <Modal.Header
+        <Modal2 onClose={close}>
+          <Modal2.Header
             title="Your Profile Edition"
             closeButtonTitle="Close your profile form"
           />
-          <form onSubmit={save} data-testid="[user-profile-form]:container">
+          <Modal2.Body data-testid="[user-profile-form]:container">
             <p className="flex mb-4 gap-2 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
               <BiInfoCircle className="shrink-0" size={20} />
               <span>
@@ -204,7 +202,6 @@ const UserProfileFormModalContainer = ({
             <div className="flex flex-col space-y-3 mt-4">
               <Field className="items-center mx-auto [&>label]:mb-2">
                 <Button
-                  type="button"
                   rounded
                   title="Add your avatar"
                   className="bg-gray-300 dark:bg-slate-800"
@@ -225,7 +222,6 @@ const UserProfileFormModalContainer = ({
                 </Button>
                 {avatarPreview && (
                   <Button
-                    type="button"
                     auto
                     className="mt-2"
                     s={1}
@@ -293,34 +289,34 @@ const UserProfileFormModalContainer = ({
                 />
               </Field>
             </div>
-
-            <footer className="flex items-center justify-end mt-8 space-x-2">
-              <Button
-                i={1}
-                s={2}
-                auto
-                type="button"
-                title="Back to user profile"
-                disabled={updateYourProfileStore.is === `busy`}
-                onClick={back}
-              >
-                Back
-              </Button>
-              <Button
-                i={2}
-                s={2}
-                auto
-                type="submit"
-                title="Save user profile"
-                disabled={
-                  untouched || invalid || updateYourProfileStore.is === `busy`
-                }
-              >
-                Save
-              </Button>
-            </footer>
-          </form>
-        </Modal>
+          </Modal2.Body>
+          <Modal2.Footer className="flex gap-3">
+            <Button
+              i={1}
+              s={2}
+              auto
+              className="flex-1"
+              title="Back to user profile"
+              disabled={updateYourProfileStore.is === `busy`}
+              onClick={back}
+            >
+              Back
+            </Button>
+            <Button
+              i={2}
+              s={2}
+              auto
+              onClick={save}
+              className="flex-1"
+              title="Save user profile"
+              disabled={
+                untouched || invalid || updateYourProfileStore.is === `busy`
+              }
+            >
+              Save
+            </Button>
+          </Modal2.Footer>
+        </Modal2>
       )}
 
       {updateYourProfileStore.is === `busy` && (
@@ -334,7 +330,6 @@ const UserProfileFormModalContainer = ({
           footer={
             updateYourProfileStore.error.symbol === `out-of-date` && (
               <Button
-                type="button"
                 i={2}
                 s={2}
                 auto

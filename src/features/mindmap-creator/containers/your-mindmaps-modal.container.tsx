@@ -1,5 +1,5 @@
 import { Button } from "design-system/button";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import React from "react";
 import { BiErrorAlt, BiRefresh } from "react-icons/bi";
 import c from "classnames";
@@ -26,14 +26,14 @@ const rangeLookup: Record<RangeFilter, [number, number]> = {
   "Really Old": [31, Number.MAX_VALUE],
 };
 
-const YourMindmapsContentContainer = () => {
+const YourMindmapsContentContainer = ({
+  activeRange,
+}: {
+  activeRange: RangeFilter;
+}) => {
   const { activeMindmapId } = useMindmapCreatorState();
   const mindmapsState = useMindmapCreatorState((state) =>
     readyMindmapsSelector(state.mindmaps),
-  );
-
-  const [activeRange, setActiveRange] = React.useState<RangeFilter>(
-    rangeFilters[0],
   );
 
   const mindmaps = React.useMemo((): MindmapDto[] => {
@@ -49,19 +49,6 @@ const YourMindmapsContentContainer = () => {
 
   return (
     <>
-      <Tabs className="mb-5">
-        {rangeFilters.map((range) => (
-          <Tabs.Item
-            key={range}
-            title={`${range} mindmaps`}
-            active={range === activeRange}
-            onClick={() => setActiveRange(range)}
-          >
-            {range}
-          </Tabs.Item>
-        ))}
-      </Tabs>
-
       {mindmaps.length > 0 ? (
         <ul className="flex flex-col space-y-3">
           {mindmaps.map((mindmap) => (
@@ -103,13 +90,15 @@ const YourMindmapsContentContainer = () => {
 
 const YourMindmapsModalContainer = () => {
   const { mindmaps } = useMindmapCreatorState();
+  const [activeRange, setActiveRange] = React.useState<RangeFilter>(
+    rangeFilters[0],
+  );
+
+  const pending = mindmaps.is === `idle` || mindmaps.is === `busy`;
 
   return (
-    <Modal
-      disabled={mindmaps.is === `busy`}
-      onClose={closeYourMindmapsViewAction}
-    >
-      <Modal.Header
+    <Modal2 disabled={pending} onClose={closeYourMindmapsViewAction}>
+      <Modal2.Header
         title="Your Mindmaps"
         closeButtonTitle="Close your mindmaps"
       >
@@ -118,35 +107,52 @@ const YourMindmapsModalContainer = () => {
           i={2}
           s={1}
           title="Sync mindmaps"
-          disabled={mindmaps.is === `busy`}
+          disabled={pending}
           onClick={reloadYourMindmapsAct}
         >
           <BiRefresh />
         </Button>
-      </Modal.Header>
-      {(mindmaps.is === `idle` || mindmaps.is === `busy`) && (
-        <Loader className="mx-auto my-3" size="lg" />
-      )}
-      {mindmaps.is === `ok` && <YourMindmapsContentContainer />}
-      {mindmaps.is === `fail` && (
-        <>
-          <p className="flex gap-2 text-sm justify-center mb-4 items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
-            <BiErrorAlt className="shrink-0" size={20} />
-            {mindmaps.error.message}
-          </p>
-          <Button
-            i={2}
-            s={2}
-            auto
-            className="w-full"
-            title="Sync mindmap"
-            onClick={reloadYourMindmapsAct}
-          >
-            Reload
-          </Button>
-        </>
-      )}
-    </Modal>
+      </Modal2.Header>
+      <Modal2.Body>
+        {pending && <Loader className="mx-auto my-3" size="lg" />}
+        {mindmaps.is === `ok` && (
+          <YourMindmapsContentContainer activeRange={activeRange} />
+        )}
+        {mindmaps.is === `fail` && (
+          <>
+            <p className="flex gap-2 text-sm justify-center mb-4 items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
+              <BiErrorAlt className="shrink-0" size={20} />
+              {mindmaps.error.message}
+            </p>
+            <Button
+              i={2}
+              s={2}
+              auto
+              className="w-full"
+              title="Sync mindmap"
+              onClick={reloadYourMindmapsAct}
+            >
+              Reload
+            </Button>
+          </>
+        )}
+      </Modal2.Body>
+      <Modal2.Footer>
+        <Tabs className="w-full">
+          {rangeFilters.map((range) => (
+            <Tabs.Item
+              key={range}
+              disabled={pending}
+              title={`${range} mindmaps`}
+              active={range === activeRange}
+              onClick={() => setActiveRange(range)}
+            >
+              {range}
+            </Tabs.Item>
+          ))}
+        </Tabs>
+      </Modal2.Footer>
+    </Modal2>
   );
 };
 

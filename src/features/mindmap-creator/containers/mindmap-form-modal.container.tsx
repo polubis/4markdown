@@ -5,9 +5,9 @@ import { Input } from "design-system/input";
 import { Textarea } from "design-system/textarea";
 import { maxLength, minLength, optional } from "development-kit/form";
 import { useForm } from "development-kit/use-form";
-import React, { type FormEventHandler } from "react";
+import React from "react";
 import { BiPlusCircle } from "react-icons/bi";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import {
   backToMindmapDetailsAction,
   closeMindmapFormAction,
@@ -53,9 +53,7 @@ const MindmapFormModalContainer = () => {
     ],
   });
 
-  const confirmCreation: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-
+  const confirmCreation = () => {
     const name = values.name.trim();
     const description = values.description.trim();
     const tags = values.tags.trim();
@@ -86,9 +84,9 @@ const MindmapFormModalContainer = () => {
   );
 
   return (
-    <Modal disabled={operation.is === `busy`} onClose={closeMindmapFormAction}>
+    <Modal2 onClose={closeMindmapFormAction}>
       {mindmapForm.is === `edition` ? (
-        <Modal.Header
+        <Modal2.Header
           title={
             <>
               Edit <strong>{mindmapForm.name}</strong> Mindmap
@@ -97,113 +95,114 @@ const MindmapFormModalContainer = () => {
           closeButtonTitle="Cancel mindmap edition"
         />
       ) : (
-        <>
-          <Modal.Header
-            title="Create Mindmap"
-            closeButtonTitle="Cancel mindmap creation"
-          />
+        <Modal2.Header
+          title="Create Mindmap"
+          closeButtonTitle="Cancel mindmap creation"
+        />
+      )}
+
+      <Modal2.Body>
+        {mindmapForm.is === `active` && (
           <p className="text-sm mb-4">
             Mindmap will be created in <strong>private mode</strong>. Visible
             only to you, but data inside is{` `}
             <strong>not encrypted</strong> -{` `}
             <strong>avoid sensitive data</strong>
           </p>
-        </>
-      )}
-
-      <form className="flex flex-col gap-3" onSubmit={confirmCreation}>
-        <Field
-          label="Name*"
-          hint={
-            <Hint
-              trigger={
-                <>
-                  {validationLimits.name.min} - {validationLimits.name.max}
-                  {` `}
-                  characters
-                </>
-              }
+        )}
+        <div className="flex flex-col gap-3">
+          <Field
+            label="Name*"
+            hint={
+              <Hint
+                trigger={
+                  <>
+                    {validationLimits.name.min} - {validationLimits.name.max}
+                    {` `}
+                    characters
+                  </>
+                }
+              />
+            }
+          >
+            <Input
+              placeholder={`My Mindmap, Basics of Computer Science, ...etc`}
+              {...inject(`name`)}
             />
-          }
-        >
-          <Input
-            placeholder={`My Mindmap, Basics of Computer Science, ...etc`}
-            {...inject(`name`)}
-          />
-        </Field>
-        <Field
-          label="Description"
-          hint={
-            <Hint
-              trigger={
-                <>
-                  {validationLimits.description.min} -{` `}
-                  {validationLimits.description.max}
-                  {` `}
-                  characters
-                </>
-              }
+          </Field>
+          <Field
+            label="Description"
+            hint={
+              <Hint
+                trigger={
+                  <>
+                    {validationLimits.description.min} -{` `}
+                    {validationLimits.description.max}
+                    {` `}
+                    characters
+                  </>
+                }
+              />
+            }
+          >
+            <Textarea
+              placeholder="My private or public roadmap for learning something important to me..."
+              {...inject(`description`)}
             />
-          }
-        >
-          <Textarea
-            placeholder="My private or public roadmap for learning something important to me..."
-            {...inject(`description`)}
-          />
-        </Field>
-        <Field
-          label={splittedTags === 0 ? `Tags` : `Tags (${splittedTags})`}
-          hint={<Hint trigger={`Comma-separated, 1-10 tags, each unique`} />}
-        >
-          <Input
-            placeholder="React, ruby-on-rails, c++, c# ...etc"
-            {...inject(`tags`)}
-          />
-        </Field>
-        <footer className="mt-6 flex space-x-3">
-          {mindmapForm.is === `active` ? (
+          </Field>
+          <Field
+            label={splittedTags === 0 ? `Tags` : `Tags (${splittedTags})`}
+            hint={<Hint trigger={`Comma-separated, 1-10 tags, each unique`} />}
+          >
+            <Input
+              placeholder="React, ruby-on-rails, c++, c# ...etc"
+              {...inject(`tags`)}
+            />
+          </Field>
+        </div>
+      </Modal2.Body>
+      <Modal2.Footer className="flex gap-3">
+        {mindmapForm.is === `active` ? (
+          <Button
+            i={2}
+            s={2}
+            auto
+            className="flex-1"
+            title="Confirm mindmap creation"
+            disabled={operation.is === `busy` || untouched || invalid}
+            onClick={confirmCreation}
+          >
+            Create
+            <BiPlusCircle />
+          </Button>
+        ) : (
+          <>
             <Button
-              type="submit"
+              i={1}
+              s={2}
+              className="flex-1"
+              auto
+              title="Back to mindmap details"
+              disabled={operation.is === `busy`}
+              onClick={backToMindmapDetailsAction}
+            >
+              Cancel
+            </Button>
+            <Button
               i={2}
               s={2}
-              auto
               className="flex-1"
-              title="Confirm mindmap creation"
+              auto
+              title="Confirm mindmap update"
               disabled={operation.is === `busy` || untouched || invalid}
+              onClick={confirmCreation}
             >
-              Create
-              <BiPlusCircle />
+              Submit
             </Button>
-          ) : (
-            <>
-              <Button
-                type="button"
-                i={1}
-                s={2}
-                className="flex-1"
-                auto
-                title="Back to mindmap details"
-                disabled={operation.is === `busy`}
-                onClick={backToMindmapDetailsAction}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                i={2}
-                s={2}
-                className="flex-1"
-                auto
-                title="Confirm mindmap update"
-                disabled={operation.is === `busy` || untouched || invalid}
-              >
-                Submit
-              </Button>
-            </>
-          )}
-        </footer>
-      </form>
-    </Modal>
+          </>
+        )}
+      </Modal2.Footer>
+    </Modal2>
   );
 };
 
