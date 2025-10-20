@@ -146,11 +146,12 @@ const Content = () => {
               access group.
             </p>
           </Modal2.Body>
-          <Modal2.Footer className="flex justify-end gap-2">
+          <Modal2.Footer className="flex gap-3">
             <Button
               i={1}
               s={2}
               auto
+              className="flex-1"
               title="Cancel delete access group"
               onClick={groupToDeleteConfirm.off}
             >
@@ -159,6 +160,7 @@ const Content = () => {
             <Button
               i={2}
               s={2}
+              className="flex-1"
               auto
               title="Confirm delete access group"
               onClick={() => removeGroupMutation.start()}

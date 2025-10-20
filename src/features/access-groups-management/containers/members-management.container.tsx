@@ -268,11 +268,12 @@ const MembersManagementContainer = () => {
               You can add this user back later.
             </p>
           </Modal2.Body>
-          <Modal2.Footer className="flex justify-end gap-2">
+          <Modal2.Footer className="flex gap-3">
             <Button
               i={1}
               s={2}
               auto
+              className="flex-1"
               title="Cancel revoke access"
               onClick={revokeAccessConfirm.off}
             >
@@ -282,6 +283,7 @@ const MembersManagementContainer = () => {
               i={2}
               s={2}
               auto
+              className="flex-1"
               title="Confirm revoke access"
               onClick={() => removeAccessMutation.start()}
             >
