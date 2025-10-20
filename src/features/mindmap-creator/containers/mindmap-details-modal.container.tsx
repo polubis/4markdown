@@ -116,12 +116,12 @@ const MindmapDetailsViewContainer = () => {
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
 
   const changeVisibility = (visibility: ResourceVisibility): void => {
-    if (activeMindmap.visibility === visibility) return;
-
     if (visibility === `manual`) {
       setView(ViewType.ManualForm);
       return;
     }
+
+    if (activeMindmap.visibility === visibility) return;
 
     updateMindmapVisibilityAct(visibility);
   };
