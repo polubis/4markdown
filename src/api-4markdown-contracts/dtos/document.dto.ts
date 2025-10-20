@@ -6,6 +6,7 @@ import type {
   Description,
   Tags,
   Path,
+  AccessGroupId,
 } from "../atoms";
 import type { RatingDto } from "./rating.dto";
 import type { UserProfileDto } from "./user-profile.dto";
@@ -16,6 +17,7 @@ type Base = {
   code: MarkdownCode;
   mdate: Date;
   cdate: Date;
+  sharedForGroups?: AccessGroupId[];
   path: Path;
 };
 // @TODO[PRIO=2]: [Re-design contracts to be atomic, instead of creating huge shared objects...].
@@ -37,14 +39,22 @@ type PermanentDocumentDto = Base & {
   rating: RatingDto;
 };
 
+type ManualDocumentDto = Base & {
+  visibility: "manual";
+  author: UserProfileDto | null;
+  rating: RatingDto;
+};
+
 type DocumentDto =
   | PrivateDocumentDto
   | PublicDocumentDto
-  | PermanentDocumentDto;
+  | PermanentDocumentDto
+  | ManualDocumentDto;
 
 export type {
   PrivateDocumentDto,
   PublicDocumentDto,
   PermanentDocumentDto,
   DocumentDto,
+  ManualDocumentDto,
 };

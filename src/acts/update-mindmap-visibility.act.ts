@@ -1,5 +1,6 @@
 import { getAPI, parseError, setCache } from "api-4markdown";
-import type { MindmapDto } from "api-4markdown-contracts";
+import type { AccessGroupId, MindmapDto } from "api-4markdown-contracts";
+import { AsyncResult } from "development-kit/utility-types";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
   readyMindmapsSelector,
@@ -8,7 +9,8 @@ import {
 
 const updateMindmapVisibilityAct = async (
   visibility: MindmapDto["visibility"],
-): Promise<void> => {
+  sharedForGroups?: AccessGroupId[],
+): AsyncResult => {
   try {
     useMindmapCreatorState.set({ operation: { is: `busy` } });
 
@@ -17,17 +19,27 @@ const updateMindmapVisibilityAct = async (
     const activeMindmap = safeActiveMindmapSelector(mindmapCreatorState);
     const yourMindmaps = readyMindmapsSelector(mindmapCreatorState.mindmaps);
 
-    const response = await getAPI().call(`updateMindmapVisibility`)({
-      mdate: activeMindmap.mdate,
-      id: activeMindmap.id,
-      visibility,
-    });
+    const response = await getAPI().call(`updateMindmapVisibility`)(
+      Array.isArray(sharedForGroups)
+        ? {
+            mdate: activeMindmap.mdate,
+            id: activeMindmap.id,
+            visibility,
+            sharedForGroups,
+          }
+        : {
+            mdate: activeMindmap.mdate,
+            id: activeMindmap.id,
+            visibility,
+          },
+    );
 
     const newMindmaps = yourMindmaps.data.map((mindmap) =>
       mindmap.id === activeMindmap.id
         ? {
             ...mindmap,
             mdate: response.mdate,
+            sharedForGroups,
             visibility,
           }
         : mindmap,
@@ -45,10 +57,14 @@ const updateMindmapVisibilityAct = async (
       mindmaps: newMindmaps,
       mindmapsCount: newMindmaps.length,
     });
+
+    return { is: "ok" };
   } catch (error: unknown) {
+    const parsed = parseError(error);
     useMindmapCreatorState.set({
-      operation: { is: `fail`, error: parseError(error) },
+      operation: { is: `fail`, error: parsed },
     });
+    return { is: `fail`, error: parsed };
   }
 };
 

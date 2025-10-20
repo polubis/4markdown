@@ -109,6 +109,7 @@
       "modules/*": ["./src/modules/*"],
       "models/*": ["./src/models/*"],
       "components/*": ["./src/components/*"],
+      "libs/*": ["./src/libs/*"],
       "providers/*": ["./src/providers/*"],
       "core/*": ["./src/core/*"],
       "layouts/*": ["./src/layouts/*"],
