@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Avatar can be used when renders character when image is not available but character is given 1`] = `
 <DocumentFragment>
