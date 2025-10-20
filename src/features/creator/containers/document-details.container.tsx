@@ -15,7 +15,12 @@ import { meta } from "../../../../meta";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
 import { VisibilityIcon } from "components/visibility-icon";
-import { AccessGroupsAssignModule } from "modules/access-groups-assign";
+
+const AccessGroupsAssignModule = React.lazy(() =>
+  import("modules/access-groups-assign").then((m) => ({
+    default: m.AccessGroupsAssignModule,
+  })),
+);
 
 interface DocumentDetailsContainerProps {
   onClose(): void;
