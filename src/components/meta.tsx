@@ -49,7 +49,7 @@ const Meta = ({
       {/* Ogs */}
       <meta property="og:description" content={description} />
       <meta property="og:site_name" content={appName} />
-      <meta property="og:title" content={description} />
+      <meta property="og:title" content={title} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={url} />
       {/* Other */}
