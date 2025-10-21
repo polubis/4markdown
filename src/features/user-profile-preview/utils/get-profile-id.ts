@@ -13,4 +13,4 @@ const getProfileId = (): UserProfileId => {
   return asUserProfileId(params.get(`profileId`));
 };
 
-export { getProfileId };
+export { getProfileId, asUserProfileId };
