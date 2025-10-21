@@ -205,7 +205,7 @@ const PermamentDocFormContainer = ({
   return (
     <>
       <Modal2.Header
-        title="Add Required Data"
+        title="Make It Permanent"
         closeButtonTitle="Close document permanent status change"
       />
       <Modal2.Body>

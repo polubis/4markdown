@@ -3,9 +3,6 @@ import React from "react";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
-import c from "classnames";
-import { formatDistance } from "date-fns";
-import { navigate } from "gatsby";
 import { PublicConfirmationContainer } from "features/creator/containers/public-confirmation.container";
 import { PrivateConfirmationContainer } from "features/creator/containers/private-confirmation.container";
 import { PermanentConfirmationContainer } from "features/creator/containers/permanent-confirmation.container";
@@ -14,8 +11,8 @@ import { PermamentDocFormContainer } from "./permament-doc-form.container";
 import { meta } from "../../../../meta";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
-import { VisibilityIcon } from "components/visibility-icon";
 import { updateDocumentVisibilityAct } from "../acts/update-document-visibility.act";
+import { ResourceDetails } from "components/resource-details";
 
 const AccessGroupsAssignModule = React.lazy(() =>
   import("modules/access-groups-assign").then((m) => ({
@@ -80,10 +77,10 @@ const DocumentDetailsContainer = ({
             disabled={disabled}
             onBack={manualConfirmation.off}
             onClose={onClose}
-            onConfirm={async (accessGroups) => {
+            onConfirm={async (sharedForGroups) => {
               const result = await updateDocumentVisibilityAct({
                 visibility: "manual",
-                accessGroups,
+                sharedForGroups,
               });
 
               if (result.is === "ok") {
@@ -126,77 +123,21 @@ const DocumentDetailsContainer = ({
               )}
             </Modal2.Header>
             <Modal2.Body>
-              <p>
-                Name: <strong>{docStore.name}</strong>
-              </p>
-              {docStore.visibility === `permanent` && (
-                <>
-                  <p className="mt-1">
-                    Description:{` `}
-                    <strong className="break-words">
-                      {docStore.description}
-                    </strong>
-                  </p>
-                  <p className="mt-1">
-                    Tags:{` `}
-                    <strong className="break-words">
-                      {docStore.tags.join(`, `)}
-                    </strong>
-                  </p>
-                </>
-              )}
-              <div className="flex items-center gap-1.5 mt-1">
-                <span>Visibility:</span>
-                <strong
-                  className={c(
-                    `capitalize inline-flex items-center gap-1`,
-                    docStore.visibility === "private"
-                      ? "text-gray-600 dark:text-gray-400"
-                      : "text-green-700 dark:text-green-600",
-                  )}
-                >
-                  <VisibilityIcon
-                    className="size-6"
-                    visibility={docStore.visibility}
-                  />
-                  {docStore.visibility}
-                </strong>
-              </div>
-              <p className="mt-1">
-                Created:{` `}
-                <strong>
-                  {formatDistance(new Date().toISOString(), docStore.cdate)} ago
-                </strong>
-              </p>
-              <p className="mt-1">
-                Edited:{` `}
-                <strong>
-                  {formatDistance(new Date().toISOString(), docStore.mdate)} ago
-                </strong>
-              </p>
-              {(docStore.visibility === `public` ||
-                docStore.visibility === `permanent`) && (
-                <button
-                  className="underline underline-offset-2 text-blue-800 dark:text-blue-500 mt-1"
-                  title="Document preview"
-                  onClick={() =>
-                    navigate(
-                      `${meta.routes.documents.preview}?id=${docStore.id}`,
-                    )
-                  }
-                >
-                  <strong>Preview</strong>
-                </button>
-              )}
-              {docStore.visibility === `permanent` && (
-                <button
-                  className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
-                  title="Document URL"
-                  onClick={() => navigate(docStore.path)}
-                >
-                  <strong>URL</strong>
-                </button>
-              )}
+              <ResourceDetails
+                sharedForGroups={docStore.sharedForGroups}
+                createdAt={docStore.cdate}
+                editedAt={docStore.mdate}
+                previewUrl={`${meta.routes.documents.preview}?id=${docStore.id}`}
+                staticUrl={docStore.path}
+                name={docStore.name}
+                id={docStore.id}
+                tags={"tags" in docStore ? docStore.tags : undefined}
+                visibility={docStore.visibility}
+                description={
+                  "description" in docStore ? docStore.description : undefined
+                }
+                onAccessEdit={manualConfirmation.on}
+              />
             </Modal2.Body>
             <Modal2.Footer className="overflow-x-auto">
               <ResourceVisibilityTabs

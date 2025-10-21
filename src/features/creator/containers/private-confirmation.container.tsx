@@ -27,7 +27,7 @@ const PrivateConfirmationContainer = ({
   return (
     <>
       <Modal2.Header
-        title="Make it private"
+        title="Make It Private"
         closeButtonTitle="Close private document confirmation"
       />
       <Modal2.Body>

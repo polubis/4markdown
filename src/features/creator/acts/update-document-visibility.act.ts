@@ -21,7 +21,7 @@ type PermanentPayload = Pick<
   "description" | "name" | "tags" | "visibility"
 >;
 type ManualPayload = Pick<ManualDocumentDto, "visibility"> & {
-  accessGroups: AccessGroupId[];
+  sharedForGroups: AccessGroupId[];
 };
 
 const updateDocumentVisibilityAct = async (

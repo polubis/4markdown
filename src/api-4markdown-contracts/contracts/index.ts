@@ -138,6 +138,7 @@ type GetYourDocumentsContract = Contract<
     | PrivateDocumentDto
     | Omit<PublicDocumentDto, "author" | "rating">
     | Omit<PermanentDocumentDto, "author" | "rating">
+    | Omit<ManualDocumentDto, "author" | "rating">
   )[]
 >;
 type GetAccessibleDocumentContract = Contract<

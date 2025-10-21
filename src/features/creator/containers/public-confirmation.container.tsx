@@ -30,7 +30,7 @@ const PublicConfirmationContainer = ({
   return (
     <>
       <Modal2.Header
-        title="Make it public"
+        title="Make It Public"
         closeButtonTitle="Close public document confirmation"
       />
       <Modal2.Body>
