@@ -7,6 +7,8 @@ import {
   type EdgeProps,
   type NodeProps,
   Controls,
+  useNodesState,
+  useEdgesState,
 } from "@xyflow/react";
 import React, { type ComponentType } from "react";
 import { useMindmapPreviewState } from "store/mindmap-preview";
@@ -91,26 +93,31 @@ const MindmapPreviewModule = () => {
   );
   const nodePreview = useMindmapPreviewState((state) => state.nodePreview);
 
-  const nodes = React.useMemo(
-    () =>
-      mindmap.nodes.map((node) => ({
-        ...node,
-        data: {
-          ...node.data,
-          mindmapId: mindmap.id,
-        },
-      })),
-    [mindmap.nodes, mindmap.id],
+  const [initialNodes] = React.useState(() =>
+    mindmap.nodes.map((node) => ({
+      ...node,
+      data: {
+        ...node.data,
+        mindmapId: mindmap.id,
+      },
+    })),
   );
+
+  const [nodes, _, onNodesChange] = useNodesState(initialNodes);
+  const [edges, __, onEdgesChange] = useEdgesState(mindmap.edges);
 
   return (
     <>
       <ReactFlow
         nodes={nodes}
-        edges={mindmap.edges}
+        edges={edges}
         nodeTypes={mindmapNodeTypes[mindmap.orientation] as NodeTypes}
         edgeTypes={edgeTypes as EdgeTypes}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
         fitView
+        nodesDraggable={false}
+        nodesConnectable={false}
       >
         <Controls />
         <Background />

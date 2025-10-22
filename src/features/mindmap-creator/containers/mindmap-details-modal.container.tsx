@@ -1,7 +1,6 @@
 import { Button } from "design-system/button";
 import { Modal2 } from "design-system/modal2";
 import React from "react";
-import c from "classnames";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
@@ -9,8 +8,6 @@ import {
   openMindmapFormAction,
 } from "store/mindmap-creator/actions";
 import { safeActiveMindmapSelector } from "store/mindmap-creator/selectors";
-import { navigate } from "gatsby";
-import { formatDistance } from "date-fns";
 import { Input } from "design-system/input";
 import { Field } from "design-system/field";
 import { meta } from "../../../../meta";
@@ -20,8 +17,8 @@ import { ResourceVisibility } from "api-4markdown-contracts";
 import { authStoreSelectors } from "store/auth/auth.store";
 import { createPathForMindmap } from "core/create-path-for-mindmap";
 import { context } from "@greenonsoftware/react-kit";
-import { VisibilityIcon } from "components/visibility-icon";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
+import { ResourceDetails } from "components/resource-details";
 
 const AccessGroupsAssignModule = React.lazy(() =>
   import("modules/access-groups-assign").then((m) => ({
@@ -121,11 +118,6 @@ const MindmapDetailsViewContainer = () => {
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
 
   const changeVisibility = (visibility: ResourceVisibility): void => {
-    if (visibility === `manual`) {
-      setView(ViewType.ManualForm);
-      return;
-    }
-
     if (activeMindmap.visibility === visibility) return;
 
     updateMindmapVisibilityAct(visibility);
@@ -157,108 +149,20 @@ const MindmapDetailsViewContainer = () => {
         </Button>
       </Modal2.Header>
       <Modal2.Body>
-        <section className="flex flex-col space-y-1">
-          <p>
-            Name: <strong>{activeMindmap.name}</strong>
-          </p>
-          {activeMindmap.description && (
-            <p>
-              Description:{` `}
-              <strong className="break-words">
-                {activeMindmap.description}
-              </strong>
-            </p>
-          )}
-          {Array.isArray(activeMindmap.tags) &&
-            activeMindmap.tags.length > 0 && (
-              <p>
-                Tags:{` `}
-                <strong className="break-words">
-                  {activeMindmap.tags.join(`, `)}
-                </strong>
-              </p>
-            )}
-          <div className="flex items-center gap-1.5">
-            <span>Visibility:</span>
-            <strong
-              className={c(
-                `capitalize inline-flex items-center gap-1`,
-                activeMindmap.visibility === "private"
-                  ? "text-gray-600 dark:text-gray-400"
-                  : "text-green-700 dark:text-green-600",
-              )}
-            >
-              <VisibilityIcon
-                className="size-6"
-                visibility={activeMindmap.visibility}
-              />
-              {activeMindmap.visibility}
-            </strong>
-          </div>
-          <p>
-            Created:{` `}
-            <strong>
-              {formatDistance(new Date().toISOString(), activeMindmap.cdate)}
-              {` `}
-              ago
-            </strong>
-          </p>
-          <p>
-            Edited:{` `}
-            <strong>
-              {formatDistance(new Date().toISOString(), activeMindmap.mdate)}
-              {` `}
-              ago
-            </strong>
-          </p>
-          {activeMindmap.visibility === "manual" && (
-            <p>
-              Groups with access:{` `}
-              <strong>{activeMindmap.sharedForGroups?.length ?? 0}</strong>
-            </p>
-          )}
-
-          <footer>
-            {activeMindmap.visibility !== `private` && (
-              <button
-                className="underline underline-offset-2 text-blue-800 dark:text-blue-500"
-                title="Mindmap public link"
-                onClick={() =>
-                  navigate(
-                    `${meta.routes.mindmaps.preview}?mindmapId=${activeMindmap.id}&authorId=${user.uid}`,
-                  )
-                }
-              >
-                <strong>Public Link</strong>
-              </button>
-            )}
-            {activeMindmap.visibility === `permanent` && (
-              <button
-                className="underline underline-offset-2 text-blue-800 dark:text-blue-500 ml-3"
-                title="Mindmap static stable URL"
-                onClick={() =>
-                  navigate(
-                    createPathForMindmap(activeMindmap.id, activeMindmap.path),
-                  )
-                }
-              >
-                <strong>Static Stable URL</strong>
-              </button>
-            )}
-            {activeMindmap.visibility === "manual" && (
-              <Button
-                className="mt-4 ml-auto"
-                auto
-                s={1}
-                i={2}
-                onClick={() => changeVisibility("manual")}
-              >
-                <BiPencil />
-                Edit Access
-              </Button>
-            )}
-          </footer>
-        </section>
+        <ResourceDetails
+          type="Mindmap"
+          sharedForGroups={activeMindmap.sharedForGroups}
+          createdAt={activeMindmap.cdate}
+          editedAt={activeMindmap.mdate}
+          previewUrl={`${meta.routes.mindmaps.preview}?mindmapId=${activeMindmap.id}&authorId=${user.uid}`}
+          staticUrl={createPathForMindmap(activeMindmap.id, activeMindmap.path)}
+          name={activeMindmap.name}
+          id={activeMindmap.id}
+          tags={activeMindmap.tags ?? undefined}
+          visibility={activeMindmap.visibility}
+          description={activeMindmap.description ?? undefined}
+          onAccessEdit={() => setView(ViewType.ManualForm)}
+        />
       </Modal2.Body>
       <Modal2.Footer className="overflow-x-auto">
         <ResourceVisibilityTabs

@@ -130,7 +130,9 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .and(`I see text`, [
         editedDocumentName,
         editedDocumentDescription,
-        `angular, vue, node`,
+        "angular",
+        "vue",
+        "node",
       ])
       .when(`I click button`, [`Close additional options`]);
 
