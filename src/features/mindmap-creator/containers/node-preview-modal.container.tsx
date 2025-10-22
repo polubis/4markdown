@@ -1,5 +1,5 @@
 import { Button } from "design-system/button";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import React from "react";
 import { BiPencil } from "react-icons/bi";
 import { useMindmapCreatorState } from "store/mindmap-creator";
@@ -28,27 +28,31 @@ const NodePreviewModalContainer = () => {
 
   if (!nodePreview.data.content) {
     return (
-      <Modal onClose={closeNodePreviewAction}>
-        <Modal.Header
+      <Modal2 onClose={closeNodePreviewAction}>
+        <Modal2.Header
           title="No Content For Selected Node"
           closeButtonTitle="Close node preview"
         />
-        <p>
-          There is no content for the selected node. Fill it with data by
-          clicking the button below.
-        </p>
-        <Button
-          i={2}
-          s={2}
-          className="ml-auto mt-8"
-          auto
-          title="Go to node content edition"
-          onClick={openNodeEdition}
-        >
-          <BiPencil />
-          Edit Node Content
-        </Button>
-      </Modal>
+        <Modal2.Body>
+          <p>
+            There is no content for the selected node. Fill it with data by
+            clicking the button below.
+          </p>
+        </Modal2.Body>
+        <Modal2.Footer>
+          <Button
+            i={2}
+            s={2}
+            className="ml-auto"
+            auto
+            title="Go to node content edition"
+            onClick={openNodeEdition}
+          >
+            <BiPencil />
+            Edit Node Content
+          </Button>
+        </Modal2.Footer>
+      </Modal2>
     );
   }
 

@@ -41,9 +41,6 @@
         "noUnknownAtRules": "off",
         "useIterableCallbackReturn": "off"
       },
-      "security": {
-        "noDangerouslySetInnerHtml": "off"
-      },
       "style": {
         "useImportType": "off",
         "noNonNullAssertion": "off",

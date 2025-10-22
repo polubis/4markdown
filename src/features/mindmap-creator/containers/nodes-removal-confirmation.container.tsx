@@ -1,5 +1,5 @@
 import { Button } from "design-system/button";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import React from "react";
 import {
   cancelNodesRemovalAction,
@@ -8,21 +8,22 @@ import {
 
 const NodesRemovalConfirmationContainer = () => {
   return (
-    <Modal onClose={cancelNodesRemovalAction}>
-      <Modal.Header
+    <Modal2 onClose={cancelNodesRemovalAction}>
+      <Modal2.Header
         title="Confirm Nodes Removal"
         closeButtonTitle="Cancel nodes removal"
       />
-      <p className="mt-4 mb-1">
-        You&apos;ve selected some nodes in the mindmap. Confirming this action
-        will{` `}
-        <strong>permanently remove them</strong>.
-      </p>
-      <p className="mb-1">Are you sure you want to proceed?</p>
-      <footer className="mt-6 flex">
+      <Modal2.Body>
+        <p className="mb-1">
+          You&apos;ve selected some nodes in the mindmap. Confirming this action
+          will{` `}
+          <strong>permanently remove them</strong>.
+        </p>
+        <p className="mb-1">Are you sure you want to proceed?</p>
+      </Modal2.Body>
+      <Modal2.Footer className="flex gap-3">
         <Button
-          className="ml-auto"
-          type="button"
+          className="flex-1"
           i={1}
           s={2}
           auto
@@ -32,8 +33,7 @@ const NodesRemovalConfirmationContainer = () => {
           Cancel
         </Button>
         <Button
-          type="submit"
-          className="ml-2"
+          className="flex-1"
           i={2}
           s={2}
           auto
@@ -42,8 +42,8 @@ const NodesRemovalConfirmationContainer = () => {
         >
           Confirm
         </Button>
-      </footer>
-    </Modal>
+      </Modal2.Footer>
+    </Modal2>
   );
 };
 

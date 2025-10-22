@@ -5,7 +5,7 @@ import { BiError, BiPlusCircle, BiGroup, BiUser } from "react-icons/bi";
 import { Loader } from "design-system/loader";
 import { Modal2 } from "design-system/modal2";
 import { Empty } from "design-system/empty";
-import { Error as ErrorComponent } from "design-system/error";
+import { Err } from "design-system/err";
 import { navigate } from "gatsby";
 import { meta } from "../../../meta";
 import { useQuery } from "core/use-query";
@@ -65,15 +65,15 @@ const AccessGroupsAssignModule = ({
         {loadingGroups && <Loader className="mx-auto" size="lg" />}
 
         {groupsQuery.is === "fail" && (
-          <ErrorComponent className="py-4">
-            <ErrorComponent.Icon>
+          <Err className="py-4">
+            <Err.Icon>
               <BiError size={80} />
-            </ErrorComponent.Icon>
-            <ErrorComponent.Title>Something went wrong!</ErrorComponent.Title>
-            <ErrorComponent.Description className="mb-0">
+            </Err.Icon>
+            <Err.Title>Something went wrong!</Err.Title>
+            <Err.Description className="mb-0">
               {groupsQuery.error.message}
-            </ErrorComponent.Description>
-          </ErrorComponent>
+            </Err.Description>
+          </Err>
         )}
 
         {groupsQuery.is === "ok" && (

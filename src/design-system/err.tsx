@@ -2,13 +2,11 @@ import React from "react";
 import { c } from "./c";
 import { Button } from "./button";
 
-type ErrorProps = React.ComponentPropsWithoutRef<"div">;
-type ErrorIconProps = React.ComponentPropsWithoutRef<"div">;
-type ErrorTitleProps = React.ComponentPropsWithoutRef<"h3">;
-type ErrorDescriptionProps = React.ComponentPropsWithoutRef<"p">;
-type ErrorActionProps = React.ComponentPropsWithoutRef<typeof Button>;
-
-const Error = ({ className, children, ...props }: ErrorProps) => {
+const Err = ({
+  className,
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) => {
   return (
     <div
       className={c(
@@ -26,7 +24,11 @@ const Error = ({ className, children, ...props }: ErrorProps) => {
   );
 };
 
-const ErrorIcon = ({ className, children, ...props }: ErrorIconProps) => {
+const ErrIcon = ({
+  className,
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<"div">) => {
   return (
     <div
       className={c(`mb-6 text-red-400 dark:text-red-500`, className)}
@@ -38,7 +40,11 @@ const ErrorIcon = ({ className, children, ...props }: ErrorIconProps) => {
   );
 };
 
-const ErrorTitle = ({ className, children, ...props }: ErrorTitleProps) => {
+const ErrTitle = ({
+  className,
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<"h3">) => {
   return (
     <h3
       className={c(
@@ -52,11 +58,11 @@ const ErrorTitle = ({ className, children, ...props }: ErrorTitleProps) => {
   );
 };
 
-const ErrorDescription = ({
+const ErrDescription = ({
   className,
   children,
   ...props
-}: ErrorDescriptionProps) => {
+}: React.ComponentPropsWithoutRef<"p">) => {
   return (
     <p
       className={c(`text-sm text-gray-500 dark:text-gray-400 mb-6`, className)}
@@ -67,18 +73,11 @@ const ErrorDescription = ({
   );
 };
 
-const ErrorAction = Button;
+const ErrAction = Button;
 
-Error.Icon = ErrorIcon;
-Error.Title = ErrorTitle;
-Error.Description = ErrorDescription;
-Error.Action = ErrorAction;
+Err.Icon = ErrIcon;
+Err.Title = ErrTitle;
+Err.Description = ErrDescription;
+Err.Action = ErrAction;
 
-export type {
-  ErrorProps,
-  ErrorIconProps,
-  ErrorTitleProps,
-  ErrorDescriptionProps,
-  ErrorActionProps,
-};
-export { Error };
+export { Err };

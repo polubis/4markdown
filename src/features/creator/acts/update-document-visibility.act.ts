@@ -1,10 +1,13 @@
-import { getAPI, setCache } from "api-4markdown";
+import { getAPI, parseError, setCache } from "api-4markdown";
 import type {
+  AccessGroupId,
   API4MarkdownDto,
+  ManualDocumentDto,
   PermanentDocumentDto,
   PrivateDocumentDto,
   PublicDocumentDto,
 } from "api-4markdown-contracts";
+import { AsyncResult } from "development-kit/utility-types";
 import { docManagementStoreActions } from "store/doc-management/doc-management.store";
 import { docStoreActions, docStoreSelectors } from "store/doc/doc.store";
 import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
@@ -17,10 +20,13 @@ type PermanentPayload = Pick<
   PermanentDocumentDto,
   "description" | "name" | "tags" | "visibility"
 >;
+type ManualPayload = Pick<ManualDocumentDto, "visibility"> & {
+  sharedForGroups: AccessGroupId[];
+};
 
-const updateDocumentVisibility = async (
-  payload: PrivatePayload | PublicPayload | PermanentPayload,
-): Promise<void> => {
+const updateDocumentVisibilityAct = async (
+  payload: PrivatePayload | PublicPayload | PermanentPayload | ManualPayload,
+): AsyncResult => {
   try {
     const { code } = useDocumentCreatorState.get();
     const { id, mdate } = docStoreSelectors.active();
@@ -31,6 +37,7 @@ const updateDocumentVisibility = async (
       mdate,
       ...payload,
     });
+
     const updatedDocument: API4MarkdownDto<`getYourDocuments`>[number] = {
       ...response,
       code,
@@ -41,10 +48,12 @@ const updateDocumentVisibility = async (
     docsStoreActions.updateDoc(updatedDocument);
 
     setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
+
+    return { is: `ok` };
   } catch (error: unknown) {
     docManagementStoreActions.fail(error);
-    throw error;
+    return { is: `fail`, error: parseError(error) };
   }
 };
 
-export { updateDocumentVisibility };
+export { updateDocumentVisibilityAct };

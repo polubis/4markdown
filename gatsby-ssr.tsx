@@ -9,6 +9,7 @@ export const onRenderBody: GatsbySSR["onRenderBody"] = ({
     <script
       id="dark-mode"
       key="dark-mode"
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: <No injection RISK - DONE FULLY DURING SSG>
       dangerouslySetInnerHTML={{
         __html: `
         void function() {
