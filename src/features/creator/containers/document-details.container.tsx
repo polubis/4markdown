@@ -124,6 +124,7 @@ const DocumentDetailsContainer = ({
             </Modal2.Header>
             <Modal2.Body>
               <ResourceDetails
+                type="Document"
                 sharedForGroups={docStore.sharedForGroups}
                 createdAt={docStore.cdate}
                 editedAt={docStore.mdate}

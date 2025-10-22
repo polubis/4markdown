@@ -1,4 +1,8 @@
-import { AccessGroupId, ResourceVisibility } from "api-4markdown-contracts";
+import {
+  AccessGroupId,
+  ResourceType,
+  ResourceVisibility,
+} from "api-4markdown-contracts";
 import { Button } from "design-system/button";
 import React from "react";
 import { BiPencil } from "react-icons/bi";
@@ -10,6 +14,7 @@ import { formatDistance } from "date-fns";
 type ResourceDetailsProps = {
   visibility: ResourceVisibility;
   name: string;
+  type: "Document" | "Mindmap";
   id: string;
   previewUrl?: string;
   staticUrl?: string;
@@ -26,6 +31,7 @@ const ResourceDetails = ({
   id,
   tags,
   visibility,
+  type,
   previewUrl,
   staticUrl,
   createdAt,
@@ -93,7 +99,13 @@ const ResourceDetails = ({
 
       <div className="flex items-center gap-2 mt-4 justify-end">
         {visibility !== "private" && previewUrl && (
-          <Button auto s={1} i={2} onClick={() => navigate(previewUrl)}>
+          <Button
+            auto
+            title={`${type} preview`}
+            s={1}
+            i={2}
+            onClick={() => navigate(previewUrl)}
+          >
             Preview
           </Button>
         )}

@@ -150,6 +150,7 @@ const MindmapDetailsViewContainer = () => {
       </Modal2.Header>
       <Modal2.Body>
         <ResourceDetails
+          type="Mindmap"
           sharedForGroups={activeMindmap.sharedForGroups}
           createdAt={activeMindmap.cdate}
           editedAt={activeMindmap.mdate}

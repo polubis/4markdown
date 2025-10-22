@@ -185,12 +185,12 @@ const UserProfileFormModalContainer = ({
   return (
     <>
       {updateYourProfileStore.is !== `fail` && avatarErrorModal.isOff && (
-        <Modal2 onClose={close}>
+        <Modal2 disabled={updateYourProfileStore.is === `busy`} onClose={close}>
           <Modal2.Header
             title="Your Profile Edition"
             closeButtonTitle="Close your profile form"
           />
-          <Modal2.Body data-testid="[user-profile-form]:container">
+          <Modal2.Body>
             <p className="flex mb-4 gap-2 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
               <BiInfoCircle className="shrink-0" size={20} />
               <span>
@@ -199,7 +199,10 @@ const UserProfileFormModalContainer = ({
                 <strong>Permanent</strong> content you're creating.
               </span>
             </p>
-            <div className="flex flex-col space-y-3 mt-4">
+            <div
+              className="flex flex-col space-y-3 mt-4"
+              data-testid="[user-profile-form]:container"
+            >
               <Field className="items-center mx-auto [&>label]:mb-2">
                 <Button
                   rounded
