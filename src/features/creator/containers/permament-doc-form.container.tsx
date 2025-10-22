@@ -7,11 +7,11 @@ import { useForm } from "development-kit/use-form";
 import React from "react";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
-import { updateDocumentVisibility } from "actions/update-document-visibility.action";
 import { BiInfoCircle } from "react-icons/bi";
 import { Markdown } from "components/markdown";
 import { ValidatorFn, ValidatorsSetup } from "development-kit/form";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { updateDocumentVisibilityAct } from "../acts/update-document-visibility.act";
 
 type PermamentDocFormContainerProps = {
   onConfirm(): void;
@@ -182,15 +182,15 @@ const PermamentDocFormContainer = ({
   const disabled = docManagementStore.is === `busy`;
 
   const handleConfirm = async (): Promise<void> => {
-    try {
-      await updateDocumentVisibility({
-        name,
-        description,
-        tags: tags.split(`,`),
-        visibility: `permanent`,
-      });
+    const result = await updateDocumentVisibilityAct({
+      name,
+      description,
+      tags: tags.split(`,`),
+      visibility: `permanent`,
+    });
+    if (result.is === "ok") {
       onConfirm();
-    } catch {}
+    }
   };
 
   const splittedTags = React.useMemo(
@@ -205,7 +205,7 @@ const PermamentDocFormContainer = ({
   return (
     <>
       <Modal2.Header
-        title="Add Required Data"
+        title="Make It Permanent"
         closeButtonTitle="Close document permanent status change"
       />
       <Modal2.Body>

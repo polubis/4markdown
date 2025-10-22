@@ -314,7 +314,7 @@ const CreatorView = () => {
             spellCheck="false"
             onChange={changeCode}
             onKeyDown={maintainTabs}
-            onClick={(e) => {
+            onMouseDown={(e) => {
               autoScroller.scroll(e.currentTarget);
             }}
             onSelect={maintainAssistantAppearance}

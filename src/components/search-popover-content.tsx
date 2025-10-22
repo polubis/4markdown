@@ -1,5 +1,7 @@
 import React from "react";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
+import { Err } from "design-system/err";
+import { BiError } from "react-icons/bi";
 import { Input } from "design-system/input";
 import { navigate } from "gatsby";
 import { searchStaticContentAct } from "acts/search-static-content.act";
@@ -58,41 +60,48 @@ const SearchPopoverContent = ({ onClose }: SearchPopoverContentProps) => {
   }, [search, searchData]);
 
   return (
-    <Modal disabled={searchData.is === `busy`} onClose={onClose}>
-      <Modal.Header title="Find Anything" closeButtonTitle="Close search" />
+    <Modal2 disabled={searchData.is === `busy`} onClose={onClose}>
+      <Modal2.Header title="Find Anything" closeButtonTitle="Close search" />
+      <Modal2.Body>
+        <Input
+          placeholder="Search by title, description or URL"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-      <Input
-        placeholder="Search by title, description or URL"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+        {searchData.is === `ok` && filteredData.length > 0 && (
+          <ul className="mt-4 flex flex-col space-y-3">
+            {filteredData.map((result, index) => (
+              <li
+                key={index}
+                className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`}
+                onClick={() => navigate(result.url)}
+              >
+                <h6>{result.title}</h6>
+                {result.description && (
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-4 mt-2">
+                    {result.description}
+                  </p>
+                )}
+                <p className="text-sm mt-1">{result.url}</p>
+              </li>
+            ))}
+          </ul>
+        )}
 
-      {searchData.is === `ok` && filteredData.length > 0 && (
-        <ul className="mt-4 flex flex-col space-y-3">
-          {filteredData.map((result, index) => (
-            <li
-              key={index}
-              className={`flex flex-col cursor-pointer border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:hover:bg-gray-900 dark:bg-gray-950 hover:bg-zinc-300 border-zinc-300 dark:border-zinc-800`}
-              onClick={() => navigate(result.url)}
-            >
-              <h6>{result.title}</h6>
-              {result.description && (
-                <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-4 mt-2">
-                  {result.description}
-                </p>
-              )}
-              <p className="text-sm mt-1">{result.url}</p>
-            </li>
-          ))}
-        </ul>
-      )}
-
-      {searchData.is === `fail` && (
-        <p className="text-xl text-red-600 dark:text-red-400 text-center mt-4">
-          Something went wrong, please try again
-        </p>
-      )}
-    </Modal>
+        {searchData.is === `fail` && (
+          <Err className="py-6">
+            <Err.Icon>
+              <BiError size={80} />
+            </Err.Icon>
+            <Err.Title>Something went wrong!</Err.Title>
+            <Err.Description className="mb-0">
+              {searchData.error.message}
+            </Err.Description>
+          </Err>
+        )}
+      </Modal2.Body>
+    </Modal2>
   );
 };
 

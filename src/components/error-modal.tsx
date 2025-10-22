@@ -1,5 +1,5 @@
 import { Button } from "design-system/button";
-import { Modal } from "design-system/modal";
+import { Modal2 } from "design-system/modal2";
 import React, { type ReactNode } from "react";
 
 interface ErrorModalProps {
@@ -11,20 +11,22 @@ interface ErrorModalProps {
 
 const ErrorModal = ({ heading, message, footer, onClose }: ErrorModalProps) => {
   return (
-    <Modal onClose={onClose}>
-      <Modal.Header
+    <Modal2 onClose={onClose}>
+      <Modal2.Header
         className="[&_h6]:text-red-600 [&_h6]:dark:text-red-400"
         title={heading}
         closeButtonTitle="Close error screen"
       />
-      <p className="text-sm mt-2">{message}</p>
-      <footer className="flex justify-end space-x-2 mt-8">
+      <Modal2.Body>
+        <p className="text-sm">{message}</p>
+      </Modal2.Body>
+      <Modal2.Footer className="flex justify-end space-x-2">
         {footer}
         <Button type="button" i={1} s={2} auto title="Close" onClick={onClose}>
           Close
         </Button>
-      </footer>
-    </Modal>
+      </Modal2.Footer>
+    </Modal2>
   );
 };
 

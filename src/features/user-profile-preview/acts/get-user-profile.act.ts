@@ -1,13 +1,17 @@
 import { getAPI, parseError } from "api-4markdown";
-import { getProfileId } from "../utils/get-profile-id";
 import { setUserProfileStatsAction } from "../models/actions";
+import { UserProfileId } from "api-4markdown-contracts";
 
-const getUserProfileAct = async (): Promise<void> => {
+const getUserProfileAct = async (profileId: UserProfileId): Promise<void> => {
   try {
+    if (!profileId) {
+      throw Error(`User profile ID wrong format`);
+    }
+
     setUserProfileStatsAction({ is: `busy` });
 
     const stats = await getAPI().call("getUserProfile")({
-      profileId: getProfileId(),
+      profileId,
     });
 
     setUserProfileStatsAction({

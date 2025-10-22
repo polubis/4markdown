@@ -49,6 +49,7 @@ const useScrollToPreview = () => {
 
   React.useEffect(() => {
     setIsOn(readBrowserSavedSettings);
+
     return () => {
       scrollToPreview.cancel();
     };
@@ -59,6 +60,7 @@ const useScrollToPreview = () => {
       isOn,
       scroll: (input: HTMLTextAreaElement): void => {
         if (!isOn) return;
+
         scrollToPreview(input);
       },
       toggle: (): void => {
