@@ -6,6 +6,7 @@ import {
   BiCheck,
   BiCheckboxChecked,
   BiCheckboxMinus,
+  BiComment,
   BiCopyAlt,
   BiLogoMarkdown,
 } from "react-icons/bi";
@@ -28,7 +29,13 @@ import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
-import { API4MarkdownPayload, DocumentId } from "api-4markdown-contracts";
+import {
+  API4MarkdownPayload,
+  DocumentId,
+  ResourceId,
+} from "api-4markdown-contracts";
+import { ResourceCommentsModule } from "modules/resource-comments";
+import { Empty } from "design-system/empty";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -89,6 +96,43 @@ const ResourceCompletionMarkerContainer = () => {
         You're browsing already <strong>completed resource</strong>.
       </span>
     </p>
+  );
+};
+
+const CommentsSectionContainer = () => {
+  const [{ document }] = useDocumentLayoutContext();
+  const comments = useSimpleFeature();
+
+  if (comments.isOn) {
+    return (
+      <ResourceCommentsModule
+        className="mt-10"
+        resourceId={document.id as ResourceId}
+        resourceType="document"
+      />
+    );
+  }
+
+  return (
+    <Empty className="mt-10 border border-zinc-300 dark:border-zinc-800 rounded-lg p-6">
+      <Empty.Icon>
+        <BiComment size={80} />
+      </Empty.Icon>
+      <Empty.Title>Click To Show Comments (3)</Empty.Title>
+      <Empty.Description>
+        To save some server bandwidth, comments are hidden by default. Click to
+        show them.
+      </Empty.Description>
+      <Empty.Action
+        title="Show comments"
+        auto
+        s={2}
+        i={2}
+        onClick={comments.on}
+      >
+        Show Comments
+      </Empty.Action>
+    </Empty>
   );
 };
 
@@ -191,6 +235,7 @@ const DocumentLayoutContainer = () => {
             </section>
           )}
           <DocumentRatingContainer className="mt-10 justify-end" />
+          <CommentsSectionContainer />
         </main>
         <TableOfContent markdownContainerId={CONTENT_ID} markdown={code} />
       </div>

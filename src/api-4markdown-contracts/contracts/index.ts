@@ -348,6 +348,24 @@ type RemoveAccessGroupContract = Contract<
   { id: AccessGroupId }
 >;
 
+type AddResourceCommentContract = Contract<
+  `addResourceComment`,
+  CommentDto,
+  {
+    resourceId: ResourceId;
+    resourceType: ResourceType;
+    comment: string;
+  }
+>;
+
+type GetResourceCommentsContract = Contract<
+  `getResourceComments`,
+  {
+    comments: CommentDto[];
+  },
+  { resourceId: ResourceId; resourceType: ResourceType }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -376,6 +394,7 @@ type API4MarkdownContracts =
   | GetYourAccountContract
   | GetUserProfileContract
   | AddUserProfileCommentContract
+  | AddResourceCommentContract
   | GetUserResourceCompletionsContract
   | SetUserResourceCompletionContract
   | GetYourAccessGroupsContract
@@ -385,7 +404,8 @@ type API4MarkdownContracts =
   | FindUserProfilesContract
   | AddAccessGroupMemberContract
   | RemoveAccessGroupMemberContract
-  | RemoveAccessGroupContract;
+  | RemoveAccessGroupContract
+  | GetResourceCommentsContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
