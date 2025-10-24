@@ -5,7 +5,7 @@ import React, { ComponentProps } from "react";
 const CommentsSkeleton = ({ className, ...props }: ComponentProps<"ul">) => {
   return (
     <ul className={c("flex flex-col gap-4", className)} {...props}>
-      {Array.from({ length: 6 }).map((_, index) => (
+      {Array.from({ length: 3 }).map((_, index) => (
         <li
           key={index}
           className="p-6 flex flex-col rounded-lg border border-zinc-300 dark:border-zinc-800"

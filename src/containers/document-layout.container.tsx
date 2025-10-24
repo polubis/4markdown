@@ -34,12 +34,17 @@ import {
   DocumentId,
   ResourceId,
 } from "api-4markdown-contracts";
-import { ResourceCommentsModule } from "modules/resource-comments";
 import { Empty } from "design-system/empty";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
     default: MarkdownWidget,
+  })),
+);
+
+const ResourceCommentsModule = React.lazy(() =>
+  import("modules/resource-comments").then(({ ResourceCommentsModule }) => ({
+    default: ResourceCommentsModule,
   })),
 );
 
@@ -105,11 +110,13 @@ const CommentsSectionContainer = () => {
 
   if (comments.isOn) {
     return (
-      <ResourceCommentsModule
-        className="mt-10"
-        resourceId={document.id as ResourceId}
-        resourceType="document"
-      />
+      <React.Suspense>
+        <ResourceCommentsModule
+          className="mt-10"
+          resourceId={document.id as ResourceId}
+          resourceType="document"
+        />
+      </React.Suspense>
     );
   }
 
@@ -118,7 +125,7 @@ const CommentsSectionContainer = () => {
       <Empty.Icon>
         <BiComment size={80} />
       </Empty.Icon>
-      <Empty.Title>Click To Show Comments (3)</Empty.Title>
+      <Empty.Title>Click To Show Comments</Empty.Title>
       <Empty.Description>
         To save some server bandwidth, comments are hidden by default. Click to
         show them.

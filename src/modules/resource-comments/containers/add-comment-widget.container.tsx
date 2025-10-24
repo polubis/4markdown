@@ -10,14 +10,8 @@ import { addResourceCommentAct } from "../acts/add-resource-comment.act";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { emit } from "core/app-events";
 import { Loader } from "design-system/loader";
-import { ResourceId, ResourceType } from "api-4markdown-contracts";
 import { useMutation } from "core/use-mutation";
-
-type AddCommentWidgetContainerProps = {
-  onClose(): void;
-  resourceId: ResourceId;
-  resourceType: ResourceType;
-};
+import { useResourceCommentsContext } from "../providers/resource-comments.provider";
 
 const limits = {
   content: {
@@ -26,11 +20,9 @@ const limits = {
   },
 } as const;
 
-const AddCommentWidgetContainer = ({
-  onClose,
-  resourceId,
-  resourceType,
-}: AddCommentWidgetContainerProps) => {
+const AddCommentWidgetContainer = () => {
+  const { addCommentWidget, resourceId, resourceType } =
+    useResourceCommentsContext();
   const commentAddMutation = useMutation({
     handler: () => {
       return addResourceCommentAct({
@@ -40,7 +32,7 @@ const AddCommentWidgetContainer = ({
       });
     },
     onOk: () => {
-      onClose();
+      addCommentWidget.off();
     },
   });
   const yourUserProfile = useYourUserProfileState();
@@ -57,12 +49,15 @@ const AddCommentWidgetContainer = ({
   );
 
   const goToUserProfileForm = () => {
-    onClose();
+    addCommentWidget.off();
     emit({ type: "SHOW_USER_PROFILE_FORM" });
   };
 
   return (
-    <Modal2 onClose={onClose} disabled={commentAddMutation.is === `busy`}>
+    <Modal2
+      onClose={addCommentWidget.off}
+      disabled={commentAddMutation.is === `busy`}
+    >
       <Modal2.Header
         title="Add Comment"
         closeButtonTitle="Close comment adding"

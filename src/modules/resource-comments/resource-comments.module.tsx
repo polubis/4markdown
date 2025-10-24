@@ -17,8 +17,7 @@ type ResourceCommentsModuleProps = {
 const ResourceCommentsModule = ({
   className,
 }: Pick<ResourceCommentsModuleProps, "className">) => {
-  const { resourceId, resourceType, commentsQuery } =
-    useResourceCommentsContext();
+  const { commentsQuery } = useResourceCommentsContext();
 
   return (
     <div className={c("flex flex-col", className)}>
@@ -27,18 +26,10 @@ const ResourceCommentsModule = ({
           Comments{" "}
           {commentsQuery.is === "ok" ? `(${commentsQuery.data.length})` : ""}
         </span>
-        <AddCommentTriggerContainer
-          resourceId={resourceId}
-          resourceType={resourceType}
-        />
+        <AddCommentTriggerContainer />
       </h2>
 
-      <ResourceCommentsProvider
-        resourceId={resourceId}
-        resourceType={resourceType}
-      >
-        <ResourceCommentsContainer />
-      </ResourceCommentsProvider>
+      <ResourceCommentsContainer />
     </div>
   );
 };
