@@ -18,7 +18,7 @@ const CommentsSkeleton = ({ className, ...props }: ComponentProps<"ul">) => {
             </div>
           </div>
 
-          {Math.random() > 0.3 && <Skeleton className="h-4 w-full mt-4" />}
+          <Skeleton className="h-4 w-full mt-4" />
         </li>
       ))}
     </ul>

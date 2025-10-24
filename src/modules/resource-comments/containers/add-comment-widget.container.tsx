@@ -21,7 +21,7 @@ const limits = {
 } as const;
 
 const AddCommentWidgetContainer = () => {
-  const { addCommentWidget, resourceId, resourceType } =
+  const { addCommentWidget, commentsQuery, resourceId, resourceType } =
     useResourceCommentsContext();
   const commentAddMutation = useMutation({
     handler: () => {
@@ -31,8 +31,12 @@ const AddCommentWidgetContainer = () => {
         comment: values.content,
       });
     },
-    onOk: () => {
+    onOk: (data) => {
       addCommentWidget.off();
+      commentsQuery.setState((prevState) => ({
+        is: "ok",
+        data: [data, ...(prevState.is === "ok" ? prevState.data : [])],
+      }));
     },
   });
   const yourUserProfile = useYourUserProfileState();

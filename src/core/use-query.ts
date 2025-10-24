@@ -99,7 +99,7 @@ const useQuery = <TData>(config: QueryConfig<TData> = {}) => {
     [setState],
   );
 
-  return { ...state, start, abort, setData };
+  return { ...state, start, abort, setData, setState };
 };
 
 export { useQuery };

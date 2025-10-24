@@ -87,7 +87,7 @@ const useMutation = <TData>(config: MutationConfig<TData> = {}) => {
     [setState],
   );
 
-  return { ...state, start, abort, setData };
+  return { ...state, start, abort, setData, setState };
 };
 
 export type { MutationState, MutationConfig };

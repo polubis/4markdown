@@ -7,7 +7,7 @@ import { AddCommentWidgetContainer } from "./add-comment-widget.container";
 import { useResourceCommentsContext } from "../providers/resource-comments.provider";
 
 const AddCommentTriggerContainer = () => {
-  const { addCommentWidget, commentsQuery } = useResourceCommentsContext();
+  const { addCommentWidget } = useResourceCommentsContext();
   const auth = useAuthStore();
   const showWidgetAfterLogIn = React.useRef(false);
 
@@ -30,13 +30,7 @@ const AddCommentTriggerContainer = () => {
 
   return (
     <>
-      <Button
-        i={2}
-        s={1}
-        title="Add comment"
-        disabled={commentsQuery.is !== "ok"}
-        onClick={startCommentAdd}
-      >
+      <Button i={2} s={1} title="Add comment" onClick={startCommentAdd}>
         <BiPlus />
       </Button>
       {addCommentWidget.isOn && <AddCommentWidgetContainer />}
