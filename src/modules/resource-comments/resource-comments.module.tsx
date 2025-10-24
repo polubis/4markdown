@@ -24,7 +24,8 @@ const ResourceCommentsModule = ({
     <div className={c("flex flex-col", className)}>
       <h2 className="mb-4 flex items-center gap-2 justify-between">
         <span className="text-lg">
-          Comments ({"data" in commentsQuery ? commentsQuery.data.length : 0})
+          Comments{" "}
+          {commentsQuery.is === "ok" ? `(${commentsQuery.data.length})` : ""}
         </span>
         <AddCommentTriggerContainer
           resourceId={resourceId}
