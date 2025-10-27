@@ -1,30 +1,24 @@
 import { context, useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useQuery } from "core/use-query";
 import { loadResourceCommentsAct } from "../acts/load-resource-comments.act";
-import { ResourceId, ResourceType } from "api-4markdown-contracts";
+import { ResourceCommentsModuleData } from "../models";
 
 const [ResourceCommentsProvider, useResourceCommentsContext] = context(
-  ({
-    resourceId,
-    resourceType,
-  }: {
-    resourceId: ResourceId;
-    resourceType: ResourceType;
-  }) => {
+  (props: ResourceCommentsModuleData) => {
     const addCommentWidget = useSimpleFeature();
     const commentsQuery = useQuery({
       handler: () =>
         loadResourceCommentsAct({
-          resourceId,
-          resourceType,
+          ...props,
+          cursor: null,
+          limit: null,
         }).then((data) => data.comments),
     });
 
     return {
       commentsQuery,
       addCommentWidget,
-      resourceId,
-      resourceType,
+      ...props,
     };
   },
 );

@@ -2,7 +2,7 @@ import { Button } from "design-system/button";
 import { Field } from "design-system/field";
 import { Modal2 } from "design-system/modal2";
 import { Textarea } from "design-system/textarea";
-import { maxLength, minLength } from "development-kit/form";
+import { ValidatorFn, ValidatorsSetup } from "development-kit/form";
 import { useForm } from "development-kit/use-form";
 import React from "react";
 import { BiErrorAlt, BiInfoCircle } from "react-icons/bi";
@@ -20,14 +20,34 @@ const limits = {
   },
 } as const;
 
+const commentContentValidator: ValidatorFn<string, string> = (value) => {
+  const trimmed = value.trim();
+  if (trimmed.length < limits.content.min) {
+    return `Comment must be at least ${limits.content.min} characters long`;
+  }
+
+  if (trimmed.length > limits.content.max) {
+    return `Comment must be at most ${limits.content.max} characters long`;
+  }
+
+  return null;
+};
+
+type FormValues = {
+  content: string;
+};
+
+const validators: ValidatorsSetup<FormValues> = {
+  content: [commentContentValidator],
+};
+
 const AddCommentWidgetContainer = () => {
-  const { addCommentWidget, commentsQuery, resourceId, resourceType } =
+  const { addCommentWidget, commentsQuery, ...rest } =
     useResourceCommentsContext();
   const commentAddMutation = useMutation({
     handler: () => {
       return addResourceCommentAct({
-        resourceId,
-        resourceType,
+        ...rest,
         comment: values.content,
       });
     },
@@ -41,16 +61,13 @@ const AddCommentWidgetContainer = () => {
   });
   const yourUserProfile = useYourUserProfileState();
 
-  const [{ invalid, values, result, untouched }, { inject }] = useForm<{
-    content: string;
-  }>(
-    {
-      content: "",
-    },
-    {
-      content: [minLength(limits.content.min), maxLength(limits.content.max)],
-    },
-  );
+  const [{ invalid, values, result, untouched }, { inject }] =
+    useForm<FormValues>(
+      {
+        content: "",
+      },
+      validators,
+    );
 
   const goToUserProfileForm = () => {
     addCommentWidget.off();
@@ -86,10 +103,7 @@ const AddCommentWidgetContainer = () => {
                 }
                 hint={
                   result.content ? (
-                    <Field.Error>
-                      Comment should be between {limits.content.min} and{" "}
-                      {limits.content.max} characters
-                    </Field.Error>
+                    <Field.Error>{result.content}</Field.Error>
                   ) : (
                     <Field.Hint>
                       {limits.content.min}-{limits.content.max} characters

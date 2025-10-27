@@ -1,4 +1,8 @@
-import { ResourceId, ResourceType } from "api-4markdown-contracts";
+import {
+  API4MarkdownPayload,
+  ResourceId,
+  ResourceType,
+} from "api-4markdown-contracts";
 import { c } from "design-system/c";
 import React from "react";
 import { AddCommentTriggerContainer } from "./containers/add-comment-trigger.container";
@@ -7,12 +11,11 @@ import {
   ResourceCommentsProvider,
   useResourceCommentsContext,
 } from "./providers/resource-comments.provider";
+import { ResourceCommentsModuleData } from "./models";
 
 type ResourceCommentsModuleProps = {
   className?: string;
-  resourceId: ResourceId;
-  resourceType: ResourceType;
-};
+} & ResourceCommentsModuleData;
 
 const ResourceCommentsModule = ({
   className,
@@ -36,14 +39,10 @@ const ResourceCommentsModule = ({
 
 const ConnectedResourceCommentsModule = ({
   className,
-  resourceId,
-  resourceType,
+  ...props
 }: ResourceCommentsModuleProps) => {
   return (
-    <ResourceCommentsProvider
-      resourceId={resourceId}
-      resourceType={resourceType}
-    >
+    <ResourceCommentsProvider {...props}>
       <ResourceCommentsModule className={className} />
     </ResourceCommentsProvider>
   );

@@ -29,11 +29,7 @@ import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
-import {
-  API4MarkdownPayload,
-  DocumentId,
-  ResourceId,
-} from "api-4markdown-contracts";
+import { API4MarkdownPayload, DocumentId } from "api-4markdown-contracts";
 import { Empty } from "design-system/empty";
 
 const MarkdownWidget = React.lazy(() =>
@@ -113,8 +109,8 @@ const CommentsSectionContainer = () => {
       <React.Suspense>
         <ResourceCommentsModule
           className="mt-10"
-          resourceId={document.id as ResourceId}
-          resourceType="document"
+          resourceId={document.id as DocumentId}
+          type="document"
         />
       </React.Suspense>
     );

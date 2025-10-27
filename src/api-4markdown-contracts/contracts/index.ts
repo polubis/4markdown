@@ -2,6 +2,7 @@ import { Brand, type Prettify } from "development-kit/utility-types";
 import type {
   AccessGroupId,
   Base64,
+  CommentId,
   Date,
   DocumentId,
   Etag,
@@ -351,11 +352,22 @@ type RemoveAccessGroupContract = Contract<
 type AddResourceCommentContract = Contract<
   `addResourceComment`,
   CommentDto,
-  {
-    resourceId: ResourceId;
-    resourceType: ResourceType;
-    comment: string;
-  }
+  | {
+      type: Extract<ResourceType, "document">;
+      resourceId: DocumentId;
+      comment: string;
+    }
+  | {
+      type: Extract<ResourceType, "mindmap">;
+      resourceId: MindmapId;
+      comment: string;
+    }
+  | {
+      type: Extract<ResourceType, "mindmap-node">;
+      resourceId: MindmapNodeId;
+      parentId: MindmapId;
+      comment: string;
+    }
 >;
 
 type GetResourceCommentsContract = Contract<
@@ -363,7 +375,25 @@ type GetResourceCommentsContract = Contract<
   {
     comments: CommentDto[];
   },
-  { resourceId: ResourceId; resourceType: ResourceType }
+  | {
+      type: Extract<ResourceType, "document">;
+      resourceId: DocumentId;
+      cursor: { cdate: Date; id: CommentId } | null;
+      limit: number | null;
+    }
+  | {
+      type: Extract<ResourceType, "mindmap">;
+      resourceId: MindmapId;
+      cursor: { cdate: Date; id: CommentId } | null;
+      limit: number | null;
+    }
+  | {
+      type: Extract<ResourceType, "mindmap-node">;
+      resourceId: MindmapNodeId;
+      parentId: MindmapId;
+      cursor: { cdate: Date; id: CommentId } | null;
+      limit: number | null;
+    }
 >;
 
 type API4MarkdownContracts =
