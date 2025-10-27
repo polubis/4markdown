@@ -6,7 +6,6 @@ import {
   BiCheck,
   BiCheckboxChecked,
   BiCheckboxMinus,
-  BiComment,
   BiCopyAlt,
   BiLogoMarkdown,
 } from "react-icons/bi";
@@ -30,17 +29,11 @@ import {
   useResourcesCompletionState,
 } from "modules/resource-completions";
 import { API4MarkdownPayload, DocumentId } from "api-4markdown-contracts";
-import { Empty } from "design-system/empty";
+import { CommentsSectionExpander } from "components/comments-section-expander";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
     default: MarkdownWidget,
-  })),
-);
-
-const ResourceCommentsModule = React.lazy(() =>
-  import("modules/resource-comments").then(({ ResourceCommentsModule }) => ({
-    default: ResourceCommentsModule,
   })),
 );
 
@@ -97,45 +90,6 @@ const ResourceCompletionMarkerContainer = () => {
         You're browsing already <strong>completed resource</strong>.
       </span>
     </p>
-  );
-};
-
-const CommentsSectionContainer = () => {
-  const [{ document }] = useDocumentLayoutContext();
-  const comments = useSimpleFeature();
-
-  if (comments.isOn) {
-    return (
-      <React.Suspense>
-        <ResourceCommentsModule
-          className="mt-10"
-          resourceId={document.id as DocumentId}
-          type="document"
-        />
-      </React.Suspense>
-    );
-  }
-
-  return (
-    <Empty className="mt-10 border border-zinc-300 dark:border-zinc-800 rounded-lg p-6">
-      <Empty.Icon>
-        <BiComment size={80} />
-      </Empty.Icon>
-      <Empty.Title>Click To Show Comments</Empty.Title>
-      <Empty.Description>
-        To save some server bandwidth, comments are hidden by default. Click to
-        show them.
-      </Empty.Description>
-      <Empty.Action
-        title="Show comments"
-        auto
-        s={2}
-        i={2}
-        onClick={comments.on}
-      >
-        Show Comments
-      </Empty.Action>
-    </Empty>
   );
 };
 
@@ -238,7 +192,10 @@ const DocumentLayoutContainer = () => {
             </section>
           )}
           <DocumentRatingContainer className="mt-10 justify-end" />
-          <CommentsSectionContainer />
+          <CommentsSectionExpander
+            resourceId={document.id as DocumentId}
+            type="document"
+          />
         </main>
         <TableOfContent markdownContainerId={CONTENT_ID} markdown={code} />
       </div>

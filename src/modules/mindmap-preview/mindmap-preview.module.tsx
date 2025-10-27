@@ -36,6 +36,7 @@ import {
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
 import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
+import { CommentsSectionExpander } from "components/comments-section-expander";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -136,6 +137,14 @@ const MindmapPreviewModule = () => {
             chunksActive={false}
             onClose={closeNodePreviewAction}
             markdown={nodePreview.data.content || `No content for this node`}
+            postBodySection={
+              <CommentsSectionExpander
+                className="mb-4 mx-4"
+                type="mindmap-node"
+                resourceId={nodePreview.id as MindmapNodeId}
+                parentId={mindmap.id as MindmapId}
+              />
+            }
           />
         </React.Suspense>
       )}

@@ -1,8 +1,3 @@
-import {
-  API4MarkdownPayload,
-  ResourceId,
-  ResourceType,
-} from "api-4markdown-contracts";
 import { c } from "design-system/c";
 import React from "react";
 import { AddCommentTriggerContainer } from "./containers/add-comment-trigger.container";
@@ -48,4 +43,5 @@ const ConnectedResourceCommentsModule = ({
   );
 };
 
+export type { ResourceCommentsModuleProps };
 export { ConnectedResourceCommentsModule as ResourceCommentsModule };

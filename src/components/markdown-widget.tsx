@@ -26,6 +26,8 @@ type MarkdownWidgetProps = {
   chunksActive?: boolean;
   headerControls?: ReactNode;
   markdown: string;
+  preBodySection?: ReactNode;
+  postBodySection?: ReactNode;
   onClose(): void;
 };
 
@@ -35,6 +37,8 @@ const MarkdownWidget = ({
   chunksActive = true,
   headerControls,
   markdown,
+  preBodySection,
+  postBodySection,
   onClose,
 }: MarkdownWidgetProps) => {
   const bodyId = React.useId();
@@ -218,9 +222,19 @@ const MarkdownWidget = ({
         id={bodyId}
         className={c("p-0", asideNavigation.isOn && "overflow-hidden")}
       >
+        {chunksMode.isOn
+          ? activeChunkIdx === 0
+            ? preBodySection
+            : null
+          : preBodySection}
         <Markdown id={markdownId} className="!max-w-full p-4">
           {chunksMode.isOn ? activeChunk : markdown}
         </Markdown>
+        {chunksMode.isOn
+          ? activeChunkIdx === chunks.length - 1
+            ? postBodySection
+            : null
+          : postBodySection}
         {asideNavigation.isOn && (
           <>
             <aside className="sticky h-full left-0 right-0 bottom-0 w-full flex flex-col animate-slide-in-bottom">
