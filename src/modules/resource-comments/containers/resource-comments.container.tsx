@@ -8,9 +8,38 @@ import { Avatar } from "design-system/avatar";
 import { formatDistance } from "date-fns";
 import { RATING_ICONS } from "core/rating-config";
 import { Button } from "design-system/button";
+import { useFeature } from "@greenonsoftware/react-kit";
+import { CommentId, RatingCategory } from "api-4markdown-contracts";
+import { useMutation } from "core/use-mutation";
+import { rateResourceCommentAct } from "../acts/rate-resource-comment.act";
 
 const ResourceCommentsContainer = () => {
-  const { commentsQuery, addCommentWidget } = useResourceCommentsContext();
+  const { commentsQuery, addCommentWidget, ...rest } =
+    useResourceCommentsContext();
+  const yourRate = useFeature<RatingCategory>();
+  const rateMutation = useMutation();
+
+  const rateComment = (category: RatingCategory, commentId: CommentId) => {
+    yourRate.on(category);
+
+    if (yourRate.is === `off`) {
+      rateMutation.start((signal) => {
+        return rateResourceCommentAct({
+          ...rest,
+          commentId,
+          category,
+        })
+          .then(() => {
+            if (signal.aborted) return;
+            yourRate.on(category);
+          })
+          .catch(() => {
+            if (signal.aborted) return;
+            yourRate.on(category);
+          });
+      });
+    }
+  };
 
   if (commentsQuery.is === "idle" || commentsQuery.is === "busy") {
     return <CommentsSkeleton />;
@@ -92,16 +121,19 @@ const ResourceCommentsContainer = () => {
           <div className="ml-auto mt-4 flex">
             {RATING_ICONS.map(([Icon, category]) => (
               <Button
-                //   i={yourRate === category ? 2 : 1}
-                i={1}
+                i={yourRate.is === `on` && yourRate.data === category ? 2 : 1}
                 s={1}
                 auto
                 key={category}
                 title={`Rate as ${category}`}
-                //   onClick={() => handleClick(category, idx)}
+                onClick={() => rateComment(category, comment.id)}
               >
                 <Icon className="mr-0.5 size-4" />
-                <strong>{comment[category]}</strong>
+                <strong>
+                  {yourRate.is === `on` && yourRate.data === category
+                    ? comment[category] + 1
+                    : comment[category]}
+                </strong>
               </Button>
             ))}
           </div>
