@@ -87,7 +87,11 @@ const useMutation = <TData>(config: MutationConfig<TData> = {}) => {
     [setState],
   );
 
-  return { ...state, start, abort, setData, setState };
+  const reset = React.useCallback(() => {
+    setState(initialState);
+  }, []);
+
+  return { ...state, start, abort, setData, setState, reset };
 };
 
 export type { MutationState, MutationConfig };

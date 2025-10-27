@@ -420,6 +420,27 @@ type RateResourceCommentContract = Contract<
     }
 >;
 
+type DeleteResourceCommentContract = Contract<
+  `deleteResourceComment`,
+  null,
+  | {
+      type: Extract<ResourceType, "document">;
+      resourceId: DocumentId;
+      commentId: CommentId;
+    }
+  | {
+      type: Extract<ResourceType, "mindmap">;
+      resourceId: MindmapId;
+      commentId: CommentId;
+    }
+  | {
+      type: Extract<ResourceType, "mindmap-node">;
+      resourceId: MindmapNodeId;
+      parentId: MindmapId;
+      commentId: CommentId;
+    }
+>;
+
 type API4MarkdownContracts =
   | CreateMindmapContract
   | GetYourDocumentsContract
@@ -460,7 +481,8 @@ type API4MarkdownContracts =
   | RemoveAccessGroupMemberContract
   | RemoveAccessGroupContract
   | GetResourceCommentsContract
-  | RateResourceCommentContract;
+  | RateResourceCommentContract
+  | DeleteResourceCommentContract;
 
 type API4MarkdownContractKey = API4MarkdownContracts["key"];
 type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
