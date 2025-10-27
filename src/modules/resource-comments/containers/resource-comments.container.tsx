@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useResourceCommentsContext } from "../providers/resource-comments.provider";
 import { Err } from "design-system/err";
 import { BiComment, BiError } from "react-icons/bi";
@@ -8,37 +8,32 @@ import { Avatar } from "design-system/avatar";
 import { formatDistance } from "date-fns";
 import { RATING_ICONS } from "core/rating-config";
 import { Button } from "design-system/button";
-import { useFeature } from "@greenonsoftware/react-kit";
 import { CommentId, RatingCategory } from "api-4markdown-contracts";
 import { useMutation } from "core/use-mutation";
 import { rateResourceCommentAct } from "../acts/rate-resource-comment.act";
+import throttle from "lodash.throttle";
+
+const rateCommentThrottled = throttle(rateResourceCommentAct, 5000);
 
 const ResourceCommentsContainer = () => {
   const { commentsQuery, addCommentWidget, ...rest } =
     useResourceCommentsContext();
-  const yourRate = useFeature<RatingCategory>();
+
+  const [ratedComments, setRatedComments] = useState<
+    Record<CommentId, RatingCategory>
+  >({});
   const rateMutation = useMutation();
 
   const rateComment = (category: RatingCategory, commentId: CommentId) => {
-    yourRate.on(category);
+    setRatedComments((prev) => ({ ...prev, [commentId]: category }));
 
-    if (yourRate.is === `off`) {
-      rateMutation.start((signal) => {
-        return rateResourceCommentAct({
-          ...rest,
-          commentId,
-          category,
-        })
-          .then(() => {
-            if (signal.aborted) return;
-            yourRate.on(category);
-          })
-          .catch(() => {
-            if (signal.aborted) return;
-            yourRate.on(category);
-          });
-      });
-    }
+    rateMutation.start(() =>
+      rateCommentThrottled({
+        ...rest,
+        commentId,
+        category,
+      }),
+    );
   };
 
   if (commentsQuery.is === "idle" || commentsQuery.is === "busy") {
@@ -121,7 +116,7 @@ const ResourceCommentsContainer = () => {
           <div className="ml-auto mt-4 flex">
             {RATING_ICONS.map(([Icon, category]) => (
               <Button
-                i={yourRate.is === `on` && yourRate.data === category ? 2 : 1}
+                i={ratedComments[comment.id] === category ? 2 : 1}
                 s={1}
                 auto
                 key={category}
@@ -130,7 +125,7 @@ const ResourceCommentsContainer = () => {
               >
                 <Icon className="mr-0.5 size-4" />
                 <strong>
-                  {yourRate.is === `on` && yourRate.data === category
+                  {ratedComments[comment.id] === category
                     ? comment[category] + 1
                     : comment[category]}
                 </strong>
