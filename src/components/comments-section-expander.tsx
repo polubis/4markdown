@@ -11,20 +11,15 @@ const ResourceCommentsModule = React.lazy(() =>
   })),
 );
 
-const CommentsSectionExpander = ({
+const EmptyTemplate = ({
   className,
-  ...props
-}: ResourceCommentsModuleProps) => {
-  const comments = useSimpleFeature();
-
-  if (comments.isOn) {
-    return (
-      <React.Suspense>
-        <ResourceCommentsModule className={c("mt-10", className)} {...props} />
-      </React.Suspense>
-    );
-  }
-
+  loading,
+  onClick,
+}: {
+  className?: string;
+  loading?: boolean;
+  onClick?: () => void;
+}) => {
   return (
     <Empty
       className={c(
@@ -45,12 +40,32 @@ const CommentsSectionExpander = ({
         auto
         s={2}
         i={2}
-        onClick={comments.on}
+        disabled={loading}
+        onClick={onClick}
       >
         Show Comments
       </Empty.Action>
     </Empty>
   );
+};
+
+const CommentsSectionExpander = ({
+  className,
+  ...props
+}: ResourceCommentsModuleProps) => {
+  const comments = useSimpleFeature();
+
+  if (comments.isOn) {
+    return (
+      <React.Suspense
+        fallback={<EmptyTemplate className={className} loading />}
+      >
+        <ResourceCommentsModule className={c("mt-10", className)} {...props} />
+      </React.Suspense>
+    );
+  }
+
+  return <EmptyTemplate className={className} onClick={comments.on} />;
 };
 
 export { CommentsSectionExpander };

@@ -113,6 +113,9 @@ const AddCommentWidgetContainer = () => {
               >
                 <Textarea
                   placeholder="Write your comment here... Be polite and respectful"
+                  onKeyDown={(e) => {
+                    e.stopPropagation();
+                  }}
                   {...inject(`content`)}
                 />
               </Field>
