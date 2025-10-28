@@ -17,11 +17,12 @@ import { Modal2 } from "design-system/modal2";
 import { useFeature } from "@greenonsoftware/react-kit";
 import { deleteResourceCommentAct } from "../acts/delete-resource-comment.act";
 import { Loader } from "design-system/loader";
+import { EditCommentWidgetContainer } from "./edit-comment-widget.container";
 
 const rateCommentThrottled = throttle(rateResourceCommentAct, 5000);
 
 const ResourceCommentsContainer = () => {
-  const { commentsQuery, addCommentWidget, ...rest } =
+  const { commentsQuery, addCommentWidget, editCommentWidget, ...rest } =
     useResourceCommentsContext();
   const yourUserProfile = useYourUserProfileState();
   const [ratedComments, setRatedComments] = useState<
@@ -178,7 +179,18 @@ const ResourceCommentsContainer = () => {
                   >
                     <BiTrash />
                   </Button>
-                  <Button i={1} s={1} title="Edit comment">
+                  <Button
+                    i={1}
+                    s={1}
+                    title="Edit comment"
+                    onClick={() =>
+                      editCommentWidget.on({
+                        id: comment.id,
+                        etag: comment.etag,
+                        content: comment.content,
+                      })
+                    }
+                  >
                     <BiPencil />
                   </Button>
                 </div>
@@ -187,6 +199,7 @@ const ResourceCommentsContainer = () => {
           </li>
         ))}
       </ul>
+      {editCommentWidget.is === "on" && <EditCommentWidgetContainer />}
       {deleteCommentModal.is === "on" && (
         <Modal2
           disabled={deleteCommentMutation.is === "busy"}
