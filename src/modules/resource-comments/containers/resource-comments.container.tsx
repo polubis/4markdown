@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Err } from "design-system/err";
 import { BiComment, BiError, BiPencil, BiTrash } from "react-icons/bi";
 import { Empty } from "design-system/empty";
@@ -15,7 +15,7 @@ import { useResourceCommentsStore } from "../store";
 import { setAction } from "../store/actions";
 import { loadResourceCommentsAct } from "../acts/load-resource-comments.act";
 
-const rateCommentThrottled = throttle(rateResourceCommentAct, 5000);
+const rateCommentThrottled = throttle(rateResourceCommentAct, 3000);
 
 const ResourceCommentsContainer = () => {
   const comments = useResourceCommentsStore.use.comments();
@@ -23,9 +23,14 @@ const ResourceCommentsContainer = () => {
   const loading = useResourceCommentsStore.use.loading();
   const error = useResourceCommentsStore.use.error();
 
+  const [ratedComments, setRatedComments] = useState<
+    Record<CommentId, RatingCategory>
+  >({});
+
   const yourUserProfile = useYourUserProfileState();
 
   const rateComment = (category: RatingCategory, commentId: CommentId) => {
+    setRatedComments((prev) => ({ ...prev, [commentId]: category }));
     rateCommentThrottled(category, commentId);
   };
 
@@ -107,7 +112,7 @@ const ResourceCommentsContainer = () => {
           <div className="ml-auto mt-4 flex">
             {RATING_ICONS.map(([Icon, category]) => (
               <Button
-                i={comment.rated ? 2 : 1}
+                i={ratedComments[comment.id] === category ? 2 : 1}
                 s={1}
                 auto
                 key={category}
@@ -115,7 +120,11 @@ const ResourceCommentsContainer = () => {
                 onClick={() => rateComment(category, comment.id)}
               >
                 <Icon className="mr-0.5 size-4" />
-                <strong>{comment[category]}</strong>
+                <strong>
+                  {ratedComments[comment.id] === category
+                    ? comment[category] + 1
+                    : comment[category]}
+                </strong>
               </Button>
             ))}
           </div>

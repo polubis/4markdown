@@ -24,6 +24,7 @@ const addResourceCommentAct = async (content: string): Promise<void> => {
     const updatedComment = await getAPI().call("addResourceComment")(payload);
     useResourceCommentsStore.setState({
       busy: false,
+      error: null,
       comments: [
         ...useResourceCommentsStore.getState().comments,
         updatedComment,

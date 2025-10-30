@@ -4,26 +4,13 @@ import {
   CommentId,
   RatingCategory,
 } from "api-4markdown-contracts";
-import {
-  getResourceCommentsStoreMeta,
-  useResourceCommentsStore,
-} from "../store";
+import { getResourceCommentsStoreMeta } from "../store";
 
 const rateResourceCommentAct = async (
   category: RatingCategory,
   commentId: CommentId,
 ): Promise<void> => {
   try {
-    useResourceCommentsStore.setState({
-      comments: useResourceCommentsStore
-        .getState()
-        .comments.map((comment) =>
-          comment.id === commentId
-            ? { ...comment, rated: true, [category]: comment[category] + 1 }
-            : comment,
-        ),
-    });
-
     const payload: API4MarkdownPayload<"rateResourceComment"> = {
       ...getResourceCommentsStoreMeta(),
       commentId,
