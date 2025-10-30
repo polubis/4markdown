@@ -5,7 +5,7 @@ import LogoThumbnail from "images/logo-thumbnail.png";
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
 import { AppNavigation } from "components/app-navigation";
 import { meta } from "../../meta";
-import type { PermanentDocumentDto } from "api-4markdown-contracts";
+import type { API4MarkdownDto } from "api-4markdown-contracts";
 import { CreationLinkContainer } from "containers/creation-link.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { DocumentLayoutProvider } from "providers/document-layout.provider";
@@ -14,7 +14,7 @@ import { AppFooterContainer } from "containers/app-footer.container";
 
 interface DocumentPageProps {
   pageContext: {
-    doc: PermanentDocumentDto;
+    doc: API4MarkdownDto<"getPermanentDocuments">[number];
   };
 }
 
@@ -26,9 +26,7 @@ const DocumentPage = ({ pageContext }: DocumentPageProps) => {
         <EducationRankLinkContainer />
         <EducationZoneLinkContainer />
       </AppNavigation>
-      <DocumentLayoutProvider
-        document={{ ...pageContext.doc, commentsCount: 0 }}
-      >
+      <DocumentLayoutProvider document={pageContext.doc}>
         <DocumentLayoutContainer />
       </DocumentLayoutProvider>
       <AppFooterContainer />

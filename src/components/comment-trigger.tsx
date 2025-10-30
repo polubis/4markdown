@@ -17,6 +17,7 @@ const CommentTrigger = ({
   return (
     <div className="relative">
       <Button
+        title="See comments panel"
         className={c(
           "bg-gradient-to-r from-sky-200 via-pink-200 to-gray-300",
           "dark:from-sky-900 dark:via-indigo-900 dark:to-gray-950",

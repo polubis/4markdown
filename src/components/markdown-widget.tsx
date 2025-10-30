@@ -9,7 +9,7 @@ import {
 } from "development-kit/extract-headings";
 import { useCopy } from "development-kit/use-copy";
 import { useKeyPress } from "development-kit/use-key-press";
-import React, { ReactNode, useEffect } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 import {
   BiArrowToLeft,
   BiArrowToRight,
@@ -103,8 +103,12 @@ const MarkdownWidget = ({
     body.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const prefGoEnd = useRef<number | null>(null);
+
   useEffect(() => {
-    if (goToEnd && goToEnd > 0) {
+    if (goToEnd && goToEnd > 0 && prefGoEnd.current !== goToEnd) {
+      prefGoEnd.current = goToEnd;
+
       if (chunksMode.isOn) {
         setActiveChunkIdx(chunks.length - 1);
 

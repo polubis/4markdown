@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Err } from "design-system/err";
-import { BiComment, BiError, BiPencil, BiTrash } from "react-icons/bi";
+import { BiComment, BiError, BiPencil, BiPlus, BiTrash } from "react-icons/bi";
 import { Empty } from "design-system/empty";
 import { CommentsSkeleton } from "../components/comments-skeleton";
 import { Avatar } from "design-system/avatar";
@@ -76,7 +76,7 @@ const ResourceCommentsContainer = () => {
           i={2}
           onClick={() => setAction("commentFormData", { type: "add" })}
         >
-          Add Comment
+          <BiPlus /> Add Comment
         </Empty.Action>
       </Empty>
     );

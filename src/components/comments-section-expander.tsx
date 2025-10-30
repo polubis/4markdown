@@ -4,7 +4,7 @@ import { c } from "design-system/c";
 import { Empty } from "design-system/empty";
 import { type ResourceCommentsModuleProps } from "modules/resource-comments";
 import React from "react";
-import { BiComment, BiPlus } from "react-icons/bi";
+import { BiComment } from "react-icons/bi";
 
 const ResourceCommentsModule = React.lazy(() =>
   import("modules/resource-comments").then(({ ResourceCommentsModule }) => ({
@@ -15,12 +15,10 @@ const ResourceCommentsModule = React.lazy(() =>
 const EmptyTemplate = ({
   className,
   loading,
-  commentsCount,
   onClick,
 }: {
   className?: string;
   loading?: boolean;
-  commentsCount: number;
   onClick?: () => void;
 }) => {
   return (
@@ -33,13 +31,10 @@ const EmptyTemplate = ({
       <Empty.Icon>
         <BiComment size={80} />
       </Empty.Icon>
-      <Empty.Title>
-        {commentsCount > 0 ? `Click To Show Comments` : `Click To Add Comment`}
-      </Empty.Title>
+      <Empty.Title>Click To Show Comments</Empty.Title>
       <Empty.Description>
-        {commentsCount > 0
-          ? `To save some server bandwidth, comments are hidden by default. Click to show them.`
-          : `Be the first to comment on this resource and share your thoughts and ideas`}
+        To save some server bandwidth, comments are hidden by default. Click to
+        show them or to add a new comment.
       </Empty.Description>
       <Empty.Action
         title="Show comments"
@@ -49,13 +44,7 @@ const EmptyTemplate = ({
         disabled={loading}
         onClick={onClick}
       >
-        {commentsCount > 0 ? (
-          `Show Comments (${commentsCount})`
-        ) : (
-          <>
-            <BiPlus /> Add Comment
-          </>
-        )}
+        Show Comments
       </Empty.Action>
     </Empty>
   );
@@ -63,12 +52,10 @@ const EmptyTemplate = ({
 
 type CommentsSectionExpanderProps = {
   className?: string;
-  commentsCount: number;
 } & ResourceCommentsModuleProps;
 
 const CommentsSectionExpander = ({
   className,
-  commentsCount,
   ...props
 }: CommentsSectionExpanderProps) => {
   const comments = useSimpleFeature();
@@ -85,26 +72,14 @@ const CommentsSectionExpander = ({
   if (comments.isOn) {
     return (
       <React.Suspense
-        fallback={
-          <EmptyTemplate
-            className={className}
-            loading
-            commentsCount={commentsCount}
-          />
-        }
+        fallback={<EmptyTemplate className={className} loading />}
       >
         <ResourceCommentsModule className={c("mt-10", className)} {...props} />
       </React.Suspense>
     );
   }
 
-  return (
-    <EmptyTemplate
-      className={className}
-      commentsCount={commentsCount}
-      onClick={comments.on}
-    />
-  );
+  return <EmptyTemplate className={className} onClick={comments.on} />;
 };
 
 export { CommentsSectionExpander };

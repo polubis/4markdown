@@ -109,7 +109,7 @@ const DocumentLayoutContainer = () => {
   return (
     <>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
-        <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
+        <main className="max-w-prose w-full mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
           <ResourceCompletionMarkerContainer />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button
@@ -142,6 +142,22 @@ const DocumentLayoutContainer = () => {
                 <BiCopyAlt />
               )}
             </Button>
+            <CommentTrigger
+              i={2}
+              s={2}
+              position="right"
+              count={document.commentsCount}
+              onClick={() => {
+                window.scrollTo({
+                  top: Math.max(
+                    window.document.documentElement.scrollHeight,
+                    window.document.body.scrollHeight,
+                  ),
+                  behavior: `smooth`,
+                });
+                emit({ type: "SHOW_DOCUMENT_COMMENTS_PANEL" });
+              }}
+            />
           </section>
           <DocumentRatingContainer className="mb-6 justify-end" />
           {document.visibility === `permanent` && (
@@ -195,7 +211,6 @@ const DocumentLayoutContainer = () => {
           )}
           <DocumentRatingContainer className="mt-10 justify-end" />
           <CommentsSectionExpander
-            commentsCount={document.commentsCount}
             resourceId={document.id as DocumentId}
             type="document"
           />
@@ -203,24 +218,7 @@ const DocumentLayoutContainer = () => {
         <TableOfContent markdownContainerId={CONTENT_ID} markdown={code} />
       </div>
 
-      <PageSidePanel>
-        <CommentTrigger
-          i={2}
-          s={2}
-          position="right"
-          count={document.commentsCount}
-          onClick={() => {
-            window.scrollTo({
-              top: Math.max(
-                window.document.documentElement.scrollHeight,
-                window.document.body.scrollHeight,
-              ),
-              behavior: `smooth`,
-            });
-            emit({ type: "SHOW_DOCUMENT_COMMENTS_PANEL" });
-          }}
-        />
-      </PageSidePanel>
+      <PageSidePanel />
 
       {sectionsModal.isOn && (
         <React.Suspense>

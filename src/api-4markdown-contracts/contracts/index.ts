@@ -149,7 +149,9 @@ type GetAccessibleDocumentContract = Contract<
 >;
 type GetPermanentDocumentsContract = Contract<
   `getPermanentDocuments`,
-  Prettify<PermanentDocumentDto & { isAuthorTrusted: boolean }>[]
+  Prettify<
+    PermanentDocumentDto & { isAuthorTrusted: boolean; commentsCount: number }
+  >[]
 >;
 type DeleteDocumentContract = Contract<
   `deleteDocument`,
