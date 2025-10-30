@@ -352,120 +352,64 @@ type RemoveAccessGroupContract = Contract<
 type AddResourceCommentContract = Contract<
   `addResourceComment`,
   CommentDto & { etag: Etag },
-  | {
-      type: Extract<ResourceType, "document">;
-      resourceId: DocumentId;
-      comment: string;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap">;
-      resourceId: MindmapId;
-      comment: string;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap-node">;
-      resourceId: MindmapNodeId;
-      parentId: MindmapId;
-      comment: string;
-    }
+  {
+    type: ResourceType;
+    comment: string;
+    resourceId: ResourceId;
+    parentId?: MindmapId;
+  }
 >;
 
 type GetResourceCommentsContract = Contract<
   `getResourceComments`,
   {
     comments: (CommentDto & { etag: Etag })[];
+    hasMore: boolean;
+    nextCursor: { cdate: Date; id: CommentId } | null;
   },
-  | {
-      type: Extract<ResourceType, "document">;
-      resourceId: DocumentId;
-      cursor: { cdate: Date; id: CommentId } | null;
-      limit: number | null;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap">;
-      resourceId: MindmapId;
-      cursor: { cdate: Date; id: CommentId } | null;
-      limit: number | null;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap-node">;
-      resourceId: MindmapNodeId;
-      parentId: MindmapId;
-      cursor: { cdate: Date; id: CommentId } | null;
-      limit: number | null;
-    }
+  {
+    type: ResourceType;
+    resourceId: ResourceId;
+    parentId?: MindmapId;
+    nextCursor: { cdate: Date; id: CommentId } | null;
+    limit: number | null;
+  }
 >;
 
 type RateResourceCommentContract = Contract<
   `rateResourceComment`,
   null,
-  | {
-      type: Extract<ResourceType, "document">;
-      resourceId: DocumentId;
-      commentId: CommentId;
-      category: RatingCategory;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap">;
-      resourceId: MindmapId;
-      commentId: CommentId;
-      category: RatingCategory;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap-node">;
-      resourceId: MindmapNodeId;
-      parentId: MindmapId;
-      commentId: CommentId;
-      category: RatingCategory;
-    }
+  {
+    type: ResourceType;
+    resourceId: ResourceId;
+    parentId?: MindmapId;
+    commentId: CommentId;
+    category: RatingCategory;
+  }
 >;
 
 type DeleteResourceCommentContract = Contract<
   `deleteResourceComment`,
   null,
-  | {
-      type: Extract<ResourceType, "document">;
-      resourceId: DocumentId;
-      commentId: CommentId;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap">;
-      resourceId: MindmapId;
-      commentId: CommentId;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap-node">;
-      resourceId: MindmapNodeId;
-      parentId: MindmapId;
-      commentId: CommentId;
-    }
+  {
+    type: ResourceType;
+    resourceId: ResourceId;
+    parentId?: MindmapId;
+    commentId: CommentId;
+  }
 >;
 
 type EditResourceCommentContract = Contract<
   `editResourceComment`,
-  CommentDto,
-  | {
-      type: Extract<ResourceType, "document">;
-      resourceId: DocumentId;
-      etag: Etag;
-      commentId: CommentId;
-      content: string;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap">;
-      resourceId: MindmapId;
-      etag: Etag;
-      commentId: CommentId;
-      content: string;
-    }
-  | {
-      type: Extract<ResourceType, "mindmap-node">;
-      resourceId: MindmapNodeId;
-      parentId: MindmapId;
-      etag: Etag;
-      commentId: CommentId;
-      content: string;
-    }
+  CommentDto & { etag: Etag },
+  {
+    type: ResourceType;
+    resourceId: ResourceId;
+    parentId?: MindmapId;
+    etag: Etag;
+    commentId: CommentId;
+    content: string;
+  }
 >;
 
 type API4MarkdownContracts =

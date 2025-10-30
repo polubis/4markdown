@@ -9,7 +9,10 @@ import { BiErrorAlt, BiInfoCircle } from "react-icons/bi";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { emit } from "core/app-events";
 import { Loader } from "design-system/loader";
-import { CommentId, Etag } from "api-4markdown-contracts";
+import { useResourceCommentsStore } from "../store";
+import { setAction } from "../store/actions";
+import { editResourceCommentAct } from "../acts/edit-resource-comment.act";
+import { addResourceCommentAct } from "../acts/add-resource-comment.act";
 
 const limits = {
   content: {
@@ -39,40 +42,40 @@ const validators: ValidatorsSetup<FormValues> = {
   content: [commentContentValidator],
 };
 
-type ResourceCommentFormContainerProps = {
-  data?: {
-    id: CommentId;
-    etag: Etag;
-    content: string;
-  };
-  error: string | null;
-  onClose(): void;
-  onConfirm(values: FormValues): void;
-  disabled?: boolean;
-};
+const ResourceCommentFormContainer = () => {
+  const commentFormData = useResourceCommentsStore.use.commentFormData()!;
+  const busy = useResourceCommentsStore.use.busy();
+  const operationError = useResourceCommentsStore.use.operationError();
 
-const ResourceCommentFormContainer = (
-  props: ResourceCommentFormContainerProps,
-) => {
+  const isEditMode = commentFormData.type === "edit";
+
   const yourUserProfile = useYourUserProfileState();
 
   const [{ invalid, values, result, untouched }, { inject }] =
     useForm<FormValues>(
       {
-        content: props.data ? props.data.content : "",
+        content: commentFormData.data?.content ?? "",
       },
       validators,
     );
 
+  const close = () => {
+    setAction("commentFormData", null);
+  };
+
+  const confirm = () => {
+    isEditMode
+      ? editResourceCommentAct(values.content)
+      : addResourceCommentAct(values.content);
+  };
+
   const goToUserProfileForm = () => {
-    props.onClose();
+    close();
     emit({ type: "SHOW_USER_PROFILE_FORM" });
   };
 
-  const isEditMode = !!props.data;
-
   return (
-    <Modal2 onClose={props.onClose} disabled={props.disabled}>
+    <Modal2 onClose={close} disabled={busy}>
       <Modal2.Header
         title={isEditMode ? "Edit Comment" : "Add Comment"}
         closeButtonTitle={
@@ -115,10 +118,10 @@ const ResourceCommentFormContainer = (
                   {...inject(`content`)}
                 />
               </Field>
-              {props.error && (
+              {operationError && (
                 <p className="mt-4 flex gap-2 text-sm justify-center items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
                   <BiErrorAlt className="shrink-0" size={20} />
-                  {props.error}
+                  {operationError.message}
                 </p>
               )}
             </>
@@ -144,8 +147,8 @@ const ResourceCommentFormContainer = (
             auto
             className="flex-1"
             title="Close comment form"
-            disabled={props.disabled}
-            onClick={props.onClose}
+            disabled={busy}
+            onClick={close}
           >
             Close
           </Button>
@@ -155,11 +158,11 @@ const ResourceCommentFormContainer = (
               i={2}
               s={2}
               auto
-              disabled={invalid || untouched || props.disabled}
+              disabled={invalid || untouched || busy}
               title={
                 isEditMode ? "Confirm comment edit" : "Confirm comment add"
               }
-              onClick={() => props.onConfirm(values)}
+              onClick={confirm}
             >
               Confirm
             </Button>
@@ -181,4 +184,10 @@ const ResourceCommentFormContainer = (
   );
 };
 
-export { ResourceCommentFormContainer };
+const Wrapped = () => {
+  const commentFormData = useResourceCommentsStore.use.commentFormData();
+
+  return commentFormData ? <ResourceCommentFormContainer /> : null;
+};
+
+export { Wrapped as ResourceCommentFormContainer };

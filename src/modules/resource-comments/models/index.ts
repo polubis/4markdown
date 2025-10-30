@@ -1,29 +1,38 @@
-import { API4MarkdownPayload } from "api-4markdown-contracts";
+import {
+  API4MarkdownDto,
+  CommentId,
+  Etag,
+  MindmapId,
+  ParsedError,
+  ResourceId,
+  ResourceType,
+} from "api-4markdown-contracts";
 
-type OnChange = (
-  type: "add" | "delete",
-  meta: { commentsCount: number },
-) => void;
+type ResourceComment =
+  API4MarkdownDto<"getResourceComments">["comments"][number] & {
+    rated?: boolean;
+  };
 
-type ResourceCommentsDocumentData = Omit<
-  Extract<API4MarkdownPayload<"getResourceComments">, { type: "document" }>,
-  "cursor" | "limit"
->;
+type ResourceCommentsState = {
+  comments: ResourceComment[];
+  hasMore: boolean;
+  nextCursor: API4MarkdownDto<"getResourceComments">["nextCursor"];
+  idle: boolean;
+  loading: boolean;
+  busy: boolean;
+  operationError: ParsedError | null;
+  error: ParsedError | null;
+  deleteCommentData: { id: CommentId; etag: Etag } | null;
+  commentFormData: {
+    type: "add" | "edit";
+    data?: { id: CommentId; etag: Etag; content?: string };
+  } | null;
+};
 
-type ResourceCommentsMindmapData = Omit<
-  Extract<API4MarkdownPayload<"getResourceComments">, { type: "mindmap" }>,
-  "cursor" | "limit"
->;
+type ResourceCommentsMeta = {
+  type: ResourceType;
+  resourceId: ResourceId;
+  parentId?: MindmapId;
+};
 
-type ResourceCommentsMindmapNodeData = Omit<
-  Extract<API4MarkdownPayload<"getResourceComments">, { type: "mindmap-node" }>,
-  "cursor" | "limit"
->;
-
-type ResourceCommentsProviderProps = (
-  | ResourceCommentsDocumentData
-  | ResourceCommentsMindmapData
-  | ResourceCommentsMindmapNodeData
-) & { commentsCount: number; onChange: OnChange };
-
-export type { ResourceCommentsProviderProps };
+export type { ResourceCommentsState, ResourceCommentsMeta };

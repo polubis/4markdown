@@ -3,17 +3,15 @@ import { Button } from "design-system/button";
 import React, { useEffect } from "react";
 import { BiPlus } from "react-icons/bi";
 import { useAuthStore } from "store/auth/auth.store";
-import { AddCommentWidgetContainer } from "./add-comment-widget.container";
-import { useResourceCommentsContext } from "../providers/resource-comments.provider";
+import { setAction } from "../store/actions";
 
 const AddCommentTriggerContainer = () => {
-  const { addCommentWidget } = useResourceCommentsContext();
   const auth = useAuthStore();
   const showWidgetAfterLogIn = React.useRef(false);
 
   const startCommentAdd = () => {
     if (auth.is === `authorized`) {
-      addCommentWidget.on();
+      setAction("commentFormData", { type: "add" });
       return;
     }
 
@@ -23,18 +21,15 @@ const AddCommentTriggerContainer = () => {
 
   useEffect(() => {
     if (auth.is === `authorized` && showWidgetAfterLogIn.current) {
-      addCommentWidget.on();
+      setAction("commentFormData", { type: "add" });
       showWidgetAfterLogIn.current = false;
     }
   }, [auth]);
 
   return (
-    <>
-      <Button i={2} s={1} title="Add comment" onClick={startCommentAdd}>
-        <BiPlus />
-      </Button>
-      {addCommentWidget.isOn && <AddCommentWidgetContainer />}
-    </>
+    <Button i={2} s={1} title="Add comment" onClick={startCommentAdd}>
+      <BiPlus />
+    </Button>
   );
 };
 

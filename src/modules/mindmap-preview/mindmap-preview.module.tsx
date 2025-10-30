@@ -162,7 +162,6 @@ const MindmapPreviewModule = () => {
             markdown={nodePreview.data.content || `No content for this node`}
             postBodySection={
               <CommentsSectionExpander
-                onChange={() => {}}
                 commentsCount={0}
                 className="mb-4 mx-4"
                 type="mindmap-node"

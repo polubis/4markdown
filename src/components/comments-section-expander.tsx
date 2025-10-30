@@ -61,11 +61,16 @@ const EmptyTemplate = ({
   );
 };
 
+type CommentsSectionExpanderProps = {
+  className?: string;
+  commentsCount: number;
+} & ResourceCommentsModuleProps;
+
 const CommentsSectionExpander = ({
   className,
   commentsCount,
   ...props
-}: ResourceCommentsModuleProps) => {
+}: CommentsSectionExpanderProps) => {
   const comments = useSimpleFeature();
 
   useAppEvent((event) => {
@@ -88,11 +93,7 @@ const CommentsSectionExpander = ({
           />
         }
       >
-        <ResourceCommentsModule
-          commentsCount={commentsCount}
-          className={c("mt-10", className)}
-          {...props}
-        />
+        <ResourceCommentsModule className={c("mt-10", className)} {...props} />
       </React.Suspense>
     );
   }

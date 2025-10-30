@@ -1,10 +1,47 @@
-import { getAPI } from "api-4markdown";
-import { API4MarkdownDto, API4MarkdownPayload } from "api-4markdown-contracts";
+import { getAPI, parseError } from "api-4markdown";
+import {
+  getResourceCommentsStoreMeta,
+  useResourceCommentsStore,
+} from "../store";
+import { API4MarkdownPayload } from "api-4markdown-contracts";
 
-const deleteResourceCommentAct = async (
-  payload: API4MarkdownPayload<"deleteResourceComment">,
-): Promise<API4MarkdownDto<"deleteResourceComment">> => {
-  return await getAPI().call("deleteResourceComment")(payload);
+const deleteResourceCommentAct = async (): Promise<void> => {
+  try {
+    const commentId = useResourceCommentsStore.getState().deleteCommentData?.id;
+
+    if (!commentId) {
+      throw new Error("Comment ID not set");
+    }
+
+    useResourceCommentsStore.setState({
+      busy: true,
+      operationError: null,
+    });
+
+    const payload: API4MarkdownPayload<"deleteResourceComment"> = {
+      ...getResourceCommentsStoreMeta(),
+      commentId,
+    };
+
+    if (!payload.parentId) {
+      Reflect.deleteProperty(payload, "parentId");
+    }
+
+    await getAPI().call("deleteResourceComment")(payload);
+
+    useResourceCommentsStore.setState({
+      busy: false,
+      comments: useResourceCommentsStore
+        .getState()
+        .comments.filter((comment) => comment.id !== commentId),
+      deleteCommentData: null,
+    });
+  } catch (error) {
+    useResourceCommentsStore.setState({
+      busy: false,
+      operationError: parseError(error),
+    });
+  }
 };
 
 export { deleteResourceCommentAct };

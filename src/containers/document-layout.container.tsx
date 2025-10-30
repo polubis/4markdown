@@ -196,7 +196,6 @@ const DocumentLayoutContainer = () => {
           <DocumentRatingContainer className="mt-10 justify-end" />
           <CommentsSectionExpander
             commentsCount={document.commentsCount}
-            onChange={() => {}}
             resourceId={document.id as DocumentId}
             type="document"
           />
