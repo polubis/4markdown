@@ -1,9 +1,16 @@
 import React, { useRef } from "react";
 import { Subject, Subscription } from "rxjs";
 
-type AppEvent = {
-  type: "SHOW_USER_PROFILE_FORM";
-};
+type AppEvent =
+  | {
+      type: "SHOW_USER_PROFILE_FORM";
+    }
+  | {
+      type: "SHOW_DOCUMENT_COMMENTS_PANEL";
+    }
+  | {
+      type: "SHOW_MINDMAP_NODE_COMMENTS_PANEL";
+    };
 
 const appEventsBus = new Subject<AppEvent>();
 const appEventsBus$ = appEventsBus.asObservable();

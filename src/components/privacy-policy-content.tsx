@@ -1,6 +1,6 @@
 import React from "react";
 import { meta } from "../../meta";
-import { ScrollToTop } from "./scroll-to-top";
+import { PageSidePanel } from "./page-side-panel";
 
 const PrivacyPolicyContent = () => {
   return (
@@ -800,7 +800,7 @@ const PrivacyPolicyContent = () => {
           </li>
         </ul>
       </main>
-      <ScrollToTop />
+      <PageSidePanel />
     </>
   );
 };

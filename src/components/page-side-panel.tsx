@@ -1,9 +1,13 @@
 import { Button } from "design-system/button";
 import { usePortal } from "development-kit/use-portal";
-import React from "react";
+import React, { type ReactNode } from "react";
 import { BiArrowToTop } from "react-icons/bi";
 
-const ScrollToTop = () => {
+type PageSidePanelProps = {
+  children?: ReactNode;
+};
+
+const PageSidePanel = ({ children }: PageSidePanelProps) => {
   const { render } = usePortal();
   const [visible, setVisible] = React.useState(false);
 
@@ -28,7 +32,8 @@ const ScrollToTop = () => {
   if (!visible) return null;
 
   return render(
-    <aside className="fixed flex flex-col space-y-2 left-0 bottom-0 p-4">
+    <aside className="fixed flex flex-col gap-3 left-0 bottom-0 p-4">
+      {children}
       <Button
         i={2}
         s={2}
@@ -41,4 +46,4 @@ const ScrollToTop = () => {
   );
 };
 
-export { ScrollToTop };
+export { PageSidePanel };

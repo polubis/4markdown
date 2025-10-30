@@ -144,7 +144,7 @@ type GetYourDocumentsContract = Contract<
 >;
 type GetAccessibleDocumentContract = Contract<
   `getAccessibleDocument`,
-  PublicDocumentDto | PermanentDocumentDto,
+  (PublicDocumentDto | PermanentDocumentDto) & { commentsCount: number },
   { documentId: DocumentDto["id"] }
 >;
 type GetPermanentDocumentsContract = Contract<

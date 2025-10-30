@@ -6,11 +6,11 @@ import {
   ResourceCommentsProvider,
   useResourceCommentsContext,
 } from "./providers/resource-comments.provider";
-import { ResourceCommentsModuleData } from "./models";
+import { ResourceCommentsProviderProps } from "./models";
 
 type ResourceCommentsModuleProps = {
   className?: string;
-} & ResourceCommentsModuleData;
+} & ResourceCommentsProviderProps;
 
 const ResourceCommentsModule = ({
   className,

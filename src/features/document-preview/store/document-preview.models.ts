@@ -5,7 +5,9 @@ import type {
 import type { Transaction } from "development-kit/utility-types";
 
 type DocumentPreviewStoreState = Transaction<{
-  document: PublicDocumentDto | PermanentDocumentDto;
+  document: (PublicDocumentDto | PermanentDocumentDto) & {
+    commentsCount: number;
+  };
 }>;
 
 export type { DocumentPreviewStoreState };

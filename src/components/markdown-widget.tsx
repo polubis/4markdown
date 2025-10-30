@@ -9,7 +9,7 @@ import {
 } from "development-kit/extract-headings";
 import { useCopy } from "development-kit/use-copy";
 import { useKeyPress } from "development-kit/use-key-press";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import {
   BiArrowToLeft,
   BiArrowToRight,
@@ -23,6 +23,7 @@ import {
 } from "react-icons/bi";
 
 type MarkdownWidgetProps = {
+  goToEnd?: number;
   chunksActive?: boolean;
   headerControls?: ReactNode;
   markdown: string;
@@ -34,6 +35,7 @@ type MarkdownWidgetProps = {
 const MAX_CHUNK_HEADING_LEVEL = 2;
 
 const MarkdownWidget = ({
+  goToEnd,
   chunksActive = true,
   headerControls,
   markdown,
@@ -100,6 +102,34 @@ const MarkdownWidget = ({
 
     body.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    if (goToEnd && goToEnd > 0) {
+      if (chunksMode.isOn) {
+        setActiveChunkIdx(chunks.length - 1);
+
+        setTimeout(() => {
+          const body = document.getElementById(bodyId);
+
+          if (!body) return;
+
+          body.scrollTo({
+            top: Math.max(body.scrollHeight, body.clientHeight),
+            behavior: "smooth",
+          });
+        }, 200);
+      } else {
+        const body = document.getElementById(bodyId);
+
+        if (!body) return;
+
+        body.scrollTo({
+          top: Math.max(body.scrollHeight, body.clientHeight),
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [goToEnd, chunksMode, chunks]);
 
   const goToPreviousChunk = () => {
     if (!ableToPrev || chunksMode.isOff) return;

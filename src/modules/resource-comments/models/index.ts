@@ -1,5 +1,10 @@
 import { API4MarkdownPayload } from "api-4markdown-contracts";
 
+type OnChange = (
+  type: "add" | "delete",
+  meta: { commentsCount: number },
+) => void;
+
 type ResourceCommentsDocumentData = Omit<
   Extract<API4MarkdownPayload<"getResourceComments">, { type: "document" }>,
   "cursor" | "limit"
@@ -15,9 +20,10 @@ type ResourceCommentsMindmapNodeData = Omit<
   "cursor" | "limit"
 >;
 
-type ResourceCommentsModuleData =
+type ResourceCommentsProviderProps = (
   | ResourceCommentsDocumentData
   | ResourceCommentsMindmapData
-  | ResourceCommentsMindmapNodeData;
+  | ResourceCommentsMindmapNodeData
+) & { commentsCount: number; onChange: OnChange };
 
-export type { ResourceCommentsModuleData };
+export type { ResourceCommentsProviderProps };

@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import { ScrollToTop } from "./scroll-to-top";
+import { PageSidePanel } from "./page-side-panel";
 
 type EducationLayoutProps = {
   title: ReactNode;
@@ -30,7 +30,7 @@ const EducationLayout = ({
           <div className="top-0 sticky right-0 py-6 px-4 md:px-6">{side}</div>
         </section>
       </main>
-      <ScrollToTop />
+      <PageSidePanel />
     </>
   );
 };

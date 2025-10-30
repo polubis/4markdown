@@ -19,7 +19,7 @@ import { useDocumentLayoutContext } from "providers/document-layout.provider";
 import { SocialShare } from "components/social-share";
 import { DocumentRatingContainer } from "containers/document-rating.container";
 import { UserSocials } from "components/user-socials";
-import { ScrollToTop } from "components/scroll-to-top";
+import { PageSidePanel } from "components/page-side-panel";
 import { Markdown } from "components/markdown";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { TableOfContent } from "components/table-of-content";
@@ -30,6 +30,8 @@ import {
 } from "modules/resource-completions";
 import { API4MarkdownPayload, DocumentId } from "api-4markdown-contracts";
 import { CommentsSectionExpander } from "components/comments-section-expander";
+import { CommentTrigger } from "components/comment-trigger";
+import { emit } from "core/app-events";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -193,6 +195,8 @@ const DocumentLayoutContainer = () => {
           )}
           <DocumentRatingContainer className="mt-10 justify-end" />
           <CommentsSectionExpander
+            commentsCount={document.commentsCount}
+            onChange={() => {}}
             resourceId={document.id as DocumentId}
             type="document"
           />
@@ -200,7 +204,24 @@ const DocumentLayoutContainer = () => {
         <TableOfContent markdownContainerId={CONTENT_ID} markdown={code} />
       </div>
 
-      <ScrollToTop />
+      <PageSidePanel>
+        <CommentTrigger
+          i={2}
+          s={2}
+          position="right"
+          count={document.commentsCount}
+          onClick={() => {
+            window.scrollTo({
+              top: Math.max(
+                window.document.documentElement.scrollHeight,
+                window.document.body.scrollHeight,
+              ),
+              behavior: `smooth`,
+            });
+            emit({ type: "SHOW_DOCUMENT_COMMENTS_PANEL" });
+          }}
+        />
+      </PageSidePanel>
 
       {sectionsModal.isOn && (
         <React.Suspense>

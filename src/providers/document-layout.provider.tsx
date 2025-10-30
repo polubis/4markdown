@@ -10,7 +10,9 @@ import type {
 } from "api-4markdown-contracts";
 
 type DocumentLayoutState = {
-  document: PublicDocumentDto | PermanentDocumentDto;
+  document: (PublicDocumentDto | PermanentDocumentDto) & {
+    commentsCount: number;
+  };
   yourRate: RatingCategory | null;
 };
 
@@ -18,7 +20,9 @@ type DocumentLayoutContextValue = [
   DocumentLayoutState,
   Dispatch<
     SetStateAction<{
-      document: PublicDocumentDto | PermanentDocumentDto;
+      document: (PublicDocumentDto | PermanentDocumentDto) & {
+        commentsCount: number;
+      };
       yourRate: RatingCategory | null;
     }>
   >,

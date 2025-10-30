@@ -37,6 +37,9 @@ import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
 import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
 import { CommentsSectionExpander } from "components/comments-section-expander";
+import { CommentTrigger } from "components/comment-trigger";
+import { emit } from "core/app-events";
+import { useFeature, useSimpleFeature } from "@greenonsoftware/react-kit";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -89,6 +92,8 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapPreviewModule = () => {
+  const [goToEndCounter, setGoToEndCounter] = React.useState(0);
+
   const mindmap = useMindmapPreviewState((state) =>
     readyMindmapPreviewSelector(state.mindmap),
   );
@@ -127,18 +132,38 @@ const MindmapPreviewModule = () => {
       {nodePreview.is === `on` && (
         <React.Suspense>
           <MarkdownWidget
+            goToEnd={goToEndCounter}
             headerControls={
-              <ResourceCompletionTriggerContainer
-                type="mindmap-node"
-                resourceId={nodePreview.id as MindmapNodeId}
-                parentId={mindmap.id as MindmapId}
-              />
+              <>
+                <CommentTrigger
+                  position="left"
+                  count={2}
+                  onClick={() => {
+                    setGoToEndCounter((prev) => prev + 1);
+                    setTimeout(() => {
+                      emit({ type: "SHOW_MINDMAP_NODE_COMMENTS_PANEL" });
+                    }, 1000);
+                  }}
+                  i={2}
+                  s={1}
+                />
+                <ResourceCompletionTriggerContainer
+                  type="mindmap-node"
+                  resourceId={nodePreview.id as MindmapNodeId}
+                  parentId={mindmap.id as MindmapId}
+                />
+              </>
             }
             chunksActive={false}
-            onClose={closeNodePreviewAction}
+            onClose={() => {
+              closeNodePreviewAction();
+              setGoToEndCounter(0);
+            }}
             markdown={nodePreview.data.content || `No content for this node`}
             postBodySection={
               <CommentsSectionExpander
+                onChange={() => {}}
+                commentsCount={0}
                 className="mb-4 mx-4"
                 type="mindmap-node"
                 resourceId={nodePreview.id as MindmapNodeId}
