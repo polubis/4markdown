@@ -1,16 +1,8 @@
-type ErrorSymbol =
-  | `already-exists`
-  | `unauthenticated`
-  | `internal`
-  | `invalid-schema`
-  | `not-found`
-  | `out-of-date`
-  | `bad-request`
-  | `unauthorized`;
-type ErrorContent = string | { key: string; message: string }[];
+type ListErrorContent = { key: string; message: string }[];
+type ErrorContent = string | ListErrorContent;
 
 type ErrorVariant<
-  TSymbol extends ErrorSymbol,
+  TSymbol extends string,
   TContent extends ErrorContent = string,
 > = {
   symbol: TSymbol;
@@ -18,50 +10,21 @@ type ErrorVariant<
   message: string;
 };
 
-type AlreadyExistsError = ErrorVariant<`already-exists`>;
-type UnauthenticatedError = ErrorVariant<`unauthenticated`>;
-type Unauthorized = ErrorVariant<`unauthorized`>;
-type InternalError = ErrorVariant<`internal`>;
-type InvalidSchemaError = ErrorVariant<
-  `invalid-schema`,
-  { key: string; message: string }[]
->;
-type NotFoundError = ErrorVariant<`not-found`>;
-type OutOfDateError = ErrorVariant<`out-of-date`>;
-type BadRequestError = ErrorVariant<`bad-request`>;
+type ServerError =
+  | ErrorVariant<`already-exists`>
+  | ErrorVariant<`unauthenticated`>
+  | ErrorVariant<`unauthorized`>
+  | ErrorVariant<`internal`>
+  | ErrorVariant<`invalid-schema`, ListErrorContent>
+  | ErrorVariant<`not-found`>
+  | ErrorVariant<`out-of-date`>
+  | ErrorVariant<`bad-request`>;
 
-type KnownError =
-  | AlreadyExistsError
-  | UnauthenticatedError
-  | Unauthorized
-  | InternalError
-  | InvalidSchemaError
-  | NotFoundError
-  | OutOfDateError
-  | BadRequestError;
+type ClientError =
+  | ErrorVariant<`unknown`>
+  | ErrorVariant<`no-internet`>
+  | ErrorVariant<`custom-error`>;
 
-type UnknownError = {
-  symbol: "unknown";
-  content: string;
-  message: string;
-};
-
-type NoInternetError = {
-  symbol: "no-internet";
-  content: string;
-  message: string;
-};
-
-type ClientError = {
-  symbol: "client-error";
-  content: string;
-  message: string;
-};
-
-type API4MarkdownError =
-  | KnownError
-  | UnknownError
-  | NoInternetError
-  | ClientError;
+type API4MarkdownError = ClientError | ServerError;
 
 export type { API4MarkdownError };
