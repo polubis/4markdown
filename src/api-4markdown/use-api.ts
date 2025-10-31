@@ -3,7 +3,7 @@ import type {
   API4MarkdownContractKey,
   API4MarkdownDto,
   CacheVersion,
-  NoInternetError,
+  API4MarkdownError,
 } from "api-4markdown-contracts";
 import { type FirebaseOptions, initializeApp } from "firebase/app";
 import type { Functions } from "firebase/functions";
@@ -91,7 +91,10 @@ const initializeAPI = (version: CacheVersion): API4Markdown => {
           } catch (rawError: unknown) {
             try {
               if (rawError instanceof NoInternetException) {
-                const noInternetError: NoInternetError = {
+                const noInternetError: Extract<
+                  API4MarkdownError,
+                  { symbol: "no-internet" }
+                > = {
                   content: `Lack of internet`,
                   message: `Lack of internet`,
                   symbol: `no-internet`,

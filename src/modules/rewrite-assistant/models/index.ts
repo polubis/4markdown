@@ -1,6 +1,6 @@
 import type {
   RewriteAssistantPersona,
-  ParsedError,
+  API4MarkdownError,
 } from "api-4markdown-contracts";
 import type { SUID } from "development-kit/suid";
 
@@ -9,7 +9,7 @@ type RewriteAssistantOperation =
   | { is: `busy` }
   | { is: `ok` }
   | { is: `stopped` }
-  | { is: `fail`; error: ParsedError };
+  | { is: `fail`; error: API4MarkdownError };
 
 type RewriteAssistantMessage = {
   id: SUID;
@@ -33,7 +33,7 @@ type RewriteAssistantAction =
       type: "AS_OK";
       payload: RewriteAssistantMessage["content"];
     }
-  | { type: `AS_FAIL`; payload: ParsedError }
+  | { type: `AS_FAIL`; payload: API4MarkdownError }
   | { type: `STOP` }
   | {
       type: `ASK_AGAIN`;

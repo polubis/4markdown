@@ -25,7 +25,7 @@ import { MAX_ACCESS_GROUP_MEMBERS } from "../config/constraints";
 import { Empty } from "design-system/empty";
 import { Err } from "design-system/err";
 import { useFeature } from "@greenonsoftware/react-kit";
-import { AccessGroupDto, ParsedError } from "api-4markdown-contracts";
+import { AccessGroupDto, API4MarkdownError } from "api-4markdown-contracts";
 import { Modal2 } from "design-system/modal2";
 import { useMutation } from "core/use-mutation";
 import { removeAccessGroupAct } from "../acts/remove-access-group-act";
@@ -35,7 +35,7 @@ const Content = () => {
   const { accessGroups, idle, busy, error } = useAccessGroupsManagementStore();
   const groupToDeleteConfirm = useFeature<AccessGroupDto>();
 
-  const errorModal = useFeature<ParsedError>();
+  const errorModal = useFeature<API4MarkdownError>();
 
   const removeGroupMutation = useMutation({
     handler: (signal) => {

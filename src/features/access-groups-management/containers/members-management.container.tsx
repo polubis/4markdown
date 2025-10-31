@@ -16,7 +16,7 @@ import { useTypeaheadQuery } from "core/use-typeahead-query";
 import { findUserProfilesAct } from "../acts/find-user-profiles.act";
 import {
   API4MarkdownDto,
-  ParsedError,
+  API4MarkdownError,
   UserProfileDto,
   UserProfileId,
 } from "api-4markdown-contracts";
@@ -66,7 +66,7 @@ const MembersManagementContainer = () => {
 
   const revokeAccessConfirm = useFeature<UserProfileDto>();
 
-  const errorModal = useFeature<ParsedError>();
+  const errorModal = useFeature<API4MarkdownError>();
 
   const accessGroupToEdit =
     useAccessGroupsManagementStore.use.accessGroupToEdit()!;

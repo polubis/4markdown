@@ -1,4 +1,4 @@
-import type { ParsedError } from "api-4markdown-contracts";
+import type { API4MarkdownError } from "api-4markdown-contracts";
 
 type NonNullableProperties<T> = {
   [P in keyof T]: NonNullable<T[P]>;
@@ -13,7 +13,7 @@ type MaybeObject = Record<string | number | symbol, any> | undefined;
 // @TODO[PRIO=4]: [Decouple this ParsedError from this place].
 type Transaction<
   TOkData extends MaybeObject = undefined,
-  TFailData extends MaybeObject = { error: ParsedError },
+  TFailData extends MaybeObject = { error: API4MarkdownError },
 > =
   | { is: "idle" }
   | { is: "busy" }
@@ -26,7 +26,7 @@ type Nullable<T> = {
 
 type AsyncResult<
   TOkData extends MaybeObject = undefined,
-  TFailData extends MaybeObject = { error: ParsedError },
+  TFailData extends MaybeObject = { error: API4MarkdownError },
 > = Promise<
   | (TOkData extends undefined ? { is: "ok" } : { is: "ok"; data: TOkData })
   | (TFailData extends undefined ? { is: `fail` } : { is: `fail` } & TFailData)
@@ -34,7 +34,7 @@ type AsyncResult<
 
 type Result<
   TOkData extends MaybeObject = undefined,
-  TFailData extends MaybeObject = { error: ParsedError },
+  TFailData extends MaybeObject = { error: API4MarkdownError },
 > = Awaited<AsyncResult<TOkData, TFailData>>;
 
 type Brand<TData, TLabel extends string> = TData & { __brand: TLabel };
