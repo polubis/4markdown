@@ -1,4 +1,4 @@
-import { Brand, type Prettify } from "development-kit/utility-types";
+import { type Prettify } from "development-kit/utility-types";
 import type {
   AccessGroupId,
   Base64,
@@ -31,7 +31,6 @@ import type {
   ManualDocumentDto,
 } from "../dtos";
 import { AccessGroupDto } from "../dtos/access-group.dto";
-// @TODO[PRIO=1]: [Add better error handling and throwing custom errors].
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
   key: TKey;
@@ -398,35 +397,9 @@ type API4MarkdownPayload<TKey extends API4MarkdownContractKey> = Extract<
   { key: TKey }
 >["payload"];
 
-type API4MarkdownContractCall = <TKey extends API4MarkdownContractKey>(
-  key: TKey,
-) => API4MarkdownPayload<TKey> extends undefined
-  ? () => Promise<API4MarkdownDto<TKey>>
-  : (payload: API4MarkdownPayload<TKey>) => Promise<API4MarkdownDto<TKey>>;
-
-type API4MarkdownResult<TKey extends API4MarkdownContractKey> =
-  | { is: `fail`; error: unknown }
-  | {
-      is: `ok`;
-      payload: API4MarkdownPayload<TKey>;
-      dto: API4MarkdownDto<TKey>;
-    };
-
-type CacheVersion = Brand<string, "CacheVersion">;
-
-type API4MarkdownCacheSignature<TKey extends API4MarkdownContractKey> = {
-  __expiry__: number;
-  __version__: CacheVersion;
-  value: API4MarkdownDto<TKey> | null;
-};
-
 export type {
   API4MarkdownContracts,
   API4MarkdownContractKey,
   API4MarkdownDto,
   API4MarkdownPayload,
-  API4MarkdownResult,
-  API4MarkdownCacheSignature,
-  API4MarkdownContractCall,
-  CacheVersion,
 };
