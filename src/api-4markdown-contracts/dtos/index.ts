@@ -8,4 +8,3 @@ export * from "./rewrite-assistant.dto";
 export * from "./your-account.dto";
 export * from "./comment.dto";
 export * from "./resource-completion.dto";
-export * from "./access-group.dto";

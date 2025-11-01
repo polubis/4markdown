@@ -25,6 +25,4 @@ type ClientError =
   | ErrorVariant<`no-internet`>
   | ErrorVariant<`custom-error`>;
 
-type API4MarkdownError = ClientError | ServerError;
-
-export type { API4MarkdownError };
+export type API4MarkdownError = ClientError | ServerError;
