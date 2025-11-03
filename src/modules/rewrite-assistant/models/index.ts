@@ -1,7 +1,4 @@
-import type {
-  RewriteAssistantPersona,
-  ParsedError,
-} from "api-4markdown-contracts";
+import type { API4MarkdownError, Atoms } from "api-4markdown-contracts";
 import type { SUID } from "development-kit/suid";
 
 type RewriteAssistantOperation =
@@ -9,7 +6,7 @@ type RewriteAssistantOperation =
   | { is: `busy` }
   | { is: `ok` }
   | { is: `stopped` }
-  | { is: `fail`; error: ParsedError };
+  | { is: `fail`; error: API4MarkdownError };
 
 type RewriteAssistantMessage = {
   id: SUID;
@@ -20,24 +17,24 @@ type RewriteAssistantMessage = {
 type RewriteAssistantState = {
   operation: RewriteAssistantOperation;
   messages: RewriteAssistantMessage[];
-  activePersona: RewriteAssistantPersona | `none`;
+  activePersona: Atoms["RewriteAssistantPersona"] | `none`;
 };
 
 type RewriteAssistantAction =
   | { type: "RESET" }
   | {
       type: "SELECT_PERSONA";
-      payload: RewriteAssistantPersona;
+      payload: Atoms["RewriteAssistantPersona"];
     }
   | {
       type: "AS_OK";
       payload: RewriteAssistantMessage["content"];
     }
-  | { type: `AS_FAIL`; payload: ParsedError }
+  | { type: `AS_FAIL`; payload: API4MarkdownError }
   | { type: `STOP` }
   | {
       type: `ASK_AGAIN`;
-      payload: RewriteAssistantPersona;
+      payload: Atoms["RewriteAssistantPersona"];
     }
   | { type: `CLOSE` }
   | { type: `APPLY`; payload: string };

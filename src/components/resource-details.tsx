@@ -1,8 +1,3 @@
-import {
-  AccessGroupId,
-  ResourceType,
-  ResourceVisibility,
-} from "api-4markdown-contracts";
 import { Button } from "design-system/button";
 import React from "react";
 import { BiPencil } from "react-icons/bi";
@@ -10,9 +5,10 @@ import { VisibilityIcon } from "./visibility-icon";
 import { c } from "design-system/c";
 import { navigate } from "gatsby";
 import { formatDistance } from "date-fns";
+import { Atoms } from "api-4markdown-contracts";
 
 type ResourceDetailsProps = {
-  visibility: ResourceVisibility;
+  visibility: Atoms["ResourceVisibility"];
   name: string;
   type: "Document" | "Mindmap";
   id: string;
@@ -22,7 +18,7 @@ type ResourceDetailsProps = {
   createdAt: string;
   editedAt: string;
   description?: string;
-  sharedForGroups?: AccessGroupId[];
+  sharedForGroups?: Atoms["AccessGroupId"][];
   onAccessEdit: () => void;
 };
 

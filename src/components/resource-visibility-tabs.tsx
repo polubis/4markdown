@@ -1,17 +1,21 @@
 import React from "react";
 import { Tabs2 } from "design-system/tabs-2";
 import { VisibilityIcon } from "./visibility-icon";
-import {
-  RESOURCE_VISIBILITIES,
-  ResourceVisibility,
-} from "api-4markdown-contracts";
+import { Atoms } from "api-4markdown-contracts";
+
+const RESOURCE_VISIBILITIES = [
+  "private",
+  "public",
+  "permanent",
+  "manual",
+] satisfies Atoms["ResourceVisibility"][];
 
 type ResourceVisibilityTabsProps = {
   className?: string;
   disabled: boolean;
-  visibility: ResourceVisibility;
-  title: (visibility: ResourceVisibility) => string;
-  onChange: (visibility: ResourceVisibility) => void;
+  visibility: Atoms["ResourceVisibility"];
+  title: (visibility: Atoms["ResourceVisibility"]) => string;
+  onChange: (visibility: Atoms["ResourceVisibility"]) => void;
 };
 
 const ResourceVisibilityTabs = ({

@@ -11,17 +11,17 @@ import { meta } from "../../../meta";
 import { useQuery } from "core/use-query";
 import { Search } from "design-system/search-input";
 import { getYourAccessGroupsAct } from "./acts/get-your-access-groups.act";
-import { AccessGroupId, API4MarkdownDto } from "api-4markdown-contracts";
+import { API4MarkdownDto, Atoms } from "api-4markdown-contracts";
 import { formatDistance } from "date-fns";
 import { Avatar } from "design-system/avatar";
 import { c } from "design-system/c";
 
 type AccessGroupsAssignModuleProps = {
-  accessGroups?: AccessGroupId[];
+  accessGroups?: Atoms["AccessGroupId"][];
   disabled: boolean;
   onClose(): void;
   onBack(): void;
-  onConfirm(accessGroups: AccessGroupId[]): void;
+  onConfirm(accessGroups: Atoms["AccessGroupId"][]): void;
 };
 
 const AccessGroupsAssignModule = ({
@@ -38,7 +38,7 @@ const AccessGroupsAssignModule = ({
   const [now] = React.useState(() => new Date());
 
   const [selectedGroups, setSelectedGroups] = React.useState<
-    Set<AccessGroupId>
+    Set<Atoms["AccessGroupId"]>
   >(() => new Set(accessGroups || []));
 
   const [query, setQuery] = React.useState("");

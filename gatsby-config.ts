@@ -1,8 +1,8 @@
 import type { GatsbyConfig } from "gatsby";
 import { meta } from "./meta";
 import { seoPlugins } from "./seo-plugins";
-import { CacheVersion } from "api-4markdown-contracts";
 import { SiteMetadata } from "core/models";
+import { type CacheVersion } from "api-4markdown";
 
 require(`dotenv`).config({
   path: `.env.${process.env.NODE_ENV}`,

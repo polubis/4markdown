@@ -28,7 +28,7 @@ import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
-import { API4MarkdownPayload, DocumentId } from "api-4markdown-contracts";
+import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -44,7 +44,7 @@ const ResourceCompletionTriggerContainer = () => {
     API4MarkdownPayload<"setUserResourceCompletion">
   >(() => ({
     type: "document",
-    resourceId: document.id as DocumentId,
+    resourceId: document.id as Atoms["DocumentId"],
   }));
   const [toggleState, completion, toggle] =
     useResourceCompletionToggle(toggleConfig);
@@ -76,7 +76,7 @@ const ResourceCompletionTriggerContainer = () => {
 
 const ResourceCompletionMarkerContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
-  const completion = useResourceCompletion(document.id as DocumentId);
+  const completion = useResourceCompletion(document.id as Atoms["DocumentId"]);
 
   if (!completion) {
     return null;

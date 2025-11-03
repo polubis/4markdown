@@ -5,12 +5,13 @@ import React from "react";
 import ErrorModal from "components/error-modal";
 import { useCopy } from "development-kit/use-copy";
 import { Status } from "design-system/status";
-import { IMAGE_EXTENSIONS } from "api-4markdown-contracts";
 import { uploadImageAct } from "acts/upload-image.act";
 import { useUploadImageState } from "store/upload-image";
 import { UploadImageButton } from "../components/upload-image-button";
 import { readFileAsBase64 } from "development-kit/file-reading";
 import { useComboPress } from "development-kit/use-combo-press";
+
+const IMAGE_EXTENSIONS = [`png`, `jpeg`, `jpg`, `gif`, `webp`] as const;
 
 const allowedExtensions = IMAGE_EXTENSIONS.map(
   (extension) => `image/${extension}`,

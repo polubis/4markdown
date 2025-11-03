@@ -6,7 +6,7 @@ import { Input } from "design-system/input";
 import { navigate } from "gatsby";
 import { searchStaticContentAct } from "acts/search-static-content.act";
 import type { SearchDataItem } from "models/pages-data";
-import type { ParsedError } from "api-4markdown-contracts";
+import type { API4MarkdownError } from "api-4markdown-contracts";
 
 type SearchPopoverContentProps = {
   onClose(): void;
@@ -19,7 +19,7 @@ let searchDataCache: { is: `idle` } | { is: `ok`; data: SearchDataItem[] } = {
 type LoadState =
   | { is: `busy` }
   | { is: `ok`; data: SearchDataItem[] }
-  | { is: `fail`; error: ParsedError };
+  | { is: `fail`; error: API4MarkdownError };
 
 const SearchPopoverContent = ({ onClose }: SearchPopoverContentProps) => {
   const [search, setSearch] = React.useState(``);

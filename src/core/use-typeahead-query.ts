@@ -9,13 +9,13 @@ import {
 } from "rxjs/operators";
 import React from "react";
 import { parseError } from "api-4markdown";
-import { ParsedError } from "api-4markdown-contracts";
+import { API4MarkdownError } from "api-4markdown-contracts";
 
 type RawError = unknown;
 type Idle = { is: "idle" };
 type Busy = { is: "busy" };
 type Ok<TData> = { is: "ok"; data: TData };
-type Fail = { is: "fail"; error: ParsedError; rawError: RawError };
+type Fail = { is: "fail"; error: API4MarkdownError; rawError: RawError };
 type TypeaheadState<TData> = Idle | Busy | Ok<TData> | Fail;
 
 type Handler<TData> = (query: string, signal: AbortSignal) => Promise<TData>;
@@ -26,7 +26,7 @@ type TypeaheadConfig<TData> = {
   handler?: Handler<TData>;
   onBusy?: () => void;
   onOk?: (data: TData) => void;
-  onFail?: (error: ParsedError, rawError: unknown) => void;
+  onFail?: (error: API4MarkdownError, rawError: unknown) => void;
 };
 
 const useTypeaheadQuery = <TData>(config: TypeaheadConfig<TData> = {}) => {

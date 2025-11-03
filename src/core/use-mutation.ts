@@ -1,12 +1,12 @@
 import { parseError } from "api-4markdown";
-import { ParsedError } from "api-4markdown-contracts";
+import { API4MarkdownError } from "api-4markdown-contracts";
 import React from "react";
 
 type RawError = unknown;
 type Idle = { is: "idle" };
 type Busy = { is: "busy" };
 type Ok<TData> = { is: "ok"; data: TData };
-type Fail = { is: "fail"; error: ParsedError; rawError: RawError };
+type Fail = { is: "fail"; error: API4MarkdownError; rawError: RawError };
 type MutationState<TData> = Idle | Busy | Ok<TData> | Fail;
 type Handler<TData> = (signal: AbortSignal) => Promise<TData>;
 
@@ -14,7 +14,7 @@ type MutationConfig<TData> = {
   handler?: Handler<TData>;
   onBusy?: () => void;
   onOk?: (data: TData) => void;
-  onFail?: (error: ParsedError, rawError: RawError) => void;
+  onFail?: (error: API4MarkdownError, rawError: RawError) => void;
 };
 
 const initialState: MutationState<unknown> = { is: "idle" };

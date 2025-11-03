@@ -13,12 +13,12 @@ import { Field } from "design-system/field";
 import { meta } from "../../../../meta";
 import { deleteMindmapAct } from "acts/delete-mindmap.act";
 import { updateMindmapVisibilityAct } from "acts/update-mindmap-visibility.act";
-import { ResourceVisibility } from "api-4markdown-contracts";
 import { authStoreSelectors } from "store/auth/auth.store";
 import { createPathForMindmap } from "core/create-path-for-mindmap";
 import { context } from "@greenonsoftware/react-kit";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
 import { ResourceDetails } from "components/resource-details";
+import { Atoms } from "api-4markdown-contracts";
 
 const AccessGroupsAssignModule = React.lazy(() =>
   import("modules/access-groups-assign").then((m) => ({
@@ -117,7 +117,7 @@ const MindmapDetailsViewContainer = () => {
   const disabled = operation.is === `busy`;
   const activeMindmap = useMindmapCreatorState(safeActiveMindmapSelector);
 
-  const changeVisibility = (visibility: ResourceVisibility): void => {
+  const changeVisibility = (visibility: Atoms["ResourceVisibility"]): void => {
     if (activeMindmap.visibility === visibility) return;
 
     updateMindmapVisibilityAct(visibility);
