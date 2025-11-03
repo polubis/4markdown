@@ -1,8 +1,7 @@
 import type {
+  Atoms,
   FullMindmapDto,
-  Path,
   PermanentDocumentDto,
-  Tags,
   UserProfileDto,
 } from "api-4markdown-contracts";
 
@@ -37,18 +36,18 @@ type EducationPageModel = {
     partialTop: LightEducationDocumentModel[];
     wall: RichEducationDocumentModel[];
   };
-  topTags: Tags;
-  tag?: Tags[number];
+  topTags: string[];
+  tag?: string;
 };
 
 type EducationRankPageModel = {
   topDocuments: RichEducationDocumentModel[];
-  topTags: Tags;
+  topTags: string[];
 };
 
 type MindmapPageModel = {
   mindmap: FullMindmapDto;
-  mindmapPath: Path;
+  mindmapPath: Atoms["Path"];
 };
 
 export type {

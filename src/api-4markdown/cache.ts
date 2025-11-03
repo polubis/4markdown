@@ -1,19 +1,26 @@
 import type {
-  API4MarkdownCacheSignature,
   API4MarkdownContractKey,
   API4MarkdownDto,
 } from "api-4markdown-contracts";
 import { getCacheVersion } from "./use-api";
+import { Brand } from "development-kit/utility-types";
+
+type CacheVersion = Brand<string, "CacheVersion">;
+
+type CacheSignature<TKey extends API4MarkdownContractKey> = {
+  __expiry__: number;
+  __version__: CacheVersion;
+  value: API4MarkdownDto<TKey> | null;
+};
 
 const hasValidSignature = <TKey extends API4MarkdownContractKey>(
   parsed: unknown,
-): parsed is API4MarkdownCacheSignature<TKey> => {
+): parsed is CacheSignature<TKey> => {
   return (
     parsed !== null &&
     typeof parsed === `object` &&
-    typeof (parsed as API4MarkdownCacheSignature<TKey>).__expiry__ ===
-      `number` &&
-    typeof (parsed as API4MarkdownCacheSignature<TKey>).__version__ === `string`
+    typeof (parsed as CacheSignature<TKey>).__expiry__ === `number` &&
+    typeof (parsed as CacheSignature<TKey>).__version__ === `string`
   );
 };
 
@@ -72,3 +79,4 @@ const getCache = <TKey extends API4MarkdownContractKey>(
 };
 
 export { setCache, getCache, removeCache };
+export type { CacheVersion };

@@ -4,14 +4,14 @@ import React, {
   type ReactNode,
 } from "react";
 import type {
-  RatingCategory,
+  Atoms,
   PermanentDocumentDto,
   PublicDocumentDto,
 } from "api-4markdown-contracts";
 
 type DocumentLayoutState = {
   document: PublicDocumentDto | PermanentDocumentDto;
-  yourRate: RatingCategory | null;
+  yourRate: Atoms["RatingCategory"] | null;
 };
 
 type DocumentLayoutContextValue = [
@@ -19,7 +19,7 @@ type DocumentLayoutContextValue = [
   Dispatch<
     SetStateAction<{
       document: PublicDocumentDto | PermanentDocumentDto;
-      yourRate: RatingCategory | null;
+      yourRate: Atoms["RatingCategory"] | null;
     }>
   >,
 ];

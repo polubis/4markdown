@@ -1,5 +1,6 @@
 import { getAPI, parseError } from "api-4markdown";
 import { useMindmapPreviewState } from "store/mindmap-preview";
+import { Atoms } from "api-4markdown-contracts";
 
 const getAccessibleMindmapAct = async (): Promise<void> => {
   try {
@@ -31,8 +32,8 @@ const getAccessibleMindmapAct = async (): Promise<void> => {
     }
 
     const data = await getAPI().call(`getAccessibleMindmap`)({
-      mindmapId,
-      authorId,
+      mindmapId: mindmapId as Atoms["MindmapId"],
+      authorId: authorId as Atoms["UserProfileId"],
     });
 
     useMindmapPreviewState.set({

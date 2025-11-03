@@ -28,11 +28,7 @@ import {
 } from "./containers/embedded-node-tile.container";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
 import { useResourceCompletionToggle } from "modules/resource-completions";
-import {
-  API4MarkdownPayload,
-  MindmapId,
-  MindmapNodeId,
-} from "api-4markdown-contracts";
+import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
 import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
@@ -129,8 +125,8 @@ const MindmapPreviewModule = () => {
             headerControls={
               <ResourceCompletionTriggerContainer
                 type="mindmap-node"
-                resourceId={nodePreview.id as MindmapNodeId}
-                parentId={mindmap.id as MindmapId}
+                resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
+                parentId={mindmap.id as Atoms["MindmapId"]}
               />
             }
             chunksActive={false}

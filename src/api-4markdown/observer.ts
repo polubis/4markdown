@@ -1,17 +1,26 @@
 import type {
   API4MarkdownContractKey,
-  API4MarkdownResult,
+  API4MarkdownDto,
+  API4MarkdownPayload,
 } from "api-4markdown-contracts";
 
+type Result<TKey extends API4MarkdownContractKey> =
+  | { is: `fail`; error: unknown }
+  | {
+      is: `ok`;
+      payload: API4MarkdownPayload<TKey>;
+      dto: API4MarkdownDto<TKey>;
+    };
+
 type Observer = <TKey extends API4MarkdownContractKey>(
-  result: API4MarkdownResult<TKey>,
+  result: Result<TKey>,
 ) => void;
 
 const observersMap = new Map<API4MarkdownContractKey, Map<symbol, Observer>>();
 
 const observe = <TKey extends API4MarkdownContractKey>(
   key: TKey,
-  observer: (result: API4MarkdownResult<TKey>) => void,
+  observer: (result: Result<TKey>) => void,
 ) => {
   const id = Symbol(`id`);
 
@@ -40,7 +49,7 @@ const observe = <TKey extends API4MarkdownContractKey>(
 
 const emit = <TKey extends API4MarkdownContractKey>(
   key: TKey,
-  result: API4MarkdownResult<TKey>,
+  result: Result<TKey>,
 ): void => {
   observersMap.get(key)?.forEach((observer) => {
     observer(result);

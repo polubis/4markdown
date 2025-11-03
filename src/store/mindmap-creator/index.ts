@@ -1,6 +1,7 @@
 import { state } from "development-kit/state";
 import type { MindmapCreatorState } from "./models";
 import { type Viewport } from "@xyflow/react";
+import { Atoms } from "api-4markdown-contracts";
 
 const defaultMindmapData: Pick<
   MindmapCreatorState,
@@ -52,7 +53,7 @@ const defaultMindmapData: Pick<
         y: 324,
       },
       data: {
-        url: `https://en.wikipedia.org/wiki/Spaghetti`,
+        url: `https://en.wikipedia.org/wiki/Spaghetti` as Atoms["Url"],
         description: null,
         name: `Spaghetti History`,
         path: `/spaghetti-history/`,

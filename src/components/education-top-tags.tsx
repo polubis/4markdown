@@ -1,11 +1,10 @@
-import type { Tags } from "api-4markdown-contracts";
 import { Link } from "gatsby";
 import React from "react";
 import { meta } from "../../meta";
 
 type EducationTopTagsProps = {
   className?: string;
-  tags: Tags;
+  tags: string[];
 };
 
 const EducationTopTags = ({ className, tags }: EducationTopTagsProps) => {

@@ -1,8 +1,10 @@
 import { getAPI, parseError } from "api-4markdown";
 import { setUserProfileStatsAction } from "../models/actions";
-import { UserProfileId } from "api-4markdown-contracts";
+import { Atoms } from "api-4markdown-contracts";
 
-const getUserProfileAct = async (profileId: UserProfileId): Promise<void> => {
+const getUserProfileAct = async (
+  profileId: Atoms["UserProfileId"],
+): Promise<void> => {
   try {
     if (!profileId) {
       throw Error(`User profile ID wrong format`);

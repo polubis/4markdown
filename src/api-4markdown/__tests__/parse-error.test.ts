@@ -1,11 +1,11 @@
-import type { ParsedError } from "api-4markdown-contracts";
+import type { API4MarkdownError } from "api-4markdown-contracts";
 import { parseError } from "../parse-error";
 import { expect } from "@jest/globals";
 
 describe(`Error parsing works when`, () => {
   const verifyErrorShape = (
-    incoming: ParsedError,
-    expected: ParsedError,
+    incoming: API4MarkdownError,
+    expected: API4MarkdownError,
   ): void => {
     expect(parseError(Error(JSON.stringify(incoming)))).toEqual(expected);
   };
