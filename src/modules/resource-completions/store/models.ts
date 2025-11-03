@@ -1,8 +1,8 @@
-import { ResourceCompletionDto, ResourceId } from "api-4markdown-contracts";
+import { Atoms, ResourceCompletionDto } from "api-4markdown-contracts";
 import { Transaction } from "development-kit/utility-types";
 
 type ResourcesCompletionState = Transaction<{
-  data: Record<ResourceId, ResourceCompletionDto>;
+  data: Record<Atoms["ResourceId"], ResourceCompletionDto>;
 }>;
 
 type OkResourcesCompletionState = Extract<

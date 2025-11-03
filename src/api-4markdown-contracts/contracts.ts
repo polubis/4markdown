@@ -1,24 +1,23 @@
 import { type Prettify } from "development-kit/utility-types";
-import type { Base64, Date, Id, Url, UserProfileId } from "./atoms";
 import type {
   DocumentDto,
   PermanentDocumentDto,
   PrivateDocumentDto,
   PublicDocumentDto,
-  MindmapDto,
-  FullMindmapDto,
   ManualDocumentDto,
 } from "./dtos";
 import {
   AccessGroupDto,
   Atoms,
   CommentDto,
+  FullMindmapDto,
   ImageDto,
+  MindmapDto,
   RatingDto,
   ResourceCompletionDto,
   UserProfileDto,
   YourAccountDto,
-} from "./dtos-2";
+} from "./dtos";
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
   key: TKey;
@@ -63,7 +62,9 @@ type AccessGroupsContracts =
         AccessGroupDto,
         "mdate" | "etag" | "id" | "cdate" | "description" | "name"
       > & { member: UserProfileDto },
-      Pick<AccessGroupDto, "id" | "etag"> & { memberProfileId: UserProfileId }
+      Pick<AccessGroupDto, "id" | "etag"> & {
+        memberProfileId: Atoms["UserProfileId"];
+      }
     >
   | Contract<
       "removeAccessGroupMember",
@@ -71,7 +72,9 @@ type AccessGroupsContracts =
         AccessGroupDto,
         "mdate" | "etag" | "id" | "cdate" | "description" | "name"
       > & { member: UserProfileDto },
-      Pick<AccessGroupDto, "id" | "etag"> & { memberProfileId: UserProfileId }
+      Pick<AccessGroupDto, "id" | "etag"> & {
+        memberProfileId: Atoms["UserProfileId"];
+      }
     >
   | Contract<"removeAccessGroup", null, Pick<AccessGroupDto, "id">>;
 
@@ -95,14 +98,14 @@ type UserProfilesContracts =
       `getYourUserProfile`,
       {
         profile: UserProfileDto;
-        mdate: Date;
+        mdate: Atoms["UTCDate"];
       } | null
     >
   | Contract<
       `updateYourUserProfileV2`,
       {
         profile: UserProfileDto;
-        mdate: Date;
+        mdate: Atoms["UTCDate"];
       },
       Pick<
         UserProfileDto,
@@ -114,13 +117,13 @@ type UserProfilesContracts =
         | "linkedInUrl"
         | "twitterUrl"
       > & {
-        mdate: Date | null;
+        mdate: Atoms["UTCDate"] | null;
         avatar:
           | {
               type: `noop`;
             }
           | { type: `remove` }
-          | { type: `update`; data: Base64 };
+          | { type: `update`; data: string };
       }
     >
   | Contract<
@@ -130,14 +133,14 @@ type UserProfilesContracts =
         comments: CommentDto[];
       },
       {
-        profileId: UserProfileId;
+        profileId: Atoms["UserProfileId"];
       }
     >
   | Contract<
       `addUserProfileComment`,
       CommentDto,
       {
-        receiverProfileId: UserProfileId;
+        receiverProfileId: Atoms["UserProfileId"];
         comment: string;
       }
     >
@@ -165,7 +168,7 @@ type DocumentsContracts =
   | Contract<
       `getAccessibleDocument`,
       PublicDocumentDto | PermanentDocumentDto,
-      { documentId: DocumentDto["id"] }
+      { documentId: Atoms["DocumentId"] }
     >
   | Contract<
       `getPermanentDocuments`,
@@ -250,7 +253,7 @@ type MindmapsContracts =
   | Contract<
       `getAccessibleMindmap`,
       FullMindmapDto,
-      { authorId: Id; mindmapId: Id }
+      { authorId: Atoms["UserProfileId"]; mindmapId: Atoms["MindmapId"] }
     >
   | Contract<`getPermanentMindmaps`, FullMindmapDto[], { limit?: number }>;
 
@@ -289,7 +292,7 @@ type AnalyticsContracts = Contract<
   {
     title: string;
     description: string;
-    url: Url;
+    url: Atoms["Url"];
   }
 >;
 

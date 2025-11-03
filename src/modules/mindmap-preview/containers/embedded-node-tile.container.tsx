@@ -10,7 +10,7 @@ import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
-import { MindmapNodeId } from "api-4markdown-contracts";
+import { Atoms } from "api-4markdown-contracts";
 
 type EmbeddedNodeTileContainerProps =
   NodeProps<MindmapPreviewEmbeddedNodeWithCompletion>;
@@ -24,7 +24,7 @@ const EmbeddedNodeTileContainer = ({
   const resourcesCompletionState = useResourcesCompletionState();
   const [state, completion, toggle] = useResourceCompletionToggle({
     type: "mindmap-node",
-    resourceId: id as MindmapNodeId,
+    resourceId: id as Atoms["MindmapNodeId"],
     parentId: data.mindmapId,
   });
 

@@ -7,7 +7,7 @@ import React from "react";
 import { meta } from "../../meta";
 import { BiCheckboxChecked } from "react-icons/bi";
 import { useResourceCompletion } from "modules/resource-completions";
-import { DocumentId } from "api-4markdown-contracts";
+import { Atoms } from "api-4markdown-contracts";
 
 type EducationDocumentsListProps = {
   documents: RichEducationDocumentModel[];
@@ -15,7 +15,11 @@ type EducationDocumentsListProps = {
 
 const now = new Date();
 
-const ResourceCompletionMarkerContainer = ({ id }: { id: DocumentId }) => {
+const ResourceCompletionMarkerContainer = ({
+  id,
+}: {
+  id: Atoms["DocumentId"];
+}) => {
   const completion = useResourceCompletion(id);
 
   if (!completion) {
@@ -76,7 +80,9 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
           </h2>
           <p className="lg:max-w-[70%] mt-2 mb-3">{document.description}</p>
           <div className="mb-5 flex flex-wrap gap-2">
-            <ResourceCompletionMarkerContainer id={document.id as DocumentId} />
+            <ResourceCompletionMarkerContainer
+              id={document.id as Atoms["DocumentId"]}
+            />
             <span className="flex text-sm font-medium uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-3 line-clamp-1">
               {document.tags.join(`, `)}
             </span>

@@ -65,7 +65,7 @@ const createInitialValues = ({
   fbUrl: (user?.fbUrl as Atoms["Url"]) ?? ``,
   twitterUrl: (user?.twitterUrl as Atoms["Url"]) ?? ``,
   blogUrl: (user?.blogUrl as Atoms["Url"]) ?? ``,
-  mdate,
+  mdate: mdate as Atoms["UTCDate"],
 });
 
 const limits: Record<

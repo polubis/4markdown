@@ -12,7 +12,7 @@ import { Err } from "design-system/err";
 import { useSimpleFeature, context } from "@greenonsoftware/react-kit";
 import type { Transaction } from "development-kit/utility-types";
 import { reportBugAct } from "acts/report-bug.act";
-import type { API4MarkdownPayload } from "api-4markdown-contracts";
+import type { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
 
 const [BugReportProvider, useBugReportContext] = context(() =>
   useSimpleFeature(),
@@ -59,7 +59,7 @@ const BugReportModalContainer = () => {
     const result = await reportBugAct({
       title: values.title,
       description: values.description,
-      url: window.location.href,
+      url: window.location.href as Atoms["Url"],
     });
 
     if (result.is === `ok`) {

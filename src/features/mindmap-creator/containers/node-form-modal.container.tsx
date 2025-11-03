@@ -22,6 +22,7 @@ import { useMindmapCreatorState } from "store/mindmap-creator";
 import { openedNodeFormSelector } from "store/mindmap-creator/selectors";
 import { openNodeContentInCreatorAct } from "acts/open-node-content-in-creator.act";
 import { context } from "@greenonsoftware/react-kit";
+import { Atoms } from "api-4markdown-contracts";
 
 type StepType = MindmapCreatorNode["type"] | `none`;
 
@@ -93,7 +94,7 @@ const ExternalForm = () => {
 
   const confirmCreation = async () => {
     const { name, description } = prepareBaseValues(values);
-    const url = values.url.trim();
+    const url = values.url.trim() as Atoms["Url"];
 
     if (nodeForm.is === `edition`) {
       updateExternalNodeAction({

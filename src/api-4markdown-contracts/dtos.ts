@@ -91,3 +91,105 @@ export type YourAccountDto = {
   };
   trusted: boolean;
 };
+
+type MindmapNodeType = `external` | `embedded`;
+
+type NodeBaseData = {
+  name: string;
+  path: `/${string}/`;
+  description: string | null;
+};
+
+type MakeNode<
+  TType extends MindmapNodeType,
+  TData extends Record<string, any>,
+> = {
+  id: SUID;
+  position: {
+    x: number;
+    y: number;
+  };
+  type: TType;
+  data: TData;
+};
+
+type MakeEdge<TType extends string> = {
+  id: SUID;
+  type: TType;
+  source: SUID;
+  target: SUID;
+};
+
+export type ExternalNode = MakeNode<
+  `external`,
+  NodeBaseData & { url: Atoms["Url"] }
+>;
+export type EmbeddedNode = MakeNode<
+  `embedded`,
+  NodeBaseData & { content: string | null }
+>;
+type MindmapNode = ExternalNode | EmbeddedNode;
+
+export type SolidEdge = MakeEdge<`solid`>;
+type MindmapEdge = SolidEdge;
+
+export type MindmapDto = {
+  id: Atoms["MindmapId"];
+  cdate: Atoms["UTCDate"];
+  mdate: Atoms["UTCDate"];
+  name: string;
+  sharedForGroups?: Atoms["AccessGroupId"][];
+  orientation: `x` | `y`;
+  path: Atoms["Path"];
+  nodes: MindmapNode[];
+  edges: MindmapEdge[];
+  visibility: Atoms["ResourceVisibility"];
+  description: string | null;
+  tags: string[] | null;
+};
+
+export type FullMindmapDto = MindmapDto & {
+  authorId: Atoms["UserProfileId"];
+  authorProfile: UserProfileDto | null;
+  isAuthorTrusted: boolean;
+};
+
+type Base = {
+  id: Atoms["DocumentId"];
+  name: string;
+  code: string;
+  mdate: Atoms["UTCDate"];
+  cdate: Atoms["UTCDate"];
+  sharedForGroups?: Atoms["AccessGroupId"][];
+  path: Atoms["Path"];
+};
+
+export type PrivateDocumentDto = Base & {
+  visibility: "private";
+};
+
+export type PublicDocumentDto = Base & {
+  visibility: "public";
+  author: UserProfileDto | null;
+  rating: RatingDto;
+};
+
+export type PermanentDocumentDto = Base & {
+  visibility: `permanent`;
+  description: string;
+  tags: string[];
+  author: UserProfileDto | null;
+  rating: RatingDto;
+};
+
+export type ManualDocumentDto = Base & {
+  visibility: "manual";
+  author: UserProfileDto | null;
+  rating: RatingDto;
+};
+
+export type DocumentDto =
+  | PrivateDocumentDto
+  | PublicDocumentDto
+  | PermanentDocumentDto
+  | ManualDocumentDto;

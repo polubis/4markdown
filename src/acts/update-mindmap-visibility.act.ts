@@ -1,5 +1,5 @@
 import { getAPI, parseError, setCache } from "api-4markdown";
-import type { AccessGroupId, MindmapDto } from "api-4markdown-contracts";
+import type { Atoms, MindmapDto } from "api-4markdown-contracts";
 import { AsyncResult } from "development-kit/utility-types";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
@@ -9,7 +9,7 @@ import {
 
 const updateMindmapVisibilityAct = async (
   visibility: MindmapDto["visibility"],
-  sharedForGroups?: AccessGroupId[],
+  sharedForGroups?: Atoms["AccessGroupId"][],
 ): AsyncResult => {
   try {
     useMindmapCreatorState.set({ operation: { is: `busy` } });

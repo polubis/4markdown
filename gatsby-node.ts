@@ -247,7 +247,10 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
   );
 
   trustedMindmaps.forEach((mindmap) => {
-    const mindmapPath = createPathForMindmap(mindmap.id, mindmap.path);
+    const mindmapPath = createPathForMindmap(
+      mindmap.id,
+      mindmap.path,
+    ) as Atoms["Path"];
 
     actions.createPage<MindmapPageModel>({
       path: mindmapPath,

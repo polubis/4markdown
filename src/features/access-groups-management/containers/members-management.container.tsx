@@ -17,8 +17,8 @@ import { findUserProfilesAct } from "../acts/find-user-profiles.act";
 import {
   API4MarkdownDto,
   API4MarkdownError,
+  Atoms,
   UserProfileDto,
-  UserProfileId,
 } from "api-4markdown-contracts";
 import { formatDistance } from "date-fns";
 import { Tabs2 } from "design-system/tabs-2";
@@ -107,7 +107,7 @@ const MembersManagementContainer = () => {
 
       return removeAccessGroupMemberAct({
         id: groupQuery.data.id,
-        memberProfileId: revokeAccessConfirm.data.id as UserProfileId,
+        memberProfileId: revokeAccessConfirm.data.id as Atoms["UserProfileId"],
         etag: groupQuery.data.etag,
       })
         .then((res) => {
@@ -172,7 +172,7 @@ const MembersManagementContainer = () => {
 
       return addAccessGroupMemberAct({
         id: groupQuery.data.id,
-        memberProfileId: user.id as UserProfileId,
+        memberProfileId: user.id as Atoms["UserProfileId"],
         etag: groupQuery.data.etag,
       })
         .then((res) => {
