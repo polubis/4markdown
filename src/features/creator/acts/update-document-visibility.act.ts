@@ -1,7 +1,7 @@
 import { getAPI, parseError, setCache } from "api-4markdown";
 import type {
-  AccessGroupId,
   API4MarkdownDto,
+  Atoms,
   ManualDocumentDto,
   PermanentDocumentDto,
   PrivateDocumentDto,
@@ -21,7 +21,7 @@ type PermanentPayload = Pick<
   "description" | "name" | "tags" | "visibility"
 >;
 type ManualPayload = Pick<ManualDocumentDto, "visibility"> & {
-  sharedForGroups: AccessGroupId[];
+  sharedForGroups: Atoms["AccessGroupId"][];
 };
 
 const updateDocumentVisibilityAct = async (

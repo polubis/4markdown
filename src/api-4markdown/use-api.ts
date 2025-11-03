@@ -1,9 +1,8 @@
 import type {
-  API4MarkdownContractCall,
   API4MarkdownContractKey,
   API4MarkdownDto,
-  CacheVersion,
-  NoInternetError,
+  API4MarkdownError,
+  API4MarkdownPayload,
 } from "api-4markdown-contracts";
 import { type FirebaseOptions, initializeApp } from "firebase/app";
 import type { Functions } from "firebase/functions";
@@ -23,11 +22,18 @@ import {
   signOut,
 } from "firebase/auth";
 import { emit } from "./observer";
+import { CacheVersion } from "./cache";
 // @TODO[PRIO=2]: [Decouple from Firebase interfaces, and lazy load what can be lazy loaded].
 
 // @TODO[PRIO=2]: [Make this API less "object" oriented, maybe there is a possibility to three-shake it].
-type API4Markdown = {
-  call: API4MarkdownContractCall;
+type Call = <TKey extends API4MarkdownContractKey>(
+  key: TKey,
+) => API4MarkdownPayload<TKey> extends undefined
+  ? () => Promise<API4MarkdownDto<TKey>>
+  : (payload: API4MarkdownPayload<TKey>) => Promise<API4MarkdownDto<TKey>>;
+
+type Api = {
+  call: Call;
   logIn(): Promise<void>;
   logOut(): Promise<void>;
   onAuthChange(
@@ -37,7 +43,7 @@ type API4Markdown = {
   ): Unsubscribe;
 };
 
-let instance: API4Markdown | null = null;
+let instance: Api | null = null;
 let functions: Functions | null = null;
 let cacheVersion: CacheVersion | null = null;
 
@@ -46,7 +52,7 @@ const isOffline = (): boolean =>
 
 class NoInternetException extends Error {}
 
-const initializeAPI = (version: CacheVersion): API4Markdown => {
+const initializeAPI = (version: CacheVersion): Api => {
   cacheVersion = version;
 
   const config: FirebaseOptions = {
@@ -91,7 +97,10 @@ const initializeAPI = (version: CacheVersion): API4Markdown => {
           } catch (rawError: unknown) {
             try {
               if (rawError instanceof NoInternetException) {
-                const noInternetError: NoInternetError = {
+                const noInternetError: Extract<
+                  API4MarkdownError,
+                  { symbol: "no-internet" }
+                > = {
                   content: `Lack of internet`,
                   message: `Lack of internet`,
                   symbol: `no-internet`,
@@ -134,7 +143,7 @@ const initializeAPI = (version: CacheVersion): API4Markdown => {
   return instance;
 };
 
-const getAPI = (): API4Markdown => {
+const getAPI = (): Api => {
   if (!instance) {
     throw Error(`Instance of API is not read to be used`);
   }
@@ -150,5 +159,4 @@ const getCacheVersion = (): CacheVersion => {
   return cacheVersion;
 };
 
-export type { API4Markdown };
 export { initializeAPI, getAPI, getCacheVersion };

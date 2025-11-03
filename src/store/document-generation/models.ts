@@ -1,7 +1,7 @@
 import type {
   API4MarkdownDto,
   API4MarkdownPayload,
-  ParsedError,
+  API4MarkdownError,
 } from "api-4markdown-contracts";
 import type { SUID } from "development-kit/suid";
 import type { Prettify } from "development-kit/utility-types";
@@ -26,7 +26,7 @@ type Conversation = Prettify<{
     | { is: `idle` }
     | { is: `busy` }
     | { is: `ok` }
-    | { is: `fail`; error: ParsedError };
+    | { is: `fail`; error: API4MarkdownError };
   id: SUID;
 }>;
 

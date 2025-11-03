@@ -19,8 +19,8 @@ import { EducationDocumentsList } from "components/education-documents-list";
 import { EducationTopTags } from "components/education-top-tags";
 import type { EducationPageModel } from "models/page-models";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
-import { DocumentId } from "api-4markdown-contracts";
 import { useResourceCompletion } from "modules/resource-completions";
+import { Atoms } from "api-4markdown-contracts";
 
 type EducationZoneViewProps = EducationPageModel;
 
@@ -81,7 +81,11 @@ const Pagination = ({
   );
 };
 
-const ResourceCompletionMarkerContainer = ({ id }: { id: DocumentId }) => {
+const ResourceCompletionMarkerContainer = ({
+  id,
+}: {
+  id: Atoms["DocumentId"];
+}) => {
   const completion = useResourceCompletion(id);
 
   if (!completion) {
@@ -149,7 +153,7 @@ const ContentRank = ({
             </h3>
             <div className="flex items-center space-x-2">
               <ResourceCompletionMarkerContainer
-                id={document.id as DocumentId}
+                id={document.id as Atoms["DocumentId"]}
               />
               {RATING_ICONS.map(([Icon, category]) => (
                 <div className="flex items-center" key={category}>

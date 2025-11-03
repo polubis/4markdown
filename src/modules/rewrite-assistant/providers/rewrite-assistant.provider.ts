@@ -6,10 +6,10 @@ import {
 } from "../models";
 import { suid } from "development-kit/suid";
 import React, { type Reducer } from "react";
-import { type RewriteAssistantPersona } from "api-4markdown-contracts";
 import { rewriteWithAssistantAct } from "acts/rewrite-with-assistant.act";
 import { from, Subject, switchMap, takeUntil } from "rxjs";
 import { REWRITE_ASSISTANT_TRANSLATIONS } from "../config/translations";
+import { Atoms } from "api-4markdown-contracts";
 
 const initialState: RewriteAssistantState = {
   operation: { is: `idle` },
@@ -109,7 +109,7 @@ const [RewriteAssistantProvider, useRewriteAssistantContext] = context(
     const [askSubject] = React.useState(
       () =>
         new Subject<{
-          persona: RewriteAssistantPersona;
+          persona: Atoms["RewriteAssistantPersona"];
           content: RewriteAssistantProps["content"];
         }>(),
     );

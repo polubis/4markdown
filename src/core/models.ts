@@ -1,4 +1,4 @@
-import { type CacheVersion } from "api-4markdown-contracts";
+import { type CacheVersion } from "api-4markdown";
 import { type meta } from "../../meta";
 import { type Prettify } from "development-kit/utility-types";
 

@@ -1,5 +1,6 @@
 import { getAPI, parseError } from "api-4markdown";
 import { useDocumentPreviewStore } from "./document-preview.store";
+import { Atoms } from "api-4markdown-contracts";
 
 const { setState } = useDocumentPreviewStore;
 
@@ -13,7 +14,7 @@ const loadDocument = async (): Promise<void> => {
     if (!documentId) throw Error(`Wrong id parameter`);
 
     const document = await getAPI().call(`getAccessibleDocument`)({
-      documentId,
+      documentId: documentId as Atoms["DocumentId"],
     });
 
     setState({ is: `ok`, document });

@@ -16,9 +16,9 @@ import { useTypeaheadQuery } from "core/use-typeahead-query";
 import { findUserProfilesAct } from "../acts/find-user-profiles.act";
 import {
   API4MarkdownDto,
-  ParsedError,
+  API4MarkdownError,
+  Atoms,
   UserProfileDto,
-  UserProfileId,
 } from "api-4markdown-contracts";
 import { formatDistance } from "date-fns";
 import { Tabs2 } from "design-system/tabs-2";
@@ -66,7 +66,7 @@ const MembersManagementContainer = () => {
 
   const revokeAccessConfirm = useFeature<UserProfileDto>();
 
-  const errorModal = useFeature<ParsedError>();
+  const errorModal = useFeature<API4MarkdownError>();
 
   const accessGroupToEdit =
     useAccessGroupsManagementStore.use.accessGroupToEdit()!;
@@ -107,7 +107,7 @@ const MembersManagementContainer = () => {
 
       return removeAccessGroupMemberAct({
         id: groupQuery.data.id,
-        memberProfileId: revokeAccessConfirm.data.id as UserProfileId,
+        memberProfileId: revokeAccessConfirm.data.id as Atoms["UserProfileId"],
         etag: groupQuery.data.etag,
       })
         .then((res) => {
@@ -172,7 +172,7 @@ const MembersManagementContainer = () => {
 
       return addAccessGroupMemberAct({
         id: groupQuery.data.id,
-        memberProfileId: user.id as UserProfileId,
+        memberProfileId: user.id as Atoms["UserProfileId"],
         etag: groupQuery.data.etag,
       })
         .then((res) => {

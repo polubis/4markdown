@@ -1,4 +1,4 @@
-import type { API4MarkdownPayload } from "api-4markdown-contracts";
+import type { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
 import ErrorModal from "components/error-modal";
 import { Avatar } from "design-system/avatar";
 import { Button } from "design-system/button";
@@ -60,12 +60,12 @@ const createInitialValues = ({
   displayName: user?.displayName ?? ``,
   bio: user?.bio ?? ``,
   avatar: { type: `noop` },
-  githubUrl: user?.githubUrl ?? ``,
-  linkedInUrl: user?.linkedInUrl ?? ``,
-  fbUrl: user?.fbUrl ?? ``,
-  twitterUrl: user?.twitterUrl ?? ``,
-  blogUrl: user?.blogUrl ?? ``,
-  mdate,
+  githubUrl: (user?.githubUrl as Atoms["Url"]) ?? ``,
+  linkedInUrl: (user?.linkedInUrl as Atoms["Url"]) ?? ``,
+  fbUrl: (user?.fbUrl as Atoms["Url"]) ?? ``,
+  twitterUrl: (user?.twitterUrl as Atoms["Url"]) ?? ``,
+  blogUrl: (user?.blogUrl as Atoms["Url"]) ?? ``,
+  mdate: mdate as Atoms["UTCDate"],
 });
 
 const limits: Record<

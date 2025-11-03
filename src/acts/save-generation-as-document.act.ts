@@ -21,7 +21,7 @@ const saveGenerationAsDocumentAct = async (
       docManagementStoreActions.fail(
         new Error(
           JSON.stringify({
-            symbol: `client-error`,
+            symbol: `custom-error`,
             content: `No conversation found`,
             message: `No conversation found`,
           }),
@@ -36,7 +36,7 @@ const saveGenerationAsDocumentAct = async (
       docManagementStoreActions.fail(
         new Error(
           JSON.stringify({
-            symbol: `client-error`,
+            symbol: `custom-error`,
             content: `No assistant reply found`,
             message: `No assistant reply found`,
           }),
@@ -55,7 +55,7 @@ const saveGenerationAsDocumentAct = async (
       docManagementStoreActions.fail(
         new Error(
           JSON.stringify({
-            symbol: `client-error`,
+            symbol: `custom-error`,
             content: `Cannot find payload for conversation ${conversationId}`,
             message: `Cannot find payload for conversation ${conversationId}`,
           }),

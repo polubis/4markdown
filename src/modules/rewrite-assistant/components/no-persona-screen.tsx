@@ -1,4 +1,3 @@
-import { REWRITE_ASSISTANT_PERSONAS } from "api-4markdown-contracts";
 import { Button } from "design-system/button";
 import React from "react";
 import { BiInfoCircle, BiX } from "react-icons/bi";
@@ -6,6 +5,14 @@ import { useRewriteAssistantContext } from "../providers/rewrite-assistant.provi
 import { REWRITE_ASSISTANT_TOKEN_COST } from "core/consts";
 import { AIPolicyDisclaimer } from "components/ai-policy-disclaimer";
 import { REWRITE_ASSISTANT_TRANSLATIONS } from "../config/translations";
+import { Atoms } from "api-4markdown-contracts";
+
+const REWRITE_ASSISTANT_PERSONAS: Atoms["RewriteAssistantPersona"][] = [
+  "cleany",
+  "grammy",
+  "teacher",
+];
+
 const NoPersonaScreen = () => {
   const assistantCtx = useRewriteAssistantContext();
 
