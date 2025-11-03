@@ -1,5 +1,5 @@
 import { SUID } from "development-kit/suid";
-import { Brand } from "development-kit/utility-types";
+import { Brand, Prettify } from "development-kit/utility-types";
 
 export type Atoms = {
   UTCDate: Brand<string, `UTCDate`>;
@@ -15,7 +15,17 @@ export type Atoms = {
   RatingCategory: "ugly" | "bad" | "decent" | "good" | "perfect";
   ImageId: Brand<string, `ImageId`>;
   Path: Brand<string, `Path`>;
+  Slug: Brand<string, `Slug`>;
+  Url: Brand<string, `Url`>;
   RewriteAssistantPersona: "cleany" | "grammy" | "teacher";
+  CommentId: Brand<string, `CommentId`>;
+  AvatarVariantId: Brand<string, `AvatarVariantId`>;
+  AvatarVariant: {
+    w: number;
+    h: number;
+    id: Atoms["AvatarVariantId"];
+    src: Atoms["Path"];
+  };
 };
 
 export type AccessGroupDto = {
@@ -47,4 +57,37 @@ export type ImageDto = {
     | `image/webp`;
   url: Atoms["Path"];
   id: Atoms["ImageId"];
+};
+
+export type UserProfileDto = {
+  id: Atoms["UserProfileId"];
+  cdate: Atoms["UTCDate"];
+  mdate: Atoms["UTCDate"];
+  displayNameSlug: Atoms["Slug"] | null;
+  displayName: string | null;
+  bio: string | null;
+  avatar: Record<"tn" | "sm" | "md" | "lg", Atoms["AvatarVariant"]> | null;
+  githubUrl: Atoms["Url"] | null;
+  linkedInUrl: Atoms["Url"] | null;
+  twitterUrl: Atoms["Url"] | null;
+  fbUrl: Atoms["Url"] | null;
+  blogUrl: Atoms["Url"] | null;
+};
+
+export type CommentDto = Prettify<
+  RatingDto & {
+    id: Atoms["CommentId"];
+    ownerProfile: UserProfileDto;
+    cdate: Atoms["UTCDate"];
+    mdate: Atoms["UTCDate"];
+    content: string;
+  }
+>;
+
+export type YourAccountDto = {
+  balance: {
+    tokens: number;
+    refillStatus: "initialized" | "refilled" | "not-refilled";
+  };
+  trusted: boolean;
 };

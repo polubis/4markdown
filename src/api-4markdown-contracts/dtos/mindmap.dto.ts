@@ -10,9 +10,7 @@ import type {
 } from "api-4markdown-contracts";
 import { type SUID } from "development-kit/suid";
 
-const MINDMAP_NODE_TYPES = [`external`, `embedded`] as const;
-
-type MindmapNodeType = (typeof MINDMAP_NODE_TYPES)[number];
+type MindmapNodeType = `external` | `embedded`;
 
 type NodeBaseData = {
   name: string;
@@ -65,7 +63,6 @@ type MindmapDto = {
   tags: Tags | null;
 };
 
-export { MINDMAP_NODE_TYPES };
 export type {
   MindmapNodeType,
   MindmapDto,

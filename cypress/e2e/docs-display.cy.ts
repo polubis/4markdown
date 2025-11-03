@@ -1,6 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 import type {
   API4MarkdownDto,
+  Atoms,
   PublicDocumentDto,
   UserProfileDto,
 } from "api-4markdown-contracts";
@@ -37,10 +38,10 @@ const getPublicDocResponse: { result: PublicDocumentDto } = {
 
 const getUserProfileResponse: { result: UserProfileDto } = {
   result: {
-    id: `e9799f7b-013e-4231-88fe-e2072514f96a`,
+    id: `e9799f7b-013e-4231-88fe-e2072514f96a` as Atoms["UserProfileId"],
     displayNameSlug: null,
-    cdate: `2025-01-22T13:43:25.337Z`,
-    mdate: `2025-01-22T13:43:25.337Z`,
+    cdate: `2025-01-22T13:43:25.337Z` as Atoms["UTCDate"],
+    mdate: `2025-01-22T13:43:25.337Z` as Atoms["UTCDate"],
     avatar: null,
     displayName: null,
     bio: null,

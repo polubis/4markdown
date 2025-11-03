@@ -8,8 +8,7 @@ import type {
   Path,
   AccessGroupId,
 } from "../atoms";
-import { RatingDto } from "../dtos-2";
-import type { UserProfileDto } from "./user-profile.dto";
+import { RatingDto, UserProfileDto } from "../dtos-2";
 
 type Base = {
   id: Id;

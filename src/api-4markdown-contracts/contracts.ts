@@ -5,19 +5,19 @@ import type {
   PermanentDocumentDto,
   PrivateDocumentDto,
   PublicDocumentDto,
-  UserProfileDto,
   MindmapDto,
   FullMindmapDto,
-  YourAccountDto,
-  CommentDto,
   ManualDocumentDto,
 } from "./dtos";
 import {
   AccessGroupDto,
   Atoms,
+  CommentDto,
   ImageDto,
   RatingDto,
   ResourceCompletionDto,
+  UserProfileDto,
+  YourAccountDto,
 } from "./dtos-2";
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
