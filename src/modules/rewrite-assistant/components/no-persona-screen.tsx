@@ -5,9 +5,9 @@ import { useRewriteAssistantContext } from "../providers/rewrite-assistant.provi
 import { REWRITE_ASSISTANT_TOKEN_COST } from "core/consts";
 import { AIPolicyDisclaimer } from "components/ai-policy-disclaimer";
 import { REWRITE_ASSISTANT_TRANSLATIONS } from "../config/translations";
-import { RewriteAssistantPersona } from "api-4markdown-contracts";
+import { Atoms } from "api-4markdown-contracts";
 
-const REWRITE_ASSISTANT_PERSONAS: RewriteAssistantPersona[] = [
+const REWRITE_ASSISTANT_PERSONAS: Atoms["RewriteAssistantPersona"][] = [
   "cleany",
   "grammy",
   "teacher",

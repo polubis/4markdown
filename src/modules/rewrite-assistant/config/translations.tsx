@@ -1,4 +1,4 @@
-import { type RewriteAssistantPersona } from "api-4markdown-contracts";
+import { Atoms } from "api-4markdown-contracts";
 import React, { type ReactNode } from "react";
 
 const REWRITE_ASSISTANT_TRANSLATIONS = {
@@ -30,7 +30,7 @@ const REWRITE_ASSISTANT_TRANSLATIONS = {
     message: `Explain selected fragment`,
   },
 } satisfies Record<
-  RewriteAssistantPersona,
+  Atoms["RewriteAssistantPersona"],
   {
     name: ReactNode;
     title: ReactNode;

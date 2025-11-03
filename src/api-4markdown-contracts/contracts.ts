@@ -1,34 +1,24 @@
 import { type Prettify } from "development-kit/utility-types";
-import type {
-  Base64,
-  Date,
-  DocumentId,
-  Id,
-  MindmapId,
-  MindmapNodeId,
-  ResourceId,
-  ResourceType,
-  Url,
-  UserProfileId,
-} from "./atoms";
+import type { Base64, Date, Id, Url, UserProfileId } from "./atoms";
 import type {
   DocumentDto,
   PermanentDocumentDto,
   PrivateDocumentDto,
   PublicDocumentDto,
-  ImageDto,
   UserProfileDto,
-  RatingCategory,
-  RatingDto,
   MindmapDto,
   FullMindmapDto,
-  RewriteAssistantPersona,
   YourAccountDto,
   CommentDto,
-  ResourceCompletionDto,
   ManualDocumentDto,
 } from "./dtos";
-import { AccessGroupDto } from "./dtos-2";
+import {
+  AccessGroupDto,
+  Atoms,
+  ImageDto,
+  RatingDto,
+  ResourceCompletionDto,
+} from "./dtos-2";
 
 type Contract<TKey extends string, TDto, TPayload = undefined> = {
   key: TKey;
@@ -36,7 +26,7 @@ type Contract<TKey extends string, TDto, TPayload = undefined> = {
   payload: TPayload;
 };
 
-type AccessGroupContracts =
+type AccessGroupsContracts =
   | Contract<
       "getAccessGroup",
       Pick<
@@ -85,15 +75,84 @@ type AccessGroupContracts =
     >
   | Contract<"removeAccessGroup", null, Pick<AccessGroupDto, "id">>;
 
-type API4MarkdownContracts =
+type ResourceCompletionsContracts =
   | Contract<
-      `createMindmap`,
-      MindmapDto,
-      Pick<
-        MindmapDto,
-        "name" | "description" | "tags" | "nodes" | "edges" | "orientation"
-      >
+      "getUserResourceCompletions",
+      Record<Atoms["ResourceId"], ResourceCompletionDto>
     >
+  | Contract<
+      "setUserResourceCompletion",
+      ResourceCompletionDto | null,
+      {
+        type: Atoms["ResourceType"];
+        resourceId: Atoms["ResourceId"];
+        parentId?: Atoms["MindmapId"];
+      }
+    >;
+
+type UserProfilesContracts =
+  | Contract<
+      `getYourUserProfile`,
+      {
+        profile: UserProfileDto;
+        mdate: Date;
+      } | null
+    >
+  | Contract<
+      `updateYourUserProfileV2`,
+      {
+        profile: UserProfileDto;
+        mdate: Date;
+      },
+      Pick<
+        UserProfileDto,
+        | "bio"
+        | "blogUrl"
+        | "displayName"
+        | "fbUrl"
+        | "githubUrl"
+        | "linkedInUrl"
+        | "twitterUrl"
+      > & {
+        mdate: Date | null;
+        avatar:
+          | {
+              type: `noop`;
+            }
+          | { type: `remove` }
+          | { type: `update`; data: Base64 };
+      }
+    >
+  | Contract<
+      `getUserProfile`,
+      {
+        profile: UserProfileDto;
+        comments: CommentDto[];
+      },
+      {
+        profileId: UserProfileId;
+      }
+    >
+  | Contract<
+      `addUserProfileComment`,
+      CommentDto,
+      {
+        receiverProfileId: UserProfileId;
+        comment: string;
+      }
+    >
+  | Contract<
+      "findUserProfiles",
+      {
+        hasMore: boolean;
+        userProfiles: UserProfileDto[];
+      },
+      { query: string; by: "displayName" | "id"; limit?: number }
+    >;
+
+type AccountsContracts = Contract<`getYourAccount`, YourAccountDto>;
+
+type DocumentsContracts =
   | Contract<
       `getYourDocuments`,
       (
@@ -137,51 +196,28 @@ type API4MarkdownContracts =
         >
       | Pick<ManualDocumentDto, "id" | "mdate" | "visibility">
     >
-  | Contract<`uploadImage`, ImageDto, { image: FileReader["result"] }>
-  | Contract<
-      `getYourUserProfile`,
-      {
-        profile: UserProfileDto;
-        mdate: Date;
-      } | null
-    >
-  | Contract<
-      `updateYourUserProfileV2`,
-      {
-        profile: UserProfileDto;
-        mdate: Date;
-      },
-      Pick<
-        UserProfileDto,
-        | "bio"
-        | "blogUrl"
-        | "displayName"
-        | "fbUrl"
-        | "githubUrl"
-        | "linkedInUrl"
-        | "twitterUrl"
-      > & {
-        mdate: Date | null;
-        avatar:
-          | {
-              type: `noop`;
-            }
-          | { type: `remove` }
-          | { type: `update`; data: Base64 };
-      }
-    >
   | Contract<
       `rateDocument`,
       RatingDto,
       {
         documentId: DocumentDto["id"];
-        category: RatingCategory;
+        category: Atoms["RatingCategory"];
       }
     >
   | Contract<
       `updateDocumentName`,
       Pick<DocumentDto, "mdate" | "name">,
       Pick<DocumentDto, "mdate" | "id" | "name">
+    >;
+
+type MindmapsContracts =
+  | Contract<
+      `createMindmap`,
+      MindmapDto,
+      Pick<
+        MindmapDto,
+        "name" | "description" | "tags" | "nodes" | "edges" | "orientation"
+      >
     >
   | Contract<
       `getYourMindmaps`,
@@ -216,22 +252,15 @@ type API4MarkdownContracts =
       FullMindmapDto,
       { authorId: Id; mindmapId: Id }
     >
-  | Contract<
-      `reportBug`,
-      null,
-      {
-        title: string;
-        description: string;
-        url: Url;
-      }
-    >
-  | Contract<`getPermanentMindmaps`, FullMindmapDto[], { limit?: number }>
+  | Contract<`getPermanentMindmaps`, FullMindmapDto[], { limit?: number }>;
+
+type AIContracts =
   | Contract<
       `rewriteWithAssistant`,
       { output: string; tokensAfter: number },
       {
         input: string;
-        persona: RewriteAssistantPersona;
+        persona: Atoms["RewriteAssistantPersona"];
       }
     >
   | Contract<
@@ -246,56 +275,34 @@ type API4MarkdownContracts =
         sample: string;
         prompt?: string;
       }
-    >
-  | Contract<`getYourAccount`, YourAccountDto>
-  | Contract<
-      `getUserProfile`,
-      {
-        profile: UserProfileDto;
-        comments: CommentDto[];
-      },
-      {
-        profileId: UserProfileId;
-      }
-    >
-  | Contract<
-      `addUserProfileComment`,
-      CommentDto,
-      {
-        receiverProfileId: UserProfileId;
-        comment: string;
-      }
-    >
-  | Contract<
-      `getUserResourceCompletions`,
-      Record<ResourceId, ResourceCompletionDto>
-    >
-  | Contract<
-      "setUserResourceCompletion",
-      ResourceCompletionDto | null,
-      | {
-          type: Extract<ResourceType, "document">;
-          resourceId: DocumentId;
-        }
-      | {
-          type: Extract<ResourceType, "mindmap">;
-          resourceId: MindmapId;
-        }
-      | {
-          type: Extract<ResourceType, "mindmap-node">;
-          resourceId: MindmapNodeId;
-          parentId: MindmapId;
-        }
-    >
-  | AccessGroupContracts
-  | Contract<
-      "findUserProfiles",
-      {
-        hasMore: boolean;
-        userProfiles: UserProfileDto[];
-      },
-      { query: string; by: "displayName" | "id"; limit?: number }
     >;
+
+type AssetsContracts = Contract<
+  `uploadImage`,
+  ImageDto,
+  { image: FileReader["result"] }
+>;
+
+type AnalyticsContracts = Contract<
+  `reportBug`,
+  null,
+  {
+    title: string;
+    description: string;
+    url: Url;
+  }
+>;
+
+type API4MarkdownContracts =
+  | AssetsContracts
+  | AnalyticsContracts
+  | MindmapsContracts
+  | AIContracts
+  | DocumentsContracts
+  | AccountsContracts
+  | ResourceCompletionsContracts
+  | AccessGroupsContracts
+  | UserProfilesContracts;
 
 export type API4MarkdownContractKey = API4MarkdownContracts["key"];
 export type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

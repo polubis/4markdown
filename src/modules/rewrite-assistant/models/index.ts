@@ -1,7 +1,4 @@
-import type {
-  RewriteAssistantPersona,
-  API4MarkdownError,
-} from "api-4markdown-contracts";
+import type { API4MarkdownError, Atoms } from "api-4markdown-contracts";
 import type { SUID } from "development-kit/suid";
 
 type RewriteAssistantOperation =
@@ -20,14 +17,14 @@ type RewriteAssistantMessage = {
 type RewriteAssistantState = {
   operation: RewriteAssistantOperation;
   messages: RewriteAssistantMessage[];
-  activePersona: RewriteAssistantPersona | `none`;
+  activePersona: Atoms["RewriteAssistantPersona"] | `none`;
 };
 
 type RewriteAssistantAction =
   | { type: "RESET" }
   | {
       type: "SELECT_PERSONA";
-      payload: RewriteAssistantPersona;
+      payload: Atoms["RewriteAssistantPersona"];
     }
   | {
       type: "AS_OK";
@@ -37,7 +34,7 @@ type RewriteAssistantAction =
   | { type: `STOP` }
   | {
       type: `ASK_AGAIN`;
-      payload: RewriteAssistantPersona;
+      payload: Atoms["RewriteAssistantPersona"];
     }
   | { type: `CLOSE` }
   | { type: `APPLY`; payload: string };
