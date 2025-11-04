@@ -12,6 +12,7 @@ import {
   BiArrowToLeft,
   BiArrowToRight,
   BiCheckboxChecked,
+  BiCommentDetail,
 } from "react-icons/bi";
 import { paginate } from "development-kit/paginate";
 import { EducationLayout } from "components/education-layout";
@@ -161,6 +162,10 @@ const ContentRank = ({
                   <strong>{document.rating[category]}</strong>
                 </div>
               ))}
+              <div className="flex items-center">
+                <BiCommentDetail className="mr-1" size={20} />
+                <strong>{document.commentsCount}</strong>
+              </div>
             </div>
           </li>
         ))}
