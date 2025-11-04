@@ -29,6 +29,8 @@ import {
   useResourcesCompletionState,
 } from "modules/resource-completions";
 import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
+import { CommentTrigger } from "components/comment-trigger";
+import { DocumentCommentsModule } from "modules/document-comments";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -93,7 +95,7 @@ const ResourceCompletionMarkerContainer = () => {
 };
 
 const DocumentLayoutContainer = () => {
-  const [{ document }] = useDocumentLayoutContext();
+  const [{ document }, setDocumentLayoutState] = useDocumentLayoutContext();
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
@@ -106,7 +108,7 @@ const DocumentLayoutContainer = () => {
   return (
     <>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
-        <main className="max-w-prose mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
+        <main className="max-w-prose w-full mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
           <ResourceCompletionMarkerContainer />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <Button
@@ -139,6 +141,20 @@ const DocumentLayoutContainer = () => {
                 <BiCopyAlt />
               )}
             </Button>
+            <CommentTrigger
+              i={2}
+              s={2}
+              position="right"
+              count={document.commentsCount}
+              onClick={() => {
+                window.scrollTo({
+                  top: Math.max(
+                    window.document.documentElement.scrollHeight,
+                    window.document.body.scrollHeight,
+                  ),
+                });
+              }}
+            />
           </section>
           <DocumentRatingContainer className="mb-6 justify-end" />
           {document.visibility === `permanent` && (
@@ -191,6 +207,17 @@ const DocumentLayoutContainer = () => {
             </section>
           )}
           <DocumentRatingContainer className="mt-10 justify-end" />
+          <DocumentCommentsModule
+            documentId={document.id}
+            onCountChange={(count) =>
+              setDocumentLayoutState(({ document, yourRate }) => ({
+                yourRate,
+                document: { ...document, commentsCount: count },
+              }))
+            }
+            commentsCount={document.commentsCount}
+            className="mt-10"
+          />
         </main>
         <TableOfContent markdownContainerId={CONTENT_ID} markdown={code} />
       </div>

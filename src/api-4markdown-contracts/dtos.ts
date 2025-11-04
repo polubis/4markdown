@@ -26,6 +26,8 @@ export type Atoms = {
     id: Atoms["AvatarVariantId"];
     src: Atoms["Path"];
   };
+  DocumentCommentId: Brand<string, `DocumentCommentId`>;
+  Rating: Record<Atoms["RatingCategory"], number>;
 };
 
 export type AccessGroupDto = {
@@ -44,8 +46,6 @@ export type ResourceCompletionDto = {
   resourceId: Atoms["ResourceId"];
   parentId?: Atoms["MindmapId"];
 };
-
-export type RatingDto = Record<Atoms["RatingCategory"], number>;
 
 export type ImageDto = {
   extension: `png` | `jpeg` | `jpg` | `gif` | `webp`;
@@ -75,7 +75,7 @@ export type UserProfileDto = {
 };
 
 export type CommentDto = Prettify<
-  RatingDto & {
+  Atoms["Rating"] & {
     id: Atoms["CommentId"];
     ownerProfile: UserProfileDto;
     cdate: Atoms["UTCDate"];
@@ -157,6 +157,7 @@ export type FullMindmapDto = MindmapDto & {
 type Base = {
   id: Atoms["DocumentId"];
   name: string;
+  commentsCount: number;
   code: string;
   mdate: Atoms["UTCDate"];
   cdate: Atoms["UTCDate"];
@@ -171,7 +172,7 @@ export type PrivateDocumentDto = Base & {
 export type PublicDocumentDto = Base & {
   visibility: "public";
   author: UserProfileDto | null;
-  rating: RatingDto;
+  rating: Atoms["Rating"];
 };
 
 export type PermanentDocumentDto = Base & {
@@ -179,13 +180,13 @@ export type PermanentDocumentDto = Base & {
   description: string;
   tags: string[];
   author: UserProfileDto | null;
-  rating: RatingDto;
+  rating: Atoms["Rating"];
 };
 
 export type ManualDocumentDto = Base & {
   visibility: "manual";
   author: UserProfileDto | null;
-  rating: RatingDto;
+  rating: Atoms["Rating"];
 };
 
 export type DocumentDto =
@@ -193,3 +194,15 @@ export type DocumentDto =
   | PublicDocumentDto
   | PermanentDocumentDto
   | ManualDocumentDto;
+
+export type DocumentCommentDto = Prettify<
+  Atoms["Rating"] & {
+    id: Atoms["DocumentCommentId"];
+    ownerProfile: UserProfileDto;
+    cdate: Atoms["UTCDate"];
+    mdate: Atoms["UTCDate"];
+    content: string;
+    etag: Atoms["Etag"];
+    resourceId: Atoms["DocumentId"];
+  }
+>;

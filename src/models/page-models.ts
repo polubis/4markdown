@@ -15,14 +15,21 @@ type EducationDocumentAvatarModel = {
 
 type RichEducationDocumentModel = Pick<
   PermanentDocumentDto,
-  "id" | "path" | "name" | "rating" | "cdate" | "description" | "tags"
+  | "id"
+  | "path"
+  | "name"
+  | "rating"
+  | "cdate"
+  | "description"
+  | "tags"
+  | "commentsCount"
 > & {
   author: EducationDocumentAvatarModel;
 };
 
 type LightEducationDocumentModel = Pick<
   PermanentDocumentDto,
-  "id" | "path" | "name" | "rating" | "cdate"
+  "id" | "path" | "name" | "rating" | "cdate" | "commentsCount"
 > & {
   author: EducationDocumentAvatarModel;
 };

@@ -283,12 +283,13 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 
   const topDocuments = getTopDocuments(trustedDocuments, documentsPerPage).map<
     EducationPageModel["documents"]["top"][number]
-  >(({ author, name, id, path, rating, cdate }) => ({
+  >(({ author, name, id, path, rating, cdate, commentsCount }) => ({
     name,
     id,
     path,
     rating,
     cdate,
+    commentsCount,
     author:
       author?.displayName && author?.bio
         ? {
@@ -321,6 +322,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
                 name,
                 id,
                 path,
+                commentsCount,
                 rating,
                 cdate,
                 description,
@@ -330,6 +332,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
                 id,
                 path,
                 rating,
+                commentsCount,
                 cdate,
                 description,
                 tags,
@@ -363,8 +366,19 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
           partialTop: partialTopDocuments,
           top: topDocuments,
           wall: documents.map(
-            ({ author, name, id, path, rating, cdate, description, tags }) => ({
+            ({
+              author,
               name,
+              id,
+              path,
+              rating,
+              cdate,
+              description,
+              tags,
+              commentsCount,
+            }) => ({
+              name,
+              commentsCount,
               id,
               path,
               rating,
@@ -392,13 +406,24 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
     component: path.resolve(`./src/dynamic-pages/education-rank.page.tsx`),
     context: {
       topDocuments: getTopDocuments(trustedDocuments, documentsPerPage).map(
-        ({ author, name, id, path, rating, cdate, description, tags }) => ({
+        ({
+          author,
           name,
           id,
           path,
           rating,
           cdate,
           description,
+          tags,
+          commentsCount,
+        }) => ({
+          name,
+          id,
+          path,
+          rating,
+          cdate,
+          description,
+          commentsCount,
           tags,
           author:
             author?.displayName && author?.bio
