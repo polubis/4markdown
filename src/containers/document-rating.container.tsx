@@ -11,7 +11,7 @@ type DocumentRatingContainerProps = {
   className?: string;
 };
 
-const rateDocument = throttle(rateDocumentAct, 60000);
+const rateDocument = throttle(rateDocumentAct, 5000);
 
 const NOTES = [
   { name: `C4`, frequency: 261.63 },

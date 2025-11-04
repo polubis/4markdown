@@ -5,6 +5,7 @@ import type {
   PrivateDocumentDto,
   PublicDocumentDto,
   ManualDocumentDto,
+  DocumentCommentDto,
 } from "./dtos";
 import {
   AccessGroupDto,
@@ -13,7 +14,6 @@ import {
   FullMindmapDto,
   ImageDto,
   MindmapDto,
-  RatingDto,
   ResourceCompletionDto,
   UserProfileDto,
   YourAccountDto,
@@ -77,6 +77,61 @@ type AccessGroupsContracts =
       }
     >
   | Contract<"removeAccessGroup", null, Pick<AccessGroupDto, "id">>;
+
+type DocumentCommentsContracts =
+  | Contract<
+      `addDocumentComment`,
+      DocumentCommentDto,
+      {
+        comment: string;
+        resourceId: Atoms["DocumentId"];
+      }
+    >
+  | Contract<
+      `editDocumentComment`,
+      DocumentCommentDto,
+      {
+        commentId: Atoms["DocumentCommentId"];
+        resourceId: Atoms["DocumentId"];
+        content: string;
+      }
+    >
+  | Contract<
+      `getDocumentComments`,
+      {
+        comments: DocumentCommentDto[];
+        hasMore: boolean;
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["DocumentCommentId"];
+        } | null;
+      },
+      {
+        resourceId: Atoms["DocumentId"];
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["DocumentCommentId"];
+        } | null;
+        limit: number | null;
+      }
+    >
+  | Contract<
+      `deleteDocumentComment`,
+      null,
+      {
+        resourceId: Atoms["DocumentId"];
+        commentId: Atoms["DocumentCommentId"];
+      }
+    >
+  | Contract<
+      `rateDocumentComment`,
+      null,
+      {
+        resourceId: Atoms["DocumentId"];
+        commentId: Atoms["DocumentCommentId"];
+        category: Atoms["RatingCategory"];
+      }
+    >;
 
 type ResourceCompletionsContracts =
   | Contract<
@@ -201,7 +256,7 @@ type DocumentsContracts =
     >
   | Contract<
       `rateDocument`,
-      RatingDto,
+      Atoms["Rating"],
       {
         documentId: DocumentDto["id"];
         category: Atoms["RatingCategory"];
@@ -297,6 +352,7 @@ type AnalyticsContracts = Contract<
 >;
 
 type API4MarkdownContracts =
+  | DocumentCommentsContracts
   | AssetsContracts
   | AnalyticsContracts
   | MindmapsContracts
