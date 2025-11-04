@@ -18,7 +18,8 @@ const DocumentCommentDeleteModalContainer = ({
   commentId,
   onClose,
 }: DocumentCommentDeleteModalContainerProps) => {
-  const { documentId, commentsQuery } = useDocumentCommentsContext();
+  const { documentId, commentsQuery, onCountChange } =
+    useDocumentCommentsContext();
 
   const deleteMutation = useMutation2({
     handler: () =>
@@ -33,6 +34,9 @@ const DocumentCommentDeleteModalContainer = ({
           (comment) => comment.id !== commentId,
         ),
       }));
+      if (commentsQuery.data) {
+        onCountChange(commentsQuery.data.comments.length - 1);
+      }
       onClose();
     },
   });

@@ -95,7 +95,7 @@ const ResourceCompletionMarkerContainer = () => {
 };
 
 const DocumentLayoutContainer = () => {
-  const [{ document }] = useDocumentLayoutContext();
+  const [{ document }, setDocumentLayoutState] = useDocumentLayoutContext();
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
@@ -209,6 +209,12 @@ const DocumentLayoutContainer = () => {
           <DocumentRatingContainer className="mt-10 justify-end" />
           <DocumentCommentsModule
             documentId={document.id}
+            onCountChange={(count) =>
+              setDocumentLayoutState(({ document, yourRate }) => ({
+                yourRate,
+                document: { ...document, commentsCount: count },
+              }))
+            }
             commentsCount={document.commentsCount}
             className="mt-10"
           />

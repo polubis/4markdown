@@ -11,7 +11,6 @@ import { emit } from "core/app-events";
 import { Loader } from "design-system/loader";
 import { Atoms } from "api-4markdown-contracts";
 import { useMutation } from "core/use-mutation";
-import { getAPI } from "api-4markdown";
 import { editDocumentCommentAct } from "../acts/edit-document-comment.act";
 import { addDocumentCommentAct } from "../acts/add-document-comment.act";
 import { useDocumentCommentsContext } from "../providers/document-comments.provider";
@@ -59,7 +58,8 @@ const DocumentCommentFormContainer = ({
 
   const yourUserProfile = useYourUserProfileState();
 
-  const { documentId, commentsQuery } = useDocumentCommentsContext();
+  const { documentId, commentsQuery, onCountChange } =
+    useDocumentCommentsContext();
 
   const isEditMode = mode === "edit";
 
@@ -105,6 +105,9 @@ const DocumentCommentFormContainer = ({
           nextCursor: currData.nextCursor,
           comments: [newData, ...currData.comments],
         }));
+        if (commentsQuery.data) {
+          onCountChange(commentsQuery.data.comments.length + 1);
+        }
       }
 
       commentForm.off();

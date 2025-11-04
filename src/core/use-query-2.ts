@@ -1,35 +1,31 @@
 import { parseError } from "api-4markdown";
 import { API4MarkdownError } from "api-4markdown-contracts";
-import React, { useRef } from "react";
+import { useOperation } from "development-kit/use-operation";
+import React from "react";
 
 type RawError = unknown;
-type Idle = { is: "idle" };
-type Busy = { is: "busy" };
-type Ok<TData> = { is: "ok"; data: TData };
-type Fail = { is: "fail"; error: API4MarkdownError; rawError: RawError };
-type QueryState<TData> = Idle | Busy | Ok<TData> | Fail;
 type Handler<TData> = (signal: AbortSignal) => Promise<TData>;
 
 type QueryConfig<TData> = {
   initialize?: boolean;
-  resetable?: boolean;
   handler?: Handler<TData>;
   onBusy?: () => void;
   onOk?: (data: TData) => void;
   onFail?: (error: API4MarkdownError, rawError: RawError) => void;
 };
 
-const initialState: QueryState<unknown> = { is: "idle" };
-
 const useQuery2 = <TData>(config: QueryConfig<TData> = {}) => {
-  const [state, setState] = React.useState<QueryState<TData>>(initialState);
-  const counter = useRef(0);
+  const [state, setState] = useOperation<TData, API4MarkdownError>();
 
   const configRef = React.useRef<QueryConfig<TData>>(config);
   const abortRef = React.useRef<AbortController>();
 
   const start = React.useCallback(
-    async (handler?: Handler<TData>): Promise<void> => {
+    async (
+      handler?: Handler<TData>,
+    ): Promise<
+      ["ok", TData] | ["aborted"] | ["fail", API4MarkdownError, RawError]
+    > => {
       abortRef.current?.abort();
 
       const controller = new AbortController();
@@ -42,29 +38,23 @@ const useQuery2 = <TData>(config: QueryConfig<TData> = {}) => {
           throw new Error("Handler is required");
         }
 
-        const resetable = configRef.current.resetable ?? true;
-
-        if (counter.current === 0) {
-          setState({ is: "busy" });
-        } else if (resetable) {
-          setState({ is: "busy" });
-        }
-
-        counter.current++;
+        setState({ is: "busy" });
 
         configRef.current.onBusy?.();
         const data = await finalHandler(controller.signal);
 
-        if (controller.signal.aborted) return;
+        if (controller.signal.aborted) return ["aborted"];
 
         setState({ is: "ok", data });
         configRef.current.onOk?.(data);
+        return ["ok", data];
       } catch (error) {
-        if (controller.signal.aborted) return;
+        if (controller.signal.aborted) return ["aborted"];
 
         const parsedError = parseError(error);
         setState({ is: "fail", error: parsedError, rawError: error });
         configRef.current.onFail?.(parsedError, error);
+        return ["fail", parsedError, error];
       }
     },
     [],
@@ -84,34 +74,38 @@ const useQuery2 = <TData>(config: QueryConfig<TData> = {}) => {
     return () => {
       abortRef.current?.abort();
     };
-  }, []);
+  }, [start]);
 
   const abort = React.useCallback((reset = false) => {
     abortRef.current?.abort();
 
     if (reset) {
-      setState(initialState);
+      setState({ is: "idle" });
     }
   }, []);
 
   const setData = React.useCallback(
-    (setter: TData | ((data: TData) => TData)) => {
-      setState((state) =>
-        state.is !== "ok"
-          ? state
-          : {
-              is: "ok",
-              data:
-                typeof setter === "function"
-                  ? (setter as (data: TData) => TData)(state.data)
-                  : setter,
-            },
-      );
+    (updater: TData | ((data: TData) => TData)) => {
+      setState((state) => {
+        if (state.is !== "ok") {
+          console.warn("setData called but state is not 'ok'. Ignoring.");
+          return state;
+        }
+
+        return {
+          is: "ok",
+          data:
+            typeof updater === "function"
+              ? (updater as (prevData: TData) => TData)(state.data)
+              : updater,
+        };
+      });
     },
     [],
   );
 
   return {
+    status: state.is,
     idle: state.is === "idle",
     busy: state.is === "busy",
     ok: state.is === "ok",
@@ -122,7 +116,6 @@ const useQuery2 = <TData>(config: QueryConfig<TData> = {}) => {
     state,
     start,
     abort,
-    setState,
     setData,
   };
 };

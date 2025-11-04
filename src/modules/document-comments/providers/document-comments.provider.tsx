@@ -1,28 +1,33 @@
 import { context, useFeature } from "@greenonsoftware/react-kit";
 import { loadDocumentCommentsAct } from "../acts/load-document-comments.act";
-import { Atoms } from "api-4markdown-contracts";
-import { type DocumentCommentFormData } from "../models";
+import {
+  DocumentCommentsModuleProps,
+  type DocumentCommentFormData,
+} from "../models";
 import { useQuery2 } from "core/use-query-2";
 
 const [DocumentCommentsProvider, useDocumentCommentsContext] = context(
   ({
     documentId,
     commentsCount,
-  }: {
-    documentId: Atoms["DocumentId"];
-    commentsCount: number;
-  }) => {
+    onCountChange,
+  }: Pick<
+    DocumentCommentsModuleProps,
+    "documentId" | "commentsCount" | "onCountChange"
+  >) => {
     const commentForm = useFeature<DocumentCommentFormData>();
 
     const commentsQuery = useQuery2({
       initialize: false,
-      resetable: false,
       handler: () =>
         loadDocumentCommentsAct({
           resourceId: documentId,
           nextCursor: null,
           limit: 10,
         }),
+      onOk: (newData) => {
+        onCountChange(newData.comments.length);
+      },
     });
 
     return {
@@ -30,6 +35,7 @@ const [DocumentCommentsProvider, useDocumentCommentsContext] = context(
       commentsQuery,
       commentsCount,
       documentId,
+      onCountChange,
     };
   },
 );

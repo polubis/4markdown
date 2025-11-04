@@ -1,23 +1,19 @@
 import React from "react";
-import { Atoms } from "api-4markdown-contracts";
 import { DocumentCommentsContainer } from "./containers/document-comments.container";
 import { DocumentCommentsProvider } from "./providers/document-comments.provider";
-
-type DocumentCommentsModuleProps = {
-  className?: string;
-  documentId: Atoms["DocumentId"];
-  commentsCount: number;
-};
+import { DocumentCommentsModuleProps } from "./models";
 
 const DocumentCommentsModule = ({
   className,
   commentsCount,
   documentId,
+  onCountChange,
 }: DocumentCommentsModuleProps) => {
   return (
     <DocumentCommentsProvider
       documentId={documentId}
       commentsCount={commentsCount}
+      onCountChange={onCountChange}
     >
       <DocumentCommentsContainer className={className} />
     </DocumentCommentsProvider>

@@ -1,10 +1,8 @@
 import React from "react";
 import { Atoms, DocumentCommentDto } from "api-4markdown-contracts";
-import { DocumentCommentsList } from "./document-comments-list";
 import { Avatar } from "design-system/avatar";
 import { c } from "design-system/c";
 import { formatDistance } from "date-fns";
-import { Button } from "design-system/button";
 
 const comments: DocumentCommentDto[] = [
   {
