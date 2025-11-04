@@ -5,7 +5,7 @@ import { Link } from "gatsby";
 import type { RichEducationDocumentModel } from "models/page-models";
 import React from "react";
 import { meta } from "../../meta";
-import { BiCheckboxChecked } from "react-icons/bi";
+import { BiCheckboxChecked, BiCommentDetail } from "react-icons/bi";
 import { useResourceCompletion } from "modules/resource-completions";
 import { Atoms } from "api-4markdown-contracts";
 
@@ -94,6 +94,10 @@ const EducationDocumentsList = ({ documents }: EducationDocumentsListProps) => {
                 <strong>{document.rating[category]}</strong>
               </div>
             ))}
+            <div className="flex items-center">
+              <BiCommentDetail className="mr-1" size={20} />
+              <strong>{document.commentsCount}</strong>
+            </div>
           </div>
         </li>
       ))}
