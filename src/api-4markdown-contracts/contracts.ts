@@ -192,14 +192,6 @@ type UserProfilesContracts =
       }
     >
   | Contract<
-      `addUserProfileComment`,
-      UserProfileCommentDto,
-      {
-        receiverProfileId: Atoms["UserProfileId"];
-        comment: string;
-      }
-    >
-  | Contract<
       "findUserProfiles",
       {
         hasMore: boolean;
@@ -207,6 +199,15 @@ type UserProfilesContracts =
       },
       { query: string; by: "displayName" | "id"; limit?: number }
     >;
+
+type UserProfileCommentsContracts = Contract<
+  `addUserProfileComment`,
+  UserProfileCommentDto,
+  {
+    receiverProfileId: Atoms["UserProfileId"];
+    comment: string;
+  }
+>;
 
 type AccountsContracts = Contract<`getYourAccount`, YourAccountDto>;
 
@@ -361,7 +362,8 @@ type API4MarkdownContracts =
   | AccountsContracts
   | ResourceCompletionsContracts
   | AccessGroupsContracts
-  | UserProfilesContracts;
+  | UserProfilesContracts
+  | UserProfileCommentsContracts;
 
 export type API4MarkdownContractKey = API4MarkdownContracts["key"];
 export type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<

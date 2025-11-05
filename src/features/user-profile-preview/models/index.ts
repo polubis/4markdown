@@ -1,9 +1,5 @@
-import { API4MarkdownDto, API4MarkdownPayload } from "api-4markdown-contracts";
+import { API4MarkdownDto } from "api-4markdown-contracts";
 import { Transaction } from "development-kit/utility-types";
-
-type AddUserProfileCommentFormValues = {
-  content: API4MarkdownPayload<"addUserProfileComment">["comment"];
-};
 
 type UserProfileState = {
   stats: Transaction<{
@@ -12,4 +8,4 @@ type UserProfileState = {
   }>;
 };
 
-export type { AddUserProfileCommentFormValues, UserProfileState };
+export type { UserProfileState };
