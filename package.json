@@ -41,7 +41,7 @@
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
-    "firebase": "^12.4.0",
+    "firebase": "^12.5.0",
     "gatsby": "^5.15.0",
     "gatsby-plugin-manifest": "^5.15.0",
     "gatsby-plugin-mdx": "^5.15.0",

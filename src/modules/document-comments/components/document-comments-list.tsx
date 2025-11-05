@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { Avatar } from "design-system/avatar";
 import { formatDistance } from "date-fns";
-import { RATING_ICONS } from "core/rating-config";
 import { Button } from "design-system/button";
 import throttle from "lodash.throttle";
 import { Atoms, DocumentCommentDto } from "api-4markdown-contracts";
@@ -11,6 +10,7 @@ import { useFeature } from "@greenonsoftware/react-kit";
 import { DocumentCommentDeleteModalContainer } from "../containers/document-comment-delete-modal.container";
 import { rateDocumentCommentAct } from "../acts/rate-document-comment.act";
 import { useDocumentCommentsContext } from "../providers/document-comments.provider";
+import { RatePicker } from "components/rate-picker";
 
 const rateCommentThrottled = throttle(rateDocumentCommentAct, 5000);
 
@@ -74,25 +74,16 @@ const DocumentCommentsList = ({
               </div>
             </div>
             <p className="italic mt-4">{comment.content}</p>
-            <div className="ml-auto mt-4 flex">
-              {RATING_ICONS.map(([Icon, category]) => (
-                <Button
-                  i={ratedComments[comment.id] === category ? 2 : 1}
-                  s={1}
-                  auto
-                  key={category}
-                  title={`Rate as ${category}`}
-                  onClick={() => rateComment(category, comment.id)}
-                >
-                  <Icon className="mr-0.5 size-4" />
-                  <strong>
-                    {ratedComments[comment.id] === category
-                      ? comment[category] + 1
-                      : comment[category]}
-                  </strong>
-                </Button>
-              ))}
-            </div>
+            <RatePicker
+              className="[&_svg]:size-4 ml-auto mt-4"
+              rating={{
+                ...comment,
+                [ratedComments[comment.id]]:
+                  comment[ratedComments[comment.id]] + 1,
+              }}
+              rate={ratedComments[comment.id]}
+              onRate={(category) => rateComment(category, comment.id)}
+            />
             {comment.ownerProfile.id === userProfileId && (
               <div className="flex flex-col gap-1 absolute top-2.5 right-2">
                 <Button

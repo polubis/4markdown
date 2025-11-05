@@ -10,7 +10,7 @@ import type {
 import {
   AccessGroupDto,
   Atoms,
-  CommentDto,
+  UserProfileCommentDto,
   FullMindmapDto,
   ImageDto,
   MindmapDto,
@@ -185,7 +185,7 @@ type UserProfilesContracts =
       `getUserProfile`,
       {
         profile: UserProfileDto;
-        comments: CommentDto[];
+        comments: UserProfileCommentDto[];
       },
       {
         profileId: Atoms["UserProfileId"];
@@ -193,7 +193,7 @@ type UserProfilesContracts =
     >
   | Contract<
       `addUserProfileComment`,
-      CommentDto,
+      UserProfileCommentDto,
       {
         receiverProfileId: Atoms["UserProfileId"];
         comment: string;

@@ -18,7 +18,7 @@ export type Atoms = {
   Slug: Brand<string, `Slug`>;
   Url: Brand<string, `Url`>;
   RewriteAssistantPersona: "cleany" | "grammy" | "teacher";
-  CommentId: Brand<string, `CommentId`>;
+  UserProfileCommentId: Brand<string, `UserProfileCommentId`>;
   AvatarVariantId: Brand<string, `AvatarVariantId`>;
   AvatarVariant: {
     w: number;
@@ -74,9 +74,9 @@ export type UserProfileDto = {
   blogUrl: Atoms["Url"] | null;
 };
 
-export type CommentDto = Prettify<
+export type UserProfileCommentDto = Prettify<
   Atoms["Rating"] & {
-    id: Atoms["CommentId"];
+    id: Atoms["UserProfileCommentId"];
     ownerProfile: UserProfileDto;
     cdate: Atoms["UTCDate"];
     mdate: Atoms["UTCDate"];

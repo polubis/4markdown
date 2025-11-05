@@ -4,6 +4,11 @@ import { UserSocials } from "components/user-socials";
 import { formatDistance } from "date-fns";
 import { AddCommentTriggerContainer } from "./add-comment-trigger.container";
 import { useUserProfileState } from "../store";
+import { RatePicker } from "components/rate-picker";
+import { JudgeScore } from "components/judge-score";
+import throttle from "lodash.throttle";
+
+const rateCommentThrottled = throttle(() => {}, 5000);
 
 const UserProfileStatsContainer = () => {
   const { stats } = useUserProfileState();
@@ -54,7 +59,26 @@ const UserProfileStatsContainer = () => {
           )}
         </div>
       </section>
-      <section className="mt-6">
+      <section className="mt-4">
+        <h3 className="text-xl mb-3">Rating</h3>
+        <div className="p-4 rounded-lg border border-zinc-300 dark:border-zinc-800">
+          <RatePicker
+            className="mx-auto"
+            rating={{
+              perfect: 0,
+              good: 0,
+              decent: 0,
+              bad: 0,
+              ugly: 0,
+            }}
+            rate={null}
+            onRate={() => {}}
+          />
+        </div>
+        <h4 className="text-lg mt-4 mb-2">Trust Score</h4>
+        <JudgeScore className="mr-1 w-full" score={1.7} votes={1} />
+      </section>
+      <section className="mt-8">
         <AddCommentTriggerContainer />
       </section>
       {comments.length > 0 && (
@@ -88,6 +112,12 @@ const UserProfileStatsContainer = () => {
                   </div>
                 </div>
                 <p className="italic mt-4">{comment.content}</p>
+                <RatePicker
+                  className="[&_svg]:size-4 ml-auto mt-4"
+                  rating={comment}
+                  rate={null}
+                  onRate={() => {}}
+                />
               </li>
             ))}
           </ul>
