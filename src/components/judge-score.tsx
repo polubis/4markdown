@@ -2,6 +2,8 @@ import { c } from "design-system/c";
 import React from "react";
 import Popover from "design-system/popover";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { toast } from "design-system/toast";
+import { playNote } from "development-kit/play-note";
 
 type JudgeScoreProps = {
   score?: number | null;
@@ -34,6 +36,19 @@ const getGradientClasses = (score: number): string => {
   }
 };
 
+const JUDGE_SCORE_NOTES = [
+  "c4",
+  "d4",
+  "e4",
+  "f4",
+  "g4",
+  "g#4",
+  "a4",
+  "a#4",
+  "b4",
+  "c5",
+] as const;
+
 const JudgeScore = ({
   score,
   votes,
@@ -55,8 +70,14 @@ const JudgeScore = ({
     onClick?.(e);
   };
 
-  const handleRateClick = (rate: number) => {
+  const handleRateClick = (rate: number, index: number) => {
     onRate?.(rate);
+    toast.success({
+      duration: 2000,
+      position: "bottom-left",
+      title: "Rate added. Thx!",
+    });
+    playNote(JUDGE_SCORE_NOTES[index]);
     panel.off();
   };
 
@@ -105,14 +126,14 @@ const JudgeScore = ({
           className="!absolute flex flex-wrap gap-2 justify-center max-w-[40rem] w-full translate-y-2.5 -translate-x-1/2 left-1/2"
           onBackdropClick={panel.off}
         >
-          {Array.from({ length: 10 }, (_, i) => {
+          {Array.from({ length: JUDGE_SCORE_NOTES.length }, (_, i) => {
             const rate = i + 1;
             const rateGradientClasses = getGradientClasses(rate);
             return (
               <button
                 key={rate}
                 type="button"
-                onClick={() => handleRateClick(rate)}
+                onClick={() => handleRateClick(rate, i)}
                 className={c(
                   "w-10 h-10 rounded-lg",
                   "font-bold text-sm leading-none",

@@ -73,13 +73,7 @@ const UserProfileStatsContainer = () => {
               ugly: 0,
             }}
             rate={null}
-            onRate={() =>
-              toast.error({
-                title: "Problem occured",
-                children:
-                  "Something went wrong. Realy long text to see how it works. and verify that the text is not cut off. adsa adas asa sadsa",
-              })
-            }
+            onRate={() => {}}
           />
         </div>
         <h4 className="text-lg mt-4 mb-2">Trust Score</h4>

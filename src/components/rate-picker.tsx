@@ -2,6 +2,8 @@ import { Atoms } from "api-4markdown-contracts";
 import { RATING_ICONS } from "core/rating-config";
 import { Button } from "design-system/button";
 import { c } from "design-system/c";
+import { toast } from "design-system/toast";
+import { playNote } from "development-kit/play-note";
 import React from "react";
 
 type RatePickerProps = {
@@ -11,66 +13,19 @@ type RatePickerProps = {
   onRate: (category: Atoms["RatingCategory"], index: number) => void;
 };
 
-const NOTES = [
-  { name: `C4`, frequency: 261.63 },
-  { name: `D4`, frequency: 293.66 },
-  { name: `E4`, frequency: 329.63 },
-  { name: `F4`, frequency: 349.23 },
-  { name: `G4`, frequency: 392.0 },
-];
-
-let audioContextInstance: AudioContext | null = null;
-
-const getAudioContext = (): AudioContext | null => {
-  if (typeof window === "undefined") return null;
-  return audioContextInstance;
-};
-
-const initializeAudioContext = (): void => {
-  if (typeof window === "undefined" || audioContextInstance) return;
-
-  const AudioContextClass =
-    window.AudioContext || (window as any).webkitAudioContext;
-  if (!AudioContextClass) return;
-
-  audioContextInstance = new AudioContextClass();
-};
-
-const playNote = (frequency: number): void => {
-  const audioContext = getAudioContext();
-  if (!audioContext) return;
-
-  if (audioContext.state === "suspended") {
-    audioContext.resume();
-  }
-
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  const now = audioContext.currentTime;
-
-  oscillator.type = `sine`;
-  oscillator.frequency.setValueAtTime(frequency, now);
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  gainNode.gain.setValueAtTime(0, now);
-  gainNode.gain.linearRampToValueAtTime(0.3, now + 0.01);
-  gainNode.gain.exponentialRampToValueAtTime(0.00001, now + 0.15);
-
-  oscillator.start(now);
-  oscillator.stop(now + 0.15);
-};
+const RATE_NOTES = ["c4", "d4", "e4", "f4", "g4"] as const;
 
 const RatePicker = ({ className, rate, rating, onRate }: RatePickerProps) => {
-  React.useEffect(() => {
-    initializeAudioContext();
-  }, []);
-
   const rateAndPlay = async (
     category: Atoms["RatingCategory"],
     index: number,
   ): Promise<void> => {
-    playNote(NOTES[index].frequency);
+    playNote(RATE_NOTES[index]);
+    toast.success({
+      duration: 2000,
+      title: "Rate added. Thx!",
+      position: "bottom-left",
+    });
     onRate(category, index);
   };
 

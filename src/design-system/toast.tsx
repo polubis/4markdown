@@ -272,7 +272,7 @@ const ToastSlot = () => {
               {...props}
               className={c(
                 idx !== toastsInGroup.length - 1 && "shadow-none scale-90",
-                "transition-all max-w-[480px] w-[90%]",
+                "transition-all max-w-[90%] md:max-w-[480px]",
               )}
               style={{
                 [position.includes("top") ? "marginTop" : "marginBottom"]:
