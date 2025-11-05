@@ -7,6 +7,7 @@ import { useUserProfileState } from "../store";
 import { RatePicker } from "components/rate-picker";
 import { JudgeScore } from "components/judge-score";
 import throttle from "lodash.throttle";
+import { toast } from "design-system/toast";
 
 const rateCommentThrottled = throttle(() => {}, 5000);
 
@@ -72,7 +73,13 @@ const UserProfileStatsContainer = () => {
               ugly: 0,
             }}
             rate={null}
-            onRate={() => {}}
+            onRate={() =>
+              toast.error({
+                title: "Problem occured",
+                children:
+                  "Something went wrong. Realy long text to see how it works. and verify that the text is not cut off. adsa adas asa sadsa",
+              })
+            }
           />
         </div>
         <h4 className="text-lg mt-4 mb-2">Trust Score</h4>
