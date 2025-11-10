@@ -10,7 +10,7 @@ const getToastClassName = ({
   variant = "informative",
   animated = true,
   mode = "static",
-  position = "top-center",
+  position = "bottom-left",
   className,
 }: {
   variant?: "informative" | "warning" | "error" | "success";
@@ -168,7 +168,7 @@ const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
     },
     ref,
   ) => {
-    const defaultPosition = position ?? "top-center";
+    const defaultPosition = position ?? "bottom-left";
     const uniqueId = React.useId();
     const titleId = `${uniqueId}-title`;
     const descriptionId = `${uniqueId}-description`;
@@ -252,7 +252,7 @@ const ToastSlot = () => {
 
   const groupedToasts = allToasts.reduce(
     (acc, toast) => {
-      const position = toast.position ?? "top-center";
+      const position = toast.position ?? "bottom-left";
       if (!acc[position]) {
         acc[position] = [];
       }

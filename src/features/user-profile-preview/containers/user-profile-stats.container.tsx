@@ -5,14 +5,62 @@ import { formatDistance } from "date-fns";
 import { AddCommentTriggerContainer } from "./add-comment-trigger.container";
 import { useUserProfileState } from "../store";
 import { RatePicker } from "components/rate-picker";
-import { JudgeScore } from "components/judge-score";
-import throttle from "lodash.throttle";
+import { ScorePicker } from "components/score-picker";
+import { addUserProfileScoreAct } from "../acts/add-user-profile-score.act";
+import { useFeature, useSimpleFeature } from "@greenonsoftware/react-kit";
+import { useMutation2 } from "core/use-mutation-2";
 import { toast } from "design-system/toast";
-
-const rateCommentThrottled = throttle(() => {}, 5000);
+import { rateUserProfileAct } from "../acts/rate-user-profile.act";
+import { Atoms } from "api-4markdown-contracts";
+import { rateUserProfileCommentAct } from "../acts/rate-user-profile-comment.act";
 
 const UserProfileStatsContainer = () => {
   const { stats } = useUserProfileState();
+  const scoreAdded = useSimpleFeature();
+  const [ratedComments, setRatedComments] = React.useState<
+    Record<Atoms["UserProfileCommentId"], Atoms["RatingCategory"]>
+  >({});
+
+  const appliedRate = useFeature<Atoms["RatingCategory"]>();
+  const scoreProfileMutation = useMutation2({
+    onOk: () => {
+      toast.success({
+        title: "Score added. Thx!",
+      });
+      scoreAdded.on();
+    },
+    onFail: (error) => {
+      toast.error({
+        title: error.message,
+      });
+    },
+  });
+
+  const rateProfileMutation = useMutation2({
+    onOk: () => {
+      toast.success({
+        title: "Rating added. Thx!",
+      });
+    },
+    onFail: (error) => {
+      toast.error({
+        title: error.message,
+      });
+    },
+  });
+
+  const rateCommentMutation = useMutation2({
+    onOk: () => {
+      toast.success({
+        title: "Comment rated. Thx!",
+      });
+    },
+    onFail: (error) => {
+      toast.error({
+        title: error.message,
+      });
+    },
+  });
 
   if (stats.is !== `ok`)
     throw Error(
@@ -65,19 +113,29 @@ const UserProfileStatsContainer = () => {
         <div className="p-4 rounded-lg border border-zinc-300 dark:border-zinc-800">
           <RatePicker
             className="mx-auto"
-            rating={{
-              perfect: 0,
-              good: 0,
-              decent: 0,
-              bad: 0,
-              ugly: 0,
+            disabled={appliedRate.is === `on` || rateProfileMutation.busy}
+            rating={profile}
+            rate={appliedRate.is === `on` ? appliedRate.data : null}
+            onRate={(category) => {
+              appliedRate.on(category);
+              rateProfileMutation.start(() =>
+                rateUserProfileAct({ userProfileId: profile.id, category }),
+              );
             }}
-            rate={null}
-            onRate={() => {}}
           />
         </div>
         <h4 className="text-lg mt-4 mb-2">Trust Score</h4>
-        <JudgeScore className="mr-1 w-full" score={1.7} votes={1} />
+        <ScorePicker
+          disabled={scoreAdded.isOn || scoreProfileMutation.busy}
+          className="mr-1 w-full"
+          average={profile.scoreAverage}
+          count={profile.scoreCount}
+          onRate={(score) =>
+            scoreProfileMutation.start(() =>
+              addUserProfileScoreAct({ userProfileId: profile.id, score }),
+            )
+          }
+        />
       </section>
       <section className="mt-8">
         <AddCommentTriggerContainer />
@@ -115,9 +173,22 @@ const UserProfileStatsContainer = () => {
                 <p className="italic mt-4">{comment.content}</p>
                 <RatePicker
                   className="[&_svg]:size-4 ml-auto mt-4"
+                  disabled={ratedComments[comment.id] !== undefined}
                   rating={comment}
-                  rate={null}
-                  onRate={() => {}}
+                  rate={ratedComments[comment.id]}
+                  onRate={(category) => {
+                    rateCommentMutation.start(() =>
+                      rateUserProfileCommentAct({
+                        commentId: comment.id,
+                        profileId: profile.id,
+                        category,
+                      }),
+                    );
+                    setRatedComments((prev) => ({
+                      ...prev,
+                      [comment.id]: category,
+                    }));
+                  }}
                 />
               </li>
             ))}

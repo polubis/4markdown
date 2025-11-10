@@ -20,7 +20,7 @@ const addUserProfileCommentAct = async ({
 
     setUserProfileStatsAction({
       ...stats,
-      comments: [...stats.comments, addedComment],
+      comments: [addedComment, ...stats.comments],
     });
 
     return { is: `ok` };

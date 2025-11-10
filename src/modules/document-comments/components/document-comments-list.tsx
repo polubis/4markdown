@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BiPencil, BiTrash } from "react-icons/bi";
 import { Avatar } from "design-system/avatar";
 import { formatDistance } from "date-fns";
@@ -27,7 +27,7 @@ const DocumentCommentsList = ({
   userProfileId,
   onEditStart,
 }: DocumentCommentsListProps) => {
-  const [ratedComments, setRatedComments] = useState<
+  const [ratedComments, setRatedComments] = React.useState<
     Record<Atoms["DocumentCommentId"], Atoms["RatingCategory"]>
   >({});
 

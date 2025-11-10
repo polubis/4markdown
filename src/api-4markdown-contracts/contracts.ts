@@ -150,6 +150,22 @@ type ResourceCompletionsContracts =
 
 type UserProfilesContracts =
   | Contract<
+      "rateUserProfile",
+      null,
+      {
+        userProfileId: Atoms["UserProfileId"];
+        category: Atoms["RatingCategory"];
+      }
+    >
+  | Contract<
+      "addUserProfileScore",
+      Atoms["Score"],
+      {
+        userProfileId: Atoms["UserProfileId"];
+        score: Atoms["ScoreValue"];
+      }
+    >
+  | Contract<
       `getYourUserProfile`,
       {
         profile: UserProfileDto;
@@ -200,14 +216,24 @@ type UserProfilesContracts =
       { query: string; by: "displayName" | "id"; limit?: number }
     >;
 
-type UserProfileCommentsContracts = Contract<
-  `addUserProfileComment`,
-  UserProfileCommentDto,
-  {
-    receiverProfileId: Atoms["UserProfileId"];
-    comment: string;
-  }
->;
+type UserProfileCommentsContracts =
+  | Contract<
+      `addUserProfileComment`,
+      UserProfileCommentDto,
+      {
+        receiverProfileId: Atoms["UserProfileId"];
+        comment: string;
+      }
+    >
+  | Contract<
+      `rateUserProfileComment`,
+      null,
+      {
+        profileId: Atoms["UserProfileId"];
+        commentId: Atoms["UserProfileCommentId"];
+        category: Atoms["RatingCategory"];
+      }
+    >;
 
 type AccountsContracts = Contract<`getYourAccount`, YourAccountDto>;
 
