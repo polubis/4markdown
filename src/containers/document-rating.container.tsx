@@ -1,46 +1,15 @@
 import React from "react";
-import c from "classnames";
-import { Button } from "design-system/button";
-import { RATING_ICONS } from "core/rating-config";
 import { useDocumentLayoutContext } from "providers/document-layout.provider";
 import { rateDocumentAct } from "acts/rate-document.act";
 import throttle from "lodash.throttle";
 import { Atoms } from "api-4markdown-contracts";
+import { RatePicker } from "components/rate-picker";
 
 type DocumentRatingContainerProps = {
   className?: string;
 };
 
 const rateDocument = throttle(rateDocumentAct, 5000);
-
-const NOTES = [
-  { name: `C4`, frequency: 261.63 },
-  { name: `D4`, frequency: 293.66 },
-  { name: `E4`, frequency: 329.63 },
-  { name: `F4`, frequency: 349.23 },
-  { name: `G4`, frequency: 392.0 },
-];
-
-const playNote = (frequency: number): void => {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-  if (!audioContext) return;
-
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-
-  oscillator.type = `sine`;
-  oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  oscillator.start();
-  gainNode.gain.exponentialRampToValueAtTime(
-    0.00001,
-    audioContext.currentTime + 1,
-  );
-  oscillator.stop(audioContext.currentTime + 1);
-};
 
 const DocumentRatingContainer = ({
   className,
@@ -50,9 +19,7 @@ const DocumentRatingContainer = ({
 
   const handleClick = async (
     category: Atoms["RatingCategory"],
-    index: number,
   ): Promise<void> => {
-    playNote(NOTES[index].frequency);
     rateDocument({ documentId: document.id, category });
     setDocumentLayoutState(({ document, yourRate }) => {
       if (yourRate === null) {
@@ -95,28 +62,13 @@ const DocumentRatingContainer = ({
     });
   };
 
-  React.useEffect(() => {
-    return () => {
-      rateDocument.cancel();
-    };
-  }, []);
-
   return (
-    <section className={c(`flex`, className)}>
-      {RATING_ICONS.map(([Icon, category], idx) => (
-        <Button
-          i={yourRate === category ? 2 : 1}
-          s={1}
-          auto
-          key={category}
-          title={`Rate as ${category}`}
-          onClick={() => handleClick(category, idx)}
-        >
-          <Icon className="mr-0.5" />
-          <strong>{document.rating[category]}</strong>
-        </Button>
-      ))}
-    </section>
+    <RatePicker
+      className={className}
+      rating={document.rating}
+      rate={yourRate}
+      onRate={handleClick}
+    />
   );
 };
 
