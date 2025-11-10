@@ -78,8 +78,34 @@ const UserProfileStatsContainer = () => {
 
   return (
     <>
-      <section className="max-w-3xl mx-auto w-full">
-        <h1 className="text-4xl font-bold mb-6">User Profile</h1>
+      <section className="max-w-3xl flex flex-col mx-auto w-full">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold">User Profile</h1>
+          <ScorePicker
+            disabled={scoreAdded.isOn || scoreProfileMutation.busy}
+            popoverClassName="right-0 w-[280px]"
+            average={profile.scoreAverage}
+            count={profile.scoreCount}
+            onRate={(score) =>
+              scoreProfileMutation.start(() =>
+                addUserProfileScoreAct({ userProfileId: profile.id, score }),
+              )
+            }
+          />
+        </div>
+
+        <RatePicker
+          className="ml-auto mb-4"
+          disabled={appliedRate.is === `on` || rateProfileMutation.busy}
+          rating={profile}
+          rate={appliedRate.is === `on` ? appliedRate.data : null}
+          onRate={(category) => {
+            appliedRate.on(category);
+            rateProfileMutation.start(() =>
+              rateUserProfileAct({ userProfileId: profile.id, category }),
+            );
+          }}
+        />
         <div className="p-4 rounded-lg border border-zinc-300 dark:border-zinc-800">
           <Avatar
             size="lg"
@@ -107,35 +133,6 @@ const UserProfileStatsContainer = () => {
             </div>
           )}
         </div>
-      </section>
-      <section className="mt-4">
-        <h3 className="text-xl mb-3">Rating</h3>
-        <div className="p-4 rounded-lg border border-zinc-300 dark:border-zinc-800">
-          <RatePicker
-            className="mx-auto"
-            disabled={appliedRate.is === `on` || rateProfileMutation.busy}
-            rating={profile}
-            rate={appliedRate.is === `on` ? appliedRate.data : null}
-            onRate={(category) => {
-              appliedRate.on(category);
-              rateProfileMutation.start(() =>
-                rateUserProfileAct({ userProfileId: profile.id, category }),
-              );
-            }}
-          />
-        </div>
-        <h4 className="text-lg mt-4 mb-2">Trust Score</h4>
-        <ScorePicker
-          disabled={scoreAdded.isOn || scoreProfileMutation.busy}
-          className="mr-1 w-full"
-          average={profile.scoreAverage}
-          count={profile.scoreCount}
-          onRate={(score) =>
-            scoreProfileMutation.start(() =>
-              addUserProfileScoreAct({ userProfileId: profile.id, score }),
-            )
-          }
-        />
       </section>
       <section className="mt-8">
         <AddCommentTriggerContainer />

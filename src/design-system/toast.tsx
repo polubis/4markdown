@@ -5,6 +5,7 @@ import type { CSSProperties } from "react";
 import { usePortal } from "development-kit/use-portal";
 import { c } from "./c";
 import { BiX } from "react-icons/bi";
+import { BehaviorSubject } from "rxjs";
 
 const getToastClassName = ({
   variant = "informative",
@@ -84,24 +85,16 @@ type ToastOptions = Omit<ToastProps, "mode" | "onClose"> & {
 
 type ActiveToast = ToastOptions & { id: string };
 
-let toasts: ActiveToast[] = [];
-let listeners: (() => void)[] = [];
+const toasts$ = new BehaviorSubject<ActiveToast[]>([]);
 let toastId = 0;
 const timeoutIds = new Map<string, NodeJS.Timeout>();
-
-const emitChange = () => {
-  for (const listener of listeners) {
-    listener();
-  }
-};
 
 const addToast = (options: ToastOptions) => {
   const id = (toastId++).toString();
   const newToast = { ...options, id };
 
-  toasts = [...toasts, newToast];
-
-  emitChange();
+  const currentToasts = toasts$.getValue();
+  toasts$.next([...currentToasts, newToast]);
 
   if (options.duration !== "infinite") {
     const duration = options.duration ?? 5000;
@@ -116,11 +109,12 @@ const removeToast = (id: string) => {
     timeoutIds.delete(id);
   }
 
-  const initialCount = toasts.length;
-  toasts = toasts.filter((t) => t.id !== id);
+  const currentToasts = toasts$.getValue();
+  const initialCount = currentToasts.length;
+  const newToasts = currentToasts.filter((t) => t.id !== id);
 
-  if (toasts.length < initialCount) {
-    emitChange();
+  if (newToasts.length < initialCount) {
+    toasts$.next(newToasts);
   }
 };
 
@@ -141,16 +135,6 @@ toast.warning = (options: Omit<ToastOptions, "variant">) => {
 toast.info = (options: Omit<ToastOptions, "variant">) => {
   toast({ ...options, variant: "informative", role: "status" });
 };
-
-const subscribe = (listener: () => void) => {
-  listeners = [...listeners, listener];
-
-  return () => {
-    listeners = listeners.filter((l) => l !== listener);
-  };
-};
-
-const getSnapshot = () => toasts;
 
 const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
   (
@@ -244,7 +228,12 @@ const Toast = React.forwardRef<HTMLDivElement, ToastProps>(
 );
 
 const ToastSlot = () => {
-  const allToasts = React.useSyncExternalStore(subscribe, getSnapshot);
+  const [allToasts, setAllToasts] = React.useState<ActiveToast[]>([]);
+
+  React.useEffect(() => {
+    const subscription = toasts$.subscribe(setAllToasts);
+    return () => subscription.unsubscribe();
+  }, []);
 
   if (allToasts.length === 0) {
     return null;

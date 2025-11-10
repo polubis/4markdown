@@ -9,6 +9,7 @@ type ScorePickerProps = {
   average?: number | null;
   count?: number | null;
   className?: string;
+  popoverClassName?: string;
   children?: React.ReactNode;
   onRate: (score: Atoms["ScoreValue"]) => void;
 } & React.DetailedHTMLProps<
@@ -53,6 +54,7 @@ const ScorePicker = ({
   average,
   count,
   className,
+  popoverClassName,
   children,
   onRate,
   type = "button",
@@ -120,7 +122,10 @@ const ScorePicker = ({
       </button>
       {panel.isOn && (
         <Popover
-          className="!absolute flex flex-wrap gap-2 justify-center max-w-[40rem] w-full translate-y-2.5 -translate-x-1/2 left-1/2"
+          className={c(
+            "!absolute flex flex-wrap gap-2 justify-center max-w-[40rem] translate-y-2.5",
+            popoverClassName,
+          )}
           onBackdropClick={panel.off}
         >
           {Array.from({ length: SCORE_NOTES.length }, (_, i) => {
