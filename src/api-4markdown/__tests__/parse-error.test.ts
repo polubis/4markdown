@@ -1,5 +1,5 @@
 import type { API4MarkdownError } from "api-4markdown-contracts";
-import { parseError } from "../parse-error";
+import { parseError } from "../errors";
 import { expect } from "@jest/globals";
 
 describe(`Error parsing works when`, () => {

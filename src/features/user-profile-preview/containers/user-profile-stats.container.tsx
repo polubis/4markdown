@@ -4,9 +4,63 @@ import { UserSocials } from "components/user-socials";
 import { formatDistance } from "date-fns";
 import { AddCommentTriggerContainer } from "./add-comment-trigger.container";
 import { useUserProfileState } from "../store";
+import { RatePicker } from "components/rate-picker";
+import { ScorePicker } from "components/score-picker";
+import { addUserProfileScoreAct } from "../acts/add-user-profile-score.act";
+import { useFeature, useSimpleFeature } from "@greenonsoftware/react-kit";
+import { useMutation2 } from "core/use-mutation-2";
+import { toast } from "design-system/toast";
+import { rateUserProfileAct } from "../acts/rate-user-profile.act";
+import { Atoms } from "api-4markdown-contracts";
+import { rateUserProfileCommentAct } from "../acts/rate-user-profile-comment.act";
 
 const UserProfileStatsContainer = () => {
   const { stats } = useUserProfileState();
+  const scoreAdded = useSimpleFeature();
+  const [ratedComments, setRatedComments] = React.useState<
+    Record<Atoms["UserProfileCommentId"], Atoms["RatingCategory"]>
+  >({});
+
+  const appliedRate = useFeature<Atoms["RatingCategory"]>();
+  const scoreProfileMutation = useMutation2({
+    onOk: () => {
+      toast.success({
+        title: "Score added. Thx!",
+      });
+      scoreAdded.on();
+    },
+    onFail: (error) => {
+      toast.error({
+        title: error.message,
+      });
+    },
+  });
+
+  const rateProfileMutation = useMutation2({
+    onOk: () => {
+      toast.success({
+        title: "Rating added. Thx!",
+      });
+    },
+    onFail: (error) => {
+      toast.error({
+        title: error.message,
+      });
+    },
+  });
+
+  const rateCommentMutation = useMutation2({
+    onOk: () => {
+      toast.success({
+        title: "Comment rated. Thx!",
+      });
+    },
+    onFail: (error) => {
+      toast.error({
+        title: error.message,
+      });
+    },
+  });
 
   if (stats.is !== `ok`)
     throw Error(
@@ -24,8 +78,34 @@ const UserProfileStatsContainer = () => {
 
   return (
     <>
-      <section className="max-w-3xl mx-auto w-full">
-        <h1 className="text-4xl font-bold mb-6">User Profile</h1>
+      <section className="max-w-3xl flex flex-col mx-auto w-full">
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-3xl font-bold">User Profile</h1>
+          <ScorePicker
+            disabled={scoreAdded.isOn || scoreProfileMutation.busy}
+            popoverClassName="right-0 w-[280px]"
+            average={profile.scoreAverage}
+            count={profile.scoreCount}
+            onRate={(score) =>
+              scoreProfileMutation.start(() =>
+                addUserProfileScoreAct({ userProfileId: profile.id, score }),
+              )
+            }
+          />
+        </div>
+
+        <RatePicker
+          className="ml-auto mb-4"
+          disabled={appliedRate.is === `on` || rateProfileMutation.busy}
+          rating={profile}
+          rate={appliedRate.is === `on` ? appliedRate.data : null}
+          onRate={(category) => {
+            appliedRate.on(category);
+            rateProfileMutation.start(() =>
+              rateUserProfileAct({ userProfileId: profile.id, category }),
+            );
+          }}
+        />
         <div className="p-4 rounded-lg border border-zinc-300 dark:border-zinc-800">
           <Avatar
             size="lg"
@@ -54,7 +134,7 @@ const UserProfileStatsContainer = () => {
           )}
         </div>
       </section>
-      <section className="mt-6">
+      <section className="mt-8">
         <AddCommentTriggerContainer />
       </section>
       {comments.length > 0 && (
@@ -88,6 +168,25 @@ const UserProfileStatsContainer = () => {
                   </div>
                 </div>
                 <p className="italic mt-4">{comment.content}</p>
+                <RatePicker
+                  className="[&_svg]:size-4 ml-auto mt-4"
+                  disabled={ratedComments[comment.id] !== undefined}
+                  rating={comment}
+                  rate={ratedComments[comment.id]}
+                  onRate={(category) => {
+                    rateCommentMutation.start(() =>
+                      rateUserProfileCommentAct({
+                        commentId: comment.id,
+                        profileId: profile.id,
+                        category,
+                      }),
+                    );
+                    setRatedComments((prev) => ({
+                      ...prev,
+                      [comment.id]: category,
+                    }));
+                  }}
+                />
               </li>
             ))}
           </ul>

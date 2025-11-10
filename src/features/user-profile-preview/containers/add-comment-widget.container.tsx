@@ -2,10 +2,9 @@ import { Button } from "design-system/button";
 import { Field } from "design-system/field";
 import { Modal2 } from "design-system/modal2";
 import { Textarea } from "design-system/textarea";
-import { maxLength, minLength } from "development-kit/form";
+import { ValidatorFn, ValidatorsSetup } from "development-kit/form";
 import { useForm } from "development-kit/use-form";
 import React from "react";
-import { AddUserProfileCommentFormValues } from "../models";
 import { BiErrorAlt, BiInfoCircle } from "react-icons/bi";
 import { Transaction } from "development-kit/utility-types";
 import { addUserProfileCommentAct } from "../acts/add-user-profile-comment.act";
@@ -24,6 +23,27 @@ const limits = {
   },
 } as const;
 
+const commentContentValidator: ValidatorFn<string, string> = (value) => {
+  const trimmed = value.trim();
+  if (trimmed.length < limits.content.min) {
+    return `Comment must be at least ${limits.content.min} characters long`;
+  }
+
+  if (trimmed.length > limits.content.max) {
+    return `Comment must be at most ${limits.content.max} characters long`;
+  }
+
+  return null;
+};
+
+type FormValues = {
+  content: string;
+};
+
+const validators: ValidatorsSetup<FormValues> = {
+  content: [commentContentValidator],
+};
+
 const AddCommentWidgetContainer = ({
   onClose,
 }: AddCommentWidgetContainerProps) => {
@@ -32,27 +52,27 @@ const AddCommentWidgetContainer = ({
   });
   const yourUserProfile = useYourUserProfileState();
 
-  const [{ invalid, values, untouched }, { inject }] =
-    useForm<AddUserProfileCommentFormValues>(
+  const [{ invalid, values, result, untouched }, { inject }] =
+    useForm<FormValues>(
       {
         content: "",
       },
-      {
-        content: [minLength(limits.content.min), maxLength(limits.content.max)],
-      },
+      validators,
     );
 
   const confirmAdd = async () => {
     setAddTransaction({ is: "busy" });
 
-    const result = await addUserProfileCommentAct(values);
+    const addResult = await addUserProfileCommentAct({
+      content: values.content,
+    });
 
-    if (result.is === `ok`) {
+    if (addResult.is === `ok`) {
       onClose();
       return;
     }
 
-    setAddTransaction(result);
+    setAddTransaction(addResult);
   };
 
   const goToUserProfileForm = () => {
@@ -84,6 +104,15 @@ const AddCommentWidgetContainer = ({
                     ? `Comment*`
                     : `Comment (${values.content.length}/${limits.content.max})*`
                 }
+                hint={
+                  result.content ? (
+                    <Field.Error>{result.content}</Field.Error>
+                  ) : (
+                    <Field.Hint>
+                      {limits.content.min}-{limits.content.max} characters
+                    </Field.Hint>
+                  )
+                }
               >
                 <Textarea
                   placeholder="Write your comment here... Be polite and respectful"
@@ -112,13 +141,24 @@ const AddCommentWidgetContainer = ({
         )}
       </Modal2.Body>
       {yourUserProfile.is === `ok` && (
-        <Modal2.Footer>
+        <Modal2.Footer className="flex gap-3">
+          <Button
+            i={1}
+            s={2}
+            auto
+            className="flex-1"
+            title="Cancel comment adding"
+            disabled={addTransaction.is === `busy`}
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
           {yourUserProfile.user ? (
             <Button
-              className="ml-auto"
               i={2}
               s={2}
               auto
+              className="flex-1"
               disabled={invalid || untouched || addTransaction.is === `busy`}
               title="Confirm comment add"
               onClick={confirmAdd}
@@ -127,9 +167,9 @@ const AddCommentWidgetContainer = ({
             </Button>
           ) : (
             <Button
-              className="ml-auto"
               i={2}
               s={2}
+              className="flex-1"
               auto
               title="Create user profile"
               onClick={goToUserProfileForm}

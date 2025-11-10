@@ -13,12 +13,13 @@ export type Atoms = {
   ResourceType: "document" | "mindmap" | "mindmap-node";
   ResourceVisibility: "private" | "public" | "permanent" | "manual";
   RatingCategory: "ugly" | "bad" | "decent" | "good" | "perfect";
+  ScoreValue: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   ImageId: Brand<string, `ImageId`>;
   Path: Brand<string, `Path`>;
   Slug: Brand<string, `Slug`>;
   Url: Brand<string, `Url`>;
   RewriteAssistantPersona: "cleany" | "grammy" | "teacher";
-  CommentId: Brand<string, `CommentId`>;
+  UserProfileCommentId: Brand<string, `UserProfileCommentId`>;
   AvatarVariantId: Brand<string, `AvatarVariantId`>;
   AvatarVariant: {
     w: number;
@@ -28,6 +29,11 @@ export type Atoms = {
   };
   DocumentCommentId: Brand<string, `DocumentCommentId`>;
   Rating: Record<Atoms["RatingCategory"], number>;
+  Score: {
+    scoreAverage: number;
+    scoreCount: number;
+    scoreValues: Atoms["ScoreValue"][];
+  };
 };
 
 export type AccessGroupDto = {
@@ -59,24 +65,27 @@ export type ImageDto = {
   id: Atoms["ImageId"];
 };
 
-export type UserProfileDto = {
-  id: Atoms["UserProfileId"];
-  cdate: Atoms["UTCDate"];
-  mdate: Atoms["UTCDate"];
-  displayNameSlug: Atoms["Slug"] | null;
-  displayName: string | null;
-  bio: string | null;
-  avatar: Record<"tn" | "sm" | "md" | "lg", Atoms["AvatarVariant"]> | null;
-  githubUrl: Atoms["Url"] | null;
-  linkedInUrl: Atoms["Url"] | null;
-  twitterUrl: Atoms["Url"] | null;
-  fbUrl: Atoms["Url"] | null;
-  blogUrl: Atoms["Url"] | null;
-};
+export type UserProfileDto = Prettify<
+  {
+    id: Atoms["UserProfileId"];
+    cdate: Atoms["UTCDate"];
+    mdate: Atoms["UTCDate"];
+    displayNameSlug: Atoms["Slug"] | null;
+    displayName: string | null;
+    bio: string | null;
+    avatar: Record<"tn" | "sm" | "md" | "lg", Atoms["AvatarVariant"]> | null;
+    githubUrl: Atoms["Url"] | null;
+    linkedInUrl: Atoms["Url"] | null;
+    twitterUrl: Atoms["Url"] | null;
+    fbUrl: Atoms["Url"] | null;
+    blogUrl: Atoms["Url"] | null;
+  } & Partial<Atoms["Rating"]> &
+    Partial<Atoms["Score"]>
+>;
 
-export type CommentDto = Prettify<
+export type UserProfileCommentDto = Prettify<
   Atoms["Rating"] & {
-    id: Atoms["CommentId"];
+    id: Atoms["UserProfileCommentId"];
     ownerProfile: UserProfileDto;
     cdate: Atoms["UTCDate"];
     mdate: Atoms["UTCDate"];

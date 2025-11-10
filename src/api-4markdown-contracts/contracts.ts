@@ -10,7 +10,7 @@ import type {
 import {
   AccessGroupDto,
   Atoms,
-  CommentDto,
+  UserProfileCommentDto,
   FullMindmapDto,
   ImageDto,
   MindmapDto,
@@ -150,6 +150,22 @@ type ResourceCompletionsContracts =
 
 type UserProfilesContracts =
   | Contract<
+      "rateUserProfile",
+      null,
+      {
+        userProfileId: Atoms["UserProfileId"];
+        category: Atoms["RatingCategory"];
+      }
+    >
+  | Contract<
+      "addUserProfileScore",
+      Atoms["Score"],
+      {
+        userProfileId: Atoms["UserProfileId"];
+        score: Atoms["ScoreValue"];
+      }
+    >
+  | Contract<
       `getYourUserProfile`,
       {
         profile: UserProfileDto;
@@ -185,18 +201,10 @@ type UserProfilesContracts =
       `getUserProfile`,
       {
         profile: UserProfileDto;
-        comments: CommentDto[];
+        comments: UserProfileCommentDto[];
       },
       {
         profileId: Atoms["UserProfileId"];
-      }
-    >
-  | Contract<
-      `addUserProfileComment`,
-      CommentDto,
-      {
-        receiverProfileId: Atoms["UserProfileId"];
-        comment: string;
       }
     >
   | Contract<
@@ -206,6 +214,25 @@ type UserProfilesContracts =
         userProfiles: UserProfileDto[];
       },
       { query: string; by: "displayName" | "id"; limit?: number }
+    >;
+
+type UserProfileCommentsContracts =
+  | Contract<
+      `addUserProfileComment`,
+      UserProfileCommentDto,
+      {
+        receiverProfileId: Atoms["UserProfileId"];
+        comment: string;
+      }
+    >
+  | Contract<
+      `rateUserProfileComment`,
+      null,
+      {
+        profileId: Atoms["UserProfileId"];
+        commentId: Atoms["UserProfileCommentId"];
+        category: Atoms["RatingCategory"];
+      }
     >;
 
 type AccountsContracts = Contract<`getYourAccount`, YourAccountDto>;
@@ -361,7 +388,8 @@ type API4MarkdownContracts =
   | AccountsContracts
   | ResourceCompletionsContracts
   | AccessGroupsContracts
-  | UserProfilesContracts;
+  | UserProfilesContracts
+  | UserProfileCommentsContracts;
 
 export type API4MarkdownContractKey = API4MarkdownContracts["key"];
 export type API4MarkdownDto<TKey extends API4MarkdownContractKey> = Extract<
