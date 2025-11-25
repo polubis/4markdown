@@ -10,8 +10,6 @@ import {
   BiLogoMarkdown,
 } from "react-icons/bi";
 import { Button } from "design-system/button";
-import { useCopy } from "development-kit/use-copy";
-import { Status } from "design-system/status";
 import { seeInDocumentsCreatorAct } from "acts/see-in-documents-creator.act";
 import { Link, navigate } from "gatsby";
 import { meta } from "../../meta";
@@ -28,9 +26,18 @@ import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
-import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
+import {
+  API4MarkdownDto,
+  API4MarkdownPayload,
+  Atoms,
+} from "api-4markdown-contracts";
 import { CommentTrigger } from "components/comment-trigger";
 import { DocumentCommentsModule } from "modules/document-comments";
+import { ScorePicker } from "components/score-picker";
+import { useCopy } from "development-kit/use-copy";
+import { useMutation2 } from "core/use-mutation-2";
+import { getAPI } from "api-4markdown";
+import { toast } from "design-system/toast";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -39,6 +46,7 @@ const MarkdownWidget = React.lazy(() =>
 );
 
 const CONTENT_ID = `document-layout-content`;
+const COMMENTS_CONTAINER_ID = `document-layout-comments`;
 
 const ResourceCompletionTriggerContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
@@ -105,6 +113,34 @@ const DocumentLayoutContainer = () => {
     navigate(meta.routes.home);
   };
 
+  const addScoreMutation = useMutation2<API4MarkdownDto<"addDocumentScore">>({
+    onFail: (error) => {
+      toast.error({
+        title: "Failed to add score",
+        children: error.message,
+      });
+    },
+    onOk: (data) => {
+      setDocumentLayoutState(({ document, yourRate }) => ({
+        document: {
+          ...document,
+          score: {
+            average: data.average,
+            count: data.count,
+            values: data.values,
+          },
+        },
+        yourRate,
+      }));
+    },
+  });
+
+  const addScore = (score: Atoms["ScoreValue"]): void => {
+    addScoreMutation.start(() =>
+      getAPI().call("addDocumentScore")({ documentId: document.id, score }),
+    );
+  };
+
   return (
     <>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
@@ -120,16 +156,7 @@ const DocumentLayoutContainer = () => {
               <BiLogoMarkdown />
             </Button>
             <Button
-              title="Display this document like a book"
-              s={2}
-              i={2}
-              onClick={sectionsModal.on}
-            >
-              <BiBook />
-            </Button>
-            <div className="h-5 w-0.5 mx-1 bg-zinc-300 dark:bg-zinc-800" />
-            <SocialShare />
-            <Button
+              className="tn:flex hidden"
               title="Copy this document markdown"
               s={2}
               i={2}
@@ -141,20 +168,35 @@ const DocumentLayoutContainer = () => {
                 <BiCopyAlt />
               )}
             </Button>
-            <CommentTrigger
-              i={2}
+            <Button
+              title="Display this document like a book"
               s={2}
-              position="right"
-              count={document.commentsCount}
-              onClick={() => {
-                window.scrollTo({
-                  top: Math.max(
-                    window.document.documentElement.scrollHeight,
-                    window.document.body.scrollHeight,
-                  ),
-                });
-              }}
-            />
+              i={2}
+              onClick={sectionsModal.on}
+            >
+              <BiBook />
+            </Button>
+            <SocialShare />
+            <div className="ml-auto flex gap-2.5 items-center">
+              <ScorePicker
+                disabled={addScoreMutation.busy || addScoreMutation.ok}
+                popoverClassName="-right-10 w-[280px]"
+                average={document.score.average}
+                count={document.score.count}
+                onRate={addScore}
+              />
+              <CommentTrigger
+                i={2}
+                s={2}
+                position="right"
+                count={document.commentsCount}
+                onClick={() => {
+                  window.document
+                    .getElementById(COMMENTS_CONTAINER_ID)
+                    ?.scrollIntoView();
+                }}
+              />
+            </div>
           </section>
           <DocumentRatingContainer className="mb-6 justify-end" />
           {document.visibility === `permanent` && (
@@ -206,18 +248,32 @@ const DocumentLayoutContainer = () => {
               </div>
             </section>
           )}
-          <DocumentRatingContainer className="mt-10 justify-end" />
-          <DocumentCommentsModule
-            documentId={document.id}
-            onCountChange={(count) =>
-              setDocumentLayoutState(({ document, yourRate }) => ({
-                yourRate,
-                document: { ...document, commentsCount: count },
-              }))
-            }
-            commentsCount={document.commentsCount}
-            className="mt-10"
-          />
+
+          <div className="mt-10 mb-4 ml-auto w-fit">
+            <ScorePicker
+              disabled={addScoreMutation.busy || addScoreMutation.ok}
+              popoverClassName="right-0 w-[280px]"
+              average={document.score.average}
+              count={document.score.count}
+              onRate={addScore}
+            />
+          </div>
+
+          <DocumentRatingContainer className="justify-end" />
+
+          <section id={COMMENTS_CONTAINER_ID}>
+            <DocumentCommentsModule
+              documentId={document.id}
+              onCountChange={(count) =>
+                setDocumentLayoutState(({ document, yourRate }) => ({
+                  yourRate,
+                  document: { ...document, commentsCount: count },
+                }))
+              }
+              commentsCount={document.commentsCount}
+              className="mt-10"
+            />
+          </section>
         </main>
         <TableOfContent markdownContainerId={CONTENT_ID} markdown={code} />
       </div>
@@ -229,7 +285,6 @@ const DocumentLayoutContainer = () => {
           <MarkdownWidget markdown={code} onClose={sectionsModal.off} />
         </React.Suspense>
       )}
-      {copyState.is === `copied` && <Status>Document markdown copied</Status>}
     </>
   );
 };
