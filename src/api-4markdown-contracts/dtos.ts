@@ -163,7 +163,7 @@ export type FullMindmapDto = MindmapDto & {
   isAuthorTrusted: boolean;
 };
 
-type Base = {
+type Base = Prettify<{
   id: Atoms["DocumentId"];
   name: string;
   commentsCount: number;
@@ -172,31 +172,44 @@ type Base = {
   cdate: Atoms["UTCDate"];
   sharedForGroups?: Atoms["AccessGroupId"][];
   path: Atoms["Path"];
-};
+  score: {
+    average: number;
+    count: number;
+    values: Atoms["ScoreValue"][];
+  };
+}>;
 
-export type PrivateDocumentDto = Base & {
-  visibility: "private";
-};
+export type PrivateDocumentDto = Prettify<
+  Base & {
+    visibility: "private";
+  }
+>;
 
-export type PublicDocumentDto = Base & {
-  visibility: "public";
-  author: UserProfileDto | null;
-  rating: Atoms["Rating"];
-};
+export type PublicDocumentDto = Prettify<
+  Base & {
+    visibility: "public";
+    author: UserProfileDto | null;
+    rating: Atoms["Rating"];
+  }
+>;
 
-export type PermanentDocumentDto = Base & {
-  visibility: `permanent`;
-  description: string;
-  tags: string[];
-  author: UserProfileDto | null;
-  rating: Atoms["Rating"];
-};
+export type PermanentDocumentDto = Prettify<
+  Base & {
+    visibility: `permanent`;
+    description: string;
+    tags: string[];
+    author: UserProfileDto | null;
+    rating: Atoms["Rating"];
+  }
+>;
 
-export type ManualDocumentDto = Base & {
-  visibility: "manual";
-  author: UserProfileDto | null;
-  rating: Atoms["Rating"];
-};
+export type ManualDocumentDto = Prettify<
+  Base & {
+    visibility: "manual";
+    author: UserProfileDto | null;
+    rating: Atoms["Rating"];
+  }
+>;
 
 export type DocumentDto =
   | PrivateDocumentDto

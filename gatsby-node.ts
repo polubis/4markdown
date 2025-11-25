@@ -283,11 +283,12 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
 
   const topDocuments = getTopDocuments(trustedDocuments, documentsPerPage).map<
     EducationPageModel["documents"]["top"][number]
-  >(({ author, name, id, path, rating, cdate, commentsCount }) => ({
+  >(({ author, name, id, path, rating, cdate, commentsCount, score }) => ({
     name,
     id,
     path,
     rating,
+    score,
     cdate,
     commentsCount,
     author:
@@ -322,6 +323,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
                 name,
                 id,
                 path,
+                score,
                 commentsCount,
                 rating,
                 cdate,
@@ -332,6 +334,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
                 id,
                 path,
                 rating,
+                score,
                 commentsCount,
                 cdate,
                 description,
@@ -369,6 +372,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
             ({
               author,
               name,
+              score,
               id,
               path,
               rating,
@@ -383,6 +387,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
               path,
               rating,
               cdate,
+              score,
               description,
               tags,
               author:
@@ -412,6 +417,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
           id,
           path,
           rating,
+          score,
           cdate,
           description,
           tags,
@@ -421,6 +427,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
           id,
           path,
           rating,
+          score,
           cdate,
           description,
           commentsCount,

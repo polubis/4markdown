@@ -65,7 +65,7 @@ const DocumentCommentsContainer = ({
 
   return (
     <>
-      <section className={className}>
+      <div className={className}>
         <h2 className="mb-4 flex items-center gap-2 justify-between">
           <span className="text-lg">
             Comments{" "}
@@ -172,7 +172,7 @@ const DocumentCommentsContainer = ({
             )}
           </>
         )}
-      </section>
+      </div>
       {commentForm.is === "on" && (
         <DocumentCommentFormContainer {...commentForm.data} />
       )}

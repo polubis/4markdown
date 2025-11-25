@@ -13,6 +13,11 @@ const now = new Date();
 const getDocsResponse: { result: PublicDocumentDto[] } = {
   result: [
     {
+      score: {
+        average: 3.5,
+        count: 10,
+        values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      },
       id: `e9799f7b-013e-4231-88fe-e2072514f96a` as Atoms["DocumentId"],
       commentsCount: 0,
       name: `Mediator pattern in TypeScript`,
