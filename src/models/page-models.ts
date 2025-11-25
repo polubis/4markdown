@@ -23,13 +23,14 @@ type RichEducationDocumentModel = Pick<
   | "description"
   | "tags"
   | "commentsCount"
+  | "score"
 > & {
   author: EducationDocumentAvatarModel;
 };
 
 type LightEducationDocumentModel = Pick<
   PermanentDocumentDto,
-  "id" | "path" | "name" | "rating" | "cdate" | "commentsCount"
+  "id" | "path" | "name" | "rating" | "cdate" | "commentsCount" | "score"
 > & {
   author: EducationDocumentAvatarModel;
 };

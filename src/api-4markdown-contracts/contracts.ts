@@ -239,6 +239,18 @@ type AccountsContracts = Contract<`getYourAccount`, YourAccountDto>;
 
 type DocumentsContracts =
   | Contract<
+      `addDocumentScore`,
+      {
+        average: number;
+        count: number;
+        values: Atoms["ScoreValue"][];
+      },
+      {
+        documentId: Atoms["DocumentId"];
+        score: Atoms["ScoreValue"];
+      }
+    >
+  | Contract<
       `getYourDocuments`,
       (
         | PrivateDocumentDto
