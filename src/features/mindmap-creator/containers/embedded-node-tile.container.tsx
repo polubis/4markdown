@@ -3,9 +3,10 @@ import React from "react";
 import { HandleX, HandleY } from "../components/handles";
 import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
-import { BiBook, BiPencil } from "react-icons/bi";
+import { BiBook, BiDownload, BiPencil } from "react-icons/bi";
 import type { MindmapCreatorEmbeddedNode } from "store/mindmap-creator/models";
 import {
+  downloadNodeSubtreeAction,
   openNodeEditionAction,
   openNodePreviewAction,
 } from "store/mindmap-creator/actions";
@@ -62,6 +63,17 @@ const EmbeddedNodeTileContainer = ({
         }}
       >
         <BiBook />
+      </Button>
+      <Button
+        i={2}
+        s={1}
+        title="Download this node and its subtree as ZIP"
+        onClick={(e) => {
+          e.stopPropagation();
+          downloadNodeSubtreeAction(id);
+        }}
+      >
+        <BiDownload />
       </Button>
     </NodeTile.Toolbox>
   </NodeTile>

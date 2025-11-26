@@ -139,6 +139,18 @@ const MindmapCreatorContainer = () => {
     headerVisible,
   } = useMindmapCreatorState();
 
+  console.log({
+    orientation,
+    nodes,
+    edges,
+    operation,
+    mindmapDetails,
+    activeMindmapId,
+    nodeForm,
+    nodesRemovalConfirmation,
+    headerVisible,
+  });
+
   const updateLatestViewport = React.useCallback((viewport: Viewport) => {
     const rect = ref.current?.getBoundingClientRect();
 
