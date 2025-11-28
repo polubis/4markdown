@@ -44,7 +44,7 @@ const buildFileTree = (
 
     const result: FileTree = {};
 
-    const fileName = node.type === "embedded" ? "content.md" : "link.md";
+    const fileName = `${nodePath}.md`;
     result[fileName] = content;
     const children = adjacencyList[node.id] || [];
     if (children.length > 0) {
