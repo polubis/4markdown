@@ -11,7 +11,7 @@ import { meta } from "../../../meta";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
   clearMindmapAction,
-  downloadMindmapAction,
+  downloadAllMindmapsAction,
   openMindmapFormAction,
   resetMindmapAction,
 } from "store/mindmap-creator/actions";
@@ -117,8 +117,8 @@ const MindmapCreatorView = () => {
               <Button
                 i={1}
                 s={2}
-                title="Download mindmap as JSON file"
-                onClick={downloadMindmapAction}
+                title="Download all mindmaps as ZIP files"
+                onClick={downloadAllMindmapsAction}
               >
                 <BiDownload />
               </Button>

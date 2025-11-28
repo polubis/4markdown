@@ -28,5 +28,4 @@ const downloadMindmapAction = (): void => {
 
   downloadJSON({ data, name: `data` });
 };
-
 export { closeNodePreviewAction, openNodePreviewAction, downloadMindmapAction };

@@ -17,8 +17,7 @@ import {
 import Dagre from "@dagrejs/dagre";
 import { type MindmapDto } from "api-4markdown-contracts";
 import { readyMindmapsSelector } from "./selectors";
-import { downloadJSON } from "development-kit/download-file";
-import { downloadMindmapAsZip } from "development-kit/mindmap-bulk-download";
+import { downloadMindmapsBulk } from "development-kit/mindmap-bulk-download";
 
 const { get, set, getInitial } = useMindmapCreatorState;
 
@@ -312,38 +311,27 @@ const closeNodePreviewAction = (): void => {
   });
 };
 
-const downloadMindmapAction = (): void => {
-  const { orientation, nodes, edges } = get();
-
-  const data = {
-    orientation,
-    nodes,
-    edges,
-  };
-
-  downloadJSON({ data, name: `data` });
-};
-
-const bulkDownloadMindmapAction = async (): Promise<void> => {
+const downloadAllMindmapsAction = async (): Promise<void> => {
   try {
     set({ operation: { is: "busy" } });
 
-    const { orientation, nodes, edges, activeMindmapId, mindmaps } = get();
-
-    // Get current mindmap name
+    const { mindmaps } = get();
     const readyMindmaps = readyMindmapsSelector(mindmaps);
-    const activeMindmap = readyMindmaps.data.find(
-      (mindmap: any) => mindmap.id === activeMindmapId,
-    );
-    const mindmapName = activeMindmap?.name || "mindmap";
 
-    const data = {
-      orientation,
-      nodes,
-      edges,
-    };
+    if (readyMindmaps.data.length === 0) {
+      throw new Error("No mindmaps available for download");
+    }
 
-    await downloadMindmapAsZip(data, mindmapName);
+    const mindmapsForDownload = readyMindmaps.data.map((mindmap) => ({
+      data: {
+        orientation: mindmap.orientation,
+        nodes: mindmap.nodes,
+        edges: mindmap.edges,
+      },
+      name: mindmap.name || `mindmap_${mindmap.id}`,
+    }));
+
+    await downloadMindmapsBulk(mindmapsForDownload);
 
     set({ operation: { is: "ok" } });
   } catch (error) {
@@ -355,74 +343,6 @@ const bulkDownloadMindmapAction = async (): Promise<void> => {
           content:
             error instanceof Error ? error.message : "Bulk download failed",
           message: "Bulk download failed",
-        },
-      },
-    });
-  }
-};
-
-const downloadNodeSubtreeAction = async (nodeId: string): Promise<void> => {
-  try {
-    set({ operation: { is: "busy" } });
-
-    const { orientation, nodes, edges, activeMindmapId, mindmaps } = get();
-
-    // Find the target node
-    const targetNode = nodes.find((node) => node.id === nodeId);
-    if (!targetNode) {
-      throw new Error("Node not found");
-    }
-
-    // Recursively collect all descendant nodes
-    const collectDescendants = (currentNodeId: string): string[] => {
-      const descendants = [currentNodeId];
-
-      // Find all direct children
-      const childEdges = edges.filter((edge) => edge.source === currentNodeId);
-      for (const childEdge of childEdges) {
-        descendants.push(...collectDescendants(childEdge.target));
-      }
-
-      return descendants;
-    };
-
-    const subtreeNodeIds = collectDescendants(nodeId);
-    const subtreeNodes = nodes.filter((node) =>
-      subtreeNodeIds.includes(node.id),
-    );
-    const subtreeEdges = edges.filter(
-      (edge) =>
-        subtreeNodeIds.includes(edge.source) &&
-        subtreeNodeIds.includes(edge.target),
-    );
-
-    // Get mindmap name
-    const readyMindmaps = readyMindmapsSelector(mindmaps);
-    const activeMindmap = readyMindmaps.data.find(
-      (mindmap: any) => mindmap.id === activeMindmapId,
-    );
-    const mindmapName = activeMindmap?.name || "mindmap";
-    const nodeName = targetNode.data.name || "node";
-    const fileName = `${mindmapName}_${nodeName}`;
-
-    const data = {
-      orientation,
-      nodes: subtreeNodes,
-      edges: subtreeEdges,
-    };
-
-    await downloadMindmapAsZip(data, fileName);
-
-    set({ operation: { is: "ok" } });
-  } catch (error) {
-    set({
-      operation: {
-        is: "fail",
-        error: {
-          symbol: "custom-error" as const,
-          content:
-            error instanceof Error ? error.message : "Node download failed",
-          message: "Node download failed",
         },
       },
     });
@@ -506,9 +426,7 @@ export {
   connectNodesAction,
   removeEdgeAction,
   toggleHeaderAction,
-  downloadMindmapAction,
-  bulkDownloadMindmapAction,
-  downloadNodeSubtreeAction,
+  downloadAllMindmapsAction,
   rotateViewAction,
   startNodesRemovalAction,
   cancelNodesRemovalAction,

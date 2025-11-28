@@ -3,12 +3,9 @@ import { HandleX, HandleY } from "./handles";
 import { type NodeProps } from "@xyflow/react";
 import { NodeTile } from "./node-tile";
 import { Button } from "design-system/button";
-import { BiDownload, BiPencil, BiWorld } from "react-icons/bi";
+import { BiPencil, BiWorld } from "react-icons/bi";
 import type { MindmapCreatorExternalNode } from "store/mindmap-creator/models";
-import {
-  downloadNodeSubtreeAction,
-  openNodeEditionAction,
-} from "store/mindmap-creator/actions";
+import { openNodeEditionAction } from "store/mindmap-creator/actions";
 
 type ExternalNodeTileProps = NodeProps<MindmapCreatorExternalNode>;
 
@@ -62,7 +59,7 @@ const ExternalNodeTile = ({
             <BiWorld />
           </Button>
         </a>
-        <Button
+        {/* <Button
           i={2}
           s={1}
           title="Download this node and its subtree as ZIP"
@@ -72,7 +69,7 @@ const ExternalNodeTile = ({
           }}
         >
           <BiDownload />
-        </Button>
+        </Button> */}
       </NodeTile.Toolbox>
     </NodeTile>
   );

@@ -14,12 +14,10 @@ type FileTree = {
   [key: string]: string | FileTree;
 };
 
-// Helper function to build file tree from mindmap structure
 const buildFileTree = (
   nodes: MindmapCreatorNode[],
   edges: MindmapCreatorEdge[],
 ): FileTree => {
-  // Create adjacency list for edges
   const adjacencyList: Record<string, string[]> = {};
   const incomingEdges: Record<string, string[]> = {};
 
@@ -30,8 +28,6 @@ const buildFileTree = (
     adjacencyList[edge.source].push(edge.target);
     incomingEdges[edge.target].push(edge.source);
   });
-
-  // Find root nodes (nodes without incoming edges)
   const rootNodes = nodes.filter((node) => !incomingEdges[node.id]);
 
   const processNode = (node: MindmapCreatorNode, pathPrefix = ""): FileTree => {
@@ -48,11 +44,8 @@ const buildFileTree = (
 
     const result: FileTree = {};
 
-    // Create file for current node
     const fileName = node.type === "embedded" ? "content.md" : "link.md";
     result[fileName] = content;
-
-    // Process children
     const children = adjacencyList[node.id] || [];
     if (children.length > 0) {
       const childNodes = children
@@ -78,22 +71,18 @@ const buildFileTree = (
   return tree;
 };
 
-// Helper function to add files to ZIP recursively
 const addFilesToZip = (zip: JSZip, fileTree: FileTree, path = ""): void => {
   Object.entries(fileTree).forEach(([key, value]) => {
     const currentPath = path ? `${path}/${key}` : key;
 
     if (typeof value === "string") {
-      // It's a file
       zip.file(currentPath, value);
     } else {
-      // It's a directory, recurse
       addFilesToZip(zip, value, currentPath);
     }
   });
 };
 
-// Main function to download mindmap as ZIP
 const downloadMindmapAsZip = async (
   mindmapData: MindmapData,
   mindmapName: string,
@@ -101,16 +90,12 @@ const downloadMindmapAsZip = async (
   try {
     const zip = new JSZip();
 
-    // Build file tree from mindmap structure
     const fileTree = buildFileTree(mindmapData.nodes, mindmapData.edges);
 
-    // Add files to ZIP
     addFilesToZip(zip, fileTree);
 
-    // Generate ZIP file
     const zipBlob = await zip.generateAsync({ type: "blob" });
 
-    // Create download link
     const url = URL.createObjectURL(zipBlob);
     const a = document.createElement("a");
     a.href = url;
@@ -119,7 +104,6 @@ const downloadMindmapAsZip = async (
     a.click();
     document.body.removeChild(a);
 
-    // Clean up
     URL.revokeObjectURL(url);
   } catch (error) {
     console.error("Error creating ZIP file:", error);
@@ -127,13 +111,11 @@ const downloadMindmapAsZip = async (
   }
 };
 
-// Function to download multiple mindmaps as separate ZIPs
 const downloadMindmapsBulk = async (
   mindmaps: Array<{ data: MindmapData; name: string }>,
 ): Promise<void> => {
   for (const mindmap of mindmaps) {
     await downloadMindmapAsZip(mindmap.data, mindmap.name);
-    // Add small delay between downloads to avoid browser restrictions
     await new Promise((resolve) => setTimeout(resolve, 500));
   }
 };
