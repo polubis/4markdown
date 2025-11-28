@@ -9,7 +9,7 @@ import { ScreenLoader } from "design-system/screen-loader";
 import { useMindmapPreviewState } from "store/mindmap-preview";
 import { getAccessibleMindmapAct } from "acts/get-accessible-mindmap.act";
 import { Communicate } from "design-system/communicate";
-import { downloadMindmapAction } from "store/mindmap-preview/actions";
+import { downloadAllMindmapsAction } from "store/mindmap-preview/actions";
 import { BugReportContainer } from "containers/bug-report.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
@@ -87,12 +87,20 @@ const MindmapPreviewView = () => {
               </h1>
               <Button
                 i={1}
+                s={2}
+                title="Download mindmap as ZIP file"
+                onClick={downloadAllMindmapsAction}
+              >
+                <BiDownload />
+              </Button>
+              {/* <Button
+                i={1}
                 s={1}
                 title="Download mindmap as JSON file"
                 onClick={downloadMindmapAction}
               >
                 <BiDownload />
-              </Button>
+              </Button> */}
             </>
           )}
         </nav>

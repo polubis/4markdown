@@ -1,4 +1,5 @@
 import { downloadJSON } from "development-kit/download-file";
+import { downloadMindmapAsZip } from "development-kit/mindmap-bulk-download";
 import { useMindmapPreviewState } from ".";
 import type { MindmapPreviewEmbeddedNode } from "./models";
 import { readyMindmapPreviewSelector } from "./selectors";
@@ -28,4 +29,30 @@ const downloadMindmapAction = (): void => {
 
   downloadJSON({ data, name: `data` });
 };
-export { closeNodePreviewAction, openNodePreviewAction, downloadMindmapAction };
+
+const downloadAllMindmapsAction = async (): Promise<void> => {
+  try {
+    const mindmap = readyMindmapPreviewSelector(get().mindmap);
+
+    const mindmapData = {
+      orientation: mindmap.orientation,
+      nodes: mindmap.nodes,
+      edges: mindmap.edges,
+    };
+
+    await downloadMindmapAsZip(
+      mindmapData,
+      mindmap.name || `mindmap_${mindmap.id}`,
+    );
+  } catch (error) {
+    console.error("Error downloading mindmap as ZIP:", error);
+    throw error;
+  }
+};
+
+export {
+  closeNodePreviewAction,
+  openNodePreviewAction,
+  downloadMindmapAction,
+  downloadAllMindmapsAction,
+};
