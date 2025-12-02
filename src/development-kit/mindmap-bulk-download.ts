@@ -14,6 +14,13 @@ type FileTree = {
   [key: string]: string | FileTree;
 };
 
+type NodeStructure = {
+  id: string;
+  name: string;
+  path: string;
+  children: NodeStructure[];
+};
+
 const buildFileTree = (
   nodes: MindmapCreatorNode[],
   edges: MindmapCreatorEdge[],
@@ -46,6 +53,19 @@ const buildFileTree = (
 
     const fileName = `${nodePath}.md`;
     result[fileName] = content;
+
+    const metaFileName = `${nodePath}.meta.md`;
+
+    const escapeYaml = (str: string) => str.replace(/"/g, '\\"');
+    const safeTitle = escapeYaml(node.data.name || "");
+    const safeDesc = escapeYaml(node.data.description || "");
+
+    const metaContent = `---
+title: "${safeTitle}"
+description: "${safeDesc}"
+---`;
+
+    result[metaFileName] = metaContent;
     const children = adjacencyList[node.id] || [];
     if (children.length > 0) {
       const childNodes = children
@@ -71,6 +91,42 @@ const buildFileTree = (
   return tree;
 };
 
+const buildStructureJson = (
+  rootNodes: MindmapCreatorNode[],
+  nodes: MindmapCreatorNode[],
+  adjacencyList: Record<string, string[]>,
+): NodeStructure[] => {
+  const processNodeStructure = (
+    node: MindmapCreatorNode,
+    pathPrefix = "",
+  ): NodeStructure => {
+    const nodePath = node.data.path?.replace(/^\/|\/$/g, "") || node.id;
+    const fullPath = pathPrefix ? `${pathPrefix}/${nodePath}` : nodePath;
+
+    const children = adjacencyList[node.id] || [];
+    const childStructures: NodeStructure[] = [];
+
+    if (children.length > 0) {
+      const childNodes = children
+        .map((childId) => nodes.find((n) => n.id === childId))
+        .filter(Boolean) as MindmapCreatorNode[];
+
+      childNodes.forEach((childNode) => {
+        childStructures.push(processNodeStructure(childNode, fullPath));
+      });
+    }
+
+    return {
+      id: node.id,
+      name: node.data.name || "",
+      path: fullPath,
+      children: childStructures,
+    };
+  };
+
+  return rootNodes.map((rootNode) => processNodeStructure(rootNode));
+};
+
 const addFilesToZip = (zip: JSZip, fileTree: FileTree, path = ""): void => {
   Object.entries(fileTree).forEach(([key, value]) => {
     const currentPath = path ? `${path}/${key}` : key;
@@ -90,7 +146,29 @@ const downloadMindmapAsZip = async (
   try {
     const zip = new JSZip();
 
+    const adjacencyList: Record<string, string[]> = {};
+    const incomingEdges: Record<string, string[]> = {};
+
+    mindmapData.edges.forEach((edge) => {
+      if (!adjacencyList[edge.source]) adjacencyList[edge.source] = [];
+      if (!incomingEdges[edge.target]) incomingEdges[edge.target] = [];
+
+      adjacencyList[edge.source].push(edge.target);
+      incomingEdges[edge.target].push(edge.source);
+    });
+
+    const rootNodes = mindmapData.nodes.filter(
+      (node) => !incomingEdges[node.id],
+    );
+
     const fileTree = buildFileTree(mindmapData.nodes, mindmapData.edges);
+    const structureData = buildStructureJson(
+      rootNodes,
+      mindmapData.nodes,
+      adjacencyList,
+    );
+
+    zip.file("structure.json", JSON.stringify(structureData, null, 2));
 
     addFilesToZip(zip, fileTree);
 
@@ -125,4 +203,5 @@ export {
   downloadMindmapsBulk,
   type MindmapData,
   type FileTree,
+  type NodeStructure,
 };
