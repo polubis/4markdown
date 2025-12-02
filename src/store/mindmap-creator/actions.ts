@@ -315,21 +315,44 @@ const downloadAllMindmapsAction = async (): Promise<void> => {
   try {
     set({ operation: { is: "busy" } });
 
-    const { mindmaps } = get();
-    const readyMindmaps = readyMindmapsSelector(mindmaps);
+    const { mindmaps, nodes, edges, orientation, activeMindmapId } = get();
 
-    if (readyMindmaps.data.length === 0) {
-      throw new Error("No mindmaps available for download");
-    }
-
-    const mindmapsForDownload = readyMindmaps.data.map((mindmap) => ({
+    let mindmapsForDownload: Array<{
       data: {
-        orientation: mindmap.orientation,
-        nodes: mindmap.nodes,
-        edges: mindmap.edges,
-      },
-      name: mindmap.name || `mindmap_${mindmap.id}`,
-    }));
+        orientation: string;
+        nodes: MindmapCreatorNode[];
+        edges: MindmapCreatorEdge[];
+      };
+      name: string;
+    }> = [];
+
+    if (mindmaps.is === "ok" && mindmaps.data.length > 0) {
+      mindmapsForDownload = mindmaps.data.map((mindmap) => ({
+        data: {
+          orientation: mindmap.orientation,
+          nodes: mindmap.nodes,
+          edges: mindmap.edges,
+        },
+        name: mindmap.name || `mindmap_${mindmap.id}`,
+      }));
+    } else {
+      if (nodes.length === 0) {
+        throw new Error("No mindmaps to download");
+      }
+
+      mindmapsForDownload = [
+        {
+          data: {
+            orientation,
+            nodes,
+            edges,
+          },
+          name: activeMindmapId
+            ? `mindmap_${activeMindmapId}`
+            : "mindmap_unsaved",
+        },
+      ];
+    }
 
     await downloadMindmapsBulk(mindmapsForDownload);
 
