@@ -28,6 +28,7 @@ export type Atoms = {
     src: Atoms["Path"];
   };
   DocumentCommentId: Brand<string, `DocumentCommentId`>;
+  ResourceActivityId: Brand<string, `ResourceActivityId`>;
   Rating: Record<Atoms["RatingCategory"], number>;
   Score: {
     scoreAverage: number;
@@ -228,3 +229,78 @@ export type DocumentCommentDto = Prettify<
     resourceId: Atoms["DocumentId"];
   }
 >;
+
+export type ResourceActivityDto =
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "created";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "content-changed";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      previousContent: string;
+      newContent: string;
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "visibility-changed";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      previousVisibility: Atoms["ResourceVisibility"];
+      newVisibility: Atoms["ResourceVisibility"];
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "metadata-updated";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      previousMeta: {
+        tags: string[];
+        description: string | null;
+      };
+      newMeta: {
+        tags: string[];
+        description: string | null;
+      };
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "comment-added";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      comment: UserProfileCommentDto;
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "rating-changed";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      previousRating: Atoms["Rating"];
+      newRating: Atoms["Rating"];
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "score-changed";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      previousScore: Atoms["Score"];
+      newScore: Atoms["Score"];
+    };

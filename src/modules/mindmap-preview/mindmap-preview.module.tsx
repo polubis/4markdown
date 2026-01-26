@@ -132,6 +132,8 @@ const MindmapPreviewModule = () => {
             chunksActive={false}
             onClose={closeNodePreviewAction}
             markdown={nodePreview.data.content || `No content for this node`}
+            resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
+            resourceType="mindmap-node"
           />
         </React.Suspense>
       )}

@@ -35,6 +35,8 @@
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.5",
+    "@git-diff-view/file": "^0.0.36",
+    "@git-diff-view/react": "^0.0.36",
     "@greenonsoftware/react-kit": "^0.1.0",
     "@tailwindcss/typography": "^0.5.16",
     "@xyflow/react": "^12.9.0",

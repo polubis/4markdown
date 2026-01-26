@@ -7,6 +7,8 @@ import {
   BiCheckboxChecked,
   BiCheckboxMinus,
   BiCopyAlt,
+  BiDotsHorizontal,
+  BiHistory,
   BiLogoMarkdown,
 } from "react-icons/bi";
 import { Button } from "design-system/button";
@@ -38,6 +40,8 @@ import { useCopy } from "development-kit/use-copy";
 import { useMutation2 } from "core/use-mutation-2";
 import { getAPI } from "api-4markdown";
 import { toast } from "design-system/toast";
+import { DocumentChangeHistoryContainer } from "containers/document-change-history.container";
+import Popover from "design-system/popover";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -102,10 +106,13 @@ const ResourceCompletionMarkerContainer = () => {
   );
 };
 
+
 const DocumentLayoutContainer = () => {
   const [{ document }, setDocumentLayoutState] = useDocumentLayoutContext();
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
+  const changeHistoryModal = useSimpleFeature();
+  const moreMenuModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
 
   const openInDocumentsCreator = (): void => {
@@ -147,27 +154,51 @@ const DocumentLayoutContainer = () => {
         <main className="max-w-prose w-full mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
           <ResourceCompletionMarkerContainer />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
-            <Button
-              title="Open in documents creator"
-              s={2}
-              i={2}
-              onClick={openInDocumentsCreator}
-            >
-              <BiLogoMarkdown />
-            </Button>
-            <Button
-              className="tn:flex hidden"
-              title="Copy this document markdown"
-              s={2}
-              i={2}
-              onClick={() => copy(code)}
-            >
-              {copyState.is === `copied` ? (
-                <BiCheck className="text-green-700" />
-              ) : (
-                <BiCopyAlt />
+            <div className="relative">
+              <Button
+                title="More options"
+                s={2}
+                i={2}
+                onClick={moreMenuModal.on}
+              >
+                <BiDotsHorizontal />
+              </Button>
+              {moreMenuModal.isOn && (
+                <Popover
+                  className="!absolute flex gap-2 translate-y-2.5 left-0 w-fit !z-[15]"
+                  onBackdropClick={moreMenuModal.off}
+                >
+                  <Button
+                    title="Open in documents creator"
+                    s={1}
+                    i={2}
+                    onClick={openInDocumentsCreator}
+                  >
+                    <BiLogoMarkdown />
+                  </Button>
+                  <Button
+                    title="Copy this document markdown"
+                    s={1}
+                    i={2}
+                    onClick={() => copy(code)}
+                  >
+                    {copyState.is === `copied` ? (
+                      <BiCheck className="text-green-700" />
+                    ) : (
+                      <BiCopyAlt />
+                    )}
+                  </Button>
+                  <Button
+                    title="View change history"
+                    s={1}
+                    i={2}
+                    onClick={() => changeHistoryModal.on()}
+                  >
+                    <BiHistory />
+                  </Button>
+                </Popover>
               )}
-            </Button>
+            </div>
             <Button
               title="Display this document like a book"
               s={2}
@@ -284,6 +315,10 @@ const DocumentLayoutContainer = () => {
         <React.Suspense>
           <MarkdownWidget markdown={code} onClose={sectionsModal.off} />
         </React.Suspense>
+      )}
+
+      {changeHistoryModal.isOn && (
+        <DocumentChangeHistoryContainer onClose={changeHistoryModal.off} />
       )}
     </>
   );

@@ -10,6 +10,7 @@ import {
 import { useCopy } from "development-kit/use-copy";
 import { useKeyPress } from "development-kit/use-key-press";
 import React, { ReactNode } from "react";
+import { ResourceActivityContainer } from "modules/resource-activity";
 import {
   BiArrowToLeft,
   BiArrowToRight,
@@ -17,16 +18,25 @@ import {
   BiBookContent,
   BiCheck,
   BiChevronDown,
+  BiCollapse,
   BiCopyAlt,
   BiDetail,
+  BiDotsHorizontal,
+  BiExpand,
+  BiHistory,
   BiListOl,
 } from "react-icons/bi";
+import { Atoms } from "api-4markdown-contracts";
+import Popover from "design-system/popover";
+import { Tabs } from "design-system/tabs";
 
 type MarkdownWidgetProps = {
   chunksActive?: boolean;
   headerControls?: ReactNode;
   markdown: string;
   onClose(): void;
+  resourceId?: Atoms["ResourceId"];
+  resourceType?: Atoms["ResourceType"];
 };
 
 const MAX_CHUNK_HEADING_LEVEL = 2;
@@ -36,6 +46,8 @@ const MarkdownWidget = ({
   headerControls,
   markdown,
   onClose,
+  resourceId,
+  resourceType,
 }: MarkdownWidgetProps) => {
   const bodyId = React.useId();
   const markdownId = React.useId();
@@ -138,6 +150,9 @@ const MarkdownWidget = ({
   useKeyPress([`d`, `D`, `ArrowRight`], goToNextChunk);
 
   const [copyState, copy] = useCopy();
+  const historyModal = useSimpleFeature();
+  const moreMenuModal = useSimpleFeature();
+  const [isFullscreen, setIsFullscreen] = React.useState(false);
 
   React.useLayoutEffect(() => {
     const timeout = setTimeout(() => {
@@ -193,7 +208,14 @@ const MarkdownWidget = ({
   }, [markdownId, chunksMode.isOn]);
 
   return (
-    <Modal2 className="[&>*]:max-w-3xl [&>*]:h-full" onClose={onClose}>
+    <Modal2 
+      className={c(
+        isFullscreen 
+          ? "!p-0 [&>*]:!max-w-full [&>*]:!w-full [&>*]:!h-screen [&>*]:!max-h-full [&>*]:!rounded-none" 
+          : "[&>*]:max-w-3xl [&>*]:h-full"
+      )} 
+      onClose={onClose}
+    >
       <Modal2.Header
         title={
           chunksMode.isOn
@@ -203,16 +225,66 @@ const MarkdownWidget = ({
         closeButtonTitle="Close preview mode (Esc)"
       >
         {headerControls}
-        <Button
-          title={
-            chunksMode.isOn ? "Show full content" : "Show content as chapters"
-          }
-          i={2}
-          s={1}
-          onClick={toggleMode}
-        >
-          {chunksMode.isOn ? <BiListOl /> : <BiDetail />}
-        </Button>
+        <div className="relative">
+          <Button title="More options" i={2} s={1} onClick={moreMenuModal.on}>
+            <BiDotsHorizontal />
+          </Button>
+          {moreMenuModal.isOn && (
+            <Popover
+              className="!absolute flex gap-2 translate-y-2.5 right-0 w-fit"
+              onBackdropClick={moreMenuModal.off}
+            >
+              <Button
+                title="Copy markdown"
+                s={1}
+                i={2}
+                onClick={copyMarkdown}
+              >
+                {copyState.is === `copied` ? (
+                  <BiCheck className="text-green-700" />
+                ) : (
+                  <BiCopyAlt />
+                )}
+              </Button>
+              {resourceId && resourceType && (
+                <Button
+                  title="View change history"
+                  s={1}
+                  i={2}
+                  onClick={() => historyModal.on()}
+                >
+                  <BiHistory />
+                </Button>
+              )}
+              <Tabs fit className="!h-8">
+                <Tabs.Item
+                  active={!chunksMode.isOn}
+                  title="Show full content"
+                  onClick={chunksMode.isOff ? undefined : toggleMode}
+                  className="!h-8 !w-8 !p-0 !min-w-0 !flex !items-center !justify-center !flex-none"
+                >
+                  <BiDetail className="text-xl" />
+                </Tabs.Item>
+                <Tabs.Item
+                  active={chunksMode.isOn}
+                  title="Show content as chapters"
+                  onClick={chunksMode.isOn ? undefined : toggleMode}
+                  className="!h-8 !w-8 !p-0 !min-w-0 !flex !items-center !justify-center !flex-none"
+                >
+                  <BiListOl className="text-xl" />
+                </Tabs.Item>
+              </Tabs>
+              <Button
+                title={isFullscreen ? "Exit fullscreen" : "Read in fullscreen"}
+                s={1}
+                i={2}
+                onClick={() => setIsFullscreen(!isFullscreen)}
+              >
+                {isFullscreen ? <BiCollapse /> : <BiExpand />}
+              </Button>
+            </Popover>
+          )}
+        </div>
       </Modal2.Header>
       <Modal2.Body
         id={bodyId}
@@ -265,44 +337,33 @@ const MarkdownWidget = ({
           </>
         )}
       </Modal2.Body>
-      <Modal2.Footer className="justify-between">
+      <Modal2.Footer className="justify-end">
         <div className="flex items-center gap-2">
-          <Button
-            i={2}
-            s={1}
-            title="Scroll to top preview top"
-            disabled={asideNavigation.isOn}
-            onClick={scrollToTop}
-          >
-            <BiArrowToTop />
-          </Button>
-          <Button i={2} s={1} title="Copy markdown" onClick={copyMarkdown}>
-            {copyState.is === `copied` ? (
-              <BiCheck className="text-green-700" />
-            ) : (
-              <BiCopyAlt />
-            )}
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {finalHeadings.length > 1 && (
-            <Button
-              title={
-                asideNavigation.isOn
-                  ? "Hide table of contents"
-                  : "Show table of contents"
-              }
-              i={2}
-              s={1}
-              onClick={asideNavigation.toggle}
-            >
-              {asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
-            </Button>
-          )}
-
-          {chunksMode.isOn && (
+          {chunksMode.isOn ? (
             <>
+              {finalHeadings.length > 1 && (
+                <Button
+                  title={
+                    asideNavigation.isOn
+                      ? "Hide table of contents"
+                      : "Show table of contents"
+                  }
+                  i={2}
+                  s={1}
+                  onClick={asideNavigation.toggle}
+                >
+                  {asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
+                </Button>
+              )}
+              <Button
+                i={2}
+                s={1}
+                title="Scroll to top preview top"
+                disabled={asideNavigation.isOn}
+                onClick={scrollToTop}
+              >
+                <BiArrowToTop />
+              </Button>
               <Button
                 i={2}
                 s={1}
@@ -322,9 +383,44 @@ const MarkdownWidget = ({
                 <BiArrowToRight />
               </Button>
             </>
+          ) : (
+            <>
+              <Button
+                i={2}
+                s={1}
+                title="Scroll to top preview top"
+                disabled={asideNavigation.isOn}
+                onClick={scrollToTop}
+              >
+                <BiArrowToTop />
+              </Button>
+              {finalHeadings.length > 1 && (
+                <Button
+                  title={
+                    asideNavigation.isOn
+                      ? "Hide table of contents"
+                      : "Show table of contents"
+                  }
+                  i={2}
+                  s={1}
+                  onClick={asideNavigation.toggle}
+                >
+                  {asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
+                </Button>
+              )}
+            </>
           )}
         </div>
       </Modal2.Footer>
+      {historyModal.isOn && resourceId && resourceType && (
+        <React.Suspense>
+          <ResourceActivityContainer
+            resourceId={resourceId}
+            resourceType={resourceType}
+            onClose={historyModal.off}
+          />
+        </React.Suspense>
+      )}
     </Modal2>
   );
 };

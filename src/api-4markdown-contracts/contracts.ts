@@ -14,6 +14,7 @@ import {
   FullMindmapDto,
   ImageDto,
   MindmapDto,
+  ResourceActivityDto,
   ResourceCompletionDto,
   UserProfileDto,
   YourAccountDto,
@@ -147,6 +148,15 @@ type ResourceCompletionsContracts =
         parentId?: Atoms["MindmapId"];
       }
     >;
+
+type ResourceActivityContracts = Contract<
+  "getResourceActivity",
+  ResourceActivityDto[],
+  {
+    resourceId: Atoms["ResourceId"];
+    resourceType: Atoms["ResourceType"];
+  }
+>;
 
 type UserProfilesContracts =
   | Contract<
@@ -399,6 +409,7 @@ type API4MarkdownContracts =
   | DocumentsContracts
   | AccountsContracts
   | ResourceCompletionsContracts
+  | ResourceActivityContracts
   | AccessGroupsContracts
   | UserProfilesContracts
   | UserProfileCommentsContracts;
