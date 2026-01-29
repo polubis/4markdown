@@ -8,7 +8,12 @@ import { Hint } from "design-system/hint";
 import { Input } from "design-system/input";
 import { Textarea } from "design-system/textarea";
 import { Button } from "design-system/button";
-import { BiPlusCircle, BiSave } from "react-icons/bi";
+import {
+  BiDotsHorizontal,
+  BiHistory,
+  BiPlusCircle,
+  BiSave,
+} from "react-icons/bi";
 import { type MindmapCreatorNode } from "store/mindmap-creator/models";
 import {
   addNewEmbeddedNodeAction,
@@ -21,8 +26,10 @@ import { validationLimits } from "../core/validation";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import { openedNodeFormSelector } from "store/mindmap-creator/selectors";
 import { openNodeContentInCreatorAct } from "acts/open-node-content-in-creator.act";
-import { context } from "@greenonsoftware/react-kit";
+import { context, useSimpleFeature } from "@greenonsoftware/react-kit";
 import { Atoms } from "api-4markdown-contracts";
+import Popover from "design-system/popover";
+import { ResourceActivityContainer } from "modules/resource-activity";
 
 type StepType = MindmapCreatorNode["type"] | `none`;
 
@@ -37,6 +44,52 @@ const prepareBaseValues = (values: {
     name,
     description: description.length === 0 ? null : description,
   };
+};
+
+const NodeHistoryControls = ({
+  nodeId,
+}: {
+  nodeId: Atoms["MindmapNodeId"];
+}) => {
+  const historyModal = useSimpleFeature();
+  const moreMenuModal = useSimpleFeature();
+
+  return (
+    <>
+      <div className="relative">
+        <Button title="More options" i={2} s={1} onClick={moreMenuModal.on}>
+          <BiDotsHorizontal />
+        </Button>
+        {moreMenuModal.isOn && (
+          <Popover
+            className="!absolute flex gap-2 translate-y-2.5 right-0 w-fit"
+            onBackdropClick={moreMenuModal.off}
+          >
+            <Button
+              title="View change history"
+              s={1}
+              i={2}
+              onClick={() => {
+                moreMenuModal.off();
+                historyModal.on();
+              }}
+            >
+              <BiHistory />
+            </Button>
+          </Popover>
+        )}
+      </div>
+      {historyModal.isOn && (
+        <React.Suspense>
+          <ResourceActivityContainer
+            resourceId={nodeId}
+            resourceType="mindmap-node"
+            onClose={historyModal.off}
+          />
+        </React.Suspense>
+      )}
+    </>
+  );
 };
 
 const [LocalProvider, useLocalContext] = context(() => {
@@ -56,6 +109,9 @@ const ExternalForm = () => {
   const { setActiveType } = useLocalContext();
   const nodeForm = useMindmapCreatorState((state) =>
     openedNodeFormSelector(state.nodeForm),
+  );
+  const activeMindmapId = useMindmapCreatorState(
+    (state) => state.activeMindmapId,
   );
 
   const [initialValues] = React.useState(() =>
@@ -129,7 +185,13 @@ const ExternalForm = () => {
             </>
           }
           closeButtonTitle="Cancel node edition"
-        />
+        >
+          {activeMindmapId && (
+            <NodeHistoryControls
+              nodeId={nodeForm.id as Atoms["MindmapNodeId"]}
+            />
+          )}
+        </Modal2.Header>
       ) : (
         <Modal2.Header
           title="External node data (2/2)"
@@ -235,6 +297,9 @@ const EmbeddedForm = () => {
   const nodeForm = useMindmapCreatorState((state) =>
     openedNodeFormSelector(state.nodeForm),
   );
+  const activeMindmapId = useMindmapCreatorState(
+    (state) => state.activeMindmapId,
+  );
 
   const [initialValues] = React.useState(() =>
     nodeForm.is === `active`
@@ -312,7 +377,13 @@ const EmbeddedForm = () => {
             </>
           }
           closeButtonTitle="Cancel node edition"
-        />
+        >
+          {activeMindmapId && (
+            <NodeHistoryControls
+              nodeId={nodeForm.id as Atoms["MindmapNodeId"]}
+            />
+          )}
+        </Modal2.Header>
       ) : (
         <Modal2.Header
           title="Embedded node data (2/2)"

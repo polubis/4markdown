@@ -5,7 +5,7 @@ import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
 import { useDocumentCreatorState } from "store/document-creator";
 import { markAsUnchangedAction } from "store/document-creator/actions";
 
-const updateDocumentCode = async () => {
+const updateDocumentCodeAct = async (): Promise<void> => {
   const doc = docStoreSelectors.active();
   const { code } = useDocumentCreatorState.get();
 
@@ -37,4 +37,4 @@ const updateDocumentCode = async () => {
   }
 };
 
-export { updateDocumentCode };
+export { updateDocumentCodeAct };

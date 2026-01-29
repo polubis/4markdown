@@ -6,7 +6,7 @@ import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
 import { useDocumentCreatorState } from "store/document-creator";
 import { changeWithoutMarkAsUnchangedAction } from "store/document-creator/actions";
 
-const updateDocumentName = async (
+const updateDocumentNameAct = async (
   name: API4MarkdownPayload<"updateDocumentName">["name"],
 ): Promise<void> => {
   try {
@@ -37,4 +37,4 @@ const updateDocumentName = async (
   }
 };
 
-export { updateDocumentName };
+export { updateDocumentNameAct };

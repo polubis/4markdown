@@ -39,7 +39,7 @@ import {
   replaceText,
 } from "development-kit/textarea-utils";
 import { useAuthStore } from "store/auth/auth.store";
-import { logIn } from "actions/log-in.action";
+import { logInAct } from "acts/log-in.act";
 import { useYourAccountState } from "store/your-account";
 import { hasTokensForFeatureSelector } from "store/your-account/selectors";
 import { REWRITE_ASSISTANT_TOKEN_COST } from "core/consts";
@@ -175,7 +175,7 @@ const CreatorView = () => {
       return;
     }
 
-    logIn();
+    logInAct();
   };
 
   const maintainAssistantAppearance: ReactEventHandler<HTMLTextAreaElement> = (

@@ -4,7 +4,7 @@ import { BiLogInCircle } from "react-icons/bi";
 import { useAuthStore } from "store/auth/auth.store";
 import { useDocsStore } from "store/docs/docs.store";
 import { YourAvatarContainer } from "../containers/your-avatar.container";
-import { logIn } from "actions/log-in.action";
+import { logInAct } from "acts/log-in.act";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { useYourAccountState } from "store/your-account";
@@ -41,7 +41,7 @@ const UserPopover = () => {
       return;
     }
 
-    logIn();
+    logInAct();
   };
 
   return (

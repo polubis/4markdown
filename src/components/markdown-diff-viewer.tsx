@@ -7,6 +7,7 @@ import { isClient } from "development-kit/ssr-csr";
 import { Modal2 } from "design-system/modal2";
 import { Button } from "design-system/button";
 import { BiExpand } from "react-icons/bi";
+import { c } from "design-system/c";
 
 type MarkdownDiffViewerProps = {
   previous: string;
@@ -216,7 +217,11 @@ const MarkdownDiffViewer = ({
 
     return (
       <div
-        className={`w-full overflow-auto min-w-0 ${isInModal ? "" : "border border-gray-200 dark:border-zinc-800 rounded-lg"}`}
+        className={c(
+          "w-full overflow-auto min-w-0",
+          !isInModal &&
+            "border border-gray-200 dark:border-zinc-800 rounded-lg",
+        )}
         style={{
           overscrollBehavior: "contain",
           minHeight: isInModal ? "100%" : "400px",
@@ -236,7 +241,7 @@ const MarkdownDiffViewer = ({
 
   return (
     <>
-      <div ref={containerRef} className={`w-full ${className}`}>
+      <div ref={containerRef} className={c("w-full", className)}>
         {showFullScreenButton && hasContent && diffFile && (
           <div className="mb-2 flex justify-end">
             <Button
@@ -255,12 +260,19 @@ const MarkdownDiffViewer = ({
 
       {isFullScreenOpen && (
         <Modal2
-          className="[&>*]:!max-w-full [&>*]:!w-full [&>*]:!h-full [&>*]:!max-h-full"
+          className={c(
+            // Override Modal2 "bottom-sheet" layout to become true fullscreen.
+            "!p-0 !items-stretch sm:!p-0 sm:!items-stretch",
+            // Make the modal panel fill the viewport and remove any rounding/shadow.
+            "[&>*]:!w-screen [&>*]:!h-screen [&>*]:!max-w-none [&>*]:!max-h-none",
+            "[&>*]:!rounded-none [&>*]:!shadow-none",
+          )}
           onClose={() => setIsFullScreenOpen(false)}
         >
           <Modal2.Header
             title={modalTitle}
             closeButtonTitle="Close diff viewer"
+            className="!border-b-0"
           />
           <Modal2.Body className="h-full overflow-hidden p-0 flex flex-col">
             <div ref={modalContainerRef} className="w-full h-full">

@@ -312,7 +312,12 @@ const DocumentLayoutContainer = () => {
 
       {sectionsModal.isOn && (
         <React.Suspense>
-          <MarkdownWidget markdown={code} onClose={sectionsModal.off} />
+          <MarkdownWidget
+            markdown={code}
+            onClose={sectionsModal.off}
+            resourceId={document.id as Atoms["DocumentId"]}
+            resourceType="document"
+          />
         </React.Suspense>
       )}
 

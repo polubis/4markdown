@@ -6,7 +6,7 @@ import UserPopover from "components/user-popover";
 import MoreNav from "components/more-nav";
 import { MindmapCreatorContainer } from "./containers/mindmap-creator.container";
 import { useAuthStore } from "store/auth/auth.store";
-import { logIn } from "actions/log-in.action";
+import { logInAct } from "acts/log-in.act";
 import { meta } from "../../../meta";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
@@ -45,7 +45,7 @@ const AddNewMindmapContainer = () => {
     }
 
     triggerMindmapCreation();
-    logIn();
+    logInAct();
   };
 
   React.useEffect(() => {

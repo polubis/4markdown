@@ -5,7 +5,7 @@ import {
   docManagementStoreActions,
   docManagementStoreSelectors,
 } from "store/doc-management/doc-management.store";
-import { reloadYourDocuments } from "actions/reload-your-documents.action";
+import { reloadYourDocumentsAct } from "acts/reload-your-documents.act";
 
 const CreatorErrorModalContainer = () => {
   const docManagementStore = docManagementStoreSelectors.useFail();
@@ -22,7 +22,7 @@ const CreatorErrorModalContainer = () => {
             s={2}
             auto
             title="Sync out of date document"
-            onClick={reloadYourDocuments}
+            onClick={reloadYourDocumentsAct}
           >
             Sync
           </Button>

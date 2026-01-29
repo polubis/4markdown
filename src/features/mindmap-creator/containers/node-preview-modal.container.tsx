@@ -2,6 +2,7 @@ import { Button } from "design-system/button";
 import { Modal2 } from "design-system/modal2";
 import React from "react";
 import { BiPencil } from "react-icons/bi";
+import { Atoms } from "api-4markdown-contracts";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
   closeNodePreviewAction,
@@ -16,6 +17,10 @@ const MarkdownWidget = React.lazy(() =>
 
 const NodePreviewModalContainer = () => {
   const nodePreview = useMindmapCreatorState((state) => state.nodePreview);
+  const activeMindmapId = useMindmapCreatorState(
+    (state) => state.activeMindmapId,
+  );
+  const historyEnabled = Boolean(activeMindmapId);
 
   const openNodeEdition = (): void => {
     if (nodePreview.is === `active`) {
@@ -72,6 +77,12 @@ const NodePreviewModalContainer = () => {
         }
         onClose={closeNodePreviewAction}
         markdown={nodePreview.data.content}
+        resourceId={
+          historyEnabled
+            ? (nodePreview.id as Atoms["MindmapNodeId"])
+            : undefined
+        }
+        resourceType={historyEnabled ? "mindmap-node" : undefined}
       />
     </React.Suspense>
   );

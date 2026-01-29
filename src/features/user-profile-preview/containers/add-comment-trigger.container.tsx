@@ -1,5 +1,5 @@
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
-import { logIn } from "actions/log-in.action";
+import { logInAct } from "acts/log-in.act";
 import { Button } from "design-system/button";
 import React, { useEffect } from "react";
 import { BiPlusCircle } from "react-icons/bi";
@@ -23,7 +23,7 @@ const AddCommentTriggerContainer = () => {
     }
 
     showWidgetAfterLogIn.current = true;
-    logIn();
+    logInAct();
   };
 
   useEffect(() => {

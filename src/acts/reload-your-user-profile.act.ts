@@ -2,7 +2,7 @@ import { getAPI, parseError, setCache } from "api-4markdown";
 import type { API4MarkdownContractKey } from "api-4markdown-contracts";
 import { useYourUserProfileState } from "store/your-user-profile";
 
-const reloadYourUserProfile = async (): Promise<void> => {
+const reloadYourUserProfileAct = async (): Promise<void> => {
   try {
     const key: API4MarkdownContractKey = `getYourUserProfile`;
 
@@ -22,4 +22,4 @@ const reloadYourUserProfile = async (): Promise<void> => {
   }
 };
 
-export { reloadYourUserProfile };
+export { reloadYourUserProfileAct };

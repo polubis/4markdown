@@ -2,7 +2,7 @@ import { getAPI, getCache, setCache } from "api-4markdown";
 import type { API4MarkdownContractKey } from "api-4markdown-contracts";
 import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
 
-const getYourDocuments = async (): Promise<void> => {
+const getYourDocumentsAct = async (): Promise<void> => {
   try {
     const key: API4MarkdownContractKey = `getYourDocuments`;
 
@@ -29,4 +29,4 @@ const getYourDocuments = async (): Promise<void> => {
   }
 };
 
-export { getYourDocuments };
+export { getYourDocumentsAct };

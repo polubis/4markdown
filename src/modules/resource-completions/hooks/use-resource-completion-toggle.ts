@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuthStore } from "store/auth/auth.store";
 import { toggleResourceCompletionAct } from "../acts/toggle-resource-completion.act";
-import { logIn } from "actions/log-in.action";
+import { logInAct } from "acts/log-in.act";
 import { API4MarkdownPayload } from "api-4markdown-contracts";
 import { Transaction } from "development-kit/utility-types";
 import { useResourceCompletion } from "./use-is-resource-completed";
@@ -22,7 +22,7 @@ const useResourceCompletionToggle = (
       setState({ is: `busy` });
       setState(await toggleResourceCompletionAct(payload));
     } else {
-      logIn();
+      logInAct();
     }
   }, [payload]);
 

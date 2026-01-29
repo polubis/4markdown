@@ -3,7 +3,7 @@ import { Field } from "design-system/field";
 import { Input } from "design-system/input";
 import { Modal2 } from "design-system/modal2";
 import React from "react";
-import { deleteDocument } from "actions/delete-document.action";
+import { deleteDocumentAct } from "acts/delete-document.act";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
 
@@ -15,7 +15,7 @@ const DeleteDocumentModalContainer = ({ onClose }: { onClose(): void }) => {
   const disabled = docManagementStore.is === `busy`;
 
   const handleConfirm = (): void => {
-    deleteDocument(onClose);
+    deleteDocumentAct(onClose);
   };
 
   return (
