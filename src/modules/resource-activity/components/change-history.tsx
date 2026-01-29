@@ -120,7 +120,8 @@ const ChangeHistory = ({ onRetry }: ChangeHistoryProps) => {
                     </div>
                   </li>
                   {group.activities.map((activity, activityIndexInGroup) => {
-                    const index = previousActivitiesCount + activityIndexInGroup;
+                    const index =
+                      previousActivitiesCount + activityIndexInGroup;
                     return (
                       <ActivityItem
                         key={activity.id}

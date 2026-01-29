@@ -11,10 +11,12 @@ const generateMockActivity = (
   const now = new Date();
   const mockAuthor: ResourceActivityDto["authorProfile"] = {
     id: "user_mock_001" as Atoms["UserProfileId"],
-    cdate: new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000)
-      .toISOString() as Atoms["UTCDate"],
-    mdate: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
-      .toISOString() as Atoms["UTCDate"],
+    cdate: new Date(
+      now.getTime() - 365 * 24 * 60 * 60 * 1000,
+    ).toISOString() as Atoms["UTCDate"],
+    mdate: new Date(
+      now.getTime() - 30 * 24 * 60 * 60 * 1000,
+    ).toISOString() as Atoms["UTCDate"],
     displayName: "John Doe",
     displayNameSlug: "john-doe" as Atoms["Slug"],
     bio: "Software developer passionate about clean code",
@@ -33,8 +35,9 @@ const generateMockActivity = (
       type: "score-changed",
       resourceId,
       resourceType,
-      cdate: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000)
-        .toISOString() as Atoms["UTCDate"],
+      cdate: new Date(
+        now.getTime() - 5 * 24 * 60 * 60 * 1000,
+      ).toISOString() as Atoms["UTCDate"],
       authorProfile: mockAuthor,
       previousScore: {
         scoreAverage: 7.5,
@@ -52,8 +55,9 @@ const generateMockActivity = (
       type: "rating-changed",
       resourceId,
       resourceType,
-      cdate: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-        .toISOString() as Atoms["UTCDate"],
+      cdate: new Date(
+        now.getTime() - 7 * 24 * 60 * 60 * 1000,
+      ).toISOString() as Atoms["UTCDate"],
       authorProfile: mockAuthor,
       previousRating: {
         ugly: 0,
@@ -75,16 +79,19 @@ const generateMockActivity = (
       type: "comment-added",
       resourceId,
       resourceType,
-      cdate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000)
-        .toISOString() as Atoms["UTCDate"],
+      cdate: new Date(
+        now.getTime() - 10 * 24 * 60 * 60 * 1000,
+      ).toISOString() as Atoms["UTCDate"],
       authorProfile: mockAuthor,
       comment: {
         id: "comment_001" as Atoms["UserProfileCommentId"],
         ownerProfile: mockAuthor,
-        cdate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000)
-          .toISOString() as Atoms["UTCDate"],
-        mdate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000)
-          .toISOString() as Atoms["UTCDate"],
+        cdate: new Date(
+          now.getTime() - 10 * 24 * 60 * 60 * 1000,
+        ).toISOString() as Atoms["UTCDate"],
+        mdate: new Date(
+          now.getTime() - 10 * 24 * 60 * 60 * 1000,
+        ).toISOString() as Atoms["UTCDate"],
         content: "This is a great resource! Very helpful content.",
         ugly: 0,
         bad: 0,
@@ -98,8 +105,9 @@ const generateMockActivity = (
       type: "metadata-updated",
       resourceId,
       resourceType,
-      cdate: new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000)
-        .toISOString() as Atoms["UTCDate"],
+      cdate: new Date(
+        now.getTime() - 15 * 24 * 60 * 60 * 1000,
+      ).toISOString() as Atoms["UTCDate"],
       authorProfile: mockAuthor,
       previousMeta: {
         tags: [],
@@ -115,8 +123,9 @@ const generateMockActivity = (
       type: "visibility-changed",
       resourceId,
       resourceType,
-      cdate: new Date(now.getTime() - 20 * 24 * 60 * 60 * 1000)
-        .toISOString() as Atoms["UTCDate"],
+      cdate: new Date(
+        now.getTime() - 20 * 24 * 60 * 60 * 1000,
+      ).toISOString() as Atoms["UTCDate"],
       authorProfile: mockAuthor,
       previousVisibility: "private",
       newVisibility: "public",
@@ -128,8 +137,9 @@ const generateMockActivity = (
       resourceType,
       previousContent: "Initial content",
       newContent: "Updated content with improvements",
-      cdate: new Date(now.getTime() - 25 * 24 * 60 * 60 * 1000)
-        .toISOString() as Atoms["UTCDate"],
+      cdate: new Date(
+        now.getTime() - 25 * 24 * 60 * 60 * 1000,
+      ).toISOString() as Atoms["UTCDate"],
       authorProfile: mockAuthor,
     },
     {
@@ -137,8 +147,9 @@ const generateMockActivity = (
       type: "created",
       resourceId,
       resourceType,
-      cdate: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
-        .toISOString() as Atoms["UTCDate"],
+      cdate: new Date(
+        now.getTime() - 30 * 24 * 60 * 60 * 1000,
+      ).toISOString() as Atoms["UTCDate"],
       authorProfile: mockAuthor,
     },
   ];

@@ -13,8 +13,7 @@ const ActivityAuthorBadge = ({
 }: ActivityAuthorBadgeProps) => {
   if (!authorProfile) return null;
 
-  const authorName =
-    authorProfile.displayName ?? authorProfile.id ?? "Unknown";
+  const authorName = authorProfile.displayName ?? authorProfile.id ?? "Unknown";
 
   return (
     <div className={`flex items-center gap-1.5 ${className ?? ""}`}>

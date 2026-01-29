@@ -39,7 +39,8 @@ const MarkdownDiffViewer = ({
   const [isFullScreenOpen, setIsFullScreenOpen] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const modalContainerRef = React.useRef<HTMLDivElement>(null);
-  const [modalContainerWidth, setModalContainerWidth] = React.useState<number>(0);
+  const [modalContainerWidth, setModalContainerWidth] =
+    React.useState<number>(0);
 
   // Track container width for responsive diff mode
   React.useEffect(() => {
@@ -110,7 +111,8 @@ const MarkdownDiffViewer = ({
     const previousHandler = window.__onThemeChange;
 
     const handleThemeChange = (themeArg: "light" | "dark") => {
-      const themeValue = themeArg || (window.__theme === "dark" ? "dark" : "light");
+      const themeValue =
+        themeArg || (window.__theme === "dark" ? "dark" : "light");
       setTheme(themeValue);
 
       if (previousHandler && typeof previousHandler === "function") {
@@ -139,16 +141,16 @@ const MarkdownDiffViewer = ({
 
     try {
       setIsProcessing(true);
-      
+
       const file = generateDiffFile(
         `${previousLabel}.md`,
         previous,
         `${currentLabel}.md`,
         current,
         "markdown",
-        "markdown"
+        "markdown",
       );
-      
+
       // IMPORTANT: Order matters according to official docs!
       // 1. initTheme() must be called FIRST
       // 2. Then init()
@@ -156,7 +158,7 @@ const MarkdownDiffViewer = ({
       file.initTheme(theme);
       file.init();
       file.buildSplitDiffLines();
-      
+
       setDiffFile(file);
       setIsProcessing(false);
     } catch (error) {
@@ -168,9 +170,13 @@ const MarkdownDiffViewer = ({
 
   const hasContent = previous.trim().length > 0 || current.trim().length > 0;
   const useUnifiedView = containerWidth > 0 && containerWidth < 1024;
-  const useUnifiedViewInModal = modalContainerWidth > 0 && modalContainerWidth < 1024;
+  const useUnifiedViewInModal =
+    modalContainerWidth > 0 && modalContainerWidth < 1024;
 
-  const renderDiffContent = (useUnified: boolean, isInModal: boolean = false) => {
+  const renderDiffContent = (
+    useUnified: boolean,
+    isInModal: boolean = false,
+  ) => {
     if (!hasContent) {
       return (
         <div
@@ -210,12 +216,12 @@ const MarkdownDiffViewer = ({
 
     return (
       <div
-        className={`w-full overflow-auto min-w-0 ${isInModal ? '' : 'border border-gray-200 dark:border-zinc-800 rounded-lg'}`}
-        style={{ 
+        className={`w-full overflow-auto min-w-0 ${isInModal ? "" : "border border-gray-200 dark:border-zinc-800 rounded-lg"}`}
+        style={{
           overscrollBehavior: "contain",
           minHeight: isInModal ? "100%" : "400px",
           maxHeight: isInModal ? "100%" : "600px",
-          height: isInModal ? "100%" : undefined
+          height: isInModal ? "100%" : undefined,
         }}
       >
         <DiffView

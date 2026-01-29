@@ -208,12 +208,12 @@ const MarkdownWidget = ({
   }, [markdownId, chunksMode.isOn]);
 
   return (
-    <Modal2 
+    <Modal2
       className={c(
-        isFullscreen 
-          ? "!p-0 [&>*]:!max-w-full [&>*]:!w-full [&>*]:!h-screen [&>*]:!max-h-full [&>*]:!rounded-none" 
-          : "[&>*]:max-w-3xl [&>*]:h-full"
-      )} 
+        isFullscreen
+          ? "!p-0 [&>*]:!max-w-full [&>*]:!w-full [&>*]:!h-screen [&>*]:!max-h-full [&>*]:!rounded-none"
+          : "[&>*]:max-w-3xl [&>*]:h-full",
+      )}
       onClose={onClose}
     >
       <Modal2.Header
@@ -234,12 +234,7 @@ const MarkdownWidget = ({
               className="!absolute flex gap-2 translate-y-2.5 right-0 w-fit"
               onBackdropClick={moreMenuModal.off}
             >
-              <Button
-                title="Copy markdown"
-                s={1}
-                i={2}
-                onClick={copyMarkdown}
-              >
+              <Button title="Copy markdown" s={1} i={2} onClick={copyMarkdown}>
                 {copyState.is === `copied` ? (
                   <BiCheck className="text-green-700" />
                 ) : (

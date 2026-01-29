@@ -17,7 +17,10 @@ const CommentAddedActivity = ({ activity }: CommentAddedActivityProps) => {
   return (
     <ActivityTile activity={activity}>
       <div className="mb-2">
-        <ActivityAuthorBadge authorProfile={activity.authorProfile} className="mb-1" />
+        <ActivityAuthorBadge
+          authorProfile={activity.authorProfile}
+          className="mb-1"
+        />
         <h3 className="text-base font-semibold text-black dark:text-white">
           Comment Added
         </h3>

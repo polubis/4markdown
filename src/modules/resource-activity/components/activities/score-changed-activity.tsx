@@ -11,7 +11,10 @@ const ScoreChangedActivity = ({ activity }: ScoreChangedActivityProps) => {
   return (
     <ActivityTile activity={activity}>
       <div className="mb-2">
-        <ActivityAuthorBadge authorProfile={activity.authorProfile} className="mb-1" />
+        <ActivityAuthorBadge
+          authorProfile={activity.authorProfile}
+          className="mb-1"
+        />
         <h3 className="text-base font-semibold text-black dark:text-white">
           Score Changed
         </h3>
@@ -28,7 +31,8 @@ const ScoreChangedActivity = ({ activity }: ScoreChangedActivityProps) => {
           </span>
         </div>
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          Based on {activity.newScore.scoreCount} rating{activity.newScore.scoreCount !== 1 ? "s" : ""}
+          Based on {activity.newScore.scoreCount} rating
+          {activity.newScore.scoreCount !== 1 ? "s" : ""}
         </p>
       </div>
     </ActivityTile>

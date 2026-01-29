@@ -106,7 +106,6 @@ const ResourceCompletionMarkerContainer = () => {
   );
 };
 
-
 const DocumentLayoutContainer = () => {
   const [{ document }, setDocumentLayoutState] = useDocumentLayoutContext();
   const { code, author } = document;

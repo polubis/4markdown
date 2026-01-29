@@ -5,9 +5,6 @@ type ResourceActivityState = Transaction<{
   data: ResourceActivityDto[];
 }>;
 
-type OkResourceActivityState = Extract<
-  ResourceActivityState,
-  { is: `ok` }
->;
+type OkResourceActivityState = Extract<ResourceActivityState, { is: `ok` }>;
 
 export type { ResourceActivityState, OkResourceActivityState };

@@ -1,7 +1,4 @@
-import {
-  OkResourceActivityState,
-  ResourceActivityState,
-} from "./models";
+import { OkResourceActivityState, ResourceActivityState } from "./models";
 
 const okResourceActivitySelector = (
   state: ResourceActivityState,

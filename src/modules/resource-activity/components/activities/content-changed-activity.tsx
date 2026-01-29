@@ -16,13 +16,17 @@ const ContentChangedActivity = ({ activity }: ContentChangedActivityProps) => {
   return (
     <ActivityTile activity={activity}>
       <div className="mb-2">
-        <ActivityAuthorBadge authorProfile={activity.authorProfile} className="mb-1" />
+        <ActivityAuthorBadge
+          authorProfile={activity.authorProfile}
+          className="mb-1"
+        />
         <h3 className="text-base font-semibold text-black dark:text-white">
           Content Changed
         </h3>
       </div>
       <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
-        The resource content was updated. Changes were made to improve clarity and structure.
+        The resource content was updated. Changes were made to improve clarity
+        and structure.
       </p>
       <div className="flex justify-end">
         <Button
