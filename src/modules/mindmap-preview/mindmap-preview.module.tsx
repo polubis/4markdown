@@ -32,6 +32,7 @@ import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
 import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
+import { MindmapNodeEngagement } from "./components/mindmap-node-engagement";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -88,6 +89,21 @@ const MindmapPreviewModule = () => {
     readyMindmapPreviewSelector(state.mindmap),
   );
   const nodePreview = useMindmapPreviewState((state) => state.nodePreview);
+  const nodeEngagement = React.useMemo(
+    () =>
+      nodePreview.is === `on`
+        ? (nodePreview.data as {
+            rating?: Atoms["Rating"];
+            score?: {
+              average: number;
+              count: number;
+              values: Atoms["ScoreValue"][];
+            };
+            commentsCount?: number;
+          })
+        : null,
+    [nodePreview],
+  );
 
   const [initialNodes] = React.useState(() =>
     mindmap.nodes.map((node) => ({
@@ -127,6 +143,14 @@ const MindmapPreviewModule = () => {
                 type="mindmap-node"
                 resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
                 parentId={mindmap.id as Atoms["MindmapId"]}
+              />
+            }
+            footerLeftControls={
+              <MindmapNodeEngagement
+                nodeId={nodePreview.id as Atoms["MindmapNodeId"]}
+                initialRating={nodeEngagement?.rating}
+                initialScore={nodeEngagement?.score}
+                initialCommentsCount={nodeEngagement?.commentsCount}
               />
             }
             chunksActive={false}

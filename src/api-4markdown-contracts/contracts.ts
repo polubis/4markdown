@@ -6,6 +6,7 @@ import type {
   PublicDocumentDto,
   ManualDocumentDto,
   DocumentCommentDto,
+  MindmapNodeCommentDto,
 } from "./dtos";
 import {
   AccessGroupDto,
@@ -130,6 +131,61 @@ type DocumentCommentsContracts =
       {
         resourceId: Atoms["DocumentId"];
         commentId: Atoms["DocumentCommentId"];
+        category: Atoms["RatingCategory"];
+      }
+    >;
+
+type MindmapNodeCommentsContracts =
+  | Contract<
+      `addMindmapNodeComment`,
+      MindmapNodeCommentDto,
+      {
+        comment: string;
+        resourceId: Atoms["MindmapNodeId"];
+      }
+    >
+  | Contract<
+      `editMindmapNodeComment`,
+      MindmapNodeCommentDto,
+      {
+        commentId: Atoms["MindmapNodeCommentId"];
+        resourceId: Atoms["MindmapNodeId"];
+        content: string;
+      }
+    >
+  | Contract<
+      `getMindmapNodeComments`,
+      {
+        comments: MindmapNodeCommentDto[];
+        hasMore: boolean;
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["MindmapNodeCommentId"];
+        } | null;
+      },
+      {
+        resourceId: Atoms["MindmapNodeId"];
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["MindmapNodeCommentId"];
+        } | null;
+        limit: number | null;
+      }
+    >
+  | Contract<
+      `deleteMindmapNodeComment`,
+      null,
+      {
+        resourceId: Atoms["MindmapNodeId"];
+        commentId: Atoms["MindmapNodeCommentId"];
+      }
+    >
+  | Contract<
+      `rateMindmapNodeComment`,
+      null,
+      {
+        resourceId: Atoms["MindmapNodeId"];
+        commentId: Atoms["MindmapNodeCommentId"];
         category: Atoms["RatingCategory"];
       }
     >;
@@ -317,6 +373,28 @@ type DocumentsContracts =
       Pick<DocumentDto, "mdate" | "id" | "name">
     >;
 
+type MindmapNodeEngagementContracts =
+  | Contract<
+      `addMindmapNodeScore`,
+      {
+        average: number;
+        count: number;
+        values: Atoms["ScoreValue"][];
+      },
+      {
+        mindmapNodeId: Atoms["MindmapNodeId"];
+        score: Atoms["ScoreValue"];
+      }
+    >
+  | Contract<
+      `rateMindmapNode`,
+      Atoms["Rating"],
+      {
+        mindmapNodeId: Atoms["MindmapNodeId"];
+        category: Atoms["RatingCategory"];
+      }
+    >;
+
 type MindmapsContracts =
   | Contract<
       `createMindmap`,
@@ -402,11 +480,13 @@ type AnalyticsContracts = Contract<
 
 type API4MarkdownContracts =
   | DocumentCommentsContracts
+  | MindmapNodeCommentsContracts
   | AssetsContracts
   | AnalyticsContracts
   | MindmapsContracts
   | AIContracts
   | DocumentsContracts
+  | MindmapNodeEngagementContracts
   | AccountsContracts
   | ResourceCompletionsContracts
   | ResourceActivityContracts

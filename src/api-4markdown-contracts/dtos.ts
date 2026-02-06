@@ -28,6 +28,7 @@ export type Atoms = {
     src: Atoms["Path"];
   };
   DocumentCommentId: Brand<string, `DocumentCommentId`>;
+  MindmapNodeCommentId: Brand<string, `MindmapNodeCommentId`>;
   ResourceActivityId: Brand<string, `ResourceActivityId`>;
   Rating: Record<Atoms["RatingCategory"], number>;
   Score: {
@@ -227,6 +228,18 @@ export type DocumentCommentDto = Prettify<
     content: string;
     etag: Atoms["Etag"];
     resourceId: Atoms["DocumentId"];
+  }
+>;
+
+export type MindmapNodeCommentDto = Prettify<
+  Atoms["Rating"] & {
+    id: Atoms["MindmapNodeCommentId"];
+    ownerProfile: UserProfileDto;
+    cdate: Atoms["UTCDate"];
+    mdate: Atoms["UTCDate"];
+    content: string;
+    etag: Atoms["Etag"];
+    resourceId: Atoms["MindmapNodeId"];
   }
 >;
 

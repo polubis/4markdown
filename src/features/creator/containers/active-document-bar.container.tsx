@@ -1,6 +1,6 @@
 import { Button } from "design-system/button";
 import React from "react";
-import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from "react-icons/bi";
+import { BiCheck, BiDetail, BiEdit, BiSave, BiX } from "react-icons/bi";
 import { useAuthStore } from "store/auth/auth.store";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
@@ -131,7 +131,7 @@ const ActiveDocumentBarContainer = () => {
               title="More document options"
               onClick={morePopover.on}
             >
-              <BiDotsHorizontal />
+              <BiDetail />
             </Button>
           </div>
         </>
