@@ -17,7 +17,8 @@ import {
 import Dagre from "@dagrejs/dagre";
 import { type MindmapDto } from "api-4markdown-contracts";
 import { readyMindmapsSelector } from "./selectors";
-import { downloadJSON } from "development-kit/download-file";
+import { downloadMindmapAsFolder } from "development-kit/mindmap-folder-export";
+import { activeMindmapSelector } from "./selectors";
 
 const { get, set, getInitial } = useMindmapCreatorState;
 
@@ -311,16 +312,32 @@ const closeNodePreviewAction = (): void => {
   });
 };
 
-const downloadMindmapAction = (): void => {
+const downloadMindmapAction = async (): Promise<void> => {
   const { orientation, nodes, edges } = get();
+  const mindmap = activeMindmapSelector(get());
 
-  const data = {
+  await downloadMindmapAsFolder({
+    name: mindmap?.name ?? `mindmap`,
     orientation,
     nodes,
     edges,
-  };
+  });
+};
 
-  downloadJSON({ data, name: `data` });
+const replaceMindmapStructureAction = ({
+  nodes,
+  edges,
+  orientation,
+}: Pick<MindmapCreatorState, "nodes" | "edges" | "orientation">): void => {
+  set({
+    nodes,
+    edges,
+    orientation,
+    changesCount: 2,
+    mindmapDetails: { is: `off` },
+    mindmapForm: { is: `closed` },
+    yourMindmapsView: { is: `closed` },
+  });
 };
 
 const clearMindmapAction = (): void => {
@@ -423,4 +440,5 @@ export {
   openMindmapDetailsAction,
   closeMindmapDetailsAction,
   backToMindmapDetailsAction,
+  replaceMindmapStructureAction,
 };

@@ -49,6 +49,7 @@
     "gatsby-plugin-mdx": "^5.15.0",
     "gatsby-plugin-sitemap": "^6.15.0",
     "gatsby-source-filesystem": "^5.15.0",
+    "jszip": "^3.10.1",
     "katex": "^0.16.25",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",

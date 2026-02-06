@@ -1,15 +1,13 @@
 import { Link, navigate } from "gatsby";
 import React from "react";
 import { meta } from "../../../meta";
-import { Button } from "design-system/button";
-import { BiArrowBack, BiDownload } from "react-icons/bi";
+import { BiArrowBack } from "react-icons/bi";
 import MoreNav from "components/more-nav";
 import UserPopover from "components/user-popover";
 import { ScreenLoader } from "design-system/screen-loader";
 import { useMindmapPreviewState } from "store/mindmap-preview";
 import { getAccessibleMindmapAct } from "acts/get-accessible-mindmap.act";
 import { Communicate } from "design-system/communicate";
-import { downloadMindmapAction } from "store/mindmap-preview/actions";
 import { BugReportContainer } from "containers/bug-report.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
@@ -85,14 +83,6 @@ const MindmapPreviewView = () => {
               <h1 className="font-bold text-lg mr-4 truncate max-w-[260px] md:max-w-lg">
                 {mindmap.name}
               </h1>
-              <Button
-                i={1}
-                s={1}
-                title="Download mindmap as JSON file"
-                onClick={downloadMindmapAction}
-              >
-                <BiDownload />
-              </Button>
             </>
           )}
         </nav>

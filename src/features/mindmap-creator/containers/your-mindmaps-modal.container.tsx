@@ -16,14 +16,14 @@ import { reloadYourMindmapsAct } from "acts/reload-your-mindmaps.act";
 import { Loader } from "design-system/loader";
 import { VisibilityIcon } from "components/visibility-icon";
 
-const rangeFilters = [`Recent`, `Old`, `Really Old`] as const;
+const rangeFilters = [`Recent`, `Older`, `Old`] as const;
 
 type RangeFilter = (typeof rangeFilters)[number];
 
 const rangeLookup: Record<RangeFilter, [number, number]> = {
   Recent: [0, 7],
-  Old: [8, 30],
-  "Really Old": [31, Number.MAX_VALUE],
+  Older: [8, 30],
+  Old: [31, Number.MAX_VALUE],
 };
 
 interface MindmapListItemProps {

@@ -1,6 +1,6 @@
 import React, { type MouseEventHandler } from "react";
 import { Link } from "gatsby";
-import { BiDownload, BiPlus } from "react-icons/bi";
+import { BiDownload, BiPlus, BiUpload } from "react-icons/bi";
 import { Button } from "design-system/button";
 import UserPopover from "components/user-popover";
 import MoreNav from "components/more-nav";
@@ -13,8 +13,15 @@ import {
   clearMindmapAction,
   downloadMindmapAction,
   openMindmapFormAction,
+  replaceMindmapStructureAction,
   resetMindmapAction,
 } from "store/mindmap-creator/actions";
+import type {
+  MindmapCreatorEdge,
+  MindmapCreatorNode,
+} from "store/mindmap-creator/models";
+import { type SUID, suid } from "development-kit/suid";
+import type { Atoms } from "api-4markdown-contracts";
 import { MindmapFormModalContainer } from "./containers/mindmap-form-modal.container";
 import { SubNavContainer } from "./containers/sub-nav.container";
 import { useConfirm } from "development-kit/use-confirm";
@@ -82,6 +89,162 @@ const MindmapCreatorView = () => {
   const clearConfirm = useConfirm(clearMindmapAction);
   const resetConfirm = useConfirm(resetMindmapAction);
   const { headerVisible } = useMindmapCreatorState();
+  const uploadInputRef = React.useRef<HTMLInputElement | null>(null);
+  const directoryProps = {
+    webkitdirectory: "true",
+    directory: "true",
+  } as React.InputHTMLAttributes<HTMLInputElement> & {
+    webkitdirectory?: string;
+    directory?: string;
+  };
+
+  const handleUploadClick = () => {
+    if (uploadInputRef.current) {
+      uploadInputRef.current.value = ``;
+      uploadInputRef.current.click();
+    }
+  };
+
+  const handleMindmapUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const files = Array.from(event.target.files ?? []);
+    if (files.length === 0) return;
+
+    const structureFile =
+      files.find((file) => file.name === `structure.json`) ??
+      files.find((file) => file.webkitRelativePath.endsWith(`/structure.json`));
+
+    if (!structureFile) {
+      window.alert(`Missing structure.json in selected folder.`);
+      return;
+    }
+
+    try {
+      const raw = await structureFile.text();
+      const structure = JSON.parse(raw) as {
+        orientation?: "x" | "y";
+        nodes?: Array<{
+          id?: string;
+          title?: string;
+          type?: "embedded" | "external";
+          description?: string | null;
+          path?: string | null;
+          url?: string;
+          position?: { x: number; y: number };
+          contentFile?: string | null;
+        }>;
+        edges?: Array<{
+          id?: string;
+          type?: "solid";
+          source?: string;
+          target?: string;
+        }>;
+      };
+
+      const stripFrontmatter = (content: string) => {
+        if (!content.startsWith(`---`)) return content;
+        const end = content.indexOf(`\n---`, 3);
+        if (end === -1) return content;
+        return content.slice(end + `\n---`.length).replace(/^\n/, ``);
+      };
+
+      const fileByName = new Map<string, File>();
+      files.forEach((file) => {
+        fileByName.set(file.name, file);
+        if (file.webkitRelativePath) {
+          const parts = file.webkitRelativePath.split(`/`);
+          fileByName.set(parts[parts.length - 1], file);
+        }
+      });
+
+      const idMap = new Map<string, SUID>();
+      const normalizePath = (path: string | null | undefined, name: string) => {
+        const base = (path ?? name).trim();
+        if (base.length === 0) return `/node/`;
+        const trimmed = base.replace(/^\/+|\/+$/g, ``);
+        return `/${trimmed || `node`}/`;
+      };
+
+      const importedNodes: MindmapCreatorNode[] = await Promise.all(
+        (structure.nodes ?? []).map(async (node, index) => {
+          const name = node.title ?? `Node ${index + 1}`;
+          const path = normalizePath(node.path, name);
+          const description = node.description ?? null;
+          const isExternal = node.type === `external` && Boolean(node.url);
+          const id = suid();
+          if (node.id) idMap.set(node.id, id);
+          const baseNode = {
+            id,
+            position: node.position ?? {
+              x: (index % 4) * 320,
+              y: Math.floor(index / 4) * 220,
+            },
+            selected: false,
+          };
+
+          if (isExternal) {
+            return {
+              ...baseNode,
+              type: `external`,
+              data: {
+                name,
+                path: path as `/${string}/`,
+                description,
+                url: node.url as Atoms["Url"],
+              },
+            };
+          }
+
+          let content: string | null = null;
+          if (node.contentFile) {
+            const file = fileByName.get(node.contentFile);
+            if (file) {
+              const rawContent = await file.text();
+              content = stripFrontmatter(rawContent).trimEnd();
+            }
+          }
+
+          return {
+            ...baseNode,
+            type: `embedded`,
+            data: {
+              name,
+              path: path as `/${string}/`,
+              description,
+              content,
+            },
+          };
+        }),
+      );
+
+      const importedEdges: MindmapCreatorEdge[] = (structure.edges ?? [])
+        .map((edge) => {
+          const source =
+            (edge.source && idMap.get(edge.source)) ?? (null as null | SUID);
+          const target =
+            (edge.target && idMap.get(edge.target)) ?? (null as null | SUID);
+          if (!source || !target) return null;
+          return {
+            id: suid(),
+            type: `solid`,
+            source,
+            target,
+          };
+        })
+        .filter((edge): edge is MindmapCreatorEdge => Boolean(edge));
+
+      replaceMindmapStructureAction({
+        nodes: importedNodes,
+        edges: importedEdges,
+        orientation: structure.orientation ?? `y`,
+      });
+    } catch (error) {
+      window.alert(`Failed to import structure.json.`);
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
+  };
 
   React.useEffect(() => {
     authStore.is === `authorized` && getYourMindmapsAct();
@@ -117,11 +280,29 @@ const MindmapCreatorView = () => {
               <Button
                 i={1}
                 s={2}
-                title="Download mindmap as JSON file"
+                className="hidden md:flex"
+                title="Download mindmap as folder"
                 onClick={downloadMindmapAction}
               >
                 <BiDownload />
               </Button>
+              <Button
+                i={1}
+                s={2}
+                className="hidden md:flex"
+                title="Upload mindmap folder"
+                onClick={handleUploadClick}
+              >
+                <BiUpload />
+              </Button>
+              <input
+                ref={uploadInputRef}
+                type="file"
+                onChange={handleMindmapUpload}
+                className="hidden"
+                multiple
+                {...directoryProps}
+              />
               <Button
                 i={1}
                 s={2}
