@@ -8,6 +8,7 @@ import { type FirebaseOptions, initializeApp } from "firebase/app";
 import type { Functions } from "firebase/functions";
 import {
   type CompleteFn,
+  createUserWithEmailAndPassword,
   type ErrorFn,
   GoogleAuthProvider,
   type NextOrObserver,
@@ -35,6 +36,8 @@ type Call = <TKey extends API4MarkdownContractKey>(
 type Api = {
   call: Call;
   logIn(): Promise<void>;
+  logInWithCredentials(email: string, password: string): Promise<void>;
+  registerWithCredentials(email: string, password: string): Promise<void>;
   logOut(): Promise<void>;
   onAuthChange(
     nextOrObserver: NextOrObserver<User>,
@@ -128,6 +131,14 @@ const initializeAPI = (version: CacheVersion): Api => {
         }
 
         await signInWithPopup(auth, provider);
+      },
+      logInWithCredentials: async (email: string, password: string) => {
+        await setPersistence(auth, browserLocalPersistence);
+        await signInWithEmailAndPassword(auth, email, password);
+      },
+      registerWithCredentials: async (email: string, password: string) => {
+        await setPersistence(auth, browserLocalPersistence);
+        await createUserWithEmailAndPassword(auth, email, password);
       },
       logOut: async () => {
         await signOut(auth);

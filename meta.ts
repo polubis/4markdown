@@ -42,6 +42,10 @@ export const meta = {
     },
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
+    auth: {
+      login: `/login/`,
+      register: `/register/`,
+    },
     userProfile: {
       preview: `/user-profile-preview/`,
     },
