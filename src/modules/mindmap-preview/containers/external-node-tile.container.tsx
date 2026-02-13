@@ -25,51 +25,62 @@ const ExternalNodeTileContainer = ({
     parentId: data.mindmapId,
   });
 
+  const handleToggle = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      toggle();
+    },
+    [toggle],
+  );
+
+  const handleToggleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggle(e);
+      }
+    },
+    [handleToggle],
+  );
+
   return (
     <NodeTile
       className={completion ? "border-green-700 dark:border-green-700" : ""}
     >
-      <NodeTile.Label>External Resource</NodeTile.Label>
       <NodeTile.Name>{data.name}</NodeTile.Name>
       {data.description && (
         <NodeTile.Description>{data.description}</NodeTile.Description>
       )}
-      <NodeTile.Toolbox>
+      <NodeTile.Actions>
         <Button
-          title={completion ? "Remove from completed" : "Add to completed"}
-          i={2}
+          aria-label={completion ? "Remove from completed" : "Add to completed"}
+          i={1}
           disabled={
             state.is === "busy" || resourcesCompletionState.is === "busy"
           }
           s={1}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggle();
-          }}
+          onClick={handleToggle}
+          onKeyDown={handleToggleKeyDown}
         >
           {completion ? (
-            <BiCheckboxMinus size={24} />
+            <BiCheckboxMinus aria-hidden="true" size={24} />
           ) : (
-            <BiCheckboxChecked size={24} />
+            <BiCheckboxChecked aria-hidden="true" size={24} />
           )}
         </Button>
         <a
           href={data.url}
           target="_blank"
           rel="noopener noreferrer"
-          title="Open linked material in a new tab"
+          aria-label="Open linked material in a new tab"
+          className="flex items-center justify-center h-8 w-8 rounded-md text-black hover:bg-gray-400/20 dark:text-white dark:hover:bg-slate-800/50 focus-visible:outline focus-visible:outline-2.5 focus-visible:outline-black dark:focus-visible:outline-white shrink-0"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
-          <Button
-            i={2}
-            s={1}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <BiWorld />
-          </Button>
+          <BiWorld aria-hidden="true" className="text-xl" />
         </a>
-      </NodeTile.Toolbox>
+      </NodeTile.Actions>
     </NodeTile>
   );
 };

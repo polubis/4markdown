@@ -17,6 +17,7 @@ import {
   browserLocalPersistence,
   getAuth,
   onAuthStateChanged,
+  sendEmailVerification,
   setPersistence,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -24,6 +25,7 @@ import {
 } from "firebase/auth";
 import { emit } from "./observer";
 import { CacheVersion } from "./cache";
+import { customError } from "./errors";
 // @TODO[PRIO=2]: [Decouple from Firebase interfaces, and lazy load what can be lazy loaded].
 
 // @TODO[PRIO=2]: [Make this API less "object" oriented, maybe there is a possibility to three-shake it].
@@ -54,6 +56,11 @@ const isOffline = (): boolean =>
   typeof window !== `undefined` && !navigator?.onLine;
 
 class NoInternetException extends Error {}
+
+const maskEmail = (email: string | null): string => {
+  if (!email) return "your inbox";
+  return email.replace(/^[^@]+/, "***");
+};
 
 const initializeAPI = (version: CacheVersion): Api => {
   cacheVersion = version;
@@ -134,11 +141,32 @@ const initializeAPI = (version: CacheVersion): Api => {
       },
       logInWithCredentials: async (email: string, password: string) => {
         await setPersistence(auth, browserLocalPersistence);
-        await signInWithEmailAndPassword(auth, email, password);
+        const { user } = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        );
+
+        if (!user.emailVerified) {
+          await sendEmailVerification(user);
+          await signOut(auth);
+          throw customError(
+            `We sent a verification email to ${maskEmail(user.email)}. Please verify your email before signing in.`,
+          );
+        }
       },
       registerWithCredentials: async (email: string, password: string) => {
         await setPersistence(auth, browserLocalPersistence);
-        await createUserWithEmailAndPassword(auth, email, password);
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password,
+        );
+        await sendEmailVerification(user);
+        await signOut(auth);
+        throw customError(
+          `We sent a verification email to ${maskEmail(user.email)}. Please verify your email to finish creating your account.`,
+        );
       },
       logOut: async () => {
         await signOut(auth);

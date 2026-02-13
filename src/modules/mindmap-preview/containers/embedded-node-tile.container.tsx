@@ -28,53 +28,85 @@ const EmbeddedNodeTileContainer = ({
     parentId: data.mindmapId,
   });
 
+  const handleToggle = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      toggle();
+    },
+    [toggle],
+  );
+
+  const handlePreview = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      openNodePreviewAction({
+        type: `embedded`,
+        id,
+        data,
+        position: {
+          x: positionAbsoluteX,
+          y: positionAbsoluteY,
+        },
+      });
+    },
+    [id, positionAbsoluteX, positionAbsoluteY, data],
+  );
+
+  const handleToggleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggle(e);
+      }
+    },
+    [handleToggle],
+  );
+
+  const handlePreviewKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handlePreview(e);
+      }
+    },
+    [handlePreview],
+  );
+
   return (
     <NodeTile
       className={completion ? "border-green-700 dark:border-green-700" : ""}
     >
-      <NodeTile.Label>Embedded Resource</NodeTile.Label>
       <NodeTile.Name>{data.name}</NodeTile.Name>
       {data.description && (
         <NodeTile.Description>{data.description}</NodeTile.Description>
       )}
-      <NodeTile.Toolbox>
+      <NodeTile.Actions>
         <Button
-          title={completion ? "Remove from completed" : "Add to completed"}
-          i={2}
+          aria-label={completion ? "Remove from completed" : "Add to completed"}
+          i={1}
           disabled={
             state.is === "busy" || resourcesCompletionState.is === "busy"
           }
           s={1}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggle();
-          }}
+          onClick={handleToggle}
+          onKeyDown={handleToggleKeyDown}
         >
           {completion ? (
-            <BiCheckboxMinus size={24} />
+            <BiCheckboxMinus aria-hidden="true" size={24} />
           ) : (
-            <BiCheckboxChecked size={24} />
+            <BiCheckboxChecked aria-hidden="true" size={24} />
           )}
         </Button>
         <Button
-          i={2}
+          i={1}
           s={1}
-          onClick={(e) => {
-            e.stopPropagation();
-            openNodePreviewAction({
-              type: `embedded`,
-              id,
-              data,
-              position: {
-                x: positionAbsoluteX,
-                y: positionAbsoluteY,
-              },
-            });
-          }}
+          aria-label="Preview node"
+          onClick={handlePreview}
+          onKeyDown={handlePreviewKeyDown}
         >
-          <BiBook />
+          <BiBook aria-hidden="true" />
         </Button>
-      </NodeTile.Toolbox>
+      </NodeTile.Actions>
     </NodeTile>
   );
 };
