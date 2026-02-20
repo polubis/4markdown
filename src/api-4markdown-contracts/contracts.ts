@@ -478,11 +478,27 @@ type AIContracts =
       }
     >;
 
-type AssetsContracts = Contract<
-  `uploadImage`,
-  ImageDto,
-  { image: FileReader["result"] }
->;
+type AssetsContracts =
+  | Contract<`uploadImage`, ImageDto, { image: FileReader["result"] }>
+  | Contract<
+      `getYourAssets`,
+      {
+        hasMore: boolean;
+        nextCursor: Pick<ImageDto, "id"> | null;
+        assets: ImageDto[];
+      },
+      {
+        limit: number | null;
+        cursor: Pick<ImageDto, "id"> | null;
+      }
+    >
+  | Contract<
+      `removeAssets`,
+      null,
+      {
+        assetIds: Atoms["ImageId"][];
+      }
+    >;
 
 type AnalyticsContracts = Contract<
   `reportBug`,

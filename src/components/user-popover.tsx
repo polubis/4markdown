@@ -46,6 +46,10 @@ const UserPopover = () => {
     if (authStore.is === "authorized") {
       authMenu.off();
     }
+    // Reset Google auth state when user signs out
+    if (authStore.is === "unauthorized") {
+      setGoogleState({ is: "idle" });
+    }
   }, [authStore.is, authMenu]);
 
   const startGoogleAuth = async () => {
@@ -70,7 +74,13 @@ const UserPopover = () => {
       return;
     }
 
-    authMenu.isOn ? authMenu.off() : authMenu.on();
+    if (authMenu.isOn) {
+      authMenu.off();
+    } else {
+      // Reset Google auth state when opening auth menu
+      setGoogleState({ is: "idle" });
+      authMenu.on();
+    }
   };
 
   return (

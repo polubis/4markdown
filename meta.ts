@@ -23,6 +23,9 @@ export const meta = {
     accessGroups: {
       management: `/access-groups/`,
     },
+    assets: {
+      management: `/assets/`,
+    },
     mindmaps: {
       mindmap: `/mindmap/`,
       creator: `/mindmap-creator/`,
