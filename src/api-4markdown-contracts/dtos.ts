@@ -55,6 +55,13 @@ export type ResourceCompletionDto = {
   parentId?: Atoms["MindmapId"];
 };
 
+export type ResourceLikeDto = {
+  cdate: Atoms["UTCDate"];
+  type: Atoms["ResourceType"];
+  resourceId: Atoms["ResourceId"];
+  parentId?: Atoms["MindmapId"];
+};
+
 export type ImageDto = {
   extension: `png` | `jpeg` | `jpg` | `gif` | `webp`;
   contentType:

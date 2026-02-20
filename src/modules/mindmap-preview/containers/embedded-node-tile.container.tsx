@@ -82,7 +82,7 @@ const EmbeddedNodeTileContainer = ({
       )}
       <NodeTile.Actions>
         <Button
-          aria-label={completion ? "Remove from completed" : "Add to completed"}
+          aria-label={completion ? "Unfinish" : "Finish"}
           i={1}
           disabled={
             state.is === "busy" || resourcesCompletionState.is === "busy"

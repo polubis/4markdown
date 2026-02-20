@@ -10,6 +10,8 @@ import {
   BiDotsHorizontal,
   BiHistory,
   BiLogoMarkdown,
+  BiStar,
+  BiSolidStar,
 } from "react-icons/bi";
 import { Button } from "design-system/button";
 import { seeInDocumentsCreatorAct } from "acts/see-in-documents-creator.act";
@@ -28,6 +30,11 @@ import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
+import {
+  useResourceLike,
+  useResourceLikeToggle,
+  useResourcesLikeState,
+} from "modules/resource-likes";
 import {
   API4MarkdownDto,
   API4MarkdownPayload,
@@ -77,11 +84,11 @@ const ResourceCompletionTriggerContainer = () => {
     >
       {completion ? (
         <>
-          Mark As Uncompleted <BiCheckboxMinus />
+          Unfinish <BiCheckboxMinus />
         </>
       ) : (
         <>
-          Mark As Completed <BiCheckboxChecked />
+          Finish <BiCheckboxChecked />
         </>
       )}
     </Button>
@@ -97,12 +104,45 @@ const ResourceCompletionMarkerContainer = () => {
   }
 
   return (
-    <p className="mb-4 flex gap-1 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
+    <p className="mb-6 flex gap-1 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
       <BiCheckboxChecked className="shrink-0" size={24} />
       <span>
-        You're browsing already <strong>completed resource</strong>.
+        You're browsing already <strong>finished resource</strong>.
       </span>
     </p>
+  );
+};
+
+const ResourceLikeTriggerContainer = () => {
+  const [{ document }] = useDocumentLayoutContext();
+  const [toggleConfig] = React.useState<
+    API4MarkdownPayload<"setUserResourceLike">
+  >(() => ({
+    type: "document",
+    resourceId: document.id as Atoms["DocumentId"],
+  }));
+  const [toggleState, like, toggle] = useResourceLikeToggle(toggleConfig);
+  const resourcesLikeState = useResourcesLikeState();
+
+  // @TODO[PRIO=2]: [Handle error case with some toast or error message].
+  return (
+    <Button
+      s={2}
+      i={2}
+      disabled={toggleState.is === `busy` || resourcesLikeState.is === `busy`}
+      auto
+      onClick={toggle}
+    >
+      {like ? (
+        <>
+          Unstar <BiSolidStar />
+        </>
+      ) : (
+        <>
+          Star <BiStar />
+        </>
+      )}
+    </Button>
   );
 };
 
@@ -239,7 +279,8 @@ const DocumentLayoutContainer = () => {
           <section id={CONTENT_ID}>
             <Markdown>{code}</Markdown>
           </section>
-          <section className="mt-10">
+          <section className="mt-10 flex gap-2">
+            <ResourceLikeTriggerContainer />
             <ResourceCompletionTriggerContainer />
           </section>
           {author?.bio && author?.displayName && (

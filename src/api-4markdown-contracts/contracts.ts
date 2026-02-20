@@ -17,6 +17,7 @@ import {
   MindmapDto,
   ResourceActivityDto,
   ResourceCompletionDto,
+  ResourceLikeDto,
   UserProfileDto,
   YourAccountDto,
 } from "./dtos";
@@ -198,6 +199,21 @@ type ResourceCompletionsContracts =
   | Contract<
       "setUserResourceCompletion",
       ResourceCompletionDto | null,
+      {
+        type: Atoms["ResourceType"];
+        resourceId: Atoms["ResourceId"];
+        parentId?: Atoms["MindmapId"];
+      }
+    >;
+
+type ResourceLikesContracts =
+  | Contract<
+      "getUserResourceLikes",
+      Record<Atoms["ResourceId"], ResourceLikeDto>
+    >
+  | Contract<
+      "setUserResourceLike",
+      ResourceLikeDto | null,
       {
         type: Atoms["ResourceType"];
         resourceId: Atoms["ResourceId"];
@@ -489,6 +505,7 @@ type API4MarkdownContracts =
   | MindmapNodeEngagementContracts
   | AccountsContracts
   | ResourceCompletionsContracts
+  | ResourceLikesContracts
   | ResourceActivityContracts
   | AccessGroupsContracts
   | UserProfilesContracts

@@ -28,10 +28,16 @@ import {
 } from "./containers/embedded-node-tile.container";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
 import { useResourceCompletionToggle } from "modules/resource-completions";
+import { useResourceLikeToggle } from "modules/resource-likes";
 import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
-import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
+import {
+  BiCheckboxChecked,
+  BiCheckboxMinus,
+  BiStar,
+  BiSolidStar,
+} from "react-icons/bi";
 import { MindmapNodeEngagement } from "./components/mindmap-node-engagement";
 
 const MarkdownWidget = React.lazy(() =>
@@ -77,6 +83,18 @@ const ResourceCompletionTriggerContainer = (
       ) : (
         <BiCheckboxChecked size={24} />
       )}
+    </Button>
+  );
+};
+
+const ResourceLikeTriggerContainer = (
+  props: API4MarkdownPayload<"setUserResourceLike">,
+) => {
+  const [state, like, toggle] = useResourceLikeToggle(props);
+  // @TODO[PRIO=2]: [Handle error case with some toast or error message].
+  return (
+    <Button s={1} i={2} disabled={state.is === `busy`} onClick={toggle}>
+      {like ? <BiSolidStar /> : <BiStar />}
     </Button>
   );
 };
@@ -139,11 +157,18 @@ const MindmapPreviewModule = () => {
         <React.Suspense>
           <MarkdownWidget
             headerControls={
-              <ResourceCompletionTriggerContainer
-                type="mindmap-node"
-                resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
-                parentId={mindmap.id as Atoms["MindmapId"]}
-              />
+              <>
+                <ResourceLikeTriggerContainer
+                  type="mindmap-node"
+                  resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
+                  parentId={mindmap.id as Atoms["MindmapId"]}
+                />
+                <ResourceCompletionTriggerContainer
+                  type="mindmap-node"
+                  resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
+                  parentId={mindmap.id as Atoms["MindmapId"]}
+                />
+              </>
             }
             footerLeftControls={
               <MindmapNodeEngagement

@@ -10,6 +10,7 @@ const logOutAct = async (): AsyncResult => {
       `getYourAccount`,
       `getYourMindmaps`,
       `getUserResourceCompletions`,
+      `getUserResourceLikes`,
     );
     return { is: `ok` };
   } catch (rawError: unknown) {

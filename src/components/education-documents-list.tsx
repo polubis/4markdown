@@ -29,7 +29,7 @@ const ResourceCompletionMarkerContainer = ({
   return (
     <span className="flex items-center gap-0.5 text-sm font-medium uppercase w-fit rounded-md bg-green-700 text-white py-1 px-2 line-clamp-1">
       <BiCheckboxChecked aria-hidden="true" className="shrink-0" size={20} />
-      <span>Completed</span>
+      <span>Finished</span>
     </span>
   );
 };

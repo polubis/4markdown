@@ -95,7 +95,7 @@ const ResourceCompletionMarkerContainer = ({
 
   return (
     <span
-      title="This resource is completed"
+      title="This resource is finished"
       className="shrink-0 rounded-md bg-green-700 text-white p-0.5"
     >
       <BiCheckboxChecked aria-hidden="true" size={20} />
