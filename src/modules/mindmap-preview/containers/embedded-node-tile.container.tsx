@@ -3,13 +3,23 @@ import React from "react";
 import { HandleX, HandleY } from "../components/handles";
 import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
-import { BiBook, BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
+import {
+  BiBook,
+  BiCheckboxChecked,
+  BiCheckboxMinus,
+  BiStar,
+  BiSolidStar,
+} from "react-icons/bi";
 import { openNodePreviewAction } from "store/mindmap-preview/actions";
 import { MindmapPreviewEmbeddedNodeWithCompletion } from "../models";
 import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
+import {
+  useResourceLikeToggle,
+  useResourcesLikeState,
+} from "modules/resource-likes";
 import { Atoms } from "api-4markdown-contracts";
 
 type EmbeddedNodeTileContainerProps =
@@ -22,18 +32,34 @@ const EmbeddedNodeTileContainer = ({
   data,
 }: EmbeddedNodeTileContainerProps) => {
   const resourcesCompletionState = useResourcesCompletionState();
-  const [state, completion, toggle] = useResourceCompletionToggle({
+  const [completionState, completion, toggleCompletion] =
+    useResourceCompletionToggle({
+      type: "mindmap-node",
+      resourceId: id as Atoms["MindmapNodeId"],
+      parentId: data.mindmapId,
+    });
+
+  const resourcesLikeState = useResourcesLikeState();
+  const [likeState, like, toggleLike] = useResourceLikeToggle({
     type: "mindmap-node",
     resourceId: id as Atoms["MindmapNodeId"],
     parentId: data.mindmapId,
   });
 
-  const handleToggle = React.useCallback(
+  const handleToggleCompletion = React.useCallback(
     (e: React.MouseEvent | React.KeyboardEvent) => {
       e.stopPropagation();
-      toggle();
+      toggleCompletion();
     },
-    [toggle],
+    [toggleCompletion],
+  );
+
+  const handleToggleLike = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      toggleLike();
+    },
+    [toggleLike],
   );
 
   const handlePreview = React.useCallback(
@@ -52,14 +78,24 @@ const EmbeddedNodeTileContainer = ({
     [id, positionAbsoluteX, positionAbsoluteY, data],
   );
 
-  const handleToggleKeyDown = React.useCallback(
+  const handleToggleCompletionKeyDown = React.useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
-        handleToggle(e);
+        handleToggleCompletion(e);
       }
     },
-    [handleToggle],
+    [handleToggleCompletion],
+  );
+
+  const handleToggleLikeKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggleLike(e);
+      }
+    },
+    [handleToggleLike],
   );
 
   const handlePreviewKeyDown = React.useCallback(
@@ -85,16 +121,31 @@ const EmbeddedNodeTileContainer = ({
           aria-label={completion ? "Unfinish" : "Finish"}
           i={1}
           disabled={
-            state.is === "busy" || resourcesCompletionState.is === "busy"
+            completionState.is === "busy" ||
+            resourcesCompletionState.is === "busy"
           }
           s={1}
-          onClick={handleToggle}
-          onKeyDown={handleToggleKeyDown}
+          onClick={handleToggleCompletion}
+          onKeyDown={handleToggleCompletionKeyDown}
         >
           {completion ? (
             <BiCheckboxMinus aria-hidden="true" size={24} />
           ) : (
             <BiCheckboxChecked aria-hidden="true" size={24} />
+          )}
+        </Button>
+        <Button
+          aria-label={like ? "Unlike" : "Like"}
+          i={1}
+          disabled={likeState.is === "busy" || resourcesLikeState.is === "busy"}
+          s={1}
+          onClick={handleToggleLike}
+          onKeyDown={handleToggleLikeKeyDown}
+        >
+          {like ? (
+            <BiSolidStar aria-hidden="true" />
+          ) : (
+            <BiStar aria-hidden="true" />
           )}
         </Button>
         <Button
