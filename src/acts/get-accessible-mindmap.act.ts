@@ -15,16 +15,15 @@ const getAccessibleMindmapAct = async (): Promise<void> => {
 
     const params = new URLSearchParams(window.location.search);
     const mindmapId = params.get(`mindmapId`);
-    const authorId = params.get(`authorId`);
 
-    if (!mindmapId || !authorId) {
+    if (!mindmapId) {
       useMindmapPreviewState.set({
         mindmap: {
           is: `fail`,
           error: {
             symbol: `bad-request`,
-            content: `Mindmap ID and author ID are required`,
-            message: `Mindmap ID and author ID are required`,
+            content: `Mindmap ID is required`,
+            message: `Mindmap ID is required`,
           },
         },
       });
@@ -33,7 +32,6 @@ const getAccessibleMindmapAct = async (): Promise<void> => {
 
     const data = await getAPI().call(`getAccessibleMindmap`)({
       mindmapId: mindmapId as Atoms["MindmapId"],
-      authorId: authorId as Atoms["UserProfileId"],
     });
 
     useMindmapPreviewState.set({

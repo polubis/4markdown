@@ -120,6 +120,10 @@ const ResourceLikeTriggerContainer = () => {
     () => ({
       type: "document",
       resourceId: document.id as Atoms["DocumentId"],
+      title: document.name,
+      ...("description" in document && document.description
+        ? { description: document.description }
+        : {}),
     }),
   );
   const [toggleState, like, toggle] = useResourceLikeToggle(toggleConfig);

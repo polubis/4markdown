@@ -44,6 +44,8 @@ const EmbeddedNodeTileContainer = ({
     type: "mindmap-node",
     resourceId: id as Atoms["MindmapNodeId"],
     parentId: data.mindmapId,
+    title: data.name,
+    description: data.description ?? undefined,
   });
 
   const handleToggleCompletion = React.useCallback(

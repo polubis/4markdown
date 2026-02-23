@@ -2,15 +2,14 @@ import React from "react";
 import { useAuthStore } from "store/auth/auth.store";
 import { toggleResourceLikeAct } from "../acts/toggle-resource-like.act";
 import { logInAct } from "acts/log-in.act";
-import { API4MarkdownPayload } from "api-4markdown-contracts";
+import {
+  SetUserResourceLikeItem,
+  SetUserResourceLikePayloadWithoutLiked,
+} from "api-4markdown-contracts";
 import { Transaction } from "development-kit/utility-types";
 import { useResourceLike } from "./use-is-resource-liked";
 
-/** Payload without `liked`; the hook sends current like status when toggling. */
-export type SetUserResourceLikePayloadWithoutLiked = Omit<
-  API4MarkdownPayload<"setUserResourceLike">,
-  "liked"
->;
+export type { SetUserResourceLikePayloadWithoutLiked };
 
 const useResourceLikeToggle = (
   payload: SetUserResourceLikePayloadWithoutLiked,
@@ -30,7 +29,7 @@ const useResourceLikeToggle = (
         await toggleResourceLikeAct({
           ...payload,
           liked: !like,
-        }),
+        } as SetUserResourceLikeItem),
       );
     } else {
       logInAct();

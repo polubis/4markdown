@@ -18,6 +18,8 @@ import {
   ResourceActivityDto,
   ResourceCompletionDto,
   ResourceLikeDto,
+  SetUserResourceLikeItem,
+  SetUserResourceLikeResultItem,
   UserProfileDto,
   YourAccountDto,
 } from "./dtos";
@@ -213,13 +215,8 @@ type ResourceLikesContracts =
     >
   | Contract<
       "setUserResourceLike",
-      ResourceLikeDto | null,
-      {
-        type: Atoms["ResourceType"];
-        resourceId: Atoms["ResourceId"];
-        parentId?: Atoms["MindmapId"];
-        liked: boolean;
-      }
+      SetUserResourceLikeResultItem[],
+      SetUserResourceLikeItem[]
     >;
 
 type ResourceActivityContracts = Contract<
@@ -452,7 +449,7 @@ type MindmapsContracts =
   | Contract<
       `getAccessibleMindmap`,
       FullMindmapDto,
-      { authorId: Atoms["UserProfileId"]; mindmapId: Atoms["MindmapId"] }
+      { mindmapId: Atoms["MindmapId"] }
     >
   | Contract<`getPermanentMindmaps`, FullMindmapDto[], { limit?: number }>;
 

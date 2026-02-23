@@ -26,6 +26,9 @@ export const meta = {
     assets: {
       management: `/assets/`,
     },
+    likedResources: {
+      management: `/starred/`,
+    },
     mindmaps: {
       mindmap: `/mindmap/`,
       creator: `/mindmap-creator/`,

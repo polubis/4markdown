@@ -41,6 +41,7 @@ type Meta = {
     education: { rank: string; zone: string };
     accessGroups: { management: string };
     assets: { management: string };
+    likedResources: { management: string };
     mindmaps: { creator: string };
     privacyPolicy: string;
   };
@@ -78,6 +79,12 @@ function getMenuNavSidebarNavConfig(meta: Meta): MenuNavSidebarNavConfig {
       to: meta.routes.assets.management,
       title: "Manage uploaded assets",
       label: "Assets",
+    },
+    {
+      type: "internal",
+      to: meta.routes.likedResources.management,
+      title: "View starred items",
+      label: "Starred",
     },
   ];
 

@@ -60,7 +60,61 @@ export type ResourceLikeDto = {
   type: Atoms["ResourceType"];
   resourceId: Atoms["ResourceId"];
   parentId?: Atoms["MindmapId"];
+  title: string;
+  description?: string;
 };
+
+/** One item in the setUserResourceLike request payload. */
+export type SetUserResourceLikeItem =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title: string;
+      description?: string;
+      liked: boolean;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title: string;
+      description?: string;
+      liked: boolean;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title: string;
+      description?: string;
+      liked: boolean;
+    };
+
+/** One item in the setUserResourceLike response (batch result). */
+export type SetUserResourceLikeResultItem = ResourceLikeDto & {
+  removed: boolean;
+};
+
+/** Single item payload without `liked` (e.g. for toggle hook). */
+export type SetUserResourceLikePayloadWithoutLiked =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title: string;
+      description?: string;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title: string;
+      description?: string;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title: string;
+      description?: string;
+    };
 
 export type ImageDto = {
   extension: `png` | `jpeg` | `jpg` | `gif` | `webp`;

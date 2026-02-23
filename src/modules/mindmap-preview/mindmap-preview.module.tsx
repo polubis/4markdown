@@ -163,6 +163,8 @@ const MindmapPreviewModule = () => {
                   type="mindmap-node"
                   resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
                   parentId={mindmap.id as Atoms["MindmapId"]}
+                  title={nodePreview.data.name}
+                  description={nodePreview.data.description ?? undefined}
                 />
                 <ResourceCompletionTriggerContainer
                   type="mindmap-node"
