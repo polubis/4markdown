@@ -5,9 +5,9 @@ import { Link } from "gatsby";
 import Backdrop from "design-system/backdrop";
 import { useScrollHide } from "development-kit/use-scroll-hide";
 import { usePortal } from "development-kit/use-portal";
-import { CompanyLogo } from "./company-logo";
 import { meta } from "../../meta";
 import { ThemeProvider } from "design-system/theme-provider";
+import { GreenOnLogo } from "./green-on-logo";
 import { getMenuNavSidebarNavConfig } from "./menu-nav-sidebar-nav-config";
 import { MenuNavSidebarLink } from "./menu-nav-sidebar-link";
 
@@ -181,24 +181,17 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
               ))}
             </ul>
           </section>
+          <div className="mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex justify-end">
+            <a
+              href={meta.companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="outline-none focus:outline focus:outline-2.5 focus:outline-offset-0 focus:outline-black dark:focus:outline-2 dark:focus:outline-white rounded text-zinc-900 dark:text-zinc-100"
+            >
+              <GreenOnLogo height={72} className="shrink-0" />
+            </a>
+          </div>
         </nav>
-
-        <footer className="shrink-0 p-5 pt-4 border-t border-zinc-200 dark:border-zinc-800">
-          <a
-            href={meta.companyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-end outline-none focus:outline focus:outline-2.5 focus:outline-offset-0 focus:outline-black dark:focus:outline-2 dark:focus:outline-white rounded py-1"
-          >
-            <p className="font-medium font-mono text-sm text-zinc-600 dark:text-zinc-400">
-              By{" "}
-              <strong className="text-zinc-800 dark:text-zinc-200">
-                {meta.company}
-              </strong>
-            </p>
-            <CompanyLogo size={32} className="ml-3 shrink-0" />
-          </a>
-        </footer>
       </aside>
     </>,
   );
