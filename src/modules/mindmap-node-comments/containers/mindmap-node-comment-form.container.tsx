@@ -210,7 +210,9 @@ const MindmapNodeCommentFormContainer = ({
               s={2}
               auto
               disabled={invalid || untouched || busy}
-              title={isEditMode ? "Confirm comment edit" : "Confirm comment add"}
+              title={
+                isEditMode ? "Confirm comment edit" : "Confirm comment add"
+              }
               onClick={() => confirmMutation.start()}
             >
               Confirm

@@ -34,6 +34,7 @@ import {
   useResourceLike,
   useResourceLikeToggle,
   useResourcesLikeState,
+  type SetUserResourceLikePayloadWithoutLiked,
 } from "modules/resource-likes";
 import {
   API4MarkdownDto,
@@ -115,12 +116,12 @@ const ResourceCompletionMarkerContainer = () => {
 
 const ResourceLikeTriggerContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
-  const [toggleConfig] = React.useState<
-    API4MarkdownPayload<"setUserResourceLike">
-  >(() => ({
-    type: "document",
-    resourceId: document.id as Atoms["DocumentId"],
-  }));
+  const [toggleConfig] = React.useState<SetUserResourceLikePayloadWithoutLiked>(
+    () => ({
+      type: "document",
+      resourceId: document.id as Atoms["DocumentId"],
+    }),
+  );
   const [toggleState, like, toggle] = useResourceLikeToggle(toggleConfig);
   const resourcesLikeState = useResourcesLikeState();
 

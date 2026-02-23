@@ -30,7 +30,9 @@ const MindmapNodeCommentDeleteModalContainer = ({
     onOk: () => {
       commentsQuery.setData((currData) => ({
         ...currData,
-        comments: currData.comments.filter((comment) => comment.id !== commentId),
+        comments: currData.comments.filter(
+          (comment) => comment.id !== commentId,
+        ),
       }));
       if (commentsQuery.data) {
         onCountChange(commentsQuery.data.comments.length - 1);

@@ -6,8 +6,14 @@ import { API4MarkdownPayload } from "api-4markdown-contracts";
 import { Transaction } from "development-kit/utility-types";
 import { useResourceLike } from "./use-is-resource-liked";
 
+/** Payload without `liked`; the hook sends current like status when toggling. */
+export type SetUserResourceLikePayloadWithoutLiked = Omit<
+  API4MarkdownPayload<"setUserResourceLike">,
+  "liked"
+>;
+
 const useResourceLikeToggle = (
-  payload: API4MarkdownPayload<"setUserResourceLike">,
+  payload: SetUserResourceLikePayloadWithoutLiked,
 ) => {
   const [state, setState] = React.useState<Transaction>({
     is: `idle`,
@@ -20,11 +26,16 @@ const useResourceLikeToggle = (
 
     if (authStore.is === "authorized") {
       setState({ is: `busy` });
-      setState(await toggleResourceLikeAct(payload));
+      setState(
+        await toggleResourceLikeAct({
+          ...payload,
+          liked: !like,
+        }),
+      );
     } else {
       logInAct();
     }
-  }, [payload]);
+  }, [payload, like]);
 
   return [state, like, toggle] as const;
 };

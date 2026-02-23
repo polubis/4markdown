@@ -27,7 +27,10 @@ import {
 } from "./containers/embedded-node-tile.container";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
 import { useResourceCompletionToggle } from "modules/resource-completions";
-import { useResourceLikeToggle } from "modules/resource-likes";
+import {
+  useResourceLikeToggle,
+  type SetUserResourceLikePayloadWithoutLiked,
+} from "modules/resource-likes";
 import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
@@ -87,7 +90,7 @@ const ResourceCompletionTriggerContainer = (
 };
 
 const ResourceLikeTriggerContainer = (
-  props: API4MarkdownPayload<"setUserResourceLike">,
+  props: SetUserResourceLikePayloadWithoutLiked,
 ) => {
   const [state, like, toggle] = useResourceLikeToggle(props);
   // @TODO[PRIO=2]: [Handle error case with some toast or error message].

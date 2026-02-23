@@ -218,6 +218,7 @@ type ResourceLikesContracts =
         type: Atoms["ResourceType"];
         resourceId: Atoms["ResourceId"];
         parentId?: Atoms["MindmapId"];
+        liked: boolean;
       }
     >;
 
