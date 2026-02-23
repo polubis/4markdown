@@ -1,7 +1,6 @@
 import { Link, navigate } from "gatsby";
 import React from "react";
 import { meta } from "../../../meta";
-import { BiArrowBack } from "react-icons/bi";
 import MoreNav from "components/more-nav";
 import UserPopover from "components/user-popover";
 import { ScreenLoader } from "design-system/screen-loader";
@@ -43,9 +42,8 @@ const MindmapPreviewView = () => {
             <Communicate.Footer>
               <Communicate.Action
                 onClick={() => navigate(meta.routes.mindmaps.creator)}
-                title="Go back to mindmapcreator"
+                title="Go back to mindmap creator"
               >
-                <BiArrowBack />
                 Back To Creator
               </Communicate.Action>
             </Communicate.Footer>

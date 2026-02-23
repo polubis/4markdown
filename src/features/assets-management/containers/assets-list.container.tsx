@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BiError, BiImage, BiTrash } from "react-icons/bi";
+import { BiError, BiImage, BiInfoCircle, BiTrash } from "react-icons/bi";
 import { Button } from "design-system/button";
 import { Checkbox } from "design-system/checkbox";
 import { Switch } from "design-system/switch";
@@ -132,9 +132,14 @@ const Content = ({
               <strong>{removeConfirmModal.data.length}</strong> asset
               {removeConfirmModal.data.length > 1 ? "s" : ""}?
             </p>
-            <p className="mt-1">
+            <p className="mt-2">
               This action cannot be undone. The selected assets will be
               permanently removed.
+            </p>
+            <p className="mt-2 text-zinc-600 dark:text-zinc-400">
+              Keep in mind that some of these assets may be used in documents or
+              mindmaps you&apos;ve created. We&apos;re not checking that to save
+              some planet resources ;)
             </p>
           </Modal2.Body>
           <Modal2.Footer className="flex gap-3">
@@ -174,32 +179,30 @@ const Content = ({
                   : "border-zinc-300 dark:border-zinc-800"
               }`}
             >
-              <div className="relative">
-                <div className="absolute top-2 left-2 z-10">
-                  <Checkbox
-                    checked={isSelected}
-                    onChange={() => toggleAssetSelectionAction(asset.id)}
-                    aria-label={`Select asset ${asset.id}`}
-                    id={`asset-checkbox-${asset.id}`}
-                  />
-                </div>
-                <img
-                  src={asset.url}
-                  alt={`Asset ${asset.id}`}
-                  className="w-full h-auto rounded-lg mb-4 object-cover"
-                  style={{ maxHeight: "300px" }}
-                  width={400}
-                  height={300}
-                  loading="lazy"
-                />
-              </div>
-              <div className="flex flex-col gap-1">
-                <p className="text-sm font-medium">
+              <img
+                src={asset.url}
+                alt={`Asset ${asset.id}`}
+                className="w-full h-auto rounded-lg mb-3 object-cover min-w-0"
+                style={{ maxHeight: "300px" }}
+                width={400}
+                height={300}
+                loading="lazy"
+              />
+              <div className="flex flex-col gap-1 min-w-0">
+                <p className="text-sm font-medium truncate">
                   {asset.extension.toUpperCase()}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                   {asset.contentType}
                 </p>
+              </div>
+              <div className="mt-2 flex justify-end">
+                <Checkbox
+                  checked={isSelected}
+                  onChange={() => toggleAssetSelectionAction(asset.id)}
+                  aria-label={`Select asset ${asset.id}`}
+                  id={`asset-checkbox-${asset.id}`}
+                />
               </div>
             </li>
           );
@@ -251,10 +254,33 @@ const AssetsListContainer = () => {
 
   return (
     <div className="max-w-6xl w-full mx-auto animate-fade-in">
-      <header className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Uploaded Assets</h1>
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-medium">Select All</span>
+      <p className="mb-4 flex gap-1 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
+        <BiInfoCircle className="shrink-0" size={24} aria-hidden />
+        <span>
+          Uploaded assets are visible to everyone by default when you share a
+          link to them. They can be shared across many articles.
+        </span>
+      </p>
+      <header className="flex flex-col gap-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-pretty">Uploaded Assets</h1>
+          <div className="flex items-center gap-3">
+            <Button
+              i={2}
+              s={1}
+              title="Delete selected assets"
+              onClick={handleRemoveSelected}
+              disabled={selectedAssetIds.size === 0 || busy}
+              aria-label="Delete selected assets"
+            >
+              <BiTrash />
+            </Button>
+          </div>
+        </div>
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold font-variant-numeric tabular-nums text-pretty">
+            Results: {assets.length}
+          </h2>
           <Switch
             checked={allSelected}
             onChange={handleToggleSelectAll}
@@ -262,19 +288,9 @@ const AssetsListContainer = () => {
             aria-label="Select all assets"
             id="select-all-assets-switch"
           />
-          <Button
-            i={2}
-            s={1}
-            title="Delete selected assets"
-            onClick={handleRemoveSelected}
-            disabled={selectedAssetIds.size === 0 || busy}
-            aria-label="Delete selected assets"
-          >
-            <BiTrash />
-          </Button>
         </div>
       </header>
-      <section className="mt-10">
+      <section className="mt-6" aria-label="Asset grid">
         <Content removeConfirmModal={removeConfirmModal} />
       </section>
     </div>

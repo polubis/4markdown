@@ -6,7 +6,6 @@ import {
   ReactFlow,
   type EdgeProps,
   type NodeProps,
-  Controls,
   useNodesState,
   useEdgesState,
 } from "@xyflow/react";
@@ -149,7 +148,6 @@ const MindmapPreviewModule = () => {
         nodesDraggable={false}
         nodesConnectable={false}
       >
-        <Controls />
         <Background />
         <MiniMap className="hidden md:block" />
       </ReactFlow>
