@@ -1,10 +1,12 @@
 import { Link, navigate } from "gatsby";
+import { useLocation } from "@reach/router";
 import React from "react";
 import { meta } from "../../../meta";
 import MoreNav from "components/more-nav";
 import UserPopover from "components/user-popover";
 import { ScreenLoader } from "design-system/screen-loader";
 import { useMindmapPreviewState } from "store/mindmap-preview";
+import { openNodePreviewAction } from "store/mindmap-preview/actions";
 import { getAccessibleMindmapAct } from "acts/get-accessible-mindmap.act";
 import { Communicate } from "design-system/communicate";
 import { BugReportContainer } from "containers/bug-report.container";
@@ -12,6 +14,7 @@ import { EducationRankLinkContainer } from "containers/education-rank-link.conta
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
 import { CreationLinkContainer2 } from "containers/creation-link-2.container";
 import { MindmapPreviewModule } from "modules/mindmap-preview/mindmap-preview.module";
+import type { MindmapPreviewEmbeddedNode } from "store/mindmap-preview/models";
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -22,11 +25,28 @@ const Loader = () => (
 );
 
 const MindmapPreviewView = () => {
+  const location = useLocation();
   const { mindmap } = useMindmapPreviewState();
+  const openedInitialNodeRef = React.useRef(false);
 
   React.useEffect(() => {
     getAccessibleMindmapAct();
   }, []);
+
+  React.useEffect(() => {
+    if (mindmap.is !== `ok` || openedInitialNodeRef.current) return;
+    const params = new URLSearchParams(location.search);
+    const mindmapNodeId = params.get(`mindmapNodeId`);
+    if (!mindmapNodeId) return;
+    const node = mindmap.nodes.find(
+      (n): n is MindmapPreviewEmbeddedNode =>
+        n.type === `embedded` && n.id === mindmapNodeId,
+    );
+    if (node) {
+      openedInitialNodeRef.current = true;
+      openNodePreviewAction(node);
+    }
+  }, [mindmap, location.search]);
 
   return (
     <>
