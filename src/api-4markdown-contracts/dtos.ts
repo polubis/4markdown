@@ -53,7 +53,89 @@ export type ResourceCompletionDto = {
   type: Atoms["ResourceType"];
   resourceId: Atoms["ResourceId"];
   parentId?: Atoms["MindmapId"];
+  title?: string;
+  description?: string;
 };
+
+/** One item in the setUserResourceCompletion request payload. */
+export type SetUserResourceCompletionItem =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title: string;
+      description?: string;
+      completed: boolean;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title: string;
+      description?: string;
+      completed: boolean;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title: string;
+      description?: string;
+      completed: boolean;
+    };
+
+/**
+ * Payload for setUserResourceCompletion API (single item).
+ * Matches backend contract: no `completed`, title optional, description required.
+ */
+export type SetUserResourceCompletionPayload =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title?: string;
+      description: string;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title?: string;
+      description: string;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title?: string;
+      description: string;
+    };
+
+/** setUserResourceCompletion response: created completion or null when removed. */
+export type SetUserResourceCompletionResult = ResourceCompletionDto | null;
+
+/** One item in the setUserResourceCompletion response (batch result). */
+export type SetUserResourceCompletionResultItem = ResourceCompletionDto & {
+  removed: boolean;
+};
+
+/** Single item payload without `completed` (e.g. for toggle hook). */
+export type SetUserResourceCompletionPayloadWithoutCompleted =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title: string;
+      description?: string;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title: string;
+      description?: string;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title: string;
+      description?: string;
+    };
 
 export type ResourceLikeDto = {
   cdate: Atoms["UTCDate"];

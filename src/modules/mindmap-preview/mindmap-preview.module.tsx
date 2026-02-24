@@ -31,7 +31,10 @@ import {
   useResourceLikeToggle,
   type SetUserResourceLikePayloadWithoutLiked,
 } from "modules/resource-likes";
-import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
+import {
+  Atoms,
+  SetUserResourceCompletionPayloadWithoutCompleted,
+} from "api-4markdown-contracts";
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
 import {
@@ -74,7 +77,7 @@ const mindmapNodeTypes: MindmapNodeTypes = {
 };
 
 const ResourceCompletionTriggerContainer = (
-  props: API4MarkdownPayload<"setUserResourceCompletion">,
+  props: SetUserResourceCompletionPayloadWithoutCompleted,
 ) => {
   const [state, completion, toggle] = useResourceCompletionToggle(props);
   // @TODO[PRIO=2]: [Handle error case with some toast or error message].
@@ -170,6 +173,8 @@ const MindmapPreviewModule = () => {
                   type="mindmap-node"
                   resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
                   parentId={mindmap.id as Atoms["MindmapId"]}
+                  title={nodePreview.data.name}
+                  description={nodePreview.data.description ?? undefined}
                 />
               </>
             }

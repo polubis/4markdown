@@ -29,6 +29,9 @@ export const meta = {
     likedResources: {
       management: `/starred/`,
     },
+    completed: {
+      management: `/completed/`,
+    },
     mindmaps: {
       mindmap: `/mindmap/`,
       creator: `/mindmap-creator/`,

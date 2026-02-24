@@ -42,6 +42,7 @@ type Meta = {
     accessGroups: { management: string };
     assets: { management: string };
     likedResources: { management: string };
+    completed: { management: string };
     mindmaps: { creator: string };
     privacyPolicy: string;
   };
@@ -85,6 +86,12 @@ function getMenuNavSidebarNavConfig(meta: Meta): MenuNavSidebarNavConfig {
       to: meta.routes.likedResources.management,
       title: "View starred items",
       label: "Starred",
+    },
+    {
+      type: "internal",
+      to: meta.routes.completed.management,
+      title: "View completed items",
+      label: "Completed",
     },
   ];
 

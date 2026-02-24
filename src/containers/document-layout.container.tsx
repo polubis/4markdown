@@ -38,8 +38,8 @@ import {
 } from "modules/resource-likes";
 import {
   API4MarkdownDto,
-  API4MarkdownPayload,
   Atoms,
+  SetUserResourceCompletionPayloadWithoutCompleted,
 } from "api-4markdown-contracts";
 import { CommentTrigger } from "components/comment-trigger";
 import { DocumentCommentsModule } from "modules/document-comments";
@@ -62,12 +62,18 @@ const COMMENTS_CONTAINER_ID = `document-layout-comments`;
 
 const ResourceCompletionTriggerContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
-  const [toggleConfig] = React.useState<
-    API4MarkdownPayload<"setUserResourceCompletion">
-  >(() => ({
-    type: "document",
-    resourceId: document.id as Atoms["DocumentId"],
-  }));
+  const toggleConfig =
+    React.useMemo<SetUserResourceCompletionPayloadWithoutCompleted>(
+      () => ({
+        type: "document",
+        resourceId: document.id as Atoms["DocumentId"],
+        title: document.name,
+        ...("description" in document && document.description
+          ? { description: document.description }
+          : {}),
+      }),
+      [document],
+    );
   const [toggleState, completion, toggle] =
     useResourceCompletionToggle(toggleConfig);
   const resourcesCompletionState = useResourcesCompletionState();

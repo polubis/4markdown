@@ -18,6 +18,8 @@ import {
   ResourceActivityDto,
   ResourceCompletionDto,
   ResourceLikeDto,
+  SetUserResourceCompletionPayload,
+  SetUserResourceCompletionResult,
   SetUserResourceLikeItem,
   SetUserResourceLikeResultItem,
   UserProfileDto,
@@ -200,12 +202,8 @@ type ResourceCompletionsContracts =
     >
   | Contract<
       "setUserResourceCompletion",
-      ResourceCompletionDto | null,
-      {
-        type: Atoms["ResourceType"];
-        resourceId: Atoms["ResourceId"];
-        parentId?: Atoms["MindmapId"];
-      }
+      SetUserResourceCompletionResult,
+      SetUserResourceCompletionPayload
     >;
 
 type ResourceLikesContracts =
