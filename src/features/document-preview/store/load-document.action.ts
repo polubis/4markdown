@@ -1,6 +1,7 @@
 import { getAPI, parseError } from "api-4markdown";
 import { useDocumentPreviewStore } from "./document-preview.store";
 import { Atoms } from "api-4markdown-contracts";
+import { addOrBumpEntryAction } from "modules/previous-work";
 
 const { setState } = useDocumentPreviewStore;
 
@@ -18,6 +19,12 @@ const loadDocument = async (): Promise<void> => {
     });
 
     setState({ is: `ok`, document });
+    addOrBumpEntryAction({
+      type: `document`,
+      resourceId: document.id as Atoms["DocumentId"],
+      title: document.name,
+      lastTouched: Date.now(),
+    });
   } catch (error: unknown) {
     setState({ is: `fail`, error: parseError(error) });
   }

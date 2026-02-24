@@ -15,8 +15,10 @@ import {
   type NodeChange,
 } from "@xyflow/react";
 import Dagre from "@dagrejs/dagre";
+import type { Atoms } from "api-4markdown-contracts";
 import { type MindmapDto } from "api-4markdown-contracts";
 import { readyMindmapsSelector } from "./selectors";
+import { addOrBumpEntryAction } from "modules/previous-work";
 import { downloadMindmapAsFolder } from "development-kit/mindmap-folder-export";
 import { activeMindmapSelector } from "./selectors";
 
@@ -291,6 +293,13 @@ const selectMindmapAction = (id: MindmapDto["id"]): void => {
     edges: foundMindmap.edges,
     orientation: foundMindmap.orientation,
     changesCount: 0,
+  });
+
+  addOrBumpEntryAction({
+    type: `mindmap`,
+    resourceId: foundMindmap.id as Atoms["MindmapId"],
+    title: foundMindmap.name,
+    lastTouched: Date.now(),
   });
 };
 

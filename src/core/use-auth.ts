@@ -17,6 +17,11 @@ import {
   loadResourceLikesAct,
   useResourcesLikeState,
 } from "modules/resource-likes";
+import {
+  clearPreviousWorkAction,
+  loadPreviousWorkFromStorageAction,
+  usePreviousWorkState,
+} from "modules/previous-work";
 
 type SiteMetadataQuery = {
   site: {
@@ -44,6 +49,7 @@ const useAuth = () => {
       if (user) {
         loadResourceCompletionsAct();
         loadResourceLikesAct();
+        loadPreviousWorkFromStorageAction();
 
         authStoreActions.authorize({
           avatar: user.photoURL,
@@ -63,6 +69,8 @@ const useAuth = () => {
       useYourAccountState.reset();
       useResourcesCompletionState.reset();
       useResourcesLikeState.reset();
+      clearPreviousWorkAction();
+      usePreviousWorkState.reset();
     });
 
     return () => {

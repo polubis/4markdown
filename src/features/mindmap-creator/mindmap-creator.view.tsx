@@ -1,5 +1,6 @@
 import React, { type MouseEventHandler } from "react";
 import { Link } from "gatsby";
+import { useLocation } from "@reach/router";
 import { BiDownload, BiPlus, BiUpload } from "react-icons/bi";
 import { Button } from "design-system/button";
 import UserPopover from "components/user-popover";
@@ -15,6 +16,7 @@ import {
   openMindmapFormAction,
   replaceMindmapStructureAction,
   resetMindmapAction,
+  selectMindmapAction,
 } from "store/mindmap-creator/actions";
 import type {
   MindmapCreatorEdge,
@@ -85,11 +87,13 @@ const AddNewMindmapContainer = () => {
 };
 
 const MindmapCreatorView = () => {
+  const location = useLocation();
   const authStore = useAuthStore();
   const clearConfirm = useConfirm(clearMindmapAction);
   const resetConfirm = useConfirm(resetMindmapAction);
-  const { headerVisible } = useMindmapCreatorState();
+  const { mindmaps, headerVisible } = useMindmapCreatorState();
   const uploadInputRef = React.useRef<HTMLInputElement | null>(null);
+  const openedMindmapIdRef = React.useRef<string | null>(null);
   const directoryProps = {
     webkitdirectory: "true",
     directory: "true",
@@ -249,6 +253,17 @@ const MindmapCreatorView = () => {
   React.useEffect(() => {
     authStore.is === `authorized` && getYourMindmapsAct();
   }, [authStore]);
+
+  React.useEffect(() => {
+    if (authStore.is !== `authorized`) return;
+    if (mindmaps.is !== `ok`) return;
+    const params = new URLSearchParams(location.search);
+    const mindmapId = params.get(`mindmapId`);
+    if (!mindmapId) return;
+    if (openedMindmapIdRef.current === mindmapId) return;
+    openedMindmapIdRef.current = mindmapId;
+    selectMindmapAction(mindmapId as Atoms["MindmapId"]);
+  }, [authStore.is, mindmaps.is, location.search]);
 
   return (
     <>

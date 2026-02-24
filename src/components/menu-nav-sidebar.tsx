@@ -8,8 +8,13 @@ import { usePortal } from "development-kit/use-portal";
 import { meta } from "../../meta";
 import { ThemeProvider } from "design-system/theme-provider";
 import { GreenOnLogo } from "./green-on-logo";
+import { useAuthStore } from "store/auth/auth.store";
 import { getMenuNavSidebarNavConfig } from "./menu-nav-sidebar-nav-config";
 import { MenuNavSidebarLink } from "./menu-nav-sidebar-link";
+import {
+  requestOpenPreviousWorkAction,
+  usePreviousWorkState,
+} from "modules/previous-work";
 
 interface MenuNavSidebarProps {
   onClose(): void;
@@ -23,6 +28,8 @@ const ScrollHide = ({ children }: { children: ReactNode }) => {
 
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
   const { render } = usePortal();
+  const isAuthorized = useAuthStore((s) => s.is === `authorized`);
+  const previousWorkEntries = usePreviousWorkState((s) => s.entries);
   const nav = getMenuNavSidebarNavConfig(meta);
 
   if (!opened) return null;
@@ -125,6 +132,22 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
                   />
                 </li>
               ))}
+              {isAuthorized && previousWorkEntries.length > 0 && (
+                <li>
+                  <button
+                    type="button"
+                    title="Open previous work"
+                    aria-label="Open previous work"
+                    className="block w-full text-left cursor-pointer rounded-md font-medium px-3 py-2.5 outline-none focus:outline focus:outline-2.5 focus:outline-offset-0 focus:outline-black dark:focus:outline-2 dark:focus:outline-white touch-action-manipulation bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/80"
+                    onClick={() => {
+                      requestOpenPreviousWorkAction();
+                      onClose();
+                    }}
+                  >
+                    Previous work
+                  </button>
+                </li>
+              )}
             </ul>
           </section>
           <section aria-labelledby="nav-education-heading">

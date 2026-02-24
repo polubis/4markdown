@@ -15,6 +15,8 @@ import { EducationZoneLinkContainer } from "containers/education-zone-link.conta
 import { CreationLinkContainer2 } from "containers/creation-link-2.container";
 import { MindmapPreviewModule } from "modules/mindmap-preview/mindmap-preview.module";
 import type { MindmapPreviewEmbeddedNode } from "store/mindmap-preview/models";
+import { removeMindmapEntryAction } from "modules/previous-work";
+import type { Atoms } from "api-4markdown-contracts";
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -47,6 +49,15 @@ const MindmapPreviewView = () => {
       openNodePreviewAction(node);
     }
   }, [mindmap, location.search]);
+
+  React.useEffect(() => {
+    if (mindmap.is !== `fail`) return;
+    const params = new URLSearchParams(location.search);
+    const mindmapId = params.get(`mindmapId`);
+    if (mindmapId) {
+      removeMindmapEntryAction(mindmapId as Atoms["MindmapId"]);
+    }
+  }, [mindmap.is, location.search]);
 
   return (
     <>

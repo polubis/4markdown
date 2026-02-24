@@ -1,6 +1,7 @@
 import { getAPI, parseError } from "api-4markdown";
 import { useMindmapPreviewState } from "store/mindmap-preview";
 import { Atoms } from "api-4markdown-contracts";
+import { addOrBumpEntryAction } from "modules/previous-work";
 
 const getAccessibleMindmapAct = async (): Promise<void> => {
   try {
@@ -40,6 +41,27 @@ const getAccessibleMindmapAct = async (): Promise<void> => {
         is: `ok`,
       },
     });
+
+    const mindmapIdTyped = data.id as Atoms["MindmapId"];
+    addOrBumpEntryAction({
+      type: `mindmap`,
+      resourceId: mindmapIdTyped,
+      title: data.name,
+      lastTouched: Date.now(),
+    });
+    const mindmapNodeId = params.get(`mindmapNodeId`);
+    if (mindmapNodeId) {
+      const node = data.nodes.find((n) => n.id === mindmapNodeId);
+      if (node) {
+        addOrBumpEntryAction({
+          type: `mindmap-node`,
+          resourceId: node.id as Atoms["MindmapNodeId"],
+          mindmapId: mindmapIdTyped,
+          title: node.data?.name ?? node.id,
+          lastTouched: Date.now(),
+        });
+      }
+    }
   } catch (error: unknown) {
     useMindmapPreviewState.set({
       mindmap: {
