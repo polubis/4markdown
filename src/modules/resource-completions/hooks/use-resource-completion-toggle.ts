@@ -2,10 +2,7 @@ import React from "react";
 import { useAuthStore } from "store/auth/auth.store";
 import { toggleResourceCompletionAct } from "../acts/toggle-resource-completion.act";
 import { logInAct } from "acts/log-in.act";
-import {
-  SetUserResourceCompletionItem,
-  SetUserResourceCompletionPayloadWithoutCompleted,
-} from "api-4markdown-contracts";
+import type { SetUserResourceCompletionPayloadWithoutCompleted } from "api-4markdown-contracts";
 import { Transaction } from "development-kit/utility-types";
 import { useResourceCompletion } from "./use-is-resource-completed";
 
@@ -27,7 +24,7 @@ const useResourceCompletionToggle = (
         await toggleResourceCompletionAct({
           ...payload,
           completed: !completion,
-        } as SetUserResourceCompletionItem),
+        }),
       );
     } else {
       logInAct();

@@ -171,6 +171,8 @@ const Content = ({
         {entries.map((like) => {
           const isSelected = selectedResourceIds.has(like.resourceId);
           const previewUrl = getResourcePreviewUrl(like);
+          const linkClassName =
+            "flex flex-col min-w-0 rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-blue-400 focus-visible:outline-none hover:opacity-90";
           return (
             <li
               key={like.resourceId}
@@ -182,7 +184,7 @@ const Content = ({
             >
               <Link
                 to={previewUrl}
-                className="flex flex-col min-w-0 rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-blue-400 focus-visible:outline-none hover:opacity-90"
+                className={linkClassName}
                 title={`Open ${like.title}`}
               >
                 <div

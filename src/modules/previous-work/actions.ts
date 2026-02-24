@@ -8,11 +8,7 @@ import {
 import type { PreviousWorkEntry } from "./store/models";
 import { PREVIOUS_WORK_MAX_ENTRIES } from "./store/config";
 
-const entryKey = (e: PreviousWorkEntry): string => {
-  if (e.type === `mindmap-node`)
-    return `${e.type}:${e.mindmapId}:${e.resourceId}`;
-  return `${e.type}:${e.resourceId}`;
-};
+const entryKey = (e: PreviousWorkEntry): string => `${e.type}:${e.resourceId}`;
 
 const addOrBumpEntryAction = (entry: PreviousWorkEntry): void => {
   const key = entryKey(entry);
@@ -38,11 +34,7 @@ const removeDocumentEntryAction = (documentId: Atoms["DocumentId"]): void => {
 const removeMindmapEntryAction = (mindmapId: Atoms["MindmapId"]): void => {
   const current = usePreviousWorkState.get().entries;
   const next = current.filter(
-    (e) =>
-      !(
-        (e.type === `mindmap` && e.resourceId === mindmapId) ||
-        (e.type === `mindmap-node` && e.mindmapId === mindmapId)
-      ),
+    (e) => !(e.type === `mindmap` && e.resourceId === mindmapId),
   );
   usePreviousWorkState.set({ entries: next });
   persistEntries(next);

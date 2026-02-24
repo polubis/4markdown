@@ -14,18 +14,9 @@ export type PreviousWorkEntryMindmap = {
   lastTouched: number;
 };
 
-export type PreviousWorkEntryMindmapNode = {
-  type: "mindmap-node";
-  resourceId: Atoms["MindmapNodeId"];
-  mindmapId: Atoms["MindmapId"];
-  title: string;
-  lastTouched: number;
-};
-
 export type PreviousWorkEntry =
   | PreviousWorkEntryDocument
-  | PreviousWorkEntryMindmap
-  | PreviousWorkEntryMindmapNode;
+  | PreviousWorkEntryMindmap;
 
 export type PreviousWorkState = {
   entries: PreviousWorkEntry[];

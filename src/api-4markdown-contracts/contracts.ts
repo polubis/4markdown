@@ -20,7 +20,7 @@ import {
   ResourceLikeDto,
   SetUserResourceCompletionPayload,
   SetUserResourceCompletionResult,
-  SetUserResourceLikeItem,
+  SetUserResourceLikeRequestItem,
   SetUserResourceLikeResultItem,
   UserProfileDto,
   YourAccountDto,
@@ -214,7 +214,7 @@ type ResourceLikesContracts =
   | Contract<
       "setUserResourceLike",
       SetUserResourceLikeResultItem[],
-      SetUserResourceLikeItem[]
+      SetUserResourceLikeRequestItem[]
     >;
 
 type ResourceActivityContracts = Contract<

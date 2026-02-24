@@ -1,7 +1,6 @@
 import { getAPI, getCache, parseError, setCache } from "api-4markdown";
 import { useResourcesLikeState } from "../store";
-import { API4MarkdownContractKey, Atoms } from "api-4markdown-contracts";
-import { mock } from "development-kit/mock";
+import type { API4MarkdownContractKey } from "api-4markdown-contracts";
 
 const loadResourceLikesAct = async (): Promise<void> => {
   try {
@@ -19,13 +18,7 @@ const loadResourceLikesAct = async (): Promise<void> => {
 
     useResourcesLikeState.swap({ is: `busy` });
 
-    // Mock implementation using development-kit/mock utility
-    const mockLikes: Record<Atoms["ResourceId"], never> = {};
-    const mockCall = mock({ delay: 0.5 })(mockLikes);
-    const likes = await mockCall(undefined as never);
-
-    // Original API call implementation (commented out)
-    // const likes = await getAPI().call(key)();
+    const likes = await getAPI().call(key)();
 
     useResourcesLikeState.swap({
       is: `ok`,

@@ -179,6 +179,8 @@ const Content = ({
           const typeLabel = completion.type.replace(/-/g, " ");
           const title = completion.title?.trim() || typeLabel;
           const description = completion.description?.trim();
+          const linkClassName =
+            "flex flex-col min-w-0 rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-blue-400 focus-visible:outline-none hover:opacity-90";
           return (
             <li
               key={completion.resourceId}
@@ -190,7 +192,7 @@ const Content = ({
             >
               <Link
                 to={previewUrl}
-                className="flex flex-col min-w-0 rounded-lg focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 dark:focus-visible:ring-blue-400 focus-visible:outline-none hover:opacity-90"
+                className={linkClassName}
                 title={`Open ${title}`}
               >
                 <div

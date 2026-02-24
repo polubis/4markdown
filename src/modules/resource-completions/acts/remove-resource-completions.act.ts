@@ -1,18 +1,20 @@
 import { getAPI, setCache } from "api-4markdown";
 import {
   type Atoms,
-  ResourceCompletionDto,
-  SetUserResourceCompletionPayload,
+  type ResourceCompletionDto,
+  type SetUserResourceCompletionPayload,
+  type SetUserResourceCompletionPayloadItem,
 } from "api-4markdown-contracts";
 import { useResourcesCompletionState } from "../store";
 import { okResourcesCompletionSelector } from "../store/selectors";
 
-function toSetUserResourceCompletionPayload(
+/** Request body item for backend: only defined fields (backend schema matches). */
+function toPayloadItem(
   entry: ResourceCompletionDto,
-): SetUserResourceCompletionPayload {
-  const base = {
-    title: entry.title,
-    description: entry.description ?? "",
+): SetUserResourceCompletionPayloadItem {
+  const opt = {
+    ...(entry.title !== undefined && { title: entry.title }),
+    ...(entry.description !== undefined && { description: entry.description }),
   };
   switch (entry.type) {
     case "mindmap-node":
@@ -20,19 +22,22 @@ function toSetUserResourceCompletionPayload(
         type: "mindmap-node",
         resourceId: entry.resourceId as Atoms["MindmapNodeId"],
         parentId: entry.parentId!,
-        ...base,
+        completed: false,
+        ...opt,
       };
     case "mindmap":
       return {
         type: "mindmap",
         resourceId: entry.resourceId as Atoms["MindmapId"],
-        ...base,
+        completed: false,
+        ...opt,
       };
     case "document":
       return {
         type: "document",
         resourceId: entry.resourceId as Atoms["DocumentId"],
-        ...base,
+        completed: false,
+        ...opt,
       };
   }
 }
@@ -44,10 +49,10 @@ const removeResourceCompletionsAct = async (
   if (current.is !== "ok") return;
   if (entries.length === 0) return;
 
-  for (const entry of entries) {
-    const payload = toSetUserResourceCompletionPayload(entry);
-    await getAPI().call("setUserResourceCompletion")(payload);
-  }
+  const payload: SetUserResourceCompletionPayload = entries.map((e) =>
+    toPayloadItem(e),
+  ) as SetUserResourceCompletionPayload;
+  await getAPI().call("setUserResourceCompletion")(payload);
 
   const currentData = okResourcesCompletionSelector(current).data;
   const toRemoveIds = new Set(entries.map((e) => e.resourceId));

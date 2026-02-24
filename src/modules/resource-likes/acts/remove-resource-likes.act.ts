@@ -2,18 +2,22 @@ import { getAPI, setCache } from "api-4markdown";
 import {
   type Atoms,
   ResourceLikeDto,
-  SetUserResourceLikeItem,
+  SetUserResourceLikeRequestItem,
 } from "api-4markdown-contracts";
 import { useResourcesLikeState } from "../store";
 import { okResourcesLikeSelector } from "../store/selectors";
 
-function toSetUserResourceLikeItem(
+function toSetUserResourceLikeRequestItem(
   entry: ResourceLikeDto,
-): SetUserResourceLikeItem {
+): SetUserResourceLikeRequestItem {
+  const description =
+    entry.description != null && entry.description !== ""
+      ? entry.description
+      : undefined;
   const base = {
     title: entry.title,
-    description: entry.description,
     liked: false as const,
+    ...(description !== undefined && { description }),
   };
   switch (entry.type) {
     case "mindmap-node":
@@ -45,8 +49,8 @@ const removeResourceLikesAct = async (
   if (current.is !== "ok") return;
   if (entries.length === 0) return;
 
-  const payload: SetUserResourceLikeItem[] = entries.map(
-    toSetUserResourceLikeItem,
+  const payload: SetUserResourceLikeRequestItem[] = entries.map(
+    toSetUserResourceLikeRequestItem,
   );
   await getAPI().call("setUserResourceLike")(payload);
 

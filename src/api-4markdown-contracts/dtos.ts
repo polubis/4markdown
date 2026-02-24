@@ -55,85 +55,85 @@ export type ResourceCompletionDto = {
   parentId?: Atoms["MindmapId"];
   title?: string;
   description?: string;
+  /** When type is "mindmap-node" and the node is external, URL of the pasted resource. */
+  externalUrl?: Atoms["Url"];
 };
-
-/** One item in the setUserResourceCompletion request payload. */
-export type SetUserResourceCompletionItem =
-  | {
-      type: "document";
-      resourceId: Atoms["DocumentId"];
-      title: string;
-      description?: string;
-      completed: boolean;
-    }
-  | {
-      type: "mindmap";
-      resourceId: Atoms["MindmapId"];
-      title: string;
-      description?: string;
-      completed: boolean;
-    }
-  | {
-      type: "mindmap-node";
-      resourceId: Atoms["MindmapNodeId"];
-      parentId: Atoms["MindmapId"];
-      title: string;
-      description?: string;
-      completed: boolean;
-    };
 
 /**
- * Payload for setUserResourceCompletion API (single item).
- * Matches backend contract: no `completed`, title optional, description required.
+ * One item in the setUserResourceCompletion request payload.
+ * Matches backend resourceCompletionItemSchema (type, resourceId, title?, description?, completed, parentId? for mindmap-node).
  */
-export type SetUserResourceCompletionPayload =
+export type SetUserResourceCompletionPayloadItem =
   | {
       type: "document";
       resourceId: Atoms["DocumentId"];
       title?: string;
-      description: string;
+      description?: string;
+      completed: boolean;
     }
   | {
       type: "mindmap";
       resourceId: Atoms["MindmapId"];
       title?: string;
-      description: string;
+      description?: string;
+      completed: boolean;
     }
   | {
       type: "mindmap-node";
       resourceId: Atoms["MindmapNodeId"];
       parentId: Atoms["MindmapId"];
       title?: string;
-      description: string;
+      description?: string;
+      completed: boolean;
     };
 
-/** setUserResourceCompletion response: created completion or null when removed. */
-export type SetUserResourceCompletionResult = ResourceCompletionDto | null;
+/** Payload for setUserResourceCompletion API (array, min 1 item). */
+export type SetUserResourceCompletionPayload = [
+  SetUserResourceCompletionPayloadItem,
+  ...SetUserResourceCompletionPayloadItem[],
+];
 
-/** One item in the setUserResourceCompletion response (batch result). */
-export type SetUserResourceCompletionResultItem = ResourceCompletionDto & {
+/**
+ * One item in the setUserResourceCompletion response (batch result).
+ * Matches backend DtoItem (removed, resourceId, type, title?, description?, cdate, parentId? for mindmap-node).
+ */
+export type SetUserResourceCompletionResultItem = {
   removed: boolean;
+  resourceId: Atoms["ResourceId"];
+  type: Atoms["ResourceType"];
+  title?: string;
+  description?: string;
+  cdate: Atoms["UTCDate"];
+  parentId?: Atoms["MindmapId"];
 };
+
+/** setUserResourceCompletion response: array of result items (one per request item). */
+export type SetUserResourceCompletionResult =
+  SetUserResourceCompletionResultItem[];
+
+/** Single item with completed (e.g. for toggle act). Alias for one payload item. */
+export type SetUserResourceCompletionItem =
+  SetUserResourceCompletionPayloadItem;
 
 /** Single item payload without `completed` (e.g. for toggle hook). */
 export type SetUserResourceCompletionPayloadWithoutCompleted =
   | {
       type: "document";
       resourceId: Atoms["DocumentId"];
-      title: string;
+      title?: string;
       description?: string;
     }
   | {
       type: "mindmap";
       resourceId: Atoms["MindmapId"];
-      title: string;
+      title?: string;
       description?: string;
     }
   | {
       type: "mindmap-node";
       resourceId: Atoms["MindmapNodeId"];
       parentId: Atoms["MindmapId"];
-      title: string;
+      title?: string;
       description?: string;
     };
 
@@ -144,6 +144,8 @@ export type ResourceLikeDto = {
   parentId?: Atoms["MindmapId"];
   title: string;
   description?: string;
+  /** When type is "mindmap-node" and the node is external, URL of the pasted resource. */
+  externalUrl?: Atoms["Url"];
 };
 
 /** One item in the setUserResourceLike request payload. */
@@ -152,14 +154,14 @@ export type SetUserResourceLikeItem =
       type: "document";
       resourceId: Atoms["DocumentId"];
       title: string;
-      description?: string;
+      description?: string | null;
       liked: boolean;
     }
   | {
       type: "mindmap";
       resourceId: Atoms["MindmapId"];
       title: string;
-      description?: string;
+      description?: string | null;
       liked: boolean;
     }
   | {
@@ -167,8 +169,36 @@ export type SetUserResourceLikeItem =
       resourceId: Atoms["MindmapNodeId"];
       parentId: Atoms["MindmapId"];
       title: string;
-      description?: string;
+      description?: string | null;
       liked: boolean;
+    };
+
+/**
+ * Payload actually sent to setUserResourceLike API.
+ * description is omitted when null/undefined (backend must not receive null).
+ */
+export type SetUserResourceLikeRequestItem =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title: string;
+      liked: boolean;
+      description?: string;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title: string;
+      liked: boolean;
+      description?: string;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title: string;
+      liked: boolean;
+      description?: string;
     };
 
 /** One item in the setUserResourceLike response (batch result). */
@@ -182,20 +212,20 @@ export type SetUserResourceLikePayloadWithoutLiked =
       type: "document";
       resourceId: Atoms["DocumentId"];
       title: string;
-      description?: string;
+      description?: string | null;
     }
   | {
       type: "mindmap";
       resourceId: Atoms["MindmapId"];
       title: string;
-      description?: string;
+      description?: string | null;
     }
   | {
       type: "mindmap-node";
       resourceId: Atoms["MindmapNodeId"];
       parentId: Atoms["MindmapId"];
       title: string;
-      description?: string;
+      description?: string | null;
     };
 
 export type ImageDto = {

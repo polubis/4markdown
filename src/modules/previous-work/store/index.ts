@@ -27,7 +27,8 @@ const loadEntriesFromStorage = (): PreviousWorkState["entries"] => {
       (e): e is PreviousWorkState["entries"][number] =>
         e != null &&
         typeof e === `object` &&
-        typeof e.type === `string` &&
+        ((e as { type: string }).type === `document` ||
+          (e as { type: string }).type === `mindmap`) &&
         typeof (e as { resourceId?: string }).resourceId === `string` &&
         typeof (e as { title?: string }).title === `string` &&
         typeof (e as { lastTouched?: number }).lastTouched === `number`,

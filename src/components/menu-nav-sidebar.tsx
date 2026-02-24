@@ -133,7 +133,7 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
                 </li>
               ))}
               {isAuthorized && previousWorkEntries.length > 0 && (
-                <li>
+                <li className="hidden md:block">
                   <button
                     type="button"
                     title="Open previous work"

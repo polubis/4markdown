@@ -14,10 +14,7 @@ function getEntryUrl(entry: PreviousWorkEntry): string {
   if (entry.type === `document`) {
     return `${meta.routes.home}?id=${entry.resourceId}`;
   }
-  if (entry.type === `mindmap`) {
-    return `${meta.routes.mindmaps.creator}?mindmapId=${entry.resourceId}`;
-  }
-  return `${meta.routes.mindmaps.creator}?mindmapId=${entry.mindmapId}`;
+  return `${meta.routes.mindmaps.creator}?mindmapId=${entry.resourceId}`;
 }
 
 const categoryHeadingClassName =
@@ -100,8 +97,7 @@ const PreviousWorkWidget = ({
     (entry: PreviousWorkEntry): boolean => {
       if (entry.type === `document`)
         return entry.resourceId === activeDocumentId;
-      if (entry.type === `mindmap`) return entry.resourceId === activeMindmapId;
-      return entry.mindmapId === activeMindmapId;
+      return entry.resourceId === activeMindmapId;
     },
     [activeDocumentId, activeMindmapId],
   );
@@ -116,14 +112,10 @@ const PreviousWorkWidget = ({
     (e): e is Extract<PreviousWorkEntry, { type: "mindmap" }> =>
       e.type === `mindmap`,
   );
-  const mindmapNodes = entries.filter(
-    (e): e is Extract<PreviousWorkEntry, { type: "mindmap-node" }> =>
-      e.type === `mindmap-node`,
-  );
 
   return (
     <section
-      className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 shadow-sm max-w-[280px] flex flex-col max-h-[min(80vh,28rem)]"
+      className="rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 shadow-sm w-[20rem] flex flex-col max-h-[min(80vh,28rem)]"
       data-testid="[previous-work]:widget"
       aria-label="Previous work"
     >
@@ -158,13 +150,6 @@ const PreviousWorkWidget = ({
           id="previous-work-mindmaps-heading"
           title="Mindmaps"
           entries={mindmaps}
-          onLinkClick={onLinkClick}
-          isEntryActive={isEntryActive}
-        />
-        <CategorySection
-          id="previous-work-mindmap-nodes-heading"
-          title="Mindmap nodes"
-          entries={mindmapNodes}
           onLinkClick={onLinkClick}
           isEntryActive={isEntryActive}
         />
