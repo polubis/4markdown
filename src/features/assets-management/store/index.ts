@@ -8,8 +8,6 @@ const useAssetsManagementStore = createSelectors(
     busy: false,
     error: null,
     assets: [],
-    hasMore: false,
-    nextCursor: null,
     selectedAssetIds: new Set<string>(),
   })),
 );

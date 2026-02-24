@@ -221,7 +221,6 @@ export type MindmapDto = {
 };
 
 export type FullMindmapDto = MindmapDto & {
-  authorId: Atoms["UserProfileId"];
   authorProfile: UserProfileDto | null;
   isAuthorTrusted: boolean;
 };

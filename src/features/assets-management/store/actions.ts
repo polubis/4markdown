@@ -14,16 +14,6 @@ const setAssetsAction = (assets: ImageDto[]): void => {
   });
 };
 
-const setPaginationAction = (
-  hasMore: boolean,
-  nextCursor: Pick<ImageDto, "id"> | null,
-): void => {
-  useAssetsManagementStore.setState({
-    hasMore,
-    nextCursor,
-  });
-};
-
 const toggleAssetSelectionAction = (assetId: string): void => {
   useAssetsManagementStore.setState((prevState) => {
     const newSelectedIds = new Set(prevState.selectedAssetIds);
@@ -64,7 +54,6 @@ const removeAssetsAction = (assetIds: string[]): void => {
 export {
   addAssetsAction,
   setAssetsAction,
-  setPaginationAction,
   toggleAssetSelectionAction,
   selectAllAssetsAction,
   deselectAllAssetsAction,

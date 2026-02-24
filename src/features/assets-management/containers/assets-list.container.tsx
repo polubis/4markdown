@@ -24,7 +24,7 @@ const Content = ({
 }: {
   removeConfirmModal: ReturnType<typeof useFeature<string[]>>;
 }) => {
-  const { assets, idle, busy, error, hasMore, nextCursor, selectedAssetIds } =
+  const { assets, idle, busy, error, selectedAssetIds } =
     useAssetsManagementStore();
 
   const errorModal = useFeature<API4MarkdownError>();
@@ -50,12 +50,6 @@ const Content = ({
     },
   });
 
-  const loadMore = () => {
-    if (!busy && hasMore && nextCursor) {
-      getYourAssetsAct(nextCursor);
-    }
-  };
-
   if (idle || (busy && assets.length === 0)) {
     return <AssetsSkeletonLoader data-testid="[assets]:loader" />;
   }
@@ -73,7 +67,7 @@ const Content = ({
           auto
           s={2}
           i={2}
-          onClick={() => getYourAssetsAct(null)}
+          onClick={() => getYourAssetsAct()}
         >
           Try Again
         </Err.Action>
@@ -187,6 +181,7 @@ const Content = ({
                 width={400}
                 height={300}
                 loading="lazy"
+                decoding="async"
               />
               <div className="flex flex-col gap-1 min-w-0">
                 <p className="text-sm font-medium truncate">
@@ -208,20 +203,6 @@ const Content = ({
           );
         })}
       </ul>
-      {hasMore && (
-        <div className="flex justify-center mt-6">
-          <Button
-            i={2}
-            s={2}
-            auto
-            title="Load more assets"
-            onClick={loadMore}
-            disabled={busy}
-          >
-            {busy ? "Loading…" : "Load More"}
-          </Button>
-        </div>
-      )}
     </>
   );
 };
@@ -231,7 +212,7 @@ const AssetsListContainer = () => {
   const removeConfirmModal = useFeature<string[]>();
 
   useEffect(() => {
-    getYourAssetsAct(null);
+    getYourAssetsAct();
   }, []);
 
   const allSelected =

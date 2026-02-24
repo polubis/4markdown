@@ -7,8 +7,6 @@ type AssetsManagementState = {
   busy: boolean;
   error: API4MarkdownError | null;
   assets: Asset[];
-  hasMore: boolean;
-  nextCursor: Pick<ImageDto, "id"> | null;
   selectedAssetIds: Set<string>;
 };
 

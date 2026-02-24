@@ -1,12 +1,8 @@
 import { getAPI, parseError } from "api-4markdown";
-import { ImageDto } from "api-4markdown-contracts";
 import { useAssetsManagementStore } from "../store";
-import { setAssetsAction, setPaginationAction } from "../store/actions";
-import { generateMockAssets } from "../mocks/generate-mock-assets";
+import { setAssetsAction } from "../store/actions";
 
-const getYourAssetsAct = async (
-  cursor: Pick<ImageDto, "id"> | null = null,
-): Promise<void> => {
+const getYourAssetsAct = async (): Promise<void> => {
   try {
     useAssetsManagementStore.setState({
       busy: true,
@@ -14,40 +10,9 @@ const getYourAssetsAct = async (
       error: null,
     });
 
-    // MOCK IMPLEMENTATION - Comment out when real API is ready
-    await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate network delay
+    const assets = await getAPI().call("getYourImages")();
 
-    const startIndex = cursor
-      ? parseInt(cursor.id.replace("mock-asset-", ""), 10) + 1
-      : 0;
-    const limit = 20;
-    const mockAssets = generateMockAssets(limit, startIndex);
-    const hasMore = startIndex + limit < 100; // Simulate 100 total assets
-    const nextCursor = hasMore
-      ? ({ id: mockAssets[mockAssets.length - 1].id } as Pick<ImageDto, "id">)
-      : null;
-
-    const data = {
-      assets: mockAssets,
-      hasMore,
-      nextCursor,
-    };
-
-    // REAL API CALL - Uncomment when backend is ready
-    // const data = await getAPI().call(`getYourAssets`)({
-    //   limit: 20,
-    //   cursor,
-    // });
-
-    if (cursor === null) {
-      setAssetsAction(data.assets);
-    } else {
-      useAssetsManagementStore.setState((prevState) => ({
-        assets: [...prevState.assets, ...data.assets],
-      }));
-    }
-
-    setPaginationAction(data.hasMore, data.nextCursor);
+    setAssetsAction(assets);
 
     useAssetsManagementStore.setState({
       busy: false,
