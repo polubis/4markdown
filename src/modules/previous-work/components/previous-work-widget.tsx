@@ -79,6 +79,13 @@ const CategorySection = ({
   );
 };
 
+type PinnedEdges = {
+  top: boolean;
+  right: boolean;
+  bottom: boolean;
+  left: boolean;
+};
+
 const PreviousWorkWidget = ({
   entries,
   onLinkClick,
@@ -86,6 +93,7 @@ const PreviousWorkWidget = ({
   minimized = false,
   onToggleMinimize,
   onMovePointerDown,
+  pinnedEdges,
 }: {
   entries: PreviousWorkEntry[];
   onLinkClick?: () => void;
@@ -93,6 +101,7 @@ const PreviousWorkWidget = ({
   minimized?: boolean;
   onToggleMinimize?: () => void;
   onMovePointerDown?: (e: React.PointerEvent) => void;
+  pinnedEdges?: PinnedEdges;
 }) => {
   const docStore = useDocStore();
   const activeMindmapId = useMindmapCreatorState((s) => s.activeMindmapId);
@@ -119,10 +128,27 @@ const PreviousWorkWidget = ({
       e.type === `mindmap`,
   );
 
+  const edgeRounded =
+    pinnedEdges &&
+    !pinnedEdges.top &&
+    !pinnedEdges.right &&
+    !pinnedEdges.bottom &&
+    !pinnedEdges.left;
+  const radiusClasses = edgeRounded
+    ? "rounded-lg"
+    : c(
+        "rounded-lg",
+        pinnedEdges?.top && "rounded-tl-none rounded-tr-none",
+        pinnedEdges?.bottom && "rounded-bl-none rounded-br-none",
+        pinnedEdges?.left && "rounded-tl-none rounded-bl-none",
+        pinnedEdges?.right && "rounded-tr-none rounded-br-none",
+      );
+
   return (
     <section
       className={c(
-        "rounded-lg border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 shadow-sm flex flex-col",
+        "border border-zinc-300 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 shadow-sm flex flex-col",
+        radiusClasses,
         minimized ? "w-auto max-h-none" : "w-[20rem] max-h-[min(80vh,28rem)]",
       )}
       data-testid="[previous-work]:widget"

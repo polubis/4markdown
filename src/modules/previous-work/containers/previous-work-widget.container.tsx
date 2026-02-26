@@ -63,6 +63,32 @@ function saveWidgetPrefs(prefs: {
 
 const DEFAULT_OFFSET = 16;
 const DEFAULT_TOP = 80;
+const EDGE_SNAP_THRESHOLD_PX = 2;
+
+type PinnedEdges = {
+  top: boolean;
+  right: boolean;
+  bottom: boolean;
+  left: boolean;
+};
+
+function getPinnedEdges(params: {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  viewportWidth: number;
+  viewportHeight: number;
+}): PinnedEdges {
+  const right = params.left + params.width;
+  const bottom = params.top + params.height;
+  return {
+    top: params.top <= EDGE_SNAP_THRESHOLD_PX,
+    right: right >= params.viewportWidth - EDGE_SNAP_THRESHOLD_PX,
+    bottom: bottom >= params.viewportHeight - EDGE_SNAP_THRESHOLD_PX,
+    left: params.left <= EDGE_SNAP_THRESHOLD_PX,
+  };
+}
 
 function getViewportSize(): { width: number; height: number } {
   if (typeof window === "undefined") return { width: 0, height: 0 };
@@ -139,6 +165,12 @@ const PreviousWorkWidgetContainer = () => {
   const openRequested = usePreviousWorkState((s) => s.openRequested);
   const [dismissed, setDismissed] = React.useState(false);
   const [prefs, setPrefs] = React.useState(() => loadWidgetPrefs());
+  const [pinnedEdges, setPinnedEdges] = React.useState<PinnedEdges>({
+    top: false,
+    right: false,
+    bottom: false,
+    left: false,
+  });
   const wrapperRef = React.useRef<HTMLDivElement>(null);
   const pendingCornerSnapRef = React.useRef<WidgetCorner | null>(null);
 
@@ -178,6 +210,16 @@ const PreviousWorkWidgetContainer = () => {
         return next;
       });
     }
+
+    const nextPinned = getPinnedEdges({
+      left: clampedLeft,
+      top: clampedTop,
+      width: w,
+      height: h,
+      viewportWidth: vw,
+      viewportHeight: vh,
+    });
+    setPinnedEdges(nextPinned);
   }, [prefs.position, prefs.minimized]);
 
   React.useEffect(() => {
@@ -187,10 +229,10 @@ const PreviousWorkWidgetContainer = () => {
       const el = wrapperRef.current;
       if (!el) return;
       const { width: vw, height: vh } = getViewportSize();
+      const w = el.offsetWidth;
+      const h = el.offsetHeight;
       setPrefs((prev) => {
         if (prev.position === null) return prev;
-        const w = el.offsetWidth;
-        const h = el.offsetHeight;
         const maxLeft = vw - w;
         const maxTop = vh - h;
         const { left, top } = prev.position;
@@ -204,6 +246,16 @@ const PreviousWorkWidgetContainer = () => {
         saveWidgetPrefs(next);
         return next;
       });
+      setPinnedEdges(
+        getPinnedEdges({
+          left: el.getBoundingClientRect().left,
+          top: el.getBoundingClientRect().top,
+          width: w,
+          height: h,
+          viewportWidth: vw,
+          viewportHeight: vh,
+        }),
+      );
     };
 
     window.addEventListener("resize", clampPositionToViewport);
@@ -340,6 +392,7 @@ const PreviousWorkWidgetContainer = () => {
         minimized={prefs.minimized}
         onToggleMinimize={handleToggleMinimize}
         onMovePointerDown={handleMovePointerDown}
+        pinnedEdges={pinnedEdges}
       />
     </div>
   );
