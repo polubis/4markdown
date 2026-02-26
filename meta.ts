@@ -36,6 +36,7 @@ export const meta = {
       mindmap: `/mindmap/`,
       creator: `/mindmap-creator/`,
       preview: `/mindmap-preview/`,
+      management: `/mindmaps/`,
     },
     sandbox: `/sandbox/`,
     creator: {

@@ -44,7 +44,7 @@ type Meta = {
     likedResources: { management: string };
     completed: { management: string };
     documents: { management: string };
-    mindmaps: { creator: string };
+    mindmaps: { creator: string; management: string };
     privacyPolicy: string;
   };
 };
@@ -93,6 +93,12 @@ function getMenuNavSidebarNavConfig(meta: Meta): MenuNavSidebarNavConfig {
       to: meta.routes.documents.management,
       title: "View your documents",
       label: "Documents",
+    },
+    {
+      type: "internal",
+      to: meta.routes.mindmaps.management,
+      title: "View your mindmaps",
+      label: "Mindmaps",
     },
     {
       type: "internal",
