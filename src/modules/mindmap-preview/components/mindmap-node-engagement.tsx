@@ -14,9 +14,11 @@ import { Button } from "design-system/button";
 import Popover from "design-system/popover";
 import { Modal2 } from "design-system/modal2";
 import { BiHappy } from "react-icons/bi";
+import { RATING_ICONS } from "core/rating-config";
 import { rateMindmapNodeAct } from "../../../acts/rate-mindmap-node.act";
 
 type MindmapNodeEngagementProps = {
+  mindmapId: Atoms["MindmapId"];
   nodeId: Atoms["MindmapNodeId"];
   initialRating?: Atoms["Rating"];
   initialScore?: {
@@ -46,6 +48,7 @@ const toFullRating = (rating?: Partial<Atoms["Rating"]>): Atoms["Rating"] => ({
 const rateMindmapNode = throttle(rateMindmapNodeAct, 5000);
 
 const MindmapNodeEngagement = ({
+  mindmapId,
   nodeId,
   initialRating,
   initialScore,
@@ -95,6 +98,101 @@ const MindmapNodeEngagement = ({
     );
   };
 
+  const [displayCategoryIndex, setDisplayCategoryIndex] =
+    React.useState<number>(0);
+  const [hasCompletedInitialCycle, setHasCompletedInitialCycle] =
+    React.useState(false);
+  const [isAnimatingCategoryChange, setIsAnimatingCategoryChange] =
+    React.useState(false);
+  const [swipeDirection, setSwipeDirection] = React.useState<"left" | "right">(
+    "right",
+  );
+
+  const previousResolvedIndexRef = React.useRef<number>(0);
+
+  React.useEffect(() => {
+    if (yourRate) {
+      const idx = RATING_ICONS.findIndex(
+        ([, category]) => category === yourRate,
+      );
+
+      setDisplayCategoryIndex(idx === -1 ? 0 : idx);
+      setHasCompletedInitialCycle(true);
+
+      return;
+    }
+
+    if (hasCompletedInitialCycle) {
+      return;
+    }
+
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    let currentIndex = 0;
+
+    setDisplayCategoryIndex(0);
+
+    const intervalId = window.setInterval(() => {
+      currentIndex += 1;
+
+      if (currentIndex >= RATING_ICONS.length - 1) {
+        setDisplayCategoryIndex(RATING_ICONS.length - 1);
+        setHasCompletedInitialCycle(true);
+        window.clearInterval(intervalId);
+
+        return;
+      }
+
+      setDisplayCategoryIndex(currentIndex);
+    }, 1600);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [yourRate, hasCompletedInitialCycle]);
+
+  const resolvedCategoryIndex = React.useMemo(() => {
+    if (yourRate) {
+      const idx = RATING_ICONS.findIndex(
+        ([, category]) => category === yourRate,
+      );
+
+      if (idx !== -1) {
+        return idx;
+      }
+    }
+
+    return displayCategoryIndex;
+  }, [yourRate, displayCategoryIndex]);
+
+  React.useEffect(() => {
+    if (previousResolvedIndexRef.current === resolvedCategoryIndex) {
+      return;
+    }
+
+    const previousIndex = previousResolvedIndexRef.current;
+
+    setSwipeDirection(resolvedCategoryIndex > previousIndex ? "right" : "left");
+
+    previousResolvedIndexRef.current = resolvedCategoryIndex;
+
+    setIsAnimatingCategoryChange(true);
+
+    const timeoutId = window.setTimeout(() => {
+      setIsAnimatingCategoryChange(false);
+    }, 260);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [resolvedCategoryIndex]);
+
+  const [CurrentRatingIcon, currentRatingCategory] = RATING_ICONS[
+    resolvedCategoryIndex
+  ] ?? [BiHappy, null];
+
   const handleRate = (category: Atoms["RatingCategory"]): void => {
     setYourRate((prevRate) => {
       setRating((currentRating) => {
@@ -122,7 +220,7 @@ const MindmapNodeEngagement = ({
       return prevRate === category ? null : category;
     });
 
-    rateMindmapNode({ mindmapNodeId: nodeId, category });
+    rateMindmapNode({ mindmapId, nodeId, category });
   };
 
   return (
@@ -131,11 +229,29 @@ const MindmapNodeEngagement = ({
         <div className="relative">
           <Button
             i={2}
-            s={1}
+            s={2}
+            className="min-w-16"
+            auto
             title="Rate this node"
             onClick={() => ratePopover.on()}
           >
-            <BiHappy />
+            <span
+              className={c(
+                "flex items-center gap-1 transition-all duration-200 ease-out",
+                isAnimatingCategoryChange
+                  ? swipeDirection === "right"
+                    ? "opacity-0 translate-x-2"
+                    : "opacity-0 -translate-x-2"
+                  : "opacity-100 translate-x-0",
+              )}
+            >
+              <CurrentRatingIcon className="mr-0.5 shrink-0" />
+              {currentRatingCategory && (
+                <strong className="text-xs">
+                  {rating[currentRatingCategory] ?? 0}
+                </strong>
+              )}
+            </span>
           </Button>
           {ratePopover.isOn && (
             <Popover

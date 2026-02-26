@@ -112,21 +112,29 @@ const MindmapPreviewModule = () => {
     readyMindmapPreviewSelector(state.mindmap),
   );
   const nodePreview = useMindmapPreviewState((state) => state.nodePreview);
-  const nodeEngagement = React.useMemo(
-    () =>
-      nodePreview.is === `on`
-        ? (nodePreview.data as {
-            rating?: Atoms["Rating"];
-            score?: {
-              average: number;
-              count: number;
-              values: Atoms["ScoreValue"][];
-            };
-            commentsCount?: number;
-          })
-        : null,
-    [nodePreview],
-  );
+  const nodeEngagement = React.useMemo(() => {
+    if (nodePreview.is !== `on`) return null;
+
+    const rating = (nodePreview as any).data?.rating as
+      | Atoms["Rating"]
+      | undefined;
+    const score = (nodePreview as any).data?.score as
+      | {
+          average: number;
+          count: number;
+          values: Atoms["ScoreValue"][];
+        }
+      | undefined;
+    const commentsCount = (nodePreview as any).data?.commentsCount as
+      | number
+      | undefined;
+
+    return {
+      rating,
+      score,
+      commentsCount,
+    };
+  }, [nodePreview]);
 
   const [initialNodes] = React.useState(() =>
     mindmap.nodes.map((node) => ({
@@ -180,6 +188,7 @@ const MindmapPreviewModule = () => {
             }
             footerLeftControls={
               <MindmapNodeEngagement
+                mindmapId={mindmap.id as Atoms["MindmapId"]}
                 nodeId={nodePreview.id as Atoms["MindmapNodeId"]}
                 initialRating={nodeEngagement?.rating}
                 initialScore={nodeEngagement?.score}

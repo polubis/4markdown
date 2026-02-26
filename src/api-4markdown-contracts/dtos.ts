@@ -312,7 +312,7 @@ export type EmbeddedNode = MakeNode<
   `embedded`,
   NodeBaseData & { content: string | null }
 >;
-type MindmapNode = ExternalNode | EmbeddedNode;
+export type MindmapNode = ExternalNode | EmbeddedNode;
 
 export type SolidEdge = MakeEdge<`solid`>;
 type MindmapEdge = SolidEdge;
@@ -332,9 +332,19 @@ export type MindmapDto = {
   tags: string[] | null;
 };
 
+/** Node shape returned only by getAccessibleMindmap (includes rating counts and score). */
+export type MindmapNodeWithEngagement = MindmapNode &
+  Atoms["Rating"] &
+  Atoms["Score"];
+
 export type FullMindmapDto = MindmapDto & {
   authorProfile: UserProfileDto | null;
   isAuthorTrusted: boolean;
+};
+
+/** getAccessibleMindmap result: full mindmap with nodes enhanced by engagement/score data. */
+export type AccessibleMindmapDto = Omit<FullMindmapDto, "nodes"> & {
+  nodes: MindmapNodeWithEngagement[];
 };
 
 type Base = Prettify<{

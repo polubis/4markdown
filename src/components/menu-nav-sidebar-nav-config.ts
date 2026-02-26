@@ -43,6 +43,7 @@ type Meta = {
     assets: { management: string };
     likedResources: { management: string };
     completed: { management: string };
+    documents: { management: string };
     mindmaps: { creator: string };
     privacyPolicy: string;
   };
@@ -83,15 +84,21 @@ function getMenuNavSidebarNavConfig(meta: Meta): MenuNavSidebarNavConfig {
     },
     {
       type: "internal",
-      to: meta.routes.likedResources.management,
-      title: "View starred items",
-      label: "Starred",
-    },
-    {
-      type: "internal",
       to: meta.routes.completed.management,
       title: "View completed items",
       label: "Completed",
+    },
+    {
+      type: "internal",
+      to: meta.routes.documents.management,
+      title: "View your documents",
+      label: "Documents",
+    },
+    {
+      type: "internal",
+      to: meta.routes.likedResources.management,
+      title: "View starred items",
+      label: "Starred",
     },
   ];
 

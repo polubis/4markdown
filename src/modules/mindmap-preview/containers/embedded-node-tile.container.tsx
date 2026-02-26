@@ -11,6 +11,8 @@ import {
   BiSolidStar,
 } from "react-icons/bi";
 import { openNodePreviewAction } from "store/mindmap-preview/actions";
+import { useMindmapPreviewState } from "store/mindmap-preview";
+import { readyMindmapPreviewSelector } from "store/mindmap-preview/selectors";
 import { MindmapPreviewEmbeddedNodeWithCompletion } from "../models";
 import {
   useResourceCompletionToggle,
@@ -31,6 +33,14 @@ const EmbeddedNodeTileContainer = ({
   positionAbsoluteY,
   data,
 }: EmbeddedNodeTileContainerProps) => {
+  const mindmap = useMindmapPreviewState((state) =>
+    readyMindmapPreviewSelector(state.mindmap),
+  );
+  const backendNode = React.useMemo(
+    () => mindmap.nodes.find((node) => node.id === id),
+    [mindmap.nodes, id],
+  );
+
   const resourcesCompletionState = useResourcesCompletionState();
   const [completionState, completion, toggleCompletion] =
     useResourceCompletionToggle({
@@ -69,17 +79,40 @@ const EmbeddedNodeTileContainer = ({
   const handlePreview = React.useCallback(
     (e: React.MouseEvent | React.KeyboardEvent) => {
       e.stopPropagation();
+      const engagementFromBackend =
+        backendNode &&
+        ({
+          rating: {
+            perfect: (backendNode as any).perfect ?? 0,
+            good: (backendNode as any).good ?? 0,
+            decent: (backendNode as any).decent ?? 0,
+            bad: (backendNode as any).bad ?? 0,
+            ugly: (backendNode as any).ugly ?? 0,
+          },
+          score:
+            (backendNode as any).scoreAverage !== undefined
+              ? {
+                  average: (backendNode as any).scoreAverage,
+                  count: (backendNode as any).scoreCount ?? 0,
+                  values: (backendNode as any).scoreValues ?? [],
+                }
+              : undefined,
+        } as const);
+
       openNodePreviewAction({
         type: `embedded`,
         id,
-        data,
+        data: {
+          ...data,
+          ...(engagementFromBackend ?? {}),
+        },
         position: {
           x: positionAbsoluteX,
           y: positionAbsoluteY,
         },
-      });
+      } as any);
     },
-    [id, positionAbsoluteX, positionAbsoluteY, data],
+    [id, positionAbsoluteX, positionAbsoluteY, data, backendNode],
   );
 
   const handleToggleCompletionKeyDown = React.useCallback(

@@ -10,6 +10,7 @@ import type {
 } from "./dtos";
 import {
   AccessGroupDto,
+  AccessibleMindmapDto,
   Atoms,
   UserProfileCommentDto,
   FullMindmapDto,
@@ -402,7 +403,8 @@ type MindmapNodeEngagementContracts =
       `rateMindmapNode`,
       Atoms["Rating"],
       {
-        mindmapNodeId: Atoms["MindmapNodeId"];
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
         category: Atoms["RatingCategory"];
       }
     >;
@@ -446,7 +448,7 @@ type MindmapsContracts =
     >
   | Contract<
       `getAccessibleMindmap`,
-      FullMindmapDto,
+      AccessibleMindmapDto,
       { mindmapId: Atoms["MindmapId"] }
     >
   | Contract<`getPermanentMindmaps`, FullMindmapDto[], { limit?: number }>;
