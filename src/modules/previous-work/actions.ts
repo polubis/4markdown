@@ -40,6 +40,20 @@ const removeMindmapEntryAction = (mindmapId: Atoms["MindmapId"]): void => {
   persistEntries(next);
 };
 
+const clearDocumentEntriesAction = (): void => {
+  const current = usePreviousWorkState.get().entries;
+  const next = current.filter((e) => e.type !== `document`);
+  usePreviousWorkState.set({ entries: next });
+  persistEntries(next);
+};
+
+const clearMindmapEntriesAction = (): void => {
+  const current = usePreviousWorkState.get().entries;
+  const next = current.filter((e) => e.type !== `mindmap`);
+  usePreviousWorkState.set({ entries: next });
+  persistEntries(next);
+};
+
 const clearPreviousWorkAction = (): void => {
   usePreviousWorkState.reset();
   clearStorage();
@@ -62,6 +76,8 @@ export {
   addOrBumpEntryAction,
   removeDocumentEntryAction,
   removeMindmapEntryAction,
+  clearDocumentEntriesAction,
+  clearMindmapEntriesAction,
   clearPreviousWorkAction,
   loadPreviousWorkFromStorageAction,
   requestOpenPreviousWorkAction,
