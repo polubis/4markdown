@@ -146,8 +146,9 @@ type MindmapNodeCommentsContracts =
       `addMindmapNodeComment`,
       MindmapNodeCommentDto,
       {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
         comment: string;
-        resourceId: Atoms["MindmapNodeId"];
       }
     >
   | Contract<
@@ -170,7 +171,8 @@ type MindmapNodeCommentsContracts =
         } | null;
       },
       {
-        resourceId: Atoms["MindmapNodeId"];
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
         nextCursor: {
           cdate: Atoms["UTCDate"];
           id: Atoms["MindmapNodeCommentId"];

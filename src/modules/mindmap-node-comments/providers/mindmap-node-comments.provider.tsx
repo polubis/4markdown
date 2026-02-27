@@ -8,20 +8,21 @@ import { useQuery2 } from "core/use-query-2";
 
 const [MindmapNodeCommentsProvider, useMindmapNodeCommentsContext] = context(
   ({
+    mindmapId,
     mindmapNodeId,
     commentsCount,
     onCountChange,
   }: Pick<
     MindmapNodeCommentsModuleProps,
-    "mindmapNodeId" | "commentsCount" | "onCountChange"
+    "mindmapId" | "mindmapNodeId" | "commentsCount" | "onCountChange"
   >) => {
     const commentForm = useFeature<MindmapNodeCommentFormData>();
 
     const commentsQuery = useQuery2({
-      initialize: false,
       handler: () =>
         loadMindmapNodeCommentsAct({
-          resourceId: mindmapNodeId,
+          mindmapId,
+          nodeId: mindmapNodeId,
           nextCursor: null,
           limit: 10,
         }),
@@ -34,6 +35,7 @@ const [MindmapNodeCommentsProvider, useMindmapNodeCommentsContext] = context(
       commentForm,
       commentsQuery,
       commentsCount,
+      mindmapId,
       mindmapNodeId,
       onCountChange,
     };

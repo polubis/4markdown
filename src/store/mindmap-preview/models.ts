@@ -1,7 +1,7 @@
-import type { FullMindmapDto } from "api-4markdown-contracts";
+import type { AccessibleMindmapDto } from "api-4markdown-contracts";
 import type { Transaction } from "development-kit/utility-types";
 
-type MindmapPreviewNode = FullMindmapDto["nodes"][number];
+type MindmapPreviewNode = AccessibleMindmapDto["nodes"][number];
 
 type MindmapPreviewExternalNode = Extract<
   MindmapPreviewNode,
@@ -15,10 +15,10 @@ type MindmapPreviewEmbeddedNode = Extract<
 
 type MindmapPreviewState = {
   nodePreview: { is: `off` } | ({ is: `on` } & MindmapPreviewEmbeddedNode);
-  mindmap: Transaction<FullMindmapDto>;
+  mindmap: Transaction<AccessibleMindmapDto>;
 };
 
-type MindmapPreviewEdge = FullMindmapDto["edges"][number];
+type MindmapPreviewEdge = AccessibleMindmapDto["edges"][number];
 
 type MindmapPreviewSolidEdge = Extract<MindmapPreviewEdge, { type: `solid` }>;
 

@@ -99,12 +99,19 @@ const EmbeddedNodeTileContainer = ({
               : undefined,
         } as const);
 
+      const commentsCount =
+        backendNode?.data?.commentsCount ??
+        (backendNode as any)?.commentsCount ??
+        data.commentsCount ??
+        0;
+
       openNodePreviewAction({
         type: `embedded`,
         id,
         data: {
           ...data,
           ...(engagementFromBackend ?? {}),
+          commentsCount,
         },
         position: {
           x: positionAbsoluteX,

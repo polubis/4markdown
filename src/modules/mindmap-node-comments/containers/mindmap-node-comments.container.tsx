@@ -20,8 +20,13 @@ type MindmapNodeCommentsContainerProps = {
 const MindmapNodeCommentsContainer = ({
   className,
 }: MindmapNodeCommentsContainerProps) => {
-  const { commentsCount, mindmapNodeId, commentsQuery, commentForm } =
-    useMindmapNodeCommentsContext();
+  const {
+    commentsCount,
+    mindmapId,
+    mindmapNodeId,
+    commentsQuery,
+    commentForm,
+  } = useMindmapNodeCommentsContext();
 
   const startAddingComment = useAuthStart();
 
@@ -31,7 +36,8 @@ const MindmapNodeCommentsContainer = ({
     initialize: false,
     handler: () =>
       loadMindmapNodeCommentsAct({
-        resourceId: mindmapNodeId,
+        mindmapId,
+        nodeId: mindmapNodeId,
         nextCursor: commentsQuery.data?.nextCursor ?? null,
         limit: 10,
       }),
@@ -39,27 +45,15 @@ const MindmapNodeCommentsContainer = ({
       commentsQuery.setData((currData) => ({
         ...currData,
         comments: [...currData.comments, ...newData.comments],
+        nextCursor: newData.nextCursor,
+        hasMore: newData.hasMore,
       }));
     },
   });
 
   const openAddForm = () => {
-    startAddingComment(async () => {
-      if (!commentsQuery.data) {
-        const [status] = await commentsQuery.start();
-
-        if (status === "ok") {
-          commentForm.on({
-            mode: "add",
-          });
-        }
-
-        return;
-      }
-
-      commentForm.on({
-        mode: "add",
-      });
+    startAddingComment(() => {
+      commentForm.on({ mode: "add" });
     });
   };
 
@@ -101,76 +95,56 @@ const MindmapNodeCommentsContainer = ({
               Try Again
             </Err.Action>
           </Err>
-        ) : (
-          <>
-            {commentsQuery.data ? (
-              <>
-                {commentsQuery.data.comments.length > 0 ? (
-                  <>
-                    <MindmapNodeCommentsList
-                      comments={commentsQuery.data.comments}
-                      onEditStart={(comment) =>
-                        commentForm.on({
-                          mode: "edit",
-                          commentId: comment.id,
-                          content: comment.content,
-                        })
-                      }
-                      userProfileId={
-                        yourUserProfile.is === "ok"
-                          ? (yourUserProfile.user?.id ?? null)
-                          : null
-                      }
-                    />
-                    {commentsQuery.data.hasMore && (
-                      <Button
-                        className="mt-4 ml-auto"
-                        s={1}
-                        i={2}
-                        auto
-                        disabled={loadMoreCommentsQuery.busy}
-                        onClick={() => loadMoreCommentsQuery.start()}
-                      >
-                        Load More Comments
-                      </Button>
-                    )}
-                  </>
-                ) : (
-                  <EmptyDocumentComments
-                    disabled={commentsQuery.busy}
-                    onAddClick={openAddForm}
-                  />
-                )}
-              </>
-            ) : commentsCount > 0 ? (
-              <Empty className="relative overflow-hidden border border-zinc-300 dark:border-zinc-800 rounded-lg p-6">
-                <DocumentCommentsListLoader className="z-[-1] absolute top-0 -translate-y-12 left-0 w-full h-full opacity-10 dark:opacity-5 rotate-45" />
-                <Empty.Icon>
-                  <BiComment size={80} />
-                </Empty.Icon>
-                <Empty.Title>Click To Expand Comments</Empty.Title>
-                <Empty.Description>
-                  To save some server bandwidth, comments are hidden by default.
-                  Click to expand them.
-                </Empty.Description>
-                <Empty.Action
-                  title="Show comments"
-                  auto
-                  s={2}
-                  i={2}
-                  disabled={commentsQuery.busy}
-                  onClick={() => commentsQuery.start()}
-                >
-                  Show Comments
-                </Empty.Action>
-              </Empty>
-            ) : (
-              <EmptyDocumentComments
-                disabled={commentsQuery.busy}
-                onAddClick={openAddForm}
+        ) : commentsQuery.busy && !commentsQuery.data ? (
+          <Empty className="relative overflow-hidden border border-zinc-300 dark:border-zinc-800 rounded-lg p-6">
+            <DocumentCommentsListLoader className="z-[-1] absolute top-0 -translate-y-12 left-0 w-full h-full opacity-10 dark:opacity-5 rotate-45" />
+            <Empty.Icon>
+              <BiComment size={80} />
+            </Empty.Icon>
+            <Empty.Title>Loading comments…</Empty.Title>
+          </Empty>
+        ) : commentsQuery.data ? (
+          commentsQuery.data.comments.length > 0 ? (
+            <>
+              <MindmapNodeCommentsList
+                comments={commentsQuery.data.comments}
+                onEditStart={(comment) =>
+                  commentForm.on({
+                    mode: "edit",
+                    commentId: comment.id,
+                    content: comment.content,
+                  })
+                }
+                userProfileId={
+                  yourUserProfile.is === "ok"
+                    ? (yourUserProfile.user?.id ?? null)
+                    : null
+                }
               />
-            )}
-          </>
+              {commentsQuery.data.hasMore && (
+                <Button
+                  className="mt-4 ml-auto"
+                  s={1}
+                  i={2}
+                  auto
+                  disabled={loadMoreCommentsQuery.busy}
+                  onClick={() => loadMoreCommentsQuery.start()}
+                >
+                  Load More Comments
+                </Button>
+              )}
+            </>
+          ) : (
+            <EmptyDocumentComments
+              disabled={commentsQuery.busy}
+              onAddClick={openAddForm}
+            />
+          )
+        ) : (
+          <EmptyDocumentComments
+            disabled={commentsQuery.busy}
+            onAddClick={openAddForm}
+          />
         )}
       </div>
       {commentForm.is === "on" && (

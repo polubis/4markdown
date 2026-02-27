@@ -125,9 +125,7 @@ const MindmapPreviewModule = () => {
           values: Atoms["ScoreValue"][];
         }
       | undefined;
-    const commentsCount = (nodePreview as any).data?.commentsCount as
-      | number
-      | undefined;
+    const commentsCount = nodePreview.data.commentsCount;
 
     return {
       rating,

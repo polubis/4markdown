@@ -6,11 +6,13 @@ import { MindmapNodeCommentsModuleProps } from "./models";
 const MindmapNodeCommentsModule = ({
   className,
   commentsCount,
+  mindmapId,
   mindmapNodeId,
   onCountChange,
 }: MindmapNodeCommentsModuleProps) => {
   return (
     <MindmapNodeCommentsProvider
+      mindmapId={mindmapId}
       mindmapNodeId={mindmapNodeId}
       commentsCount={commentsCount}
       onCountChange={onCountChange}

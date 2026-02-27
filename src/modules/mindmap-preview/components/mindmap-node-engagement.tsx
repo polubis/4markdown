@@ -61,8 +61,12 @@ const MindmapNodeEngagement = ({
     Atoms["RatingCategory"] | null
   >(null);
   const [commentsCount, setCommentsCount] = React.useState(
-    initialCommentsCount ?? 0,
+    () => initialCommentsCount ?? 0,
   );
+
+  React.useEffect(() => {
+    setCommentsCount(initialCommentsCount ?? 0);
+  }, [initialCommentsCount]);
   const [score, setScore] = React.useState(() => ({
     average: initialScore?.average ?? 0,
     count: initialScore?.count ?? 0,
@@ -298,6 +302,7 @@ const MindmapNodeEngagement = ({
           />
           <Modal2.Body>
             <MindmapNodeCommentsModule
+              mindmapId={mindmapId}
               mindmapNodeId={nodeId}
               commentsCount={commentsCount}
               onCountChange={setCommentsCount}

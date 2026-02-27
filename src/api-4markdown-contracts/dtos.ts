@@ -344,9 +344,14 @@ export type FullMindmapDto = MindmapDto & {
   isAuthorTrusted: boolean;
 };
 
-/** getAccessibleMindmap result: full mindmap with nodes enhanced by engagement/score data. */
+/** Node from getAccessibleMindmap: engagement data plus commentsCount in data. */
+export type AccessibleMindmapNode = MindmapNodeWithEngagement & {
+  data: MindmapNode["data"] & { commentsCount?: number };
+};
+
+/** getAccessibleMindmap result: full mindmap with nodes enhanced by engagement/score/commentsCount. */
 export type AccessibleMindmapDto = Omit<FullMindmapDto, "nodes"> & {
-  nodes: MindmapNodeWithEngagement[];
+  nodes: AccessibleMindmapNode[];
 };
 
 type Base = Prettify<{
@@ -423,7 +428,9 @@ export type MindmapNodeCommentDto = Prettify<
     mdate: Atoms["UTCDate"];
     content: string;
     etag: Atoms["Etag"];
-    resourceId: Atoms["MindmapNodeId"];
+    mindmapId: Atoms["MindmapId"];
+    nodeId: Atoms["MindmapNodeId"];
+    type: Atoms["ResourceType"];
   }
 >;
 

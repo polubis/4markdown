@@ -58,7 +58,7 @@ const MindmapNodeCommentFormContainer = ({
 
   const yourUserProfile = useYourUserProfileState();
 
-  const { mindmapNodeId, commentsQuery, onCountChange } =
+  const { mindmapId, mindmapNodeId, commentsQuery, onCountChange } =
     useMindmapNodeCommentsContext();
 
   const isEditMode = mode === "edit";
@@ -86,8 +86,9 @@ const MindmapNodeCommentFormContainer = ({
       }
 
       return addMindmapNodeCommentAct({
+        mindmapId,
+        nodeId: mindmapNodeId,
         comment: values.content,
-        resourceId: mindmapNodeId,
       });
     },
     onOk: (newData) => {
