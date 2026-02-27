@@ -395,7 +395,8 @@ type MindmapNodeEngagementContracts =
         values: Atoms["ScoreValue"][];
       },
       {
-        mindmapNodeId: Atoms["MindmapNodeId"];
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
         score: Atoms["ScoreValue"];
       }
     >

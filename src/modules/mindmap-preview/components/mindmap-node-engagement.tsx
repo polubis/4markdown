@@ -92,7 +92,8 @@ const MindmapNodeEngagement = ({
   const addScore = (value: Atoms["ScoreValue"]): void => {
     addScoreMutation.start(() =>
       getAPI().call("addMindmapNodeScore")({
-        mindmapNodeId: nodeId,
+        mindmapId,
+        nodeId,
         score: value,
       }),
     );
@@ -273,7 +274,7 @@ const MindmapNodeEngagement = ({
         <ScorePicker
           className="h-8 px-2 text-sm flex items-center justify-center"
           disabled={addScoreMutation.busy || addScoreMutation.ok}
-          popoverClassName="left-0 bottom-full -translate-y-2 w-[260px]"
+          popoverClassName="left-0 bottom-full -translate-y-2 -translate-x-6 w-[260px]"
           average={score.average}
           count={score.count}
           onRate={addScore}
