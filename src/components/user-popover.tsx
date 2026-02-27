@@ -1,6 +1,7 @@
 import { Button } from "design-system/button";
 import React from "react";
 import { BiLogInCircle, BiLogoGoogle, BiUserPlus } from "react-icons/bi";
+import { useLocation } from "@reach/router";
 import { useAuthStore } from "store/auth/auth.store";
 import { useDocsStore } from "store/docs/docs.store";
 import { YourAvatarContainer } from "../containers/your-avatar.container";
@@ -28,6 +29,7 @@ const TokensBadge = ({ tokens }: { tokens: number }) => {
 const UserPopover = () => {
   const menu = useSimpleFeature();
   const authMenu = useSimpleFeature();
+  const location = useLocation();
   const authStore = useAuthStore();
   const docsStore = useDocsStore();
   const yourUserProfile = useYourUserProfileState();
@@ -132,6 +134,7 @@ const UserPopover = () => {
               <ButtonLink
                 to={meta.routes.auth.register}
                 title="Create Account"
+                state={{ from: `${location.pathname}${location.search}` }}
                 className="w-full flex items-center gap-2 justify-center"
                 component={(props) => (
                   <Link {...props} onClick={authMenu.off} />
@@ -160,6 +163,7 @@ const UserPopover = () => {
               <ButtonLink
                 to={meta.routes.auth.login}
                 title="Sign In"
+                state={{ from: `${location.pathname}${location.search}` }}
                 className="w-full flex items-center gap-2 justify-center"
                 component={(props) => (
                   <Link {...props} onClick={authMenu.off} />

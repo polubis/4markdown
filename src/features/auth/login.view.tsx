@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, navigate } from "gatsby";
+import { useLocation } from "@reach/router";
 import { Button } from "design-system/button";
 import { Field } from "design-system/field";
 import { Input } from "design-system/input";
@@ -29,6 +30,15 @@ type ResetPasswordState =
   | { is: "fail"; message: string };
 
 const LoginView = () => {
+  const location = useLocation();
+  const authRedirectState = location.state as { from?: string } | null;
+  const fromPath =
+    authRedirectState?.from &&
+    authRedirectState.from !== meta.routes.auth.login &&
+    authRedirectState.from !== meta.routes.auth.register
+      ? authRedirectState.from
+      : meta.routes.home;
+
   const authState = useAuthStore();
   const [signOutState, setSignOutState] = React.useState<"idle" | "busy">(
     "idle",
@@ -36,7 +46,7 @@ const LoginView = () => {
   const { status, result, inject, resetStatus, canSubmit, submit, touched } =
     useAuthCredentialsForm({
       initialMode: "sign-in",
-      onSuccess: () => navigate(meta.routes.home),
+      onSuccess: () => navigate(fromPath),
     });
   const [googleState, setGoogleState] = React.useState<GoogleState>({
     is: "idle",
@@ -67,7 +77,7 @@ const LoginView = () => {
     const result = await logInAct();
 
     if (result.is === "ok") {
-      navigate(meta.routes.home);
+      navigate(fromPath);
       return;
     }
 
@@ -279,6 +289,7 @@ const LoginView = () => {
                   New here?{" "}
                   <Link
                     to={meta.routes.auth.register}
+                    state={authRedirectState ?? { from: fromPath }}
                     className="underline underline-offset-2"
                   >
                     Create an account
