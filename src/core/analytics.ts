@@ -3,8 +3,8 @@ import { COOKIE_TYPE } from "./cookies";
 
 declare global {
   interface Window {
-    dataLayer?: Array<unknown>;
-    gtag?: (...args: unknown[]) => void;
+    dataLayer?: any[];
+    gtag?: (...args: any[]) => void;
   }
 }
 
@@ -15,35 +15,46 @@ const initAnalytics = (): Promise<void> => {
     const trackable = getCookie(COOKIE_TYPE.PERFORMANCE) === `true`;
     const gaId = process.env.GATSBY_GA_ID;
 
-    if (!gaId || !trackable || initialized || navigator?.doNotTrack === `1`)
-      return resolve();
-
-    const w = window as Window;
-
-    const scriptId = `__script-analytics__`;
-
-    const triggerAnalytics = (): void => {
-      w.dataLayer = w.dataLayer || [];
-
-      w.gtag = (...args: unknown[]) => {
-        w.dataLayer?.push(args);
-      };
-
-      w.gtag(`js`, new Date());
-      w.gtag(`config`, gaId);
-
-      initialized = true;
-
-      resolve();
-    };
-
-    if (document.getElementById(scriptId)) {
-      triggerAnalytics();
+    // 1. Safety Checks
+    if (!gaId || !trackable || initialized || navigator?.doNotTrack === `1`) {
       return resolve();
     }
 
-    const script = document.createElement(`script`);
+    const scriptId = `__script-analytics__`;
 
+    // 2. Define gtag and dataLayer BEFORE loading the script
+    // This ensures that even if the script loads instantly, the configuration is ready.
+    window.dataLayer = window.dataLayer || [];
+
+    // Technical Note: We use a standard function here because GA4's library
+    // specifically parses the 'arguments' object, which arrow functions do not have.
+    // biome-ignore lint/complexity/useArrowFunction: Google event tracking library requires arguments
+    window.gtag = function () {
+      // biome-ignore lint/complexity/noArguments: Google event tracking library requires arguments
+      window.dataLayer?.push(arguments);
+    };
+
+    const triggerAnalytics = (): void => {
+      if (initialized) return;
+
+      window.gtag!(`js`, new Date());
+      window.gtag!(`config`, gaId, {
+        // Optional: ensures manual events don't double-count page views
+        // if your framework handles routing manually.
+        send_page_view: true,
+      });
+
+      initialized = true;
+      resolve();
+    };
+
+    // 3. Handle Script Injection
+    if (document.getElementById(scriptId)) {
+      triggerAnalytics();
+      return;
+    }
+
+    const script = document.createElement(`script`);
     script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
     script.async = true;
     script.id = scriptId;
@@ -53,6 +64,7 @@ const initAnalytics = (): Promise<void> => {
     };
 
     script.onerror = () => {
+      console.error("Failed to load Google Analytics script.");
       resolve();
     };
 
@@ -64,17 +76,18 @@ type EventCategory = `exceptions`;
 type EventName = `exception_session_reset_clicked` | `exception_occured`;
 
 const trackEvent = (eventName: EventName): void => {
-  if (!window.gtag) return;
+  // Check if gtag exists and has been initialized
+  if (!window.gtag || !initialized) return;
 
   const eventCategory: EventCategory = `exceptions`;
 
   window.gtag(`event`, eventName, {
     event_category: eventCategory,
+    // Note: GA4 automatically collects page_location and title,
+    // but explicit overrides are fine if you need specific states.
     page_location: window.location.href,
     page_title: document.title,
-    user_agent: navigator?.userAgent,
     timestamp: new Date().toISOString(),
-    referrer: document.referrer || `direct`,
   });
 };
 
