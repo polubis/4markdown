@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BiError, BiImage, BiInfoCircle, BiTrash } from "react-icons/bi";
 import { Button } from "design-system/button";
 import { Checkbox } from "design-system/checkbox";
 import { Switch } from "design-system/switch";
+import { ImageUploaderContainer } from "features/creator/containers/image-uploader.container";
 import { useAssetsManagementStore } from "../store";
 import { getYourAssetsAct } from "../acts/get-your-assets.act";
 import { removeAssetsAct } from "../acts/remove-assets.act";
@@ -50,7 +51,22 @@ const Content = ({
     },
   });
 
-  if (idle || (busy && assets.length === 0)) {
+  const sortedAssets = React.useMemo(() => {
+    if (assets.length === 0) {
+      return assets;
+    }
+
+    return [...assets].sort((a, b) => {
+      const aCdate = a.cdate ?? "";
+      const bCdate = b.cdate ?? "";
+
+      if (aCdate === bCdate) return 0;
+      // Newest first
+      return aCdate < bCdate ? 1 : -1;
+    });
+  }, [assets]);
+
+  if (idle || (busy && sortedAssets.length === 0)) {
     return <AssetsSkeletonLoader data-testid="[assets]:loader" />;
   }
 
@@ -75,7 +91,7 @@ const Content = ({
     );
   }
 
-  if (assets.length === 0) {
+  if (sortedAssets.length === 0) {
     return (
       <Empty id="empty-state">
         <Empty.Icon>
@@ -162,7 +178,7 @@ const Content = ({
       )}
 
       <ul className="columns-1 md:columns-2 lg:columns-3 gap-4 [column-fill:_balance] animate-fade-in">
-        {assets.map((asset) => {
+        {sortedAssets.map((asset) => {
           const isSelected = selectedAssetIds.has(asset.id);
           return (
             <li
@@ -211,7 +227,7 @@ const AssetsListContainer = () => {
   const { assets, selectedAssetIds, busy } = useAssetsManagementStore();
   const removeConfirmModal = useFeature<string[]>();
 
-  useEffect(() => {
+  React.useEffect(() => {
     getYourAssetsAct();
   }, []);
 
@@ -244,8 +260,9 @@ const AssetsListContainer = () => {
       </p>
       <header className="flex flex-col gap-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-pretty">Uploaded Assets</h1>
+          <h1 className="text-2xl font-bold text-pretty">Your Assets</h1>
           <div className="flex items-center gap-3">
+            <ImageUploaderContainer i={2} s={1} />
             <Button
               i={2}
               s={1}

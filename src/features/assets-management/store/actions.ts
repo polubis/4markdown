@@ -4,7 +4,8 @@ import { useAssetsManagementStore } from ".";
 const addAssetsAction = (assets: ImageDto[]): void => {
   useAssetsManagementStore.setState((prevState) => ({
     ...prevState,
-    assets: [...prevState.assets, ...assets],
+    // Prepend new assets so they appear first (newest at top)
+    assets: [...assets, ...prevState.assets],
   }));
 };
 

@@ -39,7 +39,9 @@ const readImageAsBase64FromClipboard = async (): Promise<string | null> => {
   }
 };
 
-const ImageUploaderAuthContainer = () => {
+const ImageUploaderAuthContainer = (
+  props: Pick<React.ComponentProps<typeof UploadImageButton>, "i" | "s">,
+) => {
   const uploadImageStatus = useUploadImageState();
   const [copyState, copy, resetClipboard] = useCopy();
 
@@ -134,6 +136,8 @@ const ImageUploaderAuthContainer = () => {
       <UploadImageButton
         disabled={uploadImageStatus.is === `busy`}
         onClick={upload}
+        i={props.i}
+        s={props.s}
       />
     </>
   );

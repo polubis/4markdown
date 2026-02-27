@@ -238,6 +238,8 @@ export type ImageDto = {
     | `image/webp`;
   url: Atoms["Path"];
   id: Atoms["ImageId"];
+  /** Creation date of the image (if available). */
+  cdate?: Atoms["UTCDate"];
 };
 
 export type UserProfileDto = Prettify<
