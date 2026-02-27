@@ -22,6 +22,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { emit } from "./observer";
 import { CacheVersion } from "./cache";
@@ -40,6 +41,7 @@ type Api = {
   logIn(): Promise<void>;
   logInWithCredentials(email: string, password: string): Promise<void>;
   registerWithCredentials(email: string, password: string): Promise<void>;
+  resetPassword(email: string): Promise<void>;
   logOut(): Promise<void>;
   onAuthChange(
     nextOrObserver: NextOrObserver<User>,
@@ -167,6 +169,9 @@ const initializeAPI = (version: CacheVersion): Api => {
         throw customError(
           `We sent a verification email to ${maskEmail(user.email)}. Please verify your email to finish creating your account.`,
         );
+      },
+      resetPassword: async (email: string) => {
+        await sendPasswordResetEmail(auth, email);
       },
       logOut: async () => {
         await signOut(auth);

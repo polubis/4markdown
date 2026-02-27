@@ -6,6 +6,7 @@ import { Input } from "design-system/input";
 import { useAuthCredentialsForm } from "core/use-auth-credentials-form";
 import { logInAct } from "acts/log-in.act";
 import { logOutAct } from "acts/log-out.act";
+import { resetPasswordAct } from "acts/reset-password.act";
 import type { API4MarkdownError } from "api-4markdown-contracts";
 import { BiLogoGoogle } from "react-icons/bi";
 import { meta } from "../../../meta";
@@ -21,6 +22,12 @@ type GoogleState =
   | { is: "busy" }
   | { is: "fail"; error: API4MarkdownError };
 
+type ResetPasswordState =
+  | { is: "idle" }
+  | { is: "busy" }
+  | { is: "success" }
+  | { is: "fail"; message: string };
+
 const LoginView = () => {
   const authState = useAuthStore();
   const [signOutState, setSignOutState] = React.useState<"idle" | "busy">(
@@ -34,6 +41,8 @@ const LoginView = () => {
   const [googleState, setGoogleState] = React.useState<GoogleState>({
     is: "idle",
   });
+  const [resetPasswordState, setResetPasswordState] =
+    React.useState<ResetPasswordState>({ is: "idle" });
 
   const emailInput = inject("email");
   const passwordInput = inject("password");
@@ -44,6 +53,9 @@ const LoginView = () => {
       resetStatus();
       if (googleState.is === "fail") {
         setGoogleState({ is: "idle" });
+      }
+      if (resetPasswordState.is !== "idle") {
+        setResetPasswordState({ is: "idle" });
       }
       onChange(event);
     };
@@ -67,6 +79,35 @@ const LoginView = () => {
     setSignOutState("busy");
     await logOutAct();
     setSignOutState("idle");
+  };
+
+  const handleForgotPassword = async () => {
+    if (resetPasswordState.is === "busy") return;
+
+    const email = emailInput.value?.trim();
+
+    if (!email) {
+      setResetPasswordState({
+        is: "fail",
+        message: "Enter your email address first to reset your password.",
+      });
+      return;
+    }
+
+    setResetPasswordState({ is: "busy" });
+    const result = await resetPasswordAct({ email });
+
+    if (result.is === "ok") {
+      setResetPasswordState({
+        is: "success",
+      });
+      return;
+    }
+
+    setResetPasswordState({
+      is: "fail",
+      message: result.error.message,
+    });
   };
 
   const isAlreadyLoggedIn = authState.is === "authorized";
@@ -195,6 +236,33 @@ const LoginView = () => {
                       onChange={withReset(passwordInput.onChange)}
                     />
                   </Field>
+                  <button
+                    type="button"
+                    className="self-end text-xs text-blue-700 dark:text-blue-400 underline underline-offset-2"
+                    onClick={handleForgotPassword}
+                    disabled={resetPasswordState.is === "busy"}
+                  >
+                    {resetPasswordState.is === "busy"
+                      ? "Sending reset link…"
+                      : "Forgot your password?"}
+                  </button>
+                  {resetPasswordState.is === "success" && (
+                    <output
+                      className="rounded-md border border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-700/60 dark:bg-emerald-950/40 dark:text-emerald-200 p-3 text-xs"
+                      aria-live="polite"
+                    >
+                      If an account exists for that email, we&apos;ve sent a
+                      password reset link to your inbox.
+                    </output>
+                  )}
+                  {resetPasswordState.is === "fail" && (
+                    <output
+                      className="rounded-md border border-red-300 bg-red-50 text-red-700 dark:border-red-700/60 dark:bg-red-950/40 dark:text-red-200 p-3 text-xs"
+                      aria-live="polite"
+                    >
+                      {resetPasswordState.message}
+                    </output>
+                  )}
                   <Button
                     type="submit"
                     i={2}
