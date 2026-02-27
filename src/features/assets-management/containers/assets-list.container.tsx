@@ -1,9 +1,18 @@
 import React from "react";
-import { BiError, BiImage, BiInfoCircle, BiTrash } from "react-icons/bi";
+import {
+  BiError,
+  BiExpand,
+  BiImage,
+  BiInfoCircle,
+  BiTrash,
+} from "react-icons/bi";
 import { Button } from "design-system/button";
 import { Checkbox } from "design-system/checkbox";
 import { Switch } from "design-system/switch";
 import { ImageUploaderContainer } from "features/creator/containers/image-uploader.container";
+import { Status } from "design-system/status";
+import { useCopy } from "development-kit/use-copy";
+import { FullscreenImageModal } from "design-system/fullscreen-image-modal";
 import { useAssetsManagementStore } from "../store";
 import { getYourAssetsAct } from "../acts/get-your-assets.act";
 import { removeAssetsAct } from "../acts/remove-assets.act";
@@ -27,6 +36,9 @@ const Content = ({
 }) => {
   const { assets, idle, busy, error, selectedAssetIds } =
     useAssetsManagementStore();
+
+  const [copyState, copy] = useCopy();
+  const fullImageModal = useFeature<string>();
 
   const errorModal = useFeature<API4MarkdownError>();
 
@@ -107,6 +119,16 @@ const Content = ({
 
   return (
     <>
+      {copyState.is === "copied" && <Status>Asset link copied</Status>}
+
+      {fullImageModal.is === "on" && (
+        <FullscreenImageModal
+          src={fullImageModal.data}
+          alt="Full size asset"
+          onClose={fullImageModal.off}
+        />
+      )}
+
       {errorModal.is === "on" && (
         <Modal2 onClose={errorModal.off}>
           <Modal2.Header
@@ -192,7 +214,7 @@ const Content = ({
               <img
                 src={asset.url}
                 alt={`Asset ${asset.id}`}
-                className="w-full h-auto rounded-lg mb-3 object-cover min-w-0"
+                className="w-full h-auto rounded-lg mb-4 object-cover min-w-0"
                 style={{ maxHeight: "300px" }}
                 width={400}
                 height={300}
@@ -207,7 +229,27 @@ const Content = ({
                   {asset.contentType}
                 </p>
               </div>
-              <div className="mt-2 flex justify-end">
+              <div className="mt-4 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <Button
+                    s={1}
+                    i={2}
+                    auto
+                    title="View asset in full size"
+                    onClick={() => fullImageModal.on(asset.url)}
+                  >
+                    <BiExpand />
+                  </Button>
+                  <Button
+                    s={1}
+                    i={2}
+                    auto
+                    title="Copy asset link"
+                    onClick={() => copy(asset.url)}
+                  >
+                    Copy link
+                  </Button>
+                </div>
                 <Checkbox
                   checked={isSelected}
                   onChange={() => toggleAssetSelectionAction(asset.id)}
