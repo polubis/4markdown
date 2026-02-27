@@ -325,10 +325,45 @@ const downloadMindmapAction = async (): Promise<void> => {
   const { orientation, nodes, edges } = get();
   const mindmap = activeMindmapSelector(get());
 
+  /**
+   * Strip any engagement/like-related fields from nodes before export.
+   * We only keep the educational shape: id, position, type and core data.
+   */
+  const exportNodes: MindmapCreatorNode[] = nodes.map((node) => {
+    const { id, position, type } = node;
+    const baseData = {
+      name: node.data.name,
+      path: node.data.path,
+      description: node.data.description,
+    };
+
+    if (type === `external`) {
+      return {
+        id,
+        position,
+        type,
+        data: {
+          ...baseData,
+          url: node.data.url,
+        },
+      } as MindmapCreatorExternalNode;
+    }
+
+    return {
+      id,
+      position,
+      type,
+      data: {
+        ...baseData,
+        content: node.data.content ?? null,
+      },
+    } as MindmapCreatorEmbeddedNode;
+  });
+
   await downloadMindmapAsFolder({
     name: mindmap?.name ?? `mindmap`,
     orientation,
-    nodes,
+    nodes: exportNodes,
     edges,
   });
 };

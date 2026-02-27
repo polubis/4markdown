@@ -129,6 +129,7 @@ const MindmapCreatorView = () => {
       const structure = JSON.parse(raw) as {
         orientation?: "x" | "y";
         nodes?: Array<{
+          /** Original node id from export; preserves ratings/comments associations. */
           id?: string;
           title?: string;
           type?: "embedded" | "external";
@@ -162,7 +163,6 @@ const MindmapCreatorView = () => {
         }
       });
 
-      const idMap = new Map<string, SUID>();
       const normalizePath = (path: string | null | undefined, name: string) => {
         const base = (path ?? name).trim();
         if (base.length === 0) return `/node/`;
@@ -176,8 +176,12 @@ const MindmapCreatorView = () => {
           const path = normalizePath(node.path, name);
           const description = node.description ?? null;
           const isExternal = node.type === `external` && Boolean(node.url);
-          const id = suid();
-          if (node.id) idMap.set(node.id, id);
+          /**
+           * Preserve original node id when present so that any ratings,
+           * scores or comments linked to this node id in the backend
+           * remain associated after shape update.
+           */
+          const id = (node.id as SUID | undefined) ?? suid();
           const baseNode = {
             id,
             position: node.position ?? {
@@ -224,13 +228,15 @@ const MindmapCreatorView = () => {
 
       const importedEdges: MindmapCreatorEdge[] = (structure.edges ?? [])
         .map((edge) => {
-          const source =
-            (edge.source && idMap.get(edge.source)) ?? (null as null | SUID);
-          const target =
-            (edge.target && idMap.get(edge.target)) ?? (null as null | SUID);
+          const source = edge.source as SUID | undefined;
+          const target = edge.target as SUID | undefined;
           if (!source || !target) return null;
           return {
-            id: suid(),
+            /**
+             * Keep original edge id when available; it is UI-only and
+             * does not affect ratings/comments, but helps with stability.
+             */
+            id: (edge.id as SUID | undefined) ?? suid(),
             type: `solid`,
             source,
             target,
