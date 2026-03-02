@@ -5,6 +5,7 @@ import { Link } from "gatsby";
 import Backdrop from "design-system/backdrop";
 import { useScrollHide } from "development-kit/use-scroll-hide";
 import { usePortal } from "development-kit/use-portal";
+import { useAuthStore } from "store/auth/auth.store";
 import { meta } from "../../meta";
 import { ThemeProvider } from "design-system/theme-provider";
 import { GreenOnLogo } from "./green-on-logo";
@@ -24,6 +25,7 @@ const ScrollHide = ({ children }: { children: ReactNode }) => {
 const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
   const { render } = usePortal();
   const nav = getMenuNavSidebarNavConfig(meta);
+  const isAuthorized = useAuthStore((s) => s.is === `authorized`);
 
   if (!opened) return null;
 
@@ -109,24 +111,26 @@ const MenuNavSidebar = ({ opened, onClose }: MenuNavSidebarProps) => {
               ))}
             </ul>
           </section>
-          <section aria-labelledby="nav-your-stuff-heading">
-            <h2
-              id="nav-your-stuff-heading"
-              className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 px-1"
-            >
-              Your stuff
-            </h2>
-            <ul className="flex flex-col gap-2 list-none p-0 m-0">
-              {nav.yourStuff.map((link) => (
-                <li key={link.type === "internal" ? link.to : link.href}>
-                  <MenuNavSidebarLink
-                    link={link}
-                    className="bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/80"
-                  />
-                </li>
-              ))}
-            </ul>
-          </section>
+          {isAuthorized && (
+            <section aria-labelledby="nav-your-stuff-heading">
+              <h2
+                id="nav-your-stuff-heading"
+                className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-3 px-1"
+              >
+                Your stuff
+              </h2>
+              <ul className="flex flex-col gap-2 list-none p-0 m-0">
+                {nav.yourStuff.map((link) => (
+                  <li key={link.type === "internal" ? link.to : link.href}>
+                    <MenuNavSidebarLink
+                      link={link}
+                      className="bg-zinc-200/80 dark:bg-zinc-800/80 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-300/80 dark:hover:bg-zinc-700/80"
+                    />
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           <section aria-labelledby="nav-education-heading">
             <h2
               id="nav-education-heading"

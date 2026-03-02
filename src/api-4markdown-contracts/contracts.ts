@@ -155,8 +155,9 @@ type MindmapNodeCommentsContracts =
       `editMindmapNodeComment`,
       MindmapNodeCommentDto,
       {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
         commentId: Atoms["MindmapNodeCommentId"];
-        resourceId: Atoms["MindmapNodeId"];
         content: string;
       }
     >
@@ -184,7 +185,8 @@ type MindmapNodeCommentsContracts =
       `deleteMindmapNodeComment`,
       null,
       {
-        resourceId: Atoms["MindmapNodeId"];
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
         commentId: Atoms["MindmapNodeCommentId"];
       }
     >
@@ -192,7 +194,8 @@ type MindmapNodeCommentsContracts =
       `rateMindmapNodeComment`,
       null,
       {
-        resourceId: Atoms["MindmapNodeId"];
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
         commentId: Atoms["MindmapNodeCommentId"];
         category: Atoms["RatingCategory"];
       }

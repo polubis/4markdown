@@ -70,8 +70,9 @@ const CreateDocumentModalContainer = ({
           <>
             <section className="flex flex-col gap-3">
               <button
-                className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                 onClick={() => setActiveType(`manual`)}
+                disabled={docManagementStore.is === `busy`}
                 title="Go to manual document creation form"
               >
                 <h6 className="capitalize text-left">Setup Things Manually</h6>
@@ -80,6 +81,7 @@ const CreateDocumentModalContainer = ({
                   name
                 </p>
               </button>
+              {/* AI content generation option commented out
               <button
                 className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer enabled:hover:bg-zinc-300 dark:enabled:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                 onClick={() => setActiveType(`ai`)}
@@ -109,9 +111,11 @@ const CreateDocumentModalContainer = ({
                   </p>
                 )}
               </button>
+              */}
               <button
-                className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                 onClick={handleFromScratchCreation}
+                disabled={docManagementStore.is === `busy`}
                 title="Create new empty document"
               >
                 <h6 className="capitalize text-left">From Scratch</h6>
@@ -125,6 +129,7 @@ const CreateDocumentModalContainer = ({
           </>
         )}
 
+        {/* AI content generation form commented out
         {activeType === `ai` && (
           <AIPolicyDisclaimer onCancel={() => setActiveType(`none`)}>
             <NewDocumentForm
@@ -135,6 +140,7 @@ const CreateDocumentModalContainer = ({
             />
           </AIPolicyDisclaimer>
         )}
+        */}
 
         {activeType === `manual` && (
           <NewDocumentForm

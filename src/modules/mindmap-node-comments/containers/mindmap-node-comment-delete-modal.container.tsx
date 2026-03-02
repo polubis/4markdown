@@ -18,14 +18,15 @@ const MindmapNodeCommentDeleteModalContainer = ({
   commentId,
   onClose,
 }: MindmapNodeCommentDeleteModalContainerProps) => {
-  const { mindmapNodeId, commentsQuery, onCountChange } =
+  const { mindmapId, mindmapNodeId, commentsQuery } =
     useMindmapNodeCommentsContext();
 
   const deleteMutation = useMutation2({
     handler: () =>
       deleteMindmapNodeCommentAct({
+        mindmapId,
+        nodeId: mindmapNodeId,
         commentId,
-        resourceId: mindmapNodeId,
       }),
     onOk: () => {
       commentsQuery.setData((currData) => ({
@@ -34,9 +35,6 @@ const MindmapNodeCommentDeleteModalContainer = ({
           (comment) => comment.id !== commentId,
         ),
       }));
-      if (commentsQuery.data) {
-        onCountChange(commentsQuery.data.comments.length - 1);
-      }
       onClose();
     },
   });

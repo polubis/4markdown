@@ -319,6 +319,7 @@ const CreatorView = () => {
             }}
             onSelect={maintainAssistantAppearance}
           />
+          {/* Disabled for now: selection toolbar buttons
           {assistanceToolbox.is === `on` && rewriteAssistant.isOff && (
             <div className="absolute bottom-4 right-4 flex flex-col gap-2">
               <RewriteWithAITriggerContainer onClick={rewriteWithAI} />
@@ -348,6 +349,7 @@ const CreatorView = () => {
               </Button>
             </div>
           )}
+          */}
           {assistanceToolbox.is === `on` && rewriteAssistant.isOn && (
             <React.Suspense>
               <RewriteAssistantModule

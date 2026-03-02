@@ -8,14 +8,12 @@ const MindmapNodeCommentsModule = ({
   commentsCount,
   mindmapId,
   mindmapNodeId,
-  onCountChange,
 }: MindmapNodeCommentsModuleProps) => {
   return (
     <MindmapNodeCommentsProvider
       mindmapId={mindmapId}
       mindmapNodeId={mindmapNodeId}
       commentsCount={commentsCount}
-      onCountChange={onCountChange}
     >
       <MindmapNodeCommentsContainer className={className} />
     </MindmapNodeCommentsProvider>

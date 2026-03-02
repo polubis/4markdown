@@ -11,10 +11,9 @@ const [MindmapNodeCommentsProvider, useMindmapNodeCommentsContext] = context(
     mindmapId,
     mindmapNodeId,
     commentsCount,
-    onCountChange,
   }: Pick<
     MindmapNodeCommentsModuleProps,
-    "mindmapId" | "mindmapNodeId" | "commentsCount" | "onCountChange"
+    "mindmapId" | "mindmapNodeId" | "commentsCount"
   >) => {
     const commentForm = useFeature<MindmapNodeCommentFormData>();
 
@@ -26,9 +25,6 @@ const [MindmapNodeCommentsProvider, useMindmapNodeCommentsContext] = context(
           nextCursor: null,
           limit: 10,
         }),
-      onOk: (newData) => {
-        onCountChange(newData.comments.length);
-      },
     });
 
     return {
@@ -37,7 +33,6 @@ const [MindmapNodeCommentsProvider, useMindmapNodeCommentsContext] = context(
       commentsCount,
       mindmapId,
       mindmapNodeId,
-      onCountChange,
     };
   },
 );

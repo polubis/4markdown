@@ -58,7 +58,7 @@ const MindmapNodeCommentFormContainer = ({
 
   const yourUserProfile = useYourUserProfileState();
 
-  const { mindmapId, mindmapNodeId, commentsQuery, onCountChange } =
+  const { mindmapId, mindmapNodeId, commentsQuery } =
     useMindmapNodeCommentsContext();
 
   const isEditMode = mode === "edit";
@@ -79,8 +79,9 @@ const MindmapNodeCommentFormContainer = ({
         }
 
         return editMindmapNodeCommentAct({
+          mindmapId,
+          nodeId: mindmapNodeId,
           commentId,
-          resourceId: mindmapNodeId,
           content: values.content,
         });
       }
@@ -106,9 +107,6 @@ const MindmapNodeCommentFormContainer = ({
           nextCursor: currData.nextCursor,
           comments: [newData, ...currData.comments],
         }));
-        if (commentsQuery.data) {
-          onCountChange(commentsQuery.data.comments.length + 1);
-        }
       }
 
       commentForm.off();

@@ -20,13 +20,8 @@ type MindmapNodeCommentsContainerProps = {
 const MindmapNodeCommentsContainer = ({
   className,
 }: MindmapNodeCommentsContainerProps) => {
-  const {
-    commentsCount,
-    mindmapId,
-    mindmapNodeId,
-    commentsQuery,
-    commentForm,
-  } = useMindmapNodeCommentsContext();
+  const { mindmapId, mindmapNodeId, commentsQuery, commentForm } =
+    useMindmapNodeCommentsContext();
 
   const startAddingComment = useAuthStart();
 
@@ -61,12 +56,7 @@ const MindmapNodeCommentsContainer = ({
     <>
       <div className={className}>
         <h2 className="mb-4 flex items-center gap-2 justify-between">
-          <span className="text-lg">
-            Comments{" "}
-            {commentsQuery.data
-              ? `(${commentsQuery.data.comments.length})`
-              : `(${commentsCount})`}
-          </span>
+          <span className="text-lg">Comments</span>
           <Button
             i={2}
             s={1}

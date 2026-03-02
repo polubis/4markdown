@@ -5,7 +5,6 @@ type MindmapNodeCommentsModuleProps = {
   commentsCount: number;
   mindmapId: Atoms["MindmapId"];
   mindmapNodeId: Atoms["MindmapNodeId"];
-  onCountChange: (count: number) => void;
 };
 
 type MindmapNodeCommentFormData = {

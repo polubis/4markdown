@@ -31,7 +31,7 @@ const MindmapNodeCommentsList = ({
     Record<Atoms["MindmapNodeCommentId"], Atoms["RatingCategory"]>
   >({});
 
-  const { mindmapNodeId } = useMindmapNodeCommentsContext();
+  const { mindmapId, mindmapNodeId } = useMindmapNodeCommentsContext();
   const deleteModal = useFeature<Atoms["MindmapNodeCommentId"]>();
 
   const rateComment = (
@@ -40,8 +40,9 @@ const MindmapNodeCommentsList = ({
   ) => {
     setRatedComments((prev) => ({ ...prev, [commentId]: category }));
     rateCommentThrottled({
+      mindmapId,
+      nodeId: mindmapNodeId,
       commentId,
-      resourceId: mindmapNodeId,
       category,
     });
   };
