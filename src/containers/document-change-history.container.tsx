@@ -16,6 +16,7 @@ const DocumentChangeHistoryContainer = ({
     <ResourceActivityContainer
       resourceId={document.id as Atoms["DocumentId"]}
       resourceType="document"
+      resourceCdate={document.cdate}
       onClose={onClose}
     />
   );

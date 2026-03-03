@@ -369,6 +369,7 @@ const DocumentLayoutContainer = () => {
             onClose={sectionsModal.off}
             resourceId={document.id as Atoms["DocumentId"]}
             resourceType="document"
+            resourceCdate={document.cdate}
           />
         </React.Suspense>
       )}

@@ -1,5 +1,5 @@
 import React from "react";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../store/models";
 import { CreatedActivity } from "./activities/created-activity";
 import { ContentChangedActivity } from "./activities/content-changed-activity";
 import { VisibilityChangedActivity } from "./activities/visibility-changed-activity";
@@ -9,7 +9,7 @@ import { RatingChangedActivity } from "./activities/rating-changed-activity";
 import { ScoreChangedActivity } from "./activities/score-changed-activity";
 
 type ActivityItemProps = {
-  activity: ResourceActivityDto;
+  activity: ResourceActivityModel;
   index: number;
 };
 

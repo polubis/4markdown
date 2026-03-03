@@ -94,7 +94,10 @@ const Content = () => {
 
   if (entries.length === 0) {
     return (
-      <Empty id="empty-state-your-mindmaps">
+      <Empty
+        id="empty-state-your-mindmaps"
+        className="border border-zinc-300 dark:border-zinc-800 rounded-lg p-6"
+      >
         <Empty.Icon>
           <BiCollection size={80} />
         </Empty.Icon>
@@ -102,8 +105,19 @@ const Content = () => {
           No mindmaps here
         </Empty.Title>
         <Empty.Description aria-describedby="empty-title-your-mindmaps">
-          Create mindmaps in the creator to see them here
+          Start visualizing ideas by creating your first mindmap.
         </Empty.Description>
+        <Empty.Action
+          i={2}
+          s={2}
+          auto
+          title="Create your first mindmap"
+          aria-label="Create your first mindmap"
+          onClick={() => navigate(meta.routes.mindmaps.creator)}
+        >
+          <BiPencil aria-hidden />
+          Create first mindmap
+        </Empty.Action>
       </Empty>
     );
   }

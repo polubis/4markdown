@@ -1,191 +1,108 @@
-import { parseError } from "api-4markdown";
+import { getAPI, parseError } from "api-4markdown";
 import { useResourceActivityState } from "../store";
-import { Atoms, ResourceActivityDto } from "api-4markdown-contracts";
-import { mock } from "development-kit/mock";
+import { API4MarkdownDto, Atoms } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../store/models";
 
-// Mock data for development
-const generateMockActivity = (
-  resourceId: Atoms["ResourceId"],
-  resourceType: Atoms["ResourceType"],
-): ResourceActivityDto[] => {
-  const now = new Date();
-  const mockAuthor: ResourceActivityDto["authorProfile"] = {
-    id: "user_mock_001" as Atoms["UserProfileId"],
-    cdate: new Date(
-      now.getTime() - 365 * 24 * 60 * 60 * 1000,
-    ).toISOString() as Atoms["UTCDate"],
-    mdate: new Date(
-      now.getTime() - 30 * 24 * 60 * 60 * 1000,
-    ).toISOString() as Atoms["UTCDate"],
-    displayName: "John Doe",
-    displayNameSlug: "john-doe" as Atoms["Slug"],
-    bio: "Software developer passionate about clean code",
-    avatar: null,
-    githubUrl: "https://github.com/johndoe" as Atoms["Url"],
-    linkedInUrl: null,
-    twitterUrl: null,
-    fbUrl: null,
-    blogUrl: null,
-  };
+const DEFAULT_ACTIVITY_LIMIT = 10;
 
-  // Return activities ordered from newest to oldest (as backend will return)
-  return [
-    {
-      id: "activity_007" as Atoms["ResourceActivityId"],
-      type: "score-changed",
-      resourceId,
-      resourceType,
-      cdate: new Date(
-        now.getTime() - 5 * 24 * 60 * 60 * 1000,
-      ).toISOString() as Atoms["UTCDate"],
-      authorProfile: mockAuthor,
-      previousScore: {
-        scoreAverage: 7.5,
-        scoreCount: 8,
-        scoreValues: [6, 7, 8, 8, 7, 8, 9, 7],
-      },
-      newScore: {
-        scoreAverage: 8.0,
-        scoreCount: 9,
-        scoreValues: [6, 7, 8, 8, 7, 8, 9, 7, 9],
-      },
-    },
-    {
-      id: "activity_006" as Atoms["ResourceActivityId"],
-      type: "rating-changed",
-      resourceId,
-      resourceType,
-      cdate: new Date(
-        now.getTime() - 7 * 24 * 60 * 60 * 1000,
-      ).toISOString() as Atoms["UTCDate"],
-      authorProfile: mockAuthor,
-      previousRating: {
-        ugly: 0,
-        bad: 1,
-        decent: 2,
-        good: 3,
-        perfect: 1,
-      },
-      newRating: {
-        ugly: 0,
-        bad: 1,
-        decent: 2,
-        good: 4,
-        perfect: 2,
-      },
-    },
-    {
-      id: "activity_005" as Atoms["ResourceActivityId"],
-      type: "comment-added",
-      resourceId,
-      resourceType,
-      cdate: new Date(
-        now.getTime() - 10 * 24 * 60 * 60 * 1000,
-      ).toISOString() as Atoms["UTCDate"],
-      authorProfile: mockAuthor,
-      comment: {
-        id: "comment_001" as Atoms["UserProfileCommentId"],
-        ownerProfile: mockAuthor,
-        cdate: new Date(
-          now.getTime() - 10 * 24 * 60 * 60 * 1000,
-        ).toISOString() as Atoms["UTCDate"],
-        mdate: new Date(
-          now.getTime() - 10 * 24 * 60 * 60 * 1000,
-        ).toISOString() as Atoms["UTCDate"],
-        content: "This is a great resource! Very helpful content.",
-        ugly: 0,
-        bad: 0,
-        decent: 0,
-        good: 0,
-        perfect: 0,
-      },
-    },
-    {
-      id: "activity_004" as Atoms["ResourceActivityId"],
-      type: "metadata-updated",
-      resourceId,
-      resourceType,
-      cdate: new Date(
-        now.getTime() - 15 * 24 * 60 * 60 * 1000,
-      ).toISOString() as Atoms["UTCDate"],
-      authorProfile: mockAuthor,
-      previousMeta: {
-        tags: [],
-        description: null,
-      },
-      newMeta: {
-        tags: ["tutorial", "guide", "documentation"],
-        description: "A comprehensive guide to getting started",
-      },
-    },
-    {
-      id: "activity_003" as Atoms["ResourceActivityId"],
-      type: "visibility-changed",
-      resourceId,
-      resourceType,
-      cdate: new Date(
-        now.getTime() - 20 * 24 * 60 * 60 * 1000,
-      ).toISOString() as Atoms["UTCDate"],
-      authorProfile: mockAuthor,
-      previousVisibility: "private",
-      newVisibility: "public",
-    },
-    {
-      id: "activity_002" as Atoms["ResourceActivityId"],
-      type: "content-changed",
-      resourceId,
-      resourceType,
-      previousContent: "Initial content",
-      newContent: "Updated content with improvements",
-      cdate: new Date(
-        now.getTime() - 25 * 24 * 60 * 60 * 1000,
-      ).toISOString() as Atoms["UTCDate"],
-      authorProfile: mockAuthor,
-    },
-    {
-      id: "activity_001" as Atoms["ResourceActivityId"],
-      type: "created",
-      resourceId,
-      resourceType,
-      cdate: new Date(
-        now.getTime() - 30 * 24 * 60 * 60 * 1000,
-      ).toISOString() as Atoms["UTCDate"],
-      authorProfile: mockAuthor,
-    },
-  ];
+type LoadResourceActivityActMode = "replace" | "append";
+
+const normalizeDocumentActivity = (
+  documentActivity: API4MarkdownDto<"getDocumentActivity">,
+): ResourceActivityModel[] => {
+  return documentActivity.activities.map(
+    (item): ResourceActivityModel => ({
+      id: item.id,
+      type: item.type,
+      cdate: item.cdate,
+      authorProfile: item.appliedByProfile,
+      previousContent: item.previousContent,
+      newContent: item.newContent,
+    }),
+  );
 };
 
 const loadResourceActivityAct = async (
   resourceId: Atoms["ResourceId"],
   resourceType: Atoms["ResourceType"],
+  mode: LoadResourceActivityActMode = "replace",
+  resourceCdate?: Atoms["UTCDate"],
 ): Promise<void> => {
   try {
-    useResourceActivityState.swap({ is: `busy` });
+    if (resourceType !== "document") {
+      useResourceActivityState.swap({
+        is: `ok`,
+        data: [],
+        hasMore: false,
+        nextCursor: null,
+        isLoadingMore: false,
+      });
+      return;
+    }
 
-    const mockActivity = generateMockActivity(resourceId, resourceType);
+    const currentState = useResourceActivityState.get();
+    const isAppend = mode === "append" && currentState.is === "ok";
+    const nextCursor = isAppend ? currentState.nextCursor : null;
 
-    // Mock implementation using development-kit/mock utility
-    const mockCall = mock({ delay: 0.8 })(mockActivity);
-    const activity = await mockCall({ resourceId, resourceType });
+    if (
+      mode === "append" &&
+      currentState.is === "ok" &&
+      !currentState.hasMore
+    ) {
+      return;
+    }
+
+    if (isAppend) {
+      useResourceActivityState.swap({
+        ...currentState,
+        isLoadingMore: true,
+      });
+    } else {
+      useResourceActivityState.swap({ is: `busy` });
+    }
+
+    const response = await getAPI().call("getDocumentActivity")({
+      documentId: resourceId as Atoms["DocumentId"],
+      nextCursor,
+      limit: DEFAULT_ACTIVITY_LIMIT,
+    });
+
+    const activity = normalizeDocumentActivity(response);
+    const previousData = isAppend ? currentState.data : [];
+    const mergedData = [...previousData, ...activity];
+    const hasCreated = mergedData.some((item) => item.type === "created");
+    const shouldAppendCreated =
+      Boolean(resourceCdate) && !response.hasMore && !hasCreated;
+    const data = shouldAppendCreated
+      ? [
+          ...mergedData,
+          {
+            id: `created-${resourceId}`,
+            type: "created",
+            cdate: resourceCdate as Atoms["UTCDate"],
+            authorProfile: null,
+          } satisfies ResourceActivityModel,
+        ]
+      : mergedData;
 
     useResourceActivityState.swap({
       is: `ok`,
-      data: activity,
+      data,
+      hasMore: response.hasMore,
+      nextCursor: response.nextCursor,
+      isLoadingMore: false,
     });
-
-    // Original API call implementation (commented out)
-    // import { getAPI } from "api-4markdown";
-    // import { API4MarkdownContractKey } from "api-4markdown-contracts";
-    // const key: API4MarkdownContractKey = `getResourceActivity`;
-    // const activity = await getAPI().call(key)({
-    //   resourceId,
-    //   resourceType,
-    // });
-    // useResourceActivityState.swap({
-    //   is: `ok`,
-    //   data: activity,
-    // });
   } catch (error) {
+    const currentState = useResourceActivityState.get();
+
+    if (mode === "append" && currentState.is === "ok") {
+      useResourceActivityState.swap({
+        ...currentState,
+        isLoadingMore: false,
+      });
+      return;
+    }
+
     useResourceActivityState.swap({
       is: `fail`,
       error: parseError(error),

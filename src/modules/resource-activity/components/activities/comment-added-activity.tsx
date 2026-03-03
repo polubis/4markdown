@@ -2,10 +2,10 @@ import React from "react";
 import { Avatar } from "design-system/avatar";
 import { ActivityTile } from "../activity-tile";
 import { ActivityAuthorBadge } from "../activity-author-badge";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../../store/models";
 
 type CommentAddedActivityProps = {
-  activity: Extract<ResourceActivityDto, { type: "comment-added" }>;
+  activity: Extract<ResourceActivityModel, { type: "comment-added" }>;
 };
 
 const CommentAddedActivity = ({ activity }: CommentAddedActivityProps) => {

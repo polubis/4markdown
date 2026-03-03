@@ -28,6 +28,7 @@ export type Atoms = {
     src: Atoms["Path"];
   };
   DocumentCommentId: Brand<string, `DocumentCommentId`>;
+  DocumentActivityId: Brand<string, `DocumentActivityId`>;
   MindmapNodeCommentId: Brand<string, `MindmapNodeCommentId`>;
   ResourceActivityId: Brand<string, `ResourceActivityId`>;
   Rating: Record<Atoms["RatingCategory"], number>;

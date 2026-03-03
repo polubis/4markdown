@@ -2,10 +2,10 @@ import React from "react";
 import { RATING_ICONS } from "core/rating-config";
 import { ActivityTile } from "../activity-tile";
 import { ActivityAuthorBadge } from "../activity-author-badge";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../../store/models";
 
 type RatingChangedActivityProps = {
-  activity: Extract<ResourceActivityDto, { type: "rating-changed" }>;
+  activity: Extract<ResourceActivityModel, { type: "rating-changed" }>;
 };
 
 const RatingChangedActivity = ({ activity }: RatingChangedActivityProps) => {

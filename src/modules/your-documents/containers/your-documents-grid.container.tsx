@@ -97,7 +97,10 @@ const Content = () => {
 
   if (entries.length === 0) {
     return (
-      <Empty id="empty-state-your-documents">
+      <Empty
+        id="empty-state-your-documents"
+        className="border border-zinc-300 dark:border-zinc-800 rounded-lg p-6"
+      >
         <Empty.Icon>
           <BiCollection size={80} />
         </Empty.Icon>
@@ -105,8 +108,19 @@ const Content = () => {
           No documents here
         </Empty.Title>
         <Empty.Description aria-describedby="empty-title-your-documents">
-          Create documents in the editor to see them here
+          Start your workspace by creating your first document in the editor.
         </Empty.Description>
+        <Empty.Action
+          i={2}
+          s={2}
+          auto
+          title="Create your first document"
+          aria-label="Create your first document"
+          onClick={() => navigate(meta.routes.home)}
+        >
+          <BiPencil aria-hidden />
+          Create first document
+        </Empty.Action>
       </Empty>
     );
   }

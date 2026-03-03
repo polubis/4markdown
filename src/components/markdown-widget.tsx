@@ -38,6 +38,7 @@ type MarkdownWidgetProps = {
   onClose(): void;
   resourceId?: Atoms["ResourceId"];
   resourceType?: Atoms["ResourceType"];
+  resourceCdate?: Atoms["UTCDate"];
 };
 
 const MAX_CHUNK_HEADING_LEVEL = 2;
@@ -50,6 +51,7 @@ const MarkdownWidget = ({
   onClose,
   resourceId,
   resourceType,
+  resourceCdate,
 }: MarkdownWidgetProps) => {
   const bodyId = React.useId();
   const markdownId = React.useId();
@@ -523,6 +525,7 @@ const MarkdownWidget = ({
           <ResourceActivityContainer
             resourceId={resourceId}
             resourceType={resourceType}
+            resourceCdate={resourceCdate}
             onClose={historyModal.off}
           />
         </React.Suspense>

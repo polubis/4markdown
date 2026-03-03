@@ -1,10 +1,10 @@
 import React from "react";
 import { ActivityTile } from "../activity-tile";
 import { ActivityAuthorBadge } from "../activity-author-badge";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../../store/models";
 
 type MetadataUpdatedActivityProps = {
-  activity: Extract<ResourceActivityDto, { type: "metadata-updated" }>;
+  activity: Extract<ResourceActivityModel, { type: "metadata-updated" }>;
 };
 
 const MetadataUpdatedActivity = ({

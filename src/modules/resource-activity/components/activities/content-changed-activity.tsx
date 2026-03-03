@@ -1,13 +1,13 @@
 import React from "react";
 import { ActivityTile } from "../activity-tile";
 import { ActivityAuthorBadge } from "../activity-author-badge";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../../store/models";
 import { MarkdownDiffViewer } from "components/markdown-diff-viewer";
 import { Button } from "design-system/button";
 import { BiCodeAlt, BiChevronUp } from "react-icons/bi";
 
 type ContentChangedActivityProps = {
-  activity: Extract<ResourceActivityDto, { type: "content-changed" }>;
+  activity: Extract<ResourceActivityModel, { type: "content-changed" }>;
 };
 
 const ContentChangedActivity = ({ activity }: ContentChangedActivityProps) => {

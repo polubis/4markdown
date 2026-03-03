@@ -5,18 +5,22 @@ import { Empty } from "design-system/empty";
 import { Err } from "design-system/err";
 import { ChangeHistorySkeletonLoader } from "./change-history-skeleton-loader";
 import { ActivityItem } from "./activity-item";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../store/models";
+import { Button } from "design-system/button";
 
 type ChangeHistoryProps = {
   onRetry?: () => void;
+  onLoadMore?: () => void;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
 };
 
 type ActivityGroup = {
   monthYear: string;
-  activities: ResourceActivityDto[];
+  activities: ResourceActivityModel[];
 };
 
-const formatMonthYear = (cdate: ResourceActivityDto["cdate"]): string => {
+const formatMonthYear = (cdate: ResourceActivityModel["cdate"]): string => {
   const date = new Date(cdate);
   return new Intl.DateTimeFormat("en-US", {
     month: "long",
@@ -24,7 +28,12 @@ const formatMonthYear = (cdate: ResourceActivityDto["cdate"]): string => {
   }).format(date);
 };
 
-const ChangeHistory = ({ onRetry }: ChangeHistoryProps) => {
+const ChangeHistory = ({
+  onRetry,
+  onLoadMore,
+  hasMore = false,
+  isLoadingMore = false,
+}: ChangeHistoryProps) => {
   const state = useResourceActivityState();
 
   const groupedActivities = React.useMemo(() => {
@@ -135,6 +144,20 @@ const ChangeHistory = ({ onRetry }: ChangeHistoryProps) => {
             })}
           </ul>
         </div>
+        {hasMore && onLoadMore && (
+          <div className="mt-6 flex justify-center">
+            <Button
+              auto
+              s={1}
+              i={2}
+              disabled={isLoadingMore}
+              title="Load more activity"
+              onClick={onLoadMore}
+            >
+              {isLoadingMore ? "Loading..." : "Load More"}
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

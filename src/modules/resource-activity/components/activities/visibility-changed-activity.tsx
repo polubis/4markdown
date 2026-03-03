@@ -2,10 +2,10 @@ import React from "react";
 import { VisibilityIcon } from "components/visibility-icon";
 import { ActivityTile } from "../activity-tile";
 import { ActivityAuthorBadge } from "../activity-author-badge";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../../store/models";
 
 type VisibilityChangedActivityProps = {
-  activity: Extract<ResourceActivityDto, { type: "visibility-changed" }>;
+  activity: Extract<ResourceActivityModel, { type: "visibility-changed" }>;
 };
 
 const VisibilityChangedActivity = ({

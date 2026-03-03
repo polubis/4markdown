@@ -1,17 +1,28 @@
 import React from "react";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../store/models";
 
 type ActivityTileProps = {
-  activity: ResourceActivityDto;
+  activity: ResourceActivityModel;
   children: React.ReactNode;
 };
 
-const formatDate = (cdate: ResourceActivityDto["cdate"]): string => {
-  return new Date(cdate).toLocaleDateString("en-US", {
+const locale =
+  typeof navigator !== "undefined" && navigator.language
+    ? navigator.language
+    : undefined;
+
+const formatDateWithTime = (cdate: ResourceActivityModel["cdate"]): string => {
+  const date = new Date(cdate);
+  const dateStr = new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "short",
     day: "numeric",
-  });
+  }).format(date);
+  const timeStr = new Intl.DateTimeFormat(locale, {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date);
+  return `${dateStr} ${timeStr}`;
 };
 
 const ActivityTile = ({ activity, children }: ActivityTileProps) => {
@@ -21,11 +32,11 @@ const ActivityTile = ({ activity, children }: ActivityTileProps) => {
         className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2 block"
         dateTime={activity.cdate}
       >
-        {formatDate(activity.cdate)}
+        {formatDateWithTime(activity.cdate)}
       </time>
       {children}
     </article>
   );
 };
 
-export { ActivityTile, formatDate };
+export { ActivityTile, formatDateWithTime };

@@ -1,10 +1,10 @@
 import React from "react";
 import { ActivityTile } from "../activity-tile";
 import { ActivityAuthorBadge } from "../activity-author-badge";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../../store/models";
 
 type CreatedActivityProps = {
-  activity: Extract<ResourceActivityDto, { type: "created" }>;
+  activity: Extract<ResourceActivityModel, { type: "created" }>;
 };
 
 const CreatedActivity = ({ activity }: CreatedActivityProps) => {

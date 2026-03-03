@@ -16,7 +16,6 @@ import {
   FullMindmapDto,
   ImageDto,
   MindmapDto,
-  ResourceActivityDto,
   ResourceCompletionDto,
   ResourceLikeDto,
   SetUserResourceCompletionPayload,
@@ -224,11 +223,30 @@ type ResourceLikesContracts =
     >;
 
 type ResourceActivityContracts = Contract<
-  "getResourceActivity",
-  ResourceActivityDto[],
+  "getDocumentActivity",
   {
-    resourceId: Atoms["ResourceId"];
-    resourceType: Atoms["ResourceType"];
+    hasMore: boolean;
+    nextCursor: {
+      cdate: Atoms["UTCDate"];
+      id: Atoms["DocumentActivityId"];
+    } | null;
+    activities: Array<{
+      id: Atoms["DocumentActivityId"];
+      cdate: Atoms["UTCDate"];
+      type: "content-changed";
+      documentId: Atoms["DocumentId"];
+      previousContent: string;
+      newContent: string;
+      appliedByProfile: UserProfileDto | null;
+    }>;
+  },
+  {
+    documentId: Atoms["DocumentId"];
+    nextCursor: {
+      cdate: Atoms["UTCDate"];
+      id: Atoms["DocumentActivityId"];
+    } | null;
+    limit: number | null;
   }
 >;
 

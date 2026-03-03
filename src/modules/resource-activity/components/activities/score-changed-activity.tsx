@@ -1,10 +1,10 @@
 import React from "react";
 import { ActivityTile } from "../activity-tile";
 import { ActivityAuthorBadge } from "../activity-author-badge";
-import { ResourceActivityDto } from "api-4markdown-contracts";
+import { ResourceActivityModel } from "../../store/models";
 
 type ScoreChangedActivityProps = {
-  activity: Extract<ResourceActivityDto, { type: "score-changed" }>;
+  activity: Extract<ResourceActivityModel, { type: "score-changed" }>;
 };
 
 const ScoreChangedActivity = ({ activity }: ScoreChangedActivityProps) => {
