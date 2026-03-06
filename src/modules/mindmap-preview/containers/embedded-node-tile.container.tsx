@@ -9,6 +9,7 @@ import {
   BiCheckboxMinus,
   BiStar,
   BiSolidStar,
+  BiTimeFive,
 } from "react-icons/bi";
 import { openNodePreviewAction } from "store/mindmap-preview/actions";
 import { useMindmapPreviewState } from "store/mindmap-preview";
@@ -23,6 +24,22 @@ import {
   useResourcesLikeState,
 } from "modules/resource-likes";
 import { Atoms } from "api-4markdown-contracts";
+import { c } from "design-system/c";
+import { useReadingTime } from "development-kit/use-reading-time";
+
+const ReadingTimeMetric = React.memo(
+  ({ markdown, className }: { className?: string; markdown: string }) => {
+    const { minutesCount } = useReadingTime(markdown);
+    const text = `${minutesCount}m`;
+
+    return (
+      <div className={c("flex items-center text-xs gap-1", className)}>
+        <BiTimeFive className="mt-0.5" aria-hidden="true" />
+        <span>{text}</span>
+      </div>
+    );
+  },
+);
 
 type EmbeddedNodeTileContainerProps =
   NodeProps<MindmapPreviewEmbeddedNodeWithCompletion>;
@@ -156,6 +173,15 @@ const EmbeddedNodeTileContainer = ({
     <NodeTile
       className={completion ? "border-green-700 dark:border-green-700" : ""}
     >
+      <header
+        className={c(
+          "flex items-center px-4 border-b py-2 border-zinc-300 dark:border-zinc-800",
+          "text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900/80",
+        )}
+      >
+        {data.content && <ReadingTimeMetric markdown={data.content} />}
+      </header>
+
       <NodeTile.Name>{data.name}</NodeTile.Name>
       {data.description && (
         <NodeTile.Description>{data.description}</NodeTile.Description>

@@ -17,6 +17,7 @@ import { MindmapPreviewModule } from "modules/mindmap-preview/mindmap-preview.mo
 import type { MindmapPreviewEmbeddedNode } from "store/mindmap-preview/models";
 import { removeMindmapEntryAction } from "modules/previous-work";
 import type { Atoms } from "api-4markdown-contracts";
+import { MindmapSearcherModule } from "modules/mindmap-searcher";
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -29,23 +30,27 @@ const Loader = () => (
 const MindmapPreviewView = () => {
   const location = useLocation();
   const { mindmap } = useMindmapPreviewState();
-  const openedInitialNodeRef = React.useRef(false);
+  const lastOpenedNodeIdRef = React.useRef<string | null>(null);
 
   React.useEffect(() => {
     getAccessibleMindmapAct();
   }, []);
 
   React.useEffect(() => {
-    if (mindmap.is !== `ok` || openedInitialNodeRef.current) return;
+    if (mindmap.is !== `ok`) return;
     const params = new URLSearchParams(location.search);
     const mindmapNodeId = params.get(`mindmapNodeId`);
-    if (!mindmapNodeId) return;
+    if (!mindmapNodeId) {
+      lastOpenedNodeIdRef.current = null;
+      return;
+    }
+    if (lastOpenedNodeIdRef.current === mindmapNodeId) return;
     const node = mindmap.nodes.find(
       (n): n is MindmapPreviewEmbeddedNode =>
         n.type === `embedded` && n.id === mindmapNodeId,
     );
     if (node) {
-      openedInitialNodeRef.current = true;
+      lastOpenedNodeIdRef.current = mindmapNodeId;
       openNodePreviewAction(node);
     }
   }, [mindmap, location.search]);
@@ -101,6 +106,7 @@ const MindmapPreviewView = () => {
           </nav>
           <div />
           <nav className="flex items-center gap-2">
+            {mindmap.is === `ok` && <MindmapSearcherModule />}
             <UserPopover />
             <MoreNav />
           </nav>

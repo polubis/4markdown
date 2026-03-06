@@ -44,6 +44,8 @@ import {
   BiSolidStar,
 } from "react-icons/bi";
 import { MindmapNodeEngagement } from "./components/mindmap-node-engagement";
+import { useLocation } from "@reach/router";
+import { MINDMAP_NODE_ID_PARAM_KEY } from "modules/mindmap-searcher";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -108,6 +110,7 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapPreviewModule = () => {
+  const location = useLocation();
   const mindmap = useMindmapPreviewState((state) =>
     readyMindmapPreviewSelector(state.mindmap),
   );
@@ -146,6 +149,29 @@ const MindmapPreviewModule = () => {
 
   const [nodes, _, onNodesChange] = useNodesState(initialNodes);
   const [edges, __, onEdgesChange] = useEdgesState(mindmap.edges);
+  const reactFlowInstanceRef = React.useRef<any>(null);
+
+  React.useEffect(() => {
+    const reactFlowInstance = reactFlowInstanceRef.current;
+    if (!reactFlowInstance) return;
+
+    const params = new URLSearchParams(location.search);
+    const searchedNodeId = params.get(MINDMAP_NODE_ID_PARAM_KEY);
+
+    if (!searchedNodeId) return;
+
+    const node = nodes.find((currentNode) => currentNode.id === searchedNodeId);
+    if (!node) return;
+
+    const x = node.position.x;
+    const y = node.position.y;
+    const zoom = Math.max(reactFlowInstance.getZoom(), 1.1);
+
+    reactFlowInstance.setCenter(x, y, {
+      zoom,
+      duration: 400,
+    });
+  }, [location.search, nodes]);
 
   return (
     <>
@@ -156,6 +182,9 @@ const MindmapPreviewModule = () => {
         edgeTypes={edgeTypes as EdgeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onInit={(instance) => {
+          reactFlowInstanceRef.current = instance;
+        }}
         fitView
         nodesDraggable={false}
         nodesConnectable={false}

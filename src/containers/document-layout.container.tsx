@@ -12,6 +12,7 @@ import {
   BiLogoMarkdown,
   BiStar,
   BiSolidStar,
+  BiTimeFive,
 } from "react-icons/bi";
 import { Button } from "design-system/button";
 import { seeInDocumentsCreatorAct } from "acts/see-in-documents-creator.act";
@@ -50,6 +51,8 @@ import { getAPI } from "api-4markdown";
 import { toast } from "design-system/toast";
 import { DocumentChangeHistoryContainer } from "containers/document-change-history.container";
 import Popover from "design-system/popover";
+import { c } from "design-system/c";
+import { useReadingTime } from "development-kit/use-reading-time";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -57,6 +60,25 @@ const MarkdownWidget = React.lazy(() =>
   })),
 );
 
+const ReadingTimeMetric = React.memo(
+  ({ markdown, className }: { className?: string; markdown: string }) => {
+    const { minutesCount } = useReadingTime(markdown);
+    const text = `${minutesCount}m`;
+
+    return (
+      <div
+        className={c(
+          "flex text-sm gap-1.5 items-center px-2 border rounded-md w-fit py-1 border-zinc-300 dark:border-zinc-800",
+          "text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900/80",
+          className,
+        )}
+      >
+        <BiTimeFive aria-hidden="true" />
+        <span>{text}</span>
+      </div>
+    );
+  },
+);
 const CONTENT_ID = `document-layout-content`;
 const COMMENTS_CONTAINER_ID = `document-layout-comments`;
 
@@ -287,6 +309,9 @@ const DocumentLayoutContainer = () => {
               ))}
             </section>
           )}
+          <section className="mb-4">
+            <ReadingTimeMetric markdown={code} />
+          </section>
           <section id={CONTENT_ID}>
             <Markdown>{code}</Markdown>
           </section>
