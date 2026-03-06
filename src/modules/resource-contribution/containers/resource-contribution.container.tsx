@@ -155,34 +155,38 @@ const ResourceContributionContainer = ({
           </div>
         )}
 
-        {yourUserProfile.is === "ok" && yourUserProfile.user && step === "form" && (
-          <>
-            <section>
-              <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-2">
-                Current content
-              </h3>
-              <div className="rounded-md border border-zinc-300 dark:border-zinc-700 p-3 bg-zinc-50 dark:bg-zinc-900/50 overflow-auto max-h-48">
-                <Markdown className="text-sm">{input.currentContent}</Markdown>
-              </div>
-            </section>
+        {yourUserProfile.is === "ok" &&
+          yourUserProfile.user &&
+          step === "form" && (
+            <>
+              <section>
+                <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-2">
+                  Current content
+                </h3>
+                <div className="rounded-md border border-zinc-300 dark:border-zinc-700 p-3 bg-zinc-50 dark:bg-zinc-900/50 overflow-auto max-h-48">
+                  <Markdown className="text-sm">
+                    {input.currentContent}
+                  </Markdown>
+                </div>
+              </section>
 
-            <section>
-              <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-2">
-                Your improvements
-              </h3>
-              <ContributionForm
-                input={input}
-                proposedContent={proposedContent}
-                onProposedContentChange={setProposedContent}
-                onSubmit={handleSubmit}
-                onReviewChanges={() => setStep("confirm")}
-                isSubmitting={isSubmitting}
-                submitError={submitError}
-                showExclaimer={showExclaimer}
-              />
-            </section>
-          </>
-        )}
+              <section>
+                <h3 className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-2">
+                  Your improvements
+                </h3>
+                <ContributionForm
+                  input={input}
+                  proposedContent={proposedContent}
+                  onProposedContentChange={setProposedContent}
+                  onSubmit={handleSubmit}
+                  onReviewChanges={() => setStep("confirm")}
+                  isSubmitting={isSubmitting}
+                  submitError={submitError}
+                  showExclaimer={showExclaimer}
+                />
+              </section>
+            </>
+          )}
 
         {yourUserProfile.is === "ok" &&
           yourUserProfile.user &&
@@ -205,19 +209,17 @@ const ResourceContributionContainer = ({
                   className="min-h-[320px]"
                 />
               </section>
-              {showExclaimer && (
-                <ContributionExclaimer className="mt-2" />
-              )}
+              {showExclaimer && <ContributionExclaimer className="mt-2" />}
               {submitError && (
                 <p className="flex gap-2 text-sm items-center bg-red-300 dark:bg-red-700 p-2 rounded-md">
                   <BiErrorAlt className="shrink-0" size={20} />
                   {submitError}
                 </p>
               )}
-              <div className="flex gap-2 justify-end mt-2 flex-wrap">
+              <div className="flex space-x-3 w-full mt-2 [&_button]:flex-1">
                 <Button
-                  i={1}
                   s={2}
+                  i={1}
                   auto
                   disabled={isSubmitting}
                   title="Back to editing"
@@ -226,8 +228,8 @@ const ResourceContributionContainer = ({
                   Back
                 </Button>
                 <Button
-                  i={2}
                   s={2}
+                  i={2}
                   auto
                   disabled={isSubmitting}
                   title="Confirm and send contribution"
