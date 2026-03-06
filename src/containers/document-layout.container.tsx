@@ -53,6 +53,7 @@ import { DocumentChangeHistoryContainer } from "containers/document-change-histo
 import Popover from "design-system/popover";
 import { c } from "design-system/c";
 import { useReadingTime } from "development-kit/use-reading-time";
+import { BullshitMeter } from "components/bullshit-meter";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -81,6 +82,27 @@ const ReadingTimeMetric = React.memo(
 );
 const CONTENT_ID = `document-layout-content`;
 const COMMENTS_CONTAINER_ID = `document-layout-comments`;
+const EMPTY_RATING: Atoms["Rating"] = {
+  ugly: 0,
+  bad: 0,
+  decent: 0,
+  good: 0,
+  perfect: 0,
+};
+
+const toBullshitScoreAverage = (scoreAverage: number): number => {
+  if (scoreAverage <= 0) {
+    return 0;
+  }
+
+  return 11 - scoreAverage;
+};
+
+const toBullshitScoreValue = (
+  scoreValue: Atoms["ScoreValue"],
+): Atoms["ScoreValue"] => {
+  return (11 - scoreValue) as Atoms["ScoreValue"];
+};
 
 const ResourceCompletionTriggerContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
@@ -219,6 +241,19 @@ const DocumentLayoutContainer = () => {
       getAPI().call("addDocumentScore")({ documentId: document.id, score }),
     );
   };
+
+  const bullshitMeterData = React.useMemo(
+    () => ({
+      score: {
+        scoreAverage: toBullshitScoreAverage(document.score.average),
+        scoreCount: document.score.count,
+        scoreValues: document.score.values.map(toBullshitScoreValue),
+      },
+      rating: "rating" in document ? document.rating : EMPTY_RATING,
+      commentsCount: document.commentsCount,
+    }),
+    [document],
+  );
 
   return (
     <>
@@ -367,6 +402,14 @@ const DocumentLayoutContainer = () => {
           </div>
 
           <DocumentRatingContainer className="justify-end" />
+
+          <section className="mt-8" aria-label="Bullshit Meter">
+            <BullshitMeter
+              score={bullshitMeterData.score}
+              rating={bullshitMeterData.rating}
+              commentsCount={bullshitMeterData.commentsCount}
+            />
+          </section>
 
           <section id={COMMENTS_CONTAINER_ID}>
             <DocumentCommentsModule
