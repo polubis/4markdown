@@ -5,6 +5,7 @@ import { API4MarkdownDto, Atoms } from "api-4markdown-contracts";
 import { RatePicker } from "components/rate-picker";
 import { ScorePicker } from "components/score-picker";
 import { CommentTrigger } from "components/comment-trigger";
+import { BullshitMeter } from "components/bullshit-meter";
 import { MindmapNodeCommentsModule } from "modules/mindmap-node-comments";
 import { useMutation2 } from "core/use-mutation-2";
 import { getAPI } from "api-4markdown";
@@ -13,7 +14,7 @@ import { c } from "design-system/c";
 import { Button } from "design-system/button";
 import Popover from "design-system/popover";
 import { Modal2 } from "design-system/modal2";
-import { BiHappy } from "react-icons/bi";
+import { BiError, BiHappy } from "react-icons/bi";
 import { RATING_ICONS } from "core/rating-config";
 import { rateMindmapNodeAct } from "../../../acts/rate-mindmap-node.act";
 
@@ -45,6 +46,20 @@ const toFullRating = (rating?: Partial<Atoms["Rating"]>): Atoms["Rating"] => ({
   ugly: rating?.ugly ?? 0,
 });
 
+const toBullshitScoreAverage = (scoreAverage: number): number => {
+  if (scoreAverage <= 0) {
+    return 0;
+  }
+
+  return 11 - scoreAverage;
+};
+
+const toBullshitScoreValue = (
+  scoreValue: Atoms["ScoreValue"],
+): Atoms["ScoreValue"] => {
+  return (11 - scoreValue) as Atoms["ScoreValue"];
+};
+
 const rateMindmapNode = throttle(rateMindmapNodeAct, 5000);
 
 const MindmapNodeEngagement = ({
@@ -68,6 +83,7 @@ const MindmapNodeEngagement = ({
   }));
   const commentsModal = useSimpleFeature();
   const ratePopover = useSimpleFeature();
+  const bullshitPopover = useSimpleFeature();
 
   const addScoreMutation = useMutation2<API4MarkdownDto<"addMindmapNodeScore">>(
     {
@@ -191,6 +207,18 @@ const MindmapNodeEngagement = ({
   const [CurrentRatingIcon, currentRatingCategory] = RATING_ICONS[
     resolvedCategoryIndex
   ] ?? [BiHappy, null];
+  const bullshitMeterData = React.useMemo(
+    () => ({
+      score: {
+        scoreAverage: toBullshitScoreAverage(score.average),
+        scoreCount: score.count,
+        scoreValues: score.values.map(toBullshitScoreValue),
+      },
+      rating,
+      commentsCount,
+    }),
+    [score.average, score.count, score.values, rating, commentsCount],
+  );
 
   const handleRate = (category: Atoms["RatingCategory"]): void => {
     setYourRate((prevRate) => {
@@ -277,6 +305,34 @@ const MindmapNodeEngagement = ({
           count={score.count}
           onRate={addScore}
         />
+        <div className="relative">
+          <Button
+            i={2}
+            s={1}
+            auto
+            className="h-8 px-2 text-sm min-w-16"
+            title="Open bullshit meter"
+            onClick={bullshitPopover.on}
+          >
+            <BiError className="shrink-0" />
+            <strong className="text-xs">
+              {bullshitMeterData.score.scoreAverage.toFixed(1)}
+            </strong>
+          </Button>
+          {bullshitPopover.isOn && (
+            <Popover
+              className="!absolute left-0 bottom-full -translate-y-2 w-[340px]"
+              onBackdropClick={bullshitPopover.off}
+            >
+              <BullshitMeter
+                className="!shadow-none border-0 bg-transparent dark:bg-transparent"
+                score={bullshitMeterData.score}
+                rating={bullshitMeterData.rating}
+                commentsCount={bullshitMeterData.commentsCount}
+              />
+            </Popover>
+          )}
+        </div>
         <CommentTrigger
           i={2}
           s={1}

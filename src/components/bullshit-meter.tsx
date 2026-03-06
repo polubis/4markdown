@@ -193,13 +193,16 @@ const createBubbleSpecs = (bullshitLevel: number): BubbleSpec[] => {
 
   return Array.from({ length: count }, (_, index) => {
     const seed = (index + 1) * 73;
+    const duration =
+      1.4 + (((seed * 13) % 17) / 10 + (10 - bullshitLevel) * 0.04);
 
     return {
-      left: (seed * 37) % 20,
+      left: (seed * 37) % 100,
       top: 18 + ((seed * 23) % 62),
       size: 3 + ((seed * 19) % 7),
-      duration: 1.4 + (((seed * 13) % 17) / 10 + (10 - bullshitLevel) * 0.04),
-      delay: ((seed * 29) % 14) * 0.12,
+      duration,
+      // Negative delay phases each bubble so they don't stack at animation start.
+      delay: -(((seed * 29) % 14) * 0.12 + duration * ((seed % 7) / 10)),
       opacity: 0.3 + ((seed * 41) % 5) * 0.12,
     };
   });
