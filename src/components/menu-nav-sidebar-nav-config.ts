@@ -1,8 +1,22 @@
+import type { IconType } from "react-icons";
+import {
+  BiBook,
+  BiCheckCircle,
+  BiFile,
+  BiImageAdd,
+  BiNetworkChart,
+  BiStar,
+  BiTrophy,
+  BiUserPlus,
+} from "react-icons/bi";
+
 type NavLinkInternal = {
   type: "internal";
   to: string;
   title: string;
   label: string;
+  icon?: IconType;
+  iconDecoration?: "single-plus";
 };
 
 type NavLinkExternal = {
@@ -10,6 +24,8 @@ type NavLinkExternal = {
   href: string;
   title: string;
   label: string;
+  icon?: IconType;
+  iconDecoration?: "single-plus";
   rel?: string;
 };
 
@@ -60,12 +76,16 @@ function getMenuNavSidebarNavConfig(meta: Meta): MenuNavSidebarNavConfig {
       to: meta.routes.home,
       title: "Navigate to document creator",
       label: "Document",
+      icon: BiFile,
+      iconDecoration: "single-plus",
     },
     {
       type: "internal",
       to: meta.routes.mindmaps.creator,
       title: "Go to mindmap creator",
       label: "Mindmap",
+      icon: BiNetworkChart,
+      iconDecoration: "single-plus",
     },
   ];
 
@@ -75,36 +95,42 @@ function getMenuNavSidebarNavConfig(meta: Meta): MenuNavSidebarNavConfig {
       to: meta.routes.accessGroups.management,
       title: "Manage access groups",
       label: "Access Groups",
+      icon: BiUserPlus,
     },
     {
       type: "internal",
       to: meta.routes.assets.management,
       title: "Manage uploaded assets",
       label: "Assets",
+      icon: BiImageAdd,
     },
     {
       type: "internal",
       to: meta.routes.completed.management,
       title: "View completed items",
       label: "Completed",
+      icon: BiCheckCircle,
     },
     {
       type: "internal",
       to: meta.routes.documents.management,
       title: "View your documents",
       label: "Documents",
+      icon: BiFile,
     },
     {
       type: "internal",
       to: meta.routes.mindmaps.management,
       title: "View your mindmaps",
       label: "Mindmaps",
+      icon: BiNetworkChart,
     },
     {
       type: "internal",
       to: meta.routes.likedResources.management,
       title: "View starred items",
       label: "Starred",
+      icon: BiStar,
     },
   ];
 
@@ -114,12 +140,14 @@ function getMenuNavSidebarNavConfig(meta: Meta): MenuNavSidebarNavConfig {
       to: meta.routes.education.rank,
       title: "Navigate to education rank",
       label: "Education Rank",
+      icon: BiTrophy,
     },
     {
       type: "internal",
       to: meta.routes.education.zone,
       title: "Navigate to education zone",
       label: "Education Zone",
+      icon: BiBook,
     },
   ];
 
