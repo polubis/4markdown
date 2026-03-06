@@ -33,6 +33,8 @@ import { Tabs } from "design-system/tabs";
 type MarkdownWidgetProps = {
   chunksActive?: boolean;
   headerControls?: ReactNode;
+  /** Optional content rendered inside the header "More options" (⋯) popover. */
+  headerMoreContent?: ReactNode;
   footerLeftControls?: ReactNode;
   markdown: string;
   onClose(): void;
@@ -46,6 +48,7 @@ const MAX_CHUNK_HEADING_LEVEL = 2;
 const MarkdownWidget = ({
   chunksActive = true,
   headerControls,
+  headerMoreContent,
   footerLeftControls,
   markdown,
   onClose,
@@ -280,6 +283,7 @@ const MarkdownWidget = ({
                     <BiHistory />
                   </Button>
                 )}
+                {headerMoreContent}
                 <Tabs fit className="!h-8">
                   <Tabs.Item
                     active={!chunksMode.isOn}

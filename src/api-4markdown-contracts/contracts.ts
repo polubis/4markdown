@@ -250,6 +250,27 @@ type ResourceActivityContracts = Contract<
   }
 >;
 
+type ResourceContributionContracts =
+  | Contract<
+      "submitDocumentContribution",
+      { id: Atoms["DocumentContributionId"] },
+      {
+        documentId: Atoms["DocumentId"];
+        currentContent: string;
+        proposedContent: string;
+      }
+    >
+  | Contract<
+      "submitMindmapNodeContribution",
+      { id: Atoms["MindmapNodeContributionId"] },
+      {
+        mindmapId: Atoms["MindmapId"];
+        currentContent: string;
+        nodeId: Atoms["MindmapNodeId"];
+        proposedContent: string;
+      }
+    >;
+
 type UserProfilesContracts =
   | Contract<
       "rateUserProfile",
@@ -528,6 +549,7 @@ type API4MarkdownContracts =
   | ResourceCompletionsContracts
   | ResourceLikesContracts
   | ResourceActivityContracts
+  | ResourceContributionContracts
   | AccessGroupsContracts
   | UserProfilesContracts
   | UserProfileCommentsContracts;

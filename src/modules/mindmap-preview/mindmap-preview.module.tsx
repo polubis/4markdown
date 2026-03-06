@@ -10,6 +10,7 @@ import {
   useEdgesState,
 } from "@xyflow/react";
 import React, { type ComponentType } from "react";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useMindmapPreviewState } from "store/mindmap-preview";
 import { readyMindmapPreviewSelector } from "store/mindmap-preview/selectors";
 import {
@@ -26,11 +27,16 @@ import {
   EmbeddedNodeTileContainerY,
 } from "./containers/embedded-node-tile.container";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
-import { useResourceCompletionToggle } from "modules/resource-completions";
+import {
+  useResourceCompletion,
+  useResourceCompletionToggle,
+} from "modules/resource-completions";
 import {
   useResourceLikeToggle,
   type SetUserResourceLikePayloadWithoutLiked,
 } from "modules/resource-likes";
+import { ResourceContributionContainer } from "modules/resource-contribution";
+import { useAuthStart } from "core/use-auth-start";
 import {
   Atoms,
   SetUserResourceCompletionPayloadWithoutCompleted,
@@ -40,6 +46,7 @@ import { Button } from "design-system/button";
 import {
   BiCheckboxChecked,
   BiCheckboxMinus,
+  BiEdit,
   BiStar,
   BiSolidStar,
 } from "react-icons/bi";
@@ -115,6 +122,13 @@ const MindmapPreviewModule = () => {
     readyMindmapPreviewSelector(state.mindmap),
   );
   const nodePreview = useMindmapPreviewState((state) => state.nodePreview);
+  const contributionModal = useSimpleFeature();
+  const startAuth = useAuthStart();
+  const nodeCompletion = useResourceCompletion(
+    nodePreview.is === "on"
+      ? (nodePreview.id as Atoms["MindmapNodeId"])
+      : (mindmap.id as Atoms["ResourceId"]),
+  );
   const nodeEngagement = React.useMemo(() => {
     if (nodePreview.is !== `on`) return null;
 
@@ -213,6 +227,19 @@ const MindmapPreviewModule = () => {
                 />
               </>
             }
+            headerMoreContent={
+              nodePreview.data.content != null &&
+              nodePreview.data.content.length > 0 ? (
+                <Button
+                  title="Contribute improvements to this node"
+                  s={1}
+                  i={2}
+                  onClick={() => startAuth(() => contributionModal.on())}
+                >
+                  <BiEdit className="shrink-0" />
+                </Button>
+              ) : null
+            }
             footerLeftControls={
               <MindmapNodeEngagement
                 mindmapId={mindmap.id as Atoms["MindmapId"]}
@@ -230,6 +257,21 @@ const MindmapPreviewModule = () => {
           />
         </React.Suspense>
       )}
+      {nodePreview.is === `on` &&
+        nodePreview.data.content != null &&
+        nodePreview.data.content.length > 0 &&
+        contributionModal.isOn && (
+          <ResourceContributionContainer
+            input={{
+              type: "mindmap-node",
+              mindmapId: mindmap.id as Atoms["MindmapId"],
+              nodeId: nodePreview.id as Atoms["MindmapNodeId"],
+              currentContent: nodePreview.data.content ?? "",
+              isCompleted: !!nodeCompletion,
+            }}
+            onClose={contributionModal.off}
+          />
+        )}
     </>
   );
 };

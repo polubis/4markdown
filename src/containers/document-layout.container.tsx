@@ -8,6 +8,7 @@ import {
   BiCheckboxMinus,
   BiCopyAlt,
   BiDotsHorizontal,
+  BiEdit,
   BiHistory,
   BiLogoMarkdown,
   BiStar,
@@ -32,7 +33,6 @@ import {
   useResourcesCompletionState,
 } from "modules/resource-completions";
 import {
-  useResourceLike,
   useResourceLikeToggle,
   useResourcesLikeState,
   type SetUserResourceLikePayloadWithoutLiked,
@@ -50,6 +50,8 @@ import { useMutation2 } from "core/use-mutation-2";
 import { getAPI } from "api-4markdown";
 import { toast } from "design-system/toast";
 import { DocumentChangeHistoryContainer } from "containers/document-change-history.container";
+import { ResourceContributionContainer } from "modules/resource-contribution";
+import { useAuthStart } from "core/use-auth-start";
 import Popover from "design-system/popover";
 import { c } from "design-system/c";
 import { useReadingTime } from "development-kit/use-reading-time";
@@ -206,8 +208,11 @@ const DocumentLayoutContainer = () => {
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
   const changeHistoryModal = useSimpleFeature();
+  const contributionModal = useSimpleFeature();
   const moreMenuModal = useSimpleFeature();
   const [copyState, copy] = useCopy();
+  const startAuth = useAuthStart();
+  const isCompleted = useResourceCompletion(document.id as Atoms["DocumentId"]);
 
   const openInDocumentsCreator = (): void => {
     seeInDocumentsCreatorAct({ code });
@@ -302,6 +307,16 @@ const DocumentLayoutContainer = () => {
                     onClick={() => changeHistoryModal.on()}
                   >
                     <BiHistory />
+                  </Button>
+                  <Button
+                    title="Contribute improvements"
+                    s={1}
+                    i={2}
+                    onClick={() => {
+                      startAuth(() => contributionModal.on());
+                    }}
+                  >
+                    <BiEdit className="shrink-0" />
                   </Button>
                 </Popover>
               )}
@@ -444,6 +459,18 @@ const DocumentLayoutContainer = () => {
 
       {changeHistoryModal.isOn && (
         <DocumentChangeHistoryContainer onClose={changeHistoryModal.off} />
+      )}
+
+      {contributionModal.isOn && (
+        <ResourceContributionContainer
+          input={{
+            type: "document",
+            documentId: document.id as Atoms["DocumentId"],
+            currentContent: code,
+            isCompleted: !!isCompleted,
+          }}
+          onClose={contributionModal.off}
+        />
       )}
     </>
   );
