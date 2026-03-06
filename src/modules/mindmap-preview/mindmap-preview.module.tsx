@@ -44,10 +44,10 @@ import {
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
 import {
-  BiCheckboxChecked,
-  BiCheckboxMinus,
+  BiCheckSquare,
   BiEdit,
   BiStar,
+  BiSolidCheckSquare,
   BiSolidStar,
 } from "react-icons/bi";
 import { MindmapNodeEngagement } from "./components/mindmap-node-engagement";
@@ -93,9 +93,9 @@ const ResourceCompletionTriggerContainer = (
   return (
     <Button s={1} i={2} disabled={state.is === `busy`} onClick={toggle}>
       {completion ? (
-        <BiCheckboxMinus size={24} />
+        <BiSolidCheckSquare size={24} />
       ) : (
-        <BiCheckboxChecked size={24} />
+        <BiCheckSquare size={24} />
       )}
     </Button>
   );

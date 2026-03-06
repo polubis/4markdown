@@ -5,9 +5,9 @@ import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
 import {
   BiBook,
-  BiCheckboxChecked,
-  BiCheckboxMinus,
+  BiCheckSquare,
   BiStar,
+  BiSolidCheckSquare,
   BiSolidStar,
   BiTimeFive,
 } from "react-icons/bi";
@@ -188,7 +188,7 @@ const EmbeddedNodeTileContainer = ({
       )}
       <NodeTile.Actions>
         <Button
-          aria-label={completion ? "Unfinish" : "Finish"}
+          aria-label={completion ? "Uncomplete" : "Complete"}
           i={1}
           disabled={
             completionState.is === "busy" ||
@@ -199,9 +199,9 @@ const EmbeddedNodeTileContainer = ({
           onKeyDown={handleToggleCompletionKeyDown}
         >
           {completion ? (
-            <BiCheckboxMinus aria-hidden="true" size={24} />
+            <BiSolidCheckSquare aria-hidden="true" size={24} />
           ) : (
-            <BiCheckboxChecked aria-hidden="true" size={24} />
+            <BiCheckSquare aria-hidden="true" size={24} />
           )}
         </Button>
         <Button

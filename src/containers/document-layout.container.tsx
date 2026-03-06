@@ -4,14 +4,14 @@ import { Avatar } from "design-system/avatar";
 import {
   BiBook,
   BiCheck,
-  BiCheckboxChecked,
-  BiCheckboxMinus,
+  BiCheckSquare,
   BiCopyAlt,
   BiDotsHorizontal,
   BiEdit,
   BiHistory,
   BiLogoMarkdown,
   BiStar,
+  BiSolidCheckSquare,
   BiSolidStar,
   BiTimeFive,
 } from "react-icons/bi";
@@ -137,11 +137,11 @@ const ResourceCompletionTriggerContainer = () => {
     >
       {completion ? (
         <>
-          Unfinish <BiCheckboxMinus />
+          Uncomplete <BiSolidCheckSquare size={24} />
         </>
       ) : (
         <>
-          Finish <BiCheckboxChecked />
+          Complete <BiCheckSquare size={24} />
         </>
       )}
     </Button>
@@ -158,9 +158,9 @@ const ResourceCompletionMarkerContainer = () => {
 
   return (
     <p className="mb-6 flex gap-1 text-sm justify-center items-center border bg-zinc-200 dark:bg-gray-950 border-zinc-300 dark:border-zinc-800 p-2 rounded-md">
-      <BiCheckboxChecked className="shrink-0" size={24} />
+      <BiSolidCheckSquare className="shrink-0" size={24} />
       <span>
-        You're browsing already <strong>finished resource</strong>.
+        You're browsing already <strong>completed resource</strong>.
       </span>
     </p>
   );

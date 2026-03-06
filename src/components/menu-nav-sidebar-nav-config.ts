@@ -1,7 +1,7 @@
 import type { IconType } from "react-icons";
 import {
   BiBook,
-  BiCheckCircle,
+  BiCheckSquare,
   BiFile,
   BiImageAdd,
   BiNetworkChart,
@@ -109,7 +109,7 @@ function getMenuNavSidebarNavConfig(meta: Meta): MenuNavSidebarNavConfig {
       to: meta.routes.completed.management,
       title: "View completed items",
       label: "Completed",
-      icon: BiCheckCircle,
+      icon: BiCheckSquare,
     },
     {
       type: "internal",

@@ -4,10 +4,10 @@ import { type NodeProps } from "@xyflow/react";
 import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
 import {
-  BiCheckboxChecked,
-  BiCheckboxMinus,
+  BiCheckSquare,
   BiWorld,
   BiStar,
+  BiSolidCheckSquare,
   BiSolidStar,
 } from "react-icons/bi";
 import { MindmapPreviewExternalNodeWithCompletion } from "../models";
@@ -93,7 +93,7 @@ const ExternalNodeTileContainer = ({
       )}
       <NodeTile.Actions>
         <Button
-          aria-label={completion ? "Unfinish" : "Finish"}
+          aria-label={completion ? "Uncomplete" : "Complete"}
           i={1}
           disabled={
             completionState.is === "busy" ||
@@ -104,9 +104,9 @@ const ExternalNodeTileContainer = ({
           onKeyDown={handleToggleCompletionKeyDown}
         >
           {completion ? (
-            <BiCheckboxMinus aria-hidden="true" size={24} />
+            <BiSolidCheckSquare aria-hidden="true" size={24} />
           ) : (
-            <BiCheckboxChecked aria-hidden="true" size={24} />
+            <BiCheckSquare aria-hidden="true" size={24} />
           )}
         </Button>
         <Button
