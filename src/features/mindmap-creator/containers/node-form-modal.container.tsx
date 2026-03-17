@@ -32,14 +32,9 @@ import { openNodeContentInCreatorAct } from "acts/open-node-content-in-creator.a
 import { context, useSimpleFeature } from "@greenonsoftware/react-kit";
 import { Atoms } from "api-4markdown-contracts";
 import Popover from "design-system/popover";
+import { ResourceActivityContainer } from "modules/resource-activity";
 
 type StepType = MindmapCreatorNode["type"] | `none`;
-
-const ResourceActivityContainer = React.lazy(() =>
-  import("modules/resource-activity").then(({ ResourceActivityContainer }) => ({
-    default: ResourceActivityContainer,
-  })),
-);
 
 const prepareBaseValues = (values: {
   name: string;
