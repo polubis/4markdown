@@ -81,7 +81,6 @@ const CreateDocumentModalContainer = ({
                   name
                 </p>
               </button>
-              {/* AI content generation option commented out
               <button
                 className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer enabled:hover:bg-zinc-300 dark:enabled:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                 onClick={() => setActiveType(`ai`)}
@@ -111,7 +110,6 @@ const CreateDocumentModalContainer = ({
                   </p>
                 )}
               </button>
-              */}
               <button
                 className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                 onClick={handleFromScratchCreation}
@@ -129,7 +127,6 @@ const CreateDocumentModalContainer = ({
           </>
         )}
 
-        {/* AI content generation form commented out
         {activeType === `ai` && (
           <AIPolicyDisclaimer onCancel={() => setActiveType(`none`)}>
             <NewDocumentForm
@@ -140,7 +137,6 @@ const CreateDocumentModalContainer = ({
             />
           </AIPolicyDisclaimer>
         )}
-        */}
 
         {activeType === `manual` && (
           <NewDocumentForm

@@ -256,7 +256,6 @@ type ResourceContributionContracts =
       { id: Atoms["DocumentContributionId"] },
       {
         documentId: Atoms["DocumentId"];
-        currentContent: string;
         proposedContent: string;
       }
     >
@@ -265,7 +264,6 @@ type ResourceContributionContracts =
       { id: Atoms["MindmapNodeContributionId"] },
       {
         mindmapId: Atoms["MindmapId"];
-        currentContent: string;
         nodeId: Atoms["MindmapNodeId"];
         proposedContent: string;
       }
