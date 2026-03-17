@@ -166,7 +166,7 @@ const MindmapCreatorContainer = () => {
         onViewportChange={updateLatestViewport}
         fitView
       >
-        <Controls>
+        <Controls showZoom={false} showFitView={false} showInteractive={false}>
           <Button
             i={2}
             s={1}

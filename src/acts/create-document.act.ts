@@ -6,6 +6,8 @@ import { docStoreActions } from "store/doc/doc.store";
 import { docsStoreActions, docsStoreSelectors } from "store/docs/docs.store";
 import { useDocumentCreatorState } from "store/document-creator";
 import { markAsUnchangedAction } from "store/document-creator/actions";
+import { addOrBumpEntryAction } from "modules/previous-work";
+import type { Atoms } from "api-4markdown-contracts";
 
 const createDocumentAct = async (
   payload: Pick<API4MarkdownPayload<"createDocument">, "name">,
@@ -24,6 +26,13 @@ const createDocumentAct = async (
     markAsUnchangedAction();
 
     setCache(`getYourDocuments`, docsStoreSelectors.ok().docs);
+
+    addOrBumpEntryAction({
+      type: `document`,
+      resourceId: createdDocument.id as Atoms["DocumentId"],
+      title: createdDocument.name,
+      lastTouched: Date.now(),
+    });
 
     return { is: `ok` };
   } catch (error: unknown) {

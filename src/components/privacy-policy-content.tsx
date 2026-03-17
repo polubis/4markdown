@@ -132,6 +132,16 @@ const PrivacyPolicyContent = () => {
           <li>Job Titles</li>
           <li>Avatars</li>
         </ul>
+        <h2>Uploaded Assets and Images</h2>
+        <p>
+          When you upload assets or images through our Service, they are stored
+          and associated with your account. By default, uploaded assets and
+          images are <strong>public and visible to everyone</strong>
+          {` `}
+          if you share a link to them. They can be referenced and shared across
+          many articles or documents. Do not upload sensitive or private content
+          if you do not want it to be accessible via shared links.
+        </p>
         <h2>How Do We Use The Information We Collect?</h2>
         <p>
           Any of the information we collect from you may be used in one of the

@@ -9,35 +9,39 @@ const NodeTile = ({
   children: ReactNode;
 }) => {
   return (
-    <div
+    <article
       className={c(
-        "border-zinc-300 dark:border-zinc-800 node-tile cursor-move flex flex-col border-2 rounded-lg px-4 py-3 bg-zinc-200 dark:bg-gray-950 w-[280px]",
+        "border-zinc-300 dark:border-zinc-800 node-tile cursor-move flex flex-col border-2 rounded-lg bg-zinc-200 dark:bg-gray-950 w-[280px] overflow-hidden",
         className,
       )}
     >
       {children}
-    </div>
+    </article>
   );
 };
 
 // eslint-disable-next-line react/display-name
 NodeTile.Name = ({ children }: { children: ReactNode }) => {
-  return <h6 className="font-bold line-clamp-2">{children}</h6>;
+  return <h3 className="font-bold px-4 pt-3 min-w-0">{children}</h3>;
 };
 // eslint-disable-next-line react/display-name
 NodeTile.Label = ({ children }: { children: ReactNode }) => {
-  return <p className="text-sm capitalize mb-0.5 italic">{children}</p>;
+  return (
+    <p className="text-sm capitalize mb-0.5 italic px-4 pt-3 min-w-0 text-zinc-500 dark:text-zinc-400">
+      {children}
+    </p>
+  );
 };
 
 // eslint-disable-next-line react/display-name
 NodeTile.Description = ({ children }: { children: ReactNode }) => {
-  return <p className="mt-1 line-clamp-4">{children}</p>;
+  return <p className="mt-1 px-4 min-w-0 break-words">{children}</p>;
 };
 
 // eslint-disable-next-line react/display-name
-NodeTile.Toolbox = ({ children }: { children: ReactNode }) => {
+NodeTile.Actions = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="node-tile-toolbox flex items-center space-x-2 absolute top-2 right-2">
+    <div className="flex items-center justify-end gap-1 px-1 py-1 mt-1 min-w-0">
       {children}
     </div>
   );

@@ -28,6 +28,12 @@ export type Atoms = {
     src: Atoms["Path"];
   };
   DocumentCommentId: Brand<string, `DocumentCommentId`>;
+  DocumentActivityId: Brand<string, `DocumentActivityId`>;
+  MindmapNodeActivityId: Brand<string, `MindmapNodeActivityId`>;
+  DocumentContributionId: Brand<string, `DocumentContributionId`>;
+  MindmapNodeCommentId: Brand<string, `MindmapNodeCommentId`>;
+  MindmapNodeContributionId: Brand<string, `MindmapNodeContributionId`>;
+  ResourceActivityId: Brand<string, `ResourceActivityId`>;
   Rating: Record<Atoms["RatingCategory"], number>;
   Score: {
     scoreAverage: number;
@@ -51,7 +57,180 @@ export type ResourceCompletionDto = {
   type: Atoms["ResourceType"];
   resourceId: Atoms["ResourceId"];
   parentId?: Atoms["MindmapId"];
+  title?: string;
+  description?: string;
+  /** When type is "mindmap-node" and the node is external, URL of the pasted resource. */
+  externalUrl?: Atoms["Url"];
 };
+
+/**
+ * One item in the setUserResourceCompletion request payload.
+ * Matches backend resourceCompletionItemSchema (type, resourceId, title?, description?, completed, parentId? for mindmap-node).
+ */
+export type SetUserResourceCompletionPayloadItem =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title?: string;
+      description?: string;
+      completed: boolean;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title?: string;
+      description?: string;
+      completed: boolean;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title?: string;
+      description?: string;
+      completed: boolean;
+    };
+
+/** Payload for setUserResourceCompletion API (array, min 1 item). */
+export type SetUserResourceCompletionPayload = [
+  SetUserResourceCompletionPayloadItem,
+  ...SetUserResourceCompletionPayloadItem[],
+];
+
+/**
+ * One item in the setUserResourceCompletion response (batch result).
+ * Matches backend DtoItem (removed, resourceId, type, title?, description?, cdate, parentId? for mindmap-node).
+ */
+export type SetUserResourceCompletionResultItem = {
+  removed: boolean;
+  resourceId: Atoms["ResourceId"];
+  type: Atoms["ResourceType"];
+  title?: string;
+  description?: string;
+  cdate: Atoms["UTCDate"];
+  parentId?: Atoms["MindmapId"];
+};
+
+/** setUserResourceCompletion response: array of result items (one per request item). */
+export type SetUserResourceCompletionResult =
+  SetUserResourceCompletionResultItem[];
+
+/** Single item with completed (e.g. for toggle act). Alias for one payload item. */
+export type SetUserResourceCompletionItem =
+  SetUserResourceCompletionPayloadItem;
+
+/** Single item payload without `completed` (e.g. for toggle hook). */
+export type SetUserResourceCompletionPayloadWithoutCompleted =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title?: string;
+      description?: string;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title?: string;
+      description?: string;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title?: string;
+      description?: string;
+    };
+
+export type ResourceLikeDto = {
+  cdate: Atoms["UTCDate"];
+  type: Atoms["ResourceType"];
+  resourceId: Atoms["ResourceId"];
+  parentId?: Atoms["MindmapId"];
+  title: string;
+  description?: string;
+  /** When type is "mindmap-node" and the node is external, URL of the pasted resource. */
+  externalUrl?: Atoms["Url"];
+};
+
+/** One item in the setUserResourceLike request payload. */
+export type SetUserResourceLikeItem =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title: string;
+      description?: string | null;
+      liked: boolean;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title: string;
+      description?: string | null;
+      liked: boolean;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title: string;
+      description?: string | null;
+      liked: boolean;
+    };
+
+/**
+ * Payload actually sent to setUserResourceLike API.
+ * description is omitted when null/undefined (backend must not receive null).
+ */
+export type SetUserResourceLikeRequestItem =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title: string;
+      liked: boolean;
+      description?: string;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title: string;
+      liked: boolean;
+      description?: string;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title: string;
+      liked: boolean;
+      description?: string;
+    };
+
+/** One item in the setUserResourceLike response (batch result). */
+export type SetUserResourceLikeResultItem = ResourceLikeDto & {
+  removed: boolean;
+};
+
+/** Single item payload without `liked` (e.g. for toggle hook). */
+export type SetUserResourceLikePayloadWithoutLiked =
+  | {
+      type: "document";
+      resourceId: Atoms["DocumentId"];
+      title: string;
+      description?: string | null;
+    }
+  | {
+      type: "mindmap";
+      resourceId: Atoms["MindmapId"];
+      title: string;
+      description?: string | null;
+    }
+  | {
+      type: "mindmap-node";
+      resourceId: Atoms["MindmapNodeId"];
+      parentId: Atoms["MindmapId"];
+      title: string;
+      description?: string | null;
+    };
 
 export type ImageDto = {
   extension: `png` | `jpeg` | `jpg` | `gif` | `webp`;
@@ -63,6 +242,8 @@ export type ImageDto = {
     | `image/webp`;
   url: Atoms["Path"];
   id: Atoms["ImageId"];
+  /** Creation date of the image (if available). */
+  cdate?: Atoms["UTCDate"];
 };
 
 export type UserProfileDto = Prettify<
@@ -137,7 +318,7 @@ export type EmbeddedNode = MakeNode<
   `embedded`,
   NodeBaseData & { content: string | null }
 >;
-type MindmapNode = ExternalNode | EmbeddedNode;
+export type MindmapNode = ExternalNode | EmbeddedNode;
 
 export type SolidEdge = MakeEdge<`solid`>;
 type MindmapEdge = SolidEdge;
@@ -157,10 +338,24 @@ export type MindmapDto = {
   tags: string[] | null;
 };
 
+/** Node shape returned only by getAccessibleMindmap (includes rating counts and score). */
+export type MindmapNodeWithEngagement = MindmapNode &
+  Atoms["Rating"] &
+  Atoms["Score"];
+
 export type FullMindmapDto = MindmapDto & {
-  authorId: Atoms["UserProfileId"];
   authorProfile: UserProfileDto | null;
   isAuthorTrusted: boolean;
+};
+
+/** Node from getAccessibleMindmap: engagement data plus commentsCount in data. */
+export type AccessibleMindmapNode = MindmapNodeWithEngagement & {
+  data: MindmapNode["data"] & { commentsCount?: number };
+};
+
+/** getAccessibleMindmap result: full mindmap with nodes enhanced by engagement/score/commentsCount. */
+export type AccessibleMindmapDto = Omit<FullMindmapDto, "nodes"> & {
+  nodes: AccessibleMindmapNode[];
 };
 
 type Base = Prettify<{
@@ -228,3 +423,92 @@ export type DocumentCommentDto = Prettify<
     resourceId: Atoms["DocumentId"];
   }
 >;
+
+export type MindmapNodeCommentDto = Prettify<
+  Atoms["Rating"] & {
+    id: Atoms["MindmapNodeCommentId"];
+    ownerProfile: UserProfileDto;
+    cdate: Atoms["UTCDate"];
+    mdate: Atoms["UTCDate"];
+    content: string;
+    etag: Atoms["Etag"];
+    mindmapId: Atoms["MindmapId"];
+    nodeId: Atoms["MindmapNodeId"];
+    type: Atoms["ResourceType"];
+  }
+>;
+
+export type ResourceActivityDto =
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "created";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "content-changed";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      previousContent: string;
+      newContent: string;
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "visibility-changed";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      previousVisibility: Atoms["ResourceVisibility"];
+      newVisibility: Atoms["ResourceVisibility"];
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "metadata-updated";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      previousMeta: {
+        tags: string[];
+        description: string | null;
+      };
+      newMeta: {
+        tags: string[];
+        description: string | null;
+      };
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "comment-added";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      comment: UserProfileCommentDto;
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "rating-changed";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      previousRating: Atoms["Rating"];
+      newRating: Atoms["Rating"];
+    }
+  | {
+      id: Atoms["ResourceActivityId"];
+      type: "score-changed";
+      resourceId: Atoms["ResourceId"];
+      resourceType: Atoms["ResourceType"];
+      cdate: Atoms["UTCDate"];
+      authorProfile: UserProfileDto | null;
+      previousScore: Atoms["Score"];
+      newScore: Atoms["Score"];
+    };

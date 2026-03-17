@@ -4,6 +4,10 @@ import Meta from "components/meta";
 import LogoThumbnail from "images/logo-thumbnail.png";
 import { meta } from "../../meta";
 import type { MindmapPageModel } from "models/page-models";
+import type {
+  AccessibleMindmapDto,
+  AccessibleMindmapNode,
+} from "api-4markdown-contracts";
 import { useMindmapPreviewState } from "store/mindmap-preview";
 import { MindmapDisplayView } from "features/mindmap-display/mindmap-display.view";
 
@@ -11,15 +15,34 @@ interface MindmapPageProps {
   pageContext: MindmapPageModel;
 }
 
+const toAccessibleMindmapNode = (
+  node: MindmapPageModel["mindmap"]["nodes"][number],
+): AccessibleMindmapNode => ({
+  ...node,
+  ugly: 0,
+  bad: 0,
+  decent: 0,
+  good: 0,
+  perfect: 0,
+  scoreAverage: 0,
+  scoreCount: 0,
+  scoreValues: [],
+});
+
 const useMindmapPageHydration = ({ pageContext }: MindmapPageProps) => {
   const hydrated = React.useRef(false);
 
   if (!hydrated.current) {
+    const mindmap: AccessibleMindmapDto = {
+      ...pageContext.mindmap,
+      nodes: pageContext.mindmap.nodes.map(toAccessibleMindmapNode),
+    };
+
     useMindmapPreviewState.swap({
       ...useMindmapPreviewState.getInitial(),
       mindmap: {
         is: `ok`,
-        ...pageContext.mindmap,
+        ...mindmap,
       },
     });
 

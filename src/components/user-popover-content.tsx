@@ -11,8 +11,8 @@ import { Modal2 } from "design-system/modal2";
 import { UserProfileFormModalContainer } from "containers/user-profile-form-modal.container";
 import { Avatar } from "design-system/avatar";
 import { UserSocials } from "./user-socials";
-import { reloadYourUserProfile } from "actions/reload-your-user-profile.action";
-import { logOut } from "actions/log-out.action";
+import { logOutAct } from "acts/log-out.act";
+import { reloadYourUserProfileAct } from "acts/reload-your-user-profile.act";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useYourUserProfileState } from "store/your-user-profile";
 import { useYourAccountState } from "store/your-account";
@@ -28,7 +28,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   const yourAccount = useYourAccountState();
 
   const signOutConfirmation = useConfirm(() => {
-    logOut();
+    logOutAct();
     onClose();
   });
 
@@ -50,7 +50,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
         onClose={onClose}
         onSync={() => {
           userProfileForm.off();
-          reloadYourUserProfile();
+          reloadYourUserProfileAct();
         }}
       />
     );
@@ -100,6 +100,26 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                 </p>
               </div>
 
+              <div
+                className="relative flex flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden"
+                data-testid="[user-profile]:assets-section"
+              >
+                <div className="absolute flex flex-col gap-2 top-2 right-2">
+                  <Button
+                    i={1}
+                    s={1}
+                    title="Go to uploaded assets management"
+                    onClick={() => navigate(meta.routes.assets.management)}
+                  >
+                    <BiArrowToRight />
+                  </Button>
+                </div>
+                <h6 className="font-bold">Uploaded Assets</h6>
+                <p className="mt-1 mb-1">
+                  View and manage your uploaded images and other assets.
+                </p>
+              </div>
+
               {yourUserProfile.user?.displayName &&
               yourUserProfile.user?.bio ? (
                 <>
@@ -120,7 +140,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                         i={1}
                         s={1}
                         title="Sync your profile"
-                        onClick={reloadYourUserProfile}
+                        onClick={reloadYourUserProfileAct}
                       >
                         <BiRefresh />
                       </Button>
@@ -189,7 +209,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                       i={1}
                       s={1}
                       title="Sync your profile"
-                      onClick={reloadYourUserProfile}
+                      onClick={reloadYourUserProfileAct}
                     >
                       <BiRefresh />
                     </Button>
@@ -220,7 +240,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                 s={1}
                 auto
                 title="Retry your profile load"
-                onClick={reloadYourUserProfile}
+                onClick={reloadYourUserProfileAct}
               >
                 Try Again
               </Button>

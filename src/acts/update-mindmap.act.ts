@@ -1,10 +1,12 @@
 import { getAPI, parseError, setCache } from "api-4markdown";
 import type { API4MarkdownPayload } from "api-4markdown-contracts";
+import type { Atoms } from "api-4markdown-contracts";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import {
   readyMindmapsSelector,
   safeActiveMindmapSelector,
 } from "store/mindmap-creator/selectors";
+import { addOrBumpEntryAction } from "modules/previous-work";
 
 const updateMindmapAct = async (
   payload: Pick<
@@ -46,6 +48,13 @@ const updateMindmapAct = async (
     setCache(`getYourMindmaps`, {
       mindmaps: newMindmaps,
       mindmapsCount: newMindmaps.length,
+    });
+
+    addOrBumpEntryAction({
+      type: `mindmap`,
+      resourceId: activeMindmap.id as Atoms["MindmapId"],
+      title: payload.name,
+      lastTouched: Date.now(),
     });
   } catch (error: unknown) {
     useMindmapCreatorState.set({

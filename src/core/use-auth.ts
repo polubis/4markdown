@@ -13,6 +13,15 @@ import {
   loadResourceCompletionsAct,
   useResourcesCompletionState,
 } from "modules/resource-completions";
+import {
+  loadResourceLikesAct,
+  useResourcesLikeState,
+} from "modules/resource-likes";
+import {
+  clearPreviousWorkAction,
+  loadPreviousWorkFromStorageAction,
+  usePreviousWorkState,
+} from "modules/previous-work";
 
 type SiteMetadataQuery = {
   site: {
@@ -39,6 +48,8 @@ const useAuth = () => {
     const unsubscribe = api.onAuthChange((user) => {
       if (user) {
         loadResourceCompletionsAct();
+        loadResourceLikesAct();
+        loadPreviousWorkFromStorageAction();
 
         authStoreActions.authorize({
           avatar: user.photoURL,
@@ -57,6 +68,9 @@ const useAuth = () => {
       useMindmapCreatorState.reset();
       useYourAccountState.reset();
       useResourcesCompletionState.reset();
+      useResourcesLikeState.reset();
+      clearPreviousWorkAction();
+      usePreviousWorkState.reset();
     });
 
     return () => {

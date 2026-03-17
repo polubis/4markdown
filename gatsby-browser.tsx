@@ -4,6 +4,7 @@ import ErrorBoundary from "./src/development-kit/error-boundary";
 import { useAuth } from "./src/core/use-auth";
 import { CookiesModalLoader } from "./src/components/cookies-modal-loader";
 import { ToastSlot } from "./src/design-system/toast";
+import { PreviousWorkModule } from "./src/modules/previous-work";
 import "katex/dist/katex.min.css";
 import "prismjs/themes/prism-okaidia.css";
 import "./src/style/index.css";
@@ -27,6 +28,7 @@ export const wrapPageElement = ({ element }) => {
   return (
     <ErrorBoundary fallback={SafeExceptionScreen}>
       {element}
+      <PreviousWorkModule />
       <CookiesModalLoader />
       <ToastSlot />
     </ErrorBoundary>

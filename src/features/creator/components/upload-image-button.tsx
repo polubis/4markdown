@@ -3,11 +3,13 @@ import { Button, type ButtonProps } from "design-system/button";
 import { BiImageAdd } from "react-icons/bi";
 
 interface UploadImageButtonProps
-  extends Omit<ButtonProps, "title" | "children" | "i" | "s"> {}
+  extends Omit<ButtonProps, "children" | "title"> {}
 
 const UploadImageButton = (props: UploadImageButtonProps) => {
+  const { i = 1, s = 2, ...rest } = props;
+
   return (
-    <Button {...props} i={1} s={2} title="Upload image">
+    <Button {...rest} i={i} s={s} title="Upload image">
       <BiImageAdd />
     </Button>
   );

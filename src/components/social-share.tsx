@@ -43,7 +43,6 @@ const SocialShare = () => {
 
     timeoutRef.current = setTimeout(() => {
       window.open(url(), `_blank`);
-      panel.off();
     }, 1000);
   };
 
@@ -51,7 +50,6 @@ const SocialShare = () => {
     copy(
       `I’ve found a great article! Here’s the link: ${window.location.href}`,
     );
-    panel.off();
   };
 
   React.useEffect(() => {
@@ -72,7 +70,7 @@ const SocialShare = () => {
       </Button>
       {panel.isOn && (
         <Popover
-          className="!absolute flex gap-2 translate-y-2.5 -right-12 sm:right-auto"
+          className="!absolute flex gap-2 translate-y-2.5 -right-20 sm:right-auto !z-[15]"
           onBackdropClick={panel.off}
         >
           <Button

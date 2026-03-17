@@ -18,54 +18,88 @@ const EmbeddedNodeTileContainer = ({
   positionAbsoluteX,
   positionAbsoluteY,
   data,
-}: EmbeddedNodeTileContainerProps) => (
-  <NodeTile selected={selected}>
-    <NodeTile.Label>Embedded Resource</NodeTile.Label>
-    <NodeTile.Name>{data.name}</NodeTile.Name>
-    {data.description && (
-      <NodeTile.Description>{data.description}</NodeTile.Description>
-    )}
-    <NodeTile.Toolbox>
-      <Button
-        i={2}
-        s={1}
-        title="Open node edition"
-        onClick={(e) => {
-          e.stopPropagation();
-          openNodeEditionAction({
-            type: `embedded`,
-            id,
-            position: {
-              x: positionAbsoluteX,
-              y: positionAbsoluteY,
-            },
-            data,
-          });
-        }}
-      >
-        <BiPencil />
-      </Button>
-      <Button
-        i={2}
-        s={1}
-        onClick={(e) => {
-          e.stopPropagation();
-          openNodePreviewAction({
-            type: `embedded`,
-            id,
-            data,
-            position: {
-              x: positionAbsoluteX,
-              y: positionAbsoluteY,
-            },
-          });
-        }}
-      >
-        <BiBook />
-      </Button>
-    </NodeTile.Toolbox>
-  </NodeTile>
-);
+}: EmbeddedNodeTileContainerProps) => {
+  const handleEdit = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      openNodeEditionAction({
+        type: `embedded`,
+        id,
+        position: {
+          x: positionAbsoluteX,
+          y: positionAbsoluteY,
+        },
+        data,
+      });
+    },
+    [id, positionAbsoluteX, positionAbsoluteY, data],
+  );
+
+  const handlePreview = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      openNodePreviewAction({
+        type: `embedded`,
+        id,
+        data,
+        position: {
+          x: positionAbsoluteX,
+          y: positionAbsoluteY,
+        },
+      });
+    },
+    [id, positionAbsoluteX, positionAbsoluteY, data],
+  );
+
+  const handleEditKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleEdit(e);
+      }
+    },
+    [handleEdit],
+  );
+
+  const handlePreviewKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handlePreview(e);
+      }
+    },
+    [handlePreview],
+  );
+
+  return (
+    <NodeTile selected={selected}>
+      <NodeTile.Name>{data.name}</NodeTile.Name>
+      {data.description && (
+        <NodeTile.Description>{data.description}</NodeTile.Description>
+      )}
+      <NodeTile.Actions>
+        <Button
+          i={1}
+          s={1}
+          aria-label="Edit node"
+          onClick={handleEdit}
+          onKeyDown={handleEditKeyDown}
+        >
+          <BiPencil aria-hidden="true" />
+        </Button>
+        <Button
+          i={1}
+          s={1}
+          aria-label="Preview node"
+          onClick={handlePreview}
+          onKeyDown={handlePreviewKeyDown}
+        >
+          <BiBook aria-hidden="true" />
+        </Button>
+      </NodeTile.Actions>
+    </NodeTile>
+  );
+};
 
 const EmbeddedNodeTileContainerX = (props: EmbeddedNodeTileContainerProps) => (
   <HandleX>

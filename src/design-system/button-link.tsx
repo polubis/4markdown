@@ -6,6 +6,7 @@ interface ButtonLinkProps {
   to: string;
   title: string;
   rel?: string;
+  state?: unknown;
   children: ReactNode;
   target?: string;
   component?: (props: Omit<ButtonLinkProps, "component">) => ReactNode;

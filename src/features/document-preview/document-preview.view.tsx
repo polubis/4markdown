@@ -10,6 +10,8 @@ import { loadDocument } from "./store/load-document.action";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { DocumentLayoutProvider } from "providers/document-layout.provider";
 import { DocumentLayoutContainer } from "containers/document-layout.container";
+import { removeDocumentEntryAction } from "modules/previous-work";
+import type { Atoms } from "api-4markdown-contracts";
 
 const ErrorScreen = React.lazy(() =>
   import(`./components/error-screen`).then(({ ErrorScreen }) => ({
@@ -23,6 +25,17 @@ const DocumentPreviewView = () => {
   React.useEffect(() => {
     loadDocument();
   }, []);
+
+  React.useEffect(() => {
+    if (documentPreviewStore.is !== `fail`) return;
+    const params = new URLSearchParams(
+      typeof window !== `undefined` ? window.location.search : ``,
+    );
+    const documentId = params.get(`id`);
+    if (documentId) {
+      removeDocumentEntryAction(documentId as Atoms["DocumentId"]);
+    }
+  }, [documentPreviewStore.is]);
 
   return (
     <>

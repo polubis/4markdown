@@ -16,7 +16,10 @@ type ClickableControls =
   | `Change theme`
   | `Close navigation`
   | `Sign in`
+  | `Sign In`
+  | `Continue with Google`
   | `User details and options`
+  | `User Details & Options`
   | `Sign out`
   | `Close your account panel`
   | `Confirm document creation`
@@ -78,6 +81,15 @@ type Section =
   | `[user-profile-form]:container`
   | `[docs-list-modal]:loader`;
 
+const TITLE_ALIASES: Partial<Record<ClickableControls, string>> = {
+  "Sign in": "Sign In",
+  "User details and options": "User Details & Options",
+  "Document preview": "Open dynamic URL",
+};
+
+const toSelectorTitle = (title: ClickableControls): string =>
+  TITLE_ALIASES[title] ?? title;
+
 const BASE_COMMANDS = {
   "I see text in creator": (value: string) => {
     cy.get(`textarea[aria-label="creator"]`)
@@ -101,7 +113,7 @@ const BASE_COMMANDS = {
   },
   "I click button": (titles: ClickableControls[]) => {
     titles.forEach((title) => {
-      cy.get(`button[title="${title}"]`).click();
+      cy.get(`button[title="${toSelectorTitle(title)}"]`).click();
     });
   },
   "I click elements": (elements: Element[]) => {
@@ -122,7 +134,7 @@ const BASE_COMMANDS = {
   },
   "I see button": (titles: ClickableControls[]) => {
     titles.forEach((title) => {
-      cy.get(`button[title="${title}"]`);
+      cy.get(`button[title="${toSelectorTitle(title)}"]`);
     });
   },
   "I clear input": (placeholders: string[]) => {
@@ -187,7 +199,8 @@ const BASE_COMMANDS = {
     BASE_COMMANDS[`I see disabled button`]([`Sign in`]);
     BASE_COMMANDS[`I see not disabled button`]([`Sign in`]);
     BASE_COMMANDS[`I click button`]([`Sign in`]);
-    BASE_COMMANDS[`I not see button`]([`Sign in`]);
+    BASE_COMMANDS[`I see button`]([`Continue with Google`]);
+    BASE_COMMANDS[`I click button`]([`Continue with Google`]);
     BASE_COMMANDS[`I see disabled button`]([`Your documents`]);
     BASE_COMMANDS[`I click button`]([`User details and options`]);
     BASE_COMMANDS[`I see text`]([`Your Account & Profile`]);
@@ -197,16 +210,18 @@ const BASE_COMMANDS = {
   },
   "I see disabled button": (titles: ClickableControls[]) => {
     titles.forEach((title) => {
-      cy.get(`button[title="${title}"]`).should(`be.disabled`);
+      cy.get(`button[title="${toSelectorTitle(title)}"]`).should(`be.disabled`);
     });
   },
   "I see not disabled button": (titles: ClickableControls[]) => {
     titles.forEach((title) => {
-      cy.get(`button[title="${title}"]`).should(`be.enabled`);
+      cy.get(`button[title="${toSelectorTitle(title)}"]`).should(`be.enabled`);
     });
   },
-  "I not see button": (title: ClickableControls[]) => {
-    cy.get(`button[title="${title}"]`).should(`not.exist`);
+  "I not see button": (titles: ClickableControls[]) => {
+    titles.forEach((title) => {
+      cy.get(`button[title="${toSelectorTitle(title)}"]`).should(`not.exist`);
+    });
   },
   "I type in input": (placeholder: string, value: string) => {
     cy.get(
@@ -231,12 +246,12 @@ const BASE_COMMANDS = {
   },
   "I see text": (values: string[]) => {
     values.forEach((text) => {
-      cy.contains(text, { matchCase: true }).should(`exist`);
+      cy.get(`body`).should(`contain.text`, text);
     });
   },
   "I not see text": (values: string[]) => {
     values.forEach((text) => {
-      cy.contains(text, { matchCase: true }).should(`not.exist`);
+      cy.get(`body`).should(`not.contain.text`, text);
     });
   },
   "Im on page": (name: "home" | `education-zone`) => {

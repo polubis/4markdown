@@ -7,7 +7,7 @@ import {
   safeActiveMindmapSelector,
 } from "store/mindmap-creator/selectors";
 import { Button } from "design-system/button";
-import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from "react-icons/bi";
+import { BiCheck, BiDetail, BiEdit, BiSave, BiX } from "react-icons/bi";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useForm } from "development-kit/use-form";
 import { maxLength, minLength } from "development-kit/form";
@@ -126,7 +126,7 @@ const ActiveMindmapBarContainer = () => {
                   title="Open mindmap details"
                   onClick={openMindmapDetailsAction}
                 >
-                  <BiDotsHorizontal />
+                  <BiDetail />
                 </Button>
               </div>
             </>

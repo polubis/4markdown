@@ -26,6 +26,7 @@ const createSearchDataFile = (documents: PermanentDocumentDto[]): void => {
     title: doc.name,
     description: doc.description,
     url: doc.path,
+    mdate: doc.mdate,
   }));
 
   const filePath = path.join(__dirname, `public`, `search-data.json`);
