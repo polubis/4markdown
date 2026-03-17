@@ -14,8 +14,6 @@ const ContributionExclaimer = ({ className }: ContributionExclaimerProps) => {
         "bg-zinc-100 dark:bg-zinc-900/80 border-zinc-300 dark:border-zinc-800",
         className,
       )}
-      role="status"
-      aria-live="polite"
     >
       <BiInfoCircle className="shrink-0 mt-0.5" size={20} aria-hidden />
       <div>

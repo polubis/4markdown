@@ -80,7 +80,11 @@ const ContributionForm = ({
           s={2}
           auto
           disabled={invalid || untouched || isSubmitting}
-          title={isReviewMode ? "Review changes before sending" : "Submit contribution"}
+          title={
+            isReviewMode
+              ? "Review changes before sending"
+              : "Submit contribution"
+          }
           onClick={isReviewMode ? onReviewChanges : onSubmit}
         >
           {isSubmitting
