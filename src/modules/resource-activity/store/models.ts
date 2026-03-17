@@ -71,7 +71,7 @@ type ResourceActivityState = Transaction<{
   hasMore: boolean;
   nextCursor: {
     cdate: Atoms["UTCDate"];
-    id: Atoms["DocumentActivityId"];
+    id: Atoms["DocumentActivityId"] | Atoms["MindmapNodeActivityId"];
   } | null;
   isLoadingMore: boolean;
 }>;

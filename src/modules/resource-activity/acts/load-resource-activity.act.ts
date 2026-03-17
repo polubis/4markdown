@@ -8,7 +8,9 @@ const DEFAULT_ACTIVITY_LIMIT = 10;
 type LoadResourceActivityActMode = "replace" | "append";
 
 const normalizeDocumentActivity = (
-  documentActivity: API4MarkdownDto<"getDocumentActivity">,
+  documentActivity:
+    | API4MarkdownDto<"getDocumentActivity">
+    | API4MarkdownDto<"getMindmapNodeActivity">,
 ): ResourceActivityModel[] => {
   return documentActivity.activities.map(
     (item): ResourceActivityModel => ({
@@ -27,9 +29,10 @@ const loadResourceActivityAct = async (
   resourceType: Atoms["ResourceType"],
   mode: LoadResourceActivityActMode = "replace",
   resourceCdate?: Atoms["UTCDate"],
+  resourceParentId?: Atoms["MindmapId"],
 ): Promise<void> => {
   try {
-    if (resourceType !== "document") {
+    if (resourceType !== "document" && resourceType !== "mindmap-node") {
       useResourceActivityState.swap({
         is: `ok`,
         data: [],
@@ -61,11 +64,34 @@ const loadResourceActivityAct = async (
       useResourceActivityState.swap({ is: `busy` });
     }
 
-    const response = await getAPI().call("getDocumentActivity")({
-      documentId: resourceId as Atoms["DocumentId"],
-      nextCursor,
-      limit: DEFAULT_ACTIVITY_LIMIT,
-    });
+    const response =
+      resourceType === "document"
+        ? await getAPI().call("getDocumentActivity")({
+            documentId: resourceId as Atoms["DocumentId"],
+            nextCursor:
+              nextCursor as API4MarkdownDto<"getDocumentActivity">["nextCursor"],
+            limit: DEFAULT_ACTIVITY_LIMIT,
+          })
+        : resourceParentId
+          ? await getAPI().call("getMindmapNodeActivity")({
+              mindmapId: resourceParentId,
+              nodeId: resourceId as Atoms["MindmapNodeId"],
+              nextCursor:
+                nextCursor as API4MarkdownDto<"getMindmapNodeActivity">["nextCursor"],
+              limit: DEFAULT_ACTIVITY_LIMIT,
+            })
+          : null;
+
+    if (response == null) {
+      useResourceActivityState.swap({
+        is: `ok`,
+        data: [],
+        hasMore: false,
+        nextCursor: null,
+        isLoadingMore: false,
+      });
+      return;
+    }
 
     const activity = normalizeDocumentActivity(response);
     const previousData = isAppend ? currentState.data : [];

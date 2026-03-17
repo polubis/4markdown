@@ -9,6 +9,7 @@ type ResourceActivityContainerProps = {
   resourceId: Atoms["ResourceId"];
   resourceType: Atoms["ResourceType"];
   resourceCdate?: Atoms["UTCDate"];
+  resourceParentId?: Atoms["MindmapId"];
   onClose(): void;
 };
 
@@ -16,25 +17,44 @@ const ResourceActivityContainer = ({
   resourceId,
   resourceType,
   resourceCdate,
+  resourceParentId,
   onClose,
 }: ResourceActivityContainerProps) => {
   const state = useResourceActivityState();
 
   const handleRetry = React.useCallback(() => {
-    loadResourceActivityAct(resourceId, resourceType, "replace", resourceCdate);
-  }, [resourceId, resourceType, resourceCdate]);
+    loadResourceActivityAct(
+      resourceId,
+      resourceType,
+      "replace",
+      resourceCdate,
+      resourceParentId,
+    );
+  }, [resourceId, resourceType, resourceCdate, resourceParentId]);
 
   const handleLoadMore = React.useCallback(() => {
-    loadResourceActivityAct(resourceId, resourceType, "append", resourceCdate);
-  }, [resourceId, resourceType, resourceCdate]);
+    loadResourceActivityAct(
+      resourceId,
+      resourceType,
+      "append",
+      resourceCdate,
+      resourceParentId,
+    );
+  }, [resourceId, resourceType, resourceCdate, resourceParentId]);
 
   React.useEffect(() => {
-    loadResourceActivityAct(resourceId, resourceType, "replace", resourceCdate);
+    loadResourceActivityAct(
+      resourceId,
+      resourceType,
+      "replace",
+      resourceCdate,
+      resourceParentId,
+    );
 
     return () => {
       useResourceActivityState.reset();
     };
-  }, [resourceId, resourceType, resourceCdate]);
+  }, [resourceId, resourceType, resourceCdate, resourceParentId]);
 
   return (
     <Modal2 onClose={onClose}>

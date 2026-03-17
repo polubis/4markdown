@@ -83,7 +83,6 @@ const ResourceContributionContainer = ({
       documentMutation.start(() =>
         submitDocumentContributionAct({
           documentId: input.documentId,
-          currentContent: input.currentContent,
           proposedContent: proposedContent.trim(),
         }),
       );
@@ -92,7 +91,6 @@ const ResourceContributionContainer = ({
         submitMindmapNodeContributionAct({
           mindmapId: input.mindmapId,
           nodeId: input.nodeId,
-          currentContent: input.currentContent,
           proposedContent: proposedContent.trim(),
         }),
       );

@@ -4,6 +4,7 @@ import React from "react";
 import { BiPencil } from "react-icons/bi";
 import { Atoms } from "api-4markdown-contracts";
 import { useMindmapCreatorState } from "store/mindmap-creator";
+import { activeMindmapSelector } from "store/mindmap-creator/selectors";
 import {
   closeNodePreviewAction,
   openNodeEditionAction,
@@ -17,10 +18,8 @@ const MarkdownWidget = React.lazy(() =>
 
 const NodePreviewModalContainer = () => {
   const nodePreview = useMindmapCreatorState((state) => state.nodePreview);
-  const activeMindmapId = useMindmapCreatorState(
-    (state) => state.activeMindmapId,
-  );
-  const historyEnabled = Boolean(activeMindmapId);
+  const activeMindmap = useMindmapCreatorState(activeMindmapSelector);
+  const historyEnabled = Boolean(activeMindmap);
 
   const openNodeEdition = (): void => {
     if (nodePreview.is === `active`) {
@@ -83,6 +82,10 @@ const NodePreviewModalContainer = () => {
             : undefined
         }
         resourceType={historyEnabled ? "mindmap-node" : undefined}
+        resourceParentId={
+          historyEnabled ? (activeMindmap?.id as Atoms["MindmapId"]) : undefined
+        }
+        resourceCdate={historyEnabled ? activeMindmap?.cdate : undefined}
       />
     </React.Suspense>
   );

@@ -29,6 +29,7 @@ export type Atoms = {
   };
   DocumentCommentId: Brand<string, `DocumentCommentId`>;
   DocumentActivityId: Brand<string, `DocumentActivityId`>;
+  MindmapNodeActivityId: Brand<string, `MindmapNodeActivityId`>;
   DocumentContributionId: Brand<string, `DocumentContributionId`>;
   MindmapNodeCommentId: Brand<string, `MindmapNodeCommentId`>;
   MindmapNodeContributionId: Brand<string, `MindmapNodeContributionId`>;

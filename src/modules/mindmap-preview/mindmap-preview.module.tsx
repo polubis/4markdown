@@ -254,6 +254,8 @@ const MindmapPreviewModule = () => {
             markdown={nodePreview.data.content || `No content for this node`}
             resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
             resourceType="mindmap-node"
+            resourceCdate={mindmap.cdate}
+            resourceParentId={mindmap.id as Atoms["MindmapId"]}
           />
         </React.Suspense>
       )}

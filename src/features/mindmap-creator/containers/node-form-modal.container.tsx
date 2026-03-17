@@ -24,7 +24,10 @@ import {
 } from "store/mindmap-creator/actions";
 import { validationLimits } from "../core/validation";
 import { useMindmapCreatorState } from "store/mindmap-creator";
-import { openedNodeFormSelector } from "store/mindmap-creator/selectors";
+import {
+  activeMindmapSelector,
+  openedNodeFormSelector,
+} from "store/mindmap-creator/selectors";
 import { openNodeContentInCreatorAct } from "acts/open-node-content-in-creator.act";
 import { context, useSimpleFeature } from "@greenonsoftware/react-kit";
 import { Atoms } from "api-4markdown-contracts";
@@ -48,8 +51,12 @@ const prepareBaseValues = (values: {
 
 const NodeHistoryControls = ({
   nodeId,
+  mindmapId,
+  resourceCdate,
 }: {
   nodeId: Atoms["MindmapNodeId"];
+  mindmapId: Atoms["MindmapId"];
+  resourceCdate: Atoms["UTCDate"];
 }) => {
   const historyModal = useSimpleFeature();
   const moreMenuModal = useSimpleFeature();
@@ -84,6 +91,8 @@ const NodeHistoryControls = ({
           <ResourceActivityContainer
             resourceId={nodeId}
             resourceType="mindmap-node"
+            resourceParentId={mindmapId}
+            resourceCdate={resourceCdate}
             onClose={historyModal.off}
           />
         </React.Suspense>
@@ -110,9 +119,7 @@ const ExternalForm = () => {
   const nodeForm = useMindmapCreatorState((state) =>
     openedNodeFormSelector(state.nodeForm),
   );
-  const activeMindmapId = useMindmapCreatorState(
-    (state) => state.activeMindmapId,
-  );
+  const activeMindmap = useMindmapCreatorState(activeMindmapSelector);
 
   const [initialValues] = React.useState(() =>
     nodeForm.is === `active`
@@ -186,9 +193,11 @@ const ExternalForm = () => {
           }
           closeButtonTitle="Cancel node edition"
         >
-          {activeMindmapId && (
+          {activeMindmap && (
             <NodeHistoryControls
               nodeId={nodeForm.id as Atoms["MindmapNodeId"]}
+              mindmapId={activeMindmap.id as Atoms["MindmapId"]}
+              resourceCdate={activeMindmap.cdate}
             />
           )}
         </Modal2.Header>
@@ -297,9 +306,7 @@ const EmbeddedForm = () => {
   const nodeForm = useMindmapCreatorState((state) =>
     openedNodeFormSelector(state.nodeForm),
   );
-  const activeMindmapId = useMindmapCreatorState(
-    (state) => state.activeMindmapId,
-  );
+  const activeMindmap = useMindmapCreatorState(activeMindmapSelector);
 
   const [initialValues] = React.useState(() =>
     nodeForm.is === `active`
@@ -378,9 +385,11 @@ const EmbeddedForm = () => {
           }
           closeButtonTitle="Cancel node edition"
         >
-          {activeMindmapId && (
+          {activeMindmap && (
             <NodeHistoryControls
               nodeId={nodeForm.id as Atoms["MindmapNodeId"]}
+              mindmapId={activeMindmap.id as Atoms["MindmapId"]}
+              resourceCdate={activeMindmap.cdate}
             />
           )}
         </Modal2.Header>

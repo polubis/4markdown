@@ -222,33 +222,63 @@ type ResourceLikesContracts =
       SetUserResourceLikeRequestItem[]
     >;
 
-type ResourceActivityContracts = Contract<
-  "getDocumentActivity",
-  {
-    hasMore: boolean;
-    nextCursor: {
-      cdate: Atoms["UTCDate"];
-      id: Atoms["DocumentActivityId"];
-    } | null;
-    activities: Array<{
-      id: Atoms["DocumentActivityId"];
-      cdate: Atoms["UTCDate"];
-      type: "content-changed";
-      documentId: Atoms["DocumentId"];
-      previousContent: string;
-      newContent: string;
-      appliedByProfile: UserProfileDto | null;
-    }>;
-  },
-  {
-    documentId: Atoms["DocumentId"];
-    nextCursor: {
-      cdate: Atoms["UTCDate"];
-      id: Atoms["DocumentActivityId"];
-    } | null;
-    limit: number | null;
-  }
->;
+type ResourceActivityContracts =
+  | Contract<
+      "getDocumentActivity",
+      {
+        hasMore: boolean;
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["DocumentActivityId"];
+        } | null;
+        activities: Array<{
+          id: Atoms["DocumentActivityId"];
+          cdate: Atoms["UTCDate"];
+          type: "content-changed";
+          documentId: Atoms["DocumentId"];
+          previousContent: string;
+          newContent: string;
+          appliedByProfile: UserProfileDto | null;
+        }>;
+      },
+      {
+        documentId: Atoms["DocumentId"];
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["DocumentActivityId"];
+        } | null;
+        limit: number | null;
+      }
+    >
+  | Contract<
+      "getMindmapNodeActivity",
+      {
+        hasMore: boolean;
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["MindmapNodeActivityId"];
+        } | null;
+        activities: Array<{
+          id: Atoms["MindmapNodeActivityId"];
+          cdate: Atoms["UTCDate"];
+          type: "content-changed";
+          mindmapId: Atoms["MindmapId"];
+          nodeId: Atoms["MindmapNodeId"];
+          previousContent: string;
+          newContent: string;
+          appliedByProfile: UserProfileDto | null;
+        }>;
+      },
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["MindmapNodeActivityId"];
+        } | null;
+        limit: number | null;
+      }
+    >;
 
 type ResourceContributionContracts =
   | Contract<
