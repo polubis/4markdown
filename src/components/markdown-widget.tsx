@@ -10,7 +10,6 @@ import {
 import { useCopy } from "development-kit/use-copy";
 import { useKeyPress } from "development-kit/use-key-press";
 import React, { ReactNode } from "react";
-import { ResourceActivityContainer } from "modules/resource-activity";
 import {
   BiArrowToLeft,
   BiArrowToRight,
@@ -29,6 +28,12 @@ import {
 import { Atoms } from "api-4markdown-contracts";
 import Popover from "design-system/popover";
 import { Tabs } from "design-system/tabs";
+
+const ResourceActivityContainer = React.lazy(() =>
+  import("modules/resource-activity").then(({ ResourceActivityContainer }) => ({
+    default: ResourceActivityContainer,
+  })),
+);
 
 type MarkdownWidgetProps = {
   chunksActive?: boolean;

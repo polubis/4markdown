@@ -13,11 +13,16 @@ import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
 import { updateDocumentVisibilityAct } from "../acts/update-document-visibility.act";
 import { ResourceDetails } from "components/resource-details";
-import { ResourceActivityContainer } from "modules/resource-activity";
 
 const AccessGroupsAssignModule = React.lazy(() =>
   import("modules/access-groups-assign").then((m) => ({
     default: m.AccessGroupsAssignModule,
+  })),
+);
+
+const ResourceActivityContainer = React.lazy(() =>
+  import("modules/resource-activity").then(({ ResourceActivityContainer }) => ({
+    default: ResourceActivityContainer,
   })),
 );
 

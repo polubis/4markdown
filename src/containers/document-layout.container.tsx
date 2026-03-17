@@ -49,7 +49,6 @@ import { useCopy } from "development-kit/use-copy";
 import { useMutation2 } from "core/use-mutation-2";
 import { getAPI } from "api-4markdown";
 import { toast } from "design-system/toast";
-import { DocumentChangeHistoryContainer } from "containers/document-change-history.container";
 import { ResourceContributionContainer } from "modules/resource-contribution";
 import { useAuthStart } from "core/use-auth-start";
 import Popover from "design-system/popover";
@@ -61,6 +60,14 @@ const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
     default: MarkdownWidget,
   })),
+);
+
+const DocumentChangeHistoryContainer = React.lazy(() =>
+  import("containers/document-change-history.container").then(
+    ({ DocumentChangeHistoryContainer }) => ({
+      default: DocumentChangeHistoryContainer,
+    }),
+  ),
 );
 
 const ReadingTimeMetric = React.memo(
@@ -458,7 +465,9 @@ const DocumentLayoutContainer = () => {
       )}
 
       {changeHistoryModal.isOn && (
-        <DocumentChangeHistoryContainer onClose={changeHistoryModal.off} />
+        <React.Suspense>
+          <DocumentChangeHistoryContainer onClose={changeHistoryModal.off} />
+        </React.Suspense>
       )}
 
       {contributionModal.isOn && (
