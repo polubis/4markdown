@@ -1,4 +1,4 @@
-import { logIn } from "actions/log-in.action";
+import { logInAct } from "acts/log-in.act";
 import React from "react";
 import { useAuthStore } from "store/auth/auth.store";
 
@@ -18,7 +18,7 @@ const useAuthStart = () => {
 
       shouldStartAfterLogIn.current = true;
 
-      logIn();
+      logInAct();
     },
     [auth],
   );

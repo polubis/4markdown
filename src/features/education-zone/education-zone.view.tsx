@@ -11,7 +11,7 @@ import { meta } from "../../../meta";
 import {
   BiArrowToLeft,
   BiArrowToRight,
-  BiCheckboxChecked,
+  BiSolidCheckSquare,
   BiCommentDetail,
 } from "react-icons/bi";
 import { paginate } from "development-kit/paginate";
@@ -98,7 +98,7 @@ const ResourceCompletionMarkerContainer = ({
       title="This resource is completed"
       className="shrink-0 rounded-md bg-green-700 text-white p-0.5"
     >
-      <BiCheckboxChecked aria-hidden="true" size={20} />
+      <BiSolidCheckSquare aria-hidden="true" size={20} />
     </span>
   );
 };

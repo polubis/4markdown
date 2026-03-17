@@ -1,6 +1,6 @@
 import { Button } from "design-system/button";
 import React from "react";
-import { BiPencil, BiTrash } from "react-icons/bi";
+import { BiHistory, BiPencil, BiTrash } from "react-icons/bi";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
 import { PublicConfirmationContainer } from "features/creator/containers/public-confirmation.container";
@@ -13,6 +13,7 @@ import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { ResourceVisibilityTabs } from "components/resource-visibility-tabs";
 import { updateDocumentVisibilityAct } from "../acts/update-document-visibility.act";
 import { ResourceDetails } from "components/resource-details";
+import { ResourceActivityContainer } from "modules/resource-activity";
 
 const AccessGroupsAssignModule = React.lazy(() =>
   import("modules/access-groups-assign").then((m) => ({
@@ -33,6 +34,7 @@ const DocumentDetailsContainer = ({
   const permanentConfirmation = useSimpleFeature();
   const publicConfirmation = useSimpleFeature();
   const manualConfirmation = useSimpleFeature();
+  const historyModal = useSimpleFeature();
   const docStore = docStoreSelectors.useActive();
   const docManagementStore = useDocManagementStore();
   const permamentDocumentEdition = useSimpleFeature();
@@ -91,11 +93,23 @@ const DocumentDetailsContainer = ({
         </React.Suspense>
       )}
 
+      {historyModal.isOn && (
+        <React.Suspense>
+          <ResourceActivityContainer
+            resourceId={docStore.id}
+            resourceType="document"
+            resourceCdate={docStore.cdate}
+            onClose={historyModal.off}
+          />
+        </React.Suspense>
+      )}
+
       {permanentConfirmation.isOff &&
         publicConfirmation.isOff &&
         privateConfirmation.isOff &&
         permamentDocumentEdition.isOff &&
-        manualConfirmation.isOff && (
+        manualConfirmation.isOff &&
+        historyModal.isOff && (
           <>
             <Modal2.Header
               title="Details"
@@ -109,6 +123,15 @@ const DocumentDetailsContainer = ({
                 onClick={onOpen}
               >
                 <BiTrash />
+              </Button>
+              <Button
+                i={2}
+                s={1}
+                disabled={disabled}
+                title="View change history"
+                onClick={historyModal.on}
+              >
+                <BiHistory />
               </Button>
               {docStore.visibility === `permanent` && (
                 <Button

@@ -6,6 +6,8 @@ import { c } from "design-system/c";
 import { navigate } from "gatsby";
 import { formatDistance } from "date-fns";
 import { Atoms } from "api-4markdown-contracts";
+import { meta } from "../../meta";
+import { useCopy } from "development-kit/use-copy";
 
 type ResourceDetailsProps = {
   visibility: Atoms["ResourceVisibility"];
@@ -22,6 +24,9 @@ type ResourceDetailsProps = {
   onAccessEdit: () => void;
 };
 
+const toFullUrl = (path: string): string =>
+  meta.siteUrl + (path.startsWith("/") ? path : `/${path}`);
+
 const ResourceDetails = ({
   name,
   id,
@@ -36,9 +41,35 @@ const ResourceDetails = ({
   sharedForGroups,
   onAccessEdit,
 }: ResourceDetailsProps) => {
+  const [idCopyState, copyId] = useCopy();
+  const [descriptionCopyState, copyDescription] = useCopy();
+  const [tagsCopyState, copyTags] = useCopy();
+  const [staticCopyState, copyStatic] = useCopy();
+  const [dynamicCopyState, copyDynamic] = useCopy();
+
+  // URL display and copy depend on resource visibility:
+  // - permanent → both static URL and dynamic (preview) URL
+  // - public or manual → dynamic (preview) URL only
+  // - private → neither
+  const fullStaticUrl =
+    visibility === "permanent" && staticUrl ? toFullUrl(staticUrl) : undefined;
+  const fullDynamicUrl =
+    (visibility === "permanent" ||
+      visibility === "public" ||
+      visibility === "manual") &&
+    previewUrl
+      ? toFullUrl(previewUrl)
+      : undefined;
+
+  const trimmedId = id.trim();
+  const trimmedDescription = description?.trim() || "—";
+  const descriptionToCopy =
+    trimmedDescription === "—" ? "" : trimmedDescription;
+  const tagsText = tags && tags.length > 0 ? tags.join(", ") : "";
+
   return (
     <>
-      <div className="relative flex flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
+      <div className="relative flex flex-col">
         <div>
           <strong
             className={c(
@@ -51,63 +82,182 @@ const ResourceDetails = ({
             <VisibilityIcon className="size-6" visibility={visibility} />
             {visibility}
           </strong>
-          <h6 className="text-2xl">{name}</h6>
+          <h6 className="text-lg">{name}</h6>
         </div>
-        {description && <p className="mt-1.5 line-clamp-3">{description}</p>}
-        {tags && tags.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <span
-                key={tag}
-                className="flex text-sm font-medium uppercase w-fit rounded-md bg-slate-200 dark:bg-slate-800 py-1 px-1.5"
-              >
-                {tag}
+        {descriptionToCopy && (
+          <div className="mt-3 min-w-0">
+            <span className="block text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+              Description
+            </span>
+            <button
+              type="button"
+              onClick={() => copyDescription(descriptionToCopy)}
+              title="Click to copy"
+              className={c(
+                "text-left w-full rounded px-2 py-1 -mx-2 -my-1",
+                "text-sm line-clamp-3 block",
+                "text-zinc-700 dark:text-zinc-300",
+                "hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer",
+                "border border-transparent hover:border-zinc-300 dark:hover:border-zinc-600",
+              )}
+            >
+              {trimmedDescription}
+            </button>
+            {descriptionCopyState.is === "copied" && (
+              <span className="text-xs text-green-600 dark:text-green-500 mt-0.5 block">
+                Copied!
               </span>
-            ))}
+            )}
           </div>
         )}
-      </div>
-
-      <div className="mt-2 flex flex-col gap-1 border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4">
-        <p>
-          ID:{` `}
-          <strong>{id}</strong>
-        </p>
-        <p>
-          Created:{` `}
-          <strong>
-            {formatDistance(new Date().toISOString(), createdAt)} ago
-          </strong>
-        </p>
-        <p>
-          Edited:{` `}
-          <strong>
-            {formatDistance(new Date().toISOString(), editedAt)} ago
-          </strong>
-        </p>
-        {visibility === "manual" && (
-          <p>
-            Groups with access:{` `}
-            <strong>{sharedForGroups?.length ?? 0}</strong>
-          </p>
+        {tagsText && (
+          <div className="mt-3 min-w-0">
+            <span className="block text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+              Tags
+            </span>
+            <button
+              type="button"
+              onClick={() => copyTags(tagsText)}
+              title="Click to copy"
+              className={c(
+                "text-left w-full rounded px-2 py-1 -mx-2 -my-1",
+                "text-sm block text-zinc-700 dark:text-zinc-300",
+                "hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer",
+                "border border-transparent hover:border-zinc-300 dark:hover:border-zinc-600",
+              )}
+            >
+              {tagsText}
+            </button>
+            {tagsCopyState.is === "copied" && (
+              <span className="text-xs text-green-600 dark:text-green-500 mt-0.5 block">
+                Copied!
+              </span>
+            )}
+          </div>
         )}
+
+        <div className="mt-4 flex flex-wrap gap-x-4 gap-y-3">
+          <div className="min-w-0">
+            <span className="block text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+              ID
+            </span>
+            <button
+              type="button"
+              onClick={() => copyId(trimmedId)}
+              title="Click to copy"
+              className={c(
+                "text-left w-full rounded px-2 py-1 -mx-2 -my-1",
+                "text-sm font-mono break-all block",
+                "hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer",
+                "border border-transparent hover:border-zinc-300 dark:hover:border-zinc-600",
+              )}
+            >
+              {trimmedId}
+            </button>
+            {idCopyState.is === "copied" && (
+              <span className="text-xs text-green-600 dark:text-green-500 mt-0.5 block">
+                Copied!
+              </span>
+            )}
+          </div>
+          <div className="min-w-0">
+            <span className="block text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+              Created
+            </span>
+            <strong className="block">
+              {formatDistance(new Date().toISOString(), createdAt)} ago
+            </strong>
+          </div>
+          <div className="min-w-0">
+            <span className="block text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+              Edited
+            </span>
+            <strong className="block">
+              {formatDistance(new Date().toISOString(), editedAt)} ago
+            </strong>
+          </div>
+          {visibility === "manual" && (
+            <div className="min-w-0">
+              <span className="block text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+                Groups with access
+              </span>
+              <strong className="block">{sharedForGroups?.length ?? 0}</strong>
+            </div>
+          )}
+          {fullStaticUrl && (
+            <div className="min-w-0 flex-1 basis-64">
+              <span className="block text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+                Static URL
+              </span>
+              <button
+                type="button"
+                onClick={() => copyStatic(fullStaticUrl)}
+                title="Click to copy"
+                className={c(
+                  "text-left w-full rounded px-2 py-1 -mx-2 -my-1",
+                  "text-sm font-mono truncate block",
+                  "hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer",
+                  "border border-transparent hover:border-zinc-300 dark:hover:border-zinc-600",
+                )}
+              >
+                {fullStaticUrl}
+              </button>
+              {staticCopyState.is === "copied" && (
+                <span className="text-xs text-green-600 dark:text-green-500 mt-0.5 block">
+                  Copied!
+                </span>
+              )}
+            </div>
+          )}
+          {fullDynamicUrl && (
+            <div className="min-w-0 flex-1 basis-64">
+              <span className="block text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-1">
+                Dynamic URL
+              </span>
+              <button
+                type="button"
+                onClick={() => copyDynamic(fullDynamicUrl)}
+                title="Click to copy"
+                className={c(
+                  "text-left w-full rounded px-2 py-1 -mx-2 -my-1",
+                  "text-sm font-mono truncate block",
+                  "hover:bg-zinc-200 dark:hover:bg-zinc-700 cursor-pointer",
+                  "border border-transparent hover:border-zinc-300 dark:hover:border-zinc-600",
+                )}
+              >
+                {fullDynamicUrl}
+              </button>
+              {dynamicCopyState.is === "copied" && (
+                <span className="text-xs text-green-600 dark:text-green-500 mt-0.5 block">
+                  Copied!
+                </span>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="flex items-center gap-2 mt-4 justify-end">
-        {visibility !== "private" && previewUrl && (
+        {fullStaticUrl && staticUrl && (
           <Button
             auto
-            title={`${type} preview`}
+            title="Open static URL"
+            s={1}
+            i={2}
+            onClick={() => navigate(staticUrl)}
+          >
+            Static URL
+          </Button>
+        )}
+        {fullDynamicUrl && previewUrl && (
+          <Button
+            auto
+            title="Open dynamic URL"
             s={1}
             i={2}
             onClick={() => navigate(previewUrl)}
           >
-            Preview
-          </Button>
-        )}
-        {visibility === "permanent" && staticUrl && (
-          <Button auto s={1} i={2} onClick={() => navigate(staticUrl)}>
-            URL
+            Dynamic URL
           </Button>
         )}
         {visibility === "manual" && (

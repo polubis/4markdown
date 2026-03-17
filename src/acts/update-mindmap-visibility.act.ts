@@ -6,6 +6,7 @@ import {
   readyMindmapsSelector,
   safeActiveMindmapSelector,
 } from "store/mindmap-creator/selectors";
+import { addOrBumpEntryAction } from "modules/previous-work";
 
 const updateMindmapVisibilityAct = async (
   visibility: MindmapDto["visibility"],
@@ -56,6 +57,13 @@ const updateMindmapVisibilityAct = async (
     setCache(`getYourMindmaps`, {
       mindmaps: newMindmaps,
       mindmapsCount: newMindmaps.length,
+    });
+
+    addOrBumpEntryAction({
+      type: `mindmap`,
+      resourceId: activeMindmap.id as Atoms["MindmapId"],
+      title: activeMindmap.name,
+      lastTouched: Date.now(),
     });
 
     return { is: "ok" };

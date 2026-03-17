@@ -1,5 +1,5 @@
 import c from "classnames";
-import { CompanyLogo } from "components/company-logo";
+import { GreenOnLogo } from "components/green-on-logo";
 import { Link } from "gatsby";
 import React, { type ReactNode } from "react";
 import { meta } from "../../meta";
@@ -45,18 +45,6 @@ const AppFooterContainer = () => {
             </Link>
 
             <p className="text-sm flex flex-col">
-              <span>
-                By{` `}
-                <a
-                  href={meta.companyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:underline underline-offset-2"
-                >
-                  <CompanyLogo size={16} className="inline mx-1 mb-1" />
-                  <strong>{meta.company}</strong>
-                </a>
-              </span>
               <span>© 2024 All rights reserved</span>
               <span>{meta.contactEmail}</span>
             </p>
@@ -185,6 +173,16 @@ const AppFooterContainer = () => {
               YouTube
             </a>
           </Column>
+        </div>
+        <div className="mt-4 pt-4 border-t border-zinc-300 dark:border-zinc-800 flex justify-end px-4 pb-5">
+          <a
+            href={meta.companyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="outline-none focus:outline focus:outline-2.5 focus:outline-offset-0 focus:outline-black dark:focus:outline-2 dark:focus:outline-white rounded text-zinc-900 dark:text-zinc-100"
+          >
+            <GreenOnLogo height={72} className="shrink-0" />
+          </a>
         </div>
       </div>
     </footer>

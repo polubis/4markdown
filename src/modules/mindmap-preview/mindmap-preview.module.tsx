@@ -6,11 +6,11 @@ import {
   ReactFlow,
   type EdgeProps,
   type NodeProps,
-  Controls,
   useNodesState,
   useEdgesState,
 } from "@xyflow/react";
 import React, { type ComponentType } from "react";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
 import { useMindmapPreviewState } from "store/mindmap-preview";
 import { readyMindmapPreviewSelector } from "store/mindmap-preview/selectors";
 import {
@@ -27,11 +27,32 @@ import {
   EmbeddedNodeTileContainerY,
 } from "./containers/embedded-node-tile.container";
 import { closeNodePreviewAction } from "store/mindmap-preview/actions";
-import { useResourceCompletionToggle } from "modules/resource-completions";
-import { API4MarkdownPayload, Atoms } from "api-4markdown-contracts";
+import {
+  useResourceCompletion,
+  useResourceCompletionToggle,
+} from "modules/resource-completions";
+import {
+  useResourceLikeToggle,
+  type SetUserResourceLikePayloadWithoutLiked,
+} from "modules/resource-likes";
+import { ResourceContributionContainer } from "modules/resource-contribution";
+import { useAuthStart } from "core/use-auth-start";
+import {
+  Atoms,
+  SetUserResourceCompletionPayloadWithoutCompleted,
+} from "api-4markdown-contracts";
 import { MindmapPreviewNodeWithCompletion } from "./models";
 import { Button } from "design-system/button";
-import { BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
+import {
+  BiCheckSquare,
+  BiEdit,
+  BiStar,
+  BiSolidCheckSquare,
+  BiSolidStar,
+} from "react-icons/bi";
+import { MindmapNodeEngagement } from "./components/mindmap-node-engagement";
+import { useLocation } from "@reach/router";
+import { MINDMAP_NODE_ID_PARAM_KEY } from "modules/mindmap-searcher";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -65,17 +86,29 @@ const mindmapNodeTypes: MindmapNodeTypes = {
 };
 
 const ResourceCompletionTriggerContainer = (
-  props: API4MarkdownPayload<"setUserResourceCompletion">,
+  props: SetUserResourceCompletionPayloadWithoutCompleted,
 ) => {
   const [state, completion, toggle] = useResourceCompletionToggle(props);
   // @TODO[PRIO=2]: [Handle error case with some toast or error message].
   return (
     <Button s={1} i={2} disabled={state.is === `busy`} onClick={toggle}>
       {completion ? (
-        <BiCheckboxMinus size={24} />
+        <BiSolidCheckSquare size={24} />
       ) : (
-        <BiCheckboxChecked size={24} />
+        <BiCheckSquare size={24} />
       )}
+    </Button>
+  );
+};
+
+const ResourceLikeTriggerContainer = (
+  props: SetUserResourceLikePayloadWithoutLiked,
+) => {
+  const [state, like, toggle] = useResourceLikeToggle(props);
+  // @TODO[PRIO=2]: [Handle error case with some toast or error message].
+  return (
+    <Button s={1} i={2} disabled={state.is === `busy`} onClick={toggle}>
+      {like ? <BiSolidStar /> : <BiStar />}
     </Button>
   );
 };
@@ -84,10 +117,39 @@ const edgeTypes: MindmapEdgeTypes = {
 };
 
 const MindmapPreviewModule = () => {
+  const location = useLocation();
   const mindmap = useMindmapPreviewState((state) =>
     readyMindmapPreviewSelector(state.mindmap),
   );
   const nodePreview = useMindmapPreviewState((state) => state.nodePreview);
+  const contributionModal = useSimpleFeature();
+  const startAuth = useAuthStart();
+  const nodeCompletion = useResourceCompletion(
+    nodePreview.is === "on"
+      ? (nodePreview.id as Atoms["MindmapNodeId"])
+      : (mindmap.id as Atoms["ResourceId"]),
+  );
+  const nodeEngagement = React.useMemo(() => {
+    if (nodePreview.is !== `on`) return null;
+
+    const rating = (nodePreview as any).data?.rating as
+      | Atoms["Rating"]
+      | undefined;
+    const score = (nodePreview as any).data?.score as
+      | {
+          average: number;
+          count: number;
+          values: Atoms["ScoreValue"][];
+        }
+      | undefined;
+    const commentsCount = nodePreview.data.commentsCount;
+
+    return {
+      rating,
+      score,
+      commentsCount,
+    };
+  }, [nodePreview]);
 
   const [initialNodes] = React.useState(() =>
     mindmap.nodes.map((node) => ({
@@ -101,6 +163,29 @@ const MindmapPreviewModule = () => {
 
   const [nodes, _, onNodesChange] = useNodesState(initialNodes);
   const [edges, __, onEdgesChange] = useEdgesState(mindmap.edges);
+  const reactFlowInstanceRef = React.useRef<any>(null);
+
+  React.useEffect(() => {
+    const reactFlowInstance = reactFlowInstanceRef.current;
+    if (!reactFlowInstance) return;
+
+    const params = new URLSearchParams(location.search);
+    const searchedNodeId = params.get(MINDMAP_NODE_ID_PARAM_KEY);
+
+    if (!searchedNodeId) return;
+
+    const node = nodes.find((currentNode) => currentNode.id === searchedNodeId);
+    if (!node) return;
+
+    const x = node.position.x;
+    const y = node.position.y;
+    const zoom = Math.max(reactFlowInstance.getZoom(), 1.1);
+
+    reactFlowInstance.setCenter(x, y, {
+      zoom,
+      duration: 400,
+    });
+  }, [location.search, nodes]);
 
   return (
     <>
@@ -111,11 +196,13 @@ const MindmapPreviewModule = () => {
         edgeTypes={edgeTypes as EdgeTypes}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onInit={(instance) => {
+          reactFlowInstanceRef.current = instance;
+        }}
         fitView
         nodesDraggable={false}
         nodesConnectable={false}
       >
-        <Controls />
         <Background />
         <MiniMap className="hidden md:block" />
       </ReactFlow>
@@ -123,18 +210,70 @@ const MindmapPreviewModule = () => {
         <React.Suspense>
           <MarkdownWidget
             headerControls={
-              <ResourceCompletionTriggerContainer
-                type="mindmap-node"
-                resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
-                parentId={mindmap.id as Atoms["MindmapId"]}
+              <>
+                <ResourceLikeTriggerContainer
+                  type="mindmap-node"
+                  resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
+                  parentId={mindmap.id as Atoms["MindmapId"]}
+                  title={nodePreview.data.name}
+                  description={nodePreview.data.description ?? undefined}
+                />
+                <ResourceCompletionTriggerContainer
+                  type="mindmap-node"
+                  resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
+                  parentId={mindmap.id as Atoms["MindmapId"]}
+                  title={nodePreview.data.name}
+                  description={nodePreview.data.description ?? undefined}
+                />
+              </>
+            }
+            headerMoreContent={
+              nodePreview.data.content != null &&
+              nodePreview.data.content.length > 0 ? (
+                <Button
+                  title="Contribute improvements to this node"
+                  s={1}
+                  i={2}
+                  onClick={() => startAuth(() => contributionModal.on())}
+                >
+                  <BiEdit className="shrink-0" />
+                </Button>
+              ) : null
+            }
+            footerLeftControls={
+              <MindmapNodeEngagement
+                mindmapId={mindmap.id as Atoms["MindmapId"]}
+                nodeId={nodePreview.id as Atoms["MindmapNodeId"]}
+                initialRating={nodeEngagement?.rating}
+                initialScore={nodeEngagement?.score}
+                initialCommentsCount={nodeEngagement?.commentsCount}
               />
             }
             chunksActive={false}
             onClose={closeNodePreviewAction}
             markdown={nodePreview.data.content || `No content for this node`}
+            resourceId={nodePreview.id as Atoms["MindmapNodeId"]}
+            resourceType="mindmap-node"
+            resourceCdate={mindmap.cdate}
+            resourceParentId={mindmap.id as Atoms["MindmapId"]}
           />
         </React.Suspense>
       )}
+      {nodePreview.is === `on` &&
+        nodePreview.data.content != null &&
+        nodePreview.data.content.length > 0 &&
+        contributionModal.isOn && (
+          <ResourceContributionContainer
+            input={{
+              type: "mindmap-node",
+              mindmapId: mindmap.id as Atoms["MindmapId"],
+              nodeId: nodePreview.id as Atoms["MindmapNodeId"],
+              currentContent: nodePreview.data.content ?? "",
+              isCompleted: !!nodeCompletion,
+            }}
+            onClose={contributionModal.off}
+          />
+        )}
     </>
   );
 };

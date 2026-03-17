@@ -2,6 +2,7 @@ import React from "react";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { Modal2 } from "design-system/modal2";
 import { createDocumentAct } from "acts/create-document.act";
+import { createEmptyDocumentAct } from "acts/create-empty-document.act";
 import { startConversationAction } from "store/document-generation/actions";
 import {
   NewDocumentForm,
@@ -53,6 +54,10 @@ const CreateDocumentModalContainer = ({
   const isMaxAIGenerationReached =
     conversations.length >= MAX_AI_GENERATION_COUNT;
 
+  const handleFromScratchCreation = async () => {
+    (await createEmptyDocumentAct()) && onClose();
+  };
+
   return (
     <Modal2 disabled={docManagementStore.is === `busy`} onClose={onClose}>
       <Modal2.Header
@@ -65,13 +70,15 @@ const CreateDocumentModalContainer = ({
           <>
             <section className="flex flex-col gap-3">
               <button
-                className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
                 onClick={() => setActiveType(`manual`)}
+                disabled={docManagementStore.is === `busy`}
                 title="Go to manual document creation form"
               >
                 <h6 className="capitalize text-left">Setup Things Manually</h6>
                 <p className="mt-1 text-sm text-left">
-                  Adding document by providing its name
+                  Save current editor content as a document by providing its
+                  name
                 </p>
               </button>
               <button
@@ -102,6 +109,19 @@ const CreateDocumentModalContainer = ({
                     voilà!
                   </p>
                 )}
+              </button>
+              <button
+                className="disabled:bg-neutral-300/90 disabled:text-black/50 dark:disabled:bg-gray-900/20 dark:disabled:text-white/50 disabled:cursor-not-allowed flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+                onClick={handleFromScratchCreation}
+                disabled={docManagementStore.is === `busy`}
+                title="Create new empty document"
+              >
+                <h6 className="capitalize text-left">From Scratch</h6>
+                <p className="mt-1 text-sm text-left">
+                  Create a blank document with an auto-generated name
+                  {` `}
+                  <code>new-today-date</code> and empty content
+                </p>
               </button>
             </section>
           </>

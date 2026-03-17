@@ -10,6 +10,7 @@ import {
 import { useCopy } from "development-kit/use-copy";
 import { useKeyPress } from "development-kit/use-key-press";
 import React, { ReactNode } from "react";
+import { ResourceActivityContainer } from "modules/resource-activity";
 import {
   BiArrowToLeft,
   BiArrowToRight,
@@ -17,16 +18,30 @@ import {
   BiBookContent,
   BiCheck,
   BiChevronDown,
+  BiCollapse,
   BiCopyAlt,
   BiDetail,
+  BiDotsHorizontal,
+  BiExpand,
+  BiHistory,
   BiListOl,
 } from "react-icons/bi";
+import { Atoms } from "api-4markdown-contracts";
+import Popover from "design-system/popover";
+import { Tabs } from "design-system/tabs";
 
 type MarkdownWidgetProps = {
   chunksActive?: boolean;
   headerControls?: ReactNode;
+  /** Optional content rendered inside the header "More options" (⋯) popover. */
+  headerMoreContent?: ReactNode;
+  footerLeftControls?: ReactNode;
   markdown: string;
   onClose(): void;
+  resourceId?: Atoms["ResourceId"];
+  resourceType?: Atoms["ResourceType"];
+  resourceCdate?: Atoms["UTCDate"];
+  resourceParentId?: Atoms["MindmapId"];
 };
 
 const MAX_CHUNK_HEADING_LEVEL = 2;
@@ -34,8 +49,14 @@ const MAX_CHUNK_HEADING_LEVEL = 2;
 const MarkdownWidget = ({
   chunksActive = true,
   headerControls,
+  headerMoreContent,
+  footerLeftControls,
   markdown,
   onClose,
+  resourceId,
+  resourceType,
+  resourceCdate,
+  resourceParentId,
 }: MarkdownWidgetProps) => {
   const bodyId = React.useId();
   const markdownId = React.useId();
@@ -138,6 +159,28 @@ const MarkdownWidget = ({
   useKeyPress([`d`, `D`, `ArrowRight`], goToNextChunk);
 
   const [copyState, copy] = useCopy();
+  const historyModal = useSimpleFeature();
+  const moreMenuModal = useSimpleFeature();
+  const [isFullscreen, setIsFullscreen] = React.useState(false);
+  const [articleWidth, setArticleWidth] = React.useState<
+    "narrow" | "medium" | "wide" | "full"
+  >("full");
+  const [isLargeScreen, setIsLargeScreen] = React.useState(false);
+
+  // Check if screen is large enough for width controls
+  // Using 768px (md breakpoint) as minimum - narrow option (max-w-2xl = 672px) needs space
+  React.useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth >= 768);
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => {
+      window.removeEventListener("resize", checkScreenSize);
+    };
+  }, []);
 
   React.useLayoutEffect(() => {
     const timeout = setTimeout(() => {
@@ -193,7 +236,14 @@ const MarkdownWidget = ({
   }, [markdownId, chunksMode.isOn]);
 
   return (
-    <Modal2 className="[&>*]:max-w-3xl [&>*]:h-full" onClose={onClose}>
+    <Modal2
+      className={c(
+        isFullscreen
+          ? "!p-0 [&>*]:!max-w-full [&>*]:!w-full [&>*]:!h-screen [&>*]:!max-h-full [&>*]:!rounded-none"
+          : "[&>*]:max-w-3xl [&>*]:h-full",
+      )}
+      onClose={onClose}
+    >
       <Modal2.Header
         title={
           chunksMode.isOn
@@ -203,24 +253,159 @@ const MarkdownWidget = ({
         closeButtonTitle="Close preview mode (Esc)"
       >
         {headerControls}
-        <Button
-          title={
-            chunksMode.isOn ? "Show full content" : "Show content as chapters"
-          }
-          i={2}
-          s={1}
-          onClick={toggleMode}
-        >
-          {chunksMode.isOn ? <BiListOl /> : <BiDetail />}
-        </Button>
+        <div className="relative">
+          <Button title="More options" i={2} s={1} onClick={moreMenuModal.on}>
+            <BiDotsHorizontal />
+          </Button>
+          {moreMenuModal.isOn && (
+            <Popover
+              className="!absolute flex flex-col gap-3 translate-y-2.5 right-0 w-fit min-w-[200px]"
+              onBackdropClick={moreMenuModal.off}
+            >
+              <div className="flex gap-2">
+                <Button
+                  title="Copy markdown"
+                  s={1}
+                  i={2}
+                  onClick={copyMarkdown}
+                >
+                  {copyState.is === `copied` ? (
+                    <BiCheck className="text-green-700" />
+                  ) : (
+                    <BiCopyAlt />
+                  )}
+                </Button>
+                {resourceId && resourceType && (
+                  <Button
+                    title="View change history"
+                    s={1}
+                    i={2}
+                    onClick={() => historyModal.on()}
+                  >
+                    <BiHistory />
+                  </Button>
+                )}
+                {headerMoreContent}
+                <Tabs fit className="!h-8">
+                  <Tabs.Item
+                    active={!chunksMode.isOn}
+                    title="Show full content"
+                    onClick={chunksMode.isOff ? undefined : toggleMode}
+                    className="!h-8 !w-8 !p-0 !min-w-0 !flex !items-center !justify-center !flex-none"
+                  >
+                    <BiDetail className="text-xl" />
+                  </Tabs.Item>
+                  <Tabs.Item
+                    active={chunksMode.isOn}
+                    title="Show content as chapters"
+                    onClick={chunksMode.isOn ? undefined : toggleMode}
+                    className="!h-8 !w-8 !p-0 !min-w-0 !flex !items-center !justify-center !flex-none"
+                  >
+                    <BiListOl className="text-xl" />
+                  </Tabs.Item>
+                </Tabs>
+                <Button
+                  title={
+                    isFullscreen ? "Exit fullscreen" : "Read in fullscreen"
+                  }
+                  s={1}
+                  i={2}
+                  onClick={() => {
+                    setIsFullscreen(!isFullscreen);
+                    if (isFullscreen) {
+                      setArticleWidth("full");
+                    }
+                  }}
+                >
+                  {isFullscreen ? <BiCollapse /> : <BiExpand />}
+                </Button>
+              </div>
+              {isFullscreen && isLargeScreen && (
+                <div className="flex items-center justify-between gap-4 border-t border-zinc-300 dark:border-zinc-800 pt-3">
+                  <label
+                    htmlFor="article-width-controls"
+                    className="text-sm font-medium text-gray-700 dark:text-gray-300 whitespace-nowrap leading-none"
+                  >
+                    Article Width
+                  </label>
+                  <div
+                    id="article-width-controls"
+                    className="flex items-center gap-2"
+                  >
+                    {(["narrow", "medium", "wide", "full"] as const).map(
+                      (width) => (
+                        <button
+                          key={width}
+                          type="button"
+                          aria-pressed={articleWidth === width}
+                          aria-label={`Set article width to ${width}`}
+                          title={`Set article width to ${width}`}
+                          onClick={() => setArticleWidth(width)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault();
+                              setArticleWidth(width);
+                            }
+                          }}
+                          className={c(
+                            "relative w-5 h-5 rounded-full transition-colors duration-150",
+                            "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1",
+                            "focus-visible:outline-black focus-visible:dark:outline-white",
+                            "touch-action-manipulation",
+                            "flex items-center justify-center",
+                            articleWidth === width
+                              ? "bg-green-700 dark:bg-green-400"
+                              : "bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600",
+                          )}
+                        >
+                          <span
+                            className={c(
+                              "w-1.5 h-1.5 rounded-full",
+                              articleWidth === width
+                                ? "bg-white dark:bg-zinc-900"
+                                : "bg-gray-500 dark:bg-gray-400",
+                            )}
+                            aria-hidden="true"
+                          />
+                        </button>
+                      ),
+                    )}
+                  </div>
+                </div>
+              )}
+            </Popover>
+          )}
+        </div>
       </Modal2.Header>
       <Modal2.Body
         id={bodyId}
         className={c("p-0", asideNavigation.isOn && "overflow-hidden")}
       >
-        <Markdown id={markdownId} className="!max-w-full p-4">
-          {chunksMode.isOn ? activeChunk : markdown}
-        </Markdown>
+        <div
+          className={c(
+            "w-full",
+            isFullscreen && "flex justify-center",
+            isFullscreen && articleWidth !== "full" && "px-4",
+          )}
+        >
+          <Markdown
+            id={markdownId}
+            className={c(
+              "p-4",
+              isFullscreen
+                ? articleWidth === "narrow"
+                  ? "!max-w-2xl"
+                  : articleWidth === "medium"
+                    ? "!max-w-3xl"
+                    : articleWidth === "wide"
+                      ? "!max-w-5xl"
+                      : "!max-w-full"
+                : "!max-w-full",
+            )}
+          >
+            {chunksMode.isOn ? activeChunk : markdown}
+          </Markdown>
+        </div>
         {asideNavigation.isOn && (
           <>
             <aside className="sticky h-full left-0 right-0 bottom-0 w-full flex flex-col animate-slide-in-bottom">
@@ -266,43 +451,33 @@ const MarkdownWidget = ({
         )}
       </Modal2.Body>
       <Modal2.Footer className="justify-between">
+        <div className="flex items-center gap-2">{footerLeftControls}</div>
         <div className="flex items-center gap-2">
-          <Button
-            i={2}
-            s={1}
-            title="Scroll to top preview top"
-            disabled={asideNavigation.isOn}
-            onClick={scrollToTop}
-          >
-            <BiArrowToTop />
-          </Button>
-          <Button i={2} s={1} title="Copy markdown" onClick={copyMarkdown}>
-            {copyState.is === `copied` ? (
-              <BiCheck className="text-green-700" />
-            ) : (
-              <BiCopyAlt />
-            )}
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-2">
-          {finalHeadings.length > 1 && (
-            <Button
-              title={
-                asideNavigation.isOn
-                  ? "Hide table of contents"
-                  : "Show table of contents"
-              }
-              i={2}
-              s={1}
-              onClick={asideNavigation.toggle}
-            >
-              {asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
-            </Button>
-          )}
-
-          {chunksMode.isOn && (
+          {chunksMode.isOn ? (
             <>
+              {finalHeadings.length > 1 && (
+                <Button
+                  title={
+                    asideNavigation.isOn
+                      ? "Hide table of contents"
+                      : "Show table of contents"
+                  }
+                  i={2}
+                  s={1}
+                  onClick={asideNavigation.toggle}
+                >
+                  {asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
+                </Button>
+              )}
+              <Button
+                i={2}
+                s={1}
+                title="Scroll to top preview top"
+                disabled={asideNavigation.isOn}
+                onClick={scrollToTop}
+              >
+                <BiArrowToTop />
+              </Button>
               <Button
                 i={2}
                 s={1}
@@ -322,9 +497,46 @@ const MarkdownWidget = ({
                 <BiArrowToRight />
               </Button>
             </>
+          ) : (
+            <>
+              <Button
+                i={2}
+                s={1}
+                title="Scroll to top preview top"
+                disabled={asideNavigation.isOn}
+                onClick={scrollToTop}
+              >
+                <BiArrowToTop />
+              </Button>
+              {finalHeadings.length > 1 && (
+                <Button
+                  title={
+                    asideNavigation.isOn
+                      ? "Hide table of contents"
+                      : "Show table of contents"
+                  }
+                  i={2}
+                  s={1}
+                  onClick={asideNavigation.toggle}
+                >
+                  {asideNavigation.isOn ? <BiChevronDown /> : <BiBookContent />}
+                </Button>
+              )}
+            </>
           )}
         </div>
       </Modal2.Footer>
+      {historyModal.isOn && resourceId && resourceType && (
+        <React.Suspense>
+          <ResourceActivityContainer
+            resourceId={resourceId}
+            resourceType={resourceType}
+            resourceCdate={resourceCdate}
+            resourceParentId={resourceParentId}
+            onClose={historyModal.off}
+          />
+        </React.Suspense>
+      )}
     </Modal2>
   );
 };

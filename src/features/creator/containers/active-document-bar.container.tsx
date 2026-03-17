@@ -1,14 +1,14 @@
 import { Button } from "design-system/button";
 import React from "react";
-import { BiCheck, BiDotsHorizontal, BiEdit, BiSave, BiX } from "react-icons/bi";
+import { BiCheck, BiDetail, BiEdit, BiSave, BiX } from "react-icons/bi";
 import { useAuthStore } from "store/auth/auth.store";
 import { useDocManagementStore } from "store/doc-management/doc-management.store";
 import { docStoreSelectors } from "store/doc/doc.store";
 import { useDocsStore } from "store/docs/docs.store";
 import { YourDocumentsContainer } from "./your-documents.container";
 import { useForm } from "development-kit/use-form";
-import { updateDocumentCode } from "actions/update-document-code.action";
-import { updateDocumentName } from "actions/update-document-name.action";
+import { updateDocumentCodeAct } from "acts/update-document-code.act";
+import { updateDocumentNameAct } from "acts/update-document-name.act";
 import { useDocumentCreatorState } from "store/document-creator";
 import { useSimpleFeature } from "@greenonsoftware/react-kit";
 
@@ -41,7 +41,7 @@ const ActiveDocumentBarContainer = () => {
   > = async (e) => {
     e.preventDefault();
     try {
-      await updateDocumentName(values.name);
+      await updateDocumentNameAct(values.name);
       edition.off();
     } catch {}
   };
@@ -119,7 +119,7 @@ const ActiveDocumentBarContainer = () => {
               s={1}
               disabled={nonInteractive || !creatorStore.changed}
               title="Save changes"
-              onClick={updateDocumentCode}
+              onClick={updateDocumentCodeAct}
             >
               <BiSave />
             </Button>
@@ -131,7 +131,7 @@ const ActiveDocumentBarContainer = () => {
               title="More document options"
               onClick={morePopover.on}
             >
-              <BiDotsHorizontal />
+              <BiDetail />
             </Button>
           </div>
         </>

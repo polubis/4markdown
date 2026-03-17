@@ -1,8 +1,14 @@
 import React from "react";
+import { useLocation } from "@reach/router";
 import { useDocStore } from "store/doc/doc.store";
+import { useDocsStore } from "store/docs/docs.store";
 import { useAuthStore } from "store/auth/auth.store";
 import { YourDocumentsContainer } from "./your-documents.container";
-import { getYourDocuments } from "actions/get-your-documents.action";
+import { getYourDocumentsAct } from "acts/get-your-documents.act";
+import { docStoreActions } from "store/doc/doc.store";
+import { getAPI } from "api-4markdown";
+import type { Atoms } from "api-4markdown-contracts";
+import type { API4MarkdownDto } from "api-4markdown-contracts";
 
 const ActiveDocumentBarContainer = React.lazy(
   () => import(`./active-document-bar.container`),
@@ -17,12 +23,46 @@ const DocBarLoader = () => (
 );
 
 const DocBarContainer = () => {
+  const location = useLocation();
   const docStore = useDocStore();
+  const docsStore = useDocsStore();
   const authStore = useAuthStore();
 
   React.useEffect(() => {
-    authStore.is === `authorized` && getYourDocuments();
+    authStore.is === `authorized` && getYourDocumentsAct();
   }, [authStore]);
+
+  const openedIdRef = React.useRef<string | null>(null);
+  React.useEffect(() => {
+    if (authStore.is !== `authorized`) return;
+    const params = new URLSearchParams(location.search);
+    const documentId = params.get(`id`);
+    if (!documentId) return;
+    if (docsStore.is === `ok`) {
+      const doc = docsStore.docs.find((d) => d.id === documentId);
+      if (doc) {
+        if (openedIdRef.current !== documentId) {
+          openedIdRef.current = documentId;
+          docStoreActions.setActive(doc);
+        }
+        return;
+      }
+    }
+    if (openedIdRef.current === documentId) return;
+    openedIdRef.current = documentId;
+    getAPI()
+      .call(`getAccessibleDocument`)({
+        documentId: documentId as Atoms["DocumentId"],
+      })
+      .then((document) => {
+        docStoreActions.setActive(
+          document as API4MarkdownDto<`getYourDocuments`>[number],
+        );
+      })
+      .catch(() => {
+        openedIdRef.current = null;
+      });
+  }, [authStore.is, location.search, docsStore.is]);
 
   return (
     <>

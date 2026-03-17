@@ -13,6 +13,7 @@ import {
   closeMindmapFormAction,
 } from "store/mindmap-creator/actions";
 import { createMindmapAct } from "acts/create-mindmap.act";
+import { createEmptyMindmapAct } from "acts/create-empty-mindmap.act";
 import { validationLimits } from "../core/validation";
 import { useMindmapCreatorState } from "store/mindmap-creator";
 import { openedMindmapFormSelector } from "store/mindmap-creator/selectors";
@@ -23,6 +24,11 @@ const MindmapFormModalContainer = () => {
   const mindmapForm = useMindmapCreatorState((state) =>
     openedMindmapFormSelector(state.mindmapForm),
   );
+
+  const [creationMode, setCreationMode] = React.useState<`none` | `manual`>(
+    `none`,
+  );
+  const [isFromScratchBusy, setIsFromScratchBusy] = React.useState(false);
 
   const [initialValues] = React.useState(() =>
     mindmapForm.is === `active`
@@ -84,7 +90,10 @@ const MindmapFormModalContainer = () => {
   );
 
   return (
-    <Modal2 onClose={closeMindmapFormAction}>
+    <Modal2
+      disabled={operation.is === `busy` || isFromScratchBusy}
+      onClose={closeMindmapFormAction}
+    >
       {mindmapForm.is === `edition` ? (
         <Modal2.Header
           title={
@@ -102,67 +111,153 @@ const MindmapFormModalContainer = () => {
       )}
 
       <Modal2.Body>
-        {mindmapForm.is === `active` && (
+        {mindmapForm.is === `active` && creationMode === `none` && (
+          <section className="flex flex-col gap-3">
+            <button
+              className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+              onClick={async () => {
+                setIsFromScratchBusy(true);
+                try {
+                  await createEmptyMindmapAct();
+                } finally {
+                  setIsFromScratchBusy(false);
+                }
+              }}
+              title="Create a completely empty mindmap on the server"
+            >
+              <h6 className="capitalize text-left">From Scratch</h6>
+              <p className="mt-1 text-sm text-left">
+                Create a new mindmap with empty content named
+                {` `}
+                <code>new-today-date</code>. You can edit its structure later in
+                the mindmap editor.
+              </p>
+            </button>
+            <button
+              className="flex flex-col cursor-pointer hover:bg-zinc-300 dark:hover:bg-gray-900 p-3 rounded-md bg-zinc-200 border dark:bg-gray-950 border-zinc-300 dark:border-zinc-800"
+              onClick={() => setCreationMode(`manual`)}
+              title="Create mindmap using the current editor content"
+            >
+              <h6 className="capitalize text-left">Setup Things Manually</h6>
+              <p className="mt-1 text-sm text-left">
+                Create mindmap based on the current content in the editor and
+                attach custom name, description and tags.
+              </p>
+            </button>
+          </section>
+        )}
+
+        {mindmapForm.is === `active` && creationMode === `manual` && (
           <p className="text-sm mb-4">
-            Mindmap will be created in <strong>private mode</strong>. Visible
-            only to you, but data inside is{` `}
-            <strong>not encrypted</strong> -{` `}
-            <strong>avoid sensitive data</strong>
+            Mindmap will be created in <strong>private mode</strong>, based on
+            your current editor content. Visible only to you, but data inside is
+            {` `}
+            <strong>not encrypted</strong>—avoid sensitive data.
           </p>
         )}
-        <div className="flex flex-col gap-3">
-          <Field
-            label="Name*"
-            hint={
-              <Hint
-                trigger={
-                  <>
-                    {validationLimits.name.min} - {validationLimits.name.max}
-                    {` `}
-                    characters
-                  </>
-                }
+
+        {mindmapForm.is === `edition` && (
+          <p className="text-sm mb-4">
+            Update metadata of your existing mindmap. Structure and content stay
+            unchanged.
+          </p>
+        )}
+
+        {(mindmapForm.is === `edition` ||
+          (mindmapForm.is === `active` && creationMode === `manual`)) && (
+          <div className="flex flex-col gap-3">
+            <Field
+              label="Name*"
+              hint={
+                <Hint
+                  trigger={
+                    <>
+                      {validationLimits.name.min} - {validationLimits.name.max}
+                      {` `}
+                      characters
+                    </>
+                  }
+                />
+              }
+            >
+              <Input
+                placeholder={`My Mindmap, Basics of Computer Science, ...etc`}
+                {...inject(`name`)}
               />
-            }
-          >
-            <Input
-              placeholder={`My Mindmap, Basics of Computer Science, ...etc`}
-              {...inject(`name`)}
-            />
-          </Field>
-          <Field
-            label="Description"
-            hint={
-              <Hint
-                trigger={
-                  <>
-                    {validationLimits.description.min} -{` `}
-                    {validationLimits.description.max}
-                    {` `}
-                    characters
-                  </>
-                }
+            </Field>
+            <Field
+              label="Description"
+              hint={
+                <Hint
+                  trigger={
+                    <>
+                      {validationLimits.description.min} -{` `}
+                      {validationLimits.description.max}
+                      {` `}
+                      characters
+                    </>
+                  }
+                />
+              }
+            >
+              <Textarea
+                placeholder="My private or public roadmap for learning something important to me..."
+                {...inject(`description`)}
               />
-            }
-          >
-            <Textarea
-              placeholder="My private or public roadmap for learning something important to me..."
-              {...inject(`description`)}
-            />
-          </Field>
-          <Field
-            label={splittedTags === 0 ? `Tags` : `Tags (${splittedTags})`}
-            hint={<Hint trigger={`Comma-separated, 1-10 tags, each unique`} />}
-          >
-            <Input
-              placeholder="React, ruby-on-rails, c++, c# ...etc"
-              {...inject(`tags`)}
-            />
-          </Field>
-        </div>
+            </Field>
+            <Field
+              label={splittedTags === 0 ? `Tags` : `Tags (${splittedTags})`}
+              hint={
+                <Hint trigger={`Comma-separated, 1-10 tags, each unique`} />
+              }
+            >
+              <Input
+                placeholder="React, ruby-on-rails, c++, c# ...etc"
+                {...inject(`tags`)}
+              />
+            </Field>
+          </div>
+        )}
       </Modal2.Body>
-      <Modal2.Footer className="flex gap-3">
-        {mindmapForm.is === `active` ? (
+      {mindmapForm.is === `edition` && (
+        <Modal2.Footer className="flex gap-3">
+          <Button
+            i={1}
+            s={2}
+            className="flex-1"
+            auto
+            title="Back to mindmap details"
+            disabled={operation.is === `busy`}
+            onClick={backToMindmapDetailsAction}
+          >
+            Cancel
+          </Button>
+          <Button
+            i={2}
+            s={2}
+            className="flex-1"
+            auto
+            title="Confirm mindmap update"
+            disabled={operation.is === `busy` || untouched || invalid}
+            onClick={confirmCreation}
+          >
+            Submit
+          </Button>
+        </Modal2.Footer>
+      )}
+      {mindmapForm.is === `active` && creationMode === `manual` && (
+        <Modal2.Footer className="flex gap-3">
+          <Button
+            i={1}
+            s={2}
+            className="flex-1"
+            auto
+            title="Back to creation options"
+            disabled={operation.is === `busy`}
+            onClick={() => setCreationMode(`none`)}
+          >
+            Back
+          </Button>
           <Button
             i={2}
             s={2}
@@ -175,33 +270,8 @@ const MindmapFormModalContainer = () => {
             Create
             <BiPlusCircle />
           </Button>
-        ) : (
-          <>
-            <Button
-              i={1}
-              s={2}
-              className="flex-1"
-              auto
-              title="Back to mindmap details"
-              disabled={operation.is === `busy`}
-              onClick={backToMindmapDetailsAction}
-            >
-              Cancel
-            </Button>
-            <Button
-              i={2}
-              s={2}
-              className="flex-1"
-              auto
-              title="Confirm mindmap update"
-              disabled={operation.is === `busy` || untouched || invalid}
-              onClick={confirmCreation}
-            >
-              Submit
-            </Button>
-          </>
-        )}
-      </Modal2.Footer>
+        </Modal2.Footer>
+      )}
     </Modal2>
   );
 };
