@@ -7,12 +7,14 @@ const ImageUploaderAuthContainer = React.lazy(() =>
   })),
 );
 
-const ImageUploaderContainer = () => {
+const ImageUploaderContainer = (
+  props: React.ComponentProps<typeof ImageUploaderAuthContainer>,
+) => {
   const authStore = useAuthStore();
 
   return authStore.is === `authorized` ? (
     <React.Suspense>
-      <ImageUploaderAuthContainer />
+      <ImageUploaderAuthContainer {...props} />
     </React.Suspense>
   ) : null;
 };

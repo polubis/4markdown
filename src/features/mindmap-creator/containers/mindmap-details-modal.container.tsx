@@ -154,7 +154,7 @@ const MindmapDetailsViewContainer = () => {
           sharedForGroups={activeMindmap.sharedForGroups}
           createdAt={activeMindmap.cdate}
           editedAt={activeMindmap.mdate}
-          previewUrl={`${meta.routes.mindmaps.preview}?mindmapId=${activeMindmap.id}&authorId=${user.uid}`}
+          previewUrl={`${meta.routes.mindmaps.preview}?mindmapId=${activeMindmap.id}`}
           staticUrl={createPathForMindmap(activeMindmap.id, activeMindmap.path)}
           name={activeMindmap.name}
           id={activeMindmap.id}

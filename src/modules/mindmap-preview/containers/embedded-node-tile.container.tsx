@@ -3,14 +3,43 @@ import React from "react";
 import { HandleX, HandleY } from "../components/handles";
 import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
-import { BiBook, BiCheckboxChecked, BiCheckboxMinus } from "react-icons/bi";
+import {
+  BiBook,
+  BiCheckSquare,
+  BiStar,
+  BiSolidCheckSquare,
+  BiSolidStar,
+  BiTimeFive,
+} from "react-icons/bi";
 import { openNodePreviewAction } from "store/mindmap-preview/actions";
+import { useMindmapPreviewState } from "store/mindmap-preview";
+import { readyMindmapPreviewSelector } from "store/mindmap-preview/selectors";
 import { MindmapPreviewEmbeddedNodeWithCompletion } from "../models";
 import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
+import {
+  useResourceLikeToggle,
+  useResourcesLikeState,
+} from "modules/resource-likes";
 import { Atoms } from "api-4markdown-contracts";
+import { c } from "design-system/c";
+import { useReadingTime } from "development-kit/use-reading-time";
+
+const ReadingTimeMetric = React.memo(
+  ({ markdown, className }: { className?: string; markdown: string }) => {
+    const { minutesCount } = useReadingTime(markdown);
+    const text = `${minutesCount}m`;
+
+    return (
+      <div className={c("flex items-center text-xs gap-1", className)}>
+        <BiTimeFive className="mt-0.5" aria-hidden="true" />
+        <span>{text}</span>
+      </div>
+    );
+  },
+);
 
 type EmbeddedNodeTileContainerProps =
   NodeProps<MindmapPreviewEmbeddedNodeWithCompletion>;
@@ -21,60 +50,184 @@ const EmbeddedNodeTileContainer = ({
   positionAbsoluteY,
   data,
 }: EmbeddedNodeTileContainerProps) => {
+  const mindmap = useMindmapPreviewState((state) =>
+    readyMindmapPreviewSelector(state.mindmap),
+  );
+  const backendNode = React.useMemo(
+    () => mindmap.nodes.find((node) => node.id === id),
+    [mindmap.nodes, id],
+  );
+
   const resourcesCompletionState = useResourcesCompletionState();
-  const [state, completion, toggle] = useResourceCompletionToggle({
+  const [completionState, completion, toggleCompletion] =
+    useResourceCompletionToggle({
+      type: "mindmap-node",
+      resourceId: id as Atoms["MindmapNodeId"],
+      parentId: data.mindmapId,
+      title: data.name,
+      description: data.description ?? undefined,
+    });
+
+  const resourcesLikeState = useResourcesLikeState();
+  const [likeState, like, toggleLike] = useResourceLikeToggle({
     type: "mindmap-node",
     resourceId: id as Atoms["MindmapNodeId"],
     parentId: data.mindmapId,
+    title: data.name,
+    description: data.description ?? undefined,
   });
+
+  const handleToggleCompletion = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      toggleCompletion();
+    },
+    [toggleCompletion],
+  );
+
+  const handleToggleLike = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      toggleLike();
+    },
+    [toggleLike],
+  );
+
+  const handlePreview = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      const engagementFromBackend =
+        backendNode &&
+        ({
+          rating: {
+            perfect: (backendNode as any).perfect ?? 0,
+            good: (backendNode as any).good ?? 0,
+            decent: (backendNode as any).decent ?? 0,
+            bad: (backendNode as any).bad ?? 0,
+            ugly: (backendNode as any).ugly ?? 0,
+          },
+          score:
+            (backendNode as any).scoreAverage !== undefined
+              ? {
+                  average: (backendNode as any).scoreAverage,
+                  count: (backendNode as any).scoreCount ?? 0,
+                  values: (backendNode as any).scoreValues ?? [],
+                }
+              : undefined,
+        } as const);
+
+      const commentsCount =
+        backendNode?.data?.commentsCount ??
+        (backendNode as any)?.commentsCount ??
+        data.commentsCount ??
+        0;
+
+      openNodePreviewAction({
+        type: `embedded`,
+        id,
+        data: {
+          ...data,
+          ...(engagementFromBackend ?? {}),
+          commentsCount,
+        },
+        position: {
+          x: positionAbsoluteX,
+          y: positionAbsoluteY,
+        },
+      } as any);
+    },
+    [id, positionAbsoluteX, positionAbsoluteY, data, backendNode],
+  );
+
+  const handleToggleCompletionKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggleCompletion(e);
+      }
+    },
+    [handleToggleCompletion],
+  );
+
+  const handleToggleLikeKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggleLike(e);
+      }
+    },
+    [handleToggleLike],
+  );
+
+  const handlePreviewKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handlePreview(e);
+      }
+    },
+    [handlePreview],
+  );
 
   return (
     <NodeTile
       className={completion ? "border-green-700 dark:border-green-700" : ""}
     >
-      <NodeTile.Label>Embedded Resource</NodeTile.Label>
+      <header
+        className={c(
+          "flex items-center px-4 border-b py-2 border-zinc-300 dark:border-zinc-800",
+          "text-zinc-700 dark:text-zinc-300 bg-zinc-100 dark:bg-zinc-900/80",
+        )}
+      >
+        {data.content && <ReadingTimeMetric markdown={data.content} />}
+      </header>
+
       <NodeTile.Name>{data.name}</NodeTile.Name>
       {data.description && (
         <NodeTile.Description>{data.description}</NodeTile.Description>
       )}
-      <NodeTile.Toolbox>
+      <NodeTile.Actions>
         <Button
-          title={completion ? "Remove from completed" : "Add to completed"}
-          i={2}
+          aria-label={completion ? "Uncomplete" : "Complete"}
+          i={1}
           disabled={
-            state.is === "busy" || resourcesCompletionState.is === "busy"
+            completionState.is === "busy" ||
+            resourcesCompletionState.is === "busy"
           }
           s={1}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggle();
-          }}
+          onClick={handleToggleCompletion}
+          onKeyDown={handleToggleCompletionKeyDown}
         >
           {completion ? (
-            <BiCheckboxMinus size={24} />
+            <BiSolidCheckSquare aria-hidden="true" size={24} />
           ) : (
-            <BiCheckboxChecked size={24} />
+            <BiCheckSquare aria-hidden="true" size={24} />
           )}
         </Button>
         <Button
-          i={2}
+          aria-label={like ? "Unlike" : "Like"}
+          i={1}
+          disabled={likeState.is === "busy" || resourcesLikeState.is === "busy"}
           s={1}
-          onClick={(e) => {
-            e.stopPropagation();
-            openNodePreviewAction({
-              type: `embedded`,
-              id,
-              data,
-              position: {
-                x: positionAbsoluteX,
-                y: positionAbsoluteY,
-              },
-            });
-          }}
+          onClick={handleToggleLike}
+          onKeyDown={handleToggleLikeKeyDown}
         >
-          <BiBook />
+          {like ? (
+            <BiSolidStar aria-hidden="true" />
+          ) : (
+            <BiStar aria-hidden="true" />
+          )}
         </Button>
-      </NodeTile.Toolbox>
+        <Button
+          i={1}
+          s={1}
+          aria-label="Preview node"
+          onClick={handlePreview}
+          onKeyDown={handlePreviewKeyDown}
+        >
+          <BiBook aria-hidden="true" />
+        </Button>
+      </NodeTile.Actions>
     </NodeTile>
   );
 };

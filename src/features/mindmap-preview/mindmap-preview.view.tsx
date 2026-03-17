@@ -1,20 +1,23 @@
 import { Link, navigate } from "gatsby";
+import { useLocation } from "@reach/router";
 import React from "react";
 import { meta } from "../../../meta";
-import { Button } from "design-system/button";
-import { BiArrowBack, BiDownload } from "react-icons/bi";
 import MoreNav from "components/more-nav";
 import UserPopover from "components/user-popover";
 import { ScreenLoader } from "design-system/screen-loader";
 import { useMindmapPreviewState } from "store/mindmap-preview";
+import { openNodePreviewAction } from "store/mindmap-preview/actions";
 import { getAccessibleMindmapAct } from "acts/get-accessible-mindmap.act";
 import { Communicate } from "design-system/communicate";
-import { downloadMindmapAction } from "store/mindmap-preview/actions";
 import { BugReportContainer } from "containers/bug-report.container";
 import { EducationRankLinkContainer } from "containers/education-rank-link.container";
 import { EducationZoneLinkContainer } from "containers/education-zone-link.container";
 import { CreationLinkContainer2 } from "containers/creation-link-2.container";
 import { MindmapPreviewModule } from "modules/mindmap-preview/mindmap-preview.module";
+import type { MindmapPreviewEmbeddedNode } from "store/mindmap-preview/models";
+import { removeMindmapEntryAction } from "modules/previous-work";
+import type { Atoms } from "api-4markdown-contracts";
+import { MindmapSearcherModule } from "modules/mindmap-searcher";
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -25,11 +28,41 @@ const Loader = () => (
 );
 
 const MindmapPreviewView = () => {
+  const location = useLocation();
   const { mindmap } = useMindmapPreviewState();
+  const lastOpenedNodeIdRef = React.useRef<string | null>(null);
 
   React.useEffect(() => {
     getAccessibleMindmapAct();
   }, []);
+
+  React.useEffect(() => {
+    if (mindmap.is !== `ok`) return;
+    const params = new URLSearchParams(location.search);
+    const mindmapNodeId = params.get(`mindmapNodeId`);
+    if (!mindmapNodeId) {
+      lastOpenedNodeIdRef.current = null;
+      return;
+    }
+    if (lastOpenedNodeIdRef.current === mindmapNodeId) return;
+    const node = mindmap.nodes.find(
+      (n): n is MindmapPreviewEmbeddedNode =>
+        n.type === `embedded` && n.id === mindmapNodeId,
+    );
+    if (node) {
+      lastOpenedNodeIdRef.current = mindmapNodeId;
+      openNodePreviewAction(node);
+    }
+  }, [mindmap, location.search]);
+
+  React.useEffect(() => {
+    if (mindmap.is !== `fail`) return;
+    const params = new URLSearchParams(location.search);
+    const mindmapId = params.get(`mindmapId`);
+    if (mindmapId) {
+      removeMindmapEntryAction(mindmapId as Atoms["MindmapId"]);
+    }
+  }, [mindmap.is, location.search]);
 
   return (
     <>
@@ -45,9 +78,8 @@ const MindmapPreviewView = () => {
             <Communicate.Footer>
               <Communicate.Action
                 onClick={() => navigate(meta.routes.mindmaps.creator)}
-                title="Go back to mindmapcreator"
+                title="Go back to mindmap creator"
               >
-                <BiArrowBack />
                 Back To Creator
               </Communicate.Action>
             </Communicate.Footer>
@@ -74,6 +106,7 @@ const MindmapPreviewView = () => {
           </nav>
           <div />
           <nav className="flex items-center gap-2">
+            {mindmap.is === `ok` && <MindmapSearcherModule />}
             <UserPopover />
             <MoreNav />
           </nav>
@@ -85,14 +118,6 @@ const MindmapPreviewView = () => {
               <h1 className="font-bold text-lg mr-4 truncate max-w-[260px] md:max-w-lg">
                 {mindmap.name}
               </h1>
-              <Button
-                i={1}
-                s={1}
-                title="Download mindmap as JSON file"
-                onClick={downloadMindmapAction}
-              >
-                <BiDownload />
-              </Button>
             </>
           )}
         </nav>

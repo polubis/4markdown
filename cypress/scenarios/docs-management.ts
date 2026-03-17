@@ -29,7 +29,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Cancel document removal`,
         `Close document removal`,
       ])
-      .and(`I not see text`, [`Delete current document`, name]);
+      .and(`I not see text`, [`Document Removal`]);
   },
   "I change document visiblity": () => {
     const documentName = `${uid(`S`)} next next`;
@@ -141,8 +141,8 @@ const DOCS_MANAGEMENT_SCENARIOS = {
       .and(`I see text in creator`, `# Markdown Cheatsheet`);
   },
   "I create, edit and delete document": () => {
-    const documentName = `Test document`;
-    const documentNameEdited = `Doc 2`;
+    const documentName = `${uid("D")} test document`;
+    const documentNameEdited = `${uid("D")} edited document`;
 
     return given(`I click button`, [`Create new document`])
       .and(`I click button`, [`Go to manual document creation form`])
@@ -214,7 +214,7 @@ const DOCS_MANAGEMENT_SCENARIOS = {
         `Cancel document removal`,
         `Close document removal`,
       ])
-      .and(`I not see text`, [`Delete current document`, documentNameEdited])
+      .and(`I not see text`, [`Document Removal`])
       .and(`I see text`, [`Markdown Cheatsheet`])
       .and(`I see text in creator`, `# Markdown Cheatsheet`)
       .and(`I see button`, [`User details and options`]);

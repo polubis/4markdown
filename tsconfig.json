@@ -113,7 +113,6 @@
       "providers/*": ["./src/providers/*"],
       "core/*": ["./src/core/*"],
       "layouts/*": ["./src/layouts/*"],
-      "actions/*": ["./src/actions/*"],
       "acts/*": ["./src/acts/*"],
       "containers/*": ["./src/containers/*"],
       "api-4markdown": ["./src/api-4markdown"],

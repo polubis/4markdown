@@ -6,15 +6,22 @@ import type {
   PublicDocumentDto,
   ManualDocumentDto,
   DocumentCommentDto,
+  MindmapNodeCommentDto,
 } from "./dtos";
 import {
   AccessGroupDto,
+  AccessibleMindmapDto,
   Atoms,
   UserProfileCommentDto,
   FullMindmapDto,
   ImageDto,
   MindmapDto,
   ResourceCompletionDto,
+  ResourceLikeDto,
+  SetUserResourceCompletionPayload,
+  SetUserResourceCompletionResult,
+  SetUserResourceLikeRequestItem,
+  SetUserResourceLikeResultItem,
   UserProfileDto,
   YourAccountDto,
 } from "./dtos";
@@ -133,6 +140,66 @@ type DocumentCommentsContracts =
       }
     >;
 
+type MindmapNodeCommentsContracts =
+  | Contract<
+      `addMindmapNodeComment`,
+      MindmapNodeCommentDto,
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        comment: string;
+      }
+    >
+  | Contract<
+      `editMindmapNodeComment`,
+      MindmapNodeCommentDto,
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        commentId: Atoms["MindmapNodeCommentId"];
+        content: string;
+      }
+    >
+  | Contract<
+      `getMindmapNodeComments`,
+      {
+        comments: MindmapNodeCommentDto[];
+        hasMore: boolean;
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["MindmapNodeCommentId"];
+        } | null;
+      },
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["MindmapNodeCommentId"];
+        } | null;
+        limit: number | null;
+      }
+    >
+  | Contract<
+      `deleteMindmapNodeComment`,
+      null,
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        commentId: Atoms["MindmapNodeCommentId"];
+      }
+    >
+  | Contract<
+      `rateMindmapNodeComment`,
+      null,
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        commentId: Atoms["MindmapNodeCommentId"];
+        category: Atoms["RatingCategory"];
+      }
+    >;
+
 type ResourceCompletionsContracts =
   | Contract<
       "getUserResourceCompletions",
@@ -140,11 +207,95 @@ type ResourceCompletionsContracts =
     >
   | Contract<
       "setUserResourceCompletion",
-      ResourceCompletionDto | null,
+      SetUserResourceCompletionResult,
+      SetUserResourceCompletionPayload
+    >;
+
+type ResourceLikesContracts =
+  | Contract<
+      "getUserResourceLikes",
+      Record<Atoms["ResourceId"], ResourceLikeDto>
+    >
+  | Contract<
+      "setUserResourceLike",
+      SetUserResourceLikeResultItem[],
+      SetUserResourceLikeRequestItem[]
+    >;
+
+type ResourceActivityContracts =
+  | Contract<
+      "getDocumentActivity",
       {
-        type: Atoms["ResourceType"];
-        resourceId: Atoms["ResourceId"];
-        parentId?: Atoms["MindmapId"];
+        hasMore: boolean;
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["DocumentActivityId"];
+        } | null;
+        activities: Array<{
+          id: Atoms["DocumentActivityId"];
+          cdate: Atoms["UTCDate"];
+          type: "content-changed";
+          documentId: Atoms["DocumentId"];
+          previousContent: string;
+          newContent: string;
+          appliedByProfile: UserProfileDto | null;
+        }>;
+      },
+      {
+        documentId: Atoms["DocumentId"];
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["DocumentActivityId"];
+        } | null;
+        limit: number | null;
+      }
+    >
+  | Contract<
+      "getMindmapNodeActivity",
+      {
+        hasMore: boolean;
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["MindmapNodeActivityId"];
+        } | null;
+        activities: Array<{
+          id: Atoms["MindmapNodeActivityId"];
+          cdate: Atoms["UTCDate"];
+          type: "content-changed";
+          mindmapId: Atoms["MindmapId"];
+          nodeId: Atoms["MindmapNodeId"];
+          previousContent: string;
+          newContent: string;
+          appliedByProfile: UserProfileDto | null;
+        }>;
+      },
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        nextCursor: {
+          cdate: Atoms["UTCDate"];
+          id: Atoms["MindmapNodeActivityId"];
+        } | null;
+        limit: number | null;
+      }
+    >;
+
+type ResourceContributionContracts =
+  | Contract<
+      "submitDocumentContribution",
+      { id: Atoms["DocumentContributionId"] },
+      {
+        documentId: Atoms["DocumentId"];
+        proposedContent: string;
+      }
+    >
+  | Contract<
+      "submitMindmapNodeContribution",
+      { id: Atoms["MindmapNodeContributionId"] },
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        proposedContent: string;
       }
     >;
 
@@ -307,6 +458,30 @@ type DocumentsContracts =
       Pick<DocumentDto, "mdate" | "id" | "name">
     >;
 
+type MindmapNodeEngagementContracts =
+  | Contract<
+      `addMindmapNodeScore`,
+      {
+        average: number;
+        count: number;
+        values: Atoms["ScoreValue"][];
+      },
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        score: Atoms["ScoreValue"];
+      }
+    >
+  | Contract<
+      `rateMindmapNode`,
+      Atoms["Rating"],
+      {
+        mindmapId: Atoms["MindmapId"];
+        nodeId: Atoms["MindmapNodeId"];
+        category: Atoms["RatingCategory"];
+      }
+    >;
+
 type MindmapsContracts =
   | Contract<
       `createMindmap`,
@@ -346,8 +521,8 @@ type MindmapsContracts =
     >
   | Contract<
       `getAccessibleMindmap`,
-      FullMindmapDto,
-      { authorId: Atoms["UserProfileId"]; mindmapId: Atoms["MindmapId"] }
+      AccessibleMindmapDto,
+      { mindmapId: Atoms["MindmapId"] }
     >
   | Contract<`getPermanentMindmaps`, FullMindmapDto[], { limit?: number }>;
 
@@ -374,11 +549,10 @@ type AIContracts =
       }
     >;
 
-type AssetsContracts = Contract<
-  `uploadImage`,
-  ImageDto,
-  { image: FileReader["result"] }
->;
+type AssetsContracts =
+  | Contract<`uploadImage`, ImageDto, { image: FileReader["result"] }>
+  | Contract<`getYourImages`, ImageDto[]>
+  | Contract<`deleteImage`, null, Array<{ id: Atoms["ImageId"] }>>;
 
 type AnalyticsContracts = Contract<
   `reportBug`,
@@ -392,13 +566,18 @@ type AnalyticsContracts = Contract<
 
 type API4MarkdownContracts =
   | DocumentCommentsContracts
+  | MindmapNodeCommentsContracts
   | AssetsContracts
   | AnalyticsContracts
   | MindmapsContracts
   | AIContracts
   | DocumentsContracts
+  | MindmapNodeEngagementContracts
   | AccountsContracts
   | ResourceCompletionsContracts
+  | ResourceLikesContracts
+  | ResourceActivityContracts
+  | ResourceContributionContracts
   | AccessGroupsContracts
   | UserProfilesContracts
   | UserProfileCommentsContracts;

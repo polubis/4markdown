@@ -15,9 +15,12 @@ import {
   type NodeChange,
 } from "@xyflow/react";
 import Dagre from "@dagrejs/dagre";
+import type { Atoms } from "api-4markdown-contracts";
 import { type MindmapDto } from "api-4markdown-contracts";
 import { readyMindmapsSelector } from "./selectors";
-import { downloadJSON } from "development-kit/download-file";
+import { addOrBumpEntryAction } from "modules/previous-work";
+import { downloadMindmapAsFolder } from "development-kit/mindmap-folder-export";
+import { activeMindmapSelector } from "./selectors";
 
 const { get, set, getInitial } = useMindmapCreatorState;
 
@@ -291,6 +294,13 @@ const selectMindmapAction = (id: MindmapDto["id"]): void => {
     orientation: foundMindmap.orientation,
     changesCount: 0,
   });
+
+  addOrBumpEntryAction({
+    type: `mindmap`,
+    resourceId: foundMindmap.id as Atoms["MindmapId"],
+    title: foundMindmap.name,
+    lastTouched: Date.now(),
+  });
 };
 
 const resetYourMindmapsAction = (): void => {
@@ -311,16 +321,67 @@ const closeNodePreviewAction = (): void => {
   });
 };
 
-const downloadMindmapAction = (): void => {
+const downloadMindmapAction = async (): Promise<void> => {
   const { orientation, nodes, edges } = get();
+  const mindmap = activeMindmapSelector(get());
 
-  const data = {
+  /**
+   * Strip any engagement/like-related fields from nodes before export.
+   * We only keep the educational shape: id, position, type and core data.
+   */
+  const exportNodes: MindmapCreatorNode[] = nodes.map((node) => {
+    const { id, position, type } = node;
+    const baseData = {
+      name: node.data.name,
+      path: node.data.path,
+      description: node.data.description,
+    };
+
+    if (type === `external`) {
+      return {
+        id,
+        position,
+        type,
+        data: {
+          ...baseData,
+          url: node.data.url,
+        },
+      } as MindmapCreatorExternalNode;
+    }
+
+    return {
+      id,
+      position,
+      type,
+      data: {
+        ...baseData,
+        content: node.data.content ?? null,
+      },
+    } as MindmapCreatorEmbeddedNode;
+  });
+
+  await downloadMindmapAsFolder({
+    name: mindmap?.name ?? `mindmap`,
     orientation,
+    nodes: exportNodes,
+    edges,
+  });
+};
+
+const replaceMindmapStructureAction = ({
+  nodes,
+  edges,
+  orientation,
+}: Pick<MindmapCreatorState, "nodes" | "edges" | "orientation">): void => {
+  set({
     nodes,
     edges,
-  };
-
-  downloadJSON({ data, name: `data` });
+    orientation,
+    changesCount: 2,
+    mindmapDetails: { is: `off` },
+    mindmapForm: { is: `closed` },
+    yourMindmapsView: { is: `closed` },
+  });
 };
 
 const clearMindmapAction = (): void => {
@@ -423,4 +484,5 @@ export {
   openMindmapDetailsAction,
   closeMindmapDetailsAction,
   backToMindmapDetailsAction,
+  replaceMindmapStructureAction,
 };

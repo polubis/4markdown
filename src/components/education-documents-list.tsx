@@ -5,7 +5,7 @@ import { Link } from "gatsby";
 import type { RichEducationDocumentModel } from "models/page-models";
 import React from "react";
 import { meta } from "../../meta";
-import { BiCheckboxChecked, BiCommentDetail } from "react-icons/bi";
+import { BiCommentDetail, BiSolidCheckSquare } from "react-icons/bi";
 import { useResourceCompletion } from "modules/resource-completions";
 import { Atoms } from "api-4markdown-contracts";
 
@@ -28,7 +28,7 @@ const ResourceCompletionMarkerContainer = ({
 
   return (
     <span className="flex items-center gap-0.5 text-sm font-medium uppercase w-fit rounded-md bg-green-700 text-white py-1 px-2 line-clamp-1">
-      <BiCheckboxChecked aria-hidden="true" className="shrink-0" size={20} />
+      <BiSolidCheckSquare aria-hidden="true" className="shrink-0" size={20} />
       <span>Completed</span>
     </span>
   );

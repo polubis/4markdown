@@ -3,12 +3,22 @@ import { HandleX, HandleY } from "../components/handles";
 import { type NodeProps } from "@xyflow/react";
 import { NodeTile } from "../components/node-tile";
 import { Button } from "design-system/button";
-import { BiCheckboxChecked, BiCheckboxMinus, BiWorld } from "react-icons/bi";
+import {
+  BiCheckSquare,
+  BiWorld,
+  BiStar,
+  BiSolidCheckSquare,
+  BiSolidStar,
+} from "react-icons/bi";
 import { MindmapPreviewExternalNodeWithCompletion } from "../models";
 import {
   useResourceCompletionToggle,
   useResourcesCompletionState,
 } from "modules/resource-completions";
+import {
+  useResourceLikeToggle,
+  useResourcesLikeState,
+} from "modules/resource-likes";
 import { Atoms } from "api-4markdown-contracts";
 
 type ExternalNodeTileContainerProps =
@@ -19,57 +29,113 @@ const ExternalNodeTileContainer = ({
   data,
 }: ExternalNodeTileContainerProps) => {
   const resourcesCompletionState = useResourcesCompletionState();
-  const [state, completion, toggle] = useResourceCompletionToggle({
+  const [completionState, completion, toggleCompletion] =
+    useResourceCompletionToggle({
+      type: "mindmap-node",
+      resourceId: id as Atoms["MindmapNodeId"],
+      parentId: data.mindmapId,
+      title: data.name,
+      description: data.description ?? undefined,
+    });
+
+  const resourcesLikeState = useResourcesLikeState();
+  const [likeState, like, toggleLike] = useResourceLikeToggle({
     type: "mindmap-node",
     resourceId: id as Atoms["MindmapNodeId"],
     parentId: data.mindmapId,
+    title: data.name,
+    description: data.description ?? undefined,
   });
+
+  const handleToggleCompletion = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      toggleCompletion();
+    },
+    [toggleCompletion],
+  );
+
+  const handleToggleLike = React.useCallback(
+    (e: React.MouseEvent | React.KeyboardEvent) => {
+      e.stopPropagation();
+      toggleLike();
+    },
+    [toggleLike],
+  );
+
+  const handleToggleCompletionKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggleCompletion(e);
+      }
+    },
+    [handleToggleCompletion],
+  );
+
+  const handleToggleLikeKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleToggleLike(e);
+      }
+    },
+    [handleToggleLike],
+  );
 
   return (
     <NodeTile
       className={completion ? "border-green-700 dark:border-green-700" : ""}
     >
-      <NodeTile.Label>External Resource</NodeTile.Label>
       <NodeTile.Name>{data.name}</NodeTile.Name>
       {data.description && (
         <NodeTile.Description>{data.description}</NodeTile.Description>
       )}
-      <NodeTile.Toolbox>
+      <NodeTile.Actions>
         <Button
-          title={completion ? "Remove from completed" : "Add to completed"}
-          i={2}
+          aria-label={completion ? "Uncomplete" : "Complete"}
+          i={1}
           disabled={
-            state.is === "busy" || resourcesCompletionState.is === "busy"
+            completionState.is === "busy" ||
+            resourcesCompletionState.is === "busy"
           }
           s={1}
-          onClick={(e) => {
-            e.stopPropagation();
-            toggle();
-          }}
+          onClick={handleToggleCompletion}
+          onKeyDown={handleToggleCompletionKeyDown}
         >
           {completion ? (
-            <BiCheckboxMinus size={24} />
+            <BiSolidCheckSquare aria-hidden="true" size={24} />
           ) : (
-            <BiCheckboxChecked size={24} />
+            <BiCheckSquare aria-hidden="true" size={24} />
+          )}
+        </Button>
+        <Button
+          aria-label={like ? "Unlike" : "Like"}
+          i={1}
+          disabled={likeState.is === "busy" || resourcesLikeState.is === "busy"}
+          s={1}
+          onClick={handleToggleLike}
+          onKeyDown={handleToggleLikeKeyDown}
+        >
+          {like ? (
+            <BiSolidStar aria-hidden="true" />
+          ) : (
+            <BiStar aria-hidden="true" />
           )}
         </Button>
         <a
           href={data.url}
           target="_blank"
           rel="noopener noreferrer"
-          title="Open linked material in a new tab"
+          aria-label="Open linked material in a new tab"
+          className="flex items-center justify-center h-8 w-8 rounded-md text-black hover:bg-gray-400/20 dark:text-white dark:hover:bg-slate-800/50 focus-visible:outline focus-visible:outline-2.5 focus-visible:outline-black dark:focus-visible:outline-white shrink-0"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
-          <Button
-            i={2}
-            s={1}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <BiWorld />
-          </Button>
+          <BiWorld aria-hidden="true" className="text-xl" />
         </a>
-      </NodeTile.Toolbox>
+      </NodeTile.Actions>
     </NodeTile>
   );
 };

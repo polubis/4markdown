@@ -23,10 +23,20 @@ export const meta = {
     accessGroups: {
       management: `/access-groups/`,
     },
+    assets: {
+      management: `/assets/`,
+    },
+    likedResources: {
+      management: `/starred/`,
+    },
+    completed: {
+      management: `/completed/`,
+    },
     mindmaps: {
       mindmap: `/mindmap/`,
       creator: `/mindmap-creator/`,
       preview: `/mindmap-preview/`,
+      management: `/mindmaps/`,
     },
     sandbox: `/sandbox/`,
     creator: {
@@ -39,9 +49,14 @@ export const meta = {
     },
     documents: {
       preview: `/document-preview/`,
+      management: `/documents/`,
     },
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
+    auth: {
+      login: `/login/`,
+      register: `/register/`,
+    },
     userProfile: {
       preview: `/user-profile-preview/`,
     },

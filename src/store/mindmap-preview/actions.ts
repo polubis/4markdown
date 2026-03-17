@@ -1,4 +1,4 @@
-import { downloadJSON } from "development-kit/download-file";
+import { downloadMindmapAsFolder } from "development-kit/mindmap-folder-export";
 import { useMindmapPreviewState } from ".";
 import type { MindmapPreviewEmbeddedNode } from "./models";
 import { readyMindmapPreviewSelector } from "./selectors";
@@ -17,16 +17,15 @@ const openNodePreviewAction = (data: MindmapPreviewEmbeddedNode): void => {
   });
 };
 
-const downloadMindmapAction = (): void => {
+const downloadMindmapAction = async (): Promise<void> => {
   const mindmap = readyMindmapPreviewSelector(get().mindmap);
 
-  const data = {
-    edges: mindmap.edges,
-    nodes: mindmap.nodes,
+  await downloadMindmapAsFolder({
+    name: mindmap.name,
     orientation: mindmap.orientation,
-  };
-
-  downloadJSON({ data, name: `data` });
+    nodes: mindmap.nodes,
+    edges: mindmap.edges,
+  });
 };
 
 export { closeNodePreviewAction, openNodePreviewAction, downloadMindmapAction };
