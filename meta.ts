@@ -51,6 +51,7 @@ export const meta = {
       preview: `/document-preview/`,
       management: `/documents/`,
     },
+    markdownPostCreator: `/markdown-post-creator/`,
     notFound: `/404/`,
     privacyPolicy: `/privacy-policy/`,
     auth: {
