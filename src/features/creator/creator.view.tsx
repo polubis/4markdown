@@ -50,6 +50,12 @@ const CreatorErrorModalContainer = React.lazy(
   () => import(`./containers/creator-error-modal.container`),
 );
 
+const MarkdownLinkCommandContainer = React.lazy(() =>
+  import(`./containers/markdown-link-command.container`).then((m) => ({
+    default: m.MarkdownLinkCommandContainer,
+  })),
+);
+
 const RewriteAssistantModule = React.lazy(() =>
   import(`../../modules/rewrite-assistant/rewrite-assistant.module`).then(
     (m) => ({
@@ -99,6 +105,7 @@ const CreatorView = () => {
     to: number;
   }>();
   const rewriteAssistant = useSimpleFeature();
+  const markdownLinkCommand = useFeature<{ slashPosition: number }>();
   const [view, setView] = React.useState<`creator` | `preview`>(`preview`);
   const docStore = useDocStore();
   const previousDocStore = usePrevious(docStore);
@@ -119,7 +126,30 @@ const CreatorView = () => {
       e.preventDefault();
     }
 
+    if (e.key === `/`) {
+      markdownLinkCommand.on({ slashPosition: e.currentTarget.selectionStart });
+    }
+
     autoScroller.scroll(e.currentTarget);
+  };
+
+  const insertMarkdownLink = (link: string): void => {
+    if (markdownLinkCommand.is === `off`) return;
+
+    const textarea = creatorRef.current;
+
+    if (!textarea) return;
+
+    const { slashPosition } = markdownLinkCommand.data;
+    const currentValue = textarea.value;
+    const newCode =
+      currentValue.slice(0, slashPosition) +
+      link +
+      currentValue.slice(slashPosition + 1);
+
+    textarea.value = newCode;
+    changeAction(newCode);
+    markdownLinkCommand.off();
   };
 
   const changeCode: ChangeEventHandler<HTMLTextAreaElement> = (e) => {
@@ -244,6 +274,14 @@ const CreatorView = () => {
       {docManagementStore.is === `fail` && (
         <React.Suspense>
           <CreatorErrorModalContainer />
+        </React.Suspense>
+      )}
+      {markdownLinkCommand.is === `on` && (
+        <React.Suspense>
+          <MarkdownLinkCommandContainer
+            onInsert={insertMarkdownLink}
+            onClose={markdownLinkCommand.off}
+          />
         </React.Suspense>
       )}
       {cheatsheetModal.isOn && (
