@@ -5,6 +5,7 @@ import { meta } from "../../../meta";
 import MoreNav from "components/more-nav";
 import UserPopover from "components/user-popover";
 import { ScreenLoader } from "design-system/screen-loader";
+import { Button } from "design-system/button";
 import { useMindmapPreviewState } from "store/mindmap-preview";
 import { openNodePreviewAction } from "store/mindmap-preview/actions";
 import { getAccessibleMindmapAct } from "acts/get-accessible-mindmap.act";
@@ -18,6 +19,9 @@ import type { MindmapPreviewEmbeddedNode } from "store/mindmap-preview/models";
 import { removeMindmapEntryAction } from "modules/previous-work";
 import type { Atoms } from "api-4markdown-contracts";
 import { MindmapSearcherModule } from "modules/mindmap-searcher";
+import { useSimpleFeature } from "@greenonsoftware/react-kit";
+import { MindmapPreviewDetailsDrawer } from "modules/mindmap-preview/components/mindmap-preview-details-drawer";
+import { BiDetail } from "react-icons/bi";
 
 const Loader = () => (
   <div className="flex gap-2">
@@ -30,6 +34,7 @@ const Loader = () => (
 const MindmapPreviewView = () => {
   const location = useLocation();
   const { mindmap } = useMindmapPreviewState();
+  const detailsDrawer = useSimpleFeature();
   const lastOpenedNodeIdRef = React.useRef<string | null>(null);
 
   React.useEffect(() => {
@@ -66,11 +71,15 @@ const MindmapPreviewView = () => {
 
   return (
     <>
-      <main className="md:mt-[122px] md:mb-0 mb-[122px] h-[calc(100svh-50px-72px)]">
+      <main className="md:mt-[122px] md:mb-0 mb-[122px] h-[calc(100svh-50px-72px)] flex min-h-0 flex-col">
         {mindmap.is === `busy` && <ScreenLoader />}
-        {mindmap.is === `ok` && <MindmapPreviewModule />}
+        {mindmap.is === `ok` && (
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+            <MindmapPreviewModule />
+          </div>
+        )}
         {mindmap.is === `fail` && (
-          <Communicate className="h-full">
+          <Communicate className="h-full min-h-0 flex-1">
             <Communicate.Message>
               We cannot load this mindmap. Try again or go back to mindmap
               creator
@@ -111,17 +120,43 @@ const MindmapPreviewView = () => {
             <MoreNav />
           </nav>
         </div>
-        <nav className="h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center">
+        <nav className="h-[50px] px-4 border-t md:border-b md:border-t-0 border-zinc-300 dark:border-zinc-800 flex items-center justify-between gap-2">
           {(mindmap.is === `busy` || mindmap.is === `idle`) && <Loader />}
           {mindmap.is === `ok` && (
-            <>
+            <div className="flex min-w-0 items-center gap-2 w-full">
               <h1 className="font-bold text-lg mr-4 truncate max-w-[260px] md:max-w-lg">
                 {mindmap.name}
               </h1>
-            </>
+              <div className="ml-auto">
+                <Button
+                  s={1}
+                  i={1}
+                  type="button"
+                  aria-label={
+                    detailsDrawer.isOn
+                      ? `Close mindmap details`
+                      : `Open mindmap details`
+                  }
+                  title={
+                    detailsDrawer.isOn ? `Close details` : `Mindmap details`
+                  }
+                  aria-expanded={detailsDrawer.isOn}
+                  aria-controls="mindmap-preview-details-drawer"
+                  onClick={detailsDrawer.toggle}
+                >
+                  <BiDetail aria-hidden="true" />
+                </Button>
+              </div>
+            </div>
           )}
         </nav>
       </header>
+      {mindmap.is === `ok` && detailsDrawer.isOn && (
+        <MindmapPreviewDetailsDrawer
+          mindmap={mindmap}
+          onClose={detailsDrawer.off}
+        />
+      )}
     </>
   );
 };

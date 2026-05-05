@@ -188,8 +188,9 @@ const MindmapPreviewModule = () => {
   }, [location.search, nodes]);
 
   return (
-    <>
+    <div className="relative h-full w-full min-h-0 min-w-0">
       <ReactFlow
+        className="h-full w-full"
         nodes={nodes}
         edges={edges}
         nodeTypes={mindmapNodeTypes[mindmap.orientation] as NodeTypes}
@@ -274,7 +275,7 @@ const MindmapPreviewModule = () => {
             onClose={contributionModal.off}
           />
         )}
-    </>
+    </div>
   );
 };
 
