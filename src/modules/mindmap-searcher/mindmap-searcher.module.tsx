@@ -228,35 +228,43 @@ const MindmapSearcherContent = ({ onClose }: { onClose(): void }) => {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
-        <ul className="mt-4 flex flex-col gap-2 list-none p-0 m-0">
-          {results.map((result) => (
-            <li key={result.id}>
-              <button
-                type="button"
-                className={c(
-                  "w-full flex flex-col items-start text-left rounded-lg px-4 py-3 border-2",
-                  "bg-zinc-200 dark:bg-zinc-800/80 hover:bg-zinc-300 dark:hover:bg-zinc-700/80",
-                  "border-zinc-300 dark:border-zinc-800",
-                  "focus-visible:outline focus-visible:outline-2.5 focus-visible:outline-black dark:focus-visible:outline-white",
-                )}
-                onClick={() => handleSelect(result.id)}
-              >
-                <span className="font-semibold">{result.name}</span>
-                {result.description && (
-                  <span className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mt-1">
-                    {result.description}
-                  </span>
-                )}
-                <span className="text-sm mt-1">{result.path}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        {results.length === 0 && (
-          <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">
-            No nodes found for this query.
-          </p>
-        )}
+        <div
+          className={c(
+            "mt-4 min-h-80",
+            results.length === 0 && "flex items-center justify-center",
+          )}
+        >
+          {results.length > 0 ? (
+            <ul className="flex flex-col gap-2 list-none p-0 m-0 w-full">
+              {results.map((result) => (
+                <li key={result.id}>
+                  <button
+                    type="button"
+                    className={c(
+                      "w-full flex flex-col items-start text-left rounded-lg px-4 py-3 border-2",
+                      "bg-zinc-200 dark:bg-zinc-800/80 hover:bg-zinc-300 dark:hover:bg-zinc-700/80",
+                      "border-zinc-300 dark:border-zinc-800",
+                      "focus-visible:outline focus-visible:outline-2.5 focus-visible:outline-black dark:focus-visible:outline-white",
+                    )}
+                    onClick={() => handleSelect(result.id)}
+                  >
+                    <span className="font-semibold">{result.name}</span>
+                    {result.description && (
+                      <span className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mt-1">
+                        {result.description}
+                      </span>
+                    )}
+                    <span className="text-sm mt-1">{result.path}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-center font-medium">
+              No nodes found for this query.
+            </p>
+          )}
+        </div>
       </Modal2.Body>
     </Modal2>
   );

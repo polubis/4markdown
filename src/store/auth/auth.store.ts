@@ -5,6 +5,7 @@ type AuthorizedData = {
     name: string | null;
     avatar: string | null;
     uid: string;
+    email: string | null;
   };
 };
 

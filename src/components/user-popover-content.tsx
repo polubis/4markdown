@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "design-system/button";
 import {
   BiArrowToRight,
+  BiError,
   BiPencil,
   BiRefresh,
   BiSolidUserDetail,
@@ -20,7 +21,6 @@ import { reloadYourAccountAct } from "acts/reload-your-account.act";
 import { navigate } from "gatsby";
 import { meta } from "../../meta";
 import { Err } from "design-system/err";
-import { BiError } from "react-icons/bi";
 
 const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   const yourUserProfile = useYourUserProfileState();
@@ -59,6 +59,12 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
   const isCloseDisabled =
     yourUserProfile.is === `busy` || yourAccount.is === `busy`;
 
+  const goToAccount = () => {
+    if (isCloseDisabled) return;
+    onClose();
+    navigate(meta.routes.account);
+  };
+
   return (
     <Modal2 disabled={isCloseDisabled} onClose={onClose}>
       <Modal2.Header
@@ -77,6 +83,27 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
 
           {yourUserProfile.is === `ok` && (
             <>
+              <div
+                className="relative flex flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden"
+                data-testid="[user-profile]:account-settings-section"
+              >
+                <div className="absolute flex flex-col gap-2 top-2 right-2">
+                  <Button
+                    i={1}
+                    s={1}
+                    title="Go to account settings"
+                    disabled={isCloseDisabled}
+                    onClick={goToAccount}
+                  >
+                    <BiArrowToRight />
+                  </Button>
+                </div>
+                <h6 className="font-bold">Account Settings</h6>
+                <p className="mt-1 mb-1">
+                  Open your account page to manage settings and token details.
+                </p>
+              </div>
+
               <div
                 className="relative flex flex-col border-zinc-300 dark:border-zinc-800 rounded-lg border-2 p-4 overflow-hidden"
                 data-testid="[user-profile]:profile-ready"
@@ -132,6 +159,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                         i={1}
                         s={1}
                         title="Open user profile settings"
+                        disabled={isCloseDisabled}
                         onClick={userProfileForm.on}
                       >
                         <BiPencil />
@@ -140,6 +168,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                         i={1}
                         s={1}
                         title="Sync your profile"
+                        disabled={isCloseDisabled}
                         onClick={reloadYourUserProfileAct}
                       >
                         <BiRefresh />
@@ -149,6 +178,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                           i={1}
                           s={1}
                           title="See your public profile"
+                          disabled={isCloseDisabled}
                           onClick={goToUserProfile}
                         >
                           <BiSolidUserDetail />
@@ -201,6 +231,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                       i={1}
                       s={1}
                       title="Open user profile settings"
+                      disabled={isCloseDisabled}
                       onClick={userProfileForm.on}
                     >
                       <BiPencil />
@@ -209,6 +240,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                       i={1}
                       s={1}
                       title="Sync your profile"
+                      disabled={isCloseDisabled}
                       onClick={reloadYourUserProfileAct}
                     >
                       <BiRefresh />
@@ -218,6 +250,7 @@ const UserPopoverContent = ({ onClose }: { onClose(): void }) => {
                         i={1}
                         s={1}
                         title="See your public profile"
+                        disabled={isCloseDisabled}
                         onClick={goToUserProfile}
                       >
                         <BiSolidUserDetail />

@@ -388,6 +388,22 @@ type UserProfileCommentsContracts =
 
 type AccountsContracts = Contract<`getYourAccount`, YourAccountDto>;
 
+type ApiIntegrationContracts = Contract<
+  `getApiIntegration`,
+  {
+    plan: "Free";
+    defaultKeyDurationDays: number;
+    availableKeyDurationsDays: number[];
+    endpoints: Array<{
+      method: "GET" | "POST" | "PUT" | "DELETE";
+      path: string;
+      description: string;
+      callsUsed: number;
+      dailyLimit: number;
+    }>;
+  }
+>;
+
 type DocumentsContracts =
   | Contract<
       `addDocumentScore`,
@@ -574,6 +590,7 @@ type API4MarkdownContracts =
   | DocumentsContracts
   | MindmapNodeEngagementContracts
   | AccountsContracts
+  | ApiIntegrationContracts
   | ResourceCompletionsContracts
   | ResourceLikesContracts
   | ResourceActivityContracts

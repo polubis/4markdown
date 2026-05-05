@@ -26,6 +26,7 @@ export const meta = {
     assets: {
       management: `/assets/`,
     },
+    account: `/account/`,
     likedResources: {
       management: `/starred/`,
     },

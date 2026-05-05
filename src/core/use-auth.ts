@@ -55,6 +55,7 @@ const useAuth = () => {
           avatar: user.photoURL,
           name: user.displayName,
           uid: user.uid,
+          email: user.email,
         });
 
         return;
