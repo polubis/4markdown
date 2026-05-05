@@ -102,7 +102,11 @@ const createZipWorker = (jszipUrl: string) => {
         self.importScripts(jszipUrl);
         const zip = new self.JSZip();
         const baseName = createSlug(payload.name ?? "") || "mindmap";
-        const root = zip.folder(sanitizeFileSegment(baseName)) ?? zip;
+        /**
+         * Keep files at zip root to avoid nested name/name output
+         * during extraction on systems that already create a top-level folder.
+         */
+        const root = zip;
 
         const edges = payload.edges ?? [];
         const beforeMap = Object.create(null);
