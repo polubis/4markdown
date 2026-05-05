@@ -3,6 +3,7 @@ import type {
   ExternalNode,
   SolidEdge,
 } from "api-4markdown-contracts";
+import { buildMindmapVisualMetaMd } from "development-kit/mindmap-visual-meta-ascii";
 
 type MindmapExportNode = EmbeddedNode | ExternalNode;
 type MindmapExportEdge = SolidEdge;
@@ -140,6 +141,7 @@ const createZipWorker = (jszipUrl: string) => {
         };
 
         root.file("structure.json", JSON.stringify(structure, null, 2));
+        root.file("visual-meta.md", payload.visualMetaMd ?? "");
 
         payload.nodes.forEach((node) => {
           const baseName = createSlug(node.data.name ?? "") || "node";
@@ -197,8 +199,15 @@ const downloadMindmapAsFolder = ({
       reject(event.error ?? new Error(`Zip worker failed`));
     };
 
+    const visualMetaMd = buildMindmapVisualMetaMd({
+      name,
+      nodes,
+      edges,
+      orientation,
+    });
+
     worker.postMessage({
-      payload: { name, nodes, edges, orientation },
+      payload: { name, nodes, edges, orientation, visualMetaMd },
       jszipUrl,
     });
   });

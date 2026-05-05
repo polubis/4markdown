@@ -19,6 +19,7 @@ type MindmapSearchResult = {
   id: string;
   name: string;
   description: string | null;
+  content: string | null;
   path: string;
   type: MindmapPreviewNode["type"];
 };
@@ -41,6 +42,7 @@ const toSearchResult = (node: MindmapPreviewNode): MindmapSearchResult => ({
   id: node.id,
   name: node.data.name,
   description: node.data.description ?? null,
+  content: node.type === `embedded` ? (node.data.content ?? null) : null,
   path: node.data.path,
   type: node.type,
 });
@@ -67,10 +69,12 @@ const buildSearchWorker = (): Worker | null => {
       var filtered = source.filter(function (item) {
         var name = (item.name || "").toLowerCase();
         var description = (item.description || "").toLowerCase();
+        var content = (item.content || "").toLowerCase();
         var path = (item.path || "").toLowerCase();
         return (
           name.includes(normalizedQuery) ||
           description.includes(normalizedQuery) ||
+          content.includes(normalizedQuery) ||
           path.includes(normalizedQuery)
         );
       });
@@ -177,10 +181,12 @@ const MindmapSearcherContent = ({ onClose }: { onClose(): void }) => {
           .filter((item) => {
             const name = item.name.toLowerCase();
             const description = (item.description ?? "").toLowerCase();
+            const content = (item.content ?? "").toLowerCase();
             const path = item.path.toLowerCase();
             return (
               name.includes(normalizedQuery) ||
               description.includes(normalizedQuery) ||
+              content.includes(normalizedQuery) ||
               path.includes(normalizedQuery)
             );
           })
@@ -218,7 +224,7 @@ const MindmapSearcherContent = ({ onClose }: { onClose(): void }) => {
           name="mindmap-node-search"
           autoComplete="off"
           spellCheck={false}
-          placeholder="Search by name, description or path…"
+          placeholder="Search by name, description, content, or path…"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
