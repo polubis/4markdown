@@ -204,7 +204,7 @@ export const createPages: GatsbyNode["createPages"] = async ({ actions }) => {
     measurementId: process.env.GATSBY_MEASURMENT_ID,
   });
 
-  const functions = getFunctions(app);
+  const functions = getFunctions(app, "europe-central2");
 
   // @TODO[PRIO=1]: [Find a way to call it statically from library].
   const [{ data: allDocuments }, { data: allMindmaps }] = await Promise.all([

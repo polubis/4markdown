@@ -79,15 +79,12 @@ const DetailRow = ({
 }) => (
   <div className="min-w-0">
     <div className="flex items-center justify-between gap-2 mb-1">
-      <dt className="text-sm font-semibold uppercase tracking-wide text-zinc-700 dark:text-zinc-300 text-pretty">
+      <dt className="text-sm font-semibold uppercase tracking-wide text-pretty">
         {label}
       </dt>
       {action}
     </div>
-    <dd
-      className="text-sm text-zinc-700 dark:text-zinc-300 break-all"
-      title={title}
-    >
+    <dd className="text-sm break-all" title={title}>
       {title}
     </dd>
   </div>
@@ -101,7 +98,7 @@ const StatTile = ({
   value: string;
 }) => (
   <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50/80 dark:bg-zinc-900/50 px-3 py-2 min-w-0">
-    <p className="text-xs text-zinc-700 dark:text-zinc-300 truncate">{label}</p>
+    <p className="text-xs truncate">{label}</p>
     <p className="text-lg font-semibold tabular-nums text-black dark:text-white truncate">
       {value}
     </p>
@@ -490,14 +487,14 @@ const AccountView = () => {
               <div className="flex items-start gap-3">
                 <BiInfoCircle
                   size={20}
-                  className="shrink-0 mt-0.5 text-zinc-700 dark:text-zinc-300"
+                  className="shrink-0 mt-0.5"
                   aria-hidden="true"
                 />
                 <div>
                   <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                     API Usage Limits Disclaimer
                   </p>
-                  <p className="text-sm text-zinc-700 dark:text-zinc-300 mt-1">
+                  <p className="text-sm mt-1">
                     Request limits are assigned by your current plan. Upgrading
                     your plan may increase the allowed request volume per
                     endpoint and token.
@@ -507,9 +504,7 @@ const AccountView = () => {
             </div>
           )}
           <h2 className="text-2xl font-bold">{activeCategory?.title}</h2>
-          <p className="mt-1 mb-5 text-zinc-700 dark:text-zinc-300">
-            {activeCategory?.description}
-          </p>
+          <p className="mt-1 mb-5">{activeCategory?.description}</p>
 
           {activeCategoryId === "account" && (
             <div className="rounded-lg border border-zinc-300 dark:border-zinc-800 p-4">
@@ -677,7 +672,7 @@ const AccountView = () => {
                           />
                         </div>
                       ) : (
-                        <p className="mt-4 text-sm text-zinc-700 dark:text-zinc-300 text-center">
+                        <p className="mt-4 text-sm text-center">
                           No social links added yet.
                         </p>
                       )}
@@ -791,7 +786,7 @@ const AccountView = () => {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h3 className="text-lg font-bold">Current Plan</h3>
-                  <p className="text-sm text-zinc-700 dark:text-zinc-300 mt-1">
+                  <p className="text-sm mt-1">
                     You are currently on the free plan.
                   </p>
                 </div>
@@ -802,25 +797,25 @@ const AccountView = () => {
 
               <div className="rounded-lg border border-zinc-300 dark:border-zinc-800 p-4 bg-zinc-50/70 dark:bg-zinc-900/40">
                 <h4 className="font-semibold">Included in Free</h4>
-                <ul className="mt-2 space-y-1 text-sm text-zinc-700 dark:text-zinc-300">
+                <ul className="mt-2 space-y-1 text-sm">
                   <li>Access to core 4markdown features</li>
                   <li>Standard account and profile usage</li>
                   <li>No subscription cost</li>
                 </ul>
               </div>
 
-              <p className="text-sm text-zinc-700 dark:text-zinc-300">
+              <p className="text-sm">
                 Billing is currently disabled because all features are free.
               </p>
             </div>
           )}
 
           {activeCategoryId === "api" && (
-            <div className="rounded-lg border border-zinc-300 dark:border-zinc-800 p-5 space-y-5">
+            <div className="space-y-5">
               <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                 <div className="min-w-0">
                   <h3 className="text-lg font-bold">API Key</h3>
-                  <p className="text-sm text-zinc-700 dark:text-zinc-300 mt-1">
+                  <p className="text-sm mt-1">
                     Generate API keys, assign token details, and monitor
                     per-token request usage.
                   </p>
@@ -835,16 +830,13 @@ const AccountView = () => {
                   Create API Token
                 </Button>
               </div>
-              <p
-                aria-live="polite"
-                className="text-sm text-zinc-700 dark:text-zinc-300"
-              >
+              <p aria-live="polite" className="text-sm">
                 {apiKeyStatus}
               </p>
 
               <div>
                 <h4 className="font-semibold mb-1 text-balance">API Tokens</h4>
-                <p className="text-sm text-zinc-700 dark:text-zinc-300 mb-3">
+                <p className="text-sm mb-3">
                   Calls are grouped by token to help track usage per
                   integration.
                 </p>
@@ -858,105 +850,97 @@ const AccountView = () => {
                   </p>
                 )}
                 {apiTokens.length === 0 && (
-                  <p className="text-sm text-zinc-700 dark:text-zinc-300">
-                    No API tokens created yet.
-                  </p>
+                  <p className="text-sm">No API tokens created yet.</p>
                 )}
                 <ul className="space-y-4">
                   {apiTokens.map((token) => (
                     <li
                       key={token.id}
-                      className="rounded-md border border-zinc-200 dark:border-zinc-800 p-4"
+                      className="rounded-md border border-zinc-200 dark:border-zinc-800 p-4 space-y-3"
                     >
-                      <div className="space-y-3">
-                        <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
-                          <div className="min-w-0">
-                            <p className="font-semibold text-zinc-900 dark:text-zinc-100">
-                              {token.name}
-                            </p>
-                            {token.description && (
-                              <p className="text-sm text-zinc-700 dark:text-zinc-300 mt-1">
-                                {token.description}
-                              </p>
-                            )}
-                            <p className="text-xs text-zinc-700 dark:text-zinc-300 mt-1">
-                              Created: {formatUtcDate(token.createdAt)} | Limit:{" "}
-                              {token.durationDays} day
-                              {token.durationDays === "1" ? "" : "s"}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span
-                              className="font-mono text-sm break-all text-zinc-900 dark:text-zinc-100"
-                              title={token.value}
-                            >
-                              {token.isVisible
-                                ? token.value
-                                : maskApiKey(token.value)}
-                            </span>
-                            <Button
-                              i={1}
-                              s={1}
-                              title={
-                                token.isVisible
-                                  ? "Hide API key value"
-                                  : "Show API key value"
-                              }
-                              aria-label={
-                                token.isVisible
-                                  ? "Hide API key value"
-                                  : "Show API key value"
-                              }
-                              onClick={() => toggleApiTokenVisibility(token.id)}
-                            >
-                              {token.isVisible ? <BiHide /> : <BiShow />}
-                            </Button>
-                            <Button
-                              i={1}
-                              s={1}
-                              title={`Remove API token ${token.name}`}
-                              aria-label={`Remove API token ${token.name}`}
-                              onClick={() => requestApiTokenRemoval(token)}
-                            >
-                              <BiTrash />
-                            </Button>
-                          </div>
+                      <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
+                        <div className="min-w-0">
+                          <p className="font-semibold text-zinc-900 dark:text-zinc-100">
+                            {token.name}
+                          </p>
+                          {token.description && (
+                            <p className="text-sm mt-1">{token.description}</p>
+                          )}
+                          <p className="text-xs mt-1">
+                            Created: {formatUtcDate(token.createdAt)} | Limit:{" "}
+                            {token.durationDays} day
+                            {token.durationDays === "1" ? "" : "s"}
+                          </p>
                         </div>
-                        <ul className="space-y-2">
-                          {availableApiEndpoints.map((endpoint) => {
-                            const endpointId = `${endpoint.method}-${endpoint.path}`;
-                            const callsUsed =
-                              token.callsUsedByEndpoint[endpointId] ?? 0;
-
-                            return (
-                              <li
-                                key={`${token.id}-${endpointId}`}
-                                className="rounded-md border border-zinc-200 dark:border-zinc-800 p-3"
-                              >
-                                <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                                  <div className="min-w-0">
-                                    <p
-                                      className="font-mono text-sm break-all text-zinc-900 dark:text-zinc-100"
-                                      translate="no"
-                                    >
-                                      <span className="font-bold text-emerald-700 dark:text-emerald-400 mr-2">
-                                        {endpoint.method}
-                                      </span>
-                                      {endpoint.path}
-                                    </p>
-                                    <p className="text-sm text-zinc-700 dark:text-zinc-300 mt-1">
-                                      {endpoint.description}
-                                    </p>
-                                  </div>
-                                  <span className="inline-flex items-center rounded-full border border-zinc-300 dark:border-zinc-700 px-3 py-1 text-sm font-semibold text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-900 shrink-0 tabular-nums">
-                                    {callsUsed}/{endpoint.dailyLimit}
-                                  </span>
-                                </div>
-                              </li>
-                            );
-                          })}
-                        </ul>
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="font-mono text-sm break-all text-zinc-900 dark:text-zinc-100"
+                            title={token.value}
+                          >
+                            {token.isVisible
+                              ? token.value
+                              : maskApiKey(token.value)}
+                          </span>
+                          <Button
+                            i={1}
+                            s={1}
+                            title={
+                              token.isVisible
+                                ? "Hide API key value"
+                                : "Show API key value"
+                            }
+                            aria-label={
+                              token.isVisible
+                                ? "Hide API key value"
+                                : "Show API key value"
+                            }
+                            onClick={() => toggleApiTokenVisibility(token.id)}
+                          >
+                            {token.isVisible ? <BiHide /> : <BiShow />}
+                          </Button>
+                          <Button
+                            i={1}
+                            s={1}
+                            title={`Remove API token ${token.name}`}
+                            aria-label={`Remove API token ${token.name}`}
+                            onClick={() => requestApiTokenRemoval(token)}
+                          >
+                            <BiTrash />
+                          </Button>
+                        </div>
                       </div>
+                      <ul className="border-t border-zinc-200 dark:border-zinc-800 divide-y divide-zinc-200 dark:divide-zinc-800">
+                        {availableApiEndpoints.map((endpoint) => {
+                          const endpointId = `${endpoint.method}-${endpoint.path}`;
+                          const callsUsed =
+                            token.callsUsedByEndpoint[endpointId] ?? 0;
+
+                          return (
+                            <li
+                              key={`${token.id}-${endpointId}`}
+                              className="flex flex-col gap-2 py-3 md:flex-row md:items-center md:justify-between"
+                            >
+                              <div className="min-w-0">
+                                <p
+                                  className="font-mono text-sm break-all text-zinc-900 dark:text-zinc-100"
+                                  translate="no"
+                                >
+                                  <span className="font-bold text-emerald-700 dark:text-emerald-400 mr-2">
+                                    {endpoint.method}
+                                  </span>
+                                  {endpoint.path}
+                                </p>
+                                <p className="text-sm mt-1">
+                                  {endpoint.description}
+                                </p>
+                              </div>
+                              <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100 shrink-0">
+                                {callsUsed}/{endpoint.dailyLimit}
+                              </span>
+                            </li>
+                          );
+                        })}
+                      </ul>
                     </li>
                   ))}
                 </ul>
@@ -1076,7 +1060,7 @@ const AccountView = () => {
                     closeButtonTitle="Close token removal confirmation"
                   />
                   <Modal2.Body>
-                    <p className="text-sm text-zinc-700 dark:text-zinc-300">
+                    <p className="text-sm">
                       Are you sure you want to remove token{" "}
                       <strong>{tokenPendingDelete.name}</strong>? This action
                       cannot be undone.

@@ -93,7 +93,7 @@ const initializeAPI = (version: CacheVersion): Api => {
             );
 
             if (!functions) {
-              functions = getFunctions(app);
+              functions = getFunctions(app, "europe-central2");
             }
 
             const dto = (
