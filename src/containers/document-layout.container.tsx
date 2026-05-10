@@ -55,6 +55,11 @@ import Popover from "design-system/popover";
 import { c } from "design-system/c";
 import { useReadingTime } from "development-kit/use-reading-time";
 import { BullshitMeter } from "components/bullshit-meter";
+import {
+  Provider as ResourceJudgementProvider,
+  RatePicker,
+  RateSummary,
+} from "../shared/resource-judgement";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -268,7 +273,7 @@ const DocumentLayoutContainer = () => {
   );
 
   return (
-    <>
+    <ResourceJudgementProvider rating={document.rating}>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose w-full mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
           <ResourceCompletionMarkerContainer />
@@ -358,7 +363,7 @@ const DocumentLayoutContainer = () => {
               />
             </div>
           </section>
-          <DocumentRatingContainer className="mb-6 justify-end" />
+          <RateSummary rating={document.rating} className="mb-6 ml-auto" />
           {document.visibility === `permanent` && (
             <section className="flex flex-wrap gap-2 items-center mb-4">
               {document.tags.map((tag) => (
@@ -423,6 +428,7 @@ const DocumentLayoutContainer = () => {
             />
           </div>
 
+          <RatePicker rating={document.rating} />
           <DocumentRatingContainer className="justify-end" />
 
           <section className="mt-8" aria-label="Bullshit Meter">
@@ -481,7 +487,7 @@ const DocumentLayoutContainer = () => {
           onClose={contributionModal.off}
         />
       )}
-    </>
+    </ResourceJudgementProvider>
   );
 };
 
