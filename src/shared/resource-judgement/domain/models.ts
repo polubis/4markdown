@@ -1,14 +1,15 @@
-import { Brand } from "development-kit/utility-types";
-
 export type RatingCategory = "ugly" | "bad" | "decent" | "good" | "perfect";
 
 export type Rating = Record<RatingCategory, number>;
 
-export type JudgementConfiguration = {
-  rating: Rating;
-};
+export type ResourceId = string | number;
 
-export type DocumentId = Brand<string, `DocumentId`>;
+export type JudgementConfiguration = {
+  resourceId: ResourceId;
+  rating: Rating;
+  /** Current viewer's chosen category; drives picker and summary highlight. */
+  myCategory?: RatingCategory | null;
+};
 
 export type OperationError = string;
 

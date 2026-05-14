@@ -1,9 +1,15 @@
 import { create } from "zustand";
 import { JudgementConfiguration } from "../domain/models";
 
-export const createStore = ({ rating }: JudgementConfiguration) => {
+export const createStore = ({
+  rating,
+  resourceId,
+  myCategory = null,
+}: JudgementConfiguration) => {
   return create(() => ({
     rating,
+    resourceId,
+    myCategory,
   }));
 };
 

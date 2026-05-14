@@ -1,4 +1,4 @@
-import type { DocumentId, Rating, RatingCategory } from "../../domain/models";
+import type { Rating, RatingCategory } from "../../domain/models";
 import {
   toOperationError,
   rateDocument as rateDocumentApi,
@@ -7,21 +7,24 @@ import { type Store } from "../store";
 import { type Bus } from "../bus";
 
 export const rateDocument =
-  (store: Store, bus: Bus) =>
-  async (payload: { documentId: DocumentId; category: RatingCategory }) => {
-    const prevRating = store.getState().rating;
+  (store: Store, bus: Bus) => async (category: RatingCategory) => {
+    const { rating: prevRating, resourceId, myCategory: prevMyCategory } =
+      store.getState();
 
     try {
       const newRating: Rating = {
         ...prevRating,
-        [payload.category]: prevRating[payload.category] + 1,
+        [category]: prevRating[category] + 1,
       };
 
-      store.setState({ rating: newRating });
+      store.setState({ rating: newRating, myCategory: category });
 
-      await rateDocumentApi(payload);
+      await rateDocumentApi(resourceId, category);
     } catch (error) {
-      store.setState({ rating: prevRating });
+      store.setState({
+        rating: prevRating,
+        myCategory: prevMyCategory,
+      });
       bus.next({ type: "fail", message: toOperationError(error) });
     }
   };

@@ -21,7 +21,6 @@ import { Link, navigate } from "gatsby";
 import { meta } from "../../meta";
 import { useDocumentLayoutContext } from "providers/document-layout.provider";
 import { SocialShare } from "components/social-share";
-import { DocumentRatingContainer } from "containers/document-rating.container";
 import { UserSocials } from "components/user-socials";
 import { ScrollToTop } from "components/scroll-to-top";
 import { Markdown } from "components/markdown";
@@ -56,12 +55,10 @@ import { c } from "design-system/c";
 import { useReadingTime } from "development-kit/use-reading-time";
 import { BullshitMeter } from "components/bullshit-meter";
 import {
-  Provider as ResourceJudgementProvider,
-  RatePicker,
+  ResourceJudgementProvider,
   RateSummary,
+  RatePicker,
 } from "../shared/resource-judgement";
-import { Meter } from "../shared/resource-judgement/presentation/meter";
-import { ScorePicker as ScorePickerNew } from "../shared/resource-judgement/presentation/score-picker";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -218,7 +215,8 @@ const ResourceLikeTriggerContainer = () => {
 };
 
 const DocumentLayoutContainer = () => {
-  const [{ document }, setDocumentLayoutState] = useDocumentLayoutContext();
+  const [{ document, yourRate }, setDocumentLayoutState] =
+    useDocumentLayoutContext();
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
   const changeHistoryModal = useSimpleFeature();
@@ -275,53 +273,13 @@ const DocumentLayoutContainer = () => {
   );
 
   return (
-    <ResourceJudgementProvider rating={document.rating}>
+    <ResourceJudgementProvider
+      resourceId={document.id}
+      rating={document.rating}
+      myCategory={yourRate}
+    >
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose w-full mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
-          <section aria-label="Meter demo" className="mb-8 flex flex-col gap-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              Meter demo
-            </h2>
-            <Meter value={7.4} />
-            <div className="grid gap-3 sm:grid-cols-2">
-              <Meter value={9.2} variant="default" showScale={false} />
-              <Meter value={5.6} variant="soft-gradient" showScale={false} />
-              <Meter value={2.0} variant="outline" showScale={false} />
-              <Meter value={1.7} variant="monochrome" showScale={false} />
-            </div>
-            <Meter value={7.4} variant="compact" label="Compact" />
-          </section>
-          <section aria-label="Score Picker demo" className="mb-8 flex flex-col gap-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              Score Picker demo
-            </h2>
-            <div className="flex flex-wrap gap-8 items-start">
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Default</span>
-                <ScorePickerNew />
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 2</span>
-                <ScorePickerNew initialScore={2} />
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 4</span>
-                <ScorePickerNew initialScore={4} />
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 6</span>
-                <ScorePickerNew initialScore={6} />
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 8</span>
-                <ScorePickerNew initialScore={8} />
-              </div>
-              <div className="flex flex-col items-center gap-1">
-                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 10</span>
-                <ScorePickerNew initialScore={10} />
-              </div>
-            </div>
-          </section>
           <ResourceCompletionMarkerContainer />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <div className="relative">
@@ -409,7 +367,7 @@ const DocumentLayoutContainer = () => {
               />
             </div>
           </section>
-          <RateSummary rating={document.rating} className="mb-6 ml-auto" />
+          <RateSummary className="mb-6 ml-auto" />
           {document.visibility === `permanent` && (
             <section className="flex flex-wrap gap-2 items-center mb-4">
               {document.tags.map((tag) => (
@@ -474,8 +432,7 @@ const DocumentLayoutContainer = () => {
             />
           </div>
 
-          <RatePicker rating={document.rating} />
-          <DocumentRatingContainer className="justify-end" />
+          <RatePicker />
 
           <section className="mt-8" aria-label="Bullshit Meter">
             <BullshitMeter

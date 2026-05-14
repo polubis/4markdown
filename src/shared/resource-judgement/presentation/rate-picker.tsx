@@ -3,19 +3,16 @@ import { Button } from "design-system/button";
 import { c } from "design-system/c";
 import React, { ComponentProps } from "react";
 import { playRateSound, playRateSubmit, primeAudio } from "./sounds";
-import type { Rating, RatingCategory } from "../domain/models";
+import type { RatingCategory } from "../domain/models";
 import {
   RATING_BG_COLORS,
   RATING_BURST_COUNT,
   RATING_COLORS,
   RATING_ICONS,
 } from "./config";
+import { useContext } from "./context";
 
-type RatePickerProps = ComponentProps<"div"> & {
-  rating?: Rating;
-  initialRating?: RatingCategory;
-  onSubmit?: (payload: { category: RatingCategory }) => void;
-};
+export type RatePickerProps = ComponentProps<"div">;
 
 const categoryLabel = (category: RatingCategory) =>
   category[0].toUpperCase() + category.slice(1);
@@ -24,22 +21,26 @@ const ICON_BY_CATEGORY = Object.fromEntries(
   RATING_ICONS.map(({ category, Icon }) => [category, Icon]),
 ) as Record<RatingCategory, (typeof RATING_ICONS)[number]["Icon"]>;
 
-export const RatePicker = ({
-  className,
-  initialRating,
-  onSubmit,
-}: RatePickerProps) => {
-  const [rated, setRated] = React.useState<RatingCategory | null>(
-    initialRating ?? null,
-  );
+export const RatePicker = ({ className, ...rest }: RatePickerProps) => {
+  const { rateDocument, useMyCategory } = useContext();
+  const myCategory = useMyCategory();
+  const prevMyCategory = React.useRef(myCategory);
+
   const [open, setOpen] = React.useState(false);
   const [selected, setSelected] = React.useState<RatingCategory | null>(null);
   const [burstKey, setBurstKey] = React.useState(0);
 
+  React.useEffect(() => {
+    if (prevMyCategory.current !== myCategory && myCategory !== null) {
+      setBurstKey((k) => k + 1);
+    }
+    prevMyCategory.current = myCategory;
+  }, [myCategory]);
+
   const handleOpenChange = (next: boolean) => {
     if (next) {
       primeAudio();
-      setSelected(rated);
+      setSelected(myCategory);
     }
     setOpen(next);
   };
@@ -47,9 +48,7 @@ export const RatePicker = ({
   const submit = () => {
     if (!selected) return;
     playRateSubmit(selected);
-    onSubmit?.({ category: selected });
-    setRated(selected);
-    setBurstKey((k) => k + 1);
+    void rateDocument(selected);
     setOpen(false);
   };
 
@@ -58,16 +57,17 @@ export const RatePicker = ({
     setSelected(category);
   };
 
-  const TriggerIcon = rated
-    ? ICON_BY_CATEGORY[rated]
+  const TriggerIcon = myCategory
+    ? ICON_BY_CATEGORY[myCategory]
     : ICON_BY_CATEGORY.perfect;
-  const triggerColor = rated
-    ? RATING_COLORS[rated]
+  const triggerColor = myCategory
+    ? RATING_COLORS[myCategory]
     : "text-zinc-400 dark:text-zinc-500";
 
   return (
     <Root open={open} onOpenChange={handleOpenChange}>
       <div
+        {...rest}
         className={c("flex flex-col items-center gap-2 text-center", className)}
       >
         <div className="relative">
@@ -75,8 +75,8 @@ export const RatePicker = ({
             <button
               type="button"
               aria-label={
-                rated
-                  ? `Rated ${categoryLabel(rated)}. Click to rate again.`
+                myCategory
+                  ? `You went with ${categoryLabel(myCategory)}. Open to remix your vote.`
                   : "Click to rate"
               }
               className={c(
@@ -89,27 +89,27 @@ export const RatePicker = ({
               )}
             >
               <TriggerIcon
-                key={rated ? `jump-${burstKey}` : "idle"}
+                key={myCategory ? `jump-${burstKey}` : "idle"}
                 aria-hidden="true"
                 size={32}
                 className={c(
                   "transition-colors",
                   triggerColor,
-                  rated
+                  myCategory
                     ? "fill-current motion-safe:animate-rate-jump"
                     : "motion-safe:animate-rate-attract-jump",
                 )}
               />
             </button>
           </Trigger>
-          {rated && (
+          {myCategory && (
             <div
               key={burstKey}
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 flex items-center justify-center"
             >
               <div className="relative h-0 w-0">
-                {Array.from({ length: RATING_BURST_COUNT[rated] }).map(
+                {Array.from({ length: RATING_BURST_COUNT[myCategory] }).map(
                   (_, i, arr) => {
                     const span = 140;
                     const angle =
@@ -129,7 +129,7 @@ export const RatePicker = ({
                           className={c(
                             "block h-0.5 w-3 origin-left rounded-full",
                             "motion-safe:animate-rate-burst",
-                            RATING_BG_COLORS[rated],
+                            RATING_BG_COLORS[myCategory],
                           )}
                           style={{
                             marginLeft: "2.75rem",
@@ -148,7 +148,7 @@ export const RatePicker = ({
           aria-hidden="true"
           className={c(
             "flex flex-col items-center leading-[0.7] text-zinc-400 dark:text-zinc-500 font-mono",
-            !rated && "motion-safe:animate-rate-attract-arrow",
+            !myCategory && "motion-safe:animate-rate-attract-arrow",
           )}
         >
           <span className="text-base">^</span>
@@ -159,13 +159,13 @@ export const RatePicker = ({
         <span
           className={c(
             "text-sm font-normal leading-tight pr-4",
-            rated
+            myCategory
               ? "text-zinc-900 dark:text-zinc-50"
               : "text-zinc-400 dark:text-zinc-500",
           )}
         >
-          {rated
-            ? "Click to change rate"
+          {myCategory
+            ? "Plot twist? Remix your rating"
             : "Click to rate".split("").map((char, i) => (
                 <span
                   key={i}
@@ -192,10 +192,12 @@ export const RatePicker = ({
         >
           <div className="mb-5">
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-              How would you rate?
+              {myCategory ? "Remix your verdict" : "How would you rate?"}
             </h3>
             <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-              Your rating helps the author.
+              {myCategory
+                ? "Same doc, new hot take — pick what fits now."
+                : "Your rating helps the author."}
             </p>
           </div>
 

@@ -1,22 +1,18 @@
 import { c } from "design-system/c";
 import React, { type ComponentProps } from "react";
-import type { Rating, RatingCategory } from "../domain/models";
 import { RATING_COLORS, RATING_ICONS } from "./config";
+import { useContext } from "./context";
 
-export type RateSummaryProps = ComponentProps<"div"> & {
-  activeCategory?: RatingCategory;
-  rating: Rating;
-};
+export type RateSummaryProps = ComponentProps<"div">;
 
-export const RateSummary = ({
-  activeCategory,
-  className,
-  rating,
-  ...props
-}: RateSummaryProps) => {
+export const RateSummary = ({ className, ...rest }: RateSummaryProps) => {
+  const { useRating, useMyCategory } = useContext();
+  const rating = useRating();
+  const activeCategory = useMyCategory();
+
   return (
     <div
-      {...props}
+      {...rest}
       className={c(
         "flex w-fit items-center gap-3 rounded-md border px-2 py-2 shadow-sm",
         "border-zinc-300 bg-zinc-100 text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-300",
@@ -26,11 +22,7 @@ export const RateSummary = ({
       {RATING_ICONS.map(({ category, Icon }) => (
         <div
           key={category}
-          className={c(
-            "flex items-center gap-1.5 rounded-md leading-none",
-            activeCategory === category &&
-              "bg-white/90 px-1.5 py-1 dark:bg-zinc-800/60",
-          )}
+          className="flex items-center gap-1.5 rounded-md leading-none"
         >
           <Icon
             aria-hidden="true"

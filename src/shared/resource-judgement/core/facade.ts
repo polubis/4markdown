@@ -7,6 +7,7 @@ export const createFacade = (useStore: Store, bus: Bus) => {
   return {
     rateDocument: rateDocument(useStore, bus),
     useRating: () => useStore((state) => state.rating),
+    useMyCategory: () => useStore((state) => state.myCategory),
     onBusEvent: (onEvent: (event: BusEvent) => void) => bus.subscribe(onEvent),
   };
 };
