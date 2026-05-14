@@ -61,6 +61,7 @@ import {
   RateSummary,
 } from "../shared/resource-judgement";
 import { Meter } from "../shared/resource-judgement/presentation/meter";
+import { ScorePicker as ScorePickerNew } from "../shared/resource-judgement/presentation/score-picker";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -277,10 +278,7 @@ const DocumentLayoutContainer = () => {
     <ResourceJudgementProvider rating={document.rating}>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose w-full mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
-          <section
-            aria-label="Meter demo"
-            className="mb-8 flex flex-col gap-3"
-          >
+          <section aria-label="Meter demo" className="mb-8 flex flex-col gap-3">
             <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               Meter demo
             </h2>
@@ -292,6 +290,37 @@ const DocumentLayoutContainer = () => {
               <Meter value={1.7} variant="monochrome" showScale={false} />
             </div>
             <Meter value={7.4} variant="compact" label="Compact" />
+          </section>
+          <section aria-label="Score Picker demo" className="mb-8 flex flex-col gap-3">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              Score Picker demo
+            </h2>
+            <div className="flex flex-wrap gap-8 items-start">
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Default</span>
+                <ScorePickerNew />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 2</span>
+                <ScorePickerNew initialScore={2} />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 4</span>
+                <ScorePickerNew initialScore={4} />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 6</span>
+                <ScorePickerNew initialScore={6} />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 8</span>
+                <ScorePickerNew initialScore={8} />
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-[10px] text-zinc-400 uppercase tracking-wide mb-1">Score 10</span>
+                <ScorePickerNew initialScore={10} />
+              </div>
+            </div>
           </section>
           <ResourceCompletionMarkerContainer />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">

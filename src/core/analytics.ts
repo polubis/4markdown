@@ -28,7 +28,6 @@ const initAnalytics = (): Promise<void> => {
 
     // Technical Note: We use a standard function here because GA4's library
     // specifically parses the 'arguments' object, which arrow functions do not have.
-    // biome-ignore lint/complexity/useArrowFunction: Google event tracking library requires arguments
     window.gtag = function () {
       // biome-ignore lint/complexity/noArguments: Google event tracking library requires arguments
       window.dataLayer?.push(arguments);

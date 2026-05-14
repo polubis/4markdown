@@ -59,7 +59,7 @@ const ImageUploaderAuthContainer = (
     accept,
     maxSize,
     onChange: async ({ target: { files } }) => {
-      if (!!files && files.length === 1) {
+      if (files && files.length === 1) {
         if (uploadImageStatus.is !== `idle`) return;
         await uploadImageAct(await readFileAsBase64(files[0]));
       }

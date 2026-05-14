@@ -152,7 +152,7 @@ const UserProfileFormModalContainer = ({
     maxSize: avatarRestrictions.size,
     onChange: ({ target: { files } }) => {
       const uploadAndOpen = async (): Promise<void> => {
-        if (!!files && files.length === 1) {
+        if (files && files.length === 1) {
           try {
             const avatar = await readFileAsBase64(files[0]);
             setAvatarPreview(avatar);

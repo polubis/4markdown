@@ -2,6 +2,19 @@ import { BiBulb, BiDislike, BiHeart, BiLaugh, BiLike } from "react-icons/bi";
 import { RatingCategory } from "../domain/models";
 import { IconType } from "react-icons";
 
+export const EMOJIS = [
+  "💩",
+  "😡",
+  "😠",
+  "😟",
+  "😐",
+  "🙂",
+  "😊",
+  "😄",
+  "😁",
+  "🤩",
+] as const;
+
 export const RATING_ICONS: { category: RatingCategory; Icon: IconType }[] = [
   { category: "perfect", Icon: BiHeart },
   { category: "good", Icon: BiBulb },

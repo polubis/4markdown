@@ -1,12 +1,11 @@
 import React, { type ComponentProps } from "react";
 import { c } from "design-system/c";
+import { EMOJIS } from "./config";
 
 export type MeterProps = ComponentProps<"div"> & {
   value: number;
   label?: string;
 };
-
-const EMOJIS = ["💩", "😡", "😠", "😟", "😐", "🙂", "😊", "😄", "😁", "🤩"];
 
 const getEmojiIndex = (value: number): number =>
   Math.max(0, Math.min(9, 10 - Math.round(value)));
@@ -88,7 +87,15 @@ export const Meter = ({
         >
           <circle cx="12" cy="18" r="4" />
           <rect x="10.5" y="4" width="3" height="12" rx="1.5" />
-          <rect x="11.25" y="8" width="1.5" height="10" rx="0.75" fill="white" opacity="0.35" />
+          <rect
+            x="11.25"
+            y="8"
+            width="1.5"
+            height="10"
+            rx="0.75"
+            fill="white"
+            opacity="0.35"
+          />
         </svg>
       </div>
 
