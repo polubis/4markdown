@@ -60,6 +60,7 @@ import {
   RatePicker,
   RateSummary,
 } from "../shared/resource-judgement";
+import { Meter } from "../shared/resource-judgement/presentation/meter";
 
 const MarkdownWidget = React.lazy(() =>
   import("components/markdown-widget").then(({ MarkdownWidget }) => ({
@@ -276,6 +277,22 @@ const DocumentLayoutContainer = () => {
     <ResourceJudgementProvider rating={document.rating}>
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose w-full mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
+          <section
+            aria-label="Meter demo"
+            className="mb-8 flex flex-col gap-3"
+          >
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              Meter demo
+            </h2>
+            <Meter value={7.4} />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Meter value={9.2} variant="default" showScale={false} />
+              <Meter value={5.6} variant="soft-gradient" showScale={false} />
+              <Meter value={2.0} variant="outline" showScale={false} />
+              <Meter value={1.7} variant="monochrome" showScale={false} />
+            </div>
+            <Meter value={7.4} variant="compact" label="Compact" />
+          </section>
           <ResourceCompletionMarkerContainer />
           <section className="flex items-center gap-2.5 mb-6 justify-end sm:justify-start">
             <div className="relative">
