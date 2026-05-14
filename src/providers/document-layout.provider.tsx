@@ -1,59 +1,26 @@
-import React, {
-  type Dispatch,
-  type SetStateAction,
-  type ReactNode,
-} from "react";
+import { context } from "@greenonsoftware/react-kit";
+import React from "react";
 import type {
   Atoms,
   PermanentDocumentDto,
   PublicDocumentDto,
 } from "api-4markdown-contracts";
 
-type DocumentLayoutState = {
-  document: PublicDocumentDto | PermanentDocumentDto;
+type Doc = PublicDocumentDto | PermanentDocumentDto;
+
+type State = {
+  document: Doc;
   yourRate: Atoms["RatingCategory"] | null;
 };
 
-type DocumentLayoutContextValue = [
-  DocumentLayoutState,
-  Dispatch<
-    SetStateAction<{
-      document: PublicDocumentDto | PermanentDocumentDto;
-      yourRate: Atoms["RatingCategory"] | null;
-    }>
-  >,
-];
-
-type DocumentLayoutProviderProps = {
-  children: ReactNode;
-  document: DocumentLayoutState["document"];
+type Props = {
+  document: Doc;
 };
 
-const DocumentLayoutContext =
-  React.createContext<DocumentLayoutContextValue | null>(null);
-
-const DocumentLayoutProvider = ({
-  document,
-  children,
-}: DocumentLayoutProviderProps) => {
-  const value = React.useState<DocumentLayoutState>(() => ({
-    document,
-    yourRate: null,
-  }));
-
-  return (
-    <DocumentLayoutContext.Provider value={value}>
-      {children}
-    </DocumentLayoutContext.Provider>
-  );
-};
-
-const useDocumentLayoutContext = (): DocumentLayoutContextValue => {
-  const ctx = React.useContext(DocumentLayoutContext);
-
-  if (!ctx) throw Error(`Lack of provider for document layout`);
-
-  return ctx;
-};
-
-export { DocumentLayoutProvider, useDocumentLayoutContext };
+export const [DocumentLayoutProvider, useDocumentLayoutContext] = context(
+  ({ document }: Props) =>
+    React.useState<State>(() => ({
+      document,
+      yourRate: null,
+    })),
+);
