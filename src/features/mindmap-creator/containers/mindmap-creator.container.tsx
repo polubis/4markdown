@@ -43,7 +43,6 @@ import {
   EmbeddedNodeTileContainerY,
 } from "./embedded-node-tile.container";
 import { SolidEdgeContainer } from "./solid-edge.container";
-import { selectedNodesSelector } from "store/mindmap-creator/selectors";
 import { NodesRemovalConfirmationContainer } from "./nodes-removal-confirmation.container";
 import ErrorModal from "components/error-modal";
 import { reloadYourMindmapsAct } from "acts/reload-your-mindmaps.act";
@@ -58,7 +57,11 @@ const NodeFormModalContainer = React.lazy(() =>
 );
 
 const RemoveSelectedNodesContainer = () => {
-  const selectedNodes = useMindmapCreatorState(selectedNodesSelector);
+  const nodes = useMindmapCreatorState((state) => state.nodes);
+  const selectedNodes = React.useMemo(
+    () => nodes.filter((node) => node.selected),
+    [nodes],
+  );
 
   return (
     <Button

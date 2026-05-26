@@ -3,9 +3,17 @@ import { create } from "zustand";
 const state = <TValue>(initialValue: TValue) => {
   const useZustandStore = create(() => initialValue);
 
-  const useState = <TSelected = TValue>(
+  function useState(): TValue;
+  function useState<TSelected>(
+    selector: (value: TValue) => TSelected,
+  ): TSelected;
+  function useState<TSelected>(
     selector?: (value: TValue) => TSelected,
-  ) => useZustandStore(selector as (value: TValue) => TSelected);
+  ): TValue | TSelected {
+    return useZustandStore(
+      (selector ?? ((value: TValue) => value)) as (value: TValue) => TSelected,
+    );
+  }
 
   const swap = (setter: TValue | ((value: TValue) => TValue)): void => {
     useZustandStore.setState(setter, true);

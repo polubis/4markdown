@@ -1,10 +1,6 @@
 import type { MindmapDto } from "api-4markdown-contracts";
 import type { MindmapCreatorState } from "./models";
 
-const selectedNodesSelector = (
-  state: MindmapCreatorState,
-): MindmapCreatorState["nodes"] => state.nodes.filter((node) => node.selected);
-
 const readyMindmapsSelector = (
   mindmaps: MindmapCreatorState["mindmaps"],
 ): Extract<MindmapCreatorState["mindmaps"], { is: `ok` }> => {
@@ -52,7 +48,6 @@ const openedMindmapFormSelector = (
 };
 
 export {
-  selectedNodesSelector,
   readyMindmapsSelector,
   activeMindmapSelector,
   safeActiveMindmapSelector,

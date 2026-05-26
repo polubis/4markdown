@@ -1,4 +1,4 @@
-import { useShallow } from "zustand/react/shallow";
+import { useShallow } from "zustand/shallow";
 import { useResourcesLikeState } from "../store";
 import { rawResourcesLikeSelector } from "../store/selectors";
 import { Atoms, ResourceLikeDto } from "api-4markdown-contracts";

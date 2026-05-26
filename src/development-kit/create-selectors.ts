@@ -1,4 +1,5 @@
-import { StoreApi, UseBoundStore } from "zustand";
+import type { StoreApi } from "zustand/vanilla";
+import type { UseBoundStore } from "zustand/react";
 
 type WithSelectors<S> = S extends { getState: () => infer T }
   ? S & { use: { [K in keyof T]: () => T[K] }; reset: () => void }
