@@ -37,27 +37,24 @@ import {
   type SetUserResourceLikePayloadWithoutLiked,
 } from "modules/resource-likes";
 import {
-  API4MarkdownDto,
   Atoms,
   SetUserResourceCompletionPayloadWithoutCompleted,
 } from "api-4markdown-contracts";
 import { CommentTrigger } from "components/comment-trigger";
 import { DocumentCommentsModule } from "modules/document-comments";
-import { ScorePicker } from "components/score-picker";
 import { useCopy } from "development-kit/use-copy";
-import { useMutation2 } from "core/use-mutation-2";
-import { getAPI } from "api-4markdown";
-import { toast } from "design-system/toast";
 import { ResourceContributionContainer } from "modules/resource-contribution";
 import { useAuthStart } from "core/use-auth-start";
 import Popover from "design-system/popover";
 import { c } from "design-system/c";
 import { useReadingTime } from "development-kit/use-reading-time";
-import { BullshitMeter } from "components/bullshit-meter";
 import {
+  Meter,
   ResourceJudgementProvider,
   RateSummary,
   RatePicker,
+  ScorePicker,
+  Comments,
 } from "../shared/resource-judgement";
 
 const MarkdownWidget = React.lazy(() =>
@@ -95,27 +92,6 @@ const ReadingTimeMetric = React.memo(
 );
 const CONTENT_ID = `document-layout-content`;
 const COMMENTS_CONTAINER_ID = `document-layout-comments`;
-const EMPTY_RATING: Atoms["Rating"] = {
-  ugly: 0,
-  bad: 0,
-  decent: 0,
-  good: 0,
-  perfect: 0,
-};
-
-const toBullshitScoreAverage = (scoreAverage: number): number => {
-  if (scoreAverage <= 0) {
-    return 0;
-  }
-
-  return 11 - scoreAverage;
-};
-
-const toBullshitScoreValue = (
-  scoreValue: Atoms["ScoreValue"],
-): Atoms["ScoreValue"] => {
-  return (11 - scoreValue) as Atoms["ScoreValue"];
-};
 
 const ResourceCompletionTriggerContainer = () => {
   const [{ document }] = useDocumentLayoutContext();
@@ -231,51 +207,12 @@ const DocumentLayoutContainer = () => {
     navigate(meta.routes.home);
   };
 
-  const addScoreMutation = useMutation2<API4MarkdownDto<"addDocumentScore">>({
-    onFail: (error) => {
-      toast.error({
-        title: "Failed to add score",
-        children: error.message,
-      });
-    },
-    onOk: (data) => {
-      setDocumentLayoutState(({ document, yourRate }) => ({
-        document: {
-          ...document,
-          score: {
-            average: data.average,
-            count: data.count,
-            values: data.values,
-          },
-        },
-        yourRate,
-      }));
-    },
-  });
-
-  const addScore = (score: Atoms["ScoreValue"]): void => {
-    addScoreMutation.start(() =>
-      getAPI().call("addDocumentScore")({ documentId: document.id, score }),
-    );
-  };
-
-  const bullshitMeterData = React.useMemo(
-    () => ({
-      score: {
-        scoreAverage: toBullshitScoreAverage(document.score.average),
-        scoreCount: document.score.count,
-        scoreValues: document.score.values.map(toBullshitScoreValue),
-      },
-      rating: "rating" in document ? document.rating : EMPTY_RATING,
-      commentsCount: document.commentsCount,
-    }),
-    [document],
-  );
-
   return (
     <ResourceJudgementProvider
       resourceId={document.id}
+      resouceType="document"
       rating={document.rating}
+      score={document.score}
       myCategory={yourRate}
     >
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
@@ -347,13 +284,6 @@ const DocumentLayoutContainer = () => {
             </Button>
             <SocialShare />
             <div className="ml-auto flex gap-2.5 items-center">
-              <ScorePicker
-                disabled={addScoreMutation.busy || addScoreMutation.ok}
-                popoverClassName="-right-10 w-[280px]"
-                average={document.score.average}
-                count={document.score.count}
-                onRate={addScore}
-              />
               <CommentTrigger
                 i={2}
                 s={2}
@@ -422,26 +352,16 @@ const DocumentLayoutContainer = () => {
             </section>
           )}
 
-          <div className="mt-10 mb-4 ml-auto w-fit">
-            <ScorePicker
-              disabled={addScoreMutation.busy || addScoreMutation.ok}
-              popoverClassName="right-0 w-[280px]"
-              average={document.score.average}
-              count={document.score.count}
-              onRate={addScore}
-            />
-          </div>
-
-          <RatePicker />
-
-          <section className="mt-8" aria-label="Bullshit Meter">
-            <BullshitMeter
-              score={bullshitMeterData.score}
-              rating={bullshitMeterData.rating}
-              commentsCount={bullshitMeterData.commentsCount}
-            />
+          <section className="mt-14 mb-4 flex items-start justify-center gap-8">
+            <ScorePicker mirrored />
+            <RatePicker />
           </section>
 
+          <section className="mt-8" aria-label="Bullshit Meter">
+            <Meter label="Bullshit Meter" />
+          </section>
+
+          <Comments />
           <section id={COMMENTS_CONTAINER_ID}>
             <DocumentCommentsModule
               documentId={document.id}

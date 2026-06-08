@@ -1,10 +1,17 @@
 import { Content, Portal, Root, Trigger } from "@radix-ui/react-popover";
-import { Root as SliderRoot, Track, Range, Thumb } from "@radix-ui/react-slider";
+import {
+  Root as SliderRoot,
+  Track,
+  Range,
+  Thumb,
+} from "@radix-ui/react-slider";
 import { Button } from "design-system/button";
 import { c } from "design-system/c";
 import React, { type ComponentProps } from "react";
+import type { ScoreValue } from "../domain/models";
 import { EMOJIS } from "./config";
 import { playScoreSound, playScoreSubmit, primeAudio } from "./sounds";
+import { useContext } from "./context";
 
 const getAccentBg = (score: number): string => {
   if (score <= 2) return "bg-rose-500";
@@ -29,22 +36,34 @@ const getEmoji = (score: number): string =>
   (EMOJIS as readonly string[])[Math.max(0, Math.min(9, score - 1))];
 
 const DEFAULT_SCORE = 5;
+const toScoreValue = (score: number): ScoreValue =>
+  Math.max(1, Math.min(10, Math.round(score))) as ScoreValue;
 
 // Thumb radius in px (h-4 = 16px → radius = 8px) used to align ticks with thumb centers
 const THUMB_RADIUS = 8;
 
 type ScorePickerProps = ComponentProps<"div"> & {
-  initialScore?: number;
-  onSubmit?: (payload: { score: number }) => void;
+  mirrored?: boolean;
 };
 
-const ScorePicker = ({ className, initialScore, onSubmit }: ScorePickerProps) => {
-  const [submitted, setSubmitted] = React.useState<number | null>(
-    initialScore ?? null,
-  );
+const ScorePicker = ({
+  className,
+  mirrored = false,
+  ...rest
+}: ScorePickerProps) => {
+  const { addScore, useMyScore } = useContext();
+  const submitted = useMyScore();
+  const prevSubmitted = React.useRef(submitted);
   const [open, setOpen] = React.useState(false);
-  const [score, setScore] = React.useState(initialScore ?? DEFAULT_SCORE);
+  const [score, setScore] = React.useState(submitted ?? DEFAULT_SCORE);
   const [burstKey, setBurstKey] = React.useState(0);
+
+  React.useEffect(() => {
+    if (prevSubmitted.current !== submitted && submitted !== null) {
+      setBurstKey((k) => k + 1);
+    }
+    prevSubmitted.current = submitted;
+  }, [submitted]);
 
   const handleOpenChange = (next: boolean) => {
     if (next) {
@@ -55,15 +74,13 @@ const ScorePicker = ({ className, initialScore, onSubmit }: ScorePickerProps) =>
   };
 
   const handleSliderChange = ([v]: number[]) => {
-    setScore(v);
+    setScore(toScoreValue(v));
     playScoreSound(v);
   };
 
   const submit = () => {
     playScoreSubmit(score);
-    onSubmit?.({ score });
-    setSubmitted(score);
-    setBurstKey((k) => k + 1);
+    addScore(score);
     setOpen(false);
   };
 
@@ -72,7 +89,11 @@ const ScorePicker = ({ className, initialScore, onSubmit }: ScorePickerProps) =>
   return (
     <Root open={open} onOpenChange={handleOpenChange}>
       <div
-        className={c("flex flex-col items-center gap-2 text-center", className)}
+        {...rest}
+        className={c(
+          "flex w-40 flex-col items-center gap-2 text-center",
+          className,
+        )}
       >
         <div className="relative">
           <Trigger asChild>
@@ -96,15 +117,14 @@ const ScorePicker = ({ className, initialScore, onSubmit }: ScorePickerProps) =>
                 <span
                   key={`jump-${burstKey}`}
                   aria-hidden="true"
-                  className="text-3xl leading-none motion-safe:animate-rate-jump"
+                  className="inline-flex h-12 w-12 items-center justify-center text-3xl leading-none motion-safe:animate-rate-jump"
                 >
                   {getEmoji(submitted)}
                 </span>
               ) : (
                 <span
-                  key="idle"
                   aria-hidden="true"
-                  className="text-3xl leading-none grayscale opacity-40 motion-safe:animate-rate-attract-jump"
+                  className="inline-flex h-12 w-12 items-center justify-center text-3xl leading-none grayscale opacity-40 motion-safe:animate-rate-attract-jump"
                 >
                   {getEmoji(DEFAULT_SCORE)}
                 </span>
@@ -161,21 +181,22 @@ const ScorePicker = ({ className, initialScore, onSubmit }: ScorePickerProps) =>
           )}
         >
           <span className="text-base">^</span>
-          <span className="text-xs pr-1">·</span>
-          <span className="text-xs pr-2">·</span>
-          <span className="text-xs pr-3">·</span>
+          <span className={c("text-xs", mirrored ? "pl-1" : "pr-1")}>·</span>
+          <span className={c("text-xs", mirrored ? "pl-3" : "pr-3")}>·</span>
+          <span className={c("text-xs", mirrored ? "pl-5" : "pr-5")}>·</span>
         </span>
 
         <span
           className={c(
-            "text-sm font-normal leading-tight pr-4",
+            "min-h-10 flex items-center justify-center text-sm font-normal leading-tight",
+            mirrored ? "pl-4" : "pr-4",
             submitted !== null
               ? "text-zinc-900 dark:text-zinc-50"
               : "text-zinc-400 dark:text-zinc-500",
           )}
         >
           {submitted !== null
-            ? "Click to change rate"
+            ? "Plot twist? Remix your score"
             : "Click to rate".split("").map((char, i) => (
                 <span
                   key={i}
@@ -202,18 +223,19 @@ const ScorePicker = ({ className, initialScore, onSubmit }: ScorePickerProps) =>
         >
           <div className="mb-5">
             <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
-              How would you rate?
+              {submitted !== null ? "Remix your score" : "How would you rate?"}
             </h3>
             <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-              Your rating helps the author.
+              {submitted !== null
+                ? "Same doc, fresh take - drag to the score that fits now."
+                : "Your rating helps the author."}
             </p>
           </div>
 
           <div className="mb-5 flex flex-col items-center gap-1.5">
             <span
-              key={score}
               aria-hidden="true"
-              className="text-5xl leading-none motion-safe:animate-rate-jump"
+              className="inline-flex h-16 w-16 items-center justify-center text-5xl leading-none"
             >
               {getEmoji(score)}
             </span>
@@ -294,7 +316,7 @@ const ScorePicker = ({ className, initialScore, onSubmit }: ScorePickerProps) =>
             onClick={submit}
             className="w-full"
           >
-            Submit Review
+            {submitted !== null ? "Update Review" : "Submit Review"}
           </Button>
         </Content>
       </Portal>

@@ -1,9 +1,9 @@
 import React, { type ComponentProps } from "react";
 import { c } from "design-system/c";
 import { EMOJIS } from "./config";
+import { useContext } from "./context";
 
 export type MeterProps = ComponentProps<"div"> & {
-  value: number;
   label?: string;
 };
 
@@ -43,11 +43,12 @@ const BUBBLES = [
 ];
 
 export const Meter = ({
-  value,
   label = "Bullsheet Meter",
   className,
   ...props
 }: MeterProps) => {
+  const { useMeterValue } = useContext();
+  const value = useMeterValue();
   const safe = Math.max(0, Math.min(10, value));
   const percent = clamp(safe);
   const emoji = EMOJIS[getEmojiIndex(safe)];

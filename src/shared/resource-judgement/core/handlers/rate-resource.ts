@@ -6,10 +6,13 @@ import {
 import { type Store } from "../store";
 import { type Bus } from "../bus";
 
-export const rateDocument =
+export const rateResource =
   (store: Store, bus: Bus) => async (category: RatingCategory) => {
-    const { rating: prevRating, resourceId, myCategory: prevMyCategory } =
-      store.getState();
+    const {
+      rating: prevRating,
+      resourceId,
+      myCategory: prevMyCategory,
+    } = store.getState();
 
     try {
       const newRating: Rating = {
