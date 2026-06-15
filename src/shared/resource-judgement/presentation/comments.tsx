@@ -2,9 +2,12 @@ import React, { type ComponentProps } from "react";
 import { c } from "design-system/c";
 import { Avatar } from "design-system/avatar";
 import { Button } from "design-system/button";
+import { Modal2 } from "design-system/modal2";
 import { Skeleton } from "design-system/skeleton";
+import { Textarea } from "design-system/textarea";
 import { Err } from "design-system/err";
-import type { RatingCategory } from "../domain/models";
+import { useYourUserProfileState } from "store/your-user-profile";
+import type { Comment } from "../domain/models";
 import {
   RATING_BG_COLORS,
   RATING_BURST_COUNT,
@@ -19,10 +22,99 @@ import {
   BiCommentAdd,
   BiError,
   BiMessageSquareDetail,
+  BiPencil,
   BiPlus,
   BiShieldQuarter,
+  BiTrash,
   BiUserVoice,
 } from "react-icons/bi";
+
+const AddCommentModal = ({ onClose }: { onClose: () => void }) => {
+  const ctx = useContext();
+  const yourUserProfile = useYourUserProfileState();
+  const [content, setContent] = React.useState("");
+  const user = yourUserProfile.is === "ok" ? yourUserProfile.user : null;
+
+  return (
+    <Modal2 onClose={onClose}>
+      <Modal2.Header title="Add comment" closeButtonTitle="Close comment adding" />
+      <Modal2.Body>
+        <Textarea
+          value={content}
+          onChange={(event) => setContent(event.target.value)}
+          placeholder="Write your comment here..."
+          onKeyDown={(event) => event.stopPropagation()}
+        />
+      </Modal2.Body>
+      <Modal2.Footer className="flex gap-3">
+        <Button auto className="flex-1" i={1} s={2} onClick={onClose} title="Close">
+          Close
+        </Button>
+        <Button
+          auto
+          className="flex-1"
+          i={2}
+          s={2}
+          title="Confirm comment add"
+          disabled={content.trim().length === 0}
+          onClick={() => {
+            void ctx.addComment(content.trim(), {
+              authorProfileId: user?.id ?? "",
+              authorDisplayName: user?.displayName ?? "Anonymous",
+              authorAvatarUrl: user?.avatar?.sm?.src ?? null,
+            });
+            onClose();
+          }}
+        >
+          Confirm
+        </Button>
+      </Modal2.Footer>
+    </Modal2>
+  );
+};
+
+const EditCommentModal = ({
+  comment,
+  onClose,
+}: {
+  comment: Comment;
+  onClose: () => void;
+}) => {
+  const ctx = useContext();
+  const [content, setContent] = React.useState(comment.content);
+
+  return (
+    <Modal2 onClose={onClose}>
+      <Modal2.Header title="Edit comment" closeButtonTitle="Close comment editing" />
+      <Modal2.Body>
+        <Textarea
+          value={content}
+          onChange={(event) => setContent(event.target.value)}
+          placeholder="Write your comment here..."
+          onKeyDown={(event) => event.stopPropagation()}
+        />
+      </Modal2.Body>
+      <Modal2.Footer className="flex gap-3">
+        <Button auto className="flex-1" i={1} s={2} onClick={onClose} title="Close">
+          Close
+        </Button>
+        <Button
+          auto
+          className="flex-1"
+          i={2}
+          s={2}
+          title="Confirm comment edit"
+          onClick={() => {
+            void ctx.editComment(comment.id, content.trim());
+            onClose();
+          }}
+        >
+          Confirm
+        </Button>
+      </Modal2.Footer>
+    </Modal2>
+  );
+};
 
 const Placeholder = ({
   count,
@@ -317,47 +409,75 @@ const Empty = () => {
 };
 
 const List = () => {
-  const state = useContext().useComments();
-  const [ratings, setRatings] = React.useState<
-    Record<string, RatingCategory | null>
-  >({});
-  const [bursts, setBursts] = React.useState<
-    Record<string, number>
-  >({});
+  const ctx = useContext();
+  const state = ctx.useComments();
+  const yourUserProfile = useYourUserProfileState();
+  const userProfileId =
+    yourUserProfile.is === "ok" ? (yourUserProfile.user?.id ?? null) : null;
+  const [bursts, setBursts] = React.useState<Record<string, number>>({});
+  const [editingComment, setEditingComment] = React.useState<Comment | null>(
+    null,
+  );
 
   return (
-    <div className="space-y-3">
-      {state.data.map((comment) => {
-        const id = String(comment.id);
-        const selected = ratings[id] ?? null;
-        const burst = bursts[id] ?? 0;
+    <>
+      <div className="space-y-3">
+        {state.data.map((comment) => {
+          const id = String(comment.id);
+          const selected = comment.myCategory ?? null;
+          const burst = bursts[id] ?? 0;
+          const isOwner = comment.authorProfileId === userProfileId;
 
-        return (
-          <article
-            key={comment.id}
-            className={c(
-              "rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 shadow-sm",
-              "dark:border-zinc-500 dark:bg-zinc-800",
-            )}
-          >
-            <header className="mb-2 flex items-start gap-3">
-              <Avatar
-                size="sm"
-                src={comment.authorAvatarUrl ?? undefined}
-                alt={comment.authorDisplayName}
-                title={comment.authorDisplayName}
-                char={comment.authorDisplayName.charAt(0)}
-                className="shrink-0 bg-zinc-200 dark:bg-zinc-600"
-              />
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {comment.authorDisplayName}
-                </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-300">
-                  {comment.createdAt}
-                </p>
-              </div>
-            </header>
+          return (
+            <article
+              key={comment.id}
+              className={c(
+                "relative rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 shadow-sm",
+                "dark:border-zinc-500 dark:bg-zinc-800",
+              )}
+            >
+              {isOwner && (
+                <div className="absolute right-3 top-3 flex flex-col gap-1">
+                  <Button
+                    i={1}
+                    s={1}
+                    title="Delete comment"
+                    onClick={() => {
+                      if (window.confirm("Delete this comment?")) {
+                        void ctx.deleteComment(comment.id);
+                      }
+                    }}
+                  >
+                    <BiTrash />
+                  </Button>
+                  <Button
+                    i={1}
+                    s={1}
+                    title="Edit comment"
+                    onClick={() => setEditingComment(comment)}
+                  >
+                    <BiPencil />
+                  </Button>
+                </div>
+              )}
+              <header className="mb-2 flex items-start gap-3 pr-10">
+                <Avatar
+                  size="sm"
+                  src={comment.authorAvatarUrl ?? undefined}
+                  alt={comment.authorDisplayName}
+                  title={comment.authorDisplayName}
+                  char={comment.authorDisplayName.charAt(0)}
+                  className="shrink-0 bg-zinc-200 dark:bg-zinc-600"
+                />
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {comment.authorDisplayName}
+                  </p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-300">
+                    {comment.createdAt}
+                  </p>
+                </div>
+              </header>
 
             <p className="mb-3 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
               {comment.content}
@@ -379,21 +499,14 @@ const List = () => {
               <RatePopover
                 currentCategory={selected}
                 onSubmit={(category) => {
-                  setRatings((prev) => {
-                    const previous = prev[id] ?? null;
+                  if (selected !== category) {
+                    setBursts((current) => ({
+                      ...current,
+                      [id]: (current[id] ?? 0) + 1,
+                    }));
+                  }
 
-                    if (previous !== category) {
-                      setBursts((current) => ({
-                        ...current,
-                        [id]: (current[id] ?? 0) + 1,
-                      }));
-                    }
-
-                    return {
-                      ...prev,
-                      [id]: category,
-                    };
-                  });
+                  void ctx.rateComment(comment.id, category);
                 }}
               >
                 <button
@@ -470,70 +583,89 @@ const List = () => {
                 </button>
               </RatePopover>
             </footer>
-          </article>
-        );
-      })}
-    </div>
+            </article>
+          );
+        })}
+      </div>
+      {editingComment && (
+        <EditCommentModal
+          comment={editingComment}
+          onClose={() => setEditingComment(null)}
+        />
+      )}
+    </>
   );
 };
 
 const Loaded = () => {
   const ctx = useContext();
   const state = ctx.useComments();
+  const [isAddingComment, setIsAddingComment] = React.useState(false);
 
   return (
-    <div
-      className={c(
-        "rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm",
-        "dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-lg dark:shadow-black/50",
-      )}
-    >
-      <header className="mb-3 flex items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <BiMessageSquareDetail
-              aria-hidden="true"
-              className="text-zinc-700 dark:text-zinc-200"
-              size={20}
-            />
-            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-              Comments
-            </h2>
-            <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 text-xs font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-100">
-              {state.totalCount}
-            </span>
+    <>
+      <div
+        className={c(
+          "rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm",
+          "dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-lg dark:shadow-black/50",
+        )}
+      >
+        <header className="mb-3 flex items-start justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <BiMessageSquareDetail
+                aria-hidden="true"
+                className="text-zinc-700 dark:text-zinc-200"
+                size={20}
+              />
+              <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                Comments
+              </h2>
+              <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 text-xs font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-100">
+                {state.totalCount}
+              </span>
+            </div>
+            <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+              Community feedback is now visible below.
+            </p>
           </div>
-          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-            Community feedback is now visible below.
-          </p>
-        </div>
-        <Button auto s={1} i={1} title="Add comment">
-          <BiPlus />
-          Add comment
-        </Button>
-      </header>
+          <Button
+            auto
+            s={1}
+            i={1}
+            title="Add comment"
+            onClick={() => setIsAddingComment(true)}
+          >
+            <BiPlus />
+            Add comment
+          </Button>
+        </header>
 
-      {state.data.length === 0 ? (
-        <Empty />
-      ) : (
-        <>
-          <List />
-          {state.hasMore && (
-            <Button
-              className="mt-4 ml-auto"
-              s={1}
-              i={2}
-              auto
-              disabled={state.isLoadingMore}
-              onClick={() => void ctx.loadMoreComments()}
-              title="Load more comments"
-            >
-              Load More Comments
-            </Button>
-          )}
-        </>
+        {state.data.length === 0 ? (
+          <Empty />
+        ) : (
+          <>
+            <List />
+            {state.hasMore && (
+              <Button
+                className="mt-4 ml-auto"
+                s={1}
+                i={2}
+                auto
+                disabled={state.isLoadingMore}
+                onClick={() => void ctx.loadMoreComments()}
+                title="Load more comments"
+              >
+                Load More Comments
+              </Button>
+            )}
+          </>
+        )}
+      </div>
+      {isAddingComment && (
+        <AddCommentModal onClose={() => setIsAddingComment(false)} />
       )}
-    </div>
+    </>
   );
 };
 

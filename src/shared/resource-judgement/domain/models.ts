@@ -29,10 +29,18 @@ export type Comment = {
   content: string;
   createdAt: string;
   updatedAt: string;
+  authorProfileId: string | number;
   authorDisplayName: string;
   authorAvatarUrl?: string | null;
   repliesCount: number;
   rating: Rating;
+  myCategory?: RatingCategory | null;
+};
+
+export type CommentAuthor = {
+  authorProfileId: string | number;
+  authorDisplayName: string;
+  authorAvatarUrl?: string | null;
 };
 
 export type Configuration = {

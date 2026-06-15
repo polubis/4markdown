@@ -1,4 +1,12 @@
-import type { MeterInput, MeterValue, Rating } from "./models";
+import type { CommentId, MeterInput, MeterValue, Rating } from "./models";
+
+const OPTIMISTIC_COMMENT_ID_PREFIX = "__optimistic__";
+
+export const createOptimisticCommentId = (): CommentId =>
+  `${OPTIMISTIC_COMMENT_ID_PREFIX}${crypto.randomUUID()}`;
+
+export const isOptimisticCommentId = (id: CommentId) =>
+  String(id).startsWith(OPTIMISTIC_COMMENT_ID_PREFIX);
 
 const clampMeterValue = (value: number): MeterValue => {
   return Math.max(0, Math.min(10, value));

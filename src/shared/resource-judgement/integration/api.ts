@@ -2,6 +2,7 @@ import { getAPI, parseError } from "api-4markdown";
 import { Atoms, type DocumentCommentDto } from "api-4markdown-contracts";
 import {
   type Comment,
+  type CommentId,
   type CommentsNextCursor,
   RatingCategory,
   ResourceId,
@@ -29,6 +30,7 @@ const toComment = (dto: DocumentCommentDto): Comment => ({
   content: dto.content,
   createdAt: dto.cdate,
   updatedAt: dto.mdate,
+  authorProfileId: dto.ownerProfile.id,
   authorDisplayName: dto.ownerProfile.displayName ?? "Anonymous",
   authorAvatarUrl: dto.ownerProfile.avatar?.sm?.src ?? null,
   repliesCount: 0,
@@ -92,3 +94,47 @@ export const getComments = async (
     nextCursor: toCommentsNextCursor(data.nextCursor),
   };
 };
+
+export const rateComment = async (
+  resourceId: ResourceId,
+  commentId: CommentId,
+  category: RatingCategory,
+) =>
+  getAPI().call("rateDocumentComment")({
+    resourceId: resourceId as unknown as Atoms["DocumentId"],
+    commentId: commentId as Atoms["DocumentCommentId"],
+    category,
+  });
+
+export const addComment = async (
+  resourceId: ResourceId,
+  content: string,
+): Promise<Comment> =>
+  getAPI()
+    .call("addDocumentComment")({
+      resourceId: resourceId as unknown as Atoms["DocumentId"],
+      comment: content,
+    })
+    .then(toComment);
+
+export const editComment = async (
+  resourceId: ResourceId,
+  commentId: CommentId,
+  content: string,
+): Promise<Comment> =>
+  getAPI()
+    .call("editDocumentComment")({
+      resourceId: resourceId as unknown as Atoms["DocumentId"],
+      commentId: commentId as Atoms["DocumentCommentId"],
+      content,
+    })
+    .then(toComment);
+
+export const deleteComment = async (
+  resourceId: ResourceId,
+  commentId: CommentId,
+) =>
+  getAPI().call("deleteDocumentComment")({
+    resourceId: resourceId as unknown as Atoms["DocumentId"],
+    commentId: commentId as Atoms["DocumentCommentId"],
+  });
