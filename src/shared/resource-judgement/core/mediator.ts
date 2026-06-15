@@ -6,9 +6,5 @@ import { createStore } from "./store";
 export const createMediator = (config: Configuration) => {
   const useStore = createStore(config);
   const bus = createBus();
-  const facade = createFacade(useStore, bus);
-
-  return facade;
+  return createFacade(useStore, bus);
 };
-
-export type Mediator = ReturnType<typeof createMediator>;

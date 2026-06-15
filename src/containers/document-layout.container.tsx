@@ -41,7 +41,6 @@ import {
   SetUserResourceCompletionPayloadWithoutCompleted,
 } from "api-4markdown-contracts";
 import { CommentTrigger } from "components/comment-trigger";
-import { DocumentCommentsModule } from "modules/document-comments";
 import { useCopy } from "development-kit/use-copy";
 import { ResourceContributionContainer } from "modules/resource-contribution";
 import { useAuthStart } from "core/use-auth-start";
@@ -357,23 +356,12 @@ const DocumentLayoutContainer = () => {
             <RatePicker />
           </section>
 
-          <section className="mt-8" aria-label="Bullshit Meter">
+          <section className="mt-8 mb-10" aria-label="Bullshit Meter">
             <Meter label="Bullshit Meter" />
           </section>
 
-          <Comments />
           <section id={COMMENTS_CONTAINER_ID}>
-            <DocumentCommentsModule
-              documentId={document.id}
-              onCountChange={(count) =>
-                setDocumentLayoutState(({ document, yourRate }) => ({
-                  yourRate,
-                  document: { ...document, commentsCount: count },
-                }))
-              }
-              commentsCount={document.commentsCount}
-              className="mt-10"
-            />
+            <Comments />
           </section>
         </main>
         <TableOfContent markdownContainerId={CONTENT_ID} markdown={code} />

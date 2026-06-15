@@ -8,9 +8,21 @@ export type Score = {
   values: ScoreValue[];
 };
 
+export type MeterValue = number;
+
+export type MeterInput = {
+  rating: Rating;
+  score: Score;
+};
+
 export type ResourceId = string | number;
 export type CommentId = string | number;
 export type ResourceType = "document" | "mindmap" | "mindmap-node";
+
+export type CommentsNextCursor = {
+  createdAt: string;
+  id: CommentId;
+};
 
 export type Comment = {
   id: CommentId;
@@ -32,6 +44,10 @@ export type Configuration = {
   myCategory?: RatingCategory | null;
   /** Current viewer's chosen score; drives score picker highlight. */
   myScore?: ScoreValue | null;
+  /** Known total comments count before loading — drives preload/loading state. */
+  commentsCount?: number;
+  /** Pre-loaded comments; when provided the store starts in loaded state. */
+  comments?: Comment[];
 };
 
 export type OperationError = string;

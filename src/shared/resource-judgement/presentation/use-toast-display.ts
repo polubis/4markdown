@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { toast } from "design-system/toast";
-import { Facade } from "../core/facade";
+import { type Facade } from "../core/facade";
 
 export const useToastDisplay = (facade: Facade) => {
   useEffect(() => {

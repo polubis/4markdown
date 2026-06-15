@@ -1,9 +1,10 @@
-import React from "react";
+import React, { type ComponentProps } from "react";
 import { c } from "design-system/c";
 import { Avatar } from "design-system/avatar";
 import { Button } from "design-system/button";
 import { Skeleton } from "design-system/skeleton";
-import type { Comment, RatingCategory } from "../domain/models";
+import { Err } from "design-system/err";
+import type { RatingCategory } from "../domain/models";
 import {
   RATING_BG_COLORS,
   RATING_BURST_COUNT,
@@ -11,72 +12,26 @@ import {
   RATING_ICONS,
 } from "./config";
 import { RatePopover } from "./rate-popover";
+import { useContext } from "./context";
 import {
   BiBulb,
   BiComment,
   BiCommentAdd,
+  BiError,
   BiMessageSquareDetail,
   BiPlus,
   BiShieldQuarter,
   BiUserVoice,
 } from "react-icons/bi";
 
-type CommentsContextValue = {
-  comments: Comment[];
-};
-
-const MOCK_COMMENTS: Comment[] = [
-  {
-    id: "c-1",
-    authorDisplayName: "Maria Rossi",
-    authorAvatarUrl: null,
-    content:
-      "This was super helpful! The explanation is clear and easy to follow. Thank you!",
-    createdAt: "2 days ago",
-    updatedAt: "2 days ago",
-    rating: {
-      perfect: 12,
-      good: 8,
-      decent: 3,
-      bad: 1,
-      ugly: 0,
-    },
-    repliesCount: 2,
-  },
-  {
-    id: "c-2",
-    authorDisplayName: "David Wang",
-    authorAvatarUrl: null,
-    content: "Love the structure. Could you also add one advanced example?",
-    createdAt: "1 day ago",
-    updatedAt: "1 day ago",
-    rating: {
-      perfect: 4,
-      good: 5,
-      decent: 2,
-      bad: 1,
-      ugly: 0,
-    },
-    repliesCount: 1,
-  },
-];
-
-const CommentsContext = React.createContext<CommentsContextValue>({
-  comments: [],
-});
-
-const useCommentsContext = (): CommentsContextValue => {
-  return React.useContext(CommentsContext);
-};
-
-const CommentsSkeleton = ({
+const Placeholder = ({
   count,
   className,
 }: {
   count: number;
   className?: string;
 }) => {
-  const items = Math.min(count, 3);
+  const items = Math.min(Math.max(count, 1), 3);
 
   const skeletonBar = c(
     "from-zinc-300 via-zinc-200 to-zinc-300",
@@ -116,16 +71,11 @@ const CommentsSkeleton = ({
   );
 };
 
-const CommentsPreloadState = ({
-  commentsCount,
-  onLoad,
-  onAddComment,
-}: {
-  commentsCount: number;
-  onLoad(): void;
-  onAddComment(): void;
-}) => {
-  const hasComments = commentsCount > 0;
+const Preload = () => {
+  const ctx = useContext();
+  const state = ctx.useComments();
+  const hasAny = state.totalCount > 0;
+  const load = () => void ctx.loadComments();
 
   return (
     <div
@@ -146,11 +96,11 @@ const CommentsPreloadState = ({
               Comments
             </h2>
             <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 text-xs font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-100">
-              {commentsCount}
+              {state.totalCount}
             </span>
           </div>
           <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-            {hasComments
+            {hasAny
               ? "See what the community is saying about this article."
               : "Be the first to share your thoughts on this article."}
           </p>
@@ -159,7 +109,7 @@ const CommentsPreloadState = ({
           auto
           s={1}
           i={1}
-          onClick={hasComments ? onLoad : onAddComment}
+          onClick={load}
           title="Add comment"
         >
           <BiPlus />
@@ -173,9 +123,9 @@ const CommentsPreloadState = ({
           "dark:border-zinc-500 dark:bg-zinc-800",
         )}
       >
-        {hasComments && (
-          <CommentsSkeleton
-            count={commentsCount}
+        {hasAny && (
+          <Placeholder
+            count={state.totalCount}
             className="pointer-events-none absolute inset-0 overflow-hidden p-4 opacity-[0.28] dark:opacity-[0.22]"
           />
         )}
@@ -184,29 +134,29 @@ const CommentsPreloadState = ({
 
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
           <div className="mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
-            {hasComments ? (
+            {hasAny ? (
               <BiComment aria-hidden="true" size={36} />
             ) : (
               <BiCommentAdd aria-hidden="true" size={36} />
             )}
           </div>
           <h3 className="text-xl font-semibold leading-tight text-zinc-900 dark:text-zinc-100 md:text-2xl">
-            {hasComments
+            {hasAny
               ? "Comments are waiting for you"
               : "No comments yet"}
           </h3>
           <p className="mx-auto mt-2 max-w-md text-sm text-zinc-700 dark:text-zinc-200">
-            {hasComments
+            {hasAny
               ? "Join the conversation and see what others think about this article."
               : "Start the discussion — your comment can help others learn."}
           </p>
-          {hasComments ? (
+          {hasAny ? (
             <Button
               auto
               s={1}
               i={2}
               className="mt-5 mx-auto"
-              onClick={onLoad}
+              onClick={load}
               title="Load comments"
             >
               <BiComment />
@@ -218,7 +168,7 @@ const CommentsPreloadState = ({
               s={1}
               i={2}
               className="mt-5 mx-auto"
-              onClick={onAddComment}
+              onClick={load}
               title="Add comment"
             >
               <BiPlus />
@@ -275,11 +225,9 @@ const CommentsPreloadState = ({
   );
 };
 
-const CommentsLoadedState = ({
-  commentsCount,
-}: {
-  commentsCount: number;
-}) => {
+const Loading = () => {
+  const state = useContext().useComments();
+
   return (
     <div
       className={c(
@@ -299,39 +247,90 @@ const CommentsLoadedState = ({
               Comments
             </h2>
             <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 text-xs font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-100">
-              {commentsCount}
+              {state.totalCount}
             </span>
           </div>
           <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
-            Community feedback is now visible below.
+            Loading comments...
           </p>
         </div>
-        <Button auto s={1} i={1} title="Add comment">
+        <Button auto s={1} i={1} title="Add comment" disabled>
           <BiPlus />
           Add comment
         </Button>
       </header>
-
-      <CommentsList />
+      <Placeholder count={state.totalCount} />
     </div>
   );
 };
 
-const CommentsList = () => {
-  const { comments } = useCommentsContext();
-  const [myCommentRatings, setMyCommentRatings] = React.useState<
+const ErrorView = () => {
+  const ctx = useContext();
+
+  return (
+    <div
+      className={c(
+        "rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm",
+        "dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-lg dark:shadow-black/50",
+      )}
+    >
+      <Err className="border border-zinc-300 dark:border-zinc-800 rounded-lg p-6">
+        <Err.Icon>
+          <BiError size={80} />
+        </Err.Icon>
+        <Err.Title>Something went wrong!</Err.Title>
+        <Err.Description>Failed to load comments. Please try again.</Err.Description>
+        <Err.Action
+          title="Retry loading comments"
+          auto
+          s={2}
+          i={2}
+          onClick={() => void ctx.loadComments()}
+        >
+          Try Again
+        </Err.Action>
+      </Err>
+    </div>
+  );
+};
+
+const Empty = () => {
+  return (
+    <div
+      className={c(
+        "flex flex-col items-center justify-center py-10 text-center",
+        "rounded-xl border border-zinc-200 bg-zinc-50",
+        "dark:border-zinc-500 dark:bg-zinc-800",
+      )}
+    >
+      <div className="mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900/40 dark:text-blue-300">
+        <BiCommentAdd aria-hidden="true" size={30} />
+      </div>
+      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+        No comments yet
+      </p>
+      <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-300">
+        Be the first to share your thoughts.
+      </p>
+    </div>
+  );
+};
+
+const List = () => {
+  const state = useContext().useComments();
+  const [ratings, setRatings] = React.useState<
     Record<string, RatingCategory | null>
   >({});
-  const [commentBurstKeys, setCommentBurstKeys] = React.useState<
+  const [bursts, setBursts] = React.useState<
     Record<string, number>
   >({});
 
   return (
     <div className="space-y-3">
-      {comments.map((comment) => {
-        const commentId = String(comment.id);
-        const selectedCategory = myCommentRatings[commentId] ?? null;
-        const burstKey = commentBurstKeys[commentId] ?? 0;
+      {state.data.map((comment) => {
+        const id = String(comment.id);
+        const selected = ratings[id] ?? null;
+        const burst = bursts[id] ?? 0;
 
         return (
           <article
@@ -378,21 +377,21 @@ const CommentsList = () => {
                 View {comment.repliesCount} replies
               </button>
               <RatePopover
-                currentCategory={selectedCategory}
+                currentCategory={selected}
                 onSubmit={(category) => {
-                  setMyCommentRatings((prev) => {
-                    const previousCategory = prev[commentId] ?? null;
+                  setRatings((prev) => {
+                    const previous = prev[id] ?? null;
 
-                    if (previousCategory !== category) {
-                      setCommentBurstKeys((currentKeys) => ({
-                        ...currentKeys,
-                        [commentId]: (currentKeys[commentId] ?? 0) + 1,
+                    if (previous !== category) {
+                      setBursts((current) => ({
+                        ...current,
+                        [id]: (current[id] ?? 0) + 1,
                       }));
                     }
 
                     return {
                       ...prev,
-                      [commentId]: category,
+                      [id]: category,
                     };
                   });
                 }}
@@ -411,7 +410,7 @@ const CommentsList = () => {
                         <Icon
                           className={c(
                             "h-4 w-4",
-                            selectedCategory === category
+                            selected === category
                               ? c(
                                   RATING_COLORS[category],
                                   "fill-current motion-safe:animate-rate-jump",
@@ -419,9 +418,9 @@ const CommentsList = () => {
                               : "text-zinc-700 dark:text-zinc-200",
                           )}
                         />
-                        {selectedCategory === category && (
+                        {selected === category && (
                           <span
-                            key={`${comment.id}-${category}-${burstKey}`}
+                            key={`${comment.id}-${category}-${burst}`}
                             aria-hidden="true"
                             className="pointer-events-none absolute inset-0 flex items-center justify-center"
                           >
@@ -478,29 +477,96 @@ const CommentsList = () => {
   );
 };
 
-export const Comments = () => {
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const value = React.useMemo<CommentsContextValue>(
-    () => ({
-      comments: MOCK_COMMENTS,
-    }),
-    [],
-  );
-  const commentsCount = value.comments.length;
+const Loaded = () => {
+  const ctx = useContext();
+  const state = ctx.useComments();
 
   return (
-    <section aria-label="Comments">
-      <CommentsContext.Provider value={value}>
-        {isLoaded ? (
-          <CommentsLoadedState commentsCount={commentsCount} />
-        ) : (
-          <CommentsPreloadState
-            commentsCount={commentsCount}
-            onLoad={() => setIsLoaded(true)}
-            onAddComment={() => setIsLoaded(true)}
-          />
-        )}
-      </CommentsContext.Provider>
+    <div
+      className={c(
+        "rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm",
+        "dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-lg dark:shadow-black/50",
+      )}
+    >
+      <header className="mb-3 flex items-start justify-between gap-3">
+        <div>
+          <div className="flex items-center gap-2">
+            <BiMessageSquareDetail
+              aria-hidden="true"
+              className="text-zinc-700 dark:text-zinc-200"
+              size={20}
+            />
+            <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+              Comments
+            </h2>
+            <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 text-xs font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-100">
+              {state.totalCount}
+            </span>
+          </div>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
+            Community feedback is now visible below.
+          </p>
+        </div>
+        <Button auto s={1} i={1} title="Add comment">
+          <BiPlus />
+          Add comment
+        </Button>
+      </header>
+
+      {state.data.length === 0 ? (
+        <Empty />
+      ) : (
+        <>
+          <List />
+          {state.hasMore && (
+            <Button
+              className="mt-4 ml-auto"
+              s={1}
+              i={2}
+              auto
+              disabled={state.isLoadingMore}
+              onClick={() => void ctx.loadMoreComments()}
+              title="Load more comments"
+            >
+              Load More Comments
+            </Button>
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
+export const Comments = (props: ComponentProps<"section">) => {
+  const state = useContext().useComments();
+
+  if (state.isLoading) {
+    return (
+      <section aria-label="Comments" {...props}>
+        <Loading />
+      </section>
+    );
+  }
+
+  if (state.error && !state.loaded) {
+    return (
+      <section aria-label="Comments" {...props}>
+        <ErrorView />
+      </section>
+    );
+  }
+
+  if (!state.loaded) {
+    return (
+      <section aria-label="Comments" {...props}>
+        <Preload />
+      </section>
+    );
+  }
+
+  return (
+    <section aria-label="Comments" {...props}>
+      <Loaded />
     </section>
   );
 };

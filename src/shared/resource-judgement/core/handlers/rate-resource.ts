@@ -1,7 +1,7 @@
 import type { Rating, RatingCategory } from "../../domain/models";
 import {
-  toOperationError,
   rateDocument as rateDocumentApi,
+  toOperationError,
 } from "../../integration/api";
 import { type Store } from "../store";
 import { type Bus } from "../bus";

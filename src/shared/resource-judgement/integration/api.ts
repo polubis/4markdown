@@ -2,7 +2,7 @@ import { getAPI, parseError } from "api-4markdown";
 import { Atoms, type DocumentCommentDto } from "api-4markdown-contracts";
 import {
   type Comment,
-  type CommentId,
+  type CommentsNextCursor,
   RatingCategory,
   ResourceId,
   ResourceType,
@@ -10,6 +10,19 @@ import {
   type ScoreValue,
   type OperationError,
 } from "../domain/models";
+
+const toCommentsNextCursor = (
+  cursor: {
+    cdate: Atoms["UTCDate"];
+    id: Atoms["DocumentCommentId"];
+  } | null,
+): CommentsNextCursor | null =>
+  cursor
+    ? {
+        createdAt: cursor.cdate,
+        id: cursor.id,
+      }
+    : null;
 
 const toComment = (dto: DocumentCommentDto): Comment => ({
   id: dto.id,
@@ -55,9 +68,9 @@ export const addDocumentScore = async (
 export const getComments = async (
   resourceId: ResourceId,
   resourceType: ResourceType,
-  nextCursor: { createdAt: string; id: CommentId } | null = null,
+  nextCursor: CommentsNextCursor | null = null,
   limit: number | null = null,
-): Promise<Comment[]> => {
+) => {
   if (resourceType !== "document") {
     throw new Error(`Unsupported resource type: ${resourceType}`);
   }
@@ -73,5 +86,9 @@ export const getComments = async (
     limit,
   });
 
-  return data.comments.map(toComment);
+  return {
+    data: data.comments.map(toComment),
+    hasMore: data.hasMore,
+    nextCursor: toCommentsNextCursor(data.nextCursor),
+  };
 };
