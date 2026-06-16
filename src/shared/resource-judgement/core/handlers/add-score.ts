@@ -1,6 +1,8 @@
-import type { Score, ScoreValue } from "../../domain/models";
+import type { Score, ScoreValue, ResourceId, ResourceType } from "../../domain/models";
 import {
-  addDocumentScore as addDocumentScoreApi,
+  addDocumentScore,
+  addMindmapNodeScore,
+  addUserProfileScore,
   toOperationError,
 } from "../../integration/api";
 import { type Bus } from "../bus";
@@ -19,12 +21,30 @@ const buildOptimisticScore = (prevScore: Score, score: ScoreValue): Score => {
   };
 };
 
+const saveScore = async (
+  resourceId: ResourceId,
+  resourceType: ResourceType,
+  score: ScoreValue,
+) => {
+  switch (resourceType) {
+    case "document":
+      return addDocumentScore(resourceId, score);
+    case "mindmap-node":
+      return addMindmapNodeScore(resourceId, score);
+    case "user-profile":
+      return addUserProfileScore(resourceId, score);
+    case "mindmap":
+      throw new Error(`Unsupported resource type: ${resourceType}`);
+  }
+};
+
 export const addScore =
   (store: Store, bus: Bus) => async (score: ScoreValue) => {
     const {
       score: prevScore,
       myScore: prevMyScore,
       resourceId,
+      resouceType,
     } = store.getState();
 
     try {
@@ -33,7 +53,7 @@ export const addScore =
         myScore: score,
       });
 
-      const nextScore = await addDocumentScoreApi(resourceId, score);
+      const nextScore = await saveScore(resourceId, resouceType, score);
       store.setState({
         score: nextScore,
         myScore: score,

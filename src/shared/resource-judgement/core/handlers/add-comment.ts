@@ -1,11 +1,17 @@
-import type { Comment, CommentAuthor, CommentId } from "../../domain/models";
+import type {
+  Comment,
+  CommentAuthor,
+  CommentId,
+  ResourceId,
+  ResourceType,
+} from "../../domain/models";
 import {
-  addComment as addCommentApi,
+  addDocumentComment,
+  addMindmapNodeComment,
+  addUserProfileComment,
   toOperationError,
 } from "../../integration/api";
-import {
-  createOptimisticCommentId,
-} from "../../domain/value-objects";
+import { createOptimisticCommentId } from "../../domain/value-objects";
 import { type Bus } from "../bus";
 import { type Store } from "../store";
 
@@ -26,10 +32,27 @@ const createOptimisticComment = (
   myCategory: null,
 });
 
+const saveComment = async (
+  resourceId: ResourceId,
+  resourceType: ResourceType,
+  content: string,
+) => {
+  switch (resourceType) {
+    case "document":
+      return addDocumentComment(resourceId, content);
+    case "mindmap-node":
+      return addMindmapNodeComment(resourceId, content);
+    case "user-profile":
+      return addUserProfileComment(resourceId, content);
+    case "mindmap":
+      throw new Error(`Unsupported resource type: ${resourceType}`);
+  }
+};
+
 export const addComment =
   (store: Store, bus: Bus) =>
   async (content: string, author: CommentAuthor) => {
-    const { comments, resourceId } = store.getState();
+    const { comments, resourceId, resouceType } = store.getState();
     const tempId = createOptimisticCommentId();
     const optimisticComment = createOptimisticComment(tempId, content, author);
     const prevData = comments.data;
@@ -44,7 +67,11 @@ export const addComment =
     });
 
     try {
-      const created = await addCommentApi(resourceId, content);
+      const created = await saveComment(
+        resourceId,
+        resouceType,
+        content,
+      );
       const current = store.getState().comments;
 
       if (!current.data.some((item) => item.id === tempId)) {

@@ -17,7 +17,11 @@ export type MeterInput = {
 
 export type ResourceId = string | number;
 export type CommentId = string | number;
-export type ResourceType = "document" | "mindmap" | "mindmap-node";
+export type ResourceType =
+  | "document"
+  | "mindmap"
+  | "mindmap-node"
+  | "user-profile";
 
 export type CommentsNextCursor = {
   createdAt: string;

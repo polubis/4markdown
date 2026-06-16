@@ -1,16 +1,36 @@
-import type { Rating, RatingCategory } from "../../domain/models";
+import type { Rating, RatingCategory, ResourceId, ResourceType } from "../../domain/models";
 import {
-  rateDocument as rateDocumentApi,
+  rateDocument,
+  rateMindmapNode,
+  rateUserProfile,
   toOperationError,
 } from "../../integration/api";
 import { type Store } from "../store";
 import { type Bus } from "../bus";
+
+const rate = async (
+  resourceId: ResourceId,
+  resourceType: ResourceType,
+  category: RatingCategory,
+) => {
+  switch (resourceType) {
+    case "document":
+      return rateDocument(resourceId, category);
+    case "mindmap-node":
+      return rateMindmapNode(resourceId, category);
+    case "user-profile":
+      return rateUserProfile(resourceId, category);
+    case "mindmap":
+      throw new Error(`Unsupported resource type: ${resourceType}`);
+  }
+};
 
 export const rateResource =
   (store: Store, bus: Bus) => async (category: RatingCategory) => {
     const {
       rating: prevRating,
       resourceId,
+      resouceType,
       myCategory: prevMyCategory,
     } = store.getState();
 
@@ -22,7 +42,7 @@ export const rateResource =
 
       store.setState({ rating: newRating, myCategory: category });
 
-      await rateDocumentApi(resourceId, category);
+      await rate(resourceId, resouceType, category);
     } catch (error) {
       store.setState({
         rating: prevRating,

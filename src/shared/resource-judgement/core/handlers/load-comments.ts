@@ -1,6 +1,33 @@
-import { parseError } from "api-4markdown";
-import { getComments as getCommentsApi } from "../../integration/api";
+import type {
+  CommentsNextCursor,
+  ResourceId,
+  ResourceType,
+} from "../../domain/models";
+import {
+  getDocumentComments,
+  getMindmapNodeComments,
+  getUserProfileComments,
+  toOperationError,
+} from "../../integration/api";
 import { type Store } from "../store";
+
+const fetchComments = async (
+  resourceId: ResourceId,
+  resourceType: ResourceType,
+  nextCursor: CommentsNextCursor | null,
+  limit: number | null,
+) => {
+  switch (resourceType) {
+    case "document":
+      return getDocumentComments(resourceId, nextCursor, limit);
+    case "mindmap-node":
+      return getMindmapNodeComments(resourceId, nextCursor, limit);
+    case "user-profile":
+      return getUserProfileComments(resourceId, nextCursor, limit);
+    case "mindmap":
+      throw new Error(`Unsupported resource type: ${resourceType}`);
+  }
+};
 
 export const loadComments = (store: Store) => async () => {
   const state = store.getState();
@@ -10,7 +37,7 @@ export const loadComments = (store: Store) => async () => {
   });
 
   try {
-    const result = await getCommentsApi(
+    const result = await fetchComments(
       state.resourceId,
       state.resouceType,
       null,
@@ -34,7 +61,7 @@ export const loadComments = (store: Store) => async () => {
       comments: {
         ...store.getState().comments,
         isLoading: false,
-        error: parseError(error).message,
+        error: toOperationError(error),
       },
     });
   }

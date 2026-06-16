@@ -1,11 +1,29 @@
-import type { CommentId } from "../../domain/models";
+import type { CommentId, ResourceId, ResourceType } from "../../domain/models";
 import {
-  deleteComment as deleteCommentApi,
+  deleteDocumentComment,
+  deleteMindmapNodeComment,
   toOperationError,
 } from "../../integration/api";
 import { isOptimisticCommentId } from "../../domain/value-objects";
 import { type Bus } from "../bus";
 import { type Store } from "../store";
+
+const removeComment = async (
+  resourceId: ResourceId,
+  resourceType: ResourceType,
+  commentId: CommentId,
+) => {
+  switch (resourceType) {
+    case "document":
+      return deleteDocumentComment(resourceId, commentId);
+    case "mindmap-node":
+      return deleteMindmapNodeComment(resourceId, commentId);
+    case "user-profile":
+      throw new Error(`Unsupported resource type: ${resourceType}`);
+    case "mindmap":
+      throw new Error(`Unsupported resource type: ${resourceType}`);
+  }
+};
 
 export const deleteComment =
   (store: Store, bus: Bus) =>
@@ -33,7 +51,8 @@ export const deleteComment =
     }
 
     try {
-      await deleteCommentApi(store.getState().resourceId, commentId);
+      const { resourceId, resouceType } = store.getState();
+      await removeComment(resourceId, resouceType, commentId);
     } catch (error) {
       store.setState({
         comments: {
