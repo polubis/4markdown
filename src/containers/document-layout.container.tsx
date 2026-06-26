@@ -40,7 +40,6 @@ import {
   Atoms,
   SetUserResourceCompletionPayloadWithoutCompleted,
 } from "api-4markdown-contracts";
-import { CommentTrigger } from "components/comment-trigger";
 import { useCopy } from "development-kit/use-copy";
 import { ResourceContributionContainer } from "modules/resource-contribution";
 import { useAuthStart } from "core/use-auth-start";
@@ -51,6 +50,8 @@ import {
   Meter,
   ResourceJudgementProvider,
   RateSummary,
+  ScoreSummary,
+  CommentsSummary,
   RatePicker,
   ScorePicker,
   Comments,
@@ -190,8 +191,7 @@ const ResourceLikeTriggerContainer = () => {
 };
 
 const DocumentLayoutContainer = () => {
-  const [{ document, yourRate }, setDocumentLayoutState] =
-    useDocumentLayoutContext();
+  const [{ document }] = useDocumentLayoutContext();
   const { code, author } = document;
   const sectionsModal = useSimpleFeature();
   const changeHistoryModal = useSimpleFeature();
@@ -212,7 +212,7 @@ const DocumentLayoutContainer = () => {
       resouceType="document"
       rating={document.rating}
       score={document.score}
-      myCategory={yourRate}
+      commentsCount={document.commentsCount}
     >
       <div className="px-4 py-10 relative lg:flex lg:justify-center">
         <main className="max-w-prose w-full mx-auto mb-8 lg:mr-8 lg:mb-0 lg:mx-0">
@@ -282,21 +282,12 @@ const DocumentLayoutContainer = () => {
               <BiBook />
             </Button>
             <SocialShare />
-            <div className="ml-auto flex gap-2.5 items-center">
-              <CommentTrigger
-                i={2}
-                s={2}
-                position="right"
-                count={document.commentsCount}
-                onClick={() => {
-                  window.document
-                    .getElementById(COMMENTS_CONTAINER_ID)
-                    ?.scrollIntoView();
-                }}
-              />
-            </div>
           </section>
-          <RateSummary className="mb-6 ml-auto" />
+          <section className="mb-6 ml-auto flex flex-wrap items-center justify-end gap-2">
+            <RateSummary />
+            <ScoreSummary />
+            <CommentsSummary />
+          </section>
           {document.visibility === `permanent` && (
             <section className="flex flex-wrap gap-2 items-center mb-4">
               {document.tags.map((tag) => (
@@ -356,7 +347,7 @@ const DocumentLayoutContainer = () => {
             <RatePicker />
           </section>
 
-          <section className="mt-8 mb-10" aria-label="Bullshit Meter">
+          <section className="mt-8 mb-6" aria-label="Bullshit Meter">
             <Meter label="Bullshit Meter" />
           </section>
 
