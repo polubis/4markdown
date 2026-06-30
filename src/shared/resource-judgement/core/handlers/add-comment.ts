@@ -55,7 +55,12 @@ export const addComment =
   async (content: string, author: CommentAuthor) => {
     const { comments, resourceId, resouceType } = store.getState();
     const tempId = createOptimisticCommentId();
-    const optimisticComment = createOptimisticComment(tempId, content, author);
+    const trimmedContent = content.trim();
+    const optimisticComment = createOptimisticComment(
+      tempId,
+      trimmedContent,
+      author,
+    );
     const prevData = comments.data;
     const prevTotalCount = comments.totalCount;
 
@@ -71,7 +76,7 @@ export const addComment =
       const created = await saveComment(
         resourceId,
         resouceType,
-        content,
+        trimmedContent,
       );
       const current = store.getState().comments;
 

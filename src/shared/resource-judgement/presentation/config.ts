@@ -46,3 +46,6 @@ export const RATING_BURST_COUNT: Record<RatingCategory, number> = {
   bad: 2,
   ugly: 1,
 };
+
+export const buttonFocusOutlineClass =
+  "enabled:focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white";

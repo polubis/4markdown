@@ -2,6 +2,7 @@ import { c } from "design-system/c";
 import React, { ComponentProps } from "react";
 import type { RatingCategory } from "../domain/models";
 import {
+  buttonFocusOutlineClass,
   RATING_BG_COLORS,
   RATING_BURST_COUNT,
   RATING_COLORS,
@@ -68,7 +69,7 @@ export const RatePicker = ({
               "border-zinc-300 hover:border-zinc-400 hover:shadow-lg active:scale-95 active:shadow-sm",
               "data-[state=open]:border-zinc-400 data-[state=open]:shadow-lg",
               "dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700 dark:shadow-sm",
-              "focus-visible:outline dark:outline-2 outline-2.5 outline-black dark:outline-white",
+              buttonFocusOutlineClass,
             )}
           >
             <TriggerIcon

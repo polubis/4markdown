@@ -3,7 +3,7 @@ import { Button } from "design-system/button";
 import { c } from "design-system/c";
 import React from "react";
 import type { RatingCategory } from "../domain/models";
-import { RATING_COLORS, RATING_ICONS } from "./config";
+import { RATING_COLORS, RATING_ICONS, buttonFocusOutlineClass } from "./config";
 import { playRateSound, playRateSubmit, primeAudio } from "./sounds";
 
 export type RatePopoverProps = {
@@ -83,7 +83,7 @@ export const RatePopover = ({
                       "flex h-11 w-11 items-center justify-center rounded-full border bg-white shadow-sm",
                       "motion-safe:transition-[border-color,box-shadow,transform] motion-safe:duration-150",
                       "active:scale-95 active:shadow-sm",
-                      "focus-visible:outline dark:outline-2 outline-2.5 outline-black dark:outline-white",
+                      buttonFocusOutlineClass,
                       isSelected
                         ? "border-zinc-300 shadow-md dark:border-zinc-700"
                         : "border-zinc-200 hover:border-zinc-300 hover:shadow-md dark:border-zinc-800 dark:hover:border-zinc-700",

@@ -246,7 +246,7 @@ const ResourceDetails = ({
             i={2}
             onClick={() => navigate(staticUrl)}
           >
-            Static URL
+            Static (Indexed)
           </Button>
         )}
         {fullDynamicUrl && previewUrl && (
@@ -257,7 +257,7 @@ const ResourceDetails = ({
             i={2}
             onClick={() => navigate(previewUrl)}
           >
-            Dynamic URL
+            Real Time Preview (Live)
           </Button>
         )}
         {visibility === "manual" && (

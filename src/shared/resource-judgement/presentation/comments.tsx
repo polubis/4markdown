@@ -8,11 +8,18 @@ import { Textarea } from "design-system/textarea";
 import { Skeleton } from "design-system/skeleton";
 import { Err } from "design-system/err";
 import { Empty } from "design-system/empty";
+import { Hint } from "design-system/hint";
 import { useInViewport } from "development-kit/use-in-viewport";
+import { useForm } from "development-kit/use-form";
 import { useYourUserProfileState } from "store/your-user-profile";
 import type { Comment, Rating, RatingCategory } from "../domain/models";
+import {
+  COMMENT_CONTENT_LIMITS,
+  commentContentValidators,
+} from "../domain/value-objects";
 import type { IconType } from "react-icons";
 import {
+  buttonFocusOutlineClass,
   RATING_BG_COLORS,
   RATING_BURST_COUNT,
   RATING_COLORS,
@@ -49,8 +56,6 @@ const cardClass = c(
 
 const commentRowClass = "flex gap-3";
 
-const ownerActionsPaddingClass = "pr-10 tn:pr-20";
-
 const commentsActionButtonClass = c(
   "inline-flex items-center gap-1.5 rounded-full",
   "border border-zinc-400/90 bg-white/95 px-4 py-2 text-base font-semibold leading-none",
@@ -58,8 +63,7 @@ const commentsActionButtonClass = c(
   "transition-colors hover:border-zinc-500 hover:bg-white",
   "dark:border-zinc-400/80 dark:bg-zinc-950/90 dark:text-zinc-50",
   "dark:hover:border-zinc-300 dark:hover:bg-zinc-950",
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
-  "focus-visible:outline-zinc-800 dark:focus-visible:outline-zinc-200",
+  buttonFocusOutlineClass,
   "disabled:cursor-not-allowed disabled:opacity-50",
 );
 
@@ -136,7 +140,7 @@ const CommentsPreviewShell = ({
       className={c("relative", !expanded && "overflow-hidden")}
       style={expanded ? undefined : { height: COMMENTS_PREVIEW_HEIGHT_PX }}
     >
-      <div className={c(!expanded && "h-full overflow-hidden")}>{children}</div>
+      <div className={c(!expanded && "h-full overflow-hidden p-1")}>{children}</div>
 
       {showExpandAffordance && !expanded && (
         <div
@@ -166,31 +170,33 @@ const CommentInput = ({ disabled }: { disabled?: boolean }) => {
   const ctx = useContext();
   const yourUserProfile = useYourUserProfileState();
   const user = yourUserProfile.is === "ok" ? yourUserProfile.user : null;
-  const [content, setContent] = React.useState("");
+  const [{ invalid, values }, { inject, reset }] = useForm(
+    { content: "" },
+    commentContentValidators,
+  );
   const [focused, setFocused] = React.useState(false);
-  const showActions = focused || content.trim().length > 0;
-  const canSubmit = content.trim().length > 0 && !disabled;
+  const showActions = focused || values.content.trim().length > 0;
 
   const submit = () => {
-    if (!canSubmit) {
+    if (invalid || disabled) {
       return;
     }
 
-    const trimmed = content.trim();
-
-    ctx.addComment(trimmed, {
+    ctx.addComment(values.content.trim(), {
       authorProfileId: user?.id ?? "",
       authorDisplayName: user?.displayName ?? "Anonymous",
       authorAvatarUrl: user?.avatar?.sm?.src ?? null,
     });
-    setContent("");
+    reset({ content: "" });
     setFocused(false);
   };
 
   const cancel = () => {
-    setContent("");
+    reset({ content: "" });
     setFocused(false);
   };
+
+  const contentInject = inject("content");
 
   return (
     <div className={c(commentRowClass, "mb-5")}>
@@ -205,29 +211,33 @@ const CommentInput = ({ disabled }: { disabled?: boolean }) => {
       <div className="min-w-0 flex-1">
         <textarea
           className={inputClass}
-          value={content}
           disabled={disabled}
           rows={showActions ? 3 : 1}
           placeholder="Add a comment..."
-          onChange={(event) => setContent(event.target.value)}
+          {...contentInject}
           onFocus={() => setFocused(true)}
           onKeyDown={(event) => event.stopPropagation()}
         />
         {showActions && (
-          <div className="mt-2 flex justify-end gap-2">
-            <Button auto s={1} i={1} title="Cancel comment" onClick={cancel}>
-              Cancel
-            </Button>
-            <Button
-              auto
-              s={1}
-              i={2}
-              title="Post comment"
-              disabled={!canSubmit}
-              onClick={submit}
-            >
-              Comment
-            </Button>
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <Hint
+              trigger={`Any characters, between ${COMMENT_CONTENT_LIMITS.min} to ${COMMENT_CONTENT_LIMITS.max} characters`}
+            />
+            <div className="flex gap-2">
+              <Button auto s={1} i={1} title="Cancel comment" onClick={cancel}>
+                Cancel
+              </Button>
+              <Button
+                auto
+                s={1}
+                i={2}
+                title="Post comment"
+                disabled={invalid || disabled}
+                onClick={submit}
+              >
+                Comment
+              </Button>
+            </div>
           </div>
         )}
       </div>
@@ -243,11 +253,13 @@ const CommentEditModal = ({
   onClose: () => void;
 }) => {
   const ctx = useContext();
-  const [content, setContent] = React.useState(comment.content);
-  const canSave = content.trim().length > 0;
+  const [{ invalid, values }, { inject }] = useForm(
+    { content: comment.content },
+    commentContentValidators,
+  );
 
   const handleSave = (): void => {
-    ctx.editComment(comment.id, content.trim());
+    ctx.editComment(comment.id, values.content.trim());
     onClose();
   };
 
@@ -258,13 +270,21 @@ const CommentEditModal = ({
         closeButtonTitle="Close comment editing"
       />
       <Modal2.Body>
-        <Field label="Comment*">
+        <Field
+          label={
+            <Field.Label label="Comment" value={values.content} required />
+          }
+          hint={
+            <Hint
+              trigger={`Any characters, between ${COMMENT_CONTENT_LIMITS.min} to ${COMMENT_CONTENT_LIMITS.max} characters`}
+            />
+          }
+        >
           <Textarea
-            value={content}
             rows={4}
             placeholder="Write your comment..."
             onKeyDown={(event) => event.stopPropagation()}
-            onChange={(event) => setContent(event.target.value)}
+            {...inject("content")}
           />
         </Field>
       </Modal2.Body>
@@ -285,7 +305,7 @@ const CommentEditModal = ({
           i={2}
           s={2}
           title="Save comment"
-          disabled={!canSave}
+          disabled={invalid}
           onClick={handleSave}
         >
           Save
@@ -508,41 +528,38 @@ const List = () => {
               className="shrink-0 bg-zinc-200 dark:bg-zinc-600"
             />
             <div className="relative min-w-0 flex-1">
-              {isOwner && (
-                <div className="absolute right-0 top-0 flex flex-col gap-1.5 tn:flex-row tn:gap-1">
-                  <Button
-                    i={1}
-                    s={1}
-                    title="Delete comment"
-                    onClick={() => setDeletingCommentId(comment.id)}
-                  >
-                    <BiTrash />
-                  </Button>
-                  <Button
-                    i={1}
-                    s={1}
-                    title="Edit comment"
-                    onClick={() => setEditingComment(comment)}
-                  >
-                    <BiPencil />
-                  </Button>
+              <div className="mb-4 flex items-start justify-between gap-2 tn:mb-2">
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {comment.authorDisplayName}
+                  </p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-300">
+                    {comment.updatedAt}
+                  </p>
                 </div>
-              )}
-              <div className={c("mb-4 tn:mb-2", isOwner && ownerActionsPaddingClass)}>
-                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                  {comment.authorDisplayName}
-                </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-300">
-                  {comment.updatedAt}
-                </p>
+                {isOwner && (
+                  <div className="flex shrink-0 gap-1">
+                    <Button
+                      i={1}
+                      s={1}
+                      title="Delete comment"
+                      onClick={() => setDeletingCommentId(comment.id)}
+                    >
+                      <BiTrash />
+                    </Button>
+                    <Button
+                      i={1}
+                      s={1}
+                      title="Edit comment"
+                      onClick={() => setEditingComment(comment)}
+                    >
+                      <BiPencil />
+                    </Button>
+                  </div>
+                )}
               </div>
 
-              <p
-                className={c(
-                  "mb-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300",
-                  isOwner && ownerActionsPaddingClass,
-                )}
-              >
+              <p className="mb-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                 {comment.content}
               </p>
 
@@ -562,7 +579,10 @@ const List = () => {
                 >
                   <button
                     type="button"
-                    className="inline-flex items-center justify-center gap-1 rounded-full border border-zinc-200 bg-white px-2.5 py-1.5 dark:border-zinc-400 dark:bg-zinc-900"
+                    className={c(
+                      "inline-flex items-center justify-center gap-1 rounded-full border border-zinc-200 bg-white px-2.5 py-1.5 dark:border-zinc-400 dark:bg-zinc-900",
+                      buttonFocusOutlineClass,
+                    )}
                     aria-label="Rate this comment"
                   >
                     {highlightIcon && (
@@ -641,9 +661,7 @@ const CommentsBody = ({
     !expanded &&
     (isLoading ||
       (isIdle && hasKnownComments) ||
-      (state.loaded &&
-        state.data.length > 0 &&
-        (state.hasMore || state.data.length > 1)));
+      (state.loaded && state.data.length > 0));
 
   const expandLabel = isLoading ? "Loading comments" : "Show all";
 
@@ -742,17 +760,6 @@ const CommentsPanel = ({ isInViewport }: { isInViewport: boolean }) => {
       ctx.loadComments();
     }
   };
-
-  React.useEffect(() => {
-    if (
-      state.loaded &&
-      state.data.length > 0 &&
-      state.data.length === 1 &&
-      !state.hasMore
-    ) {
-      setExpanded(true);
-    }
-  }, [state.loaded, state.data.length, state.hasMore]);
 
   return (
     <div className={cardClass}>

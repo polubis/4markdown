@@ -9,7 +9,7 @@ import { Button } from "design-system/button";
 import { c } from "design-system/c";
 import React, { type ComponentProps } from "react";
 import type { ScoreValue } from "../domain/models";
-import { EMOJIS } from "./config";
+import { EMOJIS, buttonFocusOutlineClass } from "./config";
 import { playScoreSound, playScoreSubmit, primeAudio } from "./sounds";
 import { useContext } from "./context";
 
@@ -110,7 +110,7 @@ const ScorePicker = ({
                 "border-zinc-300 hover:border-zinc-400 hover:shadow-lg active:scale-95 active:shadow-sm",
                 "data-[state=open]:border-zinc-400 data-[state=open]:shadow-lg",
                 "dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700 dark:shadow-sm",
-                "focus-visible:outline dark:outline-2 outline-2.5 outline-black dark:outline-white",
+                buttonFocusOutlineClass,
               )}
             >
               {submitted !== null ? (
@@ -275,7 +275,7 @@ const ScorePicker = ({
                   "block h-4 w-4 rounded-full border-2 border-white shadow-md",
                   "cursor-grab active:cursor-grabbing",
                   "motion-safe:transition-colors motion-safe:duration-150",
-                  "focus-visible:outline dark:outline-2 outline-2.5 outline-black dark:outline-white",
+                  "focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white",
                   getAccentBg(score),
                 )}
               />

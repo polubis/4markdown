@@ -1,3 +1,9 @@
+import {
+  chain,
+  maxLength,
+  minLength,
+  type ValidatorsSetup,
+} from "development-kit/form";
 import type { CommentId, MeterInput, MeterValue, Rating } from "./models";
 
 const OPTIMISTIC_COMMENT_ID_PREFIX = "__optimistic__";
@@ -50,3 +56,25 @@ export const toMeterValue = ({ rating, score }: MeterInput): MeterValue => {
     rawBullshitScore * (1 - ratingWeight) + ratingBullshitScore * ratingWeight,
   );
 };
+
+const COMMENT_CONTENT_LIMITS = {
+  min: 10,
+  max: 250,
+} as const;
+
+type CommentContentFormValues = {
+  content: string;
+};
+
+const commentContentValidators: ValidatorsSetup<CommentContentFormValues> = {
+  content: [
+    (value) =>
+      chain(
+        minLength(COMMENT_CONTENT_LIMITS.min),
+        maxLength(COMMENT_CONTENT_LIMITS.max),
+      )(value.trim()),
+  ],
+};
+
+export type { CommentContentFormValues };
+export { COMMENT_CONTENT_LIMITS, commentContentValidators };
