@@ -3,7 +3,12 @@ import { Button } from "design-system/button";
 import { c } from "design-system/c";
 import React from "react";
 import type { RatingCategory } from "../domain/models";
-import { RATING_COLORS, RATING_ICONS, buttonFocusOutlineClass } from "./config";
+import {
+  categoryLabel,
+  RATING_COLORS,
+  RATING_ICONS,
+  buttonFocusOutlineClass,
+} from "./config";
 import { playRateSound, playRateSubmit, primeAudio } from "./sounds";
 
 export type RatePopoverProps = {
@@ -11,9 +16,6 @@ export type RatePopoverProps = {
   onSubmit(category: RatingCategory): void;
   children: React.ReactElement;
 };
-
-const categoryLabel = (category: RatingCategory) =>
-  category[0].toUpperCase() + category.slice(1);
 
 export const RatePopover = ({
   currentCategory,
@@ -73,7 +75,10 @@ export const RatePopover = ({
             {RATING_ICONS.map(({ category, Icon }) => {
               const isSelected = selected === category;
               return (
-                <div key={category} className="flex flex-col items-center gap-2">
+                <div
+                  key={category}
+                  className="flex flex-col items-center gap-2"
+                >
                   <button
                     type="button"
                     aria-label={`Rate as ${categoryLabel(category)}`}

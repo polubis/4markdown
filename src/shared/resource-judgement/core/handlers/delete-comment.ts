@@ -26,8 +26,7 @@ const removeComment = async (
 };
 
 export const deleteComment =
-  (store: Store, bus: Bus) =>
-  async (commentId: CommentId) => {
+  (store: Store, bus: Bus) => async (commentId: CommentId) => {
     const { comments } = store.getState();
     const comment = comments.data.find((item) => item.id === commentId);
 
@@ -51,8 +50,8 @@ export const deleteComment =
     }
 
     try {
-      const { resourceId, resouceType } = store.getState();
-      await removeComment(resourceId, resouceType, commentId);
+      const { resourceId, resourceType } = store.getState();
+      await removeComment(resourceId, resourceType, commentId);
     } catch (error) {
       store.setState({
         comments: {

@@ -27,9 +27,8 @@ const saveComment = async (
 };
 
 export const editComment =
-  (store: Store, bus: Bus) =>
-  async (commentId: CommentId, content: string) => {
-    const { comments, resourceId, resouceType } = store.getState();
+  (store: Store, bus: Bus) => async (commentId: CommentId, content: string) => {
+    const { comments, resourceId, resourceType } = store.getState();
     const trimmedContent = content.trim();
     const prevData = comments.data;
 
@@ -55,7 +54,7 @@ export const editComment =
     try {
       const updated = await saveComment(
         resourceId,
-        resouceType,
+        resourceType,
         commentId,
         trimmedContent,
       );

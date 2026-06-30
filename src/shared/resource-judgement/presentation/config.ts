@@ -47,5 +47,8 @@ export const RATING_BURST_COUNT: Record<RatingCategory, number> = {
   ugly: 1,
 };
 
+export const categoryLabel = (category: RatingCategory): string =>
+  category[0].toUpperCase() + category.slice(1);
+
 export const buttonFocusOutlineClass =
   "enabled:focus:outline dark:outline-2 outline-2.5 outline-black dark:outline-white";

@@ -34,7 +34,7 @@ const rate = async (
 export const rateComment =
   (store: Store, bus: Bus) =>
   async (commentId: CommentId, category: RatingCategory) => {
-    const { comments, resourceId, resouceType } = store.getState();
+    const { comments, resourceId, resourceType } = store.getState();
     const comment = comments.data.find((item) => item.id === commentId);
 
     if (!comment) {
@@ -63,16 +63,18 @@ export const rateComment =
     });
 
     try {
-      await rate(resourceId, resouceType, commentId, category);
+      await rate(resourceId, resourceType, commentId, category);
     } catch (error) {
       store.setState({
         comments: {
           ...store.getState().comments,
-          data: store.getState().comments.data.map((item) =>
-            item.id === commentId
-              ? { ...item, rating: prevRating, myCategory: prevMyCategory }
-              : item,
-          ),
+          data: store
+            .getState()
+            .comments.data.map((item) =>
+              item.id === commentId
+                ? { ...item, rating: prevRating, myCategory: prevMyCategory }
+                : item,
+            ),
         },
       });
       bus.next({ type: "fail", message: toOperationError(error) });

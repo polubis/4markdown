@@ -15,6 +15,7 @@ import {
   type Rating,
   RatingCategory,
   ResourceId,
+  type ResourceType,
   type Score,
   type ScoreValue,
   type OperationError,
@@ -45,7 +46,24 @@ const toCommentsNextCursor = (
       }
     : null;
 
-const toCommentFromDocument = (dto: DocumentCommentDto): Comment => ({
+type CommentDto = {
+  id: string | number;
+  content: string;
+  cdate: string;
+  mdate: string;
+  ownerProfile: {
+    id: string | number;
+    displayName: string | null;
+    avatar?: { sm?: { src: string } | null } | null;
+  };
+  ugly: number;
+  bad: number;
+  decent: number;
+  good: number;
+  perfect: number;
+};
+
+const toComment = (dto: CommentDto): Comment => ({
   id: dto.id,
   content: dto.content,
   createdAt: dto.cdate,
@@ -63,25 +81,16 @@ const toCommentFromDocument = (dto: DocumentCommentDto): Comment => ({
   },
 });
 
-export const toCommentFromUserProfile = (dto: UserProfileCommentDto): Comment => ({
-  id: dto.id,
-  content: dto.content,
-  createdAt: dto.cdate,
-  updatedAt: formatCommentUpdatedAt(dto.mdate),
-  authorProfileId: dto.ownerProfile.id,
-  authorDisplayName: dto.ownerProfile.displayName ?? "Anonymous",
-  authorAvatarUrl: dto.ownerProfile.avatar?.sm?.src ?? null,
-  repliesCount: 0,
-  rating: {
-    ugly: dto.ugly,
-    bad: dto.bad,
-    decent: dto.decent,
-    good: dto.good,
-    perfect: dto.perfect,
-  },
-});
+const toCommentFromDocument = (dto: DocumentCommentDto): Comment =>
+  toComment(dto);
 
-export const toRatingFromUserProfile = (profile: UserProfileDto): Rating => ({
+const toCommentFromMindmapNode = (dto: MindmapNodeCommentDto): Comment =>
+  toComment(dto);
+
+const toCommentFromUserProfile = (dto: UserProfileCommentDto): Comment =>
+  toComment(dto);
+
+const toRatingFromUserProfile = (profile: UserProfileDto): Rating => ({
   ugly: profile.ugly ?? 0,
   bad: profile.bad ?? 0,
   decent: profile.decent ?? 0,
@@ -89,28 +98,10 @@ export const toRatingFromUserProfile = (profile: UserProfileDto): Rating => ({
   perfect: profile.perfect ?? 0,
 });
 
-export const toScoreFromUserProfile = (profile: UserProfileDto): Score => ({
+const toScoreFromUserProfile = (profile: UserProfileDto): Score => ({
   average: profile.scoreAverage ?? 0,
   count: profile.scoreCount ?? 0,
   values: profile.scoreValues ?? [],
-});
-
-const toCommentFromMindmapNode = (dto: MindmapNodeCommentDto): Comment => ({
-  id: dto.id,
-  content: dto.content,
-  createdAt: dto.cdate,
-  updatedAt: formatCommentUpdatedAt(dto.mdate),
-  authorProfileId: dto.ownerProfile.id,
-  authorDisplayName: dto.ownerProfile.displayName ?? "Anonymous",
-  authorAvatarUrl: dto.ownerProfile.avatar?.sm?.src ?? null,
-  repliesCount: 0,
-  rating: {
-    ugly: dto.ugly,
-    bad: dto.bad,
-    decent: dto.decent,
-    good: dto.good,
-    perfect: dto.perfect,
-  },
 });
 
 export const toOperationError = (error: unknown): OperationError => {
@@ -157,7 +148,7 @@ export const addMindmapNodeScore = async (
     score: score as Atoms["ScoreValue"],
   } as API4MarkdownPayload<"addMindmapNodeScore">);
 
-export const getDocumentComments = async (
+const getDocumentComments = async (
   resourceId: ResourceId,
   nextCursor: CommentsNextCursor | null,
   limit: number | null,
@@ -180,7 +171,7 @@ export const getDocumentComments = async (
   };
 };
 
-export const getMindmapNodeComments = async (
+const getMindmapNodeComments = async (
   resourceId: ResourceId,
   nextCursor: CommentsNextCursor | null,
   limit: number | null,
@@ -313,7 +304,7 @@ export const addUserProfileScore = async (
     })
     .then(toScoreFromApi);
 
-export const getUserProfileComments = async (
+const getUserProfileComments = async (
   resourceId: ResourceId,
   nextCursor: CommentsNextCursor | null,
   _limit: number | null,
@@ -358,3 +349,21 @@ export const addUserProfileComment = async (
       comment: content,
     })
     .then(toCommentFromUserProfile);
+
+export const fetchCommentsByResource = async (
+  resourceId: ResourceId,
+  resourceType: ResourceType,
+  nextCursor: CommentsNextCursor | null,
+  limit: number | null,
+) => {
+  switch (resourceType) {
+    case "document":
+      return getDocumentComments(resourceId, nextCursor, limit);
+    case "mindmap-node":
+      return getMindmapNodeComments(resourceId, nextCursor, limit);
+    case "user-profile":
+      return getUserProfileComments(resourceId, nextCursor, limit);
+    case "mindmap":
+      throw new Error(`Unsupported resource type: ${resourceType}`);
+  }
+};

@@ -1,10 +1,7 @@
 import { c } from "design-system/c";
 import React, { type ComponentProps } from "react";
 import { BiStar, BiSolidStar, BiUser } from "react-icons/bi";
-import {
-  formatCompactCount,
-  formatScoreAverage,
-} from "./formatting";
+import { formatCompactCount, formatScoreAverage } from "./formatting";
 import { useContext } from "./context";
 
 export type ScoreSummaryProps = ComponentProps<"div">;

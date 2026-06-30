@@ -6,7 +6,10 @@ import { useContext } from "./context";
 
 export type CommentsSummaryProps = ComponentProps<"div">;
 
-export const CommentsSummary = ({ className, ...rest }: CommentsSummaryProps) => {
+export const CommentsSummary = ({
+  className,
+  ...rest
+}: CommentsSummaryProps) => {
   const { useComments } = useContext();
   const { totalCount } = useComments();
 

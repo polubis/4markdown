@@ -1,5 +1,3 @@
-export const MAX_SCORE = 10;
-
 export const formatCompactCount = (count: number): string => {
   if (count > 99) {
     return "99+";

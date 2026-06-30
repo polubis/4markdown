@@ -16,7 +16,7 @@ type State = {
   rating: Rating;
   score: Score;
   resourceId: ResourceId;
-  resouceType: ResourceType;
+  resourceType: ResourceType;
   myCategory: RatingCategory | null;
   myScore: ScoreValue | null;
   comments: {
@@ -35,7 +35,7 @@ export const createStore = ({
   rating,
   score,
   resourceId,
-  resouceType,
+  resourceType,
   myCategory = null,
   myScore = null,
   commentsCount = 0,
@@ -45,7 +45,7 @@ export const createStore = ({
     rating,
     score,
     resourceId,
-    resouceType,
+    resourceType,
     myCategory,
     myScore,
     comments: {

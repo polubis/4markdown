@@ -209,7 +209,7 @@ const DocumentLayoutContainer = () => {
   return (
     <ResourceJudgementProvider
       resourceId={document.id}
-      resouceType="document"
+      resourceType="document"
       rating={document.rating}
       score={document.score}
       commentsCount={document.commentsCount}

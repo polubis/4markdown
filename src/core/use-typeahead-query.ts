@@ -38,7 +38,7 @@ const useTypeaheadQuery = <TData>(config: TypeaheadConfig<TData> = {}) => {
     () => new Subject<{ query: string; handler?: Handler<TData> }>(),
   );
   const [query, setQuery] = React.useState("");
-  const abortRef = React.useRef<AbortController>();
+  const abortRef = React.useRef<AbortController | undefined>(undefined);
   const configRef = React.useRef(config);
 
   React.useEffect(() => {

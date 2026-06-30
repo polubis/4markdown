@@ -25,7 +25,7 @@ const useQuery = <TData>(config: QueryConfig<TData> = {}) => {
   const [state, setState] = React.useState<QueryState<TData>>(initialState);
 
   const configRef = React.useRef<QueryConfig<TData>>(config);
-  const abortRef = React.useRef<AbortController>();
+  const abortRef = React.useRef<AbortController | undefined>(undefined);
 
   const start = React.useCallback(
     async (handler?: Handler<TData>): Promise<void> => {

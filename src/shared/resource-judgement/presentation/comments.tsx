@@ -140,7 +140,9 @@ const CommentsPreviewShell = ({
       className={c("relative", !expanded && "overflow-hidden")}
       style={expanded ? undefined : { height: COMMENTS_PREVIEW_HEIGHT_PX }}
     >
-      <div className={c(!expanded && "h-full overflow-hidden p-1")}>{children}</div>
+      <div className={c(!expanded && "h-full overflow-hidden p-1")}>
+        {children}
+      </div>
 
       {showExpandAffordance && !expanded && (
         <div
@@ -502,142 +504,148 @@ const List = () => {
 
   return (
     <>
-    <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
-      {state.data.map((comment) => {
-        const id = String(comment.id);
-        const selected = comment.myCategory ?? null;
-        const burst = bursts[id] ?? 0;
-        const isOwner = comment.authorProfileId === userProfileId;
-        const totalRatingCount = sumRatingCount(comment.rating);
-        const highlightCategory = getHighlightCategory(comment.rating, selected);
-        const highlightIcon = RATING_ICONS.find(
-          ({ category }) => category === highlightCategory,
-        );
+      <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+        {state.data.map((comment) => {
+          const id = String(comment.id);
+          const selected = comment.myCategory ?? null;
+          const burst = bursts[id] ?? 0;
+          const isOwner = comment.authorProfileId === userProfileId;
+          const totalRatingCount = sumRatingCount(comment.rating);
+          const highlightCategory = getHighlightCategory(
+            comment.rating,
+            selected,
+          );
+          const highlightIcon = RATING_ICONS.find(
+            ({ category }) => category === highlightCategory,
+          );
 
-        return (
-          <article
-            key={comment.id}
-            className={c(commentRowClass, "relative py-5 first:pt-0 last:pb-0")}
-          >
-            <Avatar
-              size="sm"
-              src={comment.authorAvatarUrl ?? undefined}
-              alt={comment.authorDisplayName}
-              title={comment.authorDisplayName}
-              char={comment.authorDisplayName.charAt(0)}
-              className="shrink-0 bg-zinc-200 dark:bg-zinc-600"
-            />
-            <div className="relative min-w-0 flex-1">
-              <div className="mb-4 flex items-start justify-between gap-2 tn:mb-2">
-                <div className="min-w-0">
-                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                    {comment.authorDisplayName}
-                  </p>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-300">
-                    {comment.updatedAt}
-                  </p>
-                </div>
-                {isOwner && (
-                  <div className="flex shrink-0 gap-1">
-                    <Button
-                      i={1}
-                      s={1}
-                      title="Delete comment"
-                      onClick={() => setDeletingCommentId(comment.id)}
-                    >
-                      <BiTrash />
-                    </Button>
-                    <Button
-                      i={1}
-                      s={1}
-                      title="Edit comment"
-                      onClick={() => setEditingComment(comment)}
-                    >
-                      <BiPencil />
-                    </Button>
+          return (
+            <article
+              key={comment.id}
+              className={c(
+                commentRowClass,
+                "relative py-5 first:pt-0 last:pb-0",
+              )}
+            >
+              <Avatar
+                size="sm"
+                src={comment.authorAvatarUrl ?? undefined}
+                alt={comment.authorDisplayName}
+                title={comment.authorDisplayName}
+                char={comment.authorDisplayName.charAt(0)}
+                className="shrink-0 bg-zinc-200 dark:bg-zinc-600"
+              />
+              <div className="relative min-w-0 flex-1">
+                <div className="mb-4 flex items-start justify-between gap-2 tn:mb-2">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                      {comment.authorDisplayName}
+                    </p>
+                    <p className="text-xs text-zinc-500 dark:text-zinc-300">
+                      {comment.updatedAt}
+                    </p>
                   </div>
-                )}
-              </div>
+                  {isOwner && (
+                    <div className="flex shrink-0 gap-1">
+                      <Button
+                        i={1}
+                        s={1}
+                        title="Delete comment"
+                        onClick={() => setDeletingCommentId(comment.id)}
+                      >
+                        <BiTrash />
+                      </Button>
+                      <Button
+                        i={1}
+                        s={1}
+                        title="Edit comment"
+                        onClick={() => setEditingComment(comment)}
+                      >
+                        <BiPencil />
+                      </Button>
+                    </div>
+                  )}
+                </div>
 
-              <p className="mb-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
-                {comment.content}
-              </p>
+                <p className="mb-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+                  {comment.content}
+                </p>
 
-              <footer className="flex items-center justify-end text-xs text-zinc-500 dark:text-zinc-300">
-                <RatePopover
-                  currentCategory={selected}
-                  onSubmit={(category) => {
-                    if (selected !== category) {
-                      setBursts((current) => ({
-                        ...current,
-                        [id]: (current[id] ?? 0) + 1,
-                      }));
-                    }
+                <footer className="flex items-center justify-end text-xs text-zinc-500 dark:text-zinc-300">
+                  <RatePopover
+                    currentCategory={selected}
+                    onSubmit={(category) => {
+                      if (selected !== category) {
+                        setBursts((current) => ({
+                          ...current,
+                          [id]: (current[id] ?? 0) + 1,
+                        }));
+                      }
 
-                    ctx.rateComment(comment.id, category);
-                  }}
-                >
-                  <button
-                    type="button"
-                    className={c(
-                      "inline-flex items-center justify-center gap-1 rounded-full border border-zinc-200 bg-white px-2.5 py-1.5 dark:border-zinc-400 dark:bg-zinc-900",
-                      buttonFocusOutlineClass,
-                    )}
-                    aria-label="Rate this comment"
+                      ctx.rateComment(comment.id, category);
+                    }}
                   >
-                    {highlightIcon && (
-                      <span className="inline-flex items-center justify-center gap-1 leading-none sm:hidden">
-                        <CommentRatingIcon
-                          commentId={comment.id}
-                          category={highlightCategory}
-                          Icon={highlightIcon.Icon}
-                          count={comment.rating[highlightCategory]}
-                          selected={selected}
-                          burst={burst}
-                        />
-                        {totalRatingCount > 0 && (
-                          <span
-                            className={ratingTotalClass}
-                            title="Total ratings"
-                          >
-                            ({totalRatingCount})
-                          </span>
-                        )}
+                    <button
+                      type="button"
+                      className={c(
+                        "inline-flex items-center justify-center gap-1 rounded-full border border-zinc-200 bg-white px-2.5 py-1.5 dark:border-zinc-400 dark:bg-zinc-900",
+                        buttonFocusOutlineClass,
+                      )}
+                      aria-label="Rate this comment"
+                    >
+                      {highlightIcon && (
+                        <span className="inline-flex items-center justify-center gap-1 leading-none sm:hidden">
+                          <CommentRatingIcon
+                            commentId={comment.id}
+                            category={highlightCategory}
+                            Icon={highlightIcon.Icon}
+                            count={comment.rating[highlightCategory]}
+                            selected={selected}
+                            burst={burst}
+                          />
+                          {totalRatingCount > 0 && (
+                            <span
+                              className={ratingTotalClass}
+                              title="Total ratings"
+                            >
+                              ({totalRatingCount})
+                            </span>
+                          )}
+                        </span>
+                      )}
+                      <span className="hidden items-center justify-center gap-1.5 leading-none sm:flex">
+                        {RATING_ICONS.map(({ category, Icon }) => (
+                          <CommentRatingIcon
+                            key={`${comment.id}-${category}`}
+                            commentId={comment.id}
+                            category={category}
+                            Icon={Icon}
+                            count={comment.rating[category]}
+                            selected={selected}
+                            burst={burst}
+                          />
+                        ))}
                       </span>
-                    )}
-                    <span className="hidden items-center justify-center gap-1.5 leading-none sm:flex">
-                      {RATING_ICONS.map(({ category, Icon }) => (
-                        <CommentRatingIcon
-                          key={`${comment.id}-${category}`}
-                          commentId={comment.id}
-                          category={category}
-                          Icon={Icon}
-                          count={comment.rating[category]}
-                          selected={selected}
-                          burst={burst}
-                        />
-                      ))}
-                    </span>
-                  </button>
-                </RatePopover>
-              </footer>
-            </div>
-          </article>
-        );
-      })}
-    </div>
-    {editingComment !== null && (
-      <CommentEditModal
-        comment={editingComment}
-        onClose={() => setEditingComment(null)}
-      />
-    )}
-    {deletingCommentId !== null && (
-      <CommentDeleteModal
-        commentId={deletingCommentId}
-        onClose={() => setDeletingCommentId(null)}
-      />
-    )}
+                    </button>
+                  </RatePopover>
+                </footer>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      {editingComment !== null && (
+        <CommentEditModal
+          comment={editingComment}
+          onClose={() => setEditingComment(null)}
+        />
+      )}
+      {deletingCommentId !== null && (
+        <CommentDeleteModal
+          commentId={deletingCommentId}
+          onClose={() => setDeletingCommentId(null)}
+        />
+      )}
     </>
   );
 };
@@ -726,7 +734,11 @@ const CommentsBody = ({
               title="Load more comments"
               onClick={() => ctx.loadMoreComments()}
             >
-              <BiChevronDown aria-hidden="true" size={20} className="shrink-0" />
+              <BiChevronDown
+                aria-hidden="true"
+                size={20}
+                className="shrink-0"
+              />
               Load More Comments
             </button>
           </div>

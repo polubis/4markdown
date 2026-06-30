@@ -53,7 +53,7 @@ const saveComment = async (
 export const addComment =
   (store: Store, bus: Bus) =>
   async (content: string, author: CommentAuthor) => {
-    const { comments, resourceId, resouceType } = store.getState();
+    const { comments, resourceId, resourceType } = store.getState();
     const tempId = createOptimisticCommentId();
     const trimmedContent = content.trim();
     const optimisticComment = createOptimisticComment(
@@ -75,7 +75,7 @@ export const addComment =
     try {
       const created = await saveComment(
         resourceId,
-        resouceType,
+        resourceType,
         trimmedContent,
       );
       const current = store.getState().comments;

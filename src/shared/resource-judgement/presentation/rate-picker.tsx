@@ -3,6 +3,7 @@ import React, { ComponentProps } from "react";
 import type { RatingCategory } from "../domain/models";
 import {
   buttonFocusOutlineClass,
+  categoryLabel,
   RATING_BG_COLORS,
   RATING_BURST_COUNT,
   RATING_COLORS,
@@ -14,9 +15,6 @@ import { RatePopover } from "./rate-popover";
 export type RatePickerProps = ComponentProps<"div"> & {
   mirrored?: boolean;
 };
-
-const categoryLabel = (category: RatingCategory) =>
-  category[0].toUpperCase() + category.slice(1);
 
 const ICON_BY_CATEGORY = Object.fromEntries(
   RATING_ICONS.map(({ category, Icon }) => [category, Icon]),

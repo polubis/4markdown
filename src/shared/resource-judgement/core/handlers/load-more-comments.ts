@@ -1,35 +1,8 @@
-import type {
-  CommentsNextCursor,
-  ResourceId,
-  ResourceType,
-} from "../../domain/models";
-import {
-  getDocumentComments,
-  getMindmapNodeComments,
-  getUserProfileComments,
-} from "../../integration/api";
+import { fetchCommentsByResource } from "../../integration/api";
 import { type Store } from "../store";
 
-const fetchComments = async (
-  resourceId: ResourceId,
-  resourceType: ResourceType,
-  nextCursor: CommentsNextCursor | null,
-  limit: number | null,
-) => {
-  switch (resourceType) {
-    case "document":
-      return getDocumentComments(resourceId, nextCursor, limit);
-    case "mindmap-node":
-      return getMindmapNodeComments(resourceId, nextCursor, limit);
-    case "user-profile":
-      return getUserProfileComments(resourceId, nextCursor, limit);
-    case "mindmap":
-      throw new Error(`Unsupported resource type: ${resourceType}`);
-  }
-};
-
 export const loadMoreComments = (store: Store) => async () => {
-  const { comments, resourceId, resouceType } = store.getState();
+  const { comments, resourceId, resourceType } = store.getState();
 
   if (!comments.loaded || !comments.hasMore || comments.isLoadingMore) {
     return;
@@ -38,9 +11,9 @@ export const loadMoreComments = (store: Store) => async () => {
   store.setState({ comments: { ...comments, isLoadingMore: true } });
 
   try {
-    const result = await fetchComments(
+    const result = await fetchCommentsByResource(
       resourceId,
-      resouceType,
+      resourceType,
       comments.nextCursor,
       10,
     );

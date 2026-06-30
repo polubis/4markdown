@@ -1,4 +1,4 @@
-import React, { useEffect, RefObject } from "react";
+import React, { useEffect } from "react";
 
 type OnOutsideClickConfig = {
   onOutsideClick?: (event: MouseEvent) => void;
@@ -11,7 +11,7 @@ type OnOutsideClickConfig = {
  * @param config - Configuration object with callback and enabled state
  */
 const useOnOutsideClick = (
-  ref: RefObject<HTMLElement>,
+  ref: { current: HTMLElement | null },
   config: OnOutsideClickConfig = {},
 ) => {
   const { onOutsideClick, enabled = true } = config;

@@ -39,19 +39,6 @@ const getReverb = (ctx: AudioContext): ConvolverNode => {
   return masterReverbNode;
 };
 
-const createNoiseBuffer = (
-  ctx: AudioContext,
-  durationSeconds: number,
-): AudioBuffer => {
-  const length = Math.floor(ctx.sampleRate * durationSeconds);
-  const buffer = ctx.createBuffer(1, length, ctx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < length; i++) {
-    data[i] = Math.random() * 2 - 1;
-  }
-  return buffer;
-};
-
 type Preset = {
   fundamental: number;
   partials: { ratio: number; gain: number }[];
@@ -203,16 +190,152 @@ const PRESETS: Record<RatingCategory, Preset> = {
 
 // C pentatonic major over two octaves — score 1 (darkest) → score 10 (brightest)
 const SCORE_PRESETS: Record<number, Preset> = {
-  1:  { fundamental: 130.81, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.08 }],                                  duration: 2.2, attack: 0.055, release: 2.0, toneLevel: 0.22, filterCutoff: 1100, reverbSend: 0.48, bloom: 0 },
-  2:  { fundamental: 146.83, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.09 }],                                  duration: 2.0, attack: 0.05,  release: 1.8, toneLevel: 0.21, filterCutoff: 1400, reverbSend: 0.46, bloom: 0 },
-  3:  { fundamental: 164.81, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.11 }],                                  duration: 1.9, attack: 0.045, release: 1.7, toneLevel: 0.20, filterCutoff: 1800, reverbSend: 0.44, bloom: 0 },
-  4:  { fundamental: 196.00, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.12 }],                                  duration: 1.8, attack: 0.04,  release: 1.6, toneLevel: 0.19, filterCutoff: 2200, reverbSend: 0.42, bloom: 0 },
-  5:  { fundamental: 220.00, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.14 }, { ratio: 3, gain: 0.04 }],       duration: 1.7, attack: 0.035, release: 1.5, toneLevel: 0.18, filterCutoff: 2700, reverbSend: 0.41, bloom: 0 },
-  6:  { fundamental: 261.63, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.15 }, { ratio: 3, gain: 0.05 }],       duration: 1.6, attack: 0.03,  release: 1.4, toneLevel: 0.17, filterCutoff: 3100, reverbSend: 0.40, bloom: 0 },
-  7:  { fundamental: 293.66, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.16 }, { ratio: 3, gain: 0.05 }],       duration: 1.5, attack: 0.028, release: 1.3, toneLevel: 0.17, filterCutoff: 3600, reverbSend: 0.38, bloom: 0 },
-  8:  { fundamental: 329.63, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.17 }, { ratio: 3, gain: 0.06 }],       duration: 1.4, attack: 0.025, release: 1.2, toneLevel: 0.16, filterCutoff: 4100, reverbSend: 0.37, bloom: 0 },
-  9:  { fundamental: 392.00, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.18 }, { ratio: 3, gain: 0.07 }],       duration: 1.3, attack: 0.022, release: 1.1, toneLevel: 0.16, filterCutoff: 4700, reverbSend: 0.35, bloom: 0 },
-  10: { fundamental: 440.00, partials: [{ ratio: 1, gain: 1 }, { ratio: 2, gain: 0.20 }, { ratio: 3, gain: 0.08 }],       duration: 1.2, attack: 0.02,  release: 1.0, toneLevel: 0.15, filterCutoff: 5300, reverbSend: 0.33, bloom: 0 },
+  1: {
+    fundamental: 130.81,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.08 },
+    ],
+    duration: 2.2,
+    attack: 0.055,
+    release: 2.0,
+    toneLevel: 0.22,
+    filterCutoff: 1100,
+    reverbSend: 0.48,
+    bloom: 0,
+  },
+  2: {
+    fundamental: 146.83,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.09 },
+    ],
+    duration: 2.0,
+    attack: 0.05,
+    release: 1.8,
+    toneLevel: 0.21,
+    filterCutoff: 1400,
+    reverbSend: 0.46,
+    bloom: 0,
+  },
+  3: {
+    fundamental: 164.81,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.11 },
+    ],
+    duration: 1.9,
+    attack: 0.045,
+    release: 1.7,
+    toneLevel: 0.2,
+    filterCutoff: 1800,
+    reverbSend: 0.44,
+    bloom: 0,
+  },
+  4: {
+    fundamental: 196.0,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.12 },
+    ],
+    duration: 1.8,
+    attack: 0.04,
+    release: 1.6,
+    toneLevel: 0.19,
+    filterCutoff: 2200,
+    reverbSend: 0.42,
+    bloom: 0,
+  },
+  5: {
+    fundamental: 220.0,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.14 },
+      { ratio: 3, gain: 0.04 },
+    ],
+    duration: 1.7,
+    attack: 0.035,
+    release: 1.5,
+    toneLevel: 0.18,
+    filterCutoff: 2700,
+    reverbSend: 0.41,
+    bloom: 0,
+  },
+  6: {
+    fundamental: 261.63,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.15 },
+      { ratio: 3, gain: 0.05 },
+    ],
+    duration: 1.6,
+    attack: 0.03,
+    release: 1.4,
+    toneLevel: 0.17,
+    filterCutoff: 3100,
+    reverbSend: 0.4,
+    bloom: 0,
+  },
+  7: {
+    fundamental: 293.66,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.16 },
+      { ratio: 3, gain: 0.05 },
+    ],
+    duration: 1.5,
+    attack: 0.028,
+    release: 1.3,
+    toneLevel: 0.17,
+    filterCutoff: 3600,
+    reverbSend: 0.38,
+    bloom: 0,
+  },
+  8: {
+    fundamental: 329.63,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.17 },
+      { ratio: 3, gain: 0.06 },
+    ],
+    duration: 1.4,
+    attack: 0.025,
+    release: 1.2,
+    toneLevel: 0.16,
+    filterCutoff: 4100,
+    reverbSend: 0.37,
+    bloom: 0,
+  },
+  9: {
+    fundamental: 392.0,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.18 },
+      { ratio: 3, gain: 0.07 },
+    ],
+    duration: 1.3,
+    attack: 0.022,
+    release: 1.1,
+    toneLevel: 0.16,
+    filterCutoff: 4700,
+    reverbSend: 0.35,
+    bloom: 0,
+  },
+  10: {
+    fundamental: 440.0,
+    partials: [
+      { ratio: 1, gain: 1 },
+      { ratio: 2, gain: 0.2 },
+      { ratio: 3, gain: 0.08 },
+    ],
+    duration: 1.2,
+    attack: 0.02,
+    release: 1.0,
+    toneLevel: 0.15,
+    filterCutoff: 5300,
+    reverbSend: 0.33,
+    bloom: 0,
+  },
 };
 
 export const playRateSound = (category: RatingCategory): void =>
@@ -246,46 +369,6 @@ export const playScoreSubmit = (score: number): void => {
     setTimeout(() => playScoreSound(s), (s - 1) * 50);
   }
   setTimeout(() => playScoreSound(clamped), Math.max(0, clamped - 1) * 50 + 80);
-};
-
-type ShooshOptions = {
-  duration?: number;
-  startFrequency?: number;
-  endFrequency?: number;
-  volume?: number;
-};
-
-export const playShoosh = ({
-  duration = 0.25,
-  startFrequency = 8000,
-  endFrequency = 1200,
-  volume = 0.18,
-}: ShooshOptions = {}): void => {
-  const ctx = getAudioContext();
-  if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
-
-  const now = ctx.currentTime;
-  const noise = ctx.createBufferSource();
-  noise.buffer = createNoiseBuffer(ctx, duration);
-
-  const filter = ctx.createBiquadFilter();
-  filter.type = "lowpass";
-  filter.Q.setValueAtTime(1.2, now);
-  filter.frequency.setValueAtTime(startFrequency, now);
-  filter.frequency.exponentialRampToValueAtTime(endFrequency, now + duration);
-
-  const gain = ctx.createGain();
-  gain.gain.setValueAtTime(0, now);
-  gain.gain.linearRampToValueAtTime(volume, now + 0.02);
-  gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-
-  noise.connect(filter);
-  filter.connect(gain);
-  gain.connect(ctx.destination);
-
-  noise.start(now);
-  noise.stop(now + duration);
 };
 
 export const primeAudio = (): void => {

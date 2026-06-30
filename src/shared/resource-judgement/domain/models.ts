@@ -49,7 +49,7 @@ export type CommentAuthor = {
 
 export type Configuration = {
   resourceId: ResourceId;
-  resouceType: ResourceType;
+  resourceType: ResourceType;
   rating: Rating;
   score: Score;
   /** Current viewer's chosen category; drives picker and summary highlight. */
@@ -64,12 +64,7 @@ export type Configuration = {
 
 export type OperationError = string;
 
-export type BusEvent =
-  | {
-      type: "fail";
-      message: OperationError;
-    }
-  | {
-      type: "success";
-      message: string;
-    };
+export type BusEvent = {
+  type: "fail";
+  message: OperationError;
+};

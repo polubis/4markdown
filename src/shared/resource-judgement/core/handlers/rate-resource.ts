@@ -1,4 +1,9 @@
-import type { Rating, RatingCategory, ResourceId, ResourceType } from "../../domain/models";
+import type {
+  Rating,
+  RatingCategory,
+  ResourceId,
+  ResourceType,
+} from "../../domain/models";
 import {
   rateDocument,
   rateMindmapNode,
@@ -30,7 +35,7 @@ export const rateResource =
     const {
       rating: prevRating,
       resourceId,
-      resouceType,
+      resourceType,
       myCategory: prevMyCategory,
     } = store.getState();
 
@@ -42,7 +47,7 @@ export const rateResource =
 
       store.setState({ rating: newRating, myCategory: category });
 
-      await rate(resourceId, resouceType, category);
+      await rate(resourceId, resourceType, category);
     } catch (error) {
       store.setState({
         rating: prevRating,

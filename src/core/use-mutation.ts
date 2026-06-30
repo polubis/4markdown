@@ -24,7 +24,7 @@ const useMutation = <TData>(config: MutationConfig<TData> = {}) => {
   const [state, setState] = React.useState<MutationState<TData>>(initialState);
 
   const configRef = React.useRef<MutationConfig<TData>>(config);
-  const abortRef = React.useRef<AbortController>();
+  const abortRef = React.useRef<AbortController | undefined>(undefined);
 
   React.useEffect(() => {
     configRef.current = config;

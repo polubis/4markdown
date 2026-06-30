@@ -1,4 +1,9 @@
-import type { Score, ScoreValue, ResourceId, ResourceType } from "../../domain/models";
+import type {
+  Score,
+  ScoreValue,
+  ResourceId,
+  ResourceType,
+} from "../../domain/models";
 import {
   addDocumentScore,
   addMindmapNodeScore,
@@ -44,7 +49,7 @@ export const addScore =
       score: prevScore,
       myScore: prevMyScore,
       resourceId,
-      resouceType,
+      resourceType,
     } = store.getState();
 
     try {
@@ -53,7 +58,7 @@ export const addScore =
         myScore: score,
       });
 
-      const nextScore = await saveScore(resourceId, resouceType, score);
+      const nextScore = await saveScore(resourceId, resourceType, score);
       store.setState({
         score: nextScore,
         myScore: score,
