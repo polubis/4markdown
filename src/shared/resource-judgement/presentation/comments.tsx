@@ -2,9 +2,12 @@ import React, { type ComponentProps } from "react";
 import { c } from "design-system/c";
 import { Avatar } from "design-system/avatar";
 import { Button } from "design-system/button";
+import { Field } from "design-system/field";
+import { Modal2 } from "design-system/modal2";
+import { Textarea } from "design-system/textarea";
 import { Skeleton } from "design-system/skeleton";
 import { Err } from "design-system/err";
-import { useAuthStart } from "core/use-auth-start";
+import { Empty } from "design-system/empty";
 import { useInViewport } from "development-kit/use-in-viewport";
 import { useYourUserProfileState } from "store/your-user-profile";
 import type { Comment, Rating, RatingCategory } from "../domain/models";
@@ -19,6 +22,7 @@ import { RatePopover } from "./rate-popover";
 import { useContext } from "./context";
 import {
   BiChevronDown,
+  BiCommentAdd,
   BiError,
   BiMessageSquareDetail,
   BiPencil,
@@ -44,6 +48,20 @@ const cardClass = c(
 );
 
 const commentRowClass = "flex gap-3";
+
+const ownerActionsPaddingClass = "pr-10 tn:pr-20";
+
+const commentsActionButtonClass = c(
+  "inline-flex items-center gap-1.5 rounded-full",
+  "border border-zinc-400/90 bg-white/95 px-4 py-2 text-base font-semibold leading-none",
+  "text-zinc-900 shadow-sm backdrop-blur-md",
+  "transition-colors hover:border-zinc-500 hover:bg-white",
+  "dark:border-zinc-400/80 dark:bg-zinc-950/90 dark:text-zinc-50",
+  "dark:hover:border-zinc-300 dark:hover:bg-zinc-950",
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+  "focus-visible:outline-zinc-800 dark:focus-visible:outline-zinc-200",
+  "disabled:cursor-not-allowed disabled:opacity-50",
+);
 
 const inputClass = c(
   "block w-full min-h-[2.5rem] resize-none bg-transparent py-2 text-sm leading-6",
@@ -131,16 +149,7 @@ const CommentsPreviewShell = ({
         >
           <button
             type="button"
-            className={c(
-              "pointer-events-auto inline-flex items-center gap-1.5 rounded-full",
-              "border border-zinc-400/90 bg-white/95 px-4 py-2 text-base font-semibold leading-none",
-              "text-zinc-900 shadow-sm backdrop-blur-md",
-              "transition-colors hover:border-zinc-500 hover:bg-white",
-              "dark:border-zinc-400/80 dark:bg-zinc-950/90 dark:text-zinc-50",
-              "dark:hover:border-zinc-300 dark:hover:bg-zinc-950",
-              "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
-              "focus-visible:outline-zinc-800 dark:focus-visible:outline-zinc-200",
-            )}
+            className={c("pointer-events-auto", commentsActionButtonClass)}
             title={expandLabel}
             onClick={onExpand}
           >
@@ -155,7 +164,6 @@ const CommentsPreviewShell = ({
 
 const CommentInput = ({ disabled }: { disabled?: boolean }) => {
   const ctx = useContext();
-  const startAuth = useAuthStart();
   const yourUserProfile = useYourUserProfileState();
   const user = yourUserProfile.is === "ok" ? yourUserProfile.user : null;
   const [content, setContent] = React.useState("");
@@ -170,15 +178,13 @@ const CommentInput = ({ disabled }: { disabled?: boolean }) => {
 
     const trimmed = content.trim();
 
-    startAuth(() => {
-      void ctx.addComment(trimmed, {
-        authorProfileId: user?.id ?? "",
-        authorDisplayName: user?.displayName ?? "Anonymous",
-        authorAvatarUrl: user?.avatar?.sm?.src ?? null,
-      });
-      setContent("");
-      setFocused(false);
+    ctx.addComment(trimmed, {
+      authorProfileId: user?.id ?? "",
+      authorDisplayName: user?.displayName ?? "Anonymous",
+      authorAvatarUrl: user?.avatar?.sm?.src ?? null,
     });
+    setContent("");
+    setFocused(false);
   };
 
   const cancel = () => {
@@ -229,7 +235,7 @@ const CommentInput = ({ disabled }: { disabled?: boolean }) => {
   );
 };
 
-const CommentEditForm = ({
+const CommentEditModal = ({
   comment,
   onClose,
 }: {
@@ -240,37 +246,98 @@ const CommentEditForm = ({
   const [content, setContent] = React.useState(comment.content);
   const canSave = content.trim().length > 0;
 
+  const handleSave = (): void => {
+    ctx.editComment(comment.id, content.trim());
+    onClose();
+  };
+
   return (
-    <div className="mb-3 space-y-2">
-      <textarea
-        className={c(
-          inputClass,
-          "rounded-lg border border-zinc-200 bg-zinc-50 px-3 dark:border-zinc-500 dark:bg-zinc-900",
-        )}
-        value={content}
-        rows={3}
-        onChange={(event) => setContent(event.target.value)}
-        onKeyDown={(event) => event.stopPropagation()}
+    <Modal2 onClose={onClose}>
+      <Modal2.Header
+        title="Edit comment"
+        closeButtonTitle="Close comment editing"
       />
-      <div className="flex justify-end gap-2">
-        <Button auto s={1} i={1} title="Cancel edit" onClick={onClose}>
+      <Modal2.Body>
+        <Field label="Comment*">
+          <Textarea
+            value={content}
+            rows={4}
+            placeholder="Write your comment..."
+            onKeyDown={(event) => event.stopPropagation()}
+            onChange={(event) => setContent(event.target.value)}
+          />
+        </Field>
+      </Modal2.Body>
+      <Modal2.Footer className="flex gap-3">
+        <Button
+          auto
+          className="flex-1"
+          i={1}
+          s={2}
+          onClick={onClose}
+          title="Cancel comment edit"
+        >
           Cancel
         </Button>
         <Button
           auto
-          s={1}
+          className="flex-1"
           i={2}
+          s={2}
           title="Save comment"
           disabled={!canSave}
-          onClick={() => {
-            void ctx.editComment(comment.id, content.trim());
-            onClose();
-          }}
+          onClick={handleSave}
         >
           Save
         </Button>
-      </div>
-    </div>
+      </Modal2.Footer>
+    </Modal2>
+  );
+};
+
+const CommentDeleteModal = ({
+  commentId,
+  onClose,
+}: {
+  commentId: Comment["id"];
+  onClose: () => void;
+}) => {
+  const ctx = useContext();
+
+  const handleConfirm = (): void => {
+    ctx.deleteComment(commentId);
+    onClose();
+  };
+
+  return (
+    <Modal2 onClose={onClose}>
+      <Modal2.Header title="Delete comment" closeButtonTitle="Cancel" />
+      <Modal2.Body>
+        <p>Are you sure you want to delete this comment?</p>
+      </Modal2.Body>
+      <Modal2.Footer className="flex gap-3">
+        <Button
+          auto
+          className="flex-1"
+          i={1}
+          s={2}
+          onClick={onClose}
+          title="Cancel delete comment"
+        >
+          Cancel
+        </Button>
+        <Button
+          auto
+          className="flex-1"
+          i={2}
+          s={2}
+          title="Confirm delete comment"
+          onClick={handleConfirm}
+        >
+          Confirm
+        </Button>
+      </Modal2.Footer>
+    </Modal2>
   );
 };
 
@@ -406,18 +473,21 @@ const List = () => {
   const userProfileId =
     yourUserProfile.is === "ok" ? (yourUserProfile.user?.id ?? null) : null;
   const [bursts, setBursts] = React.useState<Record<string, number>>({});
-  const [editingCommentId, setEditingCommentId] = React.useState<
+  const [editingComment, setEditingComment] = React.useState<Comment | null>(
+    null,
+  );
+  const [deletingCommentId, setDeletingCommentId] = React.useState<
     Comment["id"] | null
   >(null);
 
   return (
-    <div className="space-y-0">
+    <>
+    <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
       {state.data.map((comment) => {
         const id = String(comment.id);
         const selected = comment.myCategory ?? null;
         const burst = bursts[id] ?? 0;
         const isOwner = comment.authorProfileId === userProfileId;
-        const isEditing = editingCommentId === comment.id;
         const totalRatingCount = sumRatingCount(comment.rating);
         const highlightCategory = getHighlightCategory(comment.rating, selected);
         const highlightIcon = RATING_ICONS.find(
@@ -427,7 +497,7 @@ const List = () => {
         return (
           <article
             key={comment.id}
-            className={c(commentRowClass, "relative py-1.5")}
+            className={c(commentRowClass, "relative py-5 first:pt-0 last:pb-0")}
           >
             <Avatar
               size="sm"
@@ -438,17 +508,13 @@ const List = () => {
               className="shrink-0 bg-zinc-200 dark:bg-zinc-600"
             />
             <div className="relative min-w-0 flex-1">
-              {isOwner && !isEditing && (
-                <div className="absolute right-0 top-0 flex flex-col gap-1">
+              {isOwner && (
+                <div className="absolute right-0 top-0 flex flex-col gap-1.5 tn:flex-row tn:gap-1">
                   <Button
                     i={1}
                     s={1}
                     title="Delete comment"
-                    onClick={() => {
-                      if (window.confirm("Delete this comment?")) {
-                        void ctx.deleteComment(comment.id);
-                      }
-                    }}
+                    onClick={() => setDeletingCommentId(comment.id)}
                   >
                     <BiTrash />
                   </Button>
@@ -456,33 +522,30 @@ const List = () => {
                     i={1}
                     s={1}
                     title="Edit comment"
-                    onClick={() => setEditingCommentId(comment.id)}
+                    onClick={() => setEditingComment(comment)}
                   >
                     <BiPencil />
                   </Button>
                 </div>
               )}
-              <div className="mb-2 pr-10">
+              <div className={c("mb-4 tn:mb-2", isOwner && ownerActionsPaddingClass)}>
                 <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                   {comment.authorDisplayName}
                 </p>
                 <p className="text-xs text-zinc-500 dark:text-zinc-300">
-                  {comment.createdAt}
+                  {comment.updatedAt}
                 </p>
               </div>
 
-            {isEditing ? (
-              <CommentEditForm
-                comment={comment}
-                onClose={() => setEditingCommentId(null)}
-              />
-            ) : (
-              <p className="mb-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+              <p
+                className={c(
+                  "mb-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300",
+                  isOwner && ownerActionsPaddingClass,
+                )}
+              >
                 {comment.content}
               </p>
-            )}
 
-            {!isEditing && (
               <footer className="flex items-center justify-end text-xs text-zinc-500 dark:text-zinc-300">
                 <RatePopover
                   currentCategory={selected}
@@ -494,7 +557,7 @@ const List = () => {
                       }));
                     }
 
-                    void ctx.rateComment(comment.id, category);
+                    ctx.rateComment(comment.id, category);
                   }}
                 >
                   <button
@@ -538,12 +601,24 @@ const List = () => {
                   </button>
                 </RatePopover>
               </footer>
-            )}
             </div>
           </article>
         );
       })}
     </div>
+    {editingComment !== null && (
+      <CommentEditModal
+        comment={editingComment}
+        onClose={() => setEditingComment(null)}
+      />
+    )}
+    {deletingCommentId !== null && (
+      <CommentDeleteModal
+        commentId={deletingCommentId}
+        onClose={() => setDeletingCommentId(null)}
+      />
+    )}
+    </>
   );
 };
 
@@ -575,32 +650,32 @@ const CommentsBody = ({
   let inner: React.ReactNode = null;
 
   const emptyPreview = (
-    <div className="flex h-full flex-col items-center justify-center text-center">
-      <p className="text-sm font-medium text-zinc-700 dark:text-zinc-200">
-        No comments yet
-      </p>
-      <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+    <Empty className="h-full">
+      <Empty.Icon>
+        <BiCommentAdd size={80} />
+      </Empty.Icon>
+      <Empty.Title>No comments yet</Empty.Title>
+      <Empty.Description className="mb-0">
         Be the first to share your thoughts.
-      </p>
-    </div>
+      </Empty.Description>
+    </Empty>
   );
 
   if (state.error && !state.loaded) {
     inner = (
-      <Err className="flex h-full flex-col items-center justify-center rounded-lg border border-zinc-300 dark:border-zinc-700">
+      <Err className="h-full">
         <Err.Icon>
-          <BiError size={48} />
+          <BiError size={80} />
         </Err.Icon>
         <Err.Title>Something went wrong!</Err.Title>
-        <Err.Description className="text-center">
-          Failed to load comments. Please try again.
-        </Err.Description>
+        <Err.Description>{state.error}</Err.Description>
         <Err.Action
           title="Retry loading comments"
           auto
           s={2}
           i={2}
-          onClick={() => void ctx.loadComments()}
+          disabled={state.isLoading}
+          onClick={() => ctx.loadComments()}
         >
           Try Again
         </Err.Action>
@@ -625,17 +700,17 @@ const CommentsBody = ({
       <CommentsFadeIn>
         <List />
         {expanded && state.hasMore && (
-          <div className="mt-3 flex justify-end pl-11">
-            <Button
-              s={1}
-              i={2}
-              auto
+          <div className="mt-3 flex justify-center">
+            <button
+              type="button"
+              className={commentsActionButtonClass}
               disabled={state.isLoadingMore}
-              onClick={() => void ctx.loadMoreComments()}
               title="Load more comments"
+              onClick={() => ctx.loadMoreComments()}
             >
+              <BiChevronDown aria-hidden="true" size={20} className="shrink-0" />
               Load More Comments
-            </Button>
+            </button>
           </div>
         )}
       </CommentsFadeIn>
@@ -664,7 +739,7 @@ const CommentsPanel = ({ isInViewport }: { isInViewport: boolean }) => {
     setExpanded(true);
 
     if (!state.loaded && !state.isLoading && !state.error) {
-      void ctx.loadComments();
+      ctx.loadComments();
     }
   };
 
@@ -702,7 +777,7 @@ export const Comments = (props: ComponentProps<"section">) => {
       return;
     }
 
-    void ctx.loadComments();
+    ctx.loadComments();
   }, [ctx, isInViewport, state.loaded, state.isLoading, state.error]);
 
   return (

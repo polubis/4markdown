@@ -1,4 +1,5 @@
 import { getAPI, parseError } from "api-4markdown";
+import { formatDistance } from "date-fns";
 import type {
   API4MarkdownPayload,
   Atoms,
@@ -18,6 +19,9 @@ import {
   type ScoreValue,
   type OperationError,
 } from "../domain/models";
+
+export const formatCommentUpdatedAt = (isoDate: string): string =>
+  formatDistance(new Date(), isoDate, { addSuffix: true });
 
 const toScoreFromApi = (dto: Atoms["Score"]): Score => ({
   average: dto.scoreAverage,
@@ -45,7 +49,7 @@ const toCommentFromDocument = (dto: DocumentCommentDto): Comment => ({
   id: dto.id,
   content: dto.content,
   createdAt: dto.cdate,
-  updatedAt: dto.mdate,
+  updatedAt: formatCommentUpdatedAt(dto.mdate),
   authorProfileId: dto.ownerProfile.id,
   authorDisplayName: dto.ownerProfile.displayName ?? "Anonymous",
   authorAvatarUrl: dto.ownerProfile.avatar?.sm?.src ?? null,
@@ -63,7 +67,7 @@ export const toCommentFromUserProfile = (dto: UserProfileCommentDto): Comment =>
   id: dto.id,
   content: dto.content,
   createdAt: dto.cdate,
-  updatedAt: dto.mdate,
+  updatedAt: formatCommentUpdatedAt(dto.mdate),
   authorProfileId: dto.ownerProfile.id,
   authorDisplayName: dto.ownerProfile.displayName ?? "Anonymous",
   authorAvatarUrl: dto.ownerProfile.avatar?.sm?.src ?? null,
@@ -95,7 +99,7 @@ const toCommentFromMindmapNode = (dto: MindmapNodeCommentDto): Comment => ({
   id: dto.id,
   content: dto.content,
   createdAt: dto.cdate,
-  updatedAt: dto.mdate,
+  updatedAt: formatCommentUpdatedAt(dto.mdate),
   authorProfileId: dto.ownerProfile.id,
   authorDisplayName: dto.ownerProfile.displayName ?? "Anonymous",
   authorAvatarUrl: dto.ownerProfile.avatar?.sm?.src ?? null,

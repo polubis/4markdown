@@ -4,7 +4,6 @@ import { BiStar, BiSolidStar, BiUser } from "react-icons/bi";
 import {
   formatCompactCount,
   formatScoreAverage,
-  MAX_SCORE,
 } from "./formatting";
 import { useContext } from "./context";
 
@@ -34,10 +33,13 @@ export const ScoreSummary = ({ className, ...rest }: ScoreSummaryProps) => {
         <strong className="text-sm leading-none tabular-nums">
           {formatScoreAverage(score.average)}
         </strong>
-        <span className="text-sm leading-none tabular-nums text-zinc-500 dark:text-zinc-400">
-          /{MAX_SCORE}
-        </span>
       </div>
+
+      <div
+        className="h-4 w-px shrink-0 bg-zinc-300 dark:bg-zinc-700"
+        aria-hidden="true"
+      />
+
       <div className="flex items-center gap-1.5 rounded-md leading-none">
         <BiUser aria-hidden="true" size={20} />
         <strong className="text-sm leading-none tabular-nums">

@@ -9,6 +9,7 @@ import {
   addDocumentComment,
   addMindmapNodeComment,
   addUserProfileComment,
+  formatCommentUpdatedAt,
   toOperationError,
 } from "../../integration/api";
 import { createOptimisticCommentId } from "../../domain/value-objects";
@@ -23,7 +24,7 @@ const createOptimisticComment = (
   id: tempId,
   content,
   createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
+  updatedAt: formatCommentUpdatedAt(new Date().toISOString()),
   authorProfileId: author.authorProfileId,
   authorDisplayName: author.authorDisplayName,
   authorAvatarUrl: author.authorAvatarUrl ?? null,

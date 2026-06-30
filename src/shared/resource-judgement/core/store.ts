@@ -11,6 +11,7 @@ import {
   type Score,
   type ScoreValue,
 } from "../domain/models";
+
 type State = {
   rating: Rating;
   score: Score;
